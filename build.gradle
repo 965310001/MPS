@@ -1,24 +1,22 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply from: "config.gradle"
 
 buildscript {
     repositories {
         google()
         jcenter()
-        
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+//        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.2.0'
 
         //Arouter
         classpath 'com.chenenyu.router:gradle-plugin:latest.integration'
 
         //黄油刀
-        classpath "com.jakewharton:butterknife-gradle-plugin:10.1.0"
+        classpath "com.jakewharton:butterknife-gradle-plugin:8.4.0"
 
         //greendao
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
-
 
         //bugtags
         classpath 'com.bugtags.library:bugtags-gradle:latest.integration'
@@ -27,6 +25,7 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
         google()
         jcenter()
         maven { url "https://jitpack.io" }
