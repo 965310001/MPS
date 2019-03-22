@@ -3,7 +3,7 @@
     package="com.mingpinmall.me">
 
     <application>
-        <activity android:name="com.mingpinmall.me.LoginActivity"></activity>
+        <activity android:name="com.mingpinmall.me.ui.LoginActivity"></activity>
     </application>
 
 </manifest>

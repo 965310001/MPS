@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="23748923-469b-4718-8377-4ebc3be5bd70" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../module_cart/src/main/java/com/mingpinmall/cart/common/CartApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../module_cart/src/main/java/com/mingpinmall/cart/ui/ShoppingDetailsActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../module_cart/src/main/res/layout/activity_shopping_details.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../module_class/src/main/java/com/mingpinmall/classz/common/ClassApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../module_home/src/main/java/com/mingpinmall/home/common/HomeApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../module_me/src/main/java/com/mingpinmall/me/common/MeApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../common_base/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../common_base/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_cart/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../module_cart/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_cart/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../module_cart/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_cart/src/main/moudule/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../module_cart/src/main/moudule/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_class/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../module_class/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_class/src/main/moudule/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../module_class/src/main/moudule/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_home/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../module_home/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_home/src/main/moudule/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../module_home/src/main/moudule/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_me/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../module_me/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_me/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../module_me/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_me/src/main/java/com/mingpinmall/me/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../module_me/src/main/java/com/mingpinmall/me/ui/LoginActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_me/src/main/moudule/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../module_me/src/main/moudule/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module_me/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../module_me/src/main/res/layout/activity_login.xml" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="2076437543">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1860" />
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="538" />
+    <option name="y" value="17" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="app" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="android.sdk.path" value="F:/Android/Sdk" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="23748923-469b-4718-8377-4ebc3be5bd70" name="Default Changelist" comment="" />
+      <created>1553252793917</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1553252793917</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.23560767" />
+      <window_info id="Structure" side_tool="true" />
+      <window_info id="Build Variants" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Captures" order="0" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Build" visible="true" weight="0.51682955" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Gradle" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Palette&#9;" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1860" />
+      </provider>
+    </entry>
+  </component>
+</project>

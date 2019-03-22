@@ -1,18 +1,15 @@
-package com.mingpinmall.me;
+package com.mingpinmall.classz.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-/**
- * @Author: guofeng
- * @CreateDate:
- * @Description: 登录
- */
-public class LoginActivity extends AppCompatActivity {
+import com.mingpinmall.classz.R;
+
+public class ClasszActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_classz);
     }
 }

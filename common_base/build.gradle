@@ -33,7 +33,9 @@ android {
         vectorDrawables.useSupportLibrary = true
 
     }
-
+    dataBinding {
+        enabled = true
+    }
     buildTypes {
         release {
             minifyEnabled false

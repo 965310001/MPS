@@ -48,7 +48,9 @@ android {
             keyAlias keystoreProperties['KEY_ALIAS']
         }
     }
-
+    dataBinding {
+        enabled = true
+    }
     buildTypes {
         release {
             minifyEnabled false

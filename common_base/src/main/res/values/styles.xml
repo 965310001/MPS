@@ -1,5 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!--应用主题-->
+    <style name="AppTheme" parent="@android:style/Theme.NoTitleBar" />
+
     <style name="HorizontalLine">
         <item name="android:background">@color/gray</item>
         <item name="android:layout_width">match_parent</item>
@@ -90,7 +93,6 @@
     <style name="TextStyle_18" parent="TextStyle_10">
         <item name="android:textSize">@dimen/text_18</item>
     </style>
-
 
 
 </resources>
