@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="line_color">#e8e8e8</color>
+
+    <color name="color_666666">#666666</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_ffca00">#ffca00</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_aaaaaa">#aaaaaa</color>
+    <color name="color_D6D8DA">#D6D8DA</color>
+    <color name="dark">#5e5656</color>
+
+    <color name="colorPrimaryDark">#00574B</color>
+
+    <!-- ************************* 通用 ********************* -->
+    <color name="gray">#cccccc</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="red">#ec0909</color>
+    <color name="orange">#fa800a</color>
+
+
+
+</resources>
