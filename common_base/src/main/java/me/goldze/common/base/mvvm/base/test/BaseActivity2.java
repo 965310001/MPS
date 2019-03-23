@@ -3,6 +3,7 @@ package me.goldze.common.base.mvvm.base.test;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.DatabaseUtils;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -18,9 +20,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.socks.library.KLog;
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
+
+import org.w3c.dom.Text;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,13 +33,15 @@ import me.goldze.common.ILoadManager;
 import me.goldze.common.R;
 import me.goldze.common.base.mvvm.stateview.ErrorState;
 import me.goldze.common.base.mvvm.stateview.LoadingState;
+import me.goldze.common.databinding.ActivityBase2Binding;
+import me.goldze.common.utils.DateUtils;
 
 /**
  * @author GuoFeng
  * @date :2019/1/16 14:40
  * @description: 基类Activity
  */
-public abstract class BaseActivity2<D extends ViewDataBinding> extends FragmentActivity implements View.OnClickListener, ILoadManager {
+public abstract class BaseActivity2<VD extends ViewDataBinding> extends FragmentActivity implements View.OnClickListener, ILoadManager {
 
     private LoadManager loadManager;
 
@@ -49,25 +56,80 @@ public abstract class BaseActivity2<D extends ViewDataBinding> extends FragmentA
     private ImmersionBar mImmersionBar;
     private ViewGroup contentLayout;
 
-    protected D binding;
+    protected VD binding;
+
+    private ActivityBase2Binding baseBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         /*竖屏*/
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
-
         /*android软键盘挡住输入框问题*/
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        setContentView(R.layout.activity_base);
+        initViewDataBinding();
+        initButterKnife();
 
-        contentLayout = findViewById(R.id.fl_content);
-        contentLayout.addView(getLayoutInflater().inflate(getLayoutId(), null));
+        initLoadManager();
 
-//        binding = DataBindingUtil.bind(contentLayout);
+        if (isActionBar()) {
+            ivBack = findViewById(R.id.iv_back);
+            tvTitle = findViewById(R.id.tv_title);
+            rlTitleBar = findViewById(R.id.rl_title_bar);
+            tvRight = findViewById(R.id.tv_right);
+            ivSearch = findViewById(R.id.iv_search);
+            edSearch = findViewById(R.id.ed_search);
+            rlTitleBar.setVisibility(View.VISIBLE);
 
+            setTitle(getTitle());
+            ivBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            ivBack.setVisibility(isBack() ? View.VISIBLE : View.GONE);
+        }
 
+        /*沉浸式状态栏*/
+        initImmersionBar(R.color.colorPrimaryDark);
+
+        initViews(savedInstanceState);
+        initData();
+    }
+
+    /**
+     * ButterKnife 注入
+     */
+    private void initButterKnife() {
+        unBinder = ButterKnife.bind(this);
+    }
+
+    /**
+     * ButterKnife unbind
+     */
+    private void unbindButterKnife() {
+        if (unBinder != null) {
+            unBinder.unbind();
+        }
+    }
+
+    /**
+     * DataBing 注入绑定
+     */
+    private void initViewDataBinding() {
+        baseBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_base2, null, false);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(this), getLayoutId(), null, false);
+        contentLayout = baseBinding.flContent;
+        contentLayout.addView(binding.getRoot());
+        setContentView(baseBinding.getRoot());
+    }
+
+    /**
+     * 初始化LoadManager
+     */
+    private void initLoadManager() {
         loadManager = new LoadManager.Builder().setViewParams(contentLayout)
                 .setListener(new BaseStateControl.OnRefreshListener() {
                     @Override
@@ -75,35 +137,7 @@ public abstract class BaseActivity2<D extends ViewDataBinding> extends FragmentA
                         onStateRefresh();
                     }
                 }).build();
-
-        /*初始化ButterKnife*/
-        unBinder = ButterKnife.bind(this);
-
-        if (isActionBar()) {
-            ivBack = findViewById(R.id.iv_back);
-            tvTitle = findViewById(R.id.tv_title);
-            rlTitleBar = findViewById(R.id.rl_title_bar);
-            rlTitleBar.setVisibility(View.VISIBLE);
-
-            tvTitle.setText(getTitle());
-
-            ivBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-
-            ivBack.setVisibility(isBack() ? View.VISIBLE : View.GONE);
-        }
-
-        /*封装*/
-
-        /*沉浸式状态栏*/
-        initImmersionBar(R.color.colorPrimaryDark);
-
-        initViews(savedInstanceState);
-        initData();
+        showSuccess();
     }
 
     /************************************************** LoadManager start *****************************************************/
@@ -213,9 +247,7 @@ public abstract class BaseActivity2<D extends ViewDataBinding> extends FragmentA
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (unBinder != null) {
-            unBinder.unbind();
-        }
+        unbindButterKnife();
         //必须调用该方法，防止内存泄漏
         if (null != mImmersionBar) {
             mImmersionBar.destroy();
