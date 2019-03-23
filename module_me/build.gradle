@@ -3,6 +3,7 @@ if (Boolean.valueOf(rootProject.ext.isModule)) {
 } else {
     apply plugin: 'com.android.library'
 }
+
 android {
     compileSdkVersion rootProject.ext.versions.compileSdkVersion
 
@@ -59,5 +60,6 @@ dependencies {
     implementation project(':common_base')
 
     //Arouter路由
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     annotationProcessor rootProject.ext.dependencies["arouter_compiler"]
 }

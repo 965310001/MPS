@@ -41,10 +41,15 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
+
+            buildConfigField "String", "APP_URL", "\"http://api.bdgw.cc/\""
         }
 
         debug {
             buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
+
+            buildConfigField "String", "APP_URL", "\"http://api.biandanwang.cc/\""
+
         }
     }
 

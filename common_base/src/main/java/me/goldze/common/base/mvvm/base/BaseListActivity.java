@@ -26,7 +26,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.goldze.common.R;
-import me.goldze.common.R2;
 import me.goldze.common.base.core.banner.BannerList;
 import me.goldze.common.utils.Utils;
 

@@ -68,7 +68,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
                         onStateRefresh();
                     }
                 }).build();
-
+        showSuccess();
         /*初始化ButterKnife*/
         unBinder = ButterKnife.bind(this);
 
