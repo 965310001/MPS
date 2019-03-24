@@ -3,7 +3,8 @@ package com.mingpinmall.me.ui.api;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
-import me.goldze.common.base.mvvm.AbsViewModel;
+import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
+
 
 public class UserViewModel extends AbsViewModel<UserRepository> {
 

@@ -1,6 +1,6 @@
 package com.mingpinmall.cart.common;
 
-import me.goldze.common.base.BaseApplication;
+import com.goldze.common.dmvvm.base.BaseApplication;
 
 /**
  * @Author: guofeng

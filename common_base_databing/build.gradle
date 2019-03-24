@@ -1,0 +1,140 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.chenenyu.router'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+
+/*引入自定义的文件*/
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(rootProject.file("constants.properties")))
+
+android {
+    compileSdkVersion rootProject.ext.versions.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.versions.minSdkVersion
+        targetSdkVersion rootProject.ext.versions.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //MultiDex分包方法
+        multiDexEnabled true
+
+        //Arouter路由配置
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+                includeCompileClasspath = true
+            }
+        }
+
+        /*svg*/
+        vectorDrawables.useSupportLibrary = true
+
+    }
+    dataBinding {
+        enabled = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
+
+            buildConfigField "String", "APP_URL", "\"http://api.bdgw.cc/\""
+        }
+
+        debug {
+            buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
+
+            buildConfigField "String", "APP_URL", "\"http://api.biandanwang.cc/\""
+
+        }
+    }
+
+    //防止编译的时候oom、GC
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+}
+
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation rootProject.ext.dependencies['appcompat_v7']
+    implementation rootProject.ext.dependencies['constraint_layout']
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-v4:28.0.0'
+    testImplementation rootProject.ext.dependencies['junit']
+    androidTestImplementation rootProject.ext.dependencies['runner']
+    androidTestImplementation rootProject.ext.dependencies['espresso_core']
+
+    api rootProject.ext.dependencies['klog']
+
+    implementation rootProject.ext.dependencies['glide']
+    annotationProcessor rootProject.ext.dependencies['glide_compiler']
+
+    api rootProject.ext.dependencies['banner']
+
+    api rootProject.ext.dependencies["FlycoTabLayout_Lib"]
+
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["recyclerview-v7"]
+    api rootProject.ext.dependencies["support-v4"]
+
+    //Arouter路由
+    annotationProcessor rootProject.ext.dependencies["arouter_compiler"]
+    api rootProject.ext.dependencies["arouter_api"]
+    api rootProject.ext.dependencies["arouter_annotation"]
+
+    //64k
+    api rootProject.ext.dependencies["multidex"]
+
+    //LoadManager
+    api rootProject.ext.dependencies["loadState"]
+
+    //trecyclerview
+    api rootProject.ext.dependencies["trecyclerview"]
+
+    api rootProject.ext.dependencies["fragmentTabhostUtils"]
+
+    //rxjava rxandroid
+    api rootProject.ext.dependencies["rxjava"]
+    api rootProject.ext.dependencies["rxandroid"]
+    api rootProject.ext.dependencies["rxjava2"]
+    /*okhttp*/
+    api rootProject.ext.dependencies["okhttp3"]
+    api rootProject.ext.dependencies["retrofit2"]
+    api rootProject.ext.dependencies["converter_gson"]
+
+    api rootProject.ext.dependencies["lifecycle"]
+
+    api rootProject.ext.dependencies["rxlifecycle"]
+    api rootProject.ext.dependencies["rxlifecycle_components"]
+
+    /*material-dialogs*/
+    api 'com.afollestad.material-dialogs:core:0.9.4.5'
+    api 'com.afollestad.material-dialogs:commons:0.9.4.5'
+
+    api 'com.github.xuexiangjys:XUI:1.0.1'
+
+    api 'org.greenrobot:greendao:3.2.2' // add library
+    api 'org.greenrobot:greendao-generator:3.2.2'
+
+    configurations {
+        all*.exclude group: 'com.android.support', module: 'support-v13'
+    }
+
+    implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
+
+    //bugtags
+    implementation rootProject.ext.dependencies['bugtags-lib']
+
+    //leakcanary
+    debugImplementation rootProject.ext.dependencies["leakCanaryDebug"]
+    releaseImplementation rootProject.ext.dependencies["leakCanaryRelease"]
+    debugImplementation rootProject.ext.dependencies["leakCanaryDebugSupport"]
+}

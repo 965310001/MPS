@@ -3,7 +3,7 @@ if (Boolean.valueOf(rootProject.ext.isModule)) {
 } else {
     apply plugin: 'com.android.library'
 }
-apply plugin: 'com.jakewharton.butterknife'
+//apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion rootProject.ext.versions.compileSdkVersion
@@ -58,12 +58,12 @@ dependencies {
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //公用依赖包
-    implementation project(':common_base')
+    implementation project(':common_base_databing')
 
 
     //黄油刀
-    api rootProject.ext.dependencies["butterknife"]
-    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
+//    api rootProject.ext.dependencies["butterknife"]
+//    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
 
 
     //Arouter路由

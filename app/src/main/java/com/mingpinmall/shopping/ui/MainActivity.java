@@ -2,12 +2,18 @@ package com.mingpinmall.shopping.ui;
 
 import android.Manifest;
 import android.content.res.TypedArray;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.goldze.common.dmvvm.activity.BottomNavigationActivity;
+import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.manage.AppManager;
+import com.goldze.common.dmvvm.utils.PermissionsUtils;
+import com.goldze.common.dmvvm.utils.ResourcesUtils;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.heima.tabview.library.TabView;
 import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.cart.ui.CartFragment;
@@ -19,14 +25,6 @@ import com.mingpinmall.shopping.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.goldze.common.activity.BottomNavigationActivity;
-import me.goldze.common.base.mvvm.base.BaseFragment;
-import me.goldze.common.constants.ARouterConfig;
-import me.goldze.common.manage.AppManager;
-import me.goldze.common.utils.ActivityToActivity;
-import me.goldze.common.utils.PermissionsUtils;
-import me.goldze.common.utils.ResourcesUtils;
-import me.goldze.common.utils.ToastUtils;
 
 /**
  * @Author: guofeng
@@ -38,9 +36,14 @@ public class MainActivity extends BottomNavigationActivity {
 
     private long mExitTime;
 
+//    @Override
+//    protected void initViews(Bundle savedInstanceState) {
+//        showSuccess();
+//    }
+
     @Override
-    protected void initViews(Bundle savedInstanceState) {
-        showSuccess();
+    protected boolean isActionBar() {
+        return false;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class MainActivity extends BottomNavigationActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             checkUpdate();
         }
-        ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+//        ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
     }
 
     private void checkUpdate() {

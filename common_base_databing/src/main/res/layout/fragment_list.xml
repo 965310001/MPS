@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <include layout="@layout/item_title_layout" />
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/float_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:scaleType="center"
+                android:src="@drawable/ic_back_to_top"
+                android:visibility="gone"
+                app:backgroundTint="@color/white"
+                app:borderWidth="0dp"
+                app:fabSize="mini"
+                app:rippleColor="@color/white"
+                tools:ignore="VectorDrawableCompat" />
+
+            <include layout="@layout/trecyclerview_base" />
+
+        </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
+</layout>

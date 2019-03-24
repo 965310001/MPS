@@ -1,0 +1,98 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--应用主题-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" />
+
+    <style name="HorizontalLine">
+        <item name="android:background">@color/gray</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+    </style>
+
+    <style name="VerticalLine">
+        <item name="android:background">@color/gray</item>
+        <item name="android:layout_width">0.5dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+    <!--******************************************************我的***************************************-->
+    <!-- <style name="LSettingItem" parent="@android:s">
+         <item name="android:background">@color/gray</item>
+         <item name="leon:LtextSize">12</item>
+         <item name="leon:isShowRightText">true</item>
+         <item name="leon:leftIconSize">@dimen/image_height_litter</item>
+         <item name="leon:leftTextMarginLeft">10dp</item>
+         <item name="leon:rightText">""</item>
+
+     </style>-->
+    <style name="width_match_height_warp">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="width_warp_height_warp">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="width_match_height_match">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+    <!--自定义dialog-->
+    <style name="dialog_zoom">
+        <item name="android:windowEnterAnimation">@anim/dialog_scale_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_scale_out</item>
+    </style>
+
+    <style name="dialog_anim_bottom">
+        <item name="android:windowEnterAnimation">@anim/dialog_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_bottom_out</item>
+    </style>
+
+    <style name="dialog_anim_top">
+        <item name="android:windowEnterAnimation">@anim/dialog_top_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_top_out</item>
+    </style>
+
+    <style name="dialog_anim_right">
+        <item name="android:windowEnterAnimation">@anim/dialog_right_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_right_out</item>
+    </style>
+
+    <style name="dialog_anim_left">
+        <item name="android:windowEnterAnimation">@anim/dialog_left_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_left_out</item>
+    </style>
+
+    <!--字体默认10-->
+    <style name="TextStyle_10" parent="width_warp_height_warp">
+        <item name="android:textSize">@dimen/text_10</item>
+        <item name="android:autoSizeTextType" tools:targetApi="o">uniform</item>
+    </style>
+
+    <!--字体默认12-->
+    <style name="TextStyle_12" parent="TextStyle_10">
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
+
+    <!--字体默认14-->
+    <style name="TextStyle_14" parent="TextStyle_10">
+        <item name="android:textSize">@dimen/text_14</item>
+    </style>
+
+    <!--字体默认16-->
+    <style name="TextStyle_16" parent="TextStyle_10">
+        <item name="android:textSize">@dimen/text_16</item>
+    </style>
+
+    <!--字体默认18-->
+    <style name="TextStyle_18" parent="TextStyle_10">
+        <item name="android:textSize">@dimen/text_18</item>
+    </style>
+
+
+</resources>

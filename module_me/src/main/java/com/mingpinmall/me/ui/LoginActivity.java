@@ -4,16 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.R2;
-import com.mingpinmall.me.ui.api.UserViewModel;
-import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
+import com.mingpinmall.me.databinding.ActivityLoginBinding;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import me.goldze.common.base.mvvm.AbsLifecycleActivity2;
-import me.goldze.common.constants.ARouterConfig;
-import me.goldze.common.utils.ToastUtils;
 
 /**
  * @Author: guofeng
@@ -21,13 +17,7 @@ import me.goldze.common.utils.ToastUtils;
  * @Description: 登录
  */
 @Route(path = ARouterConfig.LOGINACTIVITY)
-public class LoginActivity extends AbsLifecycleActivity2<UserViewModel> {
-
-    @BindView(R2.id.ed_phone)
-    MaterialEditText edPhone;
-
-    @BindView(R2.id.ed_password)
-    MaterialEditText edPassword;
+public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
     @Override
     protected int getLayoutId() {
@@ -36,10 +26,10 @@ public class LoginActivity extends AbsLifecycleActivity2<UserViewModel> {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        super.initViews(savedInstanceState);
+//        super.initViews(savedInstanceState);
         setTitle("登录");
-        edPhone.setText("15949629529");
-        edPassword.setText("15949629529");
+        binding.edPhone.setText("15949629529");
+        binding.edPassword.setText("15949629529");
     }
 
     @Override
@@ -48,7 +38,7 @@ public class LoginActivity extends AbsLifecycleActivity2<UserViewModel> {
     }
 
 
-    @OnClick({R2.id.btn_sublimt})
+    //    @OnClick({R2.id.btn_sublimt})
     public void onViewClicked(View view) {
         int i = view.getId();
         if (i == R.id.btn_sublimt) {

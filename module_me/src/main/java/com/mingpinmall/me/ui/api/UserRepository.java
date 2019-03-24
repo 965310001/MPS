@@ -1,12 +1,12 @@
 package com.mingpinmall.me.ui.api;
 
+import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
+import com.goldze.common.dmvvm.http.RetrofitClient;
+import com.goldze.common.dmvvm.http.rx.RxSchedulers;
+import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.me.ui.bean.UserBean;
 import com.socks.library.KLog;
 
-import me.goldze.common.base.mvvm.base.BaseRepository;
-import me.goldze.common.http.RetrofitClient;
-import me.goldze.common.http.rx.RxSchedulers;
-import me.goldze.common.http.rx.RxSubscriber;
 
 public class UserRepository extends BaseRepository {
 

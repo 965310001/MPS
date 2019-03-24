@@ -5,20 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.cart.R;
-import com.mingpinmall.cart.R2;
+import com.mingpinmall.cart.databinding.FragmentCartBinding;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import me.goldze.common.base.mvvm.base.BaseFragment;
-import me.goldze.common.utils.ToastUtils;
 
 /**
  * 购物车
  */
-public class CartFragment extends BaseFragment {
+public class CartFragment extends BaseFragment<FragmentCartBinding> {
 
-    @BindView(R2.id.tv_cart)
     TextView tvCart;
 
     public CartFragment() {
@@ -41,14 +38,15 @@ public class CartFragment extends BaseFragment {
     @Override
     public void initView(Bundle state) {
         showSuccess();
+        tvCart = binding.tvCart;
         tvCart.setText("cart");
     }
 
 
-    @OnClick(R2.id.tv_cart)
+    //    @OnClick(R2.id.tv_cart)
     public void onViewClicked(View view) {
         int id = view.getId();
-        if (id==R.id.tv_cart) {
+        if (id == R.id.tv_cart) {
             ToastUtils.showLong("tv_cart");
         }
     }

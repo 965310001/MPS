@@ -5,20 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.R2;
+import com.mingpinmall.classz.databinding.FragmentClassifyBinding;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import me.goldze.common.base.mvvm.base.BaseFragment;
-import me.goldze.common.utils.ToastUtils;
 
 /**
  * 分类
  */
-public class ClassifyFragment extends BaseFragment {
+public class ClassifyFragment extends BaseFragment<FragmentClassifyBinding> {
 
-    @BindView(R2.id.tv_classif)
+    //    @BindView(R2.id.tv_classif)
     TextView tvClassz;
 
 
@@ -41,12 +39,11 @@ public class ClassifyFragment extends BaseFragment {
 
     @Override
     public void initView(Bundle state) {
-        showSuccess();
-        tvClassz.setText("tvClassz");
+        binding.tvClassif.setText("tvClassz");
     }
 
 
-    @OnClick(R2.id.tv_classif)
+    //    @OnClick(R2.id.tv_classif)
     public void onViewClicked(View view) {
         int id = view.getId();
         if (id == R.id.tv_classif) {

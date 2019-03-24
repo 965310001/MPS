@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.xuexiang.xui.widget.tabbar.EasyIndicator
+            android:id="@+id/easy_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:indicator_bottom_height="3dp"
+            app:indicator_height="42dp"
+            app:indicator_isBottom_line="true"
+            app:indicator_line_color="@color/orange"
+            app:indicator_selected_color="@color/orange"
+            app:indicator_textSize="14sp"
+            app:indicator_width="0dp" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</layout>
