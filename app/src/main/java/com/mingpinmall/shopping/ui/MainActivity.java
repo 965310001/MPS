@@ -23,6 +23,7 @@ import me.goldze.common.activity.BottomNavigationActivity;
 import me.goldze.common.base.mvvm.base.BaseFragment;
 import me.goldze.common.constants.ARouterConfig;
 import me.goldze.common.manage.AppManager;
+import me.goldze.common.utils.ActivityToActivity;
 import me.goldze.common.utils.PermissionsUtils;
 import me.goldze.common.utils.ResourcesUtils;
 import me.goldze.common.utils.ToastUtils;
@@ -75,6 +76,7 @@ public class MainActivity extends BottomNavigationActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             checkUpdate();
         }
+        ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
     }
 
     private void checkUpdate() {

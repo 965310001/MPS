@@ -3,6 +3,8 @@ if (Boolean.valueOf(rootProject.ext.isModule)) {
 } else {
     apply plugin: 'com.android.library'
 }
+apply plugin: 'com.jakewharton.butterknife'
+
 android {
     compileSdkVersion rootProject.ext.versions.compileSdkVersion
 
@@ -56,6 +58,12 @@ dependencies {
 
     //公用依赖包
     implementation project(':common_base')
+
+
+    //黄油刀
+    api rootProject.ext.dependencies["butterknife"]
+    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
+
 
     //Arouter路由
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

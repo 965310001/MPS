@@ -2,20 +2,24 @@ package com.mingpinmall.me.ui;
 
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.mingpinmall.me.R;
-import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
+import com.mingpinmall.me.R2;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import me.goldze.common.base.mvvm.base.BaseFragment;
+import me.goldze.common.utils.ToastUtils;
 
 /**
  * 我的
  */
 public class MeFragment extends BaseFragment {
 
-    @BindView(R.id.ed_phone)
-    MaterialEditText edPhone;
+    @BindView(R2.id.tv_me)
+    TextView tvMe;
 
     public MeFragment() {
     }
@@ -37,7 +41,17 @@ public class MeFragment extends BaseFragment {
     @Override
     public void initView(Bundle state) {
         showSuccess();
-//        edPhone.setText("1594962952");
+        tvMe.setText("tvMe");
     }
 
+
+
+
+    @OnClick(R2.id.tv_me)
+    public void onViewClicked(View view) {
+        int id = view.getId();
+        if (id==R.id.tv_me) {
+            ToastUtils.showLong("tvMe");
+        }
+    }
 }
