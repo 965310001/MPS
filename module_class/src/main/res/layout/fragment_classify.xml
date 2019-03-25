@@ -24,7 +24,7 @@
                 android:id="@+id/rv_right"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="6"
+                android:layout_weight="7"
                 android:background="@color/white" />
 
         </LinearLayout>

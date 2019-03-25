@@ -6,6 +6,7 @@ import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.classz.ui.Constants;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
+import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.socks.library.KLog;
 
 public class ClassifyRepository extends BaseRepository {
@@ -14,7 +15,7 @@ public class ClassifyRepository extends BaseRepository {
 
     /*获取左边的数据*/
     public void getLeft() {
-        addDisposable(apiService.getLeft()
+        addDisposable(apiService.getLeft("goods_class","index")
                 .compose(RxSchedulers.<ClassificationBean>io_main())
                 .subscribeWith(new RxSubscriber<ClassificationBean>() {
                     @Override
@@ -38,12 +39,12 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     public void getRight(String gcId) {
-        addDisposable(apiService.getRight(gcId)
-                .compose(RxSchedulers.<ClassificationBean>io_main())
-                .subscribeWith(new RxSubscriber<ClassificationBean>() {
+        addDisposable(apiService.getRight("goods_class","get_child_all",gcId)
+                .compose(RxSchedulers.<ClassificationRighitBean>io_main())
+                .subscribeWith(new RxSubscriber<ClassificationRighitBean>() {
                     @Override
-                    public void onSuccess(ClassificationBean result) {
-//                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE, result);
+                    public void onSuccess(ClassificationRighitBean result) {
+                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, result);
                     }
 
                     @Override
@@ -54,7 +55,7 @@ public class ClassifyRepository extends BaseRepository {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-
+                        KLog.i(e.toString());
                     }
                 })
         );

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -26,6 +27,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
+        ARouter.getInstance().inject(this);
 //        super.initViews(savedInstanceState);
         setTitle("登录");
         binding.edPhone.setText("15949629529");

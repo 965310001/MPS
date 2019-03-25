@@ -27,10 +27,10 @@ public class ClassificationBean extends BaseBean {
     }
 
     public void setDatas(DatasBean datas) {
-//        this.datas = datas;
+        this.datas = datas;
     }
 
-    public static class DatasBean {
+    public static class DatasBean extends BaseBean {
         private List<ClassListBean> class_list;
 
         public List<ClassListBean> getClass_list() {
@@ -41,7 +41,7 @@ public class ClassificationBean extends BaseBean {
             this.class_list = class_list;
         }
 
-        public static class ClassListBean {
+        public static class ClassListBean extends BaseBean {
             /**
              * gc_id : 1
              * gc_name : 服饰鞋帽
@@ -73,6 +73,15 @@ public class ClassificationBean extends BaseBean {
             private String show_type;
             private String image;
             private String text;
+            private boolean isSelect;
+
+            public boolean isSelect() {
+                return isSelect;
+            }
+
+            public void setSelect(boolean select) {
+                isSelect = select;
+            }
 
             public String getGc_id() {
                 return gc_id;
@@ -187,4 +196,6 @@ public class ClassificationBean extends BaseBean {
             }
         }
     }
+
+
 }

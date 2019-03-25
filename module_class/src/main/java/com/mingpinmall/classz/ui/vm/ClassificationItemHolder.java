@@ -1,32 +1,25 @@
 package com.mingpinmall.classz.ui.vm;
 
 import android.content.Context;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.databinding.ClassifyItemOfListBinding;
+import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.trecyclerview.holder.AbsHolder;
 import com.trecyclerview.holder.AbsItemHolder;
 
 public class ClassificationItemHolder extends AbsItemHolder<ClassificationBean.DatasBean.ClassListBean,
         ClassificationItemHolder.ViewHolder> {
 
-//    private int selectIndex;
-
     public ClassificationItemHolder(Context context) {
         super(context);
-
-//        LiveBus.getDefault().subscribe(Constants.Listview.POSTION_LEF_EVENT_KEY[0],
-//                Constants.Listview.POSTION_LEF_EVENT_KEY[1]).observeForever(new Observer<Object>() {
-//            @Override
-//            public void onChanged(@Nullable Object o) {
-//                selectIndex = (int) o;
-//            }
-//        });
     }
 
     @Override
@@ -38,7 +31,7 @@ public class ClassificationItemHolder extends AbsItemHolder<ClassificationBean.D
 
     @Override
     public ViewHolder createViewHolder(View view) {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), view.getId(), null, false);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), getLayoutResId(), null, false);
         return new ViewHolder(binding.getRoot());
     }
 
@@ -48,11 +41,19 @@ public class ClassificationItemHolder extends AbsItemHolder<ClassificationBean.D
         binding.setData(dataBean);
     }
 
+    @Override
+    protected long getItemId(@NonNull ClassificationBean.DatasBean.ClassListBean data) {
+        return Long.parseLong(data.getGc_id());
+    }
+
+    @BindingAdapter({"bind:image"})
+    public static void imageLoader(ImageView imageView, String url) {
+        ImageUtils.loadImage(imageView, url);
+    }
+
     static class ViewHolder extends AbsHolder {
         private ViewHolder(View itemView) {
             super(itemView);
-
-//            tvText = getViewById(R.id.tv_text);
         }
     }
 }

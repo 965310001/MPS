@@ -31,34 +31,33 @@ public class MultipleItemView extends LinearLayout {
     LayoutMultipleItemBinding binding;
 
     //    @BindView(R2.id.rl_layout)
-    RelativeLayout rlLayout = binding.rlLayout;
+    RelativeLayout rlLayout;// = binding.rlLayout;
 
     //    @BindView(R2.id.iv_left)
-    ImageView ivLeft = binding.ivLeft;
-
+    ImageView ivLeft;//= binding.ivLeft;
     //    @BindView(R2.id.tv_left)
-    TextView tvLeft = binding.tvLeft;
+    TextView tvLeft;//= binding.tvLeft;
 
     //    @BindView(R2.id.iv_right)
-    ImageView ivRight = binding.ivRight;
+    ImageView ivRight;// = binding.ivRight;
 
     //    @BindView(R2.id.tv_right)
-    TextView tvRight = binding.tvRight;
+    TextView tvRight;// = binding.tvRight;
 
     //    @BindView(R2.id.edt_text)
-    EditText edtText = binding.edtText;
+    EditText edtText;//= binding.edtText;
 
     //    @BindView(R2.id.ll_right)
-    LinearLayout layout = binding.llRight;
+    LinearLayout layout;//= binding.llRight;
 
     //    @BindView(R2.id.rl_content)
-    LinearLayout content = binding.rlContent;
+    LinearLayout content;//= binding.rlContent;
 
     //    @BindView(R2.id.line_top)
-    View topLine = binding.lineTop;
+    View topLine;// = binding.lineTop;
 
     //    @BindView(R2.id.line_bottom)
-    View bottomLine = binding.lineBottom;
+    View bottomLine;//= binding.lineBottom;
 
     private int leftTextColor = Color.BLACK;
     private int rightTextColor = Color.GRAY;
@@ -83,8 +82,17 @@ public class MultipleItemView extends LinearLayout {
 
     public MultipleItemView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-//        ButterKnife.bind(this, View.inflate(getContext(), R.layout.layout_multiple_item, this));
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.layout_multiple_item, null, false);
+        rlLayout = binding.rlLayout;
+        ivLeft = binding.ivLeft;
+        tvLeft = binding.tvLeft;
+        ivRight = binding.ivRight;
+        tvRight = binding.tvRight;
+        edtText = binding.edtText;
+        layout = binding.llRight;
+        content = binding.rlContent;
+        topLine = binding.lineTop;
+        bottomLine = binding.lineBottom;
 
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.MultipleItemView);
         leftTextColor = a.getColor(R.styleable.MultipleItemView_leftTextColor, leftTextColor);

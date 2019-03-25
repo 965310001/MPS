@@ -2,8 +2,10 @@ package com.mingpinmall.classz.adapter;
 
 import android.content.Context;
 
-import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.ClassificationItemHolder;
+import com.mingpinmall.classz.ui.vm.ClassificationRightItemHolder;
+import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
+import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.footview.FootViewHolder;
 import com.trecyclerview.headview.HeaderViewHolder;
@@ -75,32 +77,24 @@ public class AdapterPool {
     /*------------------------------------------------------------------分类---------------------------------------------------*/
     public DelegateAdapter.Builder getLeftAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(ClassificationBean.DatasBean.class,
-                                new ClassificationItemHolder(context)),
+                        .bind(ClassificationBean.DatasBean.ClassListBean.class, new ClassificationItemHolder(context)),
                 context, ProgressStyle.BallRotate);
     }
 
-    /*二级listview*/
-//    public DelegateAdapter.Builder getRightAdapter(Context context) {
-//        return getAdapter(new DelegateAdapter.Builder<>()
-//                        .bind(ClassificationInfo.DataBean.ChildrenBean.class,
-//                                new ClassificationRightItemHolder(context)),
-//                context, ProgressStyle.BallRotate);
-//    }
-
     /*三级listview*/
-//    public DelegateAdapter.Builder getRightAdapter(Context context) {
-//        return getAdapter(new DelegateAdapter.Builder<>()
-//                        .bind(ClassificationInfo.DataBean.ChildrenBeanX.class, new ClassificationRightItemHolder(context)),
-//                context, ProgressStyle.BallRotate);
-//    }
+    public DelegateAdapter.Builder getRightAdapter(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.class,
+                                new ClassificationRightItemHolder(context)),
+                context, ProgressStyle.BallRotate);
+    }
 
-//    public DelegateAdapter.Builder getRightAdapter1(Context context) {
-//        return getAdapter(new DelegateAdapter.Builder<>()
-//                        .bind(ClassificationInfo.DataBean.ChildrenBeanX.ChildrenBean.class,
-//                                new ClassificationRightAdapter(context)),
-//                context, ProgressStyle.BallRotate);
-//    }
+    public DelegateAdapter.Builder getRightAdapter1(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.ChildBean.class,
+                                new ClassificationRightAdapter(context)),
+                context, ProgressStyle.BallRotate);
+    }
 //
 //    /*配送方式*/
 //    public DelegateAdapter.Builder getDistributionAdapter(Context context) {

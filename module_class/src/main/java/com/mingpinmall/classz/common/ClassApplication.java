@@ -2,6 +2,7 @@ package com.mingpinmall.classz.common;
 
 
 import com.goldze.common.dmvvm.base.BaseApplication;
+import com.xuexiang.xui.XUI;
 
 /**
  * @Author: guofeng
@@ -9,9 +10,9 @@ import com.goldze.common.dmvvm.base.BaseApplication;
  * @Description:
  */
 public class ClassApplication extends BaseApplication {
-    
+
     @Override
     public void run() {
-
+        XUI.init(this);
     }
 }
