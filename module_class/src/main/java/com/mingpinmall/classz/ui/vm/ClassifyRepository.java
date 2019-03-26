@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.vm;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
+import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
@@ -80,18 +81,27 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
-                        sendData(Constants.PRODUCTS_EVENT_KEY, result);
+                        sendData(Constants.PRODUCTS_EVENT_KEY, Constants.PRODUCTS_EVENT_KEY, result);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY, StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY, StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
                         KLog.i(e.toString());
+                        showPageState(Constants.PRODUCTS_EVENT_KEY, StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.PRODUCTS_EVENT_KEY, StateConstants.NET_WORK_STATE);
                     }
                 })
         );

@@ -239,7 +239,6 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         } else {
             mRecyclerView.loadMoreComplete(collection, false);
         }
-//        if (null != oldItems) mRecyclerView.loadMoreComplete(collection, collection.size() < 10);
 
     }
 

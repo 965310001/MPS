@@ -41,6 +41,7 @@
                 android:layout_toEndOf="@+id/iv_icon"
                 android:maxLines="2"
                 android:textSize="@dimen/text_14"
+                android:text="@{data.goods_name}"
                 tools:text="textview" />
 
             <TextView

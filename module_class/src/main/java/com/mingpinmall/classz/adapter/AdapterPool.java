@@ -104,7 +104,7 @@ public class AdapterPool {
                         .bind(GoodsInfo.class, new ProductsItemHolder(context)),
                 context, ProgressStyle.Pacman);
     }
-//
+
 //    /*配送方式*/
 //    public DelegateAdapter.Builder getDistributionAdapter(Context context) {
 //        return getNoFootAdapter(new DelegateAdapter.Builder<>()

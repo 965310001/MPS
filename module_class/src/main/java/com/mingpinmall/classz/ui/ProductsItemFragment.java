@@ -15,7 +15,10 @@ import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
 
+
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
@@ -49,12 +52,11 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
         super.dataObserver();
 
         LiveBus.getDefault()
-                .subscribe(Constants.PRODUCTS_EVENT_KEY, GoodsListInfo.class)
+                .subscribe(Constants.PRODUCTS_EVENT_KEY, Constants.PRODUCTS_EVENT_KEY, GoodsListInfo.class)
                 .observeForever(new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
-                        KLog.i("abs");
-                        setData(response.getDatas().getGoods_list());
+                        setData(response.getDatas().getGoods_list().subList(0,5));
                     }
                 });
     }
