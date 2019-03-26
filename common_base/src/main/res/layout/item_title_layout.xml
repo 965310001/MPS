@@ -19,6 +19,13 @@
         android:src="@drawable/back_icon"
         android:visibility="gone" />
 
+    <!--
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_input"/>
+    -->
+
     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
         android:id="@+id/ed_search"
         android:layout_width="match_parent"

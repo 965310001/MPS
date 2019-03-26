@@ -6,6 +6,7 @@ import com.mingpinmall.classz.ui.vm.ClassificationItemHolder;
 import com.mingpinmall.classz.ui.vm.ClassificationRightItemHolder;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.footview.FootViewHolder;
 import com.trecyclerview.headview.HeaderViewHolder;
@@ -94,6 +95,14 @@ public class AdapterPool {
                         .bind(ClassificationRighitBean.DatasBean.ClassListBean.ChildBean.class,
                                 new ClassificationRightAdapter(context)),
                 context, ProgressStyle.BallRotate);
+    }
+
+
+    /*分类列表里面的list*/
+    public DelegateAdapter.Builder getProductsAdapter(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(GoodsInfo.class, new ProductsItemHolder(context)),
+                context, ProgressStyle.Pacman);
     }
 //
 //    /*配送方式*/

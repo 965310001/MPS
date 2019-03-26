@@ -10,7 +10,7 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-        <include layout="@layout/item_title_layout" />
+        <!--<include layout="@layout/item_title_layout" />-->
 
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/content_layout"
@@ -27,7 +27,7 @@
                 android:clickable="true"
                 android:scaleType="center"
                 android:src="@drawable/ic_back_to_top"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:backgroundTint="@color/white"
                 app:borderWidth="0dp"
                 app:fabSize="mini"

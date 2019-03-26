@@ -77,11 +77,10 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     public void initView(Bundle state) {
         super.initView(state);
         mRecyclerView = getViewById(R.id.recycler_view);
-        floatBtn = binding.floatBtn;
-//        floatBtn = getViewById(R.id.float_btn);
+//        floatBtn = binding.floatBtn;
+        floatBtn = getViewById(R.id.float_btn);
 //        mTitleBar = getViewById(R.id.rl_title_bar);
 //        mTitle = getViewById(R.id.tv_title);
-
         oldItems = new ItemData();
         newItems = new ItemData();
         adapter = createAdapter();
@@ -222,11 +221,12 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         newItems.addAll(collection);
         oldItems.clear();
         oldItems.addAll(newItems);
-        if (collection.size() < 20) {
+        if (null != collection && collection.size() < 10) {
             mRecyclerView.refreshComplete(oldItems, true);
         } else {
             mRecyclerView.refreshComplete(oldItems, false);
         }
+
         isRefresh = false;
     }
 
@@ -234,11 +234,13 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         isLoading = true;
         isLoadMore = false;
         oldItems.addAll(collection);
-        if (collection.size() < 20) {
+        if (null != collection && collection.size() < 10) {
             mRecyclerView.loadMoreComplete(collection, true);
         } else {
             mRecyclerView.loadMoreComplete(collection, false);
         }
+//        if (null != oldItems) mRecyclerView.loadMoreComplete(collection, collection.size() < 10);
+
     }
 
     /**
@@ -253,7 +255,10 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
      *
      * @return LayoutManager
      */
-    protected abstract RecyclerView.LayoutManager createLayoutManager();
+    protected RecyclerView.LayoutManager createLayoutManager() {
+        layoutManager = new LinearLayoutManager(getContext());
+        return layoutManager;
+    }
 
 //    protected void setTitle(String titleName) {
 //        mTitleBar.setVisibility(View.VISIBLE);

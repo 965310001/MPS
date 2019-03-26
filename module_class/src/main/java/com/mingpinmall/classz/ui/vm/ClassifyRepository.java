@@ -5,9 +5,14 @@ import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.classz.ui.Constants;
+import com.mingpinmall.classz.ui.vm.api.ClassifyService;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.socks.library.KLog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ClassifyRepository extends BaseRepository {
 
@@ -15,7 +20,7 @@ public class ClassifyRepository extends BaseRepository {
 
     /*获取左边的数据*/
     public void getLeft() {
-        addDisposable(apiService.getLeft("goods_class","index")
+        addDisposable(apiService.getLeft("goods_class", "index")
                 .compose(RxSchedulers.<ClassificationBean>io_main())
                 .subscribeWith(new RxSubscriber<ClassificationBean>() {
                     @Override
@@ -39,7 +44,7 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     public void getRight(String gcId) {
-        addDisposable(apiService.getRight("goods_class","get_child_all",gcId)
+        addDisposable(apiService.getRight("goods_class", "get_child_all", gcId)
                 .compose(RxSchedulers.<ClassificationRighitBean>io_main())
                 .subscribeWith(new RxSubscriber<ClassificationRighitBean>() {
                     @Override
@@ -62,12 +67,19 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
-    public void getProductsList(String gcId) {
-        addDisposable(apiService.getRight("goods_class","get_child_all",gcId)
-                .compose(RxSchedulers.<ClassificationRighitBean>io_main())
-                .subscribeWith(new RxSubscriber<ClassificationRighitBean>() {
+    /*商品列表*/
+    public void getShappingList(String bId, String curpage, String keyword) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("gc_id", bId);
+        map.put("Key", 1);
+        map.put("keyword", keyword);
+        map.put("page", 10);
+        map.put("curpage", curpage);
+        addDisposable(apiService.getShappingList(map)
+                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
-                    public void onSuccess(ClassificationRighitBean result) {
+                    public void onSuccess(GoodsListInfo result) {
                         sendData(Constants.PRODUCTS_EVENT_KEY, result);
                     }
 

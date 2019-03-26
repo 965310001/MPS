@@ -13,8 +13,8 @@ public interface ARouterConfig {
         SPLASHACTIVITY(ARouterConfig.SPLASHACTIVITY),//过渡
         MAINACTIVITY(ARouterConfig.MAINACTIVITY),//主界面
         REGISTERACTIVITY(ARouterConfig.REGISTERACTIVITY),//注册
-        SHOPPINGACTIVITY(ARouterConfig.Shopping.SHOPPINGACTIVITY),//
-        ADDRESSLISTACTIVITY(ARouterConfig.Me.ADDRESSLISTACTIVITY),//地址
+        SHOPPINGACTIVITY(Shopping.SHOPPINGACTIVITY),//
+        ADDRESSLISTACTIVITY(Me.ADDRESSLISTACTIVITY),//地址
         WEBVIEWACTIVITY(ARouterConfig.WEBVIEWACTIVITY);//web
 
         public String url;

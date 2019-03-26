@@ -1,4 +1,4 @@
-//package me.goldze.common.widget;
+package me.goldze.common.widget;//package me.goldze.common.widget;
 //
 //import android.annotation.SuppressLint;
 //import android.content.Context;

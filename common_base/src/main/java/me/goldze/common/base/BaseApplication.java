@@ -54,7 +54,7 @@ public abstract class BaseApplication extends Application implements Runnable {
      * @param application
      */
     public synchronized void setApplication(@NonNull Application application) {
-        application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+        application.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 AppManager.getInstance().addActivity(activity);
@@ -112,7 +112,7 @@ public abstract class BaseApplication extends Application implements Runnable {
         initBugtags();
 
         /*LeakCanary 内存泄漏检测*/
-        initLeakCanary();
+//        initLeakCanary();
 
     }
 

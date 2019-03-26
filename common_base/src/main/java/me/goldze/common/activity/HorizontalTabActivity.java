@@ -13,26 +13,23 @@ import com.xuexiang.xui.widget.tabbar.EasyIndicator;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import me.goldze.common.R;
-import me.goldze.common.R2;
 import me.goldze.common.base.mvvm.base.BaseActivity;
 import me.goldze.common.base.mvvm.base.BaseFragment;
 
 public abstract class HorizontalTabActivity extends BaseActivity {
 
-    @BindView(R2.id.easy_indicator)
+    //    @BindView(R2.id.easy_indicator)
     EasyIndicator mEasyIndicator;
 
-    @BindView(R2.id.view_pager)
+    //    @BindView(R2.id.view_pager)
     ViewPager mViewPager;
 
-    @BindView(R2.id.iv_back)
+    //    @BindView(R2.id.iv_back)
     ImageView ivBack;
-    @BindView(R2.id.tv_title)
+    //    @BindView(R2.id.tv_title)
     TextView tvTitle;
-    @BindView(R2.id.rl_title_bar)
+    //    @BindView(R2.id.rl_title_bar)
     RelativeLayout rlTitleBar;
 
     @Override
@@ -42,6 +39,19 @@ public abstract class HorizontalTabActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+
+        mEasyIndicator = findViewById(R.id.easy_indicator);
+        mViewPager = findViewById(R.id.view_pager);
+        ivBack = findViewById(R.id.iv_back);
+        tvTitle = findViewById(R.id.tv_title);
+        rlTitleBar = findViewById(R.id.rl_title_bar);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         showSuccess();
         mEasyIndicator.setTabTitles(getTabTitles());
         mEasyIndicator.setViewPager(mViewPager,
@@ -75,8 +85,8 @@ public abstract class HorizontalTabActivity extends BaseActivity {
 
     protected abstract List<BaseFragment> getTabFragments();
 
-    @OnClick(R2.id.iv_back)
-    public void onClick() {
-        finish();
-    }
+//    @OnClick(R2.id.iv_back)
+//    public void onClick() {
+//        finish();
+//    }
 }

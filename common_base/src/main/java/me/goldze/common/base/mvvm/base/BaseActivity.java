@@ -54,7 +54,6 @@ public abstract class BaseActivity extends FragmentActivity implements ILoadMana
                     }
                 })
                 .build();
-        showSuccess();
         initViews(savedInstanceState);
 
         initToolBar();

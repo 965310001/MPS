@@ -13,7 +13,7 @@ import com.trecyclerview.TRecyclerView;
  */
 public class XRecyclerView extends TRecyclerView {
 
-    private RecyclerView.LayoutManager layoutManager;
+    private LayoutManager layoutManager;
 
 
     int lastItemPosition;

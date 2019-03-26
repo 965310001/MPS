@@ -19,10 +19,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.socks.library.KLog;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import me.goldze.common.R;
-import me.goldze.common.R2;
 import me.goldze.common.base.mvvm.base.BaseActivity;
 import me.goldze.common.constants.ARouterConfig;
 
@@ -32,14 +29,14 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     @Autowired
     String URL;
 
-    @BindView(R2.id.webview)
+//    @BindView(R2.id.webview)
     WebView webView;
 
-    @BindView(R2.id.iv_back)
+//    @BindView(R2.id.iv_back)
     ImageView ivBack;
-    @BindView(R2.id.tv_title)
+//    @BindView(R2.id.tv_title)
     TextView tvTitle;
-    @BindView(R2.id.rl_title_bar)
+//    @BindView(R2.id.rl_title_bar)
     RelativeLayout rlTitleBar;
 
     @Override
@@ -51,6 +48,10 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     protected void initViews(Bundle savedInstanceState) {
 
         ARouter.getInstance().inject(this);
+        webView=findViewById(R.id.webview);
+        ivBack=findViewById(R.id.iv_back);
+        tvTitle=findViewById(R.id.tv_title);
+        rlTitleBar=findViewById(R.id.rl_title_bar);
 
      /*   String url = getIntent().getStringExtra("URL");
         KLog.i(url + " " + URL);*/
@@ -94,13 +95,6 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         finish();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 
     private class MyWebChromeClient extends WebChromeClient {

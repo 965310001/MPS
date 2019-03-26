@@ -23,7 +23,10 @@ import com.trecyclerview.listener.OnScrollStateListener;
 import java.util.Collection;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import me.goldze.common.R;
+import me.goldze.common.R2;
 import me.goldze.common.base.core.banner.BannerList;
 import me.goldze.common.utils.Utils;
 
@@ -36,19 +39,19 @@ import static android.view.View.VISIBLE;
  */
 public abstract class BaseListActivity extends BaseActivity implements OnRefreshListener {
 
-//    @BindView(R2.id.recycler_view)
+    @BindView(R2.id.recycler_view)
     protected TRecyclerView mRecyclerView;
 
-//    @BindView(R2.id.rl_title_bar)
+    @BindView(R2.id.rl_title_bar)
     protected RelativeLayout mTitleBar;
 
-//    @BindView(R2.id.tv_title)
+    @BindView(R2.id.tv_title)
     protected TextView mTitle;
 
-//    @BindView(R2.id.iv_back)
+    @BindView(R2.id.iv_back)
     protected ImageView ivBack;
 
-//    @BindView(R2.id.float_btn)
+    @BindView(R2.id.float_btn)
     protected FloatingActionButton floatBtn;
 
     protected RecyclerView.LayoutManager layoutManager;
@@ -82,17 +85,6 @@ public abstract class BaseListActivity extends BaseActivity implements OnRefresh
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        mRecyclerView=findViewById(R.id.recycler_view);
-        mTitleBar=findViewById(R.id.rl_title_bar);
-        mTitle=findViewById(R.id.tv_title);
-        ivBack=findViewById(R.id.iv_back);
-        floatBtn=findViewById(R.id.float_btn);
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         oldItems = new ItemData();
         newItems = new ItemData();
         adapter = createAdapter();
@@ -266,7 +258,7 @@ public abstract class BaseListActivity extends BaseActivity implements OnRefresh
     protected void getRemoteData() {
     }
 
-//    @OnClick({R2.id.iv_back})
+    @OnClick({R2.id.iv_back})
     public void onClick(View v) {
         finish();
     }

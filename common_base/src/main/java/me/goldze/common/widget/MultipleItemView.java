@@ -244,7 +244,7 @@ public class MultipleItemView extends LinearLayout {
      * @return MultifunctionalItemView
      */
     public MultipleItemView setLeftIconMargin(int left, int top, int right, int bottom) {
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) ivLeft.getLayoutParams();
+        LayoutParams layoutParams = (LayoutParams) ivLeft.getLayoutParams();
         layoutParams.setMargins(PxUtils.dp2px(getContext(), left), PxUtils.dp2px(getContext(), top),
                 PxUtils.dp2px(getContext(), right), PxUtils.dp2px(getContext(), bottom));
         return this;
@@ -260,7 +260,7 @@ public class MultipleItemView extends LinearLayout {
      * @return MultifunctionalItemView
      */
     public MultipleItemView setRightIconMargin(int left, int top, int right, int bottom) {
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) ivRight.getLayoutParams();
+        LayoutParams layoutParams = (LayoutParams) ivRight.getLayoutParams();
         layoutParams.setMargins(PxUtils.dp2px(getContext(), left), PxUtils.dp2px(getContext(), top),
                 PxUtils.dp2px(getContext(), right), PxUtils.dp2px(getContext(), bottom));
         return this;
@@ -297,7 +297,7 @@ public class MultipleItemView extends LinearLayout {
      * @return MultifunctionalItemView
      */
     public MultipleItemView setLeftIconSize(int width, int height) {
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(PxUtils.dp2px(getContext(), width),
+        LayoutParams lp = new LayoutParams(PxUtils.dp2px(getContext(), width),
                 PxUtils.dp2px(getContext(), height));
         lp.setMargins(0, 0, 4, 0);
         ivLeft.setLayoutParams(lp);
@@ -335,7 +335,7 @@ public class MultipleItemView extends LinearLayout {
      * @return MultifunctionalItemView
      */
     public MultipleItemView setRightIconSize(int width, int height) {
-        ivRight.setLayoutParams(new LinearLayout.LayoutParams(PxUtils.dp2px(getContext(), width),
+        ivRight.setLayoutParams(new LayoutParams(PxUtils.dp2px(getContext(), width),
                 PxUtils.dp2px(getContext(), height)));
         return this;
     }

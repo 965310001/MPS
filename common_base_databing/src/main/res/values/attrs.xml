@@ -71,16 +71,16 @@
 
     <!--观察者按钮-->
     <!--<declare-styleable name="ObserverButton">-->
-        <!--&lt;!&ndash;默认背景&ndash;&gt;-->
-        <!--<attr name="defaultBgColor" format="color|reference" />-->
-        <!--<attr name="defaultBgResource" format="color|reference" />-->
-        <!--&lt;!&ndash;可以点击的背景&ndash;&gt;-->
-        <!--<attr name="pressBgColor" format="color|reference" />-->
-        <!--<attr name="pressBgResource" format="color|reference" />-->
-        <!--&lt;!&ndash;默认字体颜色&ndash;&gt;-->
-        <!--<attr name="defaultTextColor" format="color" />-->
-        <!--&lt;!&ndash;可以点击的字体颜色&ndash;&gt;-->
-        <!--<attr name="pressTextColor" format="color" />-->
+    <!--&lt;!&ndash;默认背景&ndash;&gt;-->
+    <!--<attr name="defaultBgColor" format="color|reference" />-->
+    <!--<attr name="defaultBgResource" format="color|reference" />-->
+    <!--&lt;!&ndash;可以点击的背景&ndash;&gt;-->
+    <!--<attr name="pressBgColor" format="color|reference" />-->
+    <!--<attr name="pressBgResource" format="color|reference" />-->
+    <!--&lt;!&ndash;默认字体颜色&ndash;&gt;-->
+    <!--<attr name="defaultTextColor" format="color" />-->
+    <!--&lt;!&ndash;可以点击的字体颜色&ndash;&gt;-->
+    <!--<attr name="pressTextColor" format="color" />-->
     <!--</declare-styleable>-->
 
     <!--流式布局-->

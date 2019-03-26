@@ -1,4 +1,4 @@
-//package me.goldze.common.utils.itemdecoration;
+package me.goldze.common.utils.itemdecoration;//package me.goldze.common.utils.itemdecoration;
 //
 //import android.graphics.Canvas;
 //import android.support.annotation.NonNull;

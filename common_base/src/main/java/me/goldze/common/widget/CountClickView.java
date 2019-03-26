@@ -147,12 +147,12 @@ public class CountClickView extends LinearLayout {
      * 设置 按钮父类的大小
      */
     public void setBtnParentSize(int width, int height) {
-        llMinus.setLayoutParams(new LinearLayout.LayoutParams(PxUtils.dp2px(mContext, width),
+        llMinus.setLayoutParams(new LayoutParams(PxUtils.dp2px(mContext, width),
                 PxUtils.dp2px(mContext, height)));
-        llPlus.setLayoutParams(new LinearLayout.LayoutParams(PxUtils.dp2px(mContext, width),
+        llPlus.setLayoutParams(new LayoutParams(PxUtils.dp2px(mContext, width),
                 PxUtils.dp2px(mContext, height)));
         //如果设置了该处大小 则需要更新中间View的高度
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) tvCount.getLayoutParams();
+        LayoutParams layoutParams = (LayoutParams) tvCount.getLayoutParams();
         layoutParams.height = PxUtils.dp2px(mContext, height);
     }
 
@@ -169,9 +169,9 @@ public class CountClickView extends LinearLayout {
      * 设置加减按钮大小
      */
     public void setBtnSize(int width, int height) {
-        ivPlus.setLayoutParams(new LinearLayout.LayoutParams(PxUtils.dp2px(mContext, width),
+        ivPlus.setLayoutParams(new LayoutParams(PxUtils.dp2px(mContext, width),
                 PxUtils.dp2px(mContext, height)));
-        ivMinus.setLayoutParams(new LinearLayout.LayoutParams(PxUtils.dp2px(mContext, width),
+        ivMinus.setLayoutParams(new LayoutParams(PxUtils.dp2px(mContext, width),
                 PxUtils.dp2px(mContext, height)));
     }
 
@@ -196,7 +196,7 @@ public class CountClickView extends LinearLayout {
      * @param marginRight marginRight
      */
     public void setCountViewAttr(int bgColor, int textColor, int marginLeft, int marginRight) {
-        LinearLayout.LayoutParams layoutParams = (LayoutParams) tvCount.getLayoutParams();
+        LayoutParams layoutParams = (LayoutParams) tvCount.getLayoutParams();
         layoutParams.setMargins(PxUtils.dp2px(mContext, marginLeft), 0, PxUtils.dp2px(mContext, marginRight), 0);
         tvCount.setBackgroundColor(getResources().getColor(bgColor));
         if (textColor != 0) {

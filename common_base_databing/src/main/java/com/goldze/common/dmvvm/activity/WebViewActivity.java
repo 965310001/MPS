@@ -28,7 +28,7 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> implem
     String URL;
 
     //    @BindView(R2.id.webview)
-    WebView webView = binding.webview;
+    WebView webView ;
 
 //    @BindView(R2.id.iv_back)
 //    ImageView ivBack;
@@ -46,7 +46,7 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> implem
     protected void initViews(Bundle savedInstanceState) {
 
         ARouter.getInstance().inject(this);
-
+        webView = binding.webview;
      /*   String url = getIntent().getStringExtra("URL");
         KLog.i(url + " " + URL);*/
 
