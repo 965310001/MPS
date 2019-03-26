@@ -11,6 +11,7 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         super(application);
     }
 
+    /*商品分类*/
     public void getLeft() {
         mRepository.getLeft();
     }
@@ -19,5 +20,8 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getRight(gcId);
     }
 
+    public void getProductsList(String id) {
+        mRepository.getProductsList(id);
+    }
 
 }

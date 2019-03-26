@@ -6,13 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
+import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
 
 public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
-    //    private final static String STATUS = "status";
     private final static String ID = "id";
 
     public ProductsItemFragment() {
@@ -30,11 +30,13 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
     public void initView(Bundle state) {
         super.initView(state);
         showLoading();
+
+        mViewModel.getLeft();
     }
 
     @Override
     protected DelegateAdapter createAdapter() {
-        return null;
+        return AdapterPool.newInstance().getLeftAdapter(getContext()).setOnItemClickListener(this).build();
     }
 
     @Override
@@ -44,7 +46,7 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
 
     @Override
     protected Object getStateEventKey() {
-        return "";
+        return Constants.PRODUCTS_EVENT_KEY;
     }
 
     @Override

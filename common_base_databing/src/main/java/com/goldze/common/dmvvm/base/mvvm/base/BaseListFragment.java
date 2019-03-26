@@ -1,6 +1,5 @@
 package com.goldze.common.dmvvm.base.mvvm.base;
 
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
@@ -9,8 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.goldze.common.dmvvm.R;
@@ -81,7 +78,6 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         super.initView(state);
         mRecyclerView = getViewById(R.id.recycler_view);
         floatBtn = binding.floatBtn;
-
 //        floatBtn = getViewById(R.id.float_btn);
 //        mTitleBar = getViewById(R.id.rl_title_bar);
 //        mTitle = getViewById(R.id.tv_title);

@@ -50,6 +50,7 @@ public class ClassificationRightItemHolder extends AbsItemHolder<ClassificationR
             @Override
             public void click(boolean isChecked) {
                 KLog.i(dataBean.getGc_name() + " " + dataBean.getGc_id());
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(dataBean.getGc_id()));
             }
         });
         DelegateAdapter adapter = AdapterPool.newInstance().getRightAdapter1(mContext)

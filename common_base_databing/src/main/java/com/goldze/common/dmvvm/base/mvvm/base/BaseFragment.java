@@ -33,6 +33,7 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
 
     protected VD binding;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false);

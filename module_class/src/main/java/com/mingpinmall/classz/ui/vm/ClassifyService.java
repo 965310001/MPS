@@ -26,4 +26,10 @@ public interface ClassifyService {
     Flowable<ClassificationRighitBean> getRight(@Query("app") String app,
                                                 @Query("wwi") String wwi,
                                                 @Query("gc_id") String id);
+
+    /*商品分类*/
+    @GET(CLASSIFYLEFT)
+    Flowable<ClassificationRighitBean> getProductsList(@Query("app") String app,
+                                                       @Query("wwi") String wwi,
+                                                       @Query("gc_id") String id);
 }

@@ -62,5 +62,29 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
+    public void getProductsList(String gcId) {
+        addDisposable(apiService.getRight("goods_class","get_child_all",gcId)
+                .compose(RxSchedulers.<ClassificationRighitBean>io_main())
+                .subscribeWith(new RxSubscriber<ClassificationRighitBean>() {
+                    @Override
+                    public void onSuccess(ClassificationRighitBean result) {
+                        sendData(Constants.PRODUCTS_EVENT_KEY, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        KLog.i(e.toString());
+                    }
+                })
+        );
+
+    }
+
 
 }

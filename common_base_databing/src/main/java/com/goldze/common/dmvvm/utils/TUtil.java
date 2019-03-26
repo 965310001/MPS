@@ -32,9 +32,13 @@ public class TUtil {
 
     public static <T> T getInstance(Object object, int i) {
         if (object != null) {
-            return (T) ((ParameterizedType) object.getClass()
-                    .getGenericSuperclass())
-                    .getActualTypeArguments()[i];
+            try {
+                return (T) ((ParameterizedType) object.getClass()
+                        .getGenericSuperclass())
+                        .getActualTypeArguments()[i];
+            } catch (Exception e) {
+                return getInstance(object, 0);
+            }
         }
         return null;
 
