@@ -10,8 +10,6 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-        <!--<include layout="@layout/item_title_layout" />-->
-
         <FrameLayout
             android:id="@+id/content_layout"
             android:layout_width="match_parent"
@@ -35,7 +33,6 @@
                 tools:ignore="VectorDrawableCompat" />
 
             <include layout="@layout/trecyclerview_base" />
-
         </FrameLayout>
     </LinearLayout>
 </layout>

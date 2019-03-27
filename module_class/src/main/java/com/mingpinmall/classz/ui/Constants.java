@@ -19,4 +19,5 @@ public interface Constants {
     String[] PRODUCTS_TITLE = {"综合排序", "销量优先", "筛选"};
     String PRODUCTS_EVENT_KEY = "PRODUCTS_EVENT_KEY";
     String PRODUCTS_EVENT_KEY_TAG = "PRODUCTS_EVENT_KEY_TAG";
+    Object PRODUCTS_EVENT_KEY_LIST_STATE = "PRODUCTS_EVENT_KEY_LIST_STATE";
 }

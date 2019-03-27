@@ -102,7 +102,7 @@ public class AdapterPool {
     public DelegateAdapter.Builder getProductsAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
                         .bind(GoodsInfo.class, new ProductsItemHolder(context)),
-                context, ProgressStyle.Pacman);
+                context, ProgressStyle.BallRotate);
     }
 
 //    /*配送方式*/

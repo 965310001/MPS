@@ -2,9 +2,11 @@ package com.mingpinmall.classz.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+
 import android.support.annotation.NonNull;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ItemProductsBinding;
@@ -15,7 +17,7 @@ import com.trecyclerview.holder.AbsItemHolder;
 
 public class ProductsItemHolder extends AbsItemHolder<GoodsInfo, ProductsItemHolder.ViewHolder> {
 
-//    private ItemProductsBinding binding;
+    private ItemProductsBinding binding;
 
     public ProductsItemHolder(Context context) {
         super(context);
@@ -27,35 +29,24 @@ public class ProductsItemHolder extends AbsItemHolder<GoodsInfo, ProductsItemHol
     }
 
     @Override
-    public ProductsItemHolder.ViewHolder createViewHolder(View view) {
-        return new ViewHolder(DataBindingUtil.bind(view).getRoot());
+    public ViewHolder createViewHolder(View view) {
+        binding = DataBindingUtil.bind(view);
+        return new ViewHolder(binding.getRoot());
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ProductsItemHolder.ViewHolder holder, @NonNull GoodsInfo data) {
-//        binding = DataBindingUtil.getBinding(holder.itemView);
+    protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull GoodsInfo data) {
+        binding = DataBindingUtil.getBinding(holder.itemView);
+        binding.tvName.setText(data.getGoods_name());
 //        binding.setData(data);
-
-        holder.setData(data);
+//        binding.executePendingBindings();
+//        ((TextView) holder.getViewById(R.id.tv_name)).setText(data.getGoods_name());
     }
 
     class ViewHolder extends AbsHolder {
-
-        private ItemProductsBinding binding;
-
         private ViewHolder(View itemView) {
             super(itemView);
         }
-
-        ItemProductsBinding getBinding() {
-            binding = DataBindingUtil.getBinding(itemView);
-            return binding;
-        }
-
-        protected void setData(GoodsInfo data) {
-            getBinding().setData(data);
-        }
-
     }
 
 }

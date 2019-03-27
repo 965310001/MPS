@@ -25,7 +25,6 @@ import com.trecyclerview.listener.OnScrollStateListener;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * @author GuoFeng
  * @date :2019/1/17 17:06
@@ -77,14 +76,13 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     public void initView(Bundle state) {
         super.initView(state);
         mRecyclerView = getViewById(R.id.recycler_view);
-//        floatBtn = binding.floatBtn;
         floatBtn = getViewById(R.id.float_btn);
 //        mTitleBar = getViewById(R.id.rl_title_bar);
 //        mTitle = getViewById(R.id.tv_title);
         oldItems = new ItemData();
         newItems = new ItemData();
         adapter = createAdapter();
-//        adapter.setDatas(oldItems);
+        adapter.setDatas(oldItems);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(createLayoutManager());
         if (isItemDecoration()) {
@@ -166,7 +164,6 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         return true;
     }
 
-
     private int findMax(int[] lastPositions) {
         int max = lastPositions[0];
         for (int value : lastPositions) {
@@ -218,21 +215,14 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     }
 
     protected void onRefreshSuccess(Collection<?> collection) {
-        newItems.clear();
+//        newItems.clear();
         newItems.addAll(collection);
         oldItems.clear();
         oldItems.addAll(newItems);
         if (null != collection && collection.size() < 10) {
             mRecyclerView.refreshComplete(oldItems, true);
-
-//            adapter.notifyDataSetChanged();
-//            mRecyclerView.setLoadingMoreEnabled(true);
-//            mRecyclerView.setLoadingMoreEnabled(true);
         } else {
             mRecyclerView.refreshComplete(oldItems, false);
-
-//            adapter.notifyDataSetChanged();
-//            mRecyclerView.setLoadingMoreEnabled(false);
         }
 
         isRefresh = false;
@@ -241,25 +231,12 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     protected void onLoadMoreSuccess(List<?> collection) {
         isLoading = true;
         isLoadMore = false;
-        oldItems.addAll(collection);
+        oldItems.add(collection);
         if (null != collection && collection.size() < 10) {
             mRecyclerView.loadMoreComplete(collection, true);
-//
-//            adapter.notifyDataSetChanged();
-//            mRecyclerView.setLoadingMoreEnabled(true);
-//            adapter.notifyDataSetChanged();
-//            mRecyclerView.setLoadingMoreEnabled(false);
-//            adapter.setDatas(collection);
         } else {
             mRecyclerView.loadMoreComplete(collection, false);
-
-//            adapter.notifyDataSetChanged();
-//            mRecyclerView.setLoadingMoreEnabled(false);
-//            adapter.setDatas(collection);
-//            adapter.notifyDataSetChanged();
-//            mRecyclerView.setLoadingMoreEnabled(true);
         }
-
     }
 
     /**
@@ -279,22 +256,11 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         return layoutManager;
     }
 
-//    protected void setTitle(String titleName) {
-//        mTitleBar.setVisibility(View.VISIBLE);
-//        mTitle.setText(titleName);
-//    }
-
-
     /**
      * 获取更多网络数据t
      */
     protected void getLoadMoreData() {
-
+        getRemoteData();
     }
 
-    @Override
-    protected void getRemoteData() {
-        super.getRemoteData();
-        getLoadMoreData();
-    }
 }

@@ -74,6 +74,8 @@ dependencies {
 //    api rootProject.ext.dependencies["butterknife"]
 //    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
 
+    implementation rootProject.ext.dependencies["trecyclerview"]
+
     //Arouter路由
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:support-v4:28.0.0'

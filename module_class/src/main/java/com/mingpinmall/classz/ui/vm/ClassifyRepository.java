@@ -44,6 +44,7 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
+    /*获取右边的数据*/
     public void getRight(String gcId) {
         addDisposable(apiService.getRight("goods_class", "get_child_all", gcId)
                 .compose(RxSchedulers.<ClassificationRighitBean>io_main())
@@ -69,7 +70,7 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*商品列表*/
-    public void getShappingList(String bId, String curpage, String keyword) {
+    public void getShappingList(String bId, String curpage, String keyword, final String typeId) {
         Map<String, Object> map = new HashMap<>();
         map.put("gc_id", bId);
         map.put("Key", 1);
@@ -81,27 +82,29 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
-                        sendData(Constants.PRODUCTS_EVENT_KEY, Constants.PRODUCTS_EVENT_KEY, result);
-                        showPageState(Constants.PRODUCTS_EVENT_KEY, StateConstants.SUCCESS_STATE);
+                        KLog.i("请求网络成功");
+                        sendData(Constants.PRODUCTS_EVENT_KEY, result);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY_LIST_STATE, typeId, StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
-                        showPageState(Constants.PRODUCTS_EVENT_KEY, StateConstants.ERROR_STATE);
+                        KLog.i("onFailure:" + msg);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY_LIST_STATE, typeId, StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        KLog.i(e.toString());
-                        showPageState(Constants.PRODUCTS_EVENT_KEY, StateConstants.ERROR_STATE);
+                        KLog.i("onError:" + e.toString());
+                        showPageState(Constants.PRODUCTS_EVENT_KEY_LIST_STATE, typeId, StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
-                        showPageState(Constants.PRODUCTS_EVENT_KEY, StateConstants.NET_WORK_STATE);
+                        KLog.i("没有网络");
+                        showPageState(Constants.PRODUCTS_EVENT_KEY_LIST_STATE, typeId, StateConstants.NET_WORK_STATE);
                     }
                 })
         );

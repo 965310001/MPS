@@ -39,7 +39,7 @@ public class ProductsActivity extends HorizontalTabActivity {
         int length = Constants.PRODUCTS_TITLE.length;
         KLog.i(id);
         for (int i = 0; i < length; i++) {
-            list.add(ProductsItemFragment.newInstance(id));
+            list.add(ProductsItemFragment.newInstance(id, i + ""));
         }
         return list;
     }
