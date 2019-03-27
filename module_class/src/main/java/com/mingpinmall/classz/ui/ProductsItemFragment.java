@@ -9,15 +9,11 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
-import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
+
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
@@ -44,6 +40,15 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
     public void initView(Bundle state) {
         super.initView(state);
 //        showLoading();
+//        mViewModel.getShappingList(getArguments().getString(ID), String.valueOf(page), "");
+
+        getLoadMoreData();
+    }
+
+    @Override
+    protected void getLoadMoreData() {
+        super.getLoadMoreData();
+        KLog.i("加载更多数据");
         mViewModel.getShappingList(getArguments().getString(ID), String.valueOf(page), "");
     }
 

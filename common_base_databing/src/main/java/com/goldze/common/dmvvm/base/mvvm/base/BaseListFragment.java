@@ -84,6 +84,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         oldItems = new ItemData();
         newItems = new ItemData();
         adapter = createAdapter();
+//        adapter.setDatas(oldItems);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(createLayoutManager());
         if (isItemDecoration()) {
@@ -223,8 +224,15 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         oldItems.addAll(newItems);
         if (null != collection && collection.size() < 10) {
             mRecyclerView.refreshComplete(oldItems, true);
+
+//            adapter.notifyDataSetChanged();
+//            mRecyclerView.setLoadingMoreEnabled(true);
+//            mRecyclerView.setLoadingMoreEnabled(true);
         } else {
             mRecyclerView.refreshComplete(oldItems, false);
+
+//            adapter.notifyDataSetChanged();
+//            mRecyclerView.setLoadingMoreEnabled(false);
         }
 
         isRefresh = false;
@@ -236,8 +244,20 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         oldItems.addAll(collection);
         if (null != collection && collection.size() < 10) {
             mRecyclerView.loadMoreComplete(collection, true);
+//
+//            adapter.notifyDataSetChanged();
+//            mRecyclerView.setLoadingMoreEnabled(true);
+//            adapter.notifyDataSetChanged();
+//            mRecyclerView.setLoadingMoreEnabled(false);
+//            adapter.setDatas(collection);
         } else {
             mRecyclerView.loadMoreComplete(collection, false);
+
+//            adapter.notifyDataSetChanged();
+//            mRecyclerView.setLoadingMoreEnabled(false);
+//            adapter.setDatas(collection);
+//            adapter.notifyDataSetChanged();
+//            mRecyclerView.setLoadingMoreEnabled(true);
         }
 
     }
@@ -272,4 +292,9 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 
     }
 
+    @Override
+    protected void getRemoteData() {
+        super.getRemoteData();
+        getLoadMoreData();
+    }
 }

@@ -12,7 +12,7 @@
 
         <!--<include layout="@layout/item_title_layout" />-->
 
-        <android.support.design.widget.CoordinatorLayout
+        <FrameLayout
             android:id="@+id/content_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -36,6 +36,6 @@
 
             <include layout="@layout/trecyclerview_base" />
 
-        </android.support.design.widget.CoordinatorLayout>
+        </FrameLayout>
     </LinearLayout>
 </layout>

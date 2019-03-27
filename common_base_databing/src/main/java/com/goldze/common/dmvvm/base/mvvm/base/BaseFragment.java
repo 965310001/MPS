@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.goldze.common.dmvvm.ILoadManager;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.LoadingState;
+import com.socks.library.KLog;
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
@@ -36,20 +37,22 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false);
-        rootView = binding.getRoot();
-        View contentLayout = rootView.findViewById(getContentResId());
-        loadManager = new LoadManager.Builder()
-                .setViewParams(contentLayout == null ? rootView : contentLayout)
-                .setListener(new BaseStateControl.OnRefreshListener() {
-                    @Override
-                    public void onRefresh(View v) {
-                        onStateRefresh();
-                    }
-                })
-                .build();
-        showSuccess();
-        initView(state);
+        if (null == rootView) {
+            binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false);
+            rootView = binding.getRoot();
+            View contentLayout = rootView.findViewById(getContentResId());
+            loadManager = new LoadManager.Builder()
+                    .setViewParams(contentLayout == null ? rootView : contentLayout)
+                    .setListener(new BaseStateControl.OnRefreshListener() {
+                        @Override
+                        public void onRefresh(View v) {
+                            onStateRefresh();
+                        }
+                    })
+                    .build();
+            showSuccess();
+            initView(state);
+        }
         return rootView;
     }
 
