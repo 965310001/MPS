@@ -3,4 +3,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="loading_more">加载中...</string>
+    <string name="load_all">加载完成</string>
+    <string name="load_has_more">点击加载更多...</string>
+    <string name="load_failed">加载失败，点击重试...</string>
 </resources>

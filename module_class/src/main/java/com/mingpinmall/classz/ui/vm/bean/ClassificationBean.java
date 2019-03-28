@@ -1,6 +1,9 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
+import android.databinding.Bindable;
+
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.mingpinmall.classz.BR;
 
 import java.util.List;
 
@@ -75,12 +78,14 @@ public class ClassificationBean extends BaseBean {
             private String image;
             private boolean isSelect;
 
+            @Bindable
             public boolean isSelect() {
                 return isSelect;
             }
 
             public void setSelect(boolean select) {
                 isSelect = select;
+                notifyPropertyChanged(BR.select);
             }
 
             public String getGc_id() {

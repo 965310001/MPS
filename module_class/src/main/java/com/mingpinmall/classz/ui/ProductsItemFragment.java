@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
+import com.mingpinmall.classz.BaseListFragment2;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
@@ -13,7 +13,7 @@ import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
 
-public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
+public class ProductsItemFragment extends BaseListFragment2<ClassifyViewModel> implements OnItemClickListener {
 
     private final static String ID = "id";
     private final static String TYPEID = "typeId";

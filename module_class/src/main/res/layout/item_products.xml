@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--<data>-->
+    <data>
 
-        <!--<import type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />-->
+        <import type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
 
-        <!--<variable-->
-            <!--name="data"-->
-            <!--type="GoodsInfo" />-->
-    <!--</data>-->
+        <variable
+            name="data"
+            type="GoodsInfo" />
+    </data>
 
     <android.support.v7.widget.CardView
         style="@style/width_match_height_warp"
@@ -42,6 +42,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/iv_icon"
                 android:maxLines="2"
+                android:text="@{data.goods_name}"
                 android:textSize="@dimen/text_14"
                 tools:text="textview" />
 

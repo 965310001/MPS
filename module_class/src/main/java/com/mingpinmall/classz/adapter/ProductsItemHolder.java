@@ -37,10 +37,8 @@ public class ProductsItemHolder extends AbsItemHolder<GoodsInfo, ProductsItemHol
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull GoodsInfo data) {
         binding = DataBindingUtil.getBinding(holder.itemView);
-        binding.tvName.setText(data.getGoods_name());
-//        binding.setData(data);
-//        binding.executePendingBindings();
-//        ((TextView) holder.getViewById(R.id.tv_name)).setText(data.getGoods_name());
+        binding.setData(data);
+        binding.executePendingBindings();
     }
 
     class ViewHolder extends AbsHolder {

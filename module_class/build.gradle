@@ -74,7 +74,7 @@ dependencies {
 //    api rootProject.ext.dependencies["butterknife"]
 //    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
 
-    implementation rootProject.ext.dependencies["trecyclerview"]
+    implementation 'com.github.free46000:MultiItem:0.9.7'
 
     //Arouter路由
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

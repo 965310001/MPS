@@ -172,6 +172,14 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (null!=binding) {
+            binding.unbind();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     protected <T extends View> T getViewById(int id) {
         return (T) rootView.findViewById(id);

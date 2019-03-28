@@ -1,8 +1,11 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
+
+import android.databinding.Bindable;
+
+import com.mingpinmall.classz.BR;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GoodsListInfo extends BaseBean {
@@ -54,12 +57,14 @@ public class GoodsListInfo extends BaseBean {
     public class DatasBean extends BaseBean {
         private List<GoodsInfo> goods_list;
 
+        @Bindable
         public List<GoodsInfo> getGoods_list() {
             return goods_list;
         }
 
         public void setGoods_list(List<GoodsInfo> goods_list) {
             this.goods_list = goods_list;
+            notifyPropertyChanged(BR.goods_list);
         }
     }
 }
