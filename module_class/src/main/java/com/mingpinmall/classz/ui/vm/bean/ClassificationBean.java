@@ -96,20 +96,24 @@ public class ClassificationBean extends BaseBean {
                 this.gc_id = gc_id;
             }
 
+            @Bindable
             public String getGc_name() {
                 return gc_name;
             }
 
             public void setGc_name(String gc_name) {
                 this.gc_name = gc_name;
+                notifyPropertyChanged(BR.gc_name);
             }
 
+            @Bindable
             public String getImage() {
                 return image;
             }
 
             public void setImage(String image) {
                 this.image = image;
+                notifyPropertyChanged(BR.image);
             }
 
 //            public String getType_id() {

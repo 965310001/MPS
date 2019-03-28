@@ -2,6 +2,9 @@ package com.mingpinmall.classz.adapter;
 
 import android.content.Context;
 
+import com.mingpinmall.classz.BR;
+import com.mingpinmall.classz.DataBindItemViewHolderManager;
+import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.vm.ClassificationItemHolder;
 import com.mingpinmall.classz.ui.vm.ClassificationRightItemHolder;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
@@ -100,9 +103,11 @@ public class AdapterPool {
 
     /*分类列表里面的list*/
     public DelegateAdapter.Builder getProductsAdapter(Context context) {
+//        new DataBindItemViewHolderManager<GoodsInfo>(context, R.layout.item_products, BR.data);
         return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(GoodsInfo.class, new ProductsItemHolder(context)),
-                context, ProgressStyle.BallRotate);
+                        .bind(GoodsInfo.class, new DataBindItemViewHolderManager(
+                                context, R.layout.item_products, BR.data)),
+                context, ProgressStyle.Pacman);
     }
 
 //    /*配送方式*/

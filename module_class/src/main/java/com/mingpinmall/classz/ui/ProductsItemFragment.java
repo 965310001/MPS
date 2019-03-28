@@ -5,15 +5,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.mingpinmall.classz.BaseListFragment2;
+import com.freelib.multiitem.adapter.BaseItemAdapter;
+import com.freelib.multiitem.adapter.holder.DataBindViewHolderManager;
+import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
+import com.mingpinmall.classz.BR;
+import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
+import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
 
-public class ProductsItemFragment extends BaseListFragment2<ClassifyViewModel> implements OnItemClickListener {
+public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
     private final static String ID = "id";
     private final static String TYPEID = "typeId";
@@ -36,14 +41,21 @@ public class ProductsItemFragment extends BaseListFragment2<ClassifyViewModel> i
         return false;
     }
 
+    //    @Override
+//    protected BaseItemAdapter createAdapter() {
+//        return new BaseItemAdapter();
+//    }
+
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        if (getArguments() != null) {
-            typeId = getArguments().getString(TYPEID);
-        }
-        KLog.i(typeId);
-        getRemoteData();
+
+    }
+
+    //    @Override
+    protected void register(BaseItemAdapter adapter) {
+        adapter.register(GoodsInfo.class,
+                new DataBindViewHolderManager(R.layout.item_products, BR.data));
     }
 
     /*获取更多数据*/
@@ -57,6 +69,9 @@ public class ProductsItemFragment extends BaseListFragment2<ClassifyViewModel> i
     @Override
     protected void dataObserver() {
         super.dataObserver();
+        if (getArguments() != null) {
+            typeId = getArguments().getString(TYPEID);
+        }
         registerObserver(Constants.PRODUCTS_EVENT_KEY, typeId, GoodsListInfo.class)
                 .observe(this, new Observer<GoodsListInfo>() {
                     @Override

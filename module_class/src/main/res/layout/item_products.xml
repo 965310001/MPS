@@ -32,6 +32,8 @@
                 android:layout_height="103dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                app:image="@{data.goods_image_url}"
+                android:onClick="@{data.onclick(`aaa`)}"
                 tools:srcCompat="@drawable/ic_launcher" />
 
             <TextView
@@ -42,6 +44,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/iv_icon"
                 android:maxLines="2"
+                android:onClick="@{data.click}"
                 android:text="@{data.goods_name}"
                 android:textSize="@dimen/text_14"
                 tools:text="textview" />

@@ -5,13 +5,16 @@ import android.databinding.DataBindingUtil;
 
 import android.support.annotation.NonNull;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ItemProductsBinding;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 
+import com.socks.library.KLog;
 import com.trecyclerview.holder.AbsHolder;
 import com.trecyclerview.holder.AbsItemHolder;
 
@@ -39,12 +42,15 @@ public class ProductsItemHolder extends AbsItemHolder<GoodsInfo, ProductsItemHol
         binding = DataBindingUtil.getBinding(holder.itemView);
         binding.setData(data);
         binding.executePendingBindings();
+
+        KLog.i(data.getGoods_id()+"");
     }
 
     class ViewHolder extends AbsHolder {
         private ViewHolder(View itemView) {
             super(itemView);
         }
+
     }
 
 }

@@ -8,7 +8,7 @@ import com.goldze.common.dmvvm.utils.ImageUtils;
 
 public class DatabingUtils {
 
-    @BindingAdapter({"image"})
+    @BindingAdapter({"app:image"})
     public static void imageLoader(ImageView imageView, String url) {
         ImageUtils.loadImage(imageView, url);
     }

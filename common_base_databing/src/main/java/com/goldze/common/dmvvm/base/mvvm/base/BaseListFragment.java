@@ -30,14 +30,12 @@ import java.util.List;
  * @date :2019/1/17 17:06
  * @description:
  */
-public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecycleFragment<FragmentListBinding, T> implements OnRefreshListener {
+public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecycleFragment<FragmentListBinding, T>
+        implements OnRefreshListener {
 
     protected TRecyclerView mRecyclerView;
 
     protected FloatingActionButton floatBtn;
-
-//    protected RelativeLayout mTitleBar;
-//    protected TextView mTitle;
 
     protected RecyclerView.LayoutManager layoutManager;
 
@@ -77,12 +75,9 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         super.initView(state);
         mRecyclerView = getViewById(R.id.recycler_view);
         floatBtn = getViewById(R.id.float_btn);
-//        mTitleBar = getViewById(R.id.rl_title_bar);
-//        mTitle = getViewById(R.id.tv_title);
         oldItems = new ItemData();
         newItems = new ItemData();
         adapter = createAdapter();
-        adapter.setDatas(oldItems);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(createLayoutManager());
         if (isItemDecoration()) {
@@ -90,10 +85,26 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
                     DividerItemDecoration.VERTICAL));
         }
         mRecyclerView.addOnRefreshListener(this);
-        mRecyclerView.addOnScrollStateListener(new OnScrollStateListener() {
+//        mRecyclerView.addOnScrollStateListener(new OnScrollStateListener() {
+//            @Override
+//            public void onScrollStateChanged(int state1) {
+//                if (state1 == RecyclerView.SCROLL_STATE_IDLE) {
+//                    if (activity != null) {
+//                        Glide.with(activity).resumeRequests();
+//                    }
+//                } else {
+//                    if (activity != null) {
+//                        Glide.with(activity).pauseRequests();
+//                    }
+//                }
+//            }
+//        });
+        /*滑动显示到顶部*/
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(int state1) {
-                if (state1 == RecyclerView.SCROLL_STATE_IDLE) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (activity != null) {
                         Glide.with(activity).resumeRequests();
                     }
@@ -102,14 +113,6 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
                         Glide.with(activity).pauseRequests();
                     }
                 }
-            }
-        });
-
-        /*滑动显示到顶部*/
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (layoutManager instanceof GridLayoutManager) {
                         lastItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
@@ -149,7 +152,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 //                    }
                 }
                 isSlidingUpward = dy > 0;
-                KLog.i("" + isSlidingUpward + dy);
+//                KLog.i("" + isSlidingUpward + dy);
             }
         });
         floatBtn.setOnClickListener(new View.OnClickListener() {
@@ -196,10 +199,12 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 
     @Override
     public void onRefresh() {
+        KLog.i("onRefresh");
         page = 1;
         lastId = null;
         isRefresh = true;
         isLoadMore = false;
+
         getRemoteData();
     }
 
@@ -218,27 +223,26 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 //        newItems.clear();
         newItems.addAll(collection);
         oldItems.clear();
-        oldItems.addAll(newItems);
-//        if (null != collection && collection.size() < 10) {
-//            mRecyclerView.refreshComplete(oldItems, true);
-//        } else {
-//            mRecyclerView.refreshComplete(oldItems, false);
-//        }
         adapter.notifyDataSetChanged();
-
+        oldItems.addAll(newItems);
+        if (null != collection && collection.size() < 10) {
+            mRecyclerView.refreshComplete(oldItems, true);
+        } else {
+            mRecyclerView.refreshComplete(oldItems, false);
+        }
         isRefresh = false;
+
     }
 
     protected void onLoadMoreSuccess(List<?> collection) {
         isLoading = true;
         isLoadMore = false;
-        oldItems.add(collection);
-//        if (null != collection && collection.size() < 10) {
-//            mRecyclerView.loadMoreComplete(collection, true);
-//        } else {
-//            mRecyclerView.loadMoreComplete(collection, false);
-//        }
-        adapter.notifyDataSetChanged();
+        oldItems.addAll(collection);
+        if (null != collection && collection.size() < 10) {
+            mRecyclerView.loadMoreComplete(collection, true);
+        } else {
+            mRecyclerView.loadMoreComplete(collection, false);
+        }
     }
 
     /**

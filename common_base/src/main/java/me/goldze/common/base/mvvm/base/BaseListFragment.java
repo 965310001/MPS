@@ -152,7 +152,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 //                    }
                 }
                 isSlidingUpward = dy > 0;
-                KLog.i("" + isSlidingUpward + dy);
+//                KLog.i("" + isSlidingUpward + dy);
             }
         });
         floatBtn.setOnClickListener(new View.OnClickListener() {

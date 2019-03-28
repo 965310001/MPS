@@ -1,6 +1,11 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
+import android.databinding.Bindable;
+import android.view.View;
+
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.mingpinmall.classz.BR;
 
 public class GoodsInfo extends BaseBean {
     /**
@@ -63,12 +68,14 @@ public class GoodsInfo extends BaseBean {
         this.store_id = store_id;
     }
 
+    @Bindable
     public String getGoods_name() {
         return goods_name;
     }
 
     public void setGoods_name(String goods_name) {
         this.goods_name = goods_name;
+        notifyPropertyChanged(BR.goods_name);
     }
 
     public String getGoods_jingle() {
@@ -95,12 +102,14 @@ public class GoodsInfo extends BaseBean {
         this.goods_marketprice = goods_marketprice;
     }
 
+    @Bindable
     public String getGoods_image() {
         return goods_image;
     }
 
     public void setGoods_image(String goods_image) {
         this.goods_image = goods_image;
+        notifyPropertyChanged(BR.goods_image);
     }
 
     public String getGoods_salenum() {
@@ -205,5 +214,13 @@ public class GoodsInfo extends BaseBean {
 
     public void setGoods_image_url(String goods_image_url) {
         this.goods_image_url = goods_image_url;
+    }
+
+    public void click(View view) {
+        ToastUtils.showLong(getGoods_id() + "");
+    }
+
+    public void onclick(View view, String data) {
+        ToastUtils.showLong(data.toString());
     }
 }

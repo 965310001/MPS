@@ -1,6 +1,7 @@
 package com.mingpinmall.classz;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -9,25 +10,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.BaseAdapter;
 
 import com.freelib.multiitem.adapter.BaseItemAdapter;
+import com.freelib.multiitem.adapter.holder.BaseViewHolder;
+import com.freelib.multiitem.listener.OnItemClickListener;
 import com.freelib.multiitem.listener.OnLoadMoreListener;
 import com.goldze.common.dmvvm.R;
-import com.goldze.common.dmvvm.base.core.banner.BannerList;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
 import com.goldze.common.dmvvm.databinding.FragmentList2Binding;
-import com.goldze.common.dmvvm.databinding.FragmentListBinding;
-import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.socks.library.KLog;
-import com.trecyclerview.TRecyclerView;
-import com.trecyclerview.adapter.DelegateAdapter;
-import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnRefreshListener;
-import com.trecyclerview.listener.OnScrollStateListener;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,16 +33,15 @@ import java.util.List;
 public abstract class BaseListFragment2<T extends AbsViewModel> extends AbsLifecycleFragment<FragmentList2Binding, T>
         implements OnRefreshListener {
 
-    protected TRecyclerView mRecyclerView;
+    protected BaseItemAdapter adapter;
+
+    protected RecyclerView mRecyclerView;
+
+    protected SwipeRefreshLayout swipeRefreshLayout;
 
     protected FloatingActionButton floatBtn;
 
-//    protected RelativeLayout mTitleBar;
-//    protected TextView mTitle;
-
     protected RecyclerView.LayoutManager layoutManager;
-
-    protected DelegateAdapter adapter;
 
     protected String lastId = null;
 
@@ -58,10 +52,6 @@ public abstract class BaseListFragment2<T extends AbsViewModel> extends AbsLifec
     protected boolean isLoading = true;
 
     protected boolean isRefresh = false;
-
-    protected ItemData oldItems;
-
-    protected ItemData newItems;
 
     private int lastItemPosition;
 
@@ -81,28 +71,29 @@ public abstract class BaseListFragment2<T extends AbsViewModel> extends AbsLifec
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        mRecyclerView = getViewById(R.id.recycler_view);
-        floatBtn = getViewById(R.id.float_btn);
-        oldItems = new ItemData();
-        newItems = new ItemData();
+        mRecyclerView = binding.recyclerView;
+        swipeRefreshLayout = binding.swipeRefreshLayout;
+        floatBtn = binding.floatBtn;
+
         adapter = createAdapter();
-        adapter.setDatas(oldItems);
+        register(adapter);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(createLayoutManager());
         if (isItemDecoration()) {
             mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                     DividerItemDecoration.VERTICAL));
         }
-        mRecyclerView.addOnRefreshListener(this);
-        mRecyclerView.addOnScrollStateListener(new OnScrollStateListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(int state1) {
-                if (state1 == RecyclerView.SCROLL_STATE_IDLE) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int state) {
+                if (state == RecyclerView.SCROLL_STATE_IDLE) {
                     if (activity != null) {
+                        KLog.i("resumeRequests ");
 //                        Glide.with(activity).resumeRequests();
                     }
                 } else {
                     if (activity != null) {
+                        KLog.i("pauseRequests ");
 //                        Glide.with(activity).pauseRequests();
                     }
                 }
@@ -165,15 +156,7 @@ public abstract class BaseListFragment2<T extends AbsViewModel> extends AbsLifec
 
 
         /**************************** start *****************************/
-        adapter1 = new BaseItemAdapter();
-        recyclerView1 = binding.recyclerView;
-        recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter1.register(TextBean.class, new TextViewManager());
-        adapter1.register(GoodsInfo.class, new GoodsInfoManager());
-        adapter1.addHeadItem(new TextBean("我是Head View"));
-        adapter1.addFootItem(new TextBean("我是Foot View"));
-        recyclerView1.setAdapter(adapter1);
-        adapter1.enableLoadMore(new LoadMoreHolderManager(new OnLoadMoreListener() {
+        adapter.enableLoadMore(new LoadMoreHolderManager(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 ++page;
@@ -181,14 +164,12 @@ public abstract class BaseListFragment2<T extends AbsViewModel> extends AbsLifec
                 getLoadMoreData();
             }
         }));
-        swipeRefreshLayout = binding.swipeRefreshLayout;
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                currPage = 1;
-                adapter1.clearData();
-                adapter1.notifyDataSetChanged();
+//                swipeRefreshLayout.setRefreshing(true);
+                adapter.clearData();
+                adapter.notifyDataSetChanged();
 
                 page = 1;
                 lastId = null;
@@ -198,31 +179,18 @@ public abstract class BaseListFragment2<T extends AbsViewModel> extends AbsLifec
             }
         });
 
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseViewHolder baseViewHolder) {
+                ToastUtils.showLong(String.format("你点击了第%s位置的数据：%s",
+                        baseViewHolder.getItemPosition(), baseViewHolder.getItemData()));
+            }
+        });
     }
 
-    BaseItemAdapter adapter1;
-    RecyclerView recyclerView1;
-    int currPage;
-    SwipeRefreshLayout swipeRefreshLayout;
-
-//    protected void loadData() {
-//        if (currPage < 3) {
-////            fillData();
-//            adapter1.setLoadCompleted(false);
-//            currPage++;
-//        } else if (currPage == 3) {
-//            adapter1.setLoadFailed();
-////            failTimes++;
-//        } else {
-////            fillData();
-//            adapter1.setLoadCompleted(true);
-//        }
-//        swipeRefreshLayout.setRefreshing(false);
-//    }
+    protected abstract void register(BaseItemAdapter adapter);
 
     /**************************** end *****************************/
-
-
     protected boolean isItemDecoration() {
         return true;
     }
@@ -250,6 +218,7 @@ public abstract class BaseListFragment2<T extends AbsViewModel> extends AbsLifec
     }
 
     protected void setData(List<?> collection) {
+        swipeRefreshLayout.setRefreshing(false);
         if (isLoadMore) {
             onLoadMoreSuccess(collection);
         } else {
@@ -273,80 +242,46 @@ public abstract class BaseListFragment2<T extends AbsViewModel> extends AbsLifec
         getLoadMoreData();
     }
 
-    protected void setBannerData(BannerList headAdList) {
-        newItems.add(headAdList);
+    protected void addHeadItem(Object headItem) {
+        adapter.addHeadItem(headItem);
     }
 
-    protected void onRefreshSuccess(Collection<?> collection) {
-//        newItems.clear();
-//        newItems.addAll(collection);
-//        oldItems.clear();
-//        oldItems.addAll(newItems);
-        if (null != collection && collection.size() < 10) {
-            mRecyclerView.refreshComplete(oldItems, true);
-        } else {
-            mRecyclerView.refreshComplete(oldItems, false);
-        }
-//        isRefresh = false;
-//        if (null != collection && collection.size() < 10) {
-//            adapter1.setLoadCompleted(false);
-//        }
-//        swipeRefreshLayout.setRefreshing(false);
+    protected void addFootItem(Object footItem) {
+        adapter.addFootItem(footItem);
+    }
 
-        oldItems.clear();
-        for (Object o : collection) {
-            oldItems.add(o);
-            adapter.notifyItemChanged(oldItems.size()-1);
+    protected void onRefreshSuccess(List<?> collection) {
+        if (null != collection && collection.size() < 10) {
+            adapter.setLoadCompleted(false);
         }
+        adapter.addDataItems(collection);
+        adapter.notifyDataSetChanged();
+
 
     }
 
     protected void onLoadMoreSuccess(List<?> collection) {
-//        if (null != collection && collection.size() < 10) {
-//            adapter1.setLoadCompleted(true);
-//        }
-//        swipeRefreshLayout.setRefreshing(false);
-//
-//
-//        for (Object o : collection) {
-//            adapter1.addDataItem(o);
-////            adapter1.notifyDataSetChanged();
-//        }
-
         isLoading = true;
         isLoadMore = false;
-//        oldItems.add(collection);
-//        if (null != collection && collection.size() < 10) {
-//            mRecyclerView.loadMoreComplete(oldItems, true);
-//        } else {
-//            mRecyclerView.loadMoreComplete(oldItems, false);
-//        }
-
         if (null != collection && collection.size() < 10) {
-//            mRecyclerView.loadMoreComplete(oldItems, true);
-            mRecyclerView.setLoadingMoreEnabled(true);
-        } else {
-            mRecyclerView.setLoadingMoreEnabled(false);
-//            mRecyclerView.loadMoreComplete(oldItems, false);
+            adapter.setLoadCompleted(false);
         }
+        adapter.addDataItems(collection);
+        adapter.notifyDataSetChanged();
 
-        for (Object o : collection) {
-            oldItems.add(o);
-            adapter.notifyItemChanged(oldItems.size()-1);
-        }
-//        if (null != collection && collection.size() < 10){
-//            mRecyclerView.setLoadingMoreEnabled(true);
-//        }else{
-//            mRecyclerView.setLoadingMoreEnabled(false);
+//        for (Object o : collection) {
+//            adapter.addHeadItem(o);
 //        }
     }
 
     /**
      * adapter
      *
-     * @return DelegateAdapter
+     * @return BaseItemAdapter
      */
-    protected abstract DelegateAdapter createAdapter();
+    protected BaseItemAdapter createAdapter() {
+        return new BaseItemAdapter();
+    }
 
     /**
      * LayoutManager

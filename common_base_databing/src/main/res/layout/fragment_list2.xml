@@ -32,12 +32,10 @@
                 app:rippleColor="@color/white"
                 tools:ignore="VectorDrawableCompat" />
 
-
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipeRefreshLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+                android:layout_height="match_parent">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
@@ -47,7 +45,9 @@
                     android:padding="8dp" />
             </android.support.v4.widget.SwipeRefreshLayout>
 
-            <include layout="@layout/trecyclerview_base" />
+            <!--<include-->
+                <!--layout="@layout/trecyclerview_base"-->
+                <!--android:visibility="gone" />-->
         </FrameLayout>
 
 

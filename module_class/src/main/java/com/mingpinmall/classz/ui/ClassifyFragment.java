@@ -89,7 +89,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 .observeForever(new Observer<ClassificationBean>() {
                     @Override
                     public void onChanged(@Nullable ClassificationBean response) {
-                        leftData.clear();
+//                        leftData.clear();
                         leftData.addAll(response.getDatas().getClass_list());
                         leftAdapter.notifyDataSetChanged();
                         data = response.getDatas().getClass_list().get(0);
@@ -103,16 +103,17 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 .observeForever(new Observer<ClassificationRighitBean>() {
                     @Override
                     public void onChanged(@Nullable ClassificationRighitBean response) {
-                        rightData.clear();
+//                        rightData.clear();
                         rightData.addAll(response.getDatas().getClass_list());
                         rightAdapter.notifyDataSetChanged();
+
                     }
                 });
     }
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.EVENT_KEY_CLASSIFY_MORE;
+        return Constants.EVENT_KEY_CLASSIFY_MORE_STATE;
     }
 
     int leftPostion = 0;
