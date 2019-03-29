@@ -36,37 +36,44 @@ public class ClassificationRightItemHolder extends AbsItemHolder<ClassificationR
 
     @Override
     public ViewHolder createViewHolder(View view) {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), getLayoutResId(), null, false);
+        binding = DataBindingUtil.bind(view);
         return new ViewHolder(binding.getRoot());
     }
 
-    GridLayoutManager layout;
+//    GridLayoutManager layout;
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull final ClassificationRighitBean.DatasBean.ClassListBean dataBean) {
         binding = DataBindingUtil.getBinding(holder.itemView);
-        binding.lsiItem.setLeftText(dataBean.getGc_name());
-        binding.lsiItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
-            @Override
-            public void click(boolean isChecked) {
-                KLog.i(dataBean.getGc_name() + " " + dataBean.getGc_id());
-                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(dataBean.getGc_id()));
-            }
-        });
-        DelegateAdapter adapter = AdapterPool.newInstance().getRightAdapter1(mContext)
-                .setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int postion, Object object) {
-                        ClassificationRighitBean.DatasBean.ClassListBean.ChildBean data =
-                                dataBean.getChild().get(postion);
-                        KLog.i(data.getGc_name() + " " + data.getGc_id());
-                        ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(data.getGc_id()));
-                    }
-                }).build();
-        adapter.setDatas(dataBean.getChild());
-        layout = new GridLayoutManager(mContext, 3);
-        binding.rvRight.setLayoutManager(new GridLayoutManager(mContext, 3));
-        binding.rvRight.setAdapter(adapter);
+
+//        binding.lsiItem.setLeftText(dataBean.getGc_name());
+//        binding.lsiItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+//            @Override
+//            public void click(boolean isChecked) {
+//                KLog.i(dataBean.getGc_name() + " " + dataBean.getGc_id());
+//                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(dataBean.getGc_id()));
+//            }
+//        });
+//        DelegateAdapter adapter = AdapterPool.newInstance().getRightAdapter1(mContext)
+//                .setOnItemClickListener(new OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(View view, int postion, Object object) {
+//                        ClassificationRighitBean.DatasBean.ClassListBean.ChildBean data =
+//                                dataBean.getChild().get(postion);
+//                        KLog.i(data.getGc_name() + " " + data.getGc_id());
+//                        ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(data.getGc_id()));
+//                    }
+//                }).build();
+//        adapter.setDatas(dataBean.getChild());
+//        layout = new GridLayoutManager(mContext, 3);
+//        binding.rvRight.setLayoutManager(layout);
+//        binding.rvRight.setAdapter(adapter);
+
+//        binding.setData(dataBean);
+
+        binding.setData(dataBean);
+
+        binding.executePendingBindings();
     }
 
     static class ViewHolder extends AbsHolder {

@@ -1,6 +1,13 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
+import android.databinding.Bindable;
+import android.view.View;
+
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.mingpinmall.classz.BR;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -30,7 +37,7 @@ public class ClassificationRighitBean extends BaseBean {
         this.datas = datas;
     }
 
-    public static class DatasBean extends BaseBean{
+    public static class DatasBean extends BaseBean {
         private List<ClassListBean> class_list;
 
         public List<ClassListBean> getClass_list() {
@@ -41,7 +48,7 @@ public class ClassificationRighitBean extends BaseBean {
             this.class_list = class_list;
         }
 
-        public static class ClassListBean extends BaseBean{
+        public class ClassListBean extends BaseBean {
             /**
              * gc_id : 4
              * gc_name : 女装
@@ -51,6 +58,10 @@ public class ClassificationRighitBean extends BaseBean {
             private String gc_id;
             private String gc_name;
             private List<ChildBean> child;
+
+//            public void click(View view) {
+//                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", gc_id);
+//            }
 
             public String getGc_id() {
                 return gc_id;
@@ -76,7 +87,7 @@ public class ClassificationRighitBean extends BaseBean {
                 this.child = child;
             }
 
-            public static class ChildBean {
+            public class ChildBean extends BaseBean {
                 /**
                  * gc_id : 12
                  * gc_name : T恤
@@ -93,12 +104,18 @@ public class ClassificationRighitBean extends BaseBean {
                     this.gc_id = gc_id;
                 }
 
+                @Bindable
                 public String getGc_name() {
                     return gc_name;
                 }
 
                 public void setGc_name(String gc_name) {
                     this.gc_name = gc_name;
+                    notifyPropertyChanged(BR.gc_name);
+                }
+
+                public void click(View view) {
+                    ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", getGc_id());
                 }
             }
         }

@@ -100,7 +100,6 @@ public class AdapterPool {
                 context, ProgressStyle.BallRotate);
     }
 
-
     /*分类列表里面的list*/
     public DelegateAdapter.Builder getProductsAdapter(Context context) {
 //        new DataBindItemViewHolderManager<GoodsInfo>(context, R.layout.item_products, BR.data);

@@ -10,15 +10,17 @@
     </data>
 
     <LinearLayout
-        style="@style/width_warp_height_warp"
+        style="@style/width_match_height_warp"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingTop="@dimen/space_10"
         android:paddingBottom="@dimen/space_10">
 
+        <!-- android:id="@+id/tv_classify"-->
+
         <TextView
-            android:id="@+id/tv_classify"
             style="@style/TextStyle_12"
+            android:onClick="@{(view)->data.click(view)}"
             android:text="@{data.gc_name}"
             android:textColor="@color/color_666666"
             tools:text="首页" />
