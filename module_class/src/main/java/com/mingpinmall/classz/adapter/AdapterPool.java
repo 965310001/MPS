@@ -107,6 +107,7 @@ public class AdapterPool {
         return getAdapter(new DelegateAdapter.Builder<>()
                         .bind(GoodsInfo.class, new DataBindItemViewHolderManager(
                                 context, R.layout.item_products, BR.data)),
+//                        .bind(GoodsInfo.class, new ProductsItemHolder(context)),
                 context, ProgressStyle.Pacman);
     }
 

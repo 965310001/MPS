@@ -15,6 +15,8 @@ import com.socks.library.KLog;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Flowable;
+
 public class ClassifyRepository extends BaseRepository {
 
     ClassifyService apiService = RetrofitClient.getInstance().create(ClassifyService.class);

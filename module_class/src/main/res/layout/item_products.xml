@@ -32,8 +32,8 @@
                 android:layout_height="103dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                app:image="@{data.goods_image_url}"
-                android:onClick="@{data.onclick(`aaa`)}"
+                android:onClick="@{(view)->data.onclick(view,data)}"
+                android:src="@{data.goods_image_url}"
                 tools:srcCompat="@drawable/ic_launcher" />
 
             <TextView
@@ -44,7 +44,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/iv_icon"
                 android:maxLines="2"
-                android:onClick="@{data.click}"
+                android:onClick="@{(view)->data.click(view)}"
                 android:text="@{data.goods_name}"
                 android:textSize="@dimen/text_14"
                 tools:text="textview" />
@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_name"
                 android:layout_toEndOf="@+id/iv_icon"
+                android:text="@{@string/price_holder(data.goods_price)}"
                 android:textColor="@color/orange"
                 android:textSize="@dimen/text_12"
                 tools:text="TextView" />
@@ -66,6 +67,8 @@
                 android:layout_alignBottom="@+id/iv_icon"
                 android:layout_marginBottom="10dp"
                 android:layout_toEndOf="@+id/iv_icon"
+                android:text="@{@string/salenum_holder(data.goods_salenum)}"
+                android:textColor="@color/gray"
                 tools:text="TextView" />
 
             <TextView

@@ -7,6 +7,8 @@ import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.BR;
 
+import java.util.Objects;
+
 public class GoodsInfo extends BaseBean {
     /**
      * goods_id : 109928
@@ -111,13 +113,14 @@ public class GoodsInfo extends BaseBean {
         this.goods_image = goods_image;
         notifyPropertyChanged(BR.goods_image);
     }
-
+    @Bindable
     public String getGoods_salenum() {
         return goods_salenum;
     }
 
     public void setGoods_salenum(String goods_salenum) {
         this.goods_salenum = goods_salenum;
+        notifyPropertyChanged(BR.goods_salenum);
     }
 
     public String getEvaluation_good_star() {
@@ -217,10 +220,39 @@ public class GoodsInfo extends BaseBean {
     }
 
     public void click(View view) {
-        ToastUtils.showLong(getGoods_id() + "");
+        ToastUtils.showLong(view.getId() + " " + getGoods_id() + "");
     }
 
-    public void onclick(View view, String data) {
-        ToastUtils.showLong(data.toString());
+    public void onclick(View view, GoodsInfo data) {
+        ToastUtils.showLong(view.getId() + " " + data.toString() + getGoods_id());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GoodsInfo goodsInfo = (GoodsInfo) o;
+        return Objects.equals(goods_id, goodsInfo.goods_id) &&
+                Objects.equals(store_id, goodsInfo.store_id) &&
+                Objects.equals(goods_name, goodsInfo.goods_name) &&
+                Objects.equals(goods_jingle, goodsInfo.goods_jingle) &&
+                Objects.equals(goods_price, goodsInfo.goods_price) &&
+                Objects.equals(goods_marketprice, goodsInfo.goods_marketprice) &&
+                Objects.equals(goods_image, goodsInfo.goods_image) &&
+                Objects.equals(goods_salenum, goodsInfo.goods_salenum) &&
+                Objects.equals(evaluation_good_star, goodsInfo.evaluation_good_star) &&
+                Objects.equals(evaluation_count, goodsInfo.evaluation_count) &&
+                Objects.equals(is_virtual, goodsInfo.is_virtual) &&
+                Objects.equals(is_presell, goodsInfo.is_presell) &&
+                Objects.equals(is_fcode, goodsInfo.is_fcode) &&
+                Objects.equals(have_gift, goodsInfo.have_gift) &&
+                Objects.equals(store_name, goodsInfo.store_name) &&
+                Objects.equals(is_own_mall, goodsInfo.is_own_mall) &&
+                Objects.equals(goods_image_url, goodsInfo.goods_image_url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(goods_id, store_id, goods_name, goods_jingle, goods_price, goods_marketprice, goods_image, goods_salenum, evaluation_good_star, evaluation_count, is_virtual, is_presell, is_fcode, have_gift, store_name, is_own_mall, goods_image_url);
     }
 }

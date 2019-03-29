@@ -221,9 +221,14 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 
     protected void onRefreshSuccess(Collection<?> collection) {
 //        newItems.clear();
-        newItems.addAll(collection);
+        if (!newItems.containsAll(collection)) {
+            KLog.i("不存在");
+            newItems.addAll(collection);
+        } else {
+            KLog.i("存在");
+        }
+
         oldItems.clear();
-        adapter.notifyDataSetChanged();
         oldItems.addAll(newItems);
         if (null != collection && collection.size() < 10) {
             mRecyclerView.refreshComplete(oldItems, true);

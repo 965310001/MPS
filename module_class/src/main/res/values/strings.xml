@@ -8,4 +8,8 @@
     <string name="load_all">加载完成</string>
     <string name="load_has_more">点击加载更多...</string>
     <string name="load_failed">加载失败，点击重试...</string>
+
+
+    <string name="price_holder">￥%s</string>
+    <string name="salenum_holder">销量 %s</string>
 </resources>
