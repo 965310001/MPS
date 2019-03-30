@@ -7,8 +7,16 @@ import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.BR;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Keep;
+
 import java.util.Objects;
 
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Transient;
+
+@Entity
 public class GoodsInfo extends BaseBean {
     /**
      * goods_id : 109928
@@ -33,6 +41,7 @@ public class GoodsInfo extends BaseBean {
      * goods_image_url : http://39.108.254.185/data/upload/mall/common/default_goods_image_360.gif
      */
 
+    @Id
     private String goods_id;
     private String store_id;
     private String goods_name;
@@ -54,6 +63,60 @@ public class GoodsInfo extends BaseBean {
 //            private boolean xianshi_flag;
     private String goods_image_url;
 
+    @Transient
+    private boolean checked = true;//是否选择
+
+    /*购买的数量*/
+    private int num;//数量
+
+    @Keep
+    public GoodsInfo() {
+    }
+
+    @Keep
+    public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name, String is_own_mall, String goods_image_url) {
+        this.goods_id = goods_id;
+        this.store_id = store_id;
+        this.goods_name = goods_name;
+        this.goods_jingle = goods_jingle;
+        this.goods_price = goods_price;
+        this.goods_marketprice = goods_marketprice;
+        this.goods_image = goods_image;
+        this.goods_salenum = goods_salenum;
+        this.evaluation_good_star = evaluation_good_star;
+        this.evaluation_count = evaluation_count;
+        this.is_virtual = is_virtual;
+        this.is_presell = is_presell;
+        this.is_fcode = is_fcode;
+        this.have_gift = have_gift;
+        this.store_name = store_name;
+        this.is_own_mall = is_own_mall;
+        this.goods_image_url = goods_image_url;
+    }
+
+    @Generated(hash = 588874685)
+    public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name, String is_own_mall, String goods_image_url,
+            int num) {
+        this.goods_id = goods_id;
+        this.store_id = store_id;
+        this.goods_name = goods_name;
+        this.goods_jingle = goods_jingle;
+        this.goods_price = goods_price;
+        this.goods_marketprice = goods_marketprice;
+        this.goods_image = goods_image;
+        this.goods_salenum = goods_salenum;
+        this.evaluation_good_star = evaluation_good_star;
+        this.evaluation_count = evaluation_count;
+        this.is_virtual = is_virtual;
+        this.is_presell = is_presell;
+        this.is_fcode = is_fcode;
+        this.have_gift = have_gift;
+        this.store_name = store_name;
+        this.is_own_mall = is_own_mall;
+        this.goods_image_url = goods_image_url;
+        this.num = num;
+    }
+
     public String getGoods_id() {
         return goods_id;
     }
@@ -68,6 +131,14 @@ public class GoodsInfo extends BaseBean {
 
     public void setStore_id(String store_id) {
         this.store_id = store_id;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 
     @Bindable
@@ -113,6 +184,7 @@ public class GoodsInfo extends BaseBean {
         this.goods_image = goods_image;
         notifyPropertyChanged(BR.goods_image);
     }
+
     @Bindable
     public String getGoods_salenum() {
         return goods_salenum;
@@ -186,6 +258,15 @@ public class GoodsInfo extends BaseBean {
     public void setIs_own_mall(String is_own_mall) {
         this.is_own_mall = is_own_mall;
     }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
 
 //            public boolean isSole_flag() {
 //                return sole_flag;
