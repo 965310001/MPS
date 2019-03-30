@@ -12,7 +12,7 @@ public interface ARouterConfig {
         LOGINACTIVITY(ARouterConfig.LOGINACTIVITY),//登录
         SPLASHACTIVITY(ARouterConfig.SPLASHACTIVITY),//过渡
         MAINACTIVITY(ARouterConfig.MAINACTIVITY),//主界面
-        REGISTERACTIVITY(ARouterConfig.REGISTERACTIVITY),//注册
+//        REGISTERACTIVITY(ARouterConfig.REGISTERACTIVITY),//注册
         SHOPPINGACTIVITY(ARouterConfig.Shopping.SHOPPINGACTIVITY),//
         ADDRESSLISTACTIVITY(ARouterConfig.Me.ADDRESSLISTACTIVITY),//地址
         WEBVIEWACTIVITY(ARouterConfig.WEBVIEWACTIVITY);//web
@@ -38,8 +38,53 @@ public interface ARouterConfig {
     //登录
     String LOGINACTIVITY = "/me/LoginActivity";
 
+    //设置
+    String SETTINGACTIVITY = "/me/SettingActivity";
+
     //注册
     String REGISTERACTIVITY = "/me/RegisterActivity";
+
+    //我的订单
+    String ORDERACTIVITY = "/me/OrderActivity";
+
+    //退换货
+    String REFUNDACTIVITY = "/me/RefundActivity";
+
+    //我的消息
+    String MESSAGEACTIVITY = "/me/MessageActivity";
+
+    //我的财产
+    String PROPERTYACTIVITY = "/me/PropertyActivity";
+
+    //充值卡余额
+    String CARDSURPLUSACTIVITY = "/me/CardSurplusActivity";
+
+    //账户余额
+    String ACCOUNTSURPLUSACTIVITY = "/me/AccountSurplusActivity";
+
+    //店铺代金券
+    String COUPONACTIVITY = "/me/CouponActivity";
+
+    //店铺红包
+    String STOREPACKETACTIVITY = "/me/StorePacketActivity";
+
+    //会员积分
+    String VIPINTERGRALACTIVITY = "/me/VipIntegralActivity";
+
+    //我的收藏
+    String COLLECTIONACTIVITY = "/me/CollectionActivity";
+
+    //我的足迹
+    String FOOTPRINTACTIVITY = "/me/FootprintActivity";
+
+    //我的分销管理
+    String DISRTIBUTIONACTIVITY = "/me/DistributionActivity";
+
+    //收货地址管理
+    String ADDRESSMANAGERACTIVITY = "/me/AddressManagerActivity";
+
+    //编辑 or 新增 收货地址
+    String EDITADDRESSACTIVITY = "/me/EditAddressActivity";
 
     //第二部注册
     String REGISTERACTIVITY2 = "/me/RegisterActivity2";

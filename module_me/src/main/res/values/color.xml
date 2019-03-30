@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_color_0" >#ED5564</color>
+    <color name="bg_color_1" >#FB6E52</color>
+    <color name="bg_color_2" >#FFCE55</color>
+    <color name="bg_color_3" >#A0D468</color>
+    <color name="bg_color_4" >#48CFAE</color>
+    <color name="bg_color_5" >#4FC0E8</color>
+    <color name="bg_color_6" >#5D9CEC</color>
+    <color name="bg_color_7" >#AC92ED</color>
+    <color name="bg_color_8" >#EC87BF</color>
+</resources>

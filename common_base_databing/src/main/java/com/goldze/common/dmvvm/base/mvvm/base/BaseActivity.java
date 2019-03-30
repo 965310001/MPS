@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -42,7 +43,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
 
     private ImageView ivBack, ivSearch;
     private MaterialEditText edSearch;
-    private TextView tvTitle, tvRight;
+    protected TextView tvTitle, tvRight;
     private RelativeLayout rlTitleBar;
 
     private ImmersionBar mImmersionBar;
@@ -234,6 +235,11 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
     public void onClick(View v) {
         if (v.getId() == R.id.iv_back) {
             finish();
+        } else {
+            onViewClicked(v.getId());
         }
+    }
+
+    public void onViewClicked(@IdRes int viewId) {
     }
 }

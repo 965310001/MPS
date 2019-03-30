@@ -28,7 +28,7 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> implem
     String URL;
 
     //    @BindView(R2.id.webview)
-    WebView webView ;
+    WebView webView;//= binding.webview;
 
 //    @BindView(R2.id.iv_back)
 //    ImageView ivBack;
@@ -46,7 +46,9 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> implem
     protected void initViews(Bundle savedInstanceState) {
 
         ARouter.getInstance().inject(this);
+
         webView = binding.webview;
+
      /*   String url = getIntent().getStringExtra("URL");
         KLog.i(url + " " + URL);*/
 
@@ -115,7 +117,7 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> implem
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-
+            KLog.i("onPageFinished");
             setTitle(view.getTitle());
             showSuccess();
         }

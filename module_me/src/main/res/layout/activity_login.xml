@@ -1,50 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.LoginActivity">
+        tools:context=".ui.acitivity.account.LoginActivity">
 
-        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-            android:id="@+id/ed_phone"
-            android:layout_width="match_parent"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="请输入用户名"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textSize="@dimen/text_16"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:met_errorColor="@color/red"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="用户名"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintBottom_toTopOf="@id/ll_panel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-            android:id="@+id/ed_password"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/ll_panel"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="请输入用户名"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textSize="@dimen/text_16"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:met_errorColor="@color/red"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="用户名"
-            tools:ignore="MissingConstraints" />
+            android:layout_marginTop="12dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabs">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_lb_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="3"
+                    android:gravity="end"
+                    android:text="@string/label_account"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/ed_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:hint="请输入用户名"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_16"
+                    app:met_errorColor="@color/red"
+                    app:met_floatingLabel="none"
+                    app:met_floatingLabelText="用户名"
+                    app:met_hideUnderline="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_panel0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_lb_psdCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:layout_weight="3"
+                        android:gravity="end"
+                        android:text="@string/text_psdCode"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/ed_password"
+                        app:layout_constraintEnd_toStartOf="@id/ed_password"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/ed_password" />
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/ed_psdCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:hint="@string/hint_text_psdCode"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="@dimen/text_16"
+                        app:met_errorColor="@color/red"
+                        app:met_floatingLabel="none"
+                        app:met_floatingLabelText="验证码"
+                        app:met_hideUnderline="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color" />
+
+            <LinearLayout
+                android:id="@+id/ll_panel1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_lb_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:layout_weight="3"
+                        android:gravity="end"
+                        android:text="@string/label_password"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/ed_password"
+                        app:layout_constraintEnd_toStartOf="@id/ed_password"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/ed_password" />
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/ed_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ed_hint_password"
+                        android:inputType="textPassword"
+                        android:textSize="@dimen/text_16"
+                        app:met_errorColor="@color/red"
+                        app:met_floatingLabel="none"
+                        app:met_floatingLabelText="密码"
+                        app:met_hideUnderline="true"
+                        app:pet_enableIconAlpha="false"
+                        app:pet_hoverShowsPw="true" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_lb_authCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:layout_weight="3"
+                        android:gravity="end"
+                        android:text="@string/text_authCode"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/ed_password"
+                        app:layout_constraintEnd_toStartOf="@id/ed_password"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/ed_password" />
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/ed_authCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:hint="@string/text_authCode"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="@dimen/text_16"
+                        app:met_errorColor="@color/red"
+                        app:met_floatingLabel="none"
+                        app:met_floatingLabelText="验证码"
+                        app:met_hideUnderline="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cb_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/cb_agree"
+            android:textColorHighlight="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toTopOf="@id/btn_sublimt"
+            app:layout_constraintStart_toStartOf="@id/btn_sublimt"
+            app:layout_constraintTop_toBottomOf="@id/ll_panel" />
+
+        <TextView
+            android:id="@+id/tv_protocol"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
+            android:text="@string/text_protocol"
+            android:textColor="#0A95E2"
+            app:layout_constraintBottom_toBottomOf="@id/cb_agree"
+            app:layout_constraintStart_toEndOf="@id/cb_agree"
+            app:layout_constraintTop_toTopOf="@id/cb_agree" />
 
         <Button
             android:id="@+id/btn_sublimt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_margin="24dp"
+            android:background="@drawable/xui_config_bg_blue_btn"
+            android:onClick="onClick"
+            android:text="@string/title_loginActivity"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cb_agree" />
 
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:text="@string/text_login_tips"
+            app:layout_constraintEnd_toEndOf="@id/btn_sublimt"
+            app:layout_constraintStart_toStartOf="@id/btn_sublimt"
+            app:layout_constraintTop_toBottomOf="@id/btn_sublimt" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

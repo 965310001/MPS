@@ -14,6 +14,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.acitivity.account.LoginActivity" />
+        <activity android:name=".ui.acitivity.setting.SettingActivity" />
+        <activity android:name=".ui.acitivity.account.CreateAccountActivity" />
+        <activity android:name=".ui.acitivity.order.OrderActivity" />
+        <activity android:name=".ui.acitivity.collection.CollectionActivity" />
+        <activity android:name=".ui.acitivity.collection.FootprintActivity" />
+        <activity android:name=".ui.acitivity.order.RefundActivity" />
+        <activity android:name=".ui.acitivity.property.PropertyActivity" />
+        <activity android:name=".ui.acitivity.message.MessageActivity" />
+        <activity android:name=".ui.acitivity.property.CardSurplusActivity" />
+        <activity android:name=".ui.acitivity.property.AccountSurplusActivity" />
+        <activity android:name=".ui.acitivity.property.CouponActivity" />
+        <activity android:name=".ui.acitivity.property.StorePacketActivity" />
+        <activity android:name=".ui.acitivity.property.VipIntegralActivity" />
+        <activity android:name=".ui.acitivity.distribution.DistributionActivity" />
+        <activity android:name=".ui.acitivity.address.AddressManagerActivity" />
+        <activity android:name=".ui.acitivity.address.EditAddressActivity" />
         <!--<activity-->
             <!--android:name=".ui.LoginActivity"-->
             <!--android:launchMode="singleTask"-->

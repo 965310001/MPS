@@ -1,3 +1,161 @@
 <resources>
     <string name="app_name">我的</string>
+    <string name="text_edit">编辑</string>
+    <string name="text_delete">删除</string>
+    <string name="text_add">添加</string>
+
+    <!-- OrderActivity -->
+    <string name="tabs_text_physical">实物订单</string>
+    <string name="tabs_text_virtual">虚拟订单</string>
+    <string name="tabs_text_all">全部</string>
+    <string name="tabs_text_pay">待付款</string>
+    <string name="tabs_text_haverst">待收货</string>
+    <string name="tabs_text_haverst2">待自提</string>
+    <string name="tabs_text_uncomments">待评价</string>
+    <string name="tabs_text_unuse">待使用</string>
+    <string name="hint_text_search">请输入商品标题或者订单号进行搜索</string>
+    <!-- OrderActivity Over -->
+
+    <!-- CollectionActivity -->
+    <string name="tabs_text_product">商品收藏</string>
+    <string name="tabs_text_shops">店铺收藏</string>
+    <!-- CollectionActivity Over -->
+
+    <!-- AccountSurplusActivity -->
+    <string name="title_accountSurplusActivity">预存款账户</string>
+    <string name="label_text_surplus">预存款余额</string>
+    <string name="tabs_text_surplus1">账户余额</string>
+    <string name="tabs_text_surplus2">充值明细</string>
+    <string name="tabs_text_surplus3">余额提现</string>
+    <!-- AccountSurplusActivity Over -->
+
+    <!-- CardSurplusActivity -->
+    <string name="title_cardSurplusActivity">预存款账户</string>
+    <string name="tabs_text_cardsurplus1">充值卡余额</string>
+    <string name="tabs_text_cardsurplus2">充值卡充值</string>
+    <!-- CardSurplusActivity Over -->
+
+    <!-- CouponActivity -->
+    <string name="tabs_text_coupon1">我的代金券</string>
+    <string name="tabs_text_coupon2">领取代金券</string>
+    <!-- CouponActivity Over -->
+
+    <!-- StorePacketActivity -->
+    <string name="tabs_text_storePacket1">我的红包</string>
+    <string name="tabs_text_storePacket2">领取红包</string>
+    <!-- StorePacketActivity Over -->
+
+    <!-- VipIntegralActivity -->
+    <string name="title_vipIntegralActivity">积分明细</string>
+    <string name="label_text_myIntergral">我的积分</string>
+    <!-- VipIntegralActivity Over -->
+
+    <!-- FootprintActivity -->
+    <string name="title_footprintActivity">我的足迹</string>
+    <string name="text_clearn">清空</string>
+    <!-- CollectionActivity Over -->
+
+    <!-- RefundActivity -->
+    <string name="tabs_text_refund">退货列表</string>
+    <string name="tabs_text_refundMoney">退款列表</string>
+    <!-- RefundActivity Over -->
+
+    <!-- DistributionActivity -->
+    <string name="title_text_distributionActivity">分销管理</string>
+    <string name="tabs_text_one">一级下线</string>
+    <string name="tabs_text_two">二级下线</string>
+    <string name="tabs_text_three">三级下线</string>
+    <!-- DistributionActivity Over -->
+
+    <!-- AddressManagerActivity -->
+    <string name="title_addressManagerActivity">地址管理</string>
+    <string name="button_text_addAddress">添加新地址</string>
+    <!-- AddressManagerActivity Over -->
+
+    <!-- EditAddressActivity -->
+    <string name="title_editAddressActivity">编辑地址</string>
+    <string name="title_addAddressActivity">新增地址</string>
+    <string name="text_saveAddress">保存地址</string>
+    <!-- EditAddressActivity Over -->
+
+    <!-- MessageActivity -->
+    <string name="title_messageActivity">消息列表</string>
+    <!-- MessageActivity Over -->
+
+    <!-- PropertyActivity -->
+    <string name="title_propertyActivity">我的财产</string>
+    <string name="item_text_item1">账户余额</string>
+    <string name="item_text_item2">充值卡余额</string>
+    <string name="item_text_item3">店铺代金券</string>
+    <string name="item_text_item4">平台红包</string>
+    <string name="item_text_item5">会员积分</string>
+    <string name="item_subtext_item1">预存款账户余额、充值及提现明细</string>
+    <string name="item_subtext_item2">充值卡账户余额以及卡密充值操作</string>
+    <string name="item_subtext_item3">店铺代金券使用情况以及卡密兑换代金券操作</string>
+    <string name="item_subtext_item4">平台红包使用情况以及卡密领取红包操作</string>
+    <string name="item_subtext_item5">会员积分获取以及消费日志</string>
+    <!-- PropertyActivity Over -->
+
+    <!-- LoginActivity -->
+    <string name="title_loginActivity">登录</string>
+    <string name="tabs_login_phone">密码登陆</string>
+    <string name="tabs_login_puk">验证码登陆</string>
+    <string name="label_account">手机号</string>
+    <string name="label_password">密码</string>
+    <string name="ed_hint_account">请输入手机号</string>
+    <string name="ed_hint_password">请输入登录密码</string>
+    <string name="text_psdCode">动态码</string>
+    <string name="text_getPsdCode"><u>获取动态码</u></string>
+    <string name="hint_text_psdCode">请输入手机短信动态码</string>
+    <string name="text_authCode">验证码</string>
+    <string name="hint_text_authCode">请输入4位验证码</string>
+    <string name="text_protocol">用户注册协议</string>
+    <string name="cb_agree">同意</string>
+    <string name="text_login_tips">绑定手机不收任何费用，一个手机只能绑定一个账号，若需修改或解除已绑定的手机，请登陆商城PC端进行操作。</string>
+    <!-- LoginActivity Over -->
+
+    <!-- MeFragment -->
+    <string name="label_click_login">请登录</string>
+    <string name="label_myshop">我的商城</string>
+    <string name="me_order_item1">待付款</string>
+    <string name="me_order_item2">待收款</string>
+    <string name="me_order_item3">待自提</string>
+    <string name="me_order_item4">待评价</string>
+    <string name="me_order_item5">退款/退货</string>
+    <string name="me_estate_item1">预存款</string>
+    <string name="me_estate_item2">充值卡</string>
+    <string name="me_estate_item3">代金券</string>
+    <string name="me_estate_item4">红包</string>
+    <string name="me_estate_item5">积分</string>
+    <string name="me_headitem_item1">商品收藏</string>
+    <string name="me_headitem_item2">店铺收藏</string>
+    <string name="me_headitem_item3">我的足迹</string>
+    <string name="me_item_item1">我的订单</string>
+    <string name="me_item_item2">我的财产</string>
+    <string name="me_item_item3">我的分销管理</string>
+    <string name="me_item_item4">我的推广码</string>
+    <string name="me_item_item5">收货地址管理</string>
+    <string name="me_item_item6">用户设置</string>
+    <string name="me_item_sub_item1">查看全部订单</string>
+    <string name="me_item_sub_item2">查看全部财产</string>
+    <!-- MeFragment Over -->
+
+    <!-- SettingActivity -->
+    <string name="title_settingActivity">设置</string>
+    <string name="set_item_item1">登录密码</string>
+    <string name="set_item_item2">手机验证</string>
+    <string name="set_item_item3">支付密码</string>
+    <string name="set_item_item4">用户反馈</string>
+    <string name="set_item_item5">安全退出</string>
+    <string name="set_subitem_item1">不安全</string>
+    <string name="set_subitem_item2">未验证</string>
+    <string name="set_subitem_item3">已验证</string>
+    <string name="set_subitem_item4">未设置</string>
+    <string name="set_subitem_item5">已设置</string>
+    <string name="set_desc_item1">建议您定期更改密码以保护账户安全</string>
+    <string name="set_desc_item2">若您的手机已经丢失或停用,请立即修改更换</string>
+    <string name="set_desc_item3">建议您设置复杂的支付密码保护账户金额安全</string>
+    <string name="set_desc_item4">您在使用中遇到的问题与建议可向我们反馈</string>
+    <!-- SettingActivity Over -->
+
 </resources>

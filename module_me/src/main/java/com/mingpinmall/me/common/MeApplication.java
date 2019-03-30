@@ -2,6 +2,7 @@ package com.mingpinmall.me.common;
 
 
 import com.goldze.common.dmvvm.base.BaseApplication;
+import com.xuexiang.xui.XUI;
 
 /**
  * @Author: guofeng
@@ -12,6 +13,6 @@ public class MeApplication extends BaseApplication {
     
     @Override
     public void run() {
-
+        XUI.init(this);
     }
 }
