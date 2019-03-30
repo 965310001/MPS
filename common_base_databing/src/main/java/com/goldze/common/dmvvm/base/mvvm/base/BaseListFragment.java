@@ -130,7 +130,17 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
                         if (isSlidingUpward) onLoadMore();
                     }
                 }
-
+                if (lastItemPosition == 0) {
+                    KLog.i("顶部");
+                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
+                    KLog.i("底部");
+                }
+                KLog.i("是否到顶部" + isSlideToBottom(recyclerView));
+                if (lastItemPosition == 0) {
+                    KLog.i("顶部");
+                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
+                    KLog.i("底部");
+                }
             }
 
             @Override
@@ -153,14 +163,34 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
                 }
                 isSlidingUpward = dy > 0;
 //                KLog.i("" + isSlidingUpward + dy);
+
+//                if (lastItemPosition == 0) {
+//                    KLog.i("顶部");
+//                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
+//                    KLog.i("底部");
+//                }
+                isSlidingUpward = dy > 0;
+//                KLog.i("" + isSlidingUpward + dy);
+
+//                KLog.i("是否到顶部" + isSlideToBottom(recyclerView));
             }
         });
         floatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mRecyclerView.smoothScrollToPosition(0);
+                floatBtn.hide();
             }
         });
+    }
+
+    /*是否到顶部*/
+    protected boolean isSlideToBottom(RecyclerView recyclerView) {
+        if (recyclerView == null) return false;
+        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
+                >= recyclerView.computeVerticalScrollRange())
+            return true;
+        return false;
     }
 
     protected boolean isItemDecoration() {

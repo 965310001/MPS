@@ -113,6 +113,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                KLog.i("onScrollStateChanged");
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (layoutManager instanceof GridLayoutManager) {
                         lastItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
@@ -131,12 +132,19 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
                     }
                 }
 
+                if (lastItemPosition == 0) {
+                    KLog.i("顶部");
+                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
+                    KLog.i("底部");
+                }
+                KLog.i("是否到顶部" + isSlideToBottom(recyclerView));
+
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
+                KLog.i("onScrolled");
                 if (!mRecyclerView.canScrollVertically(1)) {
                     if (dy > 0 && floatBtn.getVisibility() == View.GONE) {
                         floatBtn.show();//滑动到底部
@@ -151,16 +159,34 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 //                        floatBtn.hide();
 //                    }
                 }
+
+                if (lastItemPosition == 0) {
+                    KLog.i("顶部");
+                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
+                    KLog.i("底部");
+                }
                 isSlidingUpward = dy > 0;
 //                KLog.i("" + isSlidingUpward + dy);
+
+                KLog.i("是否到顶部" + isSlideToBottom(recyclerView));
             }
         });
         floatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                floatBtn.hide();
                 mRecyclerView.smoothScrollToPosition(0);
             }
         });
+    }
+
+    /*是否到顶部*/
+    protected boolean isSlideToBottom(RecyclerView recyclerView) {
+        if (recyclerView == null) return false;
+        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
+                >= recyclerView.computeVerticalScrollRange())
+            return true;
+        return false;
     }
 
     protected boolean isItemDecoration() {

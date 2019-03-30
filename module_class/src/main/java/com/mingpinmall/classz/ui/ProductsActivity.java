@@ -24,6 +24,9 @@ import com.goldze.common.dmvvm.adapter.BaseRecyclerAdapter;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseViewHolder;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.DisplayUtil;
+import com.goldze.common.dmvvm.utils.TUtil;
+import com.goldze.common.dmvvm.utils.Utils;
 import com.mingpinmall.classz.DatabingUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.ClassificationRightAdapter;
@@ -74,88 +77,41 @@ public class ProductsActivity extends HorizontalTabActivity {
         });
     }
 
+    PopupWindow popupWindow;
+
     void showPopupWindow() {
-
-        View contentView = LayoutInflater.from(this).inflate(R.layout.recyclerview_base, null,
-                false);
-        final RecyclerView recyclerView = contentView.findViewById(R.id.recycler_view);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-
-        class RecyclerHolder extends RecyclerView.ViewHolder {
-            TextView textView;
-
-            private RecyclerHolder(View itemView) {
-                super(itemView);
-                textView = itemView.findViewById(R.id.text);
-                textView.setTextColor(getResources().getColor(R.color.black));
-            }
+        if (null == popupWindow) {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.recyclerview_base, null,
+                    false);
+            final RecyclerView recyclerView = contentView.findViewById(R.id.recycler_view);
+            initRecyclerView(recyclerView);
+            popupWindow = new PopupWindow(contentView,
+                    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+            popupWindow.setTouchable(true);
+            bgAlpha(0.95f);
+            popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return false;
+                }
+            });
+            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+            popupWindow.getContentView().setAlpha(0.2f);
+            popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    //popupwindow消失时使背景不透明
+                    bgAlpha(1f);
+                }
+            });
         }
+        popupWindow.showAsDropDown(mEasyIndicator, 0, (int) mEasyIndicator.getY());
 
-
-        RecyclerView.Adapter<RecyclerHolder> adapter = new RecyclerView.Adapter<RecyclerHolder>() {
-
-            List<String> list = Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序");
-
-            @NonNull
-            @Override
-            public RecyclerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_text, viewGroup, false);
-                return new RecyclerHolder(view);
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
-                holder.textView.setText(list.get(position));
-            }
-
-            @Override
-            public int getItemCount() {
-                return list.size();
-            }
-        };
-
-        recyclerView.setAdapter(adapter);
-
-        adapter.notifyDataSetChanged();
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        PopupWindow popupWindow = new PopupWindow(contentView,
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setTouchable(true);
 //        WindowManager.LayoutParams lp = getWindow().getAttributes();
 //        lp.alpha = 0.5f;
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 //        getWindow().setAttributes(lp);、
-        bgAlpha(0.95f);
 //        contentView.setAlpha(0.15f);
-
-        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                Log.i("mengdd", "onTouch : ");
-
-                return false;
-                // 这里如果返回true的话，touch事件将被拦截
-                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            }
-        });
-
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        // 我觉得这里是API的一个bug
-//        contentView.setAlpha(0.7f);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        popupWindow.getContentView().setAlpha(0.2f);
-        popupWindow.showAsDropDown(mEasyIndicator, 0, (int) mEasyIndicator.getY());
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //popupwindow消失时使背景不透明
-                bgAlpha(1f);
-            }
-        });
-
-
 ////        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_list,null);
 //        //处理popWindow 显示内容
 ////        handleListView(contentView);
@@ -166,6 +122,53 @@ public class ProductsActivity extends HorizontalTabActivity {
 //                .size(ViewGroup.LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)//显示大小
 //                .create()
 //                .showAsDropDown(mEasyIndicator);
+    }
+
+    private void initRecyclerView(RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        class RecyclerHolder extends RecyclerView.ViewHolder {
+            TextView textView;
+
+            private RecyclerHolder(View itemView) {
+                super(itemView);
+                textView = itemView.findViewById(R.id.text);
+//                textView.setTextColor(getResources().getColor(R.color.black));
+                textView.setTextSize(DisplayUtil.px2dp(Utils.getApplication(), 24));
+                textView.setPadding(20, 0, 0, 0);
+            }
+        }
+
+        RecyclerView.Adapter<RecyclerHolder> adapter = new RecyclerView.Adapter<RecyclerHolder>() {
+            List<String> list = Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序");
+
+            @NonNull
+            @Override
+            public RecyclerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_text, viewGroup, false);
+                return new RecyclerHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerHolder holder, final int position) {
+                holder.textView.setText(list.get(position));
+                holder.textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        KLog.i(list.get(position));
+                        /*执行网络请求*/
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+
+            @Override
+            public int getItemCount() {
+                return list.size();
+            }
+        };
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
     }
 
     private void bgAlpha(float bgAlpha) {
