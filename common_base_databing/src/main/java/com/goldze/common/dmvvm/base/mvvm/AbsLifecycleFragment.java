@@ -38,7 +38,6 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
     @Override
     public void initView(Bundle state) {
         mViewModel = VMProviders(this, (Class<T>) TUtil.getInstance(this, 1));
-
         if (null != mViewModel) {
             dataObserver();
             mStateEventKey = getStateEventKey();

@@ -3,8 +3,7 @@ if (Boolean.valueOf(rootProject.ext.isModule)) {
 } else {
     apply plugin: 'com.android.library'
 }
-//apply plugin: 'com.jakewharton.butterknife'
-
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     compileSdkVersion rootProject.ext.versions.compileSdkVersion
 
@@ -62,17 +61,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    implementation 'com.android.support:appcompat-v7:28.0.0'
-//    testImplementation 'junit:junit:4.12'
-//    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     //公用依赖包
     implementation project(':common_base_databing')
 
-    //黄油刀
-//    api rootProject.ext.dependencies["butterknife"]
-//    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
+    implementation 'com.github.free46000:MultiItem:0.9.7'
+
+    implementation 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
 
     //Arouter路由
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

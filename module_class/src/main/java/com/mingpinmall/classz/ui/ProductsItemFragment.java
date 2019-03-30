@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.goldze.common.dmvvm.base.event.LiveBus;
+import com.freelib.multiitem.adapter.BaseItemAdapter;
+import com.freelib.multiitem.adapter.holder.DataBindViewHolderManager;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
+import com.mingpinmall.classz.BR;
+import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
+import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
@@ -15,19 +19,20 @@ import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
 
-import java.util.ArrayList;
-
 public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
     private final static String ID = "id";
+    private final static String TYPEID = "typeId";
+    private String typeId;
 
     public ProductsItemFragment() {
     }
 
-    public static ProductsItemFragment newInstance(String id) {
+    public static ProductsItemFragment newInstance(String id, String typeId) {
         ProductsItemFragment fragment = new ProductsItemFragment();
         Bundle args = new Bundle();
         args.putString(ID, id);
+        args.putString(TYPEID, typeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,23 +42,42 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
         return false;
     }
 
+    //    @Override
+//    protected BaseItemAdapter createAdapter() {
+//        return new BaseItemAdapter();
+//    }
+
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-//        showLoading();
-        mViewModel.getShappingList(getArguments().getString(ID), String.valueOf(page), "");
+
+    }
+
+    //    @Override
+    protected void register(BaseItemAdapter adapter) {
+        adapter.register(GoodsInfo.class,
+                new DataBindViewHolderManager(R.layout.item_products, BR.data));
+    }
+
+    /*获取更多数据*/
+    @Override
+    protected void getRemoteData() {
+        super.getRemoteData();
+
+        mViewModel.getShappingList(getArguments().getString(ID), String.valueOf(page), "", typeId);
     }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
-
-        LiveBus.getDefault()
-                .subscribe(Constants.PRODUCTS_EVENT_KEY, GoodsListInfo.class)
-                .observeForever(new Observer<GoodsListInfo>() {
+        if (getArguments() != null) {
+            typeId = getArguments().getString(TYPEID);
+        }
+        registerObserver(Constants.PRODUCTS_EVENT_KEY, typeId, GoodsListInfo.class)
+                .observe(this, new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
-                        KLog.i("abs");
+                        KLog.i("111" + typeId);
                         setData(response.getDatas().getGoods_list());
                     }
                 });
@@ -69,7 +93,12 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.PRODUCTS_EVENT_KEY;
+        return Constants.PRODUCTS_EVENT_KEY_LIST_STATE;
+    }
+
+    @Override
+    protected String getStateEventTag() {
+        return typeId;
     }
 
     @Override

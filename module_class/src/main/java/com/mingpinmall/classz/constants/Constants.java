@@ -1,0 +1,27 @@
+package com.mingpinmall.classz.constants;
+
+/**
+ * 常量
+ */
+public interface Constants {
+
+    /*左边*/
+    Object EVENT_KEY_CLASSIFY_MORE = "EVENT_KEY_CLASSIFY_MORE";
+    Object EVENT_KEY_CLASSIFY_MORE_STATE = "EVENT_KEY_CLASSIFY_MORE_STATE";
+
+    /*右边*/
+    Object EVENT_KEY_CLASSIFY_MORE_RIGHT = "EVENT_KEY_CLASSIFY_MORE_RIGHT";
+//    Object EVENT_KEY_CLASSIFY_KEY_MORE_STATE = "EVENT_KEY_CLASSIFY_KEY_MORE_STATE";
+
+    /*左边的index*/
+//    String POSTION_LEF_EVENT_KEY = "POSTION_LEF_EVENT_KEY";
+//    String POSTION_LEF_EVENT_KEY_TAG = "POSTION_LEF_EVENT_KEY_TAG";
+
+    /*商品分类*/
+    String[] PRODUCTS_TITLE = {"综合排序", "销量优先", "筛选"};
+    Object PRODUCTS_EVENT_KEY = "PRODUCTS_EVENT_KEY";
+    Object PRODUCTS_EVENT_KEY_TAG = "PRODUCTS_EVENT_KEY_TAG";
+    Object PRODUCTS_EVENT_KEY_LIST_STATE = "PRODUCTS_EVENT_KEY_LIST_STATE";
+
+    String PAGE_RN = "10";
+}

@@ -29,7 +29,7 @@ public class ClassificationRightAdapter extends AbsItemHolder<ClassificationRigh
 
     @Override
     public ViewHolder createViewHolder(View view) {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), getLayoutResId(), null, false);
+        binding = DataBindingUtil.bind(view);
         return new ViewHolder(binding.getRoot());
     }
 
@@ -37,6 +37,7 @@ public class ClassificationRightAdapter extends AbsItemHolder<ClassificationRigh
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull ClassificationRighitBean.DatasBean.ClassListBean.ChildBean data) {
         binding = DataBindingUtil.getBinding(holder.itemView);
         binding.setData(data);
+        binding.executePendingBindings();
     }
 
     class ViewHolder extends AbsHolder {

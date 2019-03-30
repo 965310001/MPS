@@ -31,7 +31,7 @@ public class ClassificationItemHolder extends AbsItemHolder<ClassificationBean.D
 
     @Override
     public ViewHolder createViewHolder(View view) {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), getLayoutResId(), null, false);
+        binding= DataBindingUtil.bind(view);
         return new ViewHolder(binding.getRoot());
     }
 
@@ -39,16 +39,12 @@ public class ClassificationItemHolder extends AbsItemHolder<ClassificationBean.D
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull ClassificationBean.DatasBean.ClassListBean dataBean) {
         binding = DataBindingUtil.getBinding(holder.itemView);
         binding.setData(dataBean);
+        binding.executePendingBindings();
     }
 
     @Override
     protected long getItemId(@NonNull ClassificationBean.DatasBean.ClassListBean data) {
         return Long.parseLong(data.getGc_id());
-    }
-
-    @BindingAdapter({"bind:image"})
-    public static void imageLoader(ImageView imageView, String url) {
-        ImageUtils.loadImage(imageView, url);
     }
 
     static class ViewHolder extends AbsHolder {

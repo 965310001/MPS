@@ -15,8 +15,8 @@ import java.util.List;
 
 public abstract class HorizontalTabActivity extends BaseActivity<ActivityHorizontalTabBinding> {
 
-    EasyIndicator mEasyIndicator;
-    ViewPager mViewPager;
+    protected EasyIndicator mEasyIndicator;
+    protected ViewPager mViewPager;
 
     @Override
     protected int getLayoutId() {

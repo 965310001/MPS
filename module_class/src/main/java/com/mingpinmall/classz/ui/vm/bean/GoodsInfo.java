@@ -1,7 +1,22 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
-import com.goldze.common.dmvvm.base.bean.BaseBean;
+import android.databinding.Bindable;
+import android.view.View;
 
+import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.mingpinmall.classz.BR;
+
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Keep;
+
+import java.util.Objects;
+
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Transient;
+
+@Entity
 public class GoodsInfo extends BaseBean {
     /**
      * goods_id : 109928
@@ -26,6 +41,7 @@ public class GoodsInfo extends BaseBean {
      * goods_image_url : http://39.108.254.185/data/upload/mall/common/default_goods_image_360.gif
      */
 
+    @Id
     private String goods_id;
     private String store_id;
     private String goods_name;
@@ -47,6 +63,60 @@ public class GoodsInfo extends BaseBean {
 //            private boolean xianshi_flag;
     private String goods_image_url;
 
+    @Transient
+    private boolean checked = true;//是否选择
+
+    /*购买的数量*/
+    private int num;//数量
+
+    @Keep
+    public GoodsInfo() {
+    }
+
+    @Keep
+    public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name, String is_own_mall, String goods_image_url) {
+        this.goods_id = goods_id;
+        this.store_id = store_id;
+        this.goods_name = goods_name;
+        this.goods_jingle = goods_jingle;
+        this.goods_price = goods_price;
+        this.goods_marketprice = goods_marketprice;
+        this.goods_image = goods_image;
+        this.goods_salenum = goods_salenum;
+        this.evaluation_good_star = evaluation_good_star;
+        this.evaluation_count = evaluation_count;
+        this.is_virtual = is_virtual;
+        this.is_presell = is_presell;
+        this.is_fcode = is_fcode;
+        this.have_gift = have_gift;
+        this.store_name = store_name;
+        this.is_own_mall = is_own_mall;
+        this.goods_image_url = goods_image_url;
+    }
+
+    @Generated(hash = 588874685)
+    public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name, String is_own_mall, String goods_image_url,
+                     int num) {
+        this.goods_id = goods_id;
+        this.store_id = store_id;
+        this.goods_name = goods_name;
+        this.goods_jingle = goods_jingle;
+        this.goods_price = goods_price;
+        this.goods_marketprice = goods_marketprice;
+        this.goods_image = goods_image;
+        this.goods_salenum = goods_salenum;
+        this.evaluation_good_star = evaluation_good_star;
+        this.evaluation_count = evaluation_count;
+        this.is_virtual = is_virtual;
+        this.is_presell = is_presell;
+        this.is_fcode = is_fcode;
+        this.have_gift = have_gift;
+        this.store_name = store_name;
+        this.is_own_mall = is_own_mall;
+        this.goods_image_url = goods_image_url;
+        this.num = num;
+    }
+
     public String getGoods_id() {
         return goods_id;
     }
@@ -63,12 +133,22 @@ public class GoodsInfo extends BaseBean {
         this.store_id = store_id;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    @Bindable
     public String getGoods_name() {
         return goods_name;
     }
 
     public void setGoods_name(String goods_name) {
         this.goods_name = goods_name;
+        notifyPropertyChanged(BR.goods_name);
     }
 
     public String getGoods_jingle() {
@@ -95,20 +175,24 @@ public class GoodsInfo extends BaseBean {
         this.goods_marketprice = goods_marketprice;
     }
 
+    @Bindable
     public String getGoods_image() {
         return goods_image;
     }
 
     public void setGoods_image(String goods_image) {
         this.goods_image = goods_image;
+        notifyPropertyChanged(BR.goods_image);
     }
 
+    @Bindable
     public String getGoods_salenum() {
         return goods_salenum;
     }
 
     public void setGoods_salenum(String goods_salenum) {
         this.goods_salenum = goods_salenum;
+        notifyPropertyChanged(BR.goods_salenum);
     }
 
     public String getEvaluation_good_star() {
@@ -175,6 +259,15 @@ public class GoodsInfo extends BaseBean {
         this.is_own_mall = is_own_mall;
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+
 //            public boolean isSole_flag() {
 //                return sole_flag;
 //            }
@@ -205,5 +298,42 @@ public class GoodsInfo extends BaseBean {
 
     public void setGoods_image_url(String goods_image_url) {
         this.goods_image_url = goods_image_url;
+    }
+
+    public void click(View view) {
+        ToastUtils.showLong(view.getId() + " " + getGoods_id() + "");
+    }
+
+    public void onclick(View view, GoodsInfo data) {
+        ToastUtils.showLong(view.getId() + " " + data.toString() + getGoods_id());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GoodsInfo goodsInfo = (GoodsInfo) o;
+        return Objects.equals(goods_id, goodsInfo.goods_id) &&
+                Objects.equals(store_id, goodsInfo.store_id) &&
+                Objects.equals(goods_name, goodsInfo.goods_name) &&
+                Objects.equals(goods_jingle, goodsInfo.goods_jingle) &&
+                Objects.equals(goods_price, goodsInfo.goods_price) &&
+                Objects.equals(goods_marketprice, goodsInfo.goods_marketprice) &&
+                Objects.equals(goods_image, goodsInfo.goods_image) &&
+                Objects.equals(goods_salenum, goodsInfo.goods_salenum) &&
+                Objects.equals(evaluation_good_star, goodsInfo.evaluation_good_star) &&
+                Objects.equals(evaluation_count, goodsInfo.evaluation_count) &&
+                Objects.equals(is_virtual, goodsInfo.is_virtual) &&
+                Objects.equals(is_presell, goodsInfo.is_presell) &&
+                Objects.equals(is_fcode, goodsInfo.is_fcode) &&
+                Objects.equals(have_gift, goodsInfo.have_gift) &&
+                Objects.equals(store_name, goodsInfo.store_name) &&
+                Objects.equals(is_own_mall, goodsInfo.is_own_mall) &&
+                Objects.equals(goods_image_url, goodsInfo.goods_image_url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(goods_id, store_id, goods_name, goods_jingle, goods_price, goods_marketprice, goods_image, goods_salenum, evaluation_good_star, evaluation_count, is_virtual, is_presell, is_fcode, have_gift, store_name, is_own_mall, goods_image_url);
     }
 }

@@ -21,8 +21,8 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /*商品列表*/
-    public void getShappingList(String bId, String curpage, String keyword) {
-        mRepository.getShappingList(bId, curpage, keyword);
+    public void getShappingList(String bId, String curpage, String keyword, String typeId) {
+        mRepository.getShappingList(bId, curpage, keyword,typeId);
     }
 
 }

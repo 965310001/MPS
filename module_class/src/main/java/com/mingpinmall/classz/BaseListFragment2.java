@@ -1,50 +1,47 @@
-package me.goldze.common.base.mvvm.base;
+package com.mingpinmall.classz;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.freelib.multiitem.adapter.BaseItemAdapter;
+import com.freelib.multiitem.adapter.holder.BaseViewHolder;
+import com.freelib.multiitem.listener.OnItemClickListener;
+import com.freelib.multiitem.listener.OnLoadMoreListener;
+import com.goldze.common.dmvvm.R;
+import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
+import com.goldze.common.dmvvm.databinding.FragmentList2Binding;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.socks.library.KLog;
-import com.trecyclerview.TRecyclerView;
-import com.trecyclerview.adapter.DelegateAdapter;
-import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnRefreshListener;
-import com.trecyclerview.listener.OnScrollStateListener;
 
-import java.util.Collection;
 import java.util.List;
-
-import me.goldze.common.R;
-import me.goldze.common.base.core.banner.BannerList;
-import me.goldze.common.base.mvvm.AbsLifecycleFragment;
-import me.goldze.common.base.mvvm.AbsViewModel;
 
 /**
  * @author GuoFeng
  * @date :2019/1/17 17:06
  * @description:
  */
-public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecycleFragment<T> implements OnRefreshListener {
+public abstract class BaseListFragment2<T extends AbsViewModel> extends AbsLifecycleFragment<FragmentList2Binding, T>
+        implements OnRefreshListener {
 
-    protected TRecyclerView mRecyclerView;
+    protected BaseItemAdapter adapter;
+
+    protected RecyclerView mRecyclerView;
+
+    protected SwipeRefreshLayout swipeRefreshLayout;
 
     protected FloatingActionButton floatBtn;
 
-    protected RelativeLayout mTitleBar;
-
-    protected TextView mTitle;
-
     protected RecyclerView.LayoutManager layoutManager;
-
-    protected DelegateAdapter adapter;
 
     protected String lastId = null;
 
@@ -56,10 +53,6 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 
     protected boolean isRefresh = false;
 
-    protected ItemData oldItems;
-
-    protected ItemData newItems;
-
     private int lastItemPosition;
 
     //是否向上滑动
@@ -67,7 +60,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_list;
+        return R.layout.fragment_list2;
     }
 
     @Override
@@ -78,31 +71,30 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        mRecyclerView = getViewById(R.id.recycler_view);
-        floatBtn = getViewById(R.id.float_btn);
-        mTitleBar = getViewById(R.id.rl_title_bar);
-        mTitle = getViewById(R.id.tv_title);
+        mRecyclerView = binding.recyclerView;
+        swipeRefreshLayout = binding.swipeRefreshLayout;
+        floatBtn = binding.floatBtn;
 
-        oldItems = new ItemData();
-        newItems = new ItemData();
         adapter = createAdapter();
+        register(adapter);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(createLayoutManager());
         if (isItemDecoration()) {
             mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                     DividerItemDecoration.VERTICAL));
         }
-        mRecyclerView.addOnRefreshListener(this);
-        mRecyclerView.addOnScrollStateListener(new OnScrollStateListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(int state1) {
-                if (state1 == RecyclerView.SCROLL_STATE_IDLE) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int state) {
+                if (state == RecyclerView.SCROLL_STATE_IDLE) {
                     if (activity != null) {
-                        Glide.with(activity).resumeRequests();
+                        KLog.i("resumeRequests ");
+//                        Glide.with(activity).resumeRequests();
                     }
                 } else {
                     if (activity != null) {
-                        Glide.with(activity).pauseRequests();
+                        KLog.i("pauseRequests ");
+//                        Glide.with(activity).pauseRequests();
                     }
                 }
             }
@@ -113,7 +105,6 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                KLog.i("onScrollStateChanged");
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (layoutManager instanceof GridLayoutManager) {
                         lastItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
@@ -132,19 +123,12 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
                     }
                 }
 
-                if (lastItemPosition == 0) {
-                    KLog.i("顶部");
-                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
-                    KLog.i("底部");
-                }
-                KLog.i("是否到顶部" + isSlideToBottom(recyclerView));
-
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                KLog.i("onScrolled");
+
                 if (!mRecyclerView.canScrollVertically(1)) {
                     if (dy > 0 && floatBtn.getVisibility() == View.GONE) {
                         floatBtn.show();//滑动到底部
@@ -159,40 +143,57 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 //                        floatBtn.hide();
 //                    }
                 }
-
-                if (lastItemPosition == 0) {
-                    KLog.i("顶部");
-                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
-                    KLog.i("底部");
-                }
                 isSlidingUpward = dy > 0;
-//                KLog.i("" + isSlidingUpward + dy);
-
-                KLog.i("是否到顶部" + isSlideToBottom(recyclerView));
+                KLog.i("" + isSlidingUpward + dy);
             }
         });
         floatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                floatBtn.hide();
                 mRecyclerView.smoothScrollToPosition(0);
+            }
+        });
+
+
+        /**************************** start *****************************/
+        adapter.enableLoadMore(new LoadMoreHolderManager(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                ++page;
+                isLoadMore = true;
+                getLoadMoreData();
+            }
+        }));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+//                swipeRefreshLayout.setRefreshing(true);
+                adapter.clearData();
+                adapter.notifyDataSetChanged();
+
+                page = 1;
+                lastId = null;
+                isRefresh = true;
+                isLoadMore = false;
+                getRemoteData();
+            }
+        });
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseViewHolder baseViewHolder) {
+                ToastUtils.showLong(String.format("你点击了第%s位置的数据：%s",
+                        baseViewHolder.getItemPosition(), baseViewHolder.getItemData()));
             }
         });
     }
 
-    /*是否到顶部*/
-    protected boolean isSlideToBottom(RecyclerView recyclerView) {
-        if (recyclerView == null) return false;
-        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
-                >= recyclerView.computeVerticalScrollRange())
-            return true;
-        return false;
-    }
+    protected abstract void register(BaseItemAdapter adapter);
 
+    /**************************** end *****************************/
     protected boolean isItemDecoration() {
         return true;
     }
-
 
     private int findMax(int[] lastPositions) {
         int max = lastPositions[0];
@@ -217,6 +218,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     }
 
     protected void setData(List<?> collection) {
+        swipeRefreshLayout.setRefreshing(false);
         if (isLoadMore) {
             onLoadMoreSuccess(collection);
         } else {
@@ -240,59 +242,62 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         getLoadMoreData();
     }
 
-    protected void setBannerData(BannerList headAdList) {
-        newItems.add(headAdList);
+    protected void addHeadItem(Object headItem) {
+        adapter.addHeadItem(headItem);
     }
 
-    protected void onRefreshSuccess(Collection<?> collection) {
-        newItems.clear();
-        newItems.addAll(collection);
-        oldItems.clear();
-        oldItems.addAll(newItems);
-        if (collection.size() < 20) {
-            mRecyclerView.refreshComplete(oldItems, true);
-        } else {
-            mRecyclerView.refreshComplete(oldItems, false);
+    protected void addFootItem(Object footItem) {
+        adapter.addFootItem(footItem);
+    }
+
+    protected void onRefreshSuccess(List<?> collection) {
+        if (null != collection && collection.size() < 10) {
+            adapter.setLoadCompleted(false);
         }
-        isRefresh = false;
+        adapter.addDataItems(collection);
+        adapter.notifyDataSetChanged();
+
+
     }
 
     protected void onLoadMoreSuccess(List<?> collection) {
         isLoading = true;
         isLoadMore = false;
-        oldItems.addAll(collection);
-        if (collection.size() < 20) {
-            mRecyclerView.loadMoreComplete(collection, true);
-        } else {
-            mRecyclerView.loadMoreComplete(collection, false);
+        if (null != collection && collection.size() < 10) {
+            adapter.setLoadCompleted(false);
         }
+        adapter.addDataItems(collection);
+        adapter.notifyDataSetChanged();
+
+//        for (Object o : collection) {
+//            adapter.addHeadItem(o);
+//        }
     }
 
     /**
      * adapter
      *
-     * @return DelegateAdapter
+     * @return BaseItemAdapter
      */
-    protected abstract DelegateAdapter createAdapter();
+    protected BaseItemAdapter createAdapter() {
+        return new BaseItemAdapter();
+    }
 
     /**
      * LayoutManager
      *
      * @return LayoutManager
      */
-    protected abstract RecyclerView.LayoutManager createLayoutManager();
-
-    protected void setTitle(String titleName) {
-        mTitleBar.setVisibility(View.VISIBLE);
-        mTitle.setText(titleName);
+    protected RecyclerView.LayoutManager createLayoutManager() {
+        layoutManager = new LinearLayoutManager(getContext());
+        return layoutManager;
     }
-
 
     /**
      * 获取更多网络数据t
      */
     protected void getLoadMoreData() {
-
+        getRemoteData();
     }
 
 }

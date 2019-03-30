@@ -3,6 +3,7 @@ package com.mingpinmall.classz.ui;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -10,6 +11,7 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
+import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.databinding.FragmentClassifyBinding;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
@@ -30,6 +32,13 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     private final ItemData leftData = new ItemData();
 
     private final ItemData rightData = new ItemData();
+
+    /***************/
+//    private RecyclerView rvLeft, rvRight;
+//    private BaseItemAdapter leftBaseAdapter, rightBaseAdapter;
+
+    /***************/
+
 
     public ClassifyFragment() {
     }
@@ -60,16 +69,42 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
 
         leftAdapter.setDatas(leftData);
         rightAdapter.setDatas(rightData);
-        rvLeftRecyclerView = binding.rvLeft;
-        rvRightRecyclerView = binding.rvRight;
+        rvLeftRecyclerView = binding.trvLeft;
+        rvRightRecyclerView = binding.trvRight;
 
         rvLeftRecyclerView.setAdapter(leftAdapter);
         rvRightRecyclerView.setAdapter(rightAdapter);
 
+        rvLeftRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvLeftRecyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rvRightRecyclerView.setLayoutManager(linearLayoutManager);
+
+        /*******************************/
+//        rvLeft = binding.rvLeft;
+//        rvRight = binding.rvRight;
+//        linearLayoutManager = new LinearLayoutManager(getActivity());
+//        rvLeft.setLayoutManager(linearLayoutManager);
+//        linearLayoutManager = new LinearLayoutManager(getActivity());
+//        rvRight.setLayoutManager(linearLayoutManager);
+//        rvLeft.addItemDecoration(new DividerItemDecoration(getContext(),
+//                DividerItemDecoration.VERTICAL));
+//        rvRight.addItemDecoration(new DividerItemDecoration(getContext(),
+//                DividerItemDecoration.VERTICAL));
+//        leftBaseAdapter = new BaseItemAdapter();
+//        rightBaseAdapter = new BaseItemAdapter();
+//        rvLeft.setAdapter(leftBaseAdapter);
+//        rvRight.setAdapter(rightBaseAdapter);
+//
+//        leftBaseAdapter.register(ClassificationBean.DatasBean.ClassListBean.class,
+//                new DataBindViewHolderManager(R.layout.classify_item_of_list, BR.data));
+
+//        rightBaseAdapter.register(ClassificationRighitBean.DatasBean.ClassListBean.class,
+//                new DataBindViewHolderManager(R.layout.item_products, BR.data));
+
+        /*******************************/
 
         mViewModel.getLeft();
     }
@@ -95,6 +130,10 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                         data = response.getDatas().getClass_list().get(0);
                         data.setSelect(true);
                         mViewModel.getRight(data.getGc_id());
+
+                        /**************************/
+//                        leftBaseAdapter.addDataItems(response.getDatas().getClass_list());
+                        /**************************/
                     }
                 });
 
@@ -106,13 +145,15 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                         rightData.clear();
                         rightData.addAll(response.getDatas().getClass_list());
                         rightAdapter.notifyDataSetChanged();
+                        /**************************/
+                        /**************************/
                     }
                 });
     }
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.EVENT_KEY_CLASSIFY_MORE;
+        return Constants.EVENT_KEY_CLASSIFY_MORE_STATE;
     }
 
     int leftPostion = 0;

@@ -22,7 +22,6 @@ import com.squareup.leakcanary.LeakCanary;
 import com.tqzhang.stateview.core.LoadState;
 
 
-
 /**
  * @author GuoFeng
  * @date :2019/1/15 10:42
@@ -112,8 +111,8 @@ public abstract class BaseApplication extends Application implements Runnable {
         //Bugtags
         initBugtags();
 
+        if (false) initLeakCanary();
         /*LeakCanary 内存泄漏检测*/
-        initLeakCanary();
 
     }
 

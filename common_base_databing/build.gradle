@@ -137,7 +137,6 @@ dependencies {
     //bugtags
     implementation rootProject.ext.dependencies['bugtags-lib']
 
-
     api rootProject.ext.dependencies['lsettingviewlibrary']
 
     //leakcanary
