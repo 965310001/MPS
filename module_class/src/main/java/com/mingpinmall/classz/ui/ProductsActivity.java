@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,35 +17,22 @@ import android.widget.PopupWindow;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.example.zhouwei.library.CustomPopWindow;
 import com.goldze.common.dmvvm.activity.HorizontalTabActivity;
-import com.goldze.common.dmvvm.adapter.BaseRecyclerAdapter;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseViewHolder;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
-import com.goldze.common.dmvvm.utils.TUtil;
 import com.goldze.common.dmvvm.utils.Utils;
-import com.mingpinmall.classz.DatabingUtils;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.adapter.ClassificationRightAdapter;
-import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.constants.Constants;
 import com.socks.library.KLog;
-import com.trecyclerview.TRecyclerView;
-import com.trecyclerview.adapter.DelegateAdapter;
-import com.trecyclerview.holder.AbsHolder;
-import com.trecyclerview.holder.AbsItemHolder;
-import com.trecyclerview.progressindicator.ProgressStyle;
 import com.xuexiang.xui.widget.tabbar.EasyIndicator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * 商品分类list

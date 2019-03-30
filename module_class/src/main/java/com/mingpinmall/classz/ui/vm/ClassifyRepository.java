@@ -5,7 +5,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
-import com.mingpinmall.classz.ui.Constants;
+import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.ui.vm.api.ClassifyService;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
@@ -14,8 +14,6 @@ import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.reactivex.Flowable;
 
 public class ClassifyRepository extends BaseRepository {
 

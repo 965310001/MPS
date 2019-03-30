@@ -11,6 +11,7 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.mingpinmall.classz.BR;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
+import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;

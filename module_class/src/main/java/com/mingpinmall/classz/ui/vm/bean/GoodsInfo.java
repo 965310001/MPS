@@ -96,7 +96,7 @@ public class GoodsInfo extends BaseBean {
 
     @Generated(hash = 588874685)
     public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name, String is_own_mall, String goods_image_url,
-            int num) {
+                     int num) {
         this.goods_id = goods_id;
         this.store_id = store_id;
         this.goods_name = goods_name;
