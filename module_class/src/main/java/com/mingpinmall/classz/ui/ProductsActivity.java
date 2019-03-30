@@ -137,7 +137,7 @@ public class ProductsActivity extends HorizontalTabActivity {
             @Override
             public void onBindViewHolder(@NonNull RecyclerHolder holder, final int position) {
                 holder.textView.setText(list.get(position));
-                holder.textView.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         KLog.i(list.get(position));

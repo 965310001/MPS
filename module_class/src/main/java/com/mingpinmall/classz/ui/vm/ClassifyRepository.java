@@ -7,6 +7,7 @@ import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.ui.vm.api.ClassifyService;
+import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
@@ -82,6 +83,41 @@ public class ClassifyRepository extends BaseRepository {
         );
 
     }
+
+    /*获取品牌的数据*/
+    public void getRightByBrand() {
+        addDisposable(apiService.getRightByBrand()
+                .compose(RxSchedulers.<BrandListInfo>io_main())
+                .subscribeWith(new RxSubscriber<BrandListInfo>() {
+                    @Override
+                    public void onSuccess(BrandListInfo result) {
+                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE, result);
+                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    protected void onStart() {
+                        super.onStart();
+                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.LOADING_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        KLog.i(e.toString());
+                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
+                    }
+                })
+        );
+
+    }
+
 
     /*商品列表*/
     public void getShappingList(String bId, String curpage, String keyword, final String typeId) {

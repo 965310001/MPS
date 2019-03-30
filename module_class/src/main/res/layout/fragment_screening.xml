@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end|right"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
+
+            <TextView
+                style="@style/TextStyle_14"
+                android:layout_gravity="left"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="价格区间"
+                android:textSize="@dimen/text_14" />
+
+            <com.xuexiang.xui.widget.flowlayout.FlowTagLayout
+                android:id="@+id/flowlayout_multi_select_price"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:background="@color/gray" />
+
+            <!--最低价 最高价-->
+            <!--平台自营-->
+
+            <View style="@style/HorizontalLine" />
+
+            <TextView
+                style="@style/TextStyle_14"
+                android:layout_gravity="left"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="商品类型" />
+
+            <com.xuexiang.xui.widget.flowlayout.FlowTagLayout
+                android:id="@+id/flowlayout_multi_select"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:background="@color/gray" />
+
+            <View style="@style/HorizontalLine" />
+
+            <TextView
+                style="@style/TextStyle_14"
+                android:layout_gravity="left"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="店铺类型" />
+
+            <com.xuexiang.xui.widget.flowlayout.FlowTagLayout
+                android:id="@+id/flowlayout_multi_select_server_1"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:background="@color/gray" />
+
+            <View style="@style/HorizontalLine" />
+
+            <TextView
+                style="@style/TextStyle_14"
+                android:layout_gravity="left"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="店铺服务" />
+
+            <com.xuexiang.xui.widget.flowlayout.FlowTagLayout
+                android:id="@+id/flowlayout_multi_select_server"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:background="@color/gray" />
+
+            <View style="@style/HorizontalLine" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@color/shallow_red"
+                android:text="筛选商品"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                style="@style/ButtonView.Blue"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="筛选商品" />
+        </LinearLayout>
+
+
+    </android.support.v4.widget.DrawerLayout>
+</layout>

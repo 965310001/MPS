@@ -32,6 +32,7 @@ public class ClassificationRightItemHolder extends AbsItemHolder<ClassificationR
         return R.layout.classify_item_of_righit_list;
     }
 
+
     ClassifyItemOfRighitListBinding binding;
 
     @Override

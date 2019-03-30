@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mingpinmall.classz.ui.vm.bean.BrandListInfo.DatasBean" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/content_layout"
+        style="@style/width_match_height_warp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.trecyclerview.TRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:tag="1"
+                bind:items="@{data.brand_list}" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

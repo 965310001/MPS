@@ -6,7 +6,9 @@ import com.mingpinmall.classz.BR;
 import com.mingpinmall.classz.DataBindItemViewHolderManager;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.vm.ClassificationItemHolder;
+import com.mingpinmall.classz.ui.vm.ClassificationRightBrandItemHolder;
 import com.mingpinmall.classz.ui.vm.ClassificationRightItemHolder;
+import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
@@ -89,14 +91,18 @@ public class AdapterPool {
     public DelegateAdapter.Builder getRightAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
                         .bind(ClassificationRighitBean.DatasBean.ClassListBean.class,
-                                new ClassificationRightItemHolder(context)),
+                                new ClassificationRightItemHolder(context))
+                        .bind(BrandListInfo.DatasBean.class,
+                                new ClassificationRightBrandItemHolder(context)),
                 context, ProgressStyle.BallRotate);
     }
 
     public DelegateAdapter.Builder getRightAdapter1(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
                         .bind(ClassificationRighitBean.DatasBean.ClassListBean.ChildBean.class,
-                                new ClassificationRightAdapter(context)),
+                                new ClassificationRightAdapter(context))
+                        .bind(BrandListInfo.DatasBean.BrandListBean.class,
+                                new ClassificationRightBrandAdapter(context)),
                 context, ProgressStyle.BallRotate);
     }
 
