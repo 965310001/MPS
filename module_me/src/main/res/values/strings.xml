@@ -97,7 +97,8 @@
     <!-- PropertyActivity Over -->
 
     <!-- LoginActivity -->
-    <string name="title_loginActivity">登录</string>
+    <string name="title_loginActivity">会员登录</string>
+    <string name="text_login">登录</string>
     <string name="tabs_login_phone">密码登陆</string>
     <string name="tabs_login_puk">验证码登陆</string>
     <string name="label_account">手机号</string>

@@ -15,7 +15,8 @@
             app:layout_constraintBottom_toTopOf="@id/ll_panel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabBackground="@color/white" />
 
         <LinearLayout
             android:id="@+id/ll_panel"
@@ -36,10 +37,9 @@
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_lb_phone"
-                    android:layout_width="match_parent"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
-                    android:layout_weight="3"
                     android:gravity="end"
                     android:text="@string/label_account"
                     android:textColor="@color/black"
@@ -49,7 +49,7 @@
                     android:id="@+id/ed_phone"
                     android:layout_width="match_parent"
                     android:layout_height="46dp"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="12dp"
                     android:gravity="center_vertical"
                     android:hint="请输入用户名"
                     android:inputType="text"
@@ -81,10 +81,9 @@
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_lb_psdCode"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
-                        android:layout_weight="3"
                         android:gravity="end"
                         android:text="@string/text_psdCode"
                         android:textColor="@color/black"
@@ -96,7 +95,7 @@
                         app:layout_constraintTop_toTopOf="@id/ed_password" />
 
                     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                        android:id="@+id/ed_psdCode"
+                        android:id="@+id/ed_msgCode"
                         android:layout_width="match_parent"
                         android:layout_height="46dp"
                         android:layout_weight="1"
@@ -109,6 +108,15 @@
                         app:met_floatingLabel="none"
                         app:met_floatingLabelText="验证码"
                         app:met_hideUnderline="true" />
+
+                    <com.xuexiang.xui.widget.button.CountDownButton
+                        android:id="@+id/btn_getPsdCode"
+                        style="@style/Button.Blue"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="12dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="获取动态码" />
 
                 </LinearLayout>
 
@@ -134,10 +142,9 @@
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_lb_password"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
-                        android:layout_weight="3"
                         android:gravity="end"
                         android:text="@string/label_password"
                         android:textColor="@color/black"
@@ -152,7 +159,7 @@
                         android:id="@+id/ed_password"
                         android:layout_width="match_parent"
                         android:layout_height="46dp"
-                        android:layout_weight="1"
+                        android:layout_marginEnd="12dp"
                         android:gravity="center_vertical"
                         android:hint="@string/ed_hint_password"
                         android:inputType="textPassword"
@@ -179,10 +186,9 @@
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_lb_authCode"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
-                        android:layout_weight="3"
                         android:gravity="end"
                         android:text="@string/text_authCode"
                         android:textColor="@color/black"
@@ -208,6 +214,16 @@
                         app:met_floatingLabelText="验证码"
                         app:met_hideUnderline="true" />
 
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_authCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="#D5CECE"
+                        android:minWidth="100dp"
+                        android:scaleType="fitXY" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -224,6 +240,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:checked="true"
             android:text="@string/cb_agree"
             android:textColorHighlight="@color/colorPrimaryDark"
             app:layout_constraintBottom_toTopOf="@id/btn_sublimt"
@@ -242,14 +259,15 @@
             app:layout_constraintStart_toEndOf="@id/cb_agree"
             app:layout_constraintTop_toTopOf="@id/cb_agree" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_sublimt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:layout_margin="24dp"
             android:background="@drawable/xui_config_bg_blue_btn"
+            android:enabled="false"
             android:onClick="onClick"
-            android:text="@string/title_loginActivity"
+            android:text="@string/text_login"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

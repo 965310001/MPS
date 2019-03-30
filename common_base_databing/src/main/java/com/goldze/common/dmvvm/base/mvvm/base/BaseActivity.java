@@ -28,6 +28,7 @@ import com.gyf.barlibrary.ImmersionBar;
 
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
+import com.xuexiang.xui.XUI;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
 /**
@@ -53,6 +54,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        XUI.initTheme(this);
         /*竖屏*/
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
