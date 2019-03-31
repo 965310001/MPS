@@ -1,6 +1,11 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
+import android.view.View;
+
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -40,6 +45,7 @@ public class BrandListInfo extends BaseBean {
             return brand_list;
         }
 
+
         public void setBrand_list(List<BrandListBean> brand_list) {
             this.brand_list = brand_list;
         }
@@ -77,6 +83,11 @@ public class BrandListInfo extends BaseBean {
 
             public void setBrand_pic(String brand_pic) {
                 this.brand_pic = brand_pic;
+            }
+
+
+            public void click(View view) {
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", brand_id);
             }
         }
     }

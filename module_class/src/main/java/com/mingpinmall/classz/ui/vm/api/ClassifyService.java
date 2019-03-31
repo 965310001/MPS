@@ -24,7 +24,7 @@ public interface ClassifyService {
     String SHAPPINGLIST = "/mobile/index.php?app=goods&wwi=goods_list";
 
     /*品牌*/
-    String BRAND = "/mo_bile/ index.php?app=member_index&wwi=index";
+    String BRAND = "/mo_bile/index.php?app=brand&wwi=recommend_list";
 
     /*添加收藏*/
     String ADDCOLLECTION = "/mo_bile/index.php?app=member_favorites&wwi=favorites_add";

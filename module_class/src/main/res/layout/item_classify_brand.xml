@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="data"
-            type="com.mingpinmall.classz.ui.vm.bean.BrandListInfo.DatasBean.BrandListBean"/>
+            type="com.mingpinmall.classz.ui.vm.bean.BrandListInfo.DatasBean.BrandListBean" />
     </data>
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:onClick="@{(view)->data.click(view)}"
+        android:background="@color/white"
+        android:padding="@dimen/dp_10">
+
+        <ImageView
+            android:layout_width="@dimen/image_height_large"
+            android:layout_height="@dimen/image_height_large"
+            android:src="@{data.brand_pic}"
+            tools:src="@drawable/ic_launcher" />
+
+        <TextView
+            style="@style/TextStyle_12"
+            android:layout_width="match_parent"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:text="@{data.brand_name}"
+            android:textColor="@color/color_666666"
+            tools:text="首页" />
+
     </LinearLayout>
 </layout>

@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -60,6 +61,8 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         return R.id.content_layout;
     }
 
+    LinearLayoutManager linearLayoutManager;
+
     @Override
     public void initView(Bundle state) {
         super.initView(state);
@@ -80,7 +83,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
 
         rvLeftRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         rvLeftRecyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rvRightRecyclerView.setLayoutManager(linearLayoutManager);
@@ -148,16 +151,40 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                     }
                 });
 
+//        LiveBus.getDefault()
+//                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, ClassificationRighitBean.class)
+//                .observeForever(new Observer<ClassificationRighitBean>() {
+//                    @Override
+//                    public void onChanged(@Nullable ClassificationRighitBean response) {
+//                        rightData.clear();
+//                        rightData.addAll(response.getDatas().getClass_list());
+//                        rightAdapter.notifyDataSetChanged();
+//                        /**************************/
+//                        /**************************/
+//                    }
+//                });
+
         LiveBus.getDefault()
-                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, ClassificationRighitBean.class)
-                .observeForever(new Observer<ClassificationRighitBean>() {
+                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable ClassificationRighitBean response) {
-                        rightData.clear();
-                        rightData.addAll(response.getDatas().getClass_list());
-                        rightAdapter.notifyDataSetChanged();
-                        /**************************/
-                        /**************************/
+                    public void onChanged(@Nullable Object object) {
+                        if (object instanceof ClassificationRighitBean) {
+                            ClassificationRighitBean data = (ClassificationRighitBean) object;
+                            rightData.clear();
+                            rightData.addAll(data.getDatas().getClass_list());
+                            rightAdapter.notifyDataSetChanged();
+
+                            rvRightRecyclerView.setLayoutManager(linearLayoutManager);
+                        } else if (object instanceof BrandListInfo) {
+                            BrandListInfo data = (BrandListInfo) object;
+                            rightData.clear();
+                            rightData.addAll(data.getDatas().getBrand_list());
+                            rightAdapter.notifyDataSetChanged();
+
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+                            rvRightRecyclerView.setLayoutManager(gridLayoutManager);
+                        }
                     }
                 });
     }
@@ -180,21 +207,26 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 data = (ClassificationBean.DatasBean.ClassListBean) object;
 
                 data.setSelect(true);
-                mViewModel.getRight(String.valueOf(leftAdapter.getItemId(postion)));
+                if (data.getGc_id().equals("-1")) {
+                    mViewModel.getRightByBrand();
+                }else{
+                    mViewModel.getRight(String.valueOf(leftAdapter.getItemId(postion)));
+                }
 
                 leftPostion = postion;
                 leftAdapter.notifyItemChanged(leftPostion);
             }
         } else if (object instanceof BrandListInfo.DatasBean.BrandListBean) {
-            leftAdapter.notifyItemChanged(leftPostion);
-            data = (ClassificationBean.DatasBean.ClassListBean) object;
-
-            data.setSelect(true);
-            mViewModel.getRightByBrand();
-
-            leftPostion = postion;
-            leftAdapter.notifyItemChanged(leftPostion);
+//            leftAdapter.notifyItemChanged(leftPostion);
+//            data = (ClassificationBean.DatasBean.ClassListBean) object;
+//
+//            data.setSelect(true);
+//            mViewModel.getRightByBrand();
+//
+//            leftPostion = postion;
+//            leftAdapter.notifyItemChanged(leftPostion);
         }
+
     }
 
 

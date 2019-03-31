@@ -92,8 +92,8 @@ public class AdapterPool {
         return getAdapter(new DelegateAdapter.Builder<>()
                         .bind(ClassificationRighitBean.DatasBean.ClassListBean.class,
                                 new ClassificationRightItemHolder(context))
-                        .bind(BrandListInfo.DatasBean.class,
-                                new ClassificationRightBrandItemHolder(context)),
+                        .bind(BrandListInfo.DatasBean.BrandListBean.class,
+                                new ClassificationRightBrandAdapter(context)),
                 context, ProgressStyle.BallRotate);
     }
 

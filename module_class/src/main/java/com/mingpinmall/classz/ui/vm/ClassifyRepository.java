@@ -91,7 +91,7 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BrandListInfo>() {
                     @Override
                     public void onSuccess(BrandListInfo result) {
-                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE, result);
+                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, result);
                         showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.SUCCESS_STATE);
                     }
 
