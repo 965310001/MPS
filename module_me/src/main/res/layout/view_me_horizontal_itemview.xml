@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_hight"
+        android:background="@color/line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/ll_item1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_item1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="3dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/icon_cartfill_press"
+                app:layout_constraintBottom_toTopOf="@id/tv_item1"
+                app:layout_constraintDimensionRatio="h, 1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_item1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/iv_item1"
+                app:layout_constraintStart_toStartOf="@id/iv_item1"
+                app:layout_constraintTop_toBottomOf="@id/iv_item1"
+                tools:text="@string/me_order_item1" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/ll_item2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_item2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:padding="3dp"
+                android:src="@drawable/icon_cartfill_press"
+                app:layout_constraintBottom_toTopOf="@id/tv_item2"
+                app:layout_constraintDimensionRatio="h, 1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_item2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/iv_item2"
+                app:layout_constraintStart_toStartOf="@id/iv_item2"
+                app:layout_constraintTop_toBottomOf="@id/iv_item2"
+                tools:text="@string/me_order_item2" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/ll_item3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_item3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:padding="3dp"
+                android:src="@drawable/icon_cartfill_press"
+                app:layout_constraintBottom_toTopOf="@id/tv_item3"
+                app:layout_constraintDimensionRatio="h, 1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_item3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/iv_item3"
+                app:layout_constraintStart_toStartOf="@id/iv_item3"
+                app:layout_constraintTop_toBottomOf="@id/iv_item3"
+                tools:text="@string/me_order_item3" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/ll_item4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_item4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:padding="3dp"
+                android:src="@drawable/icon_cartfill_press"
+                app:layout_constraintBottom_toTopOf="@id/tv_item4"
+                app:layout_constraintDimensionRatio="h, 1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_item4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/iv_item4"
+                app:layout_constraintStart_toStartOf="@id/iv_item4"
+                app:layout_constraintTop_toBottomOf="@id/iv_item4"
+                tools:text="@string/me_order_item4" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/ll_item5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_item5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:padding="3dp"
+                android:src="@drawable/icon_cartfill_press"
+                app:layout_constraintBottom_toTopOf="@id/tv_item5"
+                app:layout_constraintDimensionRatio="h, 1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_item5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/iv_item5"
+                app:layout_constraintStart_toStartOf="@id/iv_item5"
+                app:layout_constraintTop_toBottomOf="@id/iv_item5"
+                tools:text="@string/me_order_item5" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

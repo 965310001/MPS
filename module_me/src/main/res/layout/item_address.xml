@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="8dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="这是姓名"
+            app:layout_constraintBottom_toTopOf="@id/tv_address"
+            app:layout_constraintEnd_toStartOf="@id/tv_phone"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="13800138000"
+            app:layout_constraintBottom_toBottomOf="@id/tv_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/tv_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_name" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="这里是详细的地址"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/line_hight"
+            android:layout_marginTop="8dp"
+            android:background="@color/line_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_address" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:drawableLeft="@drawable/ic_edit"
+            android:drawablePadding="4dp"
+            android:padding="6dp"
+            android:text="@string/text_edit"
+            app:layout_constraintBottom_toBottomOf="@id/tv_delete"
+            app:layout_constraintEnd_toStartOf="@id/tv_delete"
+
+            app:layout_constraintTop_toTopOf="@id/tv_delete"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:drawableLeft="@drawable/ic_del"
+            android:drawablePadding="4dp"
+            android:padding="6dp"
+            android:text="@string/text_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="14dp" />
+
+</LinearLayout>

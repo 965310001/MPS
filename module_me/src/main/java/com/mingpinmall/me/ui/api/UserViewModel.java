@@ -12,7 +12,11 @@ public class UserViewModel extends AbsViewModel<UserRepository> {
         super(application);
     }
 
-    public void login(String phone, String password) {
-        mRepository.login(phone, password);
+    public void login(String phone, String password, int login_type, String captcha, String codekey) {
+        mRepository.login(phone, password, login_type, captcha, codekey);
+    }
+
+    public void makeCodeKey() {
+        mRepository.makeCodeKey();
     }
 }

@@ -124,6 +124,12 @@ dependencies {
     api 'org.greenrobot:greendao:3.2.2' // add library
     api 'org.greenrobot:greendao-generator:3.2.2'
 
+    /*RecyclerView适配器 和 圆形ImageView*/
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+    api 'de.hdodenhof:circleimageview:2.1.0'
+
+    api 'com.wang.avi:library:2.1.3'
+
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'
     }
