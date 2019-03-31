@@ -17,7 +17,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.goldze.common.R;
-import me.goldze.common.R2;
 import me.goldze.common.utils.PxUtils;
 
 /**
@@ -27,35 +26,12 @@ import me.goldze.common.utils.PxUtils;
  */
 public class MultipleItemView extends LinearLayout {
 
-    @BindView(R2.id.rl_layout)
     RelativeLayout rlLayout;
-
-    @BindView(R2.id.iv_left)
-    ImageView ivLeft;
-
-    @BindView(R2.id.tv_left)
-    TextView tvLeft;
-
-    @BindView(R2.id.iv_right)
-    ImageView ivRight;
-
-    @BindView(R2.id.tv_right)
-    TextView tvRight;
-
-    @BindView(R2.id.edt_text)
+    ImageView ivLeft, ivRight;
+    TextView tvLeft, tvRight;
     EditText edtText;
-
-    @BindView(R2.id.ll_right)
-    LinearLayout layout;
-
-    @BindView(R2.id.rl_content)
-    LinearLayout content;
-
-    @BindView(R2.id.line_top)
-    View topLine;
-
-    @BindView(R2.id.line_bottom)
-    View bottomLine;
+    LinearLayout layout, content;
+    View topLine, bottomLine;
 
     private int leftTextColor = Color.BLACK;
     private int rightTextColor = Color.GRAY;
@@ -79,7 +55,19 @@ public class MultipleItemView extends LinearLayout {
 
     public MultipleItemView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        ButterKnife.bind(this, View.inflate(getContext(), R.layout.layout_multiple_item, this));
+//        ButterKnife.bind(this, View.inflate(getContext(), R.layout.layout_multiple_item, this));
+
+        rlLayout = findViewById(R.id.rl_layout);
+        ivLeft = findViewById(R.id.iv_left);
+        tvLeft = findViewById(R.id.tv_left);
+        ivRight = findViewById(R.id.iv_right);
+        tvRight = findViewById(R.id.tv_right);
+        edtText = findViewById(R.id.edt_text);
+        layout = findViewById(R.id.ll_right);
+        content = findViewById(R.id.rl_content);
+        topLine = findViewById(R.id.line_top);
+        bottomLine = findViewById(R.id.line_bottom);
+
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.MultipleItemView);
         leftTextColor = a.getColor(R.styleable.MultipleItemView_leftTextColor, leftTextColor);
         rightTextColor = a.getColor(R.styleable.MultipleItemView_rightTextColor, rightTextColor);

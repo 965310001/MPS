@@ -8,11 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import me.goldze.common.R;
-import me.goldze.common.R2;
 import me.goldze.common.utils.PxUtils;
 
 /**
@@ -20,26 +16,17 @@ import me.goldze.common.utils.PxUtils;
  * @date : 2019/1/24 11:05
  * @description: 加减Viw
  */
-public class CountClickView extends LinearLayout {
+public class CountClickView extends LinearLayout implements View.OnClickListener {
 
     public static final int MIN_COUNT = 0;
     public static final int INIT_COUNT = 1;
     public static final int MAX_COUNT = 10000;
 
 
-    @BindView(R2.id.tv_count)
     TextView tvCount;
-
-    @BindView(R2.id.iv_plus)
     ImageView ivPlus;
-
-    @BindView(R2.id.iv_minus)
     ImageView ivMinus;
-
-    @BindView(R2.id.ll_minus)
     LinearLayout llMinus;//减 控件父类
-
-    @BindView(R2.id.ll_plus)
     LinearLayout llPlus;//加 控件父类
     private Context mContext;
     private int maxCount = MAX_COUNT;
@@ -69,7 +56,16 @@ public class CountClickView extends LinearLayout {
     private void init(Context context) {
         this.mContext = context;
         this.setBackgroundResource(android.R.color.transparent);
-        ButterKnife.bind(this, View.inflate(context, R.layout.layout_count_click_view, this));
+//        ButterKnife.bind(this, View.inflate(context, R.layout.layout_count_click_view, this));
+
+        tvCount = findViewById(R.id.tv_count);
+        ivPlus = findViewById(R.id.iv_plus);
+        ivMinus = findViewById(R.id.iv_minus);
+        llMinus = findViewById(R.id.ll_minus);
+        llPlus = findViewById(R.id.ll_plus);
+
+        ivPlus.setOnClickListener(this);
+        ivMinus.setOnClickListener(this);
 
 //        tvCount.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -107,28 +103,6 @@ public class CountClickView extends LinearLayout {
         return Integer.valueOf(text);
     }
 
-    @OnClick({R2.id.iv_plus, R2.id.iv_minus})
-    public void onClick(View v) {
-        int count = Integer.valueOf(tvCount.getText().toString().trim());
-
-        if (R.id.iv_plus == v.getId()) {
-            if (count < getMaxCount())
-                tvCount.setText(String.valueOf(++count));
-        }
-        if (R.id.iv_minus == v.getId()) {
-            if (count > getMinCount())
-                tvCount.setText(String.valueOf(--count));
-        }
-
-        judgeTheViews(count);
-
-        if (afterClickListener != null) {
-            afterClickListener.onAfter(getCount());
-            if (getCount() == getMinCount()) {
-                afterClickListener.onMin();
-            }
-        }
-    }
 
     private void judgeTheViews(int count) {
         if (count <= getMinCount()) {
@@ -242,6 +216,32 @@ public class CountClickView extends LinearLayout {
 
     private int getMinCount() {
         return minCount > MIN_COUNT ? minCount : MIN_COUNT;
+    }
+
+    @Override
+    public void onClick(View v) {
+//        @OnClick({R2.id.iv_plus, R2.id.iv_minus})
+//        public void onClick(View v) {
+        int count = Integer.valueOf(tvCount.getText().toString().trim());
+
+        if (R.id.iv_plus == v.getId()) {
+            if (count < getMaxCount())
+                tvCount.setText(String.valueOf(++count));
+        }
+        if (R.id.iv_minus == v.getId()) {
+            if (count > getMinCount())
+                tvCount.setText(String.valueOf(--count));
+        }
+
+        judgeTheViews(count);
+
+        if (afterClickListener != null) {
+            afterClickListener.onAfter(getCount());
+            if (getCount() == getMinCount()) {
+                afterClickListener.onMin();
+            }
+        }
+//        }
     }
 
     public interface OnClickAfterListener {
