@@ -18,6 +18,7 @@ import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.socks.library.KLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
@@ -86,7 +87,25 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rvLeftRecyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        rvRightRecyclerView.setLayoutManager(linearLayoutManager);
+
+        /********/
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int i) {
+                if (rightData.get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean) {
+                    return 3;
+                }else if(rightData.get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean.ChildBean){
+                    return 3;
+                } else {
+                    return 1;
+                }
+            }
+        });
+        rvRightRecyclerView.setLayoutManager(gridLayoutManager);
+        /********/
+
+//        rvRightRecyclerView.setLayoutManager(linearLayoutManager);
 
         /*******************************/
 //        rvLeft = binding.rvLeft;
@@ -174,16 +193,11 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                             rightData.clear();
                             rightData.addAll(data.getDatas().getClass_list());
                             rightAdapter.notifyDataSetChanged();
-
-                            rvRightRecyclerView.setLayoutManager(linearLayoutManager);
                         } else if (object instanceof BrandListInfo) {
                             BrandListInfo data = (BrandListInfo) object;
                             rightData.clear();
                             rightData.addAll(data.getDatas().getBrand_list());
                             rightAdapter.notifyDataSetChanged();
-
-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
-                            rvRightRecyclerView.setLayoutManager(gridLayoutManager);
                         }
                     }
                 });
@@ -209,7 +223,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 data.setSelect(true);
                 if (data.getGc_id().equals("-1")) {
                     mViewModel.getRightByBrand();
-                }else{
+                } else {
                     mViewModel.getRight(String.valueOf(leftAdapter.getItemId(postion)));
                 }
 

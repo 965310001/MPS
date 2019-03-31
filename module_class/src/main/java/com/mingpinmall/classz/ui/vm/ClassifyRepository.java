@@ -92,26 +92,26 @@ public class ClassifyRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BrandListInfo result) {
                         sendData(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, result);
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.SUCCESS_STATE);
+//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     protected void onStart() {
                         super.onStart();
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.LOADING_STATE);
+//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.LOADING_STATE);
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
+//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
                         KLog.i(e.toString());
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
+//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
                     }
                 })
         );
