@@ -24,6 +24,7 @@ import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.goldze.common.dmvvm.utils.Utils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.constants.Constants;
+import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.socks.library.KLog;
 import com.xuexiang.xui.widget.tabbar.EasyIndicator;
 
@@ -57,7 +58,9 @@ public class ProductsActivity extends HorizontalTabActivity {
             @Override
             public void onTabClick(String title, int position) {
                 if (position == 0) {
-                    showPopupWindow();
+//                    showPopupWindow();
+                    CustomPopWindow customPopWindow = new CustomPopWindow(ProductsActivity.this);
+                    customPopWindow.showPopupWindow(mEasyIndicator);
                 }
             }
         });
@@ -65,6 +68,7 @@ public class ProductsActivity extends HorizontalTabActivity {
 
     PopupWindow popupWindow;
 
+    // TODO: 2019/3/31 筛选待修改
     void showPopupWindow() {
         if (null == popupWindow) {
             View contentView = LayoutInflater.from(this).inflate(R.layout.recyclerview_base, null,
@@ -74,15 +78,17 @@ public class ProductsActivity extends HorizontalTabActivity {
             popupWindow = new PopupWindow(contentView,
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
             popupWindow.setTouchable(true);
-            bgAlpha(0.95f);
+
             popupWindow.setTouchInterceptor(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+                    bgAlpha(0.15f);
                     return false;
                 }
             });
+//            popupWindow.setAnimationStyle(R.style.AnimationTopFade);
             popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-            popupWindow.getContentView().setAlpha(0.2f);
+//            popupWindow.getContentView().setAlpha(0.2f);
             popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
@@ -91,7 +97,8 @@ public class ProductsActivity extends HorizontalTabActivity {
                 }
             });
         }
-        popupWindow.showAsDropDown(mEasyIndicator, 0, (int) mEasyIndicator.getY());
+//        popupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popupWindow.showAsDropDown(mEasyIndicator);
 
 //        WindowManager.LayoutParams lp = getWindow().getAttributes();
 //        lp.alpha = 0.5f;

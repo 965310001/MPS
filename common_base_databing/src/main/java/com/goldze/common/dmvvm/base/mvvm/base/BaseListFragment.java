@@ -113,6 +113,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
                         Glide.with(activity).pauseRequests();
                     }
                 }
+                // TODO: 2019/3/31 滑动的状态的待修改 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (layoutManager instanceof GridLayoutManager) {
                         lastItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
@@ -130,38 +131,42 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
                         if (isSlidingUpward) onLoadMore();
                     }
                 }
-                if (lastItemPosition == 0) {
-                    KLog.i("顶部");
-                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
-                    KLog.i("底部");
-                }
-                KLog.i("是否到顶部" + isSlideToBottom(recyclerView));
-                if (lastItemPosition == 0) {
-                    KLog.i("顶部");
-                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
-                    KLog.i("底部");
-                }
+//                if (lastItemPosition == 0) {
+//                    KLog.i("顶部");
+//                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
+//                    KLog.i("底部");
+//                }
+//                /*KLog.i("是否到顶部" + isSlideToBottom(recyclerView));*/
+//                if (lastItemPosition == 0) {
+//                    KLog.i("顶部");
+//                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
+//                    KLog.i("底部");
+//                }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
+                KLog.i("" + (dy > 0) + dy);
                 if (!mRecyclerView.canScrollVertically(1)) {
                     if (dy > 0 && floatBtn.getVisibility() == View.GONE) {
                         floatBtn.show();//滑动到底部
+                    } else {
+                        floatBtn.hide();
                     }
                 } else if (!mRecyclerView.canScrollVertically(-1)) {
-                    floatBtn.hide();//滑动到顶部
+                    if (dy > 0 && floatBtn.getVisibility() == View.VISIBLE) {
+                        floatBtn.hide();//滑动到顶部
+                    }
                 } else if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_SETTLING) {//滚动状态
-                    if (dy < 0 && floatBtn.getVisibility() == View.GONE) {
+                    if (dy < 0 && floatBtn.getVisibility() == View.VISIBLE) {
+                        floatBtn.hide();
+                    } else if (dy < 0 && floatBtn.getVisibility() == View.GONE) {
                         floatBtn.show();//向下滚动状态
                     }
-//                    else {
-//                        floatBtn.hide();
-//                    }
                 }
-                isSlidingUpward = dy > 0;
+//                isSlidingUpward = dy > 0;
 //                KLog.i("" + isSlidingUpward + dy);
 
 //                if (lastItemPosition == 0) {
@@ -169,9 +174,8 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 //                } else if (lastItemPosition == layoutManager.getItemCount() - 1) {
 //                    KLog.i("底部");
 //                }
-                isSlidingUpward = dy > 0;
+//                isSlidingUpward = dy > 0;
 //                KLog.i("" + isSlidingUpward + dy);
-
 //                KLog.i("是否到顶部" + isSlideToBottom(recyclerView));
             }
         });
@@ -179,7 +183,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
             @Override
             public void onClick(View view) {
                 mRecyclerView.smoothScrollToPosition(0);
-                floatBtn.hide();
+//                floatBtn.hide();
             }
         });
     }
