@@ -115,6 +115,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_sublimt) {
             /*登陆*/
+            progressDialog.onLoading("登录中");
             mViewModel.login(
                     binding.edPhone.getText().toString().trim(),//用户名
                     binding.tabs.getSelectedTabPosition() == 0 ? binding.edMsgCode.getText().toString().trim()//密码或手机验证码
@@ -123,7 +124,6 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                     binding.edAuthCode.getText().toString().trim(),//用户输入的验证码(密码登录使用)
                     codeKey//获取验证码的密匙(密码登录使用)
             );
-            progressDialog.onLoading("登录中");
         } else if (viewId == R.id.btn_getPsdCode) {
             /*获取登陆短信动态码*/
         } else if (viewId == R.id.iv_authCode) {
@@ -151,11 +151,11 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                     public void onChanged(@Nullable UserBean userBean) {
                         switch (userBean.getCode()) {
                             case 400:
-                                progressDialog.onFail(userBean.getDatas().getError(), 1500);
+                                progressDialog.onFail(userBean.getDatas().getError());
                                 break;
                             case 200:
                                 SharePreferenceUtil.saveUser(userBean);
-                                progressDialog.onComplete("登录成功", 1500, new ProgressDialog.OnDismissListener() {
+                                progressDialog.onComplete("登录成功", new ProgressDialog.OnDismissListener() {
                                     @Override
                                     public void onDismiss() {
                                         finish();
