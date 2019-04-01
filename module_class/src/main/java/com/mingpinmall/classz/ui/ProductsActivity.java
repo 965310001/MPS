@@ -44,6 +44,9 @@ public class ProductsActivity extends HorizontalTabActivity {
     @Autowired
     String id;
 
+    @Autowired
+    int type;
+
     @Override
     protected String[] getTabTitles() {
         return Constants.PRODUCTS_TITLE;
@@ -178,7 +181,7 @@ public class ProductsActivity extends HorizontalTabActivity {
         int length = Constants.PRODUCTS_TITLE.length;
         KLog.i(id);
         for (int i = 0; i < length; i++) {
-            list.add(ProductsItemFragment.newInstance(id, i + ""));
+            list.add(ProductsItemFragment.newInstance(id, type + ""));
         }
         return list;
     }

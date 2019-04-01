@@ -79,7 +79,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         newItems = new ItemData();
         adapter = createAdapter();
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(createLayoutManager());
+        mRecyclerView.setLayoutManager(layoutManager = createLayoutManager());
         if (isItemDecoration()) {
             mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                     DividerItemDecoration.VERTICAL));
@@ -224,6 +224,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     }
 
     protected void setData(List<?> collection) {
+        isLoadMore = collection.size() > 10;
         if (isLoadMore) {
             onLoadMoreSuccess(collection);
         } else {
@@ -261,7 +262,6 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         } else {
             KLog.i("存在");
         }
-
         oldItems.clear();
         oldItems.addAll(newItems);
         if (null != collection && collection.size() < 10) {
@@ -297,8 +297,8 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
      * @return LayoutManager
      */
     protected RecyclerView.LayoutManager createLayoutManager() {
-        layoutManager = new LinearLayoutManager(getContext());
-        return layoutManager;
+//        layoutManager = new LinearLayoutManager(getContext());
+        return new LinearLayoutManager(getContext());
     }
 
     /**

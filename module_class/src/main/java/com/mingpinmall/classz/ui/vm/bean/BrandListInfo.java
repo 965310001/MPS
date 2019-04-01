@@ -7,7 +7,9 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.socks.library.KLog;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 品牌
@@ -85,9 +87,12 @@ public class BrandListInfo extends BaseBean {
                 this.brand_pic = brand_pic;
             }
 
-
             public void click(View view) {
-                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", brand_id);
+                Map<String, Object> map = new HashMap<>();
+                map.put("type", 1);
+                map.put("id", brand_id);
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, map);
+//                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", brand_id);
             }
         }
     }

@@ -87,33 +87,33 @@ public class ClassifyRepository extends BaseRepository {
     /*获取品牌的数据*/
     public void getRightByBrand() {
         addDisposable(apiService.getRightByBrand()
-                .compose(RxSchedulers.<BrandListInfo>io_main())
-                .subscribeWith(new RxSubscriber<BrandListInfo>() {
-                    @Override
-                    public void onSuccess(BrandListInfo result) {
-                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, result);
+                        .compose(RxSchedulers.<BrandListInfo>io_main())
+                        .subscribeWith(new RxSubscriber<BrandListInfo>() {
+                            @Override
+                            public void onSuccess(BrandListInfo result) {
+                                sendData(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, result);
 //                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.SUCCESS_STATE);
-                    }
+                            }
 
-                    @Override
-                    protected void onStart() {
-                        super.onStart();
+                            @Override
+                            protected void onStart() {
+                                super.onStart();
 //                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.LOADING_STATE);
-                    }
+                            }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        KLog.i(msg);
+                            @Override
+                            public void onFailure(String msg) {
+                                KLog.i(msg);
 //                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
-                    }
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        KLog.i(e.toString());
+                            @Override
+                            public void onError(Throwable e) {
+                                super.onError(e);
+                                KLog.i(e.toString());
 //                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
-                    }
-                })
+                            }
+                        })
         );
 
     }
@@ -122,9 +122,16 @@ public class ClassifyRepository extends BaseRepository {
     /*商品列表*/
     public void getShappingList(String bId, String curpage, String keyword, final String typeId) {
         Map<String, Object> map = new HashMap<>();
-        map.put("gc_id", bId);
-        map.put("Key", 1);
+        if ("0".equals(typeId)) {
+            map.put("gc_id", bId);
+        } else {
+            map.put("b_id", bId);
+        }
+        map.put("Key", 1);/*使用排序*/
         map.put("keyword", keyword);
+//        map.put("Area_id", Area_id);//地区
+//        map.put("price_from", price_from);//价格区间最低范围
+//        map.put("price_to", price_to);// 价格区间最高范围
         map.put("page", Constants.PAGE_RN);
         map.put("curpage", curpage);
         addDisposable(apiService.getShappingList(map)

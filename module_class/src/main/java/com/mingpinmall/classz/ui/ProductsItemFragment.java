@@ -24,6 +24,7 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
     private final static String ID = "id";
     private final static String TYPEID = "typeId";
     private String typeId;
+    private String keyword="";
 
     public ProductsItemFragment() {
     }
@@ -64,7 +65,7 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
     protected void getRemoteData() {
         super.getRemoteData();
 
-        mViewModel.getShappingList(getArguments().getString(ID), String.valueOf(page), "", typeId);
+        mViewModel.getShappingList(getArguments().getString(ID), String.valueOf(page), keyword, typeId);
     }
 
     @Override
