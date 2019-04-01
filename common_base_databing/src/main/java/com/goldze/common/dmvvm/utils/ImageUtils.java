@@ -32,6 +32,28 @@ import java.util.List;
 public class ImageUtils {
 
     /**
+     * 加载GIF网络图片
+     *
+     * @param url       url
+     * @param imageView imageView
+     * @param imageView transformation 转换器
+     */
+    public static void loadImageAsGIF(ImageView imageView, String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(imageView.getContext())
+                .asGif()
+                .load(url)
+                .apply(RequestOptions.circleCropTransform()
+                        .placeholder(R.drawable.ic_loading_image)
+                        .error(new ColorDrawable(Color.WHITE))
+                        .fallback(new ColorDrawable(Color.RED))
+                )
+                .into(imageView);
+    }
+
+    /**
      * 加载网络图片
      *
      * @param url       url

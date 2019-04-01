@@ -158,6 +158,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                                 progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
                                     @Override
                                     public void onDismiss() {
+                                        LiveBus.getDefault().postEvent("LoginSuccess", true);
                                         finish();
                                     }
                                 });
