@@ -89,69 +89,68 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                 .observeForever(new Observer<GoodsDetailInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsDetailInfo response) {
+                        if (response.isSuccess()) {
+                            List<HorizontalTabTitle> title = new ArrayList<>();
+                            HorizontalTabTitle horizontalTabTitle = new HorizontalTabTitle("商品");
+                            title.add(horizontalTabTitle);
+                            horizontalTabTitle = new HorizontalTabTitle("详情");
+                            title.add(horizontalTabTitle);
+                            horizontalTabTitle = new HorizontalTabTitle("评价");
+                            title.add(horizontalTabTitle);
+                            List<BaseFragment> fragmentList = new ArrayList<>();
 
-//                        goodsInfo = data.getData();
-                        List<HorizontalTabTitle> title = new ArrayList<>();
-                        HorizontalTabTitle horizontalTabTitle = new HorizontalTabTitle("商品");
-                        title.add(horizontalTabTitle);
-
-                        horizontalTabTitle = new HorizontalTabTitle("详情");
-                        title.add(horizontalTabTitle);
-
-                        horizontalTabTitle = new HorizontalTabTitle("评价");
-                        title.add(horizontalTabTitle);
-
-                        List<BaseFragment> fragmentList = new ArrayList<>();
-
-                        fragmentList.add(GoodsInfoMainFragment.newInstance(id, response));
-                        fragmentList.add(GoodsInfoDetailMainFragment.newInstance(id));
-                        fragmentList.add(GoodsCommentFragment.newInstance(id));
-                        binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
-                        binding.vpContent.setOffscreenPageLimit(3);
-                        binding.pstsTabs.setViewPager(binding.vpContent);
+                            fragmentList.add(GoodsInfoMainFragment.newInstance(id, response));
+                            fragmentList.add(GoodsInfoDetailMainFragment.newInstance(id));
+                            fragmentList.add(GoodsCommentFragment.newInstance(id));
+                            binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
+                            binding.vpContent.setOffscreenPageLimit(3);
+                            binding.pstsTabs.setViewPager(binding.vpContent);
+                        } else {
+                            showErrorState();
+                        }
                     }
                 });
 
     }
 
-    private void getGoodsInfo() {
-        showLoadingState();
-//        ApiRepo.getProduct(Long.parseLong(id)).subscribeWith(new RxSubscriber<GoodsListInfo>() {
-//            @Override
-//            public void onSuccess(GoodsListInfo data) {
-//                showSuccess();
-//                goodsInfo = data.getData();
-//                List<HorizontalTabTitle> title = new ArrayList<>();
-//                HorizontalTabTitle horizontalTabTitle = new HorizontalTabTitle("商品");
-//                title.add(horizontalTabTitle);
+//    private void getGoodsInfo() {
+//        showLoadingState();
+////        ApiRepo.getProduct(Long.parseLong(id)).subscribeWith(new RxSubscriber<GoodsListInfo>() {
+////            @Override
+////            public void onSuccess(GoodsListInfo data) {
+////                showSuccess();
+////                goodsInfo = data.getData();
+////                List<HorizontalTabTitle> title = new ArrayList<>();
+////                HorizontalTabTitle horizontalTabTitle = new HorizontalTabTitle("商品");
+////                title.add(horizontalTabTitle);
+////
+////                horizontalTabTitle = new HorizontalTabTitle("详情");
+////                title.add(horizontalTabTitle);
+////
+////                horizontalTabTitle = new HorizontalTabTitle("评价");
+////                title.add(horizontalTabTitle);
+////
+////                List<BaseFragment> fragmentList = new ArrayList<>();
+////                fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance(id, goodsInfo));
+////                fragmentList.add(GoodsInfoDetailMainFragment.newInstance(data.getData()));
+////                fragmentList.add(GoodsCommentFragment.newInstance(String.valueOf(goodsInfo.getGoodsId())));
+////
+////                vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
+////                vpContent.setOffscreenPageLimit(3);
+////                pstsTabs.setViewPager(vpContent);
+////
+////                /*判断是否可以购买*/
+////                isBuy();
+////            }
+////
+////            @Override
+////            public void onFailure(String msg) {
+////                KLog.i(msg);
+////                showErrorState();
+////            }
+////        });
 //
-//                horizontalTabTitle = new HorizontalTabTitle("详情");
-//                title.add(horizontalTabTitle);
-//
-//                horizontalTabTitle = new HorizontalTabTitle("评价");
-//                title.add(horizontalTabTitle);
-//
-//                List<BaseFragment> fragmentList = new ArrayList<>();
-//                fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance(id, goodsInfo));
-//                fragmentList.add(GoodsInfoDetailMainFragment.newInstance(data.getData()));
-//                fragmentList.add(GoodsCommentFragment.newInstance(String.valueOf(goodsInfo.getGoodsId())));
-//
-//                vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
-//                vpContent.setOffscreenPageLimit(3);
-//                pstsTabs.setViewPager(vpContent);
-//
-//                /*判断是否可以购买*/
-//                isBuy();
-//            }
-//
-//            @Override
-//            public void onFailure(String msg) {
-//                KLog.i(msg);
-//                showErrorState();
-//            }
-//        });
-
-    }
+//    }
     /*是否可以购买*/
 //    private void isBuy() {
 //        if (!isGo()) {

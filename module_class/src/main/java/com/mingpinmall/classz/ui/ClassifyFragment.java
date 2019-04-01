@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.mingpinmall.classz.R;
@@ -31,10 +32,12 @@ import java.util.List;
  */
 public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel> implements OnItemClickListener {
 
-    private TRecyclerView rvLeftRecyclerView, rvRightRecyclerView;
-    private DelegateAdapter leftAdapter, rightAdapter;
+    //    private TRecyclerView rvLeftRecyclerView;
+    TRecyclerView rvRightRecyclerView;
+    //    private DelegateAdapter leftAdapter;
+    DelegateAdapter rightAdapter;
 
-    private final ItemData leftData = new ItemData();
+//    private final ItemData leftData = new ItemData();
 
     private final ItemData rightData = new ItemData();
 
@@ -67,19 +70,19 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        leftAdapter = AdapterPool.newInstance().getLeftAdapter(getActivity())
-                .setOnItemClickListener(this)
-                .build();
-
+//        leftAdapter = AdapterPool.newInstance().getLeftAdapter(getActivity())
+//                .setOnItemClickListener(this)
+//                .build();
         rightAdapter = AdapterPool.newInstance().getRightAdapter(getActivity())
                 .build();
-
-        leftAdapter.setDatas(leftData);
+//        leftAdapter.setDatas(leftData);
         rightAdapter.setDatas(rightData);
-        rvLeftRecyclerView = binding.trvLeft;
+        TRecyclerView rvLeftRecyclerView = binding.trvLeft;
         rvRightRecyclerView = binding.trvRight;
 
-        rvLeftRecyclerView.setAdapter(leftAdapter);
+        rvLeftRecyclerView.setAdapter(AdapterPool.newInstance().getLeftAdapter(getActivity())
+                .setOnItemClickListener(this)
+                .build());
         rvRightRecyclerView.setAdapter(rightAdapter);
 
         rvLeftRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
@@ -95,7 +98,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
             public int getSpanSize(int i) {
                 if (rightData.get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean) {
                     return 3;
-                }else if(rightData.get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean.ChildBean){
+                } else if (rightData.get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean.ChildBean) {
                     return 3;
                 } else {
                     return 1;
@@ -149,22 +152,18 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 .observeForever(new Observer<ClassificationBean>() {
                     @Override
                     public void onChanged(@Nullable ClassificationBean response) {
-                        leftData.clear();
+//                        leftData.clear();
                         List<ClassificationBean.DatasBean.ClassListBean> class_list = response.getDatas().getClass_list();
-//                        ClassificationBean.DatasBean.ClassListBean element =
-//                                new ClassificationBean.DatasBean.ClassListBean("-1",
-//                                        "品牌推荐", BuildConfig.APP_URL+"/wap/images/degault.png");
-//                        element.setGc_id("-1");
-//                        element.setGc_name("品牌推荐");
-//                        element.setImage(BuildConfig.APP_URL+"/wap/images/degault.png");
-                        class_list.add(0, new ClassificationBean.DatasBean.ClassListBean("-1",
-                                "品牌推荐", "http://39.108.254.185/wap/images/degault.png"));
-                        leftData.addAll(class_list);
-                        leftAdapter.notifyDataSetChanged();
-                        data = response.getDatas().getClass_list().get(0);
-                        data.setSelect(true);
+                        data = new ClassificationBean.DatasBean.ClassListBean("-1",
+                                "品牌推荐", BuildConfig.APP_URL + "/wap/images/degault.png", true);
+                        class_list.add(0, data);
+//                        leftData.addAll(class_list);
+//                        leftAdapter.notifyDataSetChanged();
+//                        data = response.getDatas().getClass_list().get(0);
+//                        data.setSelect(true);
 //                        mViewModel.getRight(data.getGc_id());
 
+                        binding.setData(class_list);
                         mViewModel.getRightByBrand();
 
                         /**************************/
@@ -191,17 +190,15 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object object) {
+                        rightData.clear();
                         if (object instanceof ClassificationRighitBean) {
                             ClassificationRighitBean data = (ClassificationRighitBean) object;
-                            rightData.clear();
                             rightData.addAll(data.getDatas().getClass_list());
-                            rightAdapter.notifyDataSetChanged();
                         } else if (object instanceof BrandListInfo) {
                             BrandListInfo data = (BrandListInfo) object;
-                            rightData.clear();
                             rightData.addAll(data.getDatas().getBrand_list());
-                            rightAdapter.notifyDataSetChanged();
                         }
+                        rightAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -220,18 +217,18 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
             if (leftPostion != postion) {
 
                 data.setSelect(false);
-                leftAdapter.notifyItemChanged(leftPostion);
+//                leftAdapter.notifyItemChanged(leftPostion);
                 data = (ClassificationBean.DatasBean.ClassListBean) object;
 
                 data.setSelect(true);
                 if (data.getGc_id().equals("-1")) {
                     mViewModel.getRightByBrand();
                 } else {
-                    mViewModel.getRight(String.valueOf(leftAdapter.getItemId(postion)));
+                    mViewModel.getRight(data.getGc_id());
                 }
 
                 leftPostion = postion;
-                leftAdapter.notifyItemChanged(leftPostion);
+//                leftAdapter.notifyItemChanged(leftPostion);
             }
         } else if (object instanceof BrandListInfo.DatasBean.BrandListBean) {
 //            leftAdapter.notifyItemChanged(leftPostion);

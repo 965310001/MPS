@@ -38,7 +38,36 @@ public class AdapterPool {
         return adapterPool;
     }
 
+    /*获取左边数据*/
+    public DelegateAdapter.Builder getLeftAdapter(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(ClassificationBean.DatasBean.ClassListBean.class, new DataBindItemViewHolderManager(context, R.layout.classify_item_of_list, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
+
+    /*获取右边的数据*/
+    public DelegateAdapter.Builder getRightAdapter(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.class, new DataBindItemViewHolderManager(context, R.layout.classify_item_of_righit_list, BR.data))
+                        .bind(BrandListInfo.DatasBean.BrandListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_classify_brand, BR.data))
+                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.ChildBean.class, new DataBindItemViewHolderManager(context, R.layout.item_classify, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
+
+    /*分类列表里面的list*/
+    public DelegateAdapter.Builder getProductsAdapter(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_products, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
+
     /*-------------------------------------------------------------------首页---------------------------------------------------*/
+//    public DelegateAdapter.Builder getRightAdapter1(Context context) {
+//        return getAdapter(new DelegateAdapter.Builder<>()
+//                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.ChildBean.class, new DataBindItemViewHolderManager(context, R.layout.item_classify, BR.data))
+//                        .bind(BrandListInfo.DatasBean.BrandListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_classify_brand, BR.data)),
+//                context, ProgressStyle.Pacman);
+//    }
 //    public DelegateAdapter.Builder getHomeAdapter(Context context) {
 //        return getNoFootAdapter(new DelegateAdapter.Builder<>()
 //                        .bind(Banner.class, new BannerItemView(context))
@@ -80,40 +109,33 @@ public class AdapterPool {
     }*/
 
     /*------------------------------------------------------------------分类---------------------------------------------------*/
-    public DelegateAdapter.Builder getLeftAdapter(Context context) {
-        return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(ClassificationBean.DatasBean.ClassListBean.class, new ClassificationItemHolder(context)),
-                context, ProgressStyle.BallRotate);
-    }
-
+//    public DelegateAdapter.Builder getLeftAdapter(Context context) {
+//        return getAdapter(new DelegateAdapter.Builder<>()
+//                        .bind(ClassificationBean.DatasBean.ClassListBean.class, new ClassificationItemHolder(context)),
+//                context, ProgressStyle.BallRotate);
+//    }
     /*三级listview*/
-    public DelegateAdapter.Builder getRightAdapter(Context context) {
-        return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.class,
-                                new ClassificationRightItemHolder(context))
-                        .bind(BrandListInfo.DatasBean.BrandListBean.class,
-                                new ClassificationRightBrandAdapter(context)),
-                context, ProgressStyle.BallRotate);
-    }
-
-    public DelegateAdapter.Builder getRightAdapter1(Context context) {
-        return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.ChildBean.class,
-                                new ClassificationRightAdapter(context))
-                        .bind(BrandListInfo.DatasBean.BrandListBean.class,
-                                new ClassificationRightBrandAdapter(context)),
-                context, ProgressStyle.BallRotate);
-    }
-
-    /*分类列表里面的list*/
-    public DelegateAdapter.Builder getProductsAdapter(Context context) {
-//        new DataBindItemViewHolderManager<GoodsInfo>(context, R.layout.item_products, BR.data);
-        return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(GoodsInfo.class, new DataBindItemViewHolderManager(
-                                context, R.layout.item_products, BR.data)),
+//    public DelegateAdapter.Builder getRightAdapter(Context context) {
+//        return getAdapter(new DelegateAdapter.Builder<>()
+//                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.class,
+//                                new ClassificationRightItemHolder(context))
+//                        .bind(BrandListInfo.DatasBean.BrandListBean.class,
+//                                new ClassificationRightBrandAdapter(context)),
+//                context, ProgressStyle.BallRotate);
+//    }
+//        public DelegateAdapter.Builder getRightAdapter1(Context context) {
+//        return getAdapter(new DelegateAdapter.Builder<>()
+//                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.ChildBean.class,
+//                                new ClassificationRightAdapter(context))
+//                        .bind(BrandListInfo.DatasBean.BrandListBean.class,
+//                                new ClassificationRightBrandAdapter(context)),
+//                context, ProgressStyle.BallRotate);
+//    }
+//    public DelegateAdapter.Builder getProductsAdapter(Context context) {
+//        return getAdapter(new DelegateAdapter.Builder<>()
 //                        .bind(GoodsInfo.class, new ProductsItemHolder(context)),
-                context, ProgressStyle.Pacman);
-    }
+//                context, ProgressStyle.Pacman);
+//    }
 
 //    /*配送方式*/
 //    public DelegateAdapter.Builder getDistributionAdapter(Context context) {

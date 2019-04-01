@@ -1,7 +1,11 @@
 package com.mingpinmall.classz;
 
+import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,53 +46,72 @@ public class DatabingUtils {
         });
     }
 
-//    @BindingAdapter({"leon:urlid"})
-//    public static void goTo(LSettingItem settingItem, final String id) {
-//        settingItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
-//            @Override
-//            public void click(boolean isChecked) {
-//                String[] strings = id.split("-");
-//                ActivityToActivity.toActivity(strings[0], "id", strings[1]);
-//            }
-//        });
-//    }
-
-//    @BindingAdapter({"leon:lefttext"})
-//    public static void setLeftText(LSettingItem settingItem, String data) {
-//        if (null != data) {
-//            settingItem.setLeftText(data);
-//        }
-////        settingItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
-////            @Override
-////            public void click(boolean isChecked) {
-////                KLog.i(data.getGc_name() + " " + data.getGc_id());
-////                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(data.getGc_id()));
-////            }
-////        });
-//    }
-
     @BindingAdapter("bind:items")
     public static void setChild(TRecyclerView rv, List data) {
         DelegateAdapter adapter = (DelegateAdapter) rv.getAdapter();
-        KLog.i(rv.getTag());
         if (null == adapter) {
+            KLog.i(rv.getTag());
+            Context context = rv.getContext();
             switch (Integer.parseInt(rv.getTag().toString())) {
                 case 0:
-                    adapter = AdapterPool.newInstance().getRightAdapter1(rv.getContext()).build();
-                    GridLayoutManager layout = new GridLayoutManager(rv.getContext(), 3);
+                    adapter = AdapterPool.newInstance().getRightAdapter(context).build();
+                    GridLayoutManager layout = new GridLayoutManager(context, 3);
                     rv.setLayoutManager(layout);
-                    rv.setAdapter(adapter);
                     break;
                 case 1:
+                    /*左边*/
+                    adapter = AdapterPool.newInstance().getLeftAdapter(context)
+                            .build();
+                    rv.addItemDecoration(new DividerItemDecoration(context,
+                            DividerItemDecoration.VERTICAL));
+                    layout = new GridLayoutManager(context, 1);
+                    rv.setLayoutManager(layout);
                     break;
                 default:
                     KLog.i("必须个TRecyclerView 设置TAG");
                     break;
             }
+            rv.setAdapter(adapter);
         }
-        adapter.setDatas(data);
+        if (null != data && data.size() > 0) {
+            adapter.setDatas(data);
+        }
         adapter.notifyDataSetChanged();
     }
+
+//    @BindingAdapter("bind:onItemClickListener")
+//    public static void setOnItemClickListener(TRecyclerView rv, OnItemClickListener listener) {
+//        DelegateAdapter.Builder adapter = (DelegateAdapter.Builder) rv.getAdapter();
+//        KLog.i(rv.getTag());
+//        if (null != adapter) {
+////            Context context = rv.getContext();
+////            switch (Integer.parseInt(rv.getTag().toString())) {
+////                case 0:
+////                    adapter = AdapterPool.newInstance().getRightAdapter(context).build();
+////                    GridLayoutManager layout = new GridLayoutManager(context, 3);
+////                    rv.setLayoutManager(layout);
+////                    break;
+////                case 1:
+////                    /*左边*/
+////                    adapter = AdapterPool.newInstance().getLeftAdapter(context)
+////                            .setOnItemClickListener((OnItemClickListener) context)
+////                            .build();
+////                    rv.addItemDecoration(new DividerItemDecoration(context,
+////                            DividerItemDecoration.VERTICAL));
+////                    layout = new GridLayoutManager(context, 1);
+////                    rv.setLayoutManager(layout);
+////                    break;
+////                default:
+////                    KLog.i("必须个TRecyclerView 设置TAG");
+////                    break;
+////            }
+////            rv.setAdapter(adapter);
+//        }
+//        if (null != data && data.size() > 0) {
+//            adapter.setDatas(data);
+//        }
+//        adapter.notifyDataSetChanged();
+//    }
 
 
 }

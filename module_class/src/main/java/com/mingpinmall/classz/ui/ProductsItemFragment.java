@@ -73,7 +73,7 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
                 .observe(this, new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
-                        KLog.i("111" + typeId);
+                        KLog.i("" + typeId);
                         setData(response.getDatas().getGoods_list());
                     }
                 });

@@ -134,7 +134,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         setGoodsInfo();
 //        setGoodsHeadImg();
         /*commentList(ApiData.getGoodsCommentList());*/
-        getReviewList();
+//        getReviewList();
     }
 
     @Override
@@ -176,34 +176,34 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     /*商品评价信息*/
-    private void getReviewList() {
-//        commentList(ApiData.getGoodsCommentList());
-//        ApiRepo.getReviewList(String.valueOf(goodsInfo.getGoodsId()), 1).subscribeWith(new RxSubscriber<ReviewListInfo>() {
+//    private void getReviewList() {
+////        commentList(ApiData.getGoodsCommentList());
+////        ApiRepo.getReviewList(String.valueOf(goodsInfo.getGoodsId()), 1).subscribeWith(new RxSubscriber<ReviewListInfo>() {
+////
+////            @Override
+////            public void onSuccess(ReviewListInfo response) {
+//////                KLog.i(response.getErrorMsg() + response.getError_desc());
+////////                if (!response.isSuccess()) {
+////////                    ToastUtils.showLong(response.getErrorMsg());
+////////                } else {
+////////                }
+////                commentList(response.getData());
+////            }
+////
+////            @Override
+////            public void onFailure(String msg) {
+////                KLog.i(msg);
+////                /*ToastUtils.showLong(msg);*/
+////            }
+////
+////            @Override
+////            public void onError(Throwable t) {
+////                KLog.i(t.getMessage());
+////                /*ToastUtils.showLong("请稍后再试");*/
+////            }
+////        });
 //
-//            @Override
-//            public void onSuccess(ReviewListInfo response) {
-////                KLog.i(response.getErrorMsg() + response.getError_desc());
-//////                if (!response.isSuccess()) {
-//////                    ToastUtils.showLong(response.getErrorMsg());
-//////                } else {
-//////                }
-//                commentList(response.getData());
-//            }
-//
-//            @Override
-//            public void onFailure(String msg) {
-//                KLog.i(msg);
-//                /*ToastUtils.showLong(msg);*/
-//            }
-//
-//            @Override
-//            public void onError(Throwable t) {
-//                KLog.i(t.getMessage());
-//                /*ToastUtils.showLong("请稍后再试");*/
-//            }
-//        });
-
-    }
+//    }
 
 
     @Override

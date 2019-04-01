@@ -12,6 +12,7 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import java.util.List;
 
 public class FragmentPagerAdapter extends FragmentStatePagerAdapter {
+
     private List<HorizontalTabTitle> titles;
     private List<BaseFragment> fragments;
 

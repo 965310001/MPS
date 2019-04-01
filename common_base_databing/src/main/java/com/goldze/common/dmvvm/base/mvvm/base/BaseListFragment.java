@@ -124,7 +124,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
                         ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(lastPositions);
                         lastItemPosition = findMax(lastPositions);
                     }
-                    if (lastItemPosition + 1 == adapter.getItemCount()
+                    if (lastItemPosition + 4 == adapter.getItemCount()
                             && isLoadMore) {
                         /*加载更多数据*/
                         KLog.i("加载更多数据");
@@ -148,7 +148,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                KLog.i("" + (dy > 0) + dy);
+//                KLog.i("" + (dy > 0) + dy);
                 if (!mRecyclerView.canScrollVertically(1)) {
                     if (dy > 0 && floatBtn.getVisibility() == View.GONE) {
                         floatBtn.show();//滑动到底部
@@ -255,12 +255,12 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     }
 
     protected void onRefreshSuccess(Collection<?> collection) {
-//        newItems.clear();
+        newItems.clear();
         if (!newItems.containsAll(collection)) {
             KLog.i("不存在");
             newItems.addAll(collection);
         } else {
-            KLog.i("存在");
+//            KLog.i("存在");
         }
         oldItems.clear();
         oldItems.addAll(newItems);

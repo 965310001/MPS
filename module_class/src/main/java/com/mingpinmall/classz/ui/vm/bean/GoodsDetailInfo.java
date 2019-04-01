@@ -15,6 +15,10 @@ public class GoodsDetailInfo extends BaseBean {
     private int code;
     private DatasBean datas;
 
+    public boolean isSuccess() {
+        return code == 200;
+    }
+
     public int getCode() {
         return code;
     }

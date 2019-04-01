@@ -1,9 +1,12 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import android.databinding.Bindable;
+import android.view.View;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.mingpinmall.classz.BR;
+import com.socks.library.KLog;
+import com.trecyclerview.listener.OnItemClickListener;
 
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class ClassificationBean extends BaseBean {
             this.class_list = class_list;
         }
 
-        public static class ClassListBean extends BaseBean {
+        public static class ClassListBean extends BaseBean  {
             /**
              * gc_id : 1
              * gc_name : 服饰鞋帽
@@ -81,10 +84,11 @@ public class ClassificationBean extends BaseBean {
             public ClassListBean() {
             }
 
-            public ClassListBean(String gc_id, String gc_name, String image) {
+            public ClassListBean(String gc_id, String gc_name, String image, boolean isSelect) {
                 this.gc_id = gc_id;
                 this.gc_name = gc_name;
                 this.image = image;
+                this.isSelect = isSelect;
             }
 
             @Bindable
@@ -124,7 +128,6 @@ public class ClassificationBean extends BaseBean {
                 this.image = image;
                 notifyPropertyChanged(BR.image);
             }
-
 //            public String getType_id() {
 //                return type_id;
 //            }

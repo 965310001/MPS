@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <variable
+            name="data"
+            type="List" />
+    </data>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -11,20 +21,14 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/rv_left"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="2"-->
-                <!--android:background="@color/white"-->
-                <!--android:visibility="gone" />-->
-
             <com.trecyclerview.TRecyclerView
                 android:id="@+id/trv_left"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:tag="1"
+                bind:items="@{data}" />
 
             <View style="@style/VerticalLine" />
 
@@ -36,12 +40,21 @@
                 android:background="@color/white" />
 
             <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/rv_right"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="7"-->
-                <!--android:background="@color/white"-->
-                <!--android:visibility="gone" />-->
+            <!--android:id="@+id/rv_left"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="2"-->
+            <!--android:background="@color/white"-->
+            <!--android:visibility="gone" />-->
+
+
+            <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rv_right"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="7"-->
+            <!--android:background="@color/white"-->
+            <!--android:visibility="gone" />-->
 
         </LinearLayout>
 
