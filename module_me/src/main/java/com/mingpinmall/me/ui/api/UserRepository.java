@@ -19,18 +19,13 @@ public class UserRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<UserBean>() {
                     @Override
                     public void onSuccess(UserBean result) {
-                        sendData("EVENT_KEY_USER_GETUSER", result);
+                        sendData(Constants.EVENT_KEY_USER_GETUSER, result);
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-
+                        sendData(Constants.Err_EVENT_KEY_USER_GETUSER, msg);
                     }
                 })
         );
@@ -49,12 +44,7 @@ public class UserRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-
+                        sendData(Constants.Err_EVENT_KEY_GETCODEKEY, msg);
                     }
 
                 })

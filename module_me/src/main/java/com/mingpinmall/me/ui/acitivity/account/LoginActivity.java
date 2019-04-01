@@ -17,6 +17,7 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
@@ -55,8 +56,8 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         setTitle(R.string.title_loginActivity);
-
         mViewModel.makeCodeKey();
+        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
 
         TabLayout.Tab tab = binding.tabs.newTab();
         tab.setText(R.string.tabs_login_puk);
@@ -122,8 +123,6 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                     binding.edAuthCode.getText().toString().trim(),//用户输入的验证码(密码登录使用)
                     codeKey//获取验证码的密匙(密码登录使用)
             );
-            progressDialog = new ProgressDialog();
-            progressDialog.show(getSupportFragmentManager());
             progressDialog.onLoading("登录中");
         } else if (viewId == R.id.btn_getPsdCode) {
             /*获取登陆短信动态码*/
@@ -150,7 +149,28 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                 .observeForever(new Observer<UserBean>() {
                     @Override
                     public void onChanged(@Nullable UserBean userBean) {
-                        progressDialog.onComplete("登录结束", 1500);
+                        switch (userBean.getCode()) {
+                            case 400:
+                                progressDialog.onFail(userBean.getDatas().getError(), 1500);
+                                break;
+                            case 200:
+                                SharePreferenceUtil.saveUser(userBean);
+                                progressDialog.onComplete("登录成功", 1500, new ProgressDialog.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss() {
+                                        finish();
+                                    }
+                                });
+                                break;
+                        }
+                    }
+                });
+        LiveBus.getDefault()
+                .subscribe(Constants.Err_EVENT_KEY_USER_GETUSER, String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String msg) {
+                        progressDialog.onFail(msg, 1500);
                     }
                 });
         LiveBus.getDefault()
@@ -165,7 +185,14 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                         }
                     }
                 });
+    }
 
+    @Override
+    public void onDestroy() {
+        LiveBus.getDefault().clear(Constants.EVENT_KEY_USER_GETUSER);
+        LiveBus.getDefault().clear(Constants.Err_EVENT_KEY_USER_GETUSER);
+        LiveBus.getDefault().clear(Constants.EVENT_KEY_GETCODEKEY);
+        super.onDestroy();
     }
 
     private void setAuthCodeImage() {
