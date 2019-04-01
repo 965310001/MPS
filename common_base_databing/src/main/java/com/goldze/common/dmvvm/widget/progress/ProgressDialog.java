@@ -2,6 +2,7 @@ package com.goldze.common.dmvvm.widget.progress;
 
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.R;
@@ -204,6 +205,7 @@ public class ProgressDialog extends BaseDialog {
             return;
         }
         customStatusView.loadSuccess();
+        label.setVisibility(title.isEmpty() ? View.GONE : View.VISIBLE);
         label.setText(title);
         handler.postDelayed(runnableForLoading, delayMillis);
     }
@@ -225,6 +227,7 @@ public class ProgressDialog extends BaseDialog {
             return;
         }
         customStatusView.loadFailure();
+        label.setVisibility(title.isEmpty() ? View.GONE : View.VISIBLE);
         label.setText(title);
         handler.postDelayed(runnableForLoading, delayMillis);
     }
@@ -245,6 +248,7 @@ public class ProgressDialog extends BaseDialog {
             return;
         }
         customStatusView.loadLoading();
+        label.setVisibility(title.isEmpty() ? View.GONE : View.VISIBLE);
         label.setText(title);
     }
 

@@ -14,7 +14,7 @@
         android:animateLayoutChanges="true"
         android:background="@drawable/bg_loading_dialog"
         android:minHeight="120dp"
-        android:padding="6dp">
+        android:padding="8dp">
 
         <LinearLayout
             android:id="@+id/loding"
@@ -27,17 +27,17 @@
 
             <com.goldze.common.dmvvm.widget.progress.CustomStatusView
                 android:id="@+id/view_status"
-                android:layout_width="84dp"
-                android:layout_height="84dp"
-                android:layout_marginTop="8dp"
-                app:progress_width="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:padding="1dp"
+                app:progress_width="2dp"
                 app:progress_radius="30dp"/>
 
             <TextView
                 android:id="@+id/label_loding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text=""
                 android:textColor="@color/black"

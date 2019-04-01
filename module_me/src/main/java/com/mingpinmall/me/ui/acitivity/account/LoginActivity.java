@@ -115,7 +115,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_sublimt) {
             /*登陆*/
-            progressDialog.onLoading("登录中");
+            progressDialog.onLoading("");
             mViewModel.login(
                     binding.edPhone.getText().toString().trim(),//用户名
                     binding.tabs.getSelectedTabPosition() == 0 ? binding.edMsgCode.getText().toString().trim()//密码或手机验证码
@@ -155,7 +155,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                                 break;
                             case 200:
                                 SharePreferenceUtil.saveUser(userBean);
-                                progressDialog.onComplete("登录成功", new ProgressDialog.OnDismissListener() {
+                                progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
                                     @Override
                                     public void onDismiss() {
                                         finish();
