@@ -1,35 +1,30 @@
 package com.goldze.common.dmvvm.widget.progress;
 
-
 import android.os.Handler;
-import android.support.v7.widget.AppCompatImageView;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.R;
-import com.wang.avi.AVLoadingIndicatorView;
 
 /**
- * 功能描述：
+ * 功能描述：快速提示    等待中Dialog
  * 创建人：小斌
  * 创建时间: 2019/3/30
  **/
 public class ProgressDialog extends BaseDialog {
 
-    private AVLoadingIndicatorView animeViewLoding;
-    private TextView labelLoding;
-    private LinearLayout loding;
-    private AppCompatImageView animeViewComplete;
+    private final String TAG = this.getClass().getSimpleName();
 
-    private TextView labelComplete;
-    private LinearLayout complete;
+    private CustomStatusView customStatusView;
+    private TextView label;
+
     private boolean isInit = false;
+    private FragmentManager fragmentManager;
 
     private Handler handler = new Handler();
 
-    private boolean stop = false;
-    private OnFinish onFinish = null;
+    private OnDismissListener onDismissListener = null;
 
     private Commad commads = new Commad();
 
@@ -43,6 +38,21 @@ public class ProgressDialog extends BaseDialog {
         }
     }
 
+    public static ProgressDialog initNewDialog(FragmentManager fragmentManager) {
+        return new ProgressDialog().setFragmentManager(fragmentManager);
+    }
+
+    /**
+     * 设置FragmentManager
+     *
+     * @param fragmentManager
+     * @return
+     */
+    public ProgressDialog setFragmentManager(FragmentManager fragmentManager) {
+        this.fragmentManager = fragmentManager;
+        return this;
+    }
+
     @Override
     public int setUpLayoutId() {
         return R.layout.dialog_loading;
@@ -50,12 +60,8 @@ public class ProgressDialog extends BaseDialog {
 
     @Override
     public void convertView(ViewHolder holder, BaseDialog dialog) {
-        animeViewLoding = holder.getView(R.id.animeView_loding);
-        labelLoding = holder.getView(R.id.label_loding);
-        loding = holder.getView(R.id.loding);
-        animeViewComplete = holder.getView(R.id.animeView_complete);
-        labelComplete = holder.getView(R.id.label_complete);
-        complete = holder.getView(R.id.complete);
+        customStatusView = holder.getView(R.id.view_status);
+        label = holder.getView(R.id.label_loding);
         isInit = true;
         switch (commads.type) {
             case LODING:
@@ -76,20 +82,28 @@ public class ProgressDialog extends BaseDialog {
     private Runnable runnableForLoading = new Runnable() {
         @Override
         public void run() {
-            dismiss();
             delayedDoing();
+            dismissAllowingStateLoss();
         }
     };
 
-    private Runnable runnableForFail = new Runnable() {
-        @Override
-        public void run() {
-            if (stop) {
-                stop = false;
-                onFail("等待超时", 1500);
-            }
-        }
-    };
+
+    /**
+     * 关闭对话框时的回调
+     */
+    private void delayedDoing() {
+        if (onDismissListener != null)
+            onDismissListener.onDismiss();
+    }
+
+    /**
+     * 完成
+     *
+     * @param title
+     */
+    public void onComplete(String title) {
+        onComplete(title, 2000);
+    }
 
     /**
      * 完成
@@ -97,56 +111,39 @@ public class ProgressDialog extends BaseDialog {
      * @param title
      * @param delayMillis
      */
-    public ProgressDialog onComplete(String title, int delayMillis) {
-        this.onFinish = onFinish;
-        complete(title, delayMillis);
-        return this;
+    public void onComplete(String title, int delayMillis) {
+        onComplete(title, delayMillis, null);
     }
 
-    private void stopAnim() {
-        animeViewLoding.smoothToHide();
-    }
-
-    private void delayedDoing() {
-        onFinish.onFinish();
+    /**
+     * 完成
+     *
+     * @param title
+     * @param onDismissListener
+     */
+    public void onComplete(String title, OnDismissListener onDismissListener) {
+        onComplete(title, 2000, onDismissListener);
     }
 
     /**
      * 完成，带回调
      *
-     * @param title       标题
-     * @param delayMillis 保持显示时长
-     * @param onFinish    销毁时的回调
+     * @param title             标题
+     * @param delayMillis       保持显示时长
+     * @param onDismissListener 销毁时的回调
      */
-    public ProgressDialog onComplete(String title, int delayMillis, OnFinish onFinish) {
-        this.onFinish = onFinish;
-        stop = false;
+    public void onComplete(String title, int delayMillis, OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
         complete(title, delayMillis);
-        return this;
     }
 
     /**
-     * 失败带回调
-     *
-     * @param title
-     * @param delayMillis
-     * @param onFinish
-     */
-    public ProgressDialog onFail(String title, int delayMillis, OnFinish onFinish) {
-        this.onFinish = onFinish;
-        fail(title, delayMillis);
-        return this;
-    }
-
-    /**
-     * 加载中
+     * 失败
      *
      * @param title
      */
-    public ProgressDialog onLoading(String title) {
-        this.onFinish = null;
-        londing(title);
-        return this;
+    public void onFail(String title) {
+        onFail(title, 2000);
     }
 
     /**
@@ -155,11 +152,40 @@ public class ProgressDialog extends BaseDialog {
      * @param title
      * @param delayMillis
      */
-    public ProgressDialog onFail(String title, int delayMillis)
-    {
-        this.onFinish = null;
+    public void onFail(String title, int delayMillis) {
+        onFail(title, delayMillis, null);
+    }
+
+    /**
+     * 失败
+     *
+     * @param title
+     * @param onDismissListener
+     */
+    public void onFail(String title, OnDismissListener onDismissListener) {
+        onFail(title, 2000, onDismissListener);
+    }
+
+    /**
+     * 失败带回调
+     *
+     * @param title
+     * @param delayMillis
+     * @param onDismissListener
+     */
+    public void onFail(String title, int delayMillis, OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
         fail(title, delayMillis);
-        return this;
+    }
+
+    /**
+     * 加载中
+     *
+     * @param title
+     */
+    public void onLoading(String title) {
+        this.onDismissListener = null;
+        londing(title);
     }
 
     /**
@@ -169,18 +195,18 @@ public class ProgressDialog extends BaseDialog {
      * @param delayMillis
      */
     private void complete(String title, int delayMillis) {
+        if (getDialog() == null) {
+            show(fragmentManager, TAG);
+        }
         if (!isInit) {
             commads.delayMillis = delayMillis;
             commads.message = title;
             commads.type = Commad.CommadType.SUCCESS;
             return;
         }
-        stop = false;
-        stopAnim();
-        loding.setVisibility(View.GONE);
-        complete.setVisibility(View.VISIBLE);
-         animeViewComplete.setImageResource(R.drawable.ic_complete);
-        labelComplete.setText(title);
+        customStatusView.loadSuccess();
+        label.setVisibility(title.isEmpty() ? View.GONE : View.VISIBLE);
+        label.setText(title);
         handler.postDelayed(runnableForLoading, delayMillis);
     }
 
@@ -191,18 +217,18 @@ public class ProgressDialog extends BaseDialog {
      * @param delayMillis
      */
     private void fail(String title, int delayMillis) {
+        if (getDialog() == null) {
+            show(fragmentManager, TAG);
+        }
         if (!isInit) {
             commads.delayMillis = delayMillis;
             commads.message = title;
             commads.type = Commad.CommadType.FAIL;
             return;
         }
-        stop = false;
-        stopAnim();
-        loding.setVisibility(View.GONE);
-        complete.setVisibility(View.VISIBLE);
-        animeViewComplete.setImageResource(R.drawable.ic_fail);
-        labelComplete.setText(title);
+        customStatusView.loadFailure();
+        label.setVisibility(title.isEmpty() ? View.GONE : View.VISIBLE);
+        label.setText(title);
         handler.postDelayed(runnableForLoading, delayMillis);
     }
 
@@ -212,19 +238,21 @@ public class ProgressDialog extends BaseDialog {
      * @param title
      */
     private void londing(String title) {
+        if (getDialog() == null) {
+            show(fragmentManager, TAG);
+        }
         if (!isInit) {
             commads.delayMillis = 0;
             commads.message = title;
             commads.type = Commad.CommadType.LODING;
             return;
         }
-        animeViewLoding.smoothToShow();
-        loding.setVisibility(View.VISIBLE);
-        complete.setVisibility(View.GONE);
-        labelLoding.setText(title);
+        customStatusView.loadLoading();
+        label.setVisibility(title.isEmpty() ? View.GONE : View.VISIBLE);
+        label.setText(title);
     }
 
-    interface OnFinish {
-        void onFinish();
+    public interface OnDismissListener {
+        void onDismiss();
     }
 }

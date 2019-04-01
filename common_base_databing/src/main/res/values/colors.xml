@@ -11,7 +11,9 @@
     <color name="color_D6D8DA">#D6D8DA</color>
     <color name="dark">#5e5656</color>
 
+    <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
 
     <!-- ************************* 通用 ********************* -->
     <color name="gray">#cccccc</color>
@@ -21,6 +23,10 @@
     <color name="shallow_red">#ED5564</color>
     <color name="orange">#fa800a</color>
 
+
+
+    <color name="load_success">#07CC1E</color>
+    <color name="load_failure">#C51319</color>
 
 
 </resources>
