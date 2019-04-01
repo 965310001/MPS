@@ -9,7 +9,16 @@ import com.goldze.common.dmvvm.base.bean.BaseBean;
  **/
 public class CodeKeyMode extends BaseBean {
 
+    private int code;
     private DatasBean datas;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
 
     public DatasBean getDatas() {
         return datas;

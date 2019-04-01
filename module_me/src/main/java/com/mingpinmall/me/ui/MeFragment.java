@@ -1,12 +1,7 @@
 package com.mingpinmall.me.ui;
 
-import android.arch.lifecycle.Observer;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,37 +9,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.goldze.common.dmvvm.base.event.LiveBus;
-import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.ImageUtils;
-import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentMeBinding;
 import com.mingpinmall.me.ui.adapter.MeItemAdapter;
-import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.MeItemBean;
-import com.mingpinmall.me.ui.bean.MyInfoBean;
-import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.AutoColorView;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * 我的
  */
-public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewModel> implements View.OnClickListener {
+public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.OnClickListener {
 
     private MeItemAdapter meItemAdapter;
     private AutoColorView autoColorView;
-    private View headView;
 
     private final int[] colorIds = new int[]{
             R.color.bg_color_0,
@@ -82,7 +66,6 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
 
     @Override
     public void initView(Bundle state) {
-        super.initView(state);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         initHeadView();
         initSettingItem();
@@ -90,44 +73,10 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         setListScrollListener();
     }
 
-    @Override
-    protected void dataObserver() {
-        KLog.i("绑定事件监听");
-        LiveBus.getDefault().subscribe("LoginSuccess").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object isLogin) {
-                KLog.i("登陆成功，刷新数据");
-                mViewModel.getUserInfo();
-            }
-        });
-
-        LiveBus.getDefault().subscribe(Constants.EVENT_KEY_ME_GETUSERINFO, MyInfoBean.class).observeForever(new Observer<MyInfoBean>() {
-            @Override
-            public void onChanged(@Nullable MyInfoBean result) {
-                KLog.i("获取成功，刷新展示内容。");
-                headView.findViewById(R.id.iv_headItem1).setBackgroundColor(Color.parseColor("#00000000"));
-                headView.findViewById(R.id.iv_headItem2).setBackgroundColor(Color.parseColor("#00000000"));
-
-                ((AppCompatTextView)headView.findViewById(R.id.tv_name)).setText(result.getDatas().getMember_info().getUser_name());
-                ((AppCompatTextView)headView.findViewById(R.id.tv_level)).setText(result.getDatas().getMember_info().getLevel_name());
-                ((AppCompatTextView)headView.findViewById(R.id.iv_headItem1)).setText(result.getDatas().getMember_info().getFavorites_goods());
-                ((AppCompatTextView)headView.findViewById(R.id.iv_headItem2)).setText(result.getDatas().getMember_info().getFavorites_store());
-
-                ImageUtils.loadImageAsGIF((AppCompatImageView) headView.findViewById(R.id.iv_headImage), result.getDatas().getMember_info().getAvatar());
-
-            }
-        });
-    }
-
-    @Override
-    protected Object getStateEventKey() {
-        return "ME_FRAGMENT";
-    }
-
     private void initHeadView() {
         //初始化适配器和头部
         meItemAdapter = new MeItemAdapter();
-        headView = LayoutInflater.from(activity).inflate(R.layout.view_me_user_head, binding.recyclerView, false);
+        View headView = LayoutInflater.from(activity).inflate(R.layout.view_me_user_head, binding.recyclerView, false);
         meItemAdapter.addHeaderView(headView);
         meItemAdapter.bindToRecyclerView(binding.recyclerView);
         //拿到头部 View

@@ -32,21 +32,10 @@ import java.util.List;
  */
 public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel> implements OnItemClickListener {
 
-    //    private TRecyclerView rvLeftRecyclerView;
     TRecyclerView rvRightRecyclerView;
-    //    private DelegateAdapter leftAdapter;
     DelegateAdapter rightAdapter;
 
-//    private final ItemData leftData = new ItemData();
-
     private final ItemData rightData = new ItemData();
-
-    /***************/
-//    private RecyclerView rvLeft, rvRight;
-//    private BaseItemAdapter leftBaseAdapter, rightBaseAdapter;
-
-    /***************/
-
 
     public ClassifyFragment() {
     }
@@ -70,12 +59,8 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-//        leftAdapter = AdapterPool.newInstance().getLeftAdapter(getActivity())
-//                .setOnItemClickListener(this)
-//                .build();
         rightAdapter = AdapterPool.newInstance().getRightAdapter(getActivity())
                 .build();
-//        leftAdapter.setDatas(leftData);
         rightAdapter.setDatas(rightData);
         final TRecyclerView rvLeftRecyclerView = binding.trvLeft;
         rvRightRecyclerView = binding.trvRight;
@@ -90,8 +75,6 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rvLeftRecyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager = new LinearLayoutManager(getActivity());
-
-        /********/
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -110,12 +93,6 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     }
 
     @Override
-    protected void onStateRefresh() {
-        super.onStateRefresh();
-        lazyLoad();
-    }
-
-    @Override
     protected void dataObserver() {
         super.dataObserver();
 
@@ -124,38 +101,14 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 .observeForever(new Observer<ClassificationBean>() {
                     @Override
                     public void onChanged(@Nullable ClassificationBean response) {
-//                        leftData.clear();
                         List<ClassificationBean.DatasBean.ClassListBean> class_list = response.getDatas().getClass_list();
                         data = new ClassificationBean.DatasBean.ClassListBean("-1",
                                 "品牌推荐", BuildConfig.APP_URL + "/wap/images/degault.png", true);
                         class_list.add(0, data);
-//                        leftData.addAll(class_list);
-//                        leftAdapter.notifyDataSetChanged();
-//                        data = response.getDatas().getClass_list().get(0);
-//                        data.setSelect(true);
-//                        mViewModel.getRight(data.getGc_id());
-
                         binding.setData(class_list);
                         mViewModel.getRightByBrand();
-
-                        /**************************/
-//                        leftBaseAdapter.addDataItems(response.getDatas().getClass_list());
-                        /**************************/
                     }
                 });
-
-//        LiveBus.getDefault()
-//                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, ClassificationRighitBean.class)
-//                .observeForever(new Observer<ClassificationRighitBean>() {
-//                    @Override
-//                    public void onChanged(@Nullable ClassificationRighitBean response) {
-//                        rightData.clear();
-//                        rightData.addAll(response.getDatas().getClass_list());
-//                        rightAdapter.notifyDataSetChanged();
-//                        /**************************/
-//                        /**************************/
-//                    }
-//                });
 
         LiveBus.getDefault()
                 .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, Object.class)
@@ -166,16 +119,11 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                         if (object instanceof ClassificationRighitBean) {
                             ClassificationRighitBean data = (ClassificationRighitBean) object;
                             rightData.addAll(data.getDatas().getClass_list());
-
-//                            binding.setRightdata(data.getDatas().getClass_list());
                         } else if (object instanceof BrandListInfo) {
                             BrandListInfo data = (BrandListInfo) object;
                             rightData.addAll(data.getDatas().getBrand_list());
-
-//                            binding.setRightdata(data.getDatas().getBrand_list());
                         }
                         binding.setRightdata(rightData);
-//                        rightAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -192,33 +140,16 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     public void onItemClick(View view, int postion, Object object) {
         if (object instanceof ClassificationBean.DatasBean.ClassListBean) {
             if (leftPostion != postion) {
-
                 data.setSelect(false);
-//                leftAdapter.notifyItemChanged(leftPostion);
                 data = (ClassificationBean.DatasBean.ClassListBean) object;
-
                 data.setSelect(true);
                 if (data.getGc_id().equals("-1")) {
                     mViewModel.getRightByBrand();
                 } else {
                     mViewModel.getRight(data.getGc_id());
                 }
-
                 leftPostion = postion;
-//                leftAdapter.notifyItemChanged(leftPostion);
             }
-        } else if (object instanceof BrandListInfo.DatasBean.BrandListBean) {
-//            leftAdapter.notifyItemChanged(leftPostion);
-//            data = (ClassificationBean.DatasBean.ClassListBean) object;
-//
-//            data.setSelect(true);
-//            mViewModel.getRightByBrand();
-//
-//            leftPostion = postion;
-//            leftAdapter.notifyItemChanged(leftPostion);
         }
-
     }
-
-
 }

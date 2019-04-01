@@ -97,6 +97,7 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
     @Override
     protected void onStateRefresh() {
         showLoading();
+        lazyLoad();
     }
 
 

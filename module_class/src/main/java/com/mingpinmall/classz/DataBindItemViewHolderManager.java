@@ -33,19 +33,25 @@ public class DataBindItemViewHolderManager extends AbsItemHolder<Object, DataBin
 
     @Override
     public ViewHolder createViewHolder(View view) {
-        return new ViewHolder(DataBindingUtil.bind(view).getRoot());
+        return new ViewHolder(view);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder viewHolder, @NonNull Object t) {
-        DataBindingUtil.getBinding(viewHolder.itemView).setVariable(bindVariableId, t);
-        DataBindingUtil.getBinding(viewHolder.itemView).executePendingBindings();
+        viewHolder.getBinding().setVariable(bindVariableId, t);
+        viewHolder.getBinding().executePendingBindings();
     }
 
     class ViewHolder extends AbsHolder {
+        ViewDataBinding binding;
+
         private ViewHolder(View itemView) {
             super(itemView);
+            binding = DataBindingUtil.bind(itemView);
         }
 
+        public ViewDataBinding getBinding() {
+            return binding;
+        }
     }
 }

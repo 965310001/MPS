@@ -112,6 +112,11 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     }
 
     @Override
+    protected Object getStateEventKey() {
+        return "";
+    }
+
+    @Override
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_sublimt) {
             /*登陆*/
@@ -158,7 +163,6 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                                 progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
                                     @Override
                                     public void onDismiss() {
-                                        LiveBus.getDefault().postEvent("LoginSuccess", true);
                                         finish();
                                     }
                                 });

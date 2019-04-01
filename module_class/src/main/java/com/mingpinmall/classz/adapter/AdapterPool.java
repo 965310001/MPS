@@ -5,8 +5,6 @@ import android.content.Context;
 import com.mingpinmall.classz.BR;
 import com.mingpinmall.classz.DataBindItemViewHolderManager;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.ui.vm.ClassificationItemHolder;
-import com.mingpinmall.classz.ui.vm.ClassificationRightItemHolder;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
