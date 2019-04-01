@@ -151,11 +151,14 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                     public void onChanged(@Nullable ClassificationBean response) {
                         leftData.clear();
                         List<ClassificationBean.DatasBean.ClassListBean> class_list = response.getDatas().getClass_list();
-                        ClassificationBean.DatasBean.ClassListBean element = new ClassificationBean.DatasBean.ClassListBean();
-                        element.setGc_id("-1");
-                        element.setGc_name("品牌推荐");
-                        element.setImage("/images/degault.png");
-                        class_list.add(0, element);
+//                        ClassificationBean.DatasBean.ClassListBean element =
+//                                new ClassificationBean.DatasBean.ClassListBean("-1",
+//                                        "品牌推荐", BuildConfig.APP_URL+"/wap/images/degault.png");
+//                        element.setGc_id("-1");
+//                        element.setGc_name("品牌推荐");
+//                        element.setImage(BuildConfig.APP_URL+"/wap/images/degault.png");
+                        class_list.add(0, new ClassificationBean.DatasBean.ClassListBean("-1",
+                                "品牌推荐", "http://39.108.254.185/wap/images/degault.png"));
                         leftData.addAll(class_list);
                         leftAdapter.notifyDataSetChanged();
                         data = response.getDatas().getClass_list().get(0);

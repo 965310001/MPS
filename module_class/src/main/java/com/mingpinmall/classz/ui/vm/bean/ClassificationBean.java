@@ -78,6 +78,15 @@ public class ClassificationBean extends BaseBean {
             private String image;
             private boolean isSelect;
 
+            public ClassListBean() {
+            }
+
+            public ClassListBean(String gc_id, String gc_name, String image) {
+                this.gc_id = gc_id;
+                this.gc_name = gc_name;
+                this.image = image;
+            }
+
             @Bindable
             public boolean isSelect() {
                 return isSelect;
