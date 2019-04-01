@@ -4,8 +4,11 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.BR;
+import com.socks.library.KLog;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -303,12 +306,15 @@ public class GoodsInfo extends BaseBean {
     }
 
     public void click(View view) {
-        ToastUtils.showLong(view.getId() + " " + getGoods_id() + "");
+        KLog.i("click");
+//        ToastUtils.showLong(view.getId() + " " + getGoods_id() + "");
+        ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", goods_id);
     }
 
-    public void onclick(View view, GoodsInfo data) {
-        ToastUtils.showLong(view.getId() + " " + data.toString() + getGoods_id());
-    }
+//    public void onclick(View view, GoodsInfo data) {
+//        KLog.i("onclick");
+//        ToastUtils.showLong(view.getId() + " " + data.toString() + getGoods_id());
+//    }
 
     @Override
     public boolean equals(Object o) {

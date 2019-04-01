@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -144,7 +144,8 @@
                     style="@style/TextStyle"
                     android:layout_below="@id/iv_cart"
                     android:layout_centerInParent="true"
-                    android:text="购物车" />
+                    android:text="购物车"
+                    tools:ignore="NotSibling" />
 
             </RelativeLayout>
 

@@ -20,13 +20,19 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getRight(gcId);
     }
 
-    public void getRightByBrand(){
+    public void getRightByBrand() {
         mRepository.getRightByBrand();
     }
 
     /*商品列表*/
     public void getShappingList(String bId, String curpage, String keyword, String typeId) {
-        mRepository.getShappingList(bId, curpage, keyword,typeId);
+        mRepository.getShappingList(bId, curpage, keyword, typeId);
     }
+
+    /*商品详情*/
+    public void getGoodsDetail(String goodsId) {
+        mRepository.getGoodsDetail(goodsId);
+    }
+
 
 }

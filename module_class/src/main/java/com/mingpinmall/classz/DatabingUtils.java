@@ -42,6 +42,31 @@ public class DatabingUtils {
         });
     }
 
+//    @BindingAdapter({"leon:urlid"})
+//    public static void goTo(LSettingItem settingItem, final String id) {
+//        settingItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+//            @Override
+//            public void click(boolean isChecked) {
+//                String[] strings = id.split("-");
+//                ActivityToActivity.toActivity(strings[0], "id", strings[1]);
+//            }
+//        });
+//    }
+
+//    @BindingAdapter({"leon:lefttext"})
+//    public static void setLeftText(LSettingItem settingItem, String data) {
+//        if (null != data) {
+//            settingItem.setLeftText(data);
+//        }
+////        settingItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+////            @Override
+////            public void click(boolean isChecked) {
+////                KLog.i(data.getGc_name() + " " + data.getGc_id());
+////                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(data.getGc_id()));
+////            }
+////        });
+//    }
+
     @BindingAdapter("bind:items")
     public static void setChild(TRecyclerView rv, List data) {
         DelegateAdapter adapter = (DelegateAdapter) rv.getAdapter();

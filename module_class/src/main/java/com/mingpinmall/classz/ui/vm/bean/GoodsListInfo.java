@@ -3,8 +3,8 @@ package com.mingpinmall.classz.ui.vm.bean;
 
 import android.databinding.Bindable;
 
-import com.mingpinmall.classz.BR;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.mingpinmall.classz.BR;
 
 import java.util.List;
 

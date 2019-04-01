@@ -5,15 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.freelib.multiitem.adapter.BaseItemAdapter;
-import com.freelib.multiitem.adapter.holder.DataBindViewHolderManager;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
-import com.mingpinmall.classz.BR;
-import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
-import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
@@ -24,7 +19,7 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
     private final static String ID = "id";
     private final static String TYPEID = "typeId";
     private String typeId;
-    private String keyword="";
+    private String keyword = "";
 
     public ProductsItemFragment() {
     }
@@ -55,10 +50,10 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
     }
 
     //    @Override
-    protected void register(BaseItemAdapter adapter) {
-        adapter.register(GoodsInfo.class,
-                new DataBindViewHolderManager(R.layout.item_products, BR.data));
-    }
+//    protected void register(BaseItemAdapter adapter) {
+//        adapter.register(GoodsInfo.class,
+//                new DataBindViewHolderManager(R.layout.item_products, BR.data));
+//    }
 
     /*获取更多数据*/
     @Override

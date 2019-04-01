@@ -4,6 +4,7 @@ import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 
 import java.util.Map;
@@ -25,6 +26,11 @@ public interface ClassifyService {
 
     /*品牌*/
     String BRAND = "/mo_bile/index.php?app=brand&wwi=recommend_list";
+    /*商品详情*/
+    String GOODSDETAIL = "/mo_bile/index.php?app=goods&wwi=goods_detail";
+
+    /*加入购物车*/
+    String CART_ADD="/mo_bile/index.php?app=member_cart&wwi=cart_add";
 
     /*添加收藏*/
     String ADDCOLLECTION = "/mo_bile/index.php?app=member_favorites&wwi=favorites_add";
@@ -50,6 +56,11 @@ public interface ClassifyService {
     /*商品分类*/
     @GET(SHAPPINGLIST)
     Flowable<GoodsListInfo> getShappingList(@QueryMap Map<String, Object> map);
+
+
+    /*商品详情*/
+    @GET(GOODSDETAIL)
+    Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId);
 
     /*添加收藏*/
 //    @GET(ADDCOLLECTION)

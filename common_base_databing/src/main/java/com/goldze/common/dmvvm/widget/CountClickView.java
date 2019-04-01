@@ -28,20 +28,12 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
 
     LayoutCountClickViewBinding binding;
 
-    //    @BindView(R2.id.tv_count)
-    TextView tvCount = binding.tvCount;
+    TextView tvCount;
+    ImageView ivPlus;
+    ImageView ivMinus;
+    LinearLayout llMinus;
+    LinearLayout llPlus;
 
-    //    @BindView(R2.id.iv_plus)
-    ImageView ivPlus = binding.ivPlus;
-
-    //    @BindView(R2.id.iv_minus)
-    ImageView ivMinus = binding.ivMinus;
-
-    //    @BindView(R2.id.ll_minus)
-    LinearLayout llMinus = binding.llMinus;//减 控件父类
-
-    //    @BindView(R2.id.ll_plus)
-    LinearLayout llPlus = binding.llPlus;//加 控件父类
     private Context mContext;
     private int maxCount = MAX_COUNT;
     private int minCount = MIN_COUNT;
@@ -73,6 +65,11 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
 //        ButterKnife.bind(this, View.inflate(context, R.layout.layout_count_click_view, this));
 
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.layout_count_click_view, null, false);
+        tvCount = binding.tvCount;
+        ivPlus = binding.ivPlus;
+        ivMinus = binding.ivMinus;
+        llMinus = binding.llMinus;
+        llPlus = binding.llPlus;
 
 //        tvCount.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -110,7 +107,7 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
         return Integer.valueOf(text);
     }
 
-//    @OnClick({R2.id.iv_plus, R2.id.iv_minus})
+    //    @OnClick({R2.id.iv_plus, R2.id.iv_minus})
     @Override
     public void onClick(View v) {
         int count = Integer.valueOf(tvCount.getText().toString().trim());

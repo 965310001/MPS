@@ -10,11 +10,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.utils.TUtil;
 import com.tqzhang.stateview.stateview.BaseStateControl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author GuoFeng
@@ -22,7 +26,11 @@ import com.tqzhang.stateview.stateview.BaseStateControl;
  * @description:
  */
 public abstract class AbsLifecycleActivity<VD extends ViewDataBinding, T extends AbsViewModel> extends BaseActivity<VD> {
+
     protected T mViewModel;
+    protected Object mStateEventKey;
+    protected String mStateEventTag;
+    private List<Object> eventKeys = new ArrayList<>();
 
     public AbsLifecycleActivity() {
     }
@@ -30,8 +38,31 @@ public abstract class AbsLifecycleActivity<VD extends ViewDataBinding, T extends
     @Override
     public void initViews(Bundle savedInstanceState) {
         mViewModel = VMProviders(this, (Class<T>) TUtil.getInstance(this, 1));
-        dataObserver();
+//        dataObserver();
+        if (null != mViewModel) {
+            dataObserver();
+            mStateEventKey = getStateEventKey();
+            mStateEventTag = getStateEventTag();
+            eventKeys.add(new StringBuilder((String) mStateEventKey).append(mStateEventTag).toString());
+            LiveBus.getDefault().subscribe(mStateEventKey, mStateEventTag).observe(this, observer);
+        }
     }
+
+    /**
+     * ViewPager +fragment tag
+     *
+     * @return
+     */
+    protected String getStateEventTag() {
+        return "";
+    }
+
+    /**
+     * get state page event key
+     *
+     * @return
+     */
+    protected abstract Object getStateEventKey();
 
     protected <T extends ViewModel> T VMProviders(FragmentActivity fragment, @NonNull Class modelClass) {
         return (T) ViewModelProviders.of(fragment).get(modelClass);
@@ -80,4 +111,14 @@ public abstract class AbsLifecycleActivity<VD extends ViewDataBinding, T extends
             }
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (eventKeys != null && eventKeys.size() > 0) {
+            for (int i = 0; i < eventKeys.size(); i++) {
+                LiveBus.getDefault().clear(eventKeys.get(i));
+            }
+        }
+    }
 }

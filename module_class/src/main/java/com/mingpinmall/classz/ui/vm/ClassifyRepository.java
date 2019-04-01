@@ -10,6 +10,7 @@ import com.mingpinmall.classz.ui.vm.api.ClassifyService;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.socks.library.KLog;
 
@@ -118,7 +119,6 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
-
     /*商品列表*/
     public void getShappingList(String bId, String curpage, String keyword, final String typeId) {
         Map<String, Object> map = new HashMap<>();
@@ -163,6 +163,39 @@ public class ClassifyRepository extends BaseRepository {
         );
 
     }
+
+    /*商品详情*/
+    public void getGoodsDetail(String goodsId) {
+        addDisposable(apiService.getGoodsDetail(goodsId)
+                .compose(RxSchedulers.<GoodsDetailInfo>io_main())
+                .subscribeWith(new RxSubscriber<GoodsDetailInfo>() {
+                    @Override
+                    public void onSuccess(GoodsDetailInfo result) {
+                        sendData(Constants.GOODSDETAIL_EVENT_KEY, result);
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY_STATE, StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY_STATE, StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY_STATE, StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY_STATE, StateConstants.NET_WORK_STATE);
+                    }
+                })
+        );
+
+    }
+
 
 
 }
