@@ -9,6 +9,10 @@
         <variable
             name="data"
             type="List" />
+
+        <variable
+            name="rightdata"
+            type="List" />
     </data>
 
     <FrameLayout
@@ -37,7 +41,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:tag="2"
+                bind:items="@{rightdata}" />
 
             <!--<android.support.v7.widget.RecyclerView-->
             <!--android:id="@+id/rv_left"-->

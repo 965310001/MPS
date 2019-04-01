@@ -77,7 +77,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 .build();
 //        leftAdapter.setDatas(leftData);
         rightAdapter.setDatas(rightData);
-        TRecyclerView rvLeftRecyclerView = binding.trvLeft;
+        final TRecyclerView rvLeftRecyclerView = binding.trvLeft;
         rvRightRecyclerView = binding.trvRight;
 
         rvLeftRecyclerView.setAdapter(AdapterPool.newInstance().getLeftAdapter(getActivity())
@@ -96,9 +96,9 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int i) {
-                if (rightData.get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean) {
+                if (rightAdapter.getItems().get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean) {
                     return 3;
-                } else if (rightData.get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean.ChildBean) {
+                } else if (rightAdapter.getItems().get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean.ChildBean) {
                     return 3;
                 } else {
                     return 1;
@@ -106,34 +106,6 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
             }
         });
         rvRightRecyclerView.setLayoutManager(gridLayoutManager);
-        /********/
-
-//        rvRightRecyclerView.setLayoutManager(linearLayoutManager);
-
-        /*******************************/
-//        rvLeft = binding.rvLeft;
-//        rvRight = binding.rvRight;
-//        linearLayoutManager = new LinearLayoutManager(getActivity());
-//        rvLeft.setLayoutManager(linearLayoutManager);
-//        linearLayoutManager = new LinearLayoutManager(getActivity());
-//        rvRight.setLayoutManager(linearLayoutManager);
-//        rvLeft.addItemDecoration(new DividerItemDecoration(getContext(),
-//                DividerItemDecoration.VERTICAL));
-//        rvRight.addItemDecoration(new DividerItemDecoration(getContext(),
-//                DividerItemDecoration.VERTICAL));
-//        leftBaseAdapter = new BaseItemAdapter();
-//        rightBaseAdapter = new BaseItemAdapter();
-//        rvLeft.setAdapter(leftBaseAdapter);
-//        rvRight.setAdapter(rightBaseAdapter);
-//
-//        leftBaseAdapter.register(ClassificationBean.DatasBean.ClassListBean.class,
-//                new DataBindViewHolderManager(R.layout.classify_item_of_list, BR.data));
-
-//        rightBaseAdapter.register(ClassificationRighitBean.DatasBean.ClassListBean.class,
-//                new DataBindViewHolderManager(R.layout.item_products, BR.data));
-
-        /*******************************/
-
         mViewModel.getLeft();
     }
 
@@ -194,11 +166,16 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                         if (object instanceof ClassificationRighitBean) {
                             ClassificationRighitBean data = (ClassificationRighitBean) object;
                             rightData.addAll(data.getDatas().getClass_list());
+
+//                            binding.setRightdata(data.getDatas().getClass_list());
                         } else if (object instanceof BrandListInfo) {
                             BrandListInfo data = (BrandListInfo) object;
                             rightData.addAll(data.getDatas().getBrand_list());
+
+//                            binding.setRightdata(data.getDatas().getBrand_list());
                         }
-                        rightAdapter.notifyDataSetChanged();
+                        binding.setRightdata(rightData);
+//                        rightAdapter.notifyDataSetChanged();
                     }
                 });
     }
