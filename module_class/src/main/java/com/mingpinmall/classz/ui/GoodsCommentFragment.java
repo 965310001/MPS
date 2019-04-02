@@ -1,38 +1,35 @@
 package com.mingpinmall.classz.ui;
 
+
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
-import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
-import com.mingpinmall.classz.databinding.FragmentGoodsCommentBinding;
+import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
+import com.mingpinmall.classz.adapter.AdapterPool;
+import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
-import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
+import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
+import com.socks.library.KLog;
+import com.trecyclerview.adapter.DelegateAdapter;
+import com.trecyclerview.listener.OnItemClickListener;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import android.support.annotation.Nullable;
 
 /**
  * 商品详情 -商品评价
  */
-public class GoodsCommentFragment extends AbsLifecycleFragment<FragmentGoodsCommentBinding, ClassifyViewModel> {
+public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
-    TextView tvCommentCount;
-    TextView tvPraiseRate;
-    TextView tvEmptyComment;
-    RecyclerView recycleView;
-    ImageView ivRight;
+//    TextView tvCommentCount;
+//    TextView tvPraiseRate;
+//    TextView tvEmptyComment;
+//    RecyclerView recycleView;
+//    ImageView ivRight;
+//    private final List<GoodsComment> commentList = new ArrayList<>();
+//    private GoodsCommentAdapter adapter;
 
-    private final List<GoodsComment> commentList = new ArrayList<>();
-    private GoodsCommentAdapter adapter;
+    String type="";
 
     public GoodsCommentFragment() {
     }
@@ -52,92 +49,77 @@ public class GoodsCommentFragment extends AbsLifecycleFragment<FragmentGoodsComm
 //        fragment.setArguments(bundle);
 //        return fragment;
 //    }
+//    @Override
+//    protected int getLayoutResId() {
+//        return R.layout.fragment_goods_comment;
+//    }
+//
+//    @Override
+//    protected int getContentResId() {
+//        return R.id.content_layout;
+//    }
+//    @Override
+//    public void initView(Bundle state) {
+//        super.initView(state);
+//
+////        tvCommentCount = binding.tvCommentCount;
+////        tvPraiseRate = binding.tvPraiseRate;
+////        tvEmptyComment = binding.tvEmptyComment;
+////        recycleView = binding.recycleView;
+////        ivRight = binding.ivRight;
+////        showSuccess();
+////        adapter = new GoodsCommentAdapter(getContext(), commentList);
+////        recycleView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+////        recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+////        recycleView.setAdapter(adapter);
+////
+////        ivRight.setVisibility(View.GONE);
+////        tvEmptyComment.setVisibility(View.GONE);
+////        recycleView.setVisibility(View.VISIBLE);
+////        tvCommentCount.setText("用户点评");
+////        tvPraiseRate.setText("好评率97.8%");
+////        commentList(ApiData.getGoodsCommentList());
+////        commentList((List<GoodsComment>) getArguments().getSerializable("data"));
+//
+//    }
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_goods_comment;
-    }
-
-    @Override
-    protected int getContentResId() {
-        return R.id.content_layout;
-    }
-
-    @Override
-    public void initView(Bundle state) {
-
-        tvCommentCount = binding.tvCommentCount;
-        tvPraiseRate = binding.tvPraiseRate;
-        tvEmptyComment = binding.tvEmptyComment;
-        recycleView = binding.recycleView;
-        ivRight = binding.ivRight;
-
-        showSuccess();
-
-        adapter = new GoodsCommentAdapter(getContext(), commentList);
-        recycleView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recycleView.setAdapter(adapter);
-
-        ivRight.setVisibility(View.GONE);
-        tvEmptyComment.setVisibility(View.GONE);
-        recycleView.setVisibility(View.VISIBLE);
-        tvCommentCount.setText("用户点评");
-//        tvPraiseRate.setText("好评率97.8%");
-
-        /*commentList(ApiData.getGoodsCommentList());*/
-
-
-//        commentList((List<GoodsComment>) getArguments().getSerializable("data"));
+    protected void getRemoteData() {
+        super.getRemoteData();
+        KLog.i("EVALUATE_EVENT_KEY");
+        mViewModel.getEvaluate(getArguments().getString("id"), type, String.valueOf(page));
     }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
-//        registerObserver("",Bep)
+        /*评价列表*/
+        registerObserver(Constants.EVALUATE_EVENT_KEY, GoodsCommentListBean.class)
+                .observeForever(new Observer<GoodsCommentListBean>() {
+                    @Override
+                    public void onChanged(@Nullable GoodsCommentListBean response) {
+                        KLog.i("EVALUATE_EVENT_KEY");
+                        setData(response.getDatas().getGoods_eval_list());
+                    }
+                });
+    }
+
+    @Override
+    protected DelegateAdapter createAdapter() {
+        return AdapterPool.newInstance()
+                .getEvaluate(getActivity())
+                .setOnItemClickListener(this)
+                .build();
     }
 
     @Override
     protected Object getStateEventKey() {
-        return "";
+        return Constants.EVALUATE_EVENT_KEY_LIST_STATE;
     }
 
-//    private void getReviewList() {
-////        commentList(ApiData.getGoodsCommentList());
-////        ApiRepo.getReviewList(getArguments().getString("id"), 1).subscribeWith(new RxSubscriber<ReviewListInfo>() {
-////
-////            @Override
-////            public void onSuccess(ReviewListInfo response) {
-//////                KLog.i(response.getErrorMsg() + response.getError_desc());
-////////                if (!response.isSuccess()) {
-////////                    ToastUtils.showLong(response.getErrorMsg());
-////////                } else {
-////////                }
-////                commentList(response.getData());
-////            }
-////
-////            @Override
-////            public void onFailure(String msg) {
-////                KLog.i(msg);
-////                ToastUtils.showLong(msg);
-////            }
-////
-////            @Override
-////            public void onError(Throwable t) {
-////                KLog.i(t.getMessage());
-////                ToastUtils.showLong("请稍后再试");
-////            }
-////        });
-//
-//    }
+    @Override
+    public void onItemClick(View view, int i, Object o) {
 
-
-    void commentList(List<GoodsComment> commentList) {
-        if (null != commentList && commentList.size() > 0) {
-//            tvCommentCount.setText(String.format("用户点评(%d)", commentList.size()));
-        }
-        this.commentList.addAll(commentList);
-        adapter.notifyDataSetChanged();
     }
 }
 

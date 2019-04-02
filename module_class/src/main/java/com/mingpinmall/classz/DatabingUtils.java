@@ -26,9 +26,14 @@ import java.util.List;
 
 public class DatabingUtils {
 
-    @BindingAdapter({"android:src"})
+    @BindingAdapter({"bind:src"})
     public static void imageLoader(ImageView imageView, String url) {
-        ImageUtils.loadImage(imageView, url);
+        if (".gif".endsWith(url)) {
+            KLog.i("gif");
+            ImageUtils.loadImageAsGIF(imageView, url);
+        } else {
+            ImageUtils.loadImage(imageView, url);
+        }
     }
 
     /*LSettingItem 的绑定*/

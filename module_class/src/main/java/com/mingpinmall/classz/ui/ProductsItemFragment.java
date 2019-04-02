@@ -43,11 +43,10 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
 //        return new BaseItemAdapter();
 //    }
 
-    @Override
-    public void initView(Bundle state) {
-        super.initView(state);
-
-    }
+//    @Override
+//    public void initView(Bundle state) {
+//        super.initView(state);
+//    }
 
     //    @Override
 //    protected void register(BaseItemAdapter adapter) {

@@ -8,6 +8,11 @@
         <variable
             name="data"
             type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
+
+
+        <!--<variable-->
+        <!--name="putData"-->
+        <!--type="com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo" />-->
     </data>
 
     <com.goldze.common.dmvvm.widget.SlideLayout
@@ -199,7 +204,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:layout_marginBottom="14dp"
-                        android:text="店主推荐"
+                        android:text="店铺推荐"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:visibility="visible" />
@@ -208,7 +213,12 @@
                         android:id="@+id/vp_recommend"
                         android:layout_width="match_parent"
                         android:layout_height="264dp"
+                        android:visibility="gone"
                         leon:canLoop="true" />
+
+                    <include
+                        android:id="@+id/recycle_recommend_view"
+                        layout="@layout/recyclerview_base" />
                 </LinearLayout>
 
 

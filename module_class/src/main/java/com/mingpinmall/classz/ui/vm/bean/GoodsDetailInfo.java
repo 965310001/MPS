@@ -59,7 +59,7 @@ public class GoodsDetailInfo extends BaseBean {
         private GoodsHairInfoBean goods_hair_info;
         private List<String> spec_image;
         private List<?> gift_array;
-        private List<GoodsCommendListBean> goods_commend_list;
+        private List<GoodsInfo> goods_commend_list;
         public List<GoodsComment> goods_eval_list;
 
         public GoodsInfo getGoods_info() {
@@ -134,11 +134,11 @@ public class GoodsDetailInfo extends BaseBean {
             this.gift_array = gift_array;
         }
 
-        public List<GoodsCommendListBean> getGoods_commend_list() {
+        public List<GoodsInfo> getGoods_commend_list() {
             return goods_commend_list;
         }
 
-        public void setGoods_commend_list(List<GoodsCommendListBean> goods_commend_list) {
+        public void setGoods_commend_list(List<GoodsInfo> goods_commend_list) {
             this.goods_commend_list = goods_commend_list;
         }
 
@@ -450,62 +450,6 @@ public class GoodsDetailInfo extends BaseBean {
 
             public void setArea_name(String area_name) {
                 this.area_name = area_name;
-            }
-        }
-
-        public static class GoodsCommendListBean {
-            /**
-             * goods_id : 109927
-             * goods_name : 正品瑞士邦顿（bestdon）手表BD7768L陶瓷女表全自动机械贝壳面镶钻蓝宝石商务时尚白领腕表
-             * goods_price : null
-             * goods_promotion_price : 1299.00
-             * goods_image_url : http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_240.gif
-             */
-
-            public String goods_id;
-            public String goods_name;
-            public Object goods_price;
-            public String goods_promotion_price;
-            public String goods_image_url;
-
-            public String getGoods_id() {
-                return goods_id;
-            }
-
-            public void setGoods_id(String goods_id) {
-                this.goods_id = goods_id;
-            }
-
-            public String getGoods_name() {
-                return goods_name;
-            }
-
-            public void setGoods_name(String goods_name) {
-                this.goods_name = goods_name;
-            }
-
-            public Object getGoods_price() {
-                return goods_price;
-            }
-
-            public void setGoods_price(Object goods_price) {
-                this.goods_price = goods_price;
-            }
-
-            public String getGoods_promotion_price() {
-                return goods_promotion_price;
-            }
-
-            public void setGoods_promotion_price(String goods_promotion_price) {
-                this.goods_promotion_price = goods_promotion_price;
-            }
-
-            public String getGoods_image_url() {
-                return goods_image_url;
-            }
-
-            public void setGoods_image_url(String goods_image_url) {
-                this.goods_image_url = goods_image_url;
             }
         }
     }

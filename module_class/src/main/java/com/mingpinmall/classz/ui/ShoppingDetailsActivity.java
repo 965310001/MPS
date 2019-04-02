@@ -93,7 +93,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                             binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
                             binding.vpContent.setOffscreenPageLimit(3);
                             binding.pstsTabs.setViewPager(binding.vpContent);
-
                             goodsInfo = response.getDatas().getGoods_info();
                             setCartNumber();
                         } else {

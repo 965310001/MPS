@@ -60,4 +60,9 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.execute(ClassifyService.ADDCOLLECTION_APP,
                 isLike ? ClassifyService.DELCOLLECTION_WWI : ClassifyService.ADDCOLLECTION_WWI, eventKey, map);
     }
+
+    /*评价列表*/
+    public void getEvaluate(String gId, String type, String curpage) {
+        mRepository.getEvaluate(gId, type, curpage);
+    }
 }

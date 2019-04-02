@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/width_match_height_match"
-    android:orientation="vertical">
-    <!-- 用户点评 -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <LinearLayout
-        android:id="@+id/ll_comment"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
-
-        <TextView
-            android:id="@+id/tv_comment_count"
-            style="@style/TextStyle_12"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_14"
-            tools:text="标题" />
-
+        style="@style/width_match_height_match"
+        android:orientation="vertical">
+        <!-- 用户点评 -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center|right"
-            tools:ignore="RtlHardcoded">
+            android:id="@+id/ll_comment"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
-                android:id="@+id/tv_praise_rate"
+                android:id="@+id/tv_comment_count"
                 style="@style/TextStyle_12"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_14"
+                tools:text="标题" />
 
-            <ImageView
-                android:id="@+id/iv_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:src="@drawable/icon_more" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                tools:ignore="RtlHardcoded">
+
+                <TextView
+                    android:id="@+id/tv_praise_rate"
+                    style="@style/TextStyle_12"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14" />
+
+                <ImageView
+                    android:id="@+id/iv_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:src="@drawable/icon_more" />
+            </LinearLayout>
         </LinearLayout>
+
+        <View style="@style/HorizontalLine" />
+
+        <TextView
+            android:id="@+id/tv_empty_comment"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:text="暂无评论"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_14"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_view"
+            style="@style/width_match_height_warp" />
     </LinearLayout>
-
-    <View style="@style/HorizontalLine" />
-
-    <TextView
-        android:id="@+id/tv_empty_comment"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:gravity="center"
-        android:text="暂无评论"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/text_14"
-        android:visibility="gone" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycle_view"
-        style="@style/width_match_height_warp" />
-</LinearLayout>
+</layout>

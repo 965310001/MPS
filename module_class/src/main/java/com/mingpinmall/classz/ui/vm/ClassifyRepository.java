@@ -11,6 +11,7 @@ import com.mingpinmall.classz.ui.vm.api.ClassifyService;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.socks.library.KLog;
@@ -199,6 +200,45 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
+    /*评价列表*/
+    public void getEvaluate(String gId, String type, String curpage) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("goods_id", gId);
+        map.put("type", type);
+        map.put("page", Constants.PAGE_RN);
+        map.put("curpage", curpage);
+        addDisposable(apiService.getEvaluate(map)
+                .compose(RxSchedulers.<GoodsCommentListBean>io_main())
+                .subscribeWith(new RxSubscriber<GoodsCommentListBean>() {
+                    @Override
+                    public void onSuccess(GoodsCommentListBean result) {
+                        sendData(Constants.EVALUATE_EVENT_KEY, result);
+                        showPageState(Constants.EVALUATE_EVENT_KEY_LIST_STATE, StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        showPageState(Constants.EVALUATE_EVENT_KEY_LIST_STATE, StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        showPageState(Constants.EVALUATE_EVENT_KEY_LIST_STATE, StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.EVALUATE_EVENT_KEY_LIST_STATE, StateConstants.NET_WORK_STATE);
+                    }
+                })
+        );
+
+    }
+
+
+    /*通用*/
     public void execute(String app, String wwi, final Object eventKey, Map<String, Object> map) {
         addDisposable(apiService.execute(app, wwi, map)
                         .compose(RxSchedulers.<ResultBean>io_main())

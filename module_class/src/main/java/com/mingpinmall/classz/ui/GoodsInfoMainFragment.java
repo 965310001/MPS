@@ -2,10 +2,10 @@ package com.mingpinmall.classz.ui;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,9 +16,7 @@ import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.SlideLayout;
 import com.leon.lib.settingview.LSettingItem;
@@ -28,6 +26,7 @@ import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
 import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoMainBinding;
 import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
+import com.mingpinmall.classz.ui.vm.adapter.RecommendGoodsInfoAdapter;
 import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
@@ -56,6 +55,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     CountClickView ccvClick;
     //    @BindView(R.id.tv_comment_count)
     TextView tvCommentCount;/*用于点评*/
+    LinearLayout llComment;/*用于点评*/
     //    @BindView(R.id.tv_praise_rate)
     TextView tvPraiseRate;
     //    @BindView(R.id.tv_empty_comment)
@@ -66,6 +66,11 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     SlideLayout svSwitch;
     //    @BindView(R.id.iv_icon)
     ImageView ivIcon;
+
+    RecyclerView recyclerViewRecommend;
+
+    ConvenientBanner<List<GoodsInfo>> vpRecommend; //推荐位置
+
 
     /**
      * 当前商品详情数据页的索引分别是图文详情、规格参数
@@ -105,6 +110,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 
     @Override
     public void initView(Bundle state) {
+        super.initView(state);
         showSuccess();
 
         vpItemGoodsImg = binding.vpItemGoodsImg;
@@ -113,9 +119,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         tvGoodsPrice = binding.tvGoodsPrice;
 //        tvOldPrice = binding.tvOldPrice;
         ccvClick = binding.ccvClick;
+        vpRecommend = binding.vpRecommend;
 
         tvCommentCount = binding.getRoot().findViewById(R.id.tv_comment_count);
+        llComment = binding.getRoot().findViewById(R.id.ll_comment);
         recyclerView = binding.getRoot().findViewById(R.id.recycle_view);
+        recyclerViewRecommend = binding.recycleRecommendView.recyclerView;
         tvEmptyComment = binding.getRoot().findViewById(R.id.tv_empty_comment);
 
         binding.ccvClick.setCurrCount(1);
@@ -303,6 +312,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             binding.lsiItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
                 @Override
                 public void click(boolean isChecked) {
+                    // TODO: 2019/4/2 品牌网自营
                     KLog.i("点击");
                 }
             });
@@ -313,9 +323,30 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 }
                 binding.tvDesc.setText(content);
             }
-
-            tvCommentCount.setText(String.format("用户点评(%S)", "0"));
+            if (null != goodsDetailInfo.getDatas().getGoods_evaluate_info()) {
+                tvCommentCount.setText(String.format("用户点评(%s)", goodsDetailInfo.getDatas().getGoods_evaluate_info().getAll()));
+            }
             commentList(goodsDetailInfo.getDatas().getGoods_eval_list());
+            llComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    shoppingDetailsActivity.setCurrentFragment(2);
+                }
+            });
+            /*店铺评价*/
+            if (null != goodsDetailInfo.getDatas() && null != goodsDetailInfo.getDatas().getGoods_commend_list()) {
+//                vpRecommend.setPages(new RecommendGoodsAdapter(getContext()), Arrays.asList(goodsDetailInfo.getDatas().getGoods_commend_list()))
+//                        .setCanLoop(goodsDetailInfo.getDatas().getGoods_commend_list().size() != 1)
+//                        .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
+//                        .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
+
+                recyclerViewRecommend.addItemDecoration(new DividerItemDecoration(getContext(),
+                        DividerItemDecoration.VERTICAL));
+                recyclerViewRecommend.setLayoutManager(new GridLayoutManager(getContext(), 4));
+                recyclerViewRecommend.setAdapter(new RecommendGoodsInfoAdapter(getContext(),
+                        goodsDetailInfo.getDatas().getGoods_commend_list()));
+            }
+
 
             // TODO: 2019/4/1  全国 有货 免运费
             KLog.i(goodsDetailInfo.getDatas().getGoods_hair_info().content + " " +

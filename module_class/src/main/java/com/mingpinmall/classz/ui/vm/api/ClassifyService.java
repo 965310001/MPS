@@ -4,6 +4,7 @@ import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 
@@ -33,6 +34,9 @@ public interface ClassifyService {
     String ADD_CART_APP = "member_cart";
     String ADD_CART_WWI = "cart_add";
 
+    /*商品评价*/
+    String EVALUATE = "/mo_bile/index.php?app=goods&wwi=goods_evaluate";
+
     /*添加收藏*/
     String ADDCOLLECTION_APP = "member_favorites";
     String ADDCOLLECTION_WWI = "favorites_add";
@@ -58,6 +62,10 @@ public interface ClassifyService {
     /*商品分类*/
     @GET(SHAPPINGLIST)
     Flowable<GoodsListInfo> getShappingList(@QueryMap Map<String, Object> map);
+
+    /*商品评价*/
+    @GET(EVALUATE)
+    Flowable<GoodsCommentListBean> getEvaluate(@QueryMap Map<String, Object> map);
 
 
     /*商品详情*/

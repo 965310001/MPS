@@ -3,6 +3,7 @@ package com.mingpinmall.classz.ui.vm.bean;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 商品评价
@@ -40,10 +41,10 @@ public class GoodsComment extends BaseBean {
     private String member_avatar;
     private String geval_addtime_date;
     private String geval_addtime_again_date;
-    private List<?> geval_image_240;
-    private List<?> geval_image_1024;
-    private List<?> geval_image_again_240;
-    private List<?> geval_image_again_1024;
+//    private List<?> geval_image_240;
+//    private List<?> geval_image_1024;
+//    private List<?> geval_image_again_240;
+//    private List<?> geval_image_again_1024;
 
     public String getGeval_scores() {
         return geval_scores;
@@ -141,35 +142,27 @@ public class GoodsComment extends BaseBean {
         this.geval_addtime_again_date = geval_addtime_again_date;
     }
 
-    public List<?> getGeval_image_240() {
-        return geval_image_240;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GoodsComment that = (GoodsComment) o;
+        return Objects.equals(geval_scores, that.geval_scores) &&
+                Objects.equals(geval_content, that.geval_content) &&
+                Objects.equals(geval_addtime, that.geval_addtime) &&
+                Objects.equals(geval_frommemberid, that.geval_frommemberid) &&
+                Objects.equals(geval_frommembername, that.geval_frommembername) &&
+                Objects.equals(geval_explain, that.geval_explain) &&
+                Objects.equals(geval_content_again, that.geval_content_again) &&
+                Objects.equals(geval_addtime_again, that.geval_addtime_again) &&
+                Objects.equals(geval_explain_again, that.geval_explain_again) &&
+                Objects.equals(member_avatar, that.member_avatar) &&
+                Objects.equals(geval_addtime_date, that.geval_addtime_date) &&
+                Objects.equals(geval_addtime_again_date, that.geval_addtime_again_date);
     }
 
-    public void setGeval_image_240(List<?> geval_image_240) {
-        this.geval_image_240 = geval_image_240;
-    }
-
-    public List<?> getGeval_image_1024() {
-        return geval_image_1024;
-    }
-
-    public void setGeval_image_1024(List<?> geval_image_1024) {
-        this.geval_image_1024 = geval_image_1024;
-    }
-
-    public List<?> getGeval_image_again_240() {
-        return geval_image_again_240;
-    }
-
-    public void setGeval_image_again_240(List<?> geval_image_again_240) {
-        this.geval_image_again_240 = geval_image_again_240;
-    }
-
-    public List<?> getGeval_image_again_1024() {
-        return geval_image_again_1024;
-    }
-
-    public void setGeval_image_again_1024(List<?> geval_image_again_1024) {
-        this.geval_image_again_1024 = geval_image_again_1024;
+    @Override
+    public int hashCode() {
+        return Objects.hash(geval_scores, geval_content, geval_addtime, geval_frommemberid, geval_frommembername, geval_explain, geval_content_again, geval_addtime_again, geval_explain_again, member_avatar, geval_addtime_date, geval_addtime_again_date);
     }
 }

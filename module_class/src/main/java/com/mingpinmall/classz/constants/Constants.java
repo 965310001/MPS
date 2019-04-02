@@ -35,4 +35,8 @@ public interface Constants {
 
     String PAGE_RN = "10";
 
+
+    /*评价列表*/
+    Object EVALUATE_EVENT_KEY_LIST_STATE = "EVALUATE_EVENT_KEY_LIST_STATE";
+    Object EVALUATE_EVENT_KEY = "EVALUATE_EVENT_KEY";
 }

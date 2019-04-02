@@ -20,7 +20,7 @@ import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnRefreshListener;
-import com.trecyclerview.listener.OnScrollStateListener;
+
 
 import java.util.Collection;
 import java.util.List;

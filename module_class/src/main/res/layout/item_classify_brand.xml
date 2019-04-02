@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -20,7 +21,7 @@
         <ImageView
             android:layout_width="@dimen/image_height_large"
             android:layout_height="@dimen/image_height_large"
-            android:src="@{data.brand_pic}"
+            bind:src="@{data.brand_pic}"
             tools:src="@drawable/ic_launcher" />
 
         <TextView

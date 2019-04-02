@@ -50,6 +50,7 @@ public class GoodsInfo extends BaseBean {
     private String goods_name;
     private String goods_jingle;
     private String goods_price;
+    private String goods_promotion_price;
     private String goods_marketprice;
     private String goods_image;
     private String goods_salenum;
@@ -99,14 +100,15 @@ public class GoodsInfo extends BaseBean {
         this.goods_image_url = goods_image_url;
     }
 
-    @Generated(hash = 588874685)
-    public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name, String is_own_mall, String goods_image_url,
-                     int num) {
+    @Generated(hash = 1392708661)
+    public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_promotion_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name,
+            String is_own_mall, String goods_image_url, int num) {
         this.goods_id = goods_id;
         this.store_id = store_id;
         this.goods_name = goods_name;
         this.goods_jingle = goods_jingle;
         this.goods_price = goods_price;
+        this.goods_promotion_price = goods_promotion_price;
         this.goods_marketprice = goods_marketprice;
         this.goods_image = goods_image;
         this.goods_salenum = goods_salenum;
@@ -120,6 +122,14 @@ public class GoodsInfo extends BaseBean {
         this.is_own_mall = is_own_mall;
         this.goods_image_url = goods_image_url;
         this.num = num;
+    }
+
+    public String getGoods_promotion_price() {
+        return goods_promotion_price;
+    }
+
+    public void setGoods_promotion_price(String goods_promotion_price) {
+        this.goods_promotion_price = goods_promotion_price;
     }
 
     public String getGoods_id() {

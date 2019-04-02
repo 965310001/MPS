@@ -14,6 +14,7 @@
 
         <!-- 用户点评 -->
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_comment"
             android:layout_width="match_parent"
             android:layout_height="44dp"

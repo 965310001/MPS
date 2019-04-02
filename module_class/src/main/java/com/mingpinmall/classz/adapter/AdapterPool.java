@@ -8,6 +8,7 @@ import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.footview.FootViewHolder;
@@ -58,6 +59,14 @@ public class AdapterPool {
                         .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_products, BR.data)),
                 context, ProgressStyle.Pacman);
     }
+
+    /*评价列表*/
+    public DelegateAdapter.Builder getEvaluate(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(GoodsComment.class, new DataBindItemViewHolderManager(context, R.layout.item_of_goods_comment_list, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
+
 
     /*-------------------------------------------------------------------首页---------------------------------------------------*/
 //    public DelegateAdapter.Builder getRightAdapter1(Context context) {
