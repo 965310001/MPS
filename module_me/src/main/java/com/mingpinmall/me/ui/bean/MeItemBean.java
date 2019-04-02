@@ -33,6 +33,15 @@ public class MeItemBean extends BaseBean implements MultiItemEntity {
     private String[] subLabel;
     private int[] subImage;
     private int[] colors;
+    private int[] subCorner;
+
+    public int[] getSubCorner() {
+        return subCorner;
+    }
+
+    public void setSubCorner(int[] subCorner) {
+        this.subCorner = subCorner;
+    }
 
     public int[] getSubImage() {
         return subImage;

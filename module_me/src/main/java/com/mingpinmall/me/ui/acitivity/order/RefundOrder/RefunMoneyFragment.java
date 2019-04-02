@@ -24,6 +24,5 @@ public class RefunMoneyFragment extends BaseFragment<FragmentOrderBinding> {
 
     @Override
     public void initView(Bundle state) {
-        binding.tvLabel.setText("这是退款单列表页面");
     }
 }

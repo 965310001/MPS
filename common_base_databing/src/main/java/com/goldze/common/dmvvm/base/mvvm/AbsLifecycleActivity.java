@@ -15,6 +15,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.utils.TUtil;
 import com.tqzhang.stateview.stateview.BaseStateControl;
+import com.xuexiang.xui.XUI;
 
 /**
  * @author GuoFeng

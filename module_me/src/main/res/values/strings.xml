@@ -3,6 +3,10 @@
     <string name="text_edit">编辑</string>
     <string name="text_delete">删除</string>
     <string name="text_add">添加</string>
+    <string name="text_yes">是</string>
+    <string name="text_no">否</string>
+    <string name="text_isLoginOut">是否退出该账号？</string>
+    <string name="text_submit">提交</string>
 
     <!-- OrderActivity -->
     <string name="tabs_text_physical">实物订单</string>
@@ -77,6 +81,23 @@
     <string name="title_addAddressActivity">新增地址</string>
     <string name="text_saveAddress">保存地址</string>
     <!-- EditAddressActivity Over -->
+
+    <!-- ResetPasswordActivity -->
+    <string name="title_resetPasswordActivity">修改登录密码</string>
+    <string name="bt_text_next">下一步</string>
+    <string name="tips_text_resetPassword">小提示：通过手机验证后，可用于快速找回登录密码及支付密码，接收账户资产变更提醒。</string>
+    <string name="tips_text_youPhone">您当前的手机号是：</string>
+    <!-- ResetPasswordActivity Over -->
+
+    <!-- ResetPhoneActivity -->
+    <string name="title_resetPhoneActivity">修改手机验证</string>
+    <string name="tips_text_change"><u>通过支付密码来验证</u></string>
+    <!-- ResetPasswordActivity Over -->
+
+    <!-- FeedBackActivity -->
+    <string name="title_feedBackActivity">修改手机验证</string>
+    <string name="hint_feedback">请描述下您遇到的问题</string>
+    <!-- FeedBackActivity Over -->
 
     <!-- MessageActivity -->
     <string name="title_messageActivity">消息列表</string>

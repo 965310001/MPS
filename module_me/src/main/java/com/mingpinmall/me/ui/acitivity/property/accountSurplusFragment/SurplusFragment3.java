@@ -24,6 +24,5 @@ public class SurplusFragment3 extends BaseFragment<FragmentOrderBinding> {
 
     @Override
     public void initView(Bundle state) {
-        binding.tvLabel.setText("这是余额提现页面");
     }
 }

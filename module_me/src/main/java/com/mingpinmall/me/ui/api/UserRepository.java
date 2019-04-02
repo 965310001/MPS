@@ -5,6 +5,7 @@ import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.me.ui.bean.CodeKeyMode;
+import com.mingpinmall.me.ui.bean.SmsBean;
 import com.mingpinmall.me.ui.bean.UserBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.socks.library.KLog;
@@ -13,8 +14,8 @@ public class UserRepository extends BaseRepository {
 
     private UserApiService apiService = RetrofitClient.getInstance().create(UserApiService.class);
 
-    protected void login(String phone, String password, int login_type, String captcha, String codekey) {
-        addDisposable(apiService.login(phone, password, login_type, captcha, codekey, "android")
+    protected void login(String phone, String password, int login_type) {
+        addDisposable(apiService.login(phone, password, login_type, "android")
                 .compose(RxSchedulers.<UserBean>io_main())
                 .subscribeWith(new RxSubscriber<UserBean>() {
                     @Override
@@ -45,6 +46,26 @@ public class UserRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         KLog.i(msg);
                         sendData(Constants.Err_EVENT_KEY_GETCODEKEY, msg);
+                    }
+
+                })
+        );
+    }
+
+    /*获取短信验证码*/
+    protected void getSmsCode(int type, String phone) {
+        addDisposable(apiService.sendSMS(type, phone)
+                .compose(RxSchedulers.<SmsBean>io_main())
+                .subscribeWith(new RxSubscriber<SmsBean>() {
+                    @Override
+                    public void onSuccess(SmsBean result) {
+                        sendData("GET_SMS_CODE", result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("Err_GET_SMS_CODE", msg);
                     }
 
                 })

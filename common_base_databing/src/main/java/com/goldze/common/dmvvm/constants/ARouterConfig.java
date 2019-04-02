@@ -86,6 +86,18 @@ public interface ARouterConfig {
     //编辑 or 新增 收货地址
     String EDITADDRESSACTIVITY = "/me/EditAddressActivity";
 
+    //重设登录密码
+    String ResetPasswordActivity = "/me/ResetPasswordActivity";
+
+    //用户反馈
+    String FeedBackActivity = "/me/FeedBackActivity";
+
+    //重设支付密码
+    String ResetPayPwdActivity = "/me/ResetPayPwdActivity";
+
+    //重设手机
+    String ResetPhoneActivity = "/me/ResetPhoneActivity";
+
     //第二部注册
     String REGISTERACTIVITY2 = "/me/RegisterActivity2";
 

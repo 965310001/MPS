@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/ed_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_white_radius"
+            android:gravity="top"
+            android:hint="@string/hint_feedback"
+            android:minHeight="200dp"
+            android:padding="12dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_submit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_submit"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/xui_config_bg_blue_btn"
+            android:text="@string/text_submit"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/ed_content"
+            app:layout_constraintStart_toStartOf="@id/ed_content"
+            app:layout_constraintTop_toBottomOf="@id/ed_content" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

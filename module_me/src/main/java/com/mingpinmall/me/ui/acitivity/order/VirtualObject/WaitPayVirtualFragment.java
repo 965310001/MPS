@@ -24,6 +24,5 @@ public class WaitPayVirtualFragment extends BaseFragment<FragmentOrderBinding> {
 
     @Override
     public void initView(Bundle state) {
-        binding.tvLabel.setText("这是虚拟订单-全部待付款页面");
     }
 }

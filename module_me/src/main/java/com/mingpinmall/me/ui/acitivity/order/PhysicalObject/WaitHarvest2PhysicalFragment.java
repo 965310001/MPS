@@ -24,6 +24,5 @@ public class WaitHarvest2PhysicalFragment extends BaseFragment<FragmentOrderBind
 
     @Override
     public void initView(Bundle state) {
-        binding.tvLabel.setText("这是实物订单-全部待自提页面");
     }
 }

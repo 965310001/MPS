@@ -29,13 +29,28 @@
                 android:id="@+id/iv_item1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:padding="3dp"
                 android:layout_marginTop="4dp"
-                android:src="@drawable/icon_cartfill_press"
+                android:padding="3dp"
                 app:layout_constraintBottom_toTopOf="@id/tv_item1"
                 app:layout_constraintDimensionRatio="h, 1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/icon_cartfill_press" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_corner1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/shape_red_corner"
+                android:gravity="center"
+                android:maxEms="1"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/iv_item1"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -64,11 +79,26 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="4dp"
                 android:padding="3dp"
-                android:src="@drawable/icon_cartfill_press"
                 app:layout_constraintBottom_toTopOf="@id/tv_item2"
                 app:layout_constraintDimensionRatio="h, 1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/icon_cartfill_press" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_corner2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/shape_red_corner"
+                android:gravity="center"
+                android:maxEms="1"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/iv_item2"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -97,11 +127,26 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="4dp"
                 android:padding="3dp"
-                android:src="@drawable/icon_cartfill_press"
                 app:layout_constraintBottom_toTopOf="@id/tv_item3"
                 app:layout_constraintDimensionRatio="h, 1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/icon_cartfill_press" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_corner3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/shape_red_corner"
+                android:gravity="center"
+                android:maxEms="1"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/iv_item3"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -130,11 +175,26 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="4dp"
                 android:padding="3dp"
-                android:src="@drawable/icon_cartfill_press"
                 app:layout_constraintBottom_toTopOf="@id/tv_item4"
                 app:layout_constraintDimensionRatio="h, 1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/icon_cartfill_press" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_corner4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/shape_red_corner"
+                android:gravity="center"
+                android:maxEms="1"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/iv_item4"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -163,11 +223,26 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="4dp"
                 android:padding="3dp"
-                android:src="@drawable/icon_cartfill_press"
                 app:layout_constraintBottom_toTopOf="@id/tv_item5"
                 app:layout_constraintDimensionRatio="h, 1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/icon_cartfill_press" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_corner5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/shape_red_corner"
+                android:gravity="center"
+                android:maxEms="1"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/iv_item5"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.AppCompatTextView

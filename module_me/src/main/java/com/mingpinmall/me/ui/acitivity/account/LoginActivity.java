@@ -25,6 +25,7 @@ import com.mingpinmall.me.databinding.ActivityLoginBinding;
 import com.mingpinmall.me.ui.api.UserApiService;
 import com.mingpinmall.me.ui.api.UserViewModel;
 import com.mingpinmall.me.ui.bean.CodeKeyMode;
+import com.mingpinmall.me.ui.bean.SmsBean;
 import com.mingpinmall.me.ui.bean.UserBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -41,9 +42,6 @@ import java.util.Random;
  */
 @Route(path = ARouterConfig.LOGINACTIVITY)
 public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, UserViewModel> implements TextWatcher {
-
-    private String codeKey = "";
-    private boolean lock = false;
 
     private ProgressDialog progressDialog;
 
@@ -70,14 +68,13 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         binding.tabs.addTab(tab);
         binding.tabs.addTab(tab2);
 
-        binding.edAuthCode.addTextChangedListener(this);
         binding.edPassword.addTextChangedListener(this);
         binding.edPhone.addTextChangedListener(this);
         binding.edMsgCode.addTextChangedListener(this);
 
         binding.tvProtocol.setOnClickListener(this);
         binding.btnGetPsdCode.setOnClickListener(this);
-        binding.ivAuthCode.setOnClickListener(this);
+
         binding.cbAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -120,21 +117,11 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                     binding.edPhone.getText().toString().trim(),//用户名
                     binding.tabs.getSelectedTabPosition() == 0 ? binding.edMsgCode.getText().toString().trim()//密码或手机验证码
                             : binding.edPassword.getText().toString().trim(),
-                    binding.tabs.getSelectedTabPosition() == 0 ? 1 : 2,//1:表示手机验证码登录 2:表示密码登录
-                    binding.edAuthCode.getText().toString().trim(),//用户输入的验证码(密码登录使用)
-                    codeKey//获取验证码的密匙(密码登录使用)
+                    binding.tabs.getSelectedTabPosition() == 0 ? 1 : 2//1:表示手机验证码登录 2:表示密码登录
             );
         } else if (viewId == R.id.btn_getPsdCode) {
             /*获取登陆短信动态码*/
-        } else if (viewId == R.id.iv_authCode) {
-            /*获取登陆短信动态码*/
-            if (codeKey == null || codeKey.isEmpty()) {
-                lock = false;
-                mViewModel.makeCodeKey();
-            } else {
-                lock = true;
-                setAuthCodeImage();
-            }
+            mViewModel.getSmsCode(1, binding.edPhone.getText().toString().trim());
         } else if (viewId == R.id.tv_protocol) {
             /*阅读用户注册协议*/
             ActivityToActivity.toWebView("http://39.108.254.185/wap/tmpl/member/document.html");
@@ -175,15 +162,26 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                     }
                 });
         LiveBus.getDefault()
-                .subscribe(Constants.EVENT_KEY_GETCODEKEY, CodeKeyMode.class)
-                .observeForever(new Observer<CodeKeyMode>() {
+                .subscribe("GET_SMS_CODE", SmsBean.class)
+                .observeForever(new Observer<SmsBean>() {
                     @Override
-                    public void onChanged(@Nullable CodeKeyMode userBean) {
-                        codeKey = userBean.getDatas().getCodekey();
-                        Log.i("验证码KEY", "onChanged: " + codeKey);
-                        if (!lock) {
-                            setAuthCodeImage();
+                    public void onChanged(@Nullable SmsBean result) {
+                        switch (result.getCode()) {
+                            case 400:
+                                ToastUtils.showShort("发送验证码失败");
+                                break;
+                            case 200:
+                                ToastUtils.showShort("验证码已发送");
+                                break;
                         }
+                    }
+                });
+        LiveBus.getDefault()
+                .subscribe("Err_GET_SMS_CODE", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String msg) {
+                        ToastUtils.showShort(msg);
                     }
                 });
     }
@@ -194,10 +192,6 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         LiveBus.getDefault().clear(Constants.Err_EVENT_KEY_USER_GETUSER);
         LiveBus.getDefault().clear(Constants.EVENT_KEY_GETCODEKEY);
         super.onDestroy();
-    }
-
-    private void setAuthCodeImage() {
-        ImageUtils.loadImage(binding.ivAuthCode, UserApiService.MAKECODE + "&k=" + codeKey + "&t=" + new Random().nextInt());
     }
 
     @Override
@@ -215,13 +209,13 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         int phoneCount = binding.edPhone.getText().length();
         int msgCodeCount = binding.edMsgCode.getText().length();
         int psdCount = binding.edPassword.getText().length();
-        int authCodeCount = binding.edAuthCode.getText().length();
         switch (binding.tabs.getSelectedTabPosition()) {
             case 0:
+                binding.btnGetPsdCode.setVisibility(phoneCount >= 11 ? View.VISIBLE : View.GONE);
                 editTextAllOK = phoneCount >= 11 && msgCodeCount > 4;
                 break;
             case 1:
-                editTextAllOK = phoneCount >= 11 && psdCount >= 4 && authCodeCount >= 4;
+                editTextAllOK = phoneCount >= 11 && psdCount >= 4;
                 break;
         }
         setEnabled();
