@@ -51,4 +51,13 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         map.put("Quantity", num);
         mRepository.execute(ClassifyService.ADD_CART_APP, ClassifyService.ADD_CART_WWI, eventKey, map);
     }
+
+    /*添加，删除收藏*/
+    // TODO: 2019/4/2 收藏
+    public void favorites(String goodsId, boolean isLike, Object eventKey) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Goods_ID", goodsId);
+        mRepository.execute(ClassifyService.ADDCOLLECTION_APP,
+                isLike ? ClassifyService.DELCOLLECTION_WWI : ClassifyService.ADDCOLLECTION_WWI, eventKey, map);
+    }
 }

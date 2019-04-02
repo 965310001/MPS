@@ -30,13 +30,14 @@ public interface ClassifyService {
     String GOODSDETAIL = "/mo_bile/index.php?app=goods&wwi=goods_detail";
 
     /*加入购物车*/
-    String ADD_CART_APP="member_cart";
-    String ADD_CART_WWI="cart_add";
+    String ADD_CART_APP = "member_cart";
+    String ADD_CART_WWI = "cart_add";
 
     /*添加收藏*/
-    String ADDCOLLECTION = "/mo_bile/index.php?app=member_favorites&wwi=favorites_add";
+    String ADDCOLLECTION_APP = "member_favorites";
+    String ADDCOLLECTION_WWI = "favorites_add";
     /*删除收藏*/
-    String DELCOLLECTION = "/mo_bile/index.php?app=member_favorites&wwi=favorites_del";
+    String DELCOLLECTION_WWI = "favorites_del";
 
     /*左边*/
     @FormUrlEncoded
@@ -80,8 +81,8 @@ public interface ClassifyService {
     /*封装通用*/
     @FormUrlEncoded
     @POST("mo_bile/index.php")
-    Flowable<ResultBean> execute(@Field("app") String url,
-                                 @Field("wwi") String app,
+    Flowable<ResultBean> execute(@Field("app") String app,
+                                 @Field("wwi") String wwi,
                                  @FieldMap Map<String, Object> map);
 
 

@@ -3,7 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+
+        <import type="com.goldze.common.dmvvm.utils.SharePreferenceUtil" />
+
+        <import type="android.view.View" />
+
+        <import type="com.mingpinmall.classz.ShoppingCartUtils" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -96,20 +103,6 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/market_icon_shopping_cart" />
 
-                <!--<TextView-->
-                <!--android:id="@+id/tv_count"-->
-                <!--style="@style/TextStyle"-->
-                <!--android:layout_marginStart="35dp"-->
-                <!--android:background="@drawable/market_shape_round_red"-->
-                <!--android:gravity="center"-->
-                <!--android:minWidth="15dp"-->
-                <!--android:minHeight="15dp"-->
-                <!--android:paddingStart="2dp"-->
-                <!--android:paddingEnd="2dp"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textSize="10sp"-->
-                <!--tools:ignore="SmallSp" />-->
-
                 <TextView
                     style="@style/TextStyle"
                     android:layout_below="@id/iv_cart"
@@ -134,6 +127,7 @@
                     android:background="@drawable/market_icon_shopping_cart" />
 
                 <TextView
+                    android:id="@+id/tv_count"
                     style="@style/TextStyle"
                     android:layout_marginStart="35dp"
                     android:background="@drawable/market_shape_round_red"
@@ -142,13 +136,16 @@
                     android:minHeight="15dp"
                     android:paddingStart="2dp"
                     android:paddingEnd="2dp"
+                    android:text="@{String.valueOf(SharePreferenceUtil.login?ShoppingCartUtils.cartCount:0)}"
                     android:textColor="@color/white"
                     android:textSize="10sp"
+                    android:visibility="@{SharePreferenceUtil.login?View.VISIBLE:View.GONE}"
                     tools:ignore="SmallSp" />
 
                 <TextView
                     style="@style/TextStyle"
                     android:layout_below="@id/iv_cart"
+                    android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
                     android:text="购物车"
                     tools:ignore="NotSibling" />

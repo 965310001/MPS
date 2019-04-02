@@ -12,7 +12,20 @@ public class ResultBean extends BaseBean {
 
     private int code;
     private String login;
-    private DatasBean datas;
+    public DatasBean datas;
+
+    public boolean isSuccess() {
+        return 200 == code;
+    }
+
+    /**
+     * 是否登录了
+     *
+     * @return true：没有登录
+     */
+    public boolean isLogin() {
+        return !"0".equals(login);
+    }
 
     public int getCode() {
         return code;
@@ -22,20 +35,8 @@ public class ResultBean extends BaseBean {
         this.code = code;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public DatasBean getDatas() {
-        return datas;
-    }
-
-    public void setDatas(DatasBean datas) {
-        this.datas = datas;
+    public String getError() {
+        return datas.getError();
     }
 
     public static class DatasBean {

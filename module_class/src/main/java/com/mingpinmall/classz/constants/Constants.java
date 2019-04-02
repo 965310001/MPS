@@ -30,5 +30,9 @@ public interface Constants {
 
     Object GOODSDETAIL_EVENT_KEY_STATE = "GOODSDETAIL_EVENT_KEY_STATE";
 
+    /*收藏*/
+    Object FAVORITES = "FAVORITES";
+
     String PAGE_RN = "10";
+
 }

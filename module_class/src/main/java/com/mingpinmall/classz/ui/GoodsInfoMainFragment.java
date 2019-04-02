@@ -23,6 +23,7 @@ import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.SlideLayout;
 import com.leon.lib.settingview.LSettingItem;
 import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
 import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoMainBinding;
@@ -37,7 +38,7 @@ import java.util.List;
 
 
 public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel>
-        implements SlideLayout.OnSlideDetailsListener{
+        implements SlideLayout.OnSlideDetailsListener {
 
     String id;
 
@@ -141,12 +142,10 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        LiveBus.getDefault()
-                .subscribe(Constants.GOODSDETAIL_EVENT_KEY, GoodsDetailInfo.class)
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY, GoodsDetailInfo.class)
                 .observeForever(new Observer<GoodsDetailInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsDetailInfo response) {
-
 ////                        goodsInfo = data.getData();
 //                        List<HorizontalTabTitle> title = new ArrayList<>();
 //                        HorizontalTabTitle horizontalTabTitle = new HorizontalTabTitle("商品");
@@ -169,6 +168,18 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     }
                 });
 
+
+        // TODO: 2019/4/2 收藏
+        registerObserver(Constants.FAVORITES, ResultBean.class)
+                .observeForever(new Observer<ResultBean>() {
+                    @Override
+                    public void onChanged(@Nullable ResultBean response) {
+                        KLog.i(response.isSuccess() + " " + response.getError());
+                        if (response.isSuccess()) {
+                            goodsInfo.setfavorate(!goodsInfo.isfavorate());
+                        }
+                    }
+                });
     }
 
     @Override
@@ -206,7 +217,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 //
 //    }
 
-
     @Override
     public void onStateChanged(SlideLayout.Status status) {
         if (shoppingDetailsActivity != null) {
@@ -216,7 +226,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     GoodsInfoDetailMainFragment.newInstance(goodsInfo.getGoods_id())).commitAllowingStateLoss();
         }
     }
-
 
 //    @OnClick({R.id.ll_pull_up, R.id.ll_comment, R.id.iv_like})
 //    public void onClick(View v) {

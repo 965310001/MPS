@@ -21,6 +21,8 @@ public class SharePreferenceUtil {
     private static final String KEY_SETTING_NO_IMAGE = "no_image";
     private static final String KEY_SETTING_DARK_STYLE = "dark_style";
 
+    private static final String KEY_SETTING_LOGIN = "LOGIN";
+
     private static SharedPreferences getPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(Utils.getApplication());
     }
@@ -64,7 +66,16 @@ public class SharePreferenceUtil {
             getPreferences().edit().putString(KEY_USER, "").apply();
             return;
         }
+        saveLogin(true);
         getPreferences().edit().putString(KEY_USER, new Gson().toJson(object)).apply();
+    }
+
+    public static void saveLogin(boolean isChecked) {
+        saveBooleanKeyValue(KEY_SETTING_LOGIN, isChecked);
+    }
+
+    public static boolean isLogin() {
+        return getBooleanKeyValue(KEY_SETTING_LOGIN);
     }
 
     public static Object getUser(Class clazz) {

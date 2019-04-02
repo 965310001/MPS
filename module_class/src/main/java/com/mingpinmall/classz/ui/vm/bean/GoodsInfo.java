@@ -65,6 +65,8 @@ public class GoodsInfo extends BaseBean {
 //            private boolean group_flag;
 //            private boolean xianshi_flag;
     private String goods_image_url;
+    @Transient
+    private boolean is_favorate;/*是否已经收藏*/
 
     @Transient
     private boolean checked = true;//是否选择
@@ -138,6 +140,14 @@ public class GoodsInfo extends BaseBean {
 
     public int getNum() {
         return num;
+    }
+
+    public boolean isfavorate() {
+        return is_favorate;
+    }
+
+    public void setfavorate(boolean is_favorate) {
+        this.is_favorate = is_favorate;
     }
 
     public void setNum(int num) {
