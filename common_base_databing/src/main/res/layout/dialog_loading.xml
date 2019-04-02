@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
                 android:padding="1dp"
-                app:progress_width="2dp"
+                app:progress_width="4dp"
                 app:progress_radius="30dp"/>
 
             <TextView

@@ -1,7 +1,12 @@
 package com.mingpinmall.me.ui;
 
+import android.arch.lifecycle.Observer;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,26 +14,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.goldze.common.dmvvm.base.event.LiveBus;
+import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.google.gson.Gson;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentMeBinding;
 import com.mingpinmall.me.ui.adapter.MeItemAdapter;
+import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.MeItemBean;
+import com.mingpinmall.me.ui.bean.MyInfoBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.AutoColorView;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * 我的
  */
-public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.OnClickListener {
+public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewModel> implements View.OnClickListener {
 
     private MeItemAdapter meItemAdapter;
     private AutoColorView autoColorView;
+    private View headView;
 
     private final int[] colorIds = new int[]{
             R.color.bg_color_0,
@@ -66,20 +83,101 @@ public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.
 
     @Override
     public void initView(Bundle state) {
+        super.initView(state);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         initHeadView();
         initSettingItem();
         setItemClickListener();
         setListScrollListener();
+
+        if (SharePreferenceUtil.isLogin()) {
+            mViewModel.getUserInfo();
+        }
+    }
+
+    @Override
+    protected void dataObserver() {
+        KLog.i("绑定事件监听");
+        LiveBus.getDefault().subscribe("LoginSuccess").observeForever(new Observer<Object>() {
+            @Override
+            public void onChanged(@Nullable Object isLogin) {
+                KLog.i("登陆成功，刷新数据");
+                mViewModel.getUserInfo();
+            }
+        });
+
+        LiveBus.getDefault().subscribe("LOGIN_OUT").observeForever(new Observer<Object>() {
+            @Override
+            public void onChanged(@Nullable Object isLogin) {
+                KLog.i("退出登录，清除数据");
+                clearnDatas();
+            }
+        });
+
+        LiveBus.getDefault().subscribe(Constants.EVENT_KEY_ME_GETUSERINFO, MyInfoBean.class).observeForever(new Observer<MyInfoBean>() {
+            @Override
+            public void onChanged(@Nullable MyInfoBean result) {
+                KLog.i("获取成功，刷新展示内容。");
+                setNewData(result);
+                SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
+            }
+        });
+    }
+
+    private void setNewData(MyInfoBean result) {
+        headView.findViewById(R.id.iv_headItem1).setBackgroundColor(Color.parseColor("#00000000"));
+        headView.findViewById(R.id.iv_headItem2).setBackgroundColor(Color.parseColor("#00000000"));
+
+        MyInfoBean.DatasBean.MemberInfoBean datas = result.getDatas().getMember_info();
+        SharePreferenceUtil.saveKeyValue("USER_INFO", new Gson().toJson(datas));
+
+        ((AppCompatTextView)headView.findViewById(R.id.tv_name)).setText(datas.getUser_name());
+        ((AppCompatTextView)headView.findViewById(R.id.tv_level)).setText(datas.getLevel_name());
+        ((AppCompatTextView)headView.findViewById(R.id.iv_headItem1)).setText(datas.getFavorites_goods());
+        ((AppCompatTextView)headView.findViewById(R.id.iv_headItem2)).setText(datas.getFavorites_store());
+
+        ImageUtils.loadImageAsGIF((AppCompatImageView) headView.findViewById(R.id.iv_headImage), datas.getAvatar());
+        meItemAdapter.getData().get(2).setSubCorner(new int[]{
+                datas.getOrder_nopay_count(),
+                datas.getOrder_noreceipt_count(),
+                0,
+                datas.getOrder_noeval_count(),
+                datas.getOrder_notakes_count(),
+        });
+        meItemAdapter.notifyDataSetChanged();
+    }
+
+    private void clearnDatas() {
+        headView.findViewById(R.id.iv_headItem1).setBackgroundResource(R.drawable.ic_me_favorite);
+        headView.findViewById(R.id.iv_headItem2).setBackgroundResource(R.drawable.ic_me_store);
+
+        SharePreferenceUtil.saveKeyValue("USER_INFO", null);
+
+        ((AppCompatTextView)headView.findViewById(R.id.tv_name)).setText(R.string.label_click_login);
+        ((AppCompatTextView)headView.findViewById(R.id.tv_level)).setText("");
+        ((AppCompatTextView)headView.findViewById(R.id.iv_headItem1)).setText("");
+        ((AppCompatTextView)headView.findViewById(R.id.iv_headItem2)).setText("");
+
+        ImageUtils.loadImageCircle((AppCompatImageView) headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
+        meItemAdapter.getData().get(2).setSubCorner(new int[]{
+                0, 0, 0, 0, 0,
+        });
+        meItemAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected Object getStateEventKey() {
+        return "ME_FRAGMENT";
     }
 
     private void initHeadView() {
         //初始化适配器和头部
         meItemAdapter = new MeItemAdapter();
-        View headView = LayoutInflater.from(activity).inflate(R.layout.view_me_user_head, binding.recyclerView, false);
+        headView = LayoutInflater.from(activity).inflate(R.layout.view_me_user_head, binding.recyclerView, false);
         meItemAdapter.addHeaderView(headView);
         meItemAdapter.bindToRecyclerView(binding.recyclerView);
         //拿到头部 View
+        ImageUtils.loadImageCircle((AppCompatImageView) headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
         autoColorView = headView.findViewById(R.id.iv_bg);
         autoColorView.setColors(colorIds);
         autoColorView.start();
@@ -123,12 +221,20 @@ public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.
             @Override
             public void onClick(View v) {
                 //左上角设置 来自：界面上划后出现的覆盖层
+                if (!SharePreferenceUtil.isLogin()) {
+                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                    return;
+                }
                 ActivityToActivity.toActivity(ARouterConfig.SETTINGACTIVITY);
             }
         });
         binding.ivMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!SharePreferenceUtil.isLogin()) {
+                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                    return;
+                }
                 ActivityToActivity.toActivity(ARouterConfig.MESSAGEACTIVITY);
             }
         });
@@ -138,6 +244,10 @@ public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.
         meItemAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (!SharePreferenceUtil.isLogin()) {
+                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                    return;
+                }
                 int i = view.getId();
                 int funCode = meItemAdapter.getData().get(position).getFunCode();
                 if (i == R.id.ll_item1) {
@@ -184,6 +294,10 @@ public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.
         meItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (!SharePreferenceUtil.isLogin()) {
+                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                    return;
+                }
                 MeItemBean itemBean = meItemAdapter.getData().get(position);
                 if (itemBean.getItemType() == 1) {
                     switch (itemBean.getFunCode()) {
@@ -303,6 +417,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.
         MeItemBean itemBean0 = new MeItemBean();
         itemBean0.setItemType(0);
         itemBean0.setSubLabel(subOrder);
+        itemBean0.setSubCorner(new int[]{0, 0, 0, 0, 0});
         itemBean0.setFunCode(-1);
         itemBean0.setSubImage(subImage0);
         data.add(2, itemBean0);
@@ -311,21 +426,12 @@ public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.
         MeItemBean orderItem = new MeItemBean();
         orderItem.setItemType(0);
         orderItem.setSubLabel(subEstate);
+        orderItem.setSubCorner(new int[]{0, 0, 0, 0, 0});
         orderItem.setFunCode(-2);
         orderItem.setSubImage(subImage1);
         data.add(5, orderItem);
 
         meItemAdapter.setNewData(data);
-    }
-
-    @Override
-    protected void onVisible() {
-        super.onVisible();
-        /**
-         * 判断是否登陆，登陆则显示我的财产下方导航
-         */
-        //TODO 在登录和账号验证完成之后继续
-
     }
 
     @Override
@@ -335,6 +441,13 @@ public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.
         if (meItemAdapter != null && meItemAdapter.getData().size() > 0) {
             Log.d("我的", "onResume: 更新");
             autoColorView.start();
+        }
+        if (SharePreferenceUtil.getBooleanKeyValue("needRefresh")) {
+            if (SharePreferenceUtil.isLogin()) {
+                mViewModel.getUserInfo();
+            } else {
+                clearnDatas();
+            }
         }
     }
 
@@ -355,6 +468,10 @@ public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.
     @Override
     public void onClick(View v) {
         int i = v.getId();
+        if (!SharePreferenceUtil.isLogin()) {
+            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+            return;
+        }
         if (i == R.id.iv_setting) {
 //                    ToastUtils.showShort("点击了 左上角设置");
             ActivityToActivity.toActivity(ARouterConfig.SETTINGACTIVITY);
@@ -372,7 +489,6 @@ public class MeFragment extends BaseFragment<FragmentMeBinding> implements View.
             ActivityToActivity.toActivity(ARouterConfig.FOOTPRINTACTIVITY);
         } else if (i == R.id.iv_headImage) {
 //                    ToastUtils.showShort("点击了 头像");
-            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         }
     }
 }

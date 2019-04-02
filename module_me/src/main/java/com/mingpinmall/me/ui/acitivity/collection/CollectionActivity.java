@@ -14,7 +14,7 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 import com.xuexiang.xui.widget.tabbar.TabControlView;
 
 /**
- * 功能描述：
+ * 功能描述：商品or店铺收藏 页面
  * 创建人：小斌
  * 创建时间: 2019/3/27
  **/

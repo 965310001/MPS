@@ -24,6 +24,5 @@ public class AllVirtualFragment extends BaseFragment<FragmentOrderBinding> {
 
     @Override
     public void initView(Bundle state) {
-        binding.tvLabel.setText("这是全部虚拟订单页面");
     }
 }

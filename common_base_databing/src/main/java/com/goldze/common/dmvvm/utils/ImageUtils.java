@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -101,6 +102,22 @@ public class ImageUtils {
         }
         Glide.with(imageView.getContext())
                 .load(url)
+                .apply(RequestOptions.circleCropTransform()
+                        .placeholder(R.drawable.ic_loading_image)
+                        .error(new ColorDrawable(Color.WHITE))
+                        .fallback(new ColorDrawable(Color.RED)))
+                .into(imageView);
+    }
+
+    /**
+     * 加载本地圆形
+     *
+     * @param drawable  drawableRes
+     * @param imageView imageView
+     */
+    public static void loadImageCircle(ImageView imageView, @DrawableRes int drawable) {
+        Glide.with(imageView.getContext())
+                .load(drawable)
                 .apply(RequestOptions.circleCropTransform()
                         .placeholder(R.drawable.ic_loading_image)
                         .error(new ColorDrawable(Color.WHITE))
