@@ -25,6 +25,9 @@ public interface Constants {
 
     /*商品详情*/
     Object GOODSDETAIL_EVENT_KEY = "GOODSDETAIL_EVENT_KEY";
+    /*购物车KEY*/
+    Object CART_EVENT_KEY = "CART_EVENT_KEY";
+
     Object GOODSDETAIL_EVENT_KEY_STATE = "GOODSDETAIL_EVENT_KEY_STATE";
 
     String PAGE_RN = "10";

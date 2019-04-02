@@ -36,7 +36,8 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel> implements SlideLayout.OnSlideDetailsListener {
+public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel>
+        implements SlideLayout.OnSlideDetailsListener{
 
     String id;
 
@@ -296,11 +297,13 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     KLog.i("点击");
                 }
             });
-            String content = "";
-            for (GoodsDetailInfo.DatasBean.StoreInfoBean.NewStoreCreditBean data : storeInfo.getNew_storeCredit()) {
-                content = content.concat(data.text + " " + data.credit + " " + data.percent_text);
+            if (null != storeInfo.getNew_storeCredit()) {
+                String content = "";
+                for (GoodsDetailInfo.DatasBean.StoreInfoBean.NewStoreCreditBean data : storeInfo.getNew_storeCredit()) {
+                    content = content.concat(data.text + " " + data.credit + " " + data.percent_text);
+                }
+                binding.tvDesc.setText(content);
             }
-            binding.tvDesc.setText(content);
 
             tvCommentCount.setText(String.format("用户点评(%S)", "0"));
             commentList(goodsDetailInfo.getDatas().getGoods_eval_list());
@@ -341,5 +344,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     public int getGoodsCount() {
         return binding.ccvClick.getCount();
     }
+
+
 }
 

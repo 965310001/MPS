@@ -42,14 +42,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
 
-            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
+            buildConfigField "String", "APP_URL", keystoreProperties['RELEASE_APP_URL']
         }
 
         debug {
             buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
 
-            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
-
+            buildConfigField "String", "APP_URL", keystoreProperties['DEBUG_APP_URL']
         }
     }
 

@@ -21,6 +21,7 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ShoppingCartUtils;
 import com.mingpinmall.classz.adapter.FragmentPagerAdapter;
 import com.mingpinmall.classz.constants.Constants;
@@ -84,8 +85,18 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     protected void dataObserver() {
         super.dataObserver();
 
-        LiveBus.getDefault()
-                .subscribe(Constants.GOODSDETAIL_EVENT_KEY, GoodsDetailInfo.class)
+//        LiveBus.getDefault()
+//                .subscribe(Constants.GOODSDETAIL_EVENT_KEY, GoodsDetailInfo.class)
+
+        /*添加到购物车*/
+        registerObserver(Constants.CART_EVENT_KEY, ResultBean.class).observeForever(new Observer<ResultBean>() {
+            @Override
+            public void onChanged(@Nullable ResultBean response) {
+                KLog.i(response);
+            }
+        });
+
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY, GoodsDetailInfo.class)
                 .observeForever(new Observer<GoodsDetailInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsDetailInfo response) {
@@ -113,54 +124,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     }
 
-//    private void getGoodsInfo() {
-//        showLoadingState();
-////        ApiRepo.getProduct(Long.parseLong(id)).subscribeWith(new RxSubscriber<GoodsListInfo>() {
-////            @Override
-////            public void onSuccess(GoodsListInfo data) {
-////                showSuccess();
-////                goodsInfo = data.getData();
-////                List<HorizontalTabTitle> title = new ArrayList<>();
-////                HorizontalTabTitle horizontalTabTitle = new HorizontalTabTitle("商品");
-////                title.add(horizontalTabTitle);
-////
-////                horizontalTabTitle = new HorizontalTabTitle("详情");
-////                title.add(horizontalTabTitle);
-////
-////                horizontalTabTitle = new HorizontalTabTitle("评价");
-////                title.add(horizontalTabTitle);
-////
-////                List<BaseFragment> fragmentList = new ArrayList<>();
-////                fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance(id, goodsInfo));
-////                fragmentList.add(GoodsInfoDetailMainFragment.newInstance(data.getData()));
-////                fragmentList.add(GoodsCommentFragment.newInstance(String.valueOf(goodsInfo.getGoodsId())));
-////
-////                vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
-////                vpContent.setOffscreenPageLimit(3);
-////                pstsTabs.setViewPager(vpContent);
-////
-////                /*判断是否可以购买*/
-////                isBuy();
-////            }
-////
-////            @Override
-////            public void onFailure(String msg) {
-////                KLog.i(msg);
-////                showErrorState();
-////            }
-////        });
-//
-//    }
-    /*是否可以购买*/
-//    private void isBuy() {
-//        if (!isGo()) {
-//            for (TextView textView : textViews) {
-//                textView.setSelected(true);
-//                textView.setClickable(true);
-//            }
-//        }
-//    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -184,6 +147,30 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
             binding.pstsTabs.setVisibility(VISIBLE);
         }
     }
+
+    public void finish(View view) {
+        finish();
+    }
+
+    public void goCart(View view) {
+//        ActivityToActivity.toActivity(ARouterConfig.Shopping.SHOPPINGACTIVITY);
+        KLog.i("去购物车");
+    }
+
+    public void addCart(View view) {
+        KLog.i("添加到购物车");
+        mViewModel.addCart(id, 1, Constants.CART_EVENT_KEY);
+    }
+
+    public void buyNow(View view) {
+        KLog.i("立即购买");
+    }
+
+
+    public void contactService(View view) {
+        KLog.i("联系客服");
+    }
+
 
 //    @OnClick({R.id.ll_back, R.id.rl_cart, R.id.tv_add_cart, R.id.tv_buy_now})
 //    public void onClick(View view) {
@@ -327,5 +314,52 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_shopping_details);
+//    }
+    //    private void getGoodsInfo() {
+//        showLoadingState();
+////        ApiRepo.getProduct(Long.parseLong(id)).subscribeWith(new RxSubscriber<GoodsListInfo>() {
+////            @Override
+////            public void onSuccess(GoodsListInfo data) {
+////                showSuccess();
+////                goodsInfo = data.getData();
+////                List<HorizontalTabTitle> title = new ArrayList<>();
+////                HorizontalTabTitle horizontalTabTitle = new HorizontalTabTitle("商品");
+////                title.add(horizontalTabTitle);
+////
+////                horizontalTabTitle = new HorizontalTabTitle("详情");
+////                title.add(horizontalTabTitle);
+////
+////                horizontalTabTitle = new HorizontalTabTitle("评价");
+////                title.add(horizontalTabTitle);
+////
+////                List<BaseFragment> fragmentList = new ArrayList<>();
+////                fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance(id, goodsInfo));
+////                fragmentList.add(GoodsInfoDetailMainFragment.newInstance(data.getData()));
+////                fragmentList.add(GoodsCommentFragment.newInstance(String.valueOf(goodsInfo.getGoodsId())));
+////
+////                vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
+////                vpContent.setOffscreenPageLimit(3);
+////                pstsTabs.setViewPager(vpContent);
+////
+////                /*判断是否可以购买*/
+////                isBuy();
+////            }
+////
+////            @Override
+////            public void onFailure(String msg) {
+////                KLog.i(msg);
+////                showErrorState();
+////            }
+////        });
+//
+//    }
+    /*是否可以购买*/
+//    private void isBuy() {
+//        if (!isGo()) {
+//            for (TextView textView : textViews) {
+//                textView.setSelected(true);
+//                textView.setClickable(true);
+//            }
+//        }
 //    }
 }

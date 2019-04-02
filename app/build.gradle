@@ -57,10 +57,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             signingConfig signingConfigs.config
-            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
+//            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
         }
         debug {
-            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
+//            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
         }
 
     }

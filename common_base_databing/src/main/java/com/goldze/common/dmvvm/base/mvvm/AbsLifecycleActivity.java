@@ -1,5 +1,6 @@
 package com.goldze.common.dmvvm.base.mvvm;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
@@ -71,6 +72,22 @@ public abstract class AbsLifecycleActivity<VD extends ViewDataBinding, T extends
 
     protected void dataObserver() {
 
+    }
+
+    protected <T> MutableLiveData<T> registerObserver(Object eventKey, Class<T> tClass) {
+
+        return registerObserver(eventKey, null, tClass);
+    }
+
+    protected <T> MutableLiveData<T> registerObserver(Object eventKey, String tag, Class<T> tClass) {
+        String event;
+        if (TextUtils.isEmpty(tag)) {
+            event = (String) eventKey;
+        } else {
+            event = eventKey + tag;
+        }
+        eventKeys.add(event);
+        return LiveBus.getDefault().subscribe(eventKey, tag, tClass);
     }
 
     @Override

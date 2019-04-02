@@ -5,6 +5,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
+import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.ui.vm.api.ClassifyService;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
@@ -16,6 +17,8 @@ import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.http.FieldMap;
 
 public class ClassifyRepository extends BaseRepository {
 
@@ -196,6 +199,37 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
+    public void execute(String app, String wwi, final Object eventKey, Map<String, Object> map) {
+        addDisposable(apiService.execute(app, wwi, map)
+                        .compose(RxSchedulers.<ResultBean>io_main())
+                        .subscribeWith(new RxSubscriber<ResultBean>() {
+                            @Override
+                            public void onSuccess(ResultBean result) {
+                                sendData(eventKey, result);
+//                        showPageState(eventStateKey, StateConstants.SUCCESS_STATE);
+                            }
 
+                            @Override
+                            public void onFailure(String msg) {
+                                KLog.i(msg);
+//                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                super.onError(e);
+                                KLog.i(e.toString());
+//                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
+                            }
+
+                            @Override
+                            protected void onNoNetWork() {
+                                super.onNoNetWork();
+                                KLog.i("onNoNetWork");
+//                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
+                            }
+                        })
+        );
+    }
 
 }

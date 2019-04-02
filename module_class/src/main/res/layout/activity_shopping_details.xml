@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data></data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,19 +19,21 @@
             android:background="@color/shallow_red"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/ll_back"
+            <!--<LinearLayout-->
+            <!--android:id="@+id/ll_back"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:paddingStart="10dp"-->
+            <!--tools:ignore="RtlSymmetry">-->
+            <!--</LinearLayout>-->
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:onClick="finish"
                 android:paddingStart="10dp"
-                tools:ignore="RtlSymmetry">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_back" />
-            </LinearLayout>
+                android:src="@drawable/ic_back" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,6 +86,7 @@
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:background="@color/white"
+                android:onClick="contactService"
                 android:paddingTop="4dp">
 
                 <ImageView
@@ -119,6 +124,7 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@id/rl_cart"
                 android:background="@color/white"
+                android:onClick="goCart"
                 android:paddingTop="4dp">
 
                 <ImageView
@@ -149,7 +155,6 @@
 
             </RelativeLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -162,6 +167,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_of_red_gradient"
                     android:gravity="center"
+                    android:onClick="buyNow"
                     android:text="@string/market_buy_now"
                     android:textColor="@color/white" />
 
@@ -172,6 +178,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_of_orange_gradient"
                     android:gravity="center"
+                    android:onClick="addCart"
                     android:text="@string/market_add_to_cart"
                     android:textColor="@color/white" />
 

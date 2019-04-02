@@ -255,7 +255,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     }
 
     protected void onRefreshSuccess(Collection<?> collection) {
-        newItems.clear();
+//        newItems.clear();
         if (!newItems.containsAll(collection)) {
             KLog.i("不存在");
             newItems.addAll(collection);
