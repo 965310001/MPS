@@ -50,6 +50,11 @@ public class FeedBackActivity extends AbsLifecycleActivity<ActivityFeedbackBindi
     }
 
     @Override
+    protected Object getStateEventKey() {
+        return null;
+    }
+
+    @Override
     protected void dataObserver() {
         LiveBus.getDefault().subscribe("SEND_FEEDBACK", BaseIntDatasBean.class).observeForever(new Observer<BaseIntDatasBean>() {
             @Override

@@ -43,6 +43,9 @@ import java.util.Random;
 @Route(path = ARouterConfig.LOGINACTIVITY)
 public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, UserViewModel> implements TextWatcher {
 
+    private String codeKey = "";
+    private boolean lock = false;
+
     private ProgressDialog progressDialog;
 
     @Override

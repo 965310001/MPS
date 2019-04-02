@@ -60,6 +60,11 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
     }
 
     @Override
+    protected Object getStateEventKey() {
+        return null;
+    }
+
+    @Override
     protected void dataObserver() {
         LiveBus.getDefault()
                 .subscribe("GET_SMS_CODE", SmsBean.class)

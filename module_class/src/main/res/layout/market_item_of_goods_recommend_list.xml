@@ -1,50 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/dp_4">
 
-    <FrameLayout
-        android:layout_width="163dp"
-        android:layout_height="163dp">
-
-        <ImageView
-            android:id="@+id/iv_goods"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+    <ImageView
+        android:id="@+id/iv_goods"
+        android:layout_width="@dimen/image_height_big"
+        android:layout_height="@dimen/image_height_big"
+        android:padding="@dimen/dp_4"
+        tools:src="@color/gray" />
 
     <TextView
         android:id="@+id/tv_goods_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/dp_2"
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="#222222"
-        android:textSize="12sp" />
+        android:textSize="@dimen/text_14"
+        tools:text="首页" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_goods_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/tv_goods_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/red"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_goods_old_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:textColor="@color/gray"
-            android:textSize="12sp" />
-    </LinearLayout>
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_12"
+        tools:text="12" />
 </LinearLayout>

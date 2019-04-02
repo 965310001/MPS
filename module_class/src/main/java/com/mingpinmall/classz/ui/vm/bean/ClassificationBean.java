@@ -1,27 +1,23 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import android.databinding.Bindable;
-import android.view.View;
-
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.mingpinmall.classz.BR;
-import com.socks.library.KLog;
-import com.trecyclerview.listener.OnItemClickListener;
 
 import java.util.List;
 
 public class ClassificationBean extends BaseBean {
 
-    private int code;
+//    private int code;
     private DatasBean datas;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
+//    public int getCode() {
+//        return code;
+//    }
+//
+//    public void setCode(int code) {
+//        this.code = code;
+//    }
 
     public DatasBean getDatas() {
         return datas;

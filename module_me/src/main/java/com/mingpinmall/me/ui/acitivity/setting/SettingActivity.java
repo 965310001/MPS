@@ -75,6 +75,11 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
     }
 
     @Override
+    protected Object getStateEventKey() {
+        return null;
+    }
+
+    @Override
     public void onDestroy() {
         LiveBus.getDefault().clear("USER_PAYPWD_INFO");
         LiveBus.getDefault().clear("USER_PHONE_INFO");

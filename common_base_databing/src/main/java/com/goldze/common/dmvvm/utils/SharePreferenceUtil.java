@@ -22,8 +22,6 @@ public class SharePreferenceUtil {
     private static final String KEY_SETTING_NO_IMAGE = "no_image";
     private static final String KEY_SETTING_DARK_STYLE = "dark_style";
 
-    private static final String KEY_SETTING_LOGIN = "LOGIN";
-
     private static SharedPreferences getPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(Utils.getApplication());
     }
