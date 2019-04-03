@@ -7,14 +7,17 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.TextView;
 
 import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.http.rx.ApiObserver;
 import com.goldze.common.dmvvm.http.rx.BaseObserver;
 import com.goldze.common.dmvvm.http.rx.RxBus;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.RxUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
@@ -40,7 +43,8 @@ import io.reactivex.functions.Function;
 /**
  * 分类
  */
-public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel> implements OnItemClickListener {
+public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel>
+        implements OnItemClickListener, View.OnClickListener {
 
     TRecyclerView rvRightRecyclerView;
     DelegateAdapter rightAdapter;
@@ -67,8 +71,19 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     LinearLayoutManager linearLayoutManager;
 
     @Override
+    protected <T extends View> T getViewById(int id) {
+        return super.getViewById(id);
+    }
+
+    @Override
     public void initView(Bundle state) {
         super.initView(state);
+
+        getViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
+        getViewById(R.id.iv_search).setVisibility(View.VISIBLE);
+        getViewById(R.id.iv_search).setOnClickListener(this);
+        ((TextView) getViewById(R.id.tv_title)).setText("分类");
+
         rightAdapter = AdapterPool.newInstance().getRightAdapter(getActivity())
                 .build();
         rightAdapter.setDatas(rightData);
@@ -106,7 +121,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     protected void dataObserver() {
         super.dataObserver();
         LiveBus.getDefault()
-                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE, ClassificationBean.class)
+                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE[0], ClassificationBean.class)
                 .observeForever(new Observer<ClassificationBean>() {
                     @Override
                     public void onChanged(@Nullable ClassificationBean response) {
@@ -120,7 +135,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 });
 
         LiveBus.getDefault()
-                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, Object.class)
+                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE[2], Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object object) {
@@ -139,7 +154,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.EVENT_KEY_CLASSIFY_MORE_STATE;
+        return Constants.EVENT_KEY_CLASSIFY_MORE[1];
     }
 
     int leftPostion = 0;
@@ -159,6 +174,14 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 }
                 leftPostion = postion;
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.iv_search) {
+            ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
         }
     }
 }

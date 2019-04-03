@@ -94,7 +94,7 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     protected void dataObserver() {
         super.dataObserver();
         /*评价列表*/
-        registerObserver(Constants.EVALUATE_EVENT_KEY, GoodsCommentListBean.class)
+        registerObserver(Constants.EVALUATE_EVENT_KEY[0], GoodsCommentListBean.class)
                 .observeForever(new Observer<GoodsCommentListBean>() {
                     @Override
                     public void onChanged(@Nullable GoodsCommentListBean response) {
@@ -114,7 +114,7 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.EVALUATE_EVENT_KEY_LIST_STATE;
+        return Constants.EVALUATE_EVENT_KEY[1];
     }
 
     @Override

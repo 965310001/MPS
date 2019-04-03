@@ -8,6 +8,7 @@ import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
+import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 
 import java.util.Map;
 
@@ -23,7 +24,9 @@ import retrofit2.http.QueryMap;
 
 public interface ClassifyService {
 
-    String CLASSIFYLEFT = "/mobile/index.php";
+    String BASEURL = "/mobile/index.php";
+
+    //    String CLASSIFYLEFT = "/mobile/index.php";
     String SHAPPINGLIST = "/mobile/index.php?app=goods&wwi=goods_list";
 
     /*品牌*/
@@ -38,6 +41,9 @@ public interface ClassifyService {
     /*商品评价*/
     String EVALUATE = "/mo_bile/index.php?app=goods&wwi=goods_evaluate";
 
+    /*搜索列表*/
+    String[] HOTKEY = {"", ""};
+
     /*添加收藏*/
     String ADDCOLLECTION_APP = "member_favorites";
     String ADDCOLLECTION_WWI = "favorites_add";
@@ -46,16 +52,17 @@ public interface ClassifyService {
 
     /*左边*/
     @FormUrlEncoded
-    @POST(CLASSIFYLEFT)
+    @POST(BASEURL)
     Flowable<ClassificationBean> getLeft(@Field("app") String app,
                                          @Field("wwi") String wwi);
+
     @FormUrlEncoded
-    @POST(CLASSIFYLEFT)
+    @POST(BASEURL)
     Flowable<BaseResponse<ClassificationBean>> getLeft1(@Field("app") String app,
-                                                         @Field("wwi") String wwi);
+                                                        @Field("wwi") String wwi);
 
     /*右边*/
-    @GET(CLASSIFYLEFT)
+    @GET(BASEURL)
     Flowable<ClassificationRighitBean> getRight(@Query("app") String app,
                                                 @Query("wwi") String wwi,
                                                 @Query("gc_id") String id);
@@ -76,6 +83,10 @@ public interface ClassifyService {
     /*商品详情*/
     @GET(GOODSDETAIL)
     Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId);
+
+    /*商品列表*/
+    @GET(BASEURL)
+    Flowable<BaseResponse<HotKeyInfo>> getHotKeys(@QueryMap Map<String, Object> map);
 
     /*添加收藏*/
 //    @GET(ADDCOLLECTION)

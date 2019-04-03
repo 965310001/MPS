@@ -4,10 +4,8 @@ import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
-import com.goldze.common.dmvvm.http.rx.BaseObserver;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
-import com.goldze.common.dmvvm.utils.RxUtils;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.ui.vm.api.ClassifyService;
@@ -17,23 +15,11 @@ import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
+import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 import com.socks.library.KLog;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.http.FieldMap;
 
 public class ClassifyRepository extends BaseRepository {
 
@@ -46,27 +32,27 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<ClassificationBean>() {
                     @Override
                     public void onSuccess(ClassificationBean result) {
-                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE, result);
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.SUCCESS_STATE);
+                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE[0], result);
+                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     protected void onStart() {
                         super.onStart();
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.LOADING_STATE);
+                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.LOADING_STATE);
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
+                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
                         KLog.i(e.toString());
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
+                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                     }
                 })
         );
@@ -79,7 +65,7 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<ClassificationRighitBean>() {
                     @Override
                     public void onSuccess(ClassificationRighitBean result) {
-                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, result);
+                        sendData(Constants.EVENT_KEY_CLASSIFY_MORE[2], result);
                     }
 
                     @Override
@@ -109,27 +95,27 @@ public class ClassifyRepository extends BaseRepository {
                         .subscribeWith(new RxSubscriber<BrandListInfo>() {
                             @Override
                             public void onSuccess(BrandListInfo result) {
-                                sendData(Constants.EVENT_KEY_CLASSIFY_MORE_RIGHT, result);
-//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.SUCCESS_STATE);
+                                sendData(Constants.EVENT_KEY_CLASSIFY_MORE[2], result);
+//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.SUCCESS_STATE);
                             }
 
                             @Override
                             protected void onStart() {
                                 super.onStart();
-//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.LOADING_STATE);
+//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.LOADING_STATE);
                             }
 
                             @Override
                             public void onFailure(String msg) {
                                 KLog.i(msg);
-//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
+//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 super.onError(e);
                                 KLog.i(e.toString());
-//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE_STATE, StateConstants.ERROR_STATE);
+//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                             }
                         })
         );
@@ -156,25 +142,25 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
-                        sendData(Constants.PRODUCTS_EVENT_KEY, typeId, result);
-                        showPageState(Constants.PRODUCTS_EVENT_KEY_LIST_STATE, typeId, StateConstants.SUCCESS_STATE);
+                        sendData(Constants.PRODUCTS_EVENT_KEY[0], typeId, result);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        showPageState(Constants.PRODUCTS_EVENT_KEY_LIST_STATE, typeId, StateConstants.ERROR_STATE);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        showPageState(Constants.PRODUCTS_EVENT_KEY_LIST_STATE, typeId, StateConstants.ERROR_STATE);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
-                        showPageState(Constants.PRODUCTS_EVENT_KEY_LIST_STATE, typeId, StateConstants.NET_WORK_STATE);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.NET_WORK_STATE);
                     }
                 })
         );
@@ -188,29 +174,69 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<GoodsDetailInfo>() {
                     @Override
                     public void onSuccess(GoodsDetailInfo result) {
-                        sendData(Constants.GOODSDETAIL_EVENT_KEY, result);
-                        showPageState(Constants.GOODSDETAIL_EVENT_KEY_STATE, StateConstants.SUCCESS_STATE);
+                        sendData(Constants.GOODSDETAIL_EVENT_KEY[0], result);
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        showPageState(Constants.GOODSDETAIL_EVENT_KEY_STATE, StateConstants.ERROR_STATE);
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        showPageState(Constants.GOODSDETAIL_EVENT_KEY_STATE, StateConstants.ERROR_STATE);
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
-                        showPageState(Constants.GOODSDETAIL_EVENT_KEY_STATE, StateConstants.NET_WORK_STATE);
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
                     }
                 })
         );
 
+    }
+
+    /*搜索列表*/
+    public void getHotKeys() {
+        addDisposable(apiService.getHotKeys(parames(ClassifyService.HOTKEY[0], ClassifyService.HOTKEY[1]))
+                        .compose(RxSchedulers.<BaseResponse<HotKeyInfo>>io_main())
+                        .subscribeWith(new RxSubscriber<BaseResponse<HotKeyInfo>>() {
+                            @Override
+                            public void onSuccess(BaseResponse<HotKeyInfo> result) {
+                                sendData(Constants.SEARCH_EVENT_KEY[0], result);
+//                        showPageState(Constants.SEARCH_EVENT_KEY_STATE, StateConstants.SUCCESS_STATE);
+                            }
+
+                            @Override
+                            public void onFailure(String msg) {
+                                showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.ERROR_STATE);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                super.onError(e);
+                                showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.ERROR_STATE);
+                            }
+
+                            @Override
+                            protected void onNoNetWork() {
+                                super.onNoNetWork();
+                                showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
+                            }
+                        })
+        );
+
+    }
+
+    Map<String, Object> map = new HashMap<>();
+
+    Map<String, Object> parames(Object app, Object wwi) {
+        map.put("app", app);
+        map.put("wwi", wwi);
+        return map;
     }
 
     /*评价列表*/
@@ -225,25 +251,25 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<GoodsCommentListBean>() {
                     @Override
                     public void onSuccess(GoodsCommentListBean result) {
-                        sendData(Constants.EVALUATE_EVENT_KEY, result);
-                        showPageState(Constants.EVALUATE_EVENT_KEY_LIST_STATE, StateConstants.SUCCESS_STATE);
+                        sendData(Constants.EVALUATE_EVENT_KEY[0], result);
+                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        showPageState(Constants.EVALUATE_EVENT_KEY_LIST_STATE, StateConstants.ERROR_STATE);
+                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        showPageState(Constants.EVALUATE_EVENT_KEY_LIST_STATE, StateConstants.ERROR_STATE);
+                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
-                        showPageState(Constants.EVALUATE_EVENT_KEY_LIST_STATE, StateConstants.NET_WORK_STATE);
+                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
                     }
                 })
         );

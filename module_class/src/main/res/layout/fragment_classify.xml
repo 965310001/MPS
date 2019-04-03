@@ -15,15 +15,19 @@
             type="List" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <include layout="@layout/item_title_layout" />
 
         <LinearLayout
             android:id="@+id/content_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+
 
             <com.trecyclerview.TRecyclerView
                 android:id="@+id/trv_left"
@@ -65,6 +69,6 @@
         </LinearLayout>
 
 
-    </FrameLayout>
+    </LinearLayout>
 
 </layout>

@@ -68,7 +68,7 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
         if (getArguments() != null) {
             typeId = getArguments().getString(TYPEID);
         }
-        registerObserver(Constants.PRODUCTS_EVENT_KEY, typeId, GoodsListInfo.class)
+        registerObserver(Constants.PRODUCTS_EVENT_KEY[0], typeId, GoodsListInfo.class)
                 .observe(this, new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
@@ -88,7 +88,7 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.PRODUCTS_EVENT_KEY_LIST_STATE;
+        return Constants.PRODUCTS_EVENT_KEY[1];
     }
 
     @Override

@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mingpinmall.classz">
 
     <application>
+        <activity android:name=".ui.vm.SearchActivity"></activity>
         <activity
             android:name=".ui.ProductsActivity"
             android:launchMode="singleTask" />
@@ -9,4 +11,5 @@
             android:name=".ui.ShoppingDetailsActivity"
             android:launchMode="singleTask" />
     </application>
+
 </manifest>

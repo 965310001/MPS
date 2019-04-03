@@ -65,4 +65,9 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     public void getEvaluate(String gId, String type, String curpage) {
         mRepository.getEvaluate(gId, type, curpage);
     }
+
+    /*搜索列表*/
+    public void getHotKeys() {
+        mRepository.getHotKeys();
+    }
 }

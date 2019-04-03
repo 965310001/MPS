@@ -42,8 +42,8 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
 
     private LoadManager loadManager;
 
-    private ImageView ivBack, ivSearch;
-    private MaterialEditText edSearch;
+    protected ImageView ivBack, ivSearch;
+    protected MaterialEditText edSearch;
     protected TextView tvTitle, tvRight;
     private RelativeLayout rlTitleBar;
 
@@ -82,6 +82,8 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
                 }
             });
             ivBack.setVisibility(isBack() ? View.VISIBLE : View.GONE);
+
+            ivSearch.setOnClickListener(this);
         }
 
         /*沉浸式状态栏*/

@@ -62,7 +62,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.GOODSDETAIL_EVENT_KEY_STATE;
+        return Constants.GOODSDETAIL_EVENT_KEY[0];
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver(Constants.GOODSDETAIL_EVENT_KEY, GoodsDetailInfo.class)
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0], GoodsDetailInfo.class)
                 .observeForever(new Observer<GoodsDetailInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsDetailInfo response) {
