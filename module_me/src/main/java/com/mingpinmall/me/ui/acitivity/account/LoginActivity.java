@@ -57,7 +57,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         setTitle(R.string.title_loginActivity);
-        mViewModel.makeCodeKey();
+//        mViewModel.makeCodeKey();
         progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
 
         TabLayout.Tab tab = binding.tabs.newTab();

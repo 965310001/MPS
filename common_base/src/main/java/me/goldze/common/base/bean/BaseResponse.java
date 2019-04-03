@@ -14,6 +14,9 @@ public class BaseResponse<T> extends BaseBean {
     private String errorMsg;
     private T data; //result
 
+    public boolean isSuccess() {
+        return errorCode == 0;
+    }
 
     public String getErrorMsg() {
         return errorMsg;
@@ -26,11 +29,6 @@ public class BaseResponse<T> extends BaseBean {
     public void setCode(int code) {
         this.code = code;
     }
-
-    public boolean isOk() {
-        return code == 0;
-    }
-
 
     public String getMessage() {
         return message;
@@ -46,10 +44,6 @@ public class BaseResponse<T> extends BaseBean {
 
     public void setData(T data) {
         this.data = data;
-    }
-
-    public boolean isSuccess() {
-        return errorCode == 0;
     }
 
     public int getErrorCode() {

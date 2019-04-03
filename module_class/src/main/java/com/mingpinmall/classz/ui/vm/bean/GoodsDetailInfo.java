@@ -12,16 +12,22 @@ public class GoodsDetailInfo extends BaseBean {
      * datas : {"goods_info":{"goods_name":"正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表","goods_jingle":"型号BD7108G    100米防水 终身保修 全国包邮 邦顿正品  专柜同款","gc_id_1":"530","gc_id_2":"540","gc_id_3":"587","spec_name":null,"spec_value":null,"goods_attr":null,"goods_custom":null,"mobile_body":"","goods_price":"599.00","goods_marketprice":"599.00","goods_costprice":"0.00","goods_discount":"100","goods_serial":"BD7108G","goods_storage_alarm":"0","goods_barcode":"","transport_id":"0","transport_title":"","goods_freight":"0.00","goods_vat":"0","areaid_1":"19","areaid_2":"289","goods_stcids":"","plateid_top":"0","plateid_bottom":"0","is_virtual":"0","virtual_indate":"0","virtual_limit":"0","virtual_invalid_refund":"0","sup_id":"0","is_own_mall":"0","goods_id":"109928","goods_promotion_price":"599.00","goods_promotion_type":"0","goods_click":85,"goods_salenum":"0","goods_collect":"1","goods_spec":null,"goods_storage":"1597","color_id":"0","evaluation_good_star":"5","evaluation_count":"0","is_fcode":"0","is_presell":"0","presell_deliverdate":"0","is_book":"0","book_down_payment":"0.00","book_final_payment":"0.00","book_down_time":"0","book_buyers":"0","have_gift":"0","contract_1":"0","contract_2":"0","contract_3":"0","contract_4":"0","contract_5":"0","contract_6":"0","contract_7":"0","contract_8":"0","contract_9":"0","contract_10":"0","is_chain":"0","invite_rate":"0.00","sole_info":[],"groupbuy_info":null,"xianshi_info":null,"jjg_info":null,"cart":1,"buynow":1,"contractlist":[],"goods_url":"http://www.mingpinmall.cn/pinpai/index.php?app=goods&wwi=index&goods_id=109928"},"spec_image":["http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_60.gif"],"mansong_info":null,"gift_array":[],"goods_commend_list":[{"goods_id":"109927","goods_name":"正品瑞士邦顿（bestdon）手表BD7768L陶瓷女表全自动机械贝壳面镶钻蓝宝石商务时尚白领腕表","goods_price":null,"goods_promotion_price":"1299.00","goods_image_url":"http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_240.gif"},{"goods_id":"109898","goods_name":"正品邦顿（bestdon）超薄手表女款正品时尚潮流简约休闲防水真皮带女表情侣石英表","goods_price":null,"goods_promotion_price":"258.00","goods_image_url":"http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_240.gif"},{"goods_id":"109925","goods_name":"邦顿（Bestdon）手表男士机械表 全自动夜光时尚多功能精钢防水皮带男表 镂空大表盘腕表 银壳黑面","goods_price":null,"goods_promotion_price":"499.00","goods_image_url":"http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_240.gif"},{"goods_id":"109928","goods_name":"正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表","goods_price":null,"goods_promotion_price":"599.00","goods_image_url":"http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_240.gif"},{"goods_id":"109926","goods_name":"正品 瑞士邦顿（bestdon）飞轮全自动机械表男表精钢男士手表真皮带夜光防水镂空大表盘","goods_price":null,"goods_promotion_price":"428.00","goods_image_url":"http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_240.gif"},{"goods_id":"109924","goods_name":"正品瑞士邦顿（bestdon）情侣手表 石英表超薄防水情侣手表真皮表带","goods_price":null,"goods_promotion_price":"388.00","goods_image_url":"http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_240.gif"}],"store_info":{"store_id":"7","store_name":"瑞士邦顿（bestdon）手表旗舰店","member_id":"30361","member_name":"puppet","is_own_mall":"0","goods_count":"6","store_credit":{"store_desccredit":{"text":"描述","credit":"5.0","percent":"----","percent_class":"equal","percent_text":"平"},"store_servicecredit":{"text":"服务","credit":"5.0","percent":"----","percent_class":"equal","percent_text":"平"},"store_deliverycredit":{"text":"物流","credit":"5.0","percent":"----","percent_class":"equal","percent_text":"平"}},"new_storeCredit":[{"text":"描述","credit":"5.0","percent":"----","percent_class":"equal","percent_text":"平"},{"text":"服务","credit":"5.0","percent":"----","percent_class":"equal","percent_text":"平"},{"text":"物流","credit":"5.0","percent":"----","percent_class":"equal","percent_text":"平"}]},"spec_list":{"":"109928"},"goods_image":"http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_360.gif,http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_360.gif,http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_360.gif,http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_360.gif,http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_360.gif","goods_eval_list":[],"goods_evaluate_info":{"good":0,"normal":0,"bad":0,"all":0,"img":0,"good_percent":100,"normal_percent":0,"bad_percent":0,"good_star":5,"star_average":5},"goods_hair_info":{"content":"免运费","if_store_cn":"有货","if_store":true,"area_name":"全国"}}
      */
 
-//    private int code;
-    private DatasBean datas;
 
-    public boolean isSuccess() {
-        return super.getCode() == 200;
-    }
+    private DatasBean datas;
+    private int code;
 
     public int getCode() {
-        return super.getCode();
+        return code;
     }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public boolean isSuccess() {
+        return code == 200;
+    }
+
 
 //    public void setCode(int code) {
 //        this.code = code;
@@ -35,7 +41,7 @@ public class GoodsDetailInfo extends BaseBean {
         this.datas = datas;
     }
 
-    public static class DatasBean {
+    public class DatasBean extends BaseBean {
         /**
          * goods_info : {"goods_name":"正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表","goods_jingle":"型号BD7108G    100米防水 终身保修 全国包邮 邦顿正品  专柜同款","gc_id_1":"530","gc_id_2":"540","gc_id_3":"587","spec_name":null,"spec_value":null,"goods_attr":null,"goods_custom":null,"mobile_body":"","goods_price":"599.00","goods_marketprice":"599.00","goods_costprice":"0.00","goods_discount":"100","goods_serial":"BD7108G","goods_storage_alarm":"0","goods_barcode":"","transport_id":"0","transport_title":"","goods_freight":"0.00","goods_vat":"0","areaid_1":"19","areaid_2":"289","goods_stcids":"","plateid_top":"0","plateid_bottom":"0","is_virtual":"0","virtual_indate":"0","virtual_limit":"0","virtual_invalid_refund":"0","sup_id":"0","is_own_mall":"0","goods_id":"109928","goods_promotion_price":"599.00","goods_promotion_type":"0","goods_click":85,"goods_salenum":"0","goods_collect":"1","goods_spec":null,"goods_storage":"1597","color_id":"0","evaluation_good_star":"5","evaluation_count":"0","is_fcode":"0","is_presell":"0","presell_deliverdate":"0","is_book":"0","book_down_payment":"0.00","book_final_payment":"0.00","book_down_time":"0","book_buyers":"0","have_gift":"0","contract_1":"0","contract_2":"0","contract_3":"0","contract_4":"0","contract_5":"0","contract_6":"0","contract_7":"0","contract_8":"0","contract_9":"0","contract_10":"0","is_chain":"0","invite_rate":"0.00","sole_info":[],"groupbuy_info":null,"xianshi_info":null,"jjg_info":null,"cart":1,"buynow":1,"contractlist":[],"goods_url":"http://www.mingpinmall.cn/pinpai/index.php?app=goods&wwi=index&goods_id=109928"}
          * spec_image : ["http://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_60.gif"]
@@ -58,7 +64,7 @@ public class GoodsDetailInfo extends BaseBean {
         private GoodsEvaluateInfoBean goods_evaluate_info;
         private GoodsHairInfoBean goods_hair_info;
         private List<String> spec_image;
-        private List<?> gift_array;
+        //        private List<?> gift_array;
         private List<GoodsInfo> goods_commend_list;
         public List<GoodsComment> goods_eval_list;
 
@@ -126,13 +132,13 @@ public class GoodsDetailInfo extends BaseBean {
             this.spec_image = spec_image;
         }
 
-        public List<?> getGift_array() {
-            return gift_array;
-        }
-
-        public void setGift_array(List<?> gift_array) {
-            this.gift_array = gift_array;
-        }
+//        public List<?> getGift_array() {
+//            return gift_array;
+//        }
+//
+//        public void setGift_array(List<?> gift_array) {
+//            this.gift_array = gift_array;
+//        }
 
         public List<GoodsInfo> getGoods_commend_list() {
             return goods_commend_list;
@@ -150,7 +156,7 @@ public class GoodsDetailInfo extends BaseBean {
             this.goods_eval_list = goods_eval_list;
         }
 
-        public static class StoreInfoBean {
+        public class StoreInfoBean extends BaseBean {
             /**
              * store_id : 7
              * store_name : 瑞士邦顿（bestdon）手表旗舰店
@@ -227,7 +233,7 @@ public class GoodsDetailInfo extends BaseBean {
                 this.new_storeCredit = new_storeCredit;
             }
 
-            public static class NewStoreCreditBean {
+            public class NewStoreCreditBean extends BaseBean {
                 /**
                  * text : 描述
                  * credit : 5.0
@@ -284,7 +290,7 @@ public class GoodsDetailInfo extends BaseBean {
             }
         }
 
-        public static class SpecListBean {
+        public class SpecListBean extends BaseBean {
             /**
              * : 109928
              */
@@ -301,7 +307,7 @@ public class GoodsDetailInfo extends BaseBean {
             }
         }
 
-        public static class GoodsEvaluateInfoBean {
+        public class GoodsEvaluateInfoBean extends BaseBean {
             /**
              * good : 0
              * normal : 0
@@ -407,7 +413,7 @@ public class GoodsDetailInfo extends BaseBean {
             }
         }
 
-        public static class GoodsHairInfoBean {
+        public class GoodsHairInfoBean extends BaseBean {
             /**
              * content : 免运费
              * if_store_cn : 有货

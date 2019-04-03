@@ -1,8 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mingpinmall.classz" >
+    package="com.mingpinmall.classz">
+
     <application>
         <activity
             android:name=".ui.ProductsActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.ShoppingDetailsActivity"
             android:launchMode="singleTask" />
     </application>
 </manifest>

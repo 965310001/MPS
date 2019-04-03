@@ -1,5 +1,7 @@
 package com.goldze.common.dmvvm.base.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @author GuoFeng
  * @date :2019/1/15 20:53
@@ -8,12 +10,21 @@ package com.goldze.common.dmvvm.base.bean;
 
 public class BaseResponse<T> extends BaseBean {
 
+    private final int SUCCESS = 200;
+    private final int FAIL = 500;
+    private final int ERROR = 400;
+    private final int NO_LOGIN = 300;
+
     private int code;
     private int errorCode;
     private String message;
     private String errorMsg;
+    @SerializedName("datas")
     private T data; //result
 
+    public boolean isSuccess() {
+        return errorCode == SUCCESS;
+    }
 
     public String getErrorMsg() {
         return errorMsg;
@@ -26,11 +37,6 @@ public class BaseResponse<T> extends BaseBean {
     public void setCode(int code) {
         this.code = code;
     }
-
-    public boolean isOk() {
-        return code == 0;
-    }
-
 
     public String getMessage() {
         return message;
@@ -48,13 +54,8 @@ public class BaseResponse<T> extends BaseBean {
         this.data = data;
     }
 
-    public boolean isSuccess() {
-        return errorCode == 0;
-    }
-
     public int getErrorCode() {
         return errorCode;
     }
+
 }
-
-

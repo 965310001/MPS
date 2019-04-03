@@ -1,5 +1,6 @@
 package com.mingpinmall.classz.ui.vm.api;
 
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
@@ -48,6 +49,10 @@ public interface ClassifyService {
     @POST(CLASSIFYLEFT)
     Flowable<ClassificationBean> getLeft(@Field("app") String app,
                                          @Field("wwi") String wwi);
+    @FormUrlEncoded
+    @POST(CLASSIFYLEFT)
+    Flowable<BaseResponse<ClassificationBean>> getLeft1(@Field("app") String app,
+                                                         @Field("wwi") String wwi);
 
     /*右边*/
     @GET(CLASSIFYLEFT)

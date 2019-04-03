@@ -9,9 +9,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.goldze.common.dmvvm.BuildConfig;
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.http.rx.ApiObserver;
+import com.goldze.common.dmvvm.http.rx.BaseObserver;
+import com.goldze.common.dmvvm.http.rx.RxBus;
+import com.goldze.common.dmvvm.utils.RxUtils;
 import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.databinding.FragmentClassifyBinding;
@@ -26,6 +32,10 @@ import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 
 /**
  * 分类
@@ -95,7 +105,6 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     @Override
     protected void dataObserver() {
         super.dataObserver();
-
         LiveBus.getDefault()
                 .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE, ClassificationBean.class)
                 .observeForever(new Observer<ClassificationBean>() {

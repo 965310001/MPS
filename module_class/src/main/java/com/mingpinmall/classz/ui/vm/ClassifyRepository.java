@@ -1,10 +1,13 @@
 package com.mingpinmall.classz.ui.vm;
 
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
+import com.goldze.common.dmvvm.http.rx.BaseObserver;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
+import com.goldze.common.dmvvm.utils.RxUtils;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.ui.vm.api.ClassifyService;
@@ -16,9 +19,20 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.socks.library.KLog;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.http.FieldMap;
 
 public class ClassifyRepository extends BaseRepository {
@@ -56,7 +70,6 @@ public class ClassifyRepository extends BaseRepository {
                     }
                 })
         );
-
     }
 
     /*获取右边的数据*/
