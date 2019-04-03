@@ -126,7 +126,8 @@ dependencies {
 
     /*RecyclerView适配器 和 圆形ImageView*/
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
-    api 'de.hdodenhof:circleimageview:2.1.0'
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
+    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
 
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'

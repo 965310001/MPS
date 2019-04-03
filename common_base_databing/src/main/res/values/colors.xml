@@ -15,6 +15,9 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="app_theme_d61619">#d61619</color>
+    <color name="app_theme_press_d61619">#A81113</color>
+
     <!-- ************************* 通用 ********************* -->
     <color name="gray">#cccccc</color>
     <color name="white">#ffffff</color>

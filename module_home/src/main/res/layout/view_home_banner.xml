@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.bigkoo.convenientbanner.ConvenientBanner
+            android:id="@+id/view_banner"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:canLoop="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/sv_search"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:drawableLeft="@drawable/search"
+            android:paddingStart="8dp"
+            android:drawablePadding="6dp"
+            android:layout_margin="6dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/button_translucence_white_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ll_msg"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginEnd="6dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="@id/sv_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/sv_search"
+            app:layout_constraintStart_toEndOf="@id/sv_search"
+            >
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_message_white"
+                />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="消息"
+                />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

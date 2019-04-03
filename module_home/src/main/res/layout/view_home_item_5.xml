@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Space
+            android:id="@+id/space"
+            android:layout_width="0dp"
+            android:layout_height="12dp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_sub_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_label"
+                app:layout_constraintBottom_toBottomOf="@id/tv_label"
+                app:layout_constraintStart_toEndOf="@id/tv_label"
+                app:layout_constraintTop_toTopOf="@id/tv_label" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/iv_0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintBottom_toTopOf="@id/iv_0"
+                app:layout_constraintEnd_toEndOf="@id/iv_1"
+                app:layout_constraintStart_toStartOf="@id/iv_0" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_0"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@id/line0"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label" />
+
+            <View
+                android:id="@+id/line0"
+                android:layout_width="@dimen/line_hight"
+                android:layout_height="0dp"
+                android:background="@color/line_color"
+                app:layout_constraintBottom_toBottomOf="@id/iv_0"
+                app:layout_constraintEnd_toStartOf="@id/iv_1"
+                app:layout_constraintStart_toEndOf="@id/iv_0"
+                app:layout_constraintTop_toTopOf="@id/iv_0" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="h, 2:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/line0"
+                app:layout_constraintTop_toTopOf="@id/line0"
+                app:layout_constraintVertical_weight="1" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintBottom_toTopOf="@id/iv_2"
+                app:layout_constraintEnd_toEndOf="@id/iv_1"
+                app:layout_constraintStart_toStartOf="@id/iv_1"
+                app:layout_constraintTop_toBottomOf="@id/iv_1" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_0"
+                app:layout_constraintEnd_toStartOf="@id/line2"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/iv_1"
+                app:layout_constraintTop_toBottomOf="@id/line1"
+                app:layout_constraintVertical_weight="1" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="@dimen/line_hight"
+                android:layout_height="0dp"
+                android:background="@color/line_color"
+                app:layout_constraintBottom_toBottomOf="@id/iv_2"
+                app:layout_constraintEnd_toStartOf="@id/iv_3"
+                app:layout_constraintStart_toEndOf="@id/iv_2"
+                app:layout_constraintTop_toTopOf="@id/iv_2" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_2"
+                app:layout_constraintEnd_toEndOf="@id/iv_1"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/line2"
+                app:layout_constraintTop_toTopOf="@id/iv_2" />
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+</layout>
