@@ -16,18 +16,13 @@ public class BaseResponse<T> extends BaseBean {
     private final int NO_LOGIN = 300;
 
     private int code;
-    private int errorCode;
+    @SerializedName("error")
     private String message;
-    private String errorMsg;
     @SerializedName("datas")
-    private T data; //result
+    private T data;
 
     public boolean isSuccess() {
-        return errorCode == SUCCESS;
-    }
-
-    public String getErrorMsg() {
-        return errorMsg;
+        return code == SUCCESS;
     }
 
     public int getCode() {
@@ -50,12 +45,16 @@ public class BaseResponse<T> extends BaseBean {
         return data;
     }
 
+    public boolean isData() {
+        return null != data;
+    }
+
     public void setData(T data) {
         this.data = data;
     }
 
-    public int getErrorCode() {
-        return errorCode;
-    }
+//    public int getErrorCode() {
+//        return errorCode;
+//    }
 
 }

@@ -26,7 +26,7 @@ import java.util.List;
 
 public class DatabingUtils {
 
-    @BindingAdapter({"bind:src"})
+    @BindingAdapter({"src"})
     public static void imageLoader(ImageView imageView, String url) {
         if (".gif".endsWith(url)) {
             KLog.i("gif");
@@ -37,7 +37,7 @@ public class DatabingUtils {
     }
 
     /*LSettingItem 的绑定*/
-    @BindingAdapter({"leon:lefttext"})
+    @BindingAdapter({"lefttext"})
     public static void setLeftText(LSettingItem settingItem, final ClassificationRighitBean.DatasBean.ClassListBean data) {
         if (null != data && !TextUtils.isEmpty(data.getGc_name())) {
             settingItem.setLeftText(data.getGc_name());
@@ -51,7 +51,7 @@ public class DatabingUtils {
         });
     }
 
-    @BindingAdapter("bind:items")
+    @BindingAdapter("items")
     public static void setChild(TRecyclerView rv, List data) {
         DelegateAdapter adapter = (DelegateAdapter) rv.getAdapter();
         if (null == adapter) {

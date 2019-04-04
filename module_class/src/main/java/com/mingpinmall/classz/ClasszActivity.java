@@ -24,6 +24,11 @@ public class ClasszActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isActionBar() {
+        return false;
+    }
+
+    @Override
     protected boolean isBack() {
         return false;
     }

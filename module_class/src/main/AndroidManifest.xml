@@ -3,7 +3,9 @@
     package="com.mingpinmall.classz">
 
     <application>
-        <activity android:name=".ui.vm.SearchActivity"></activity>
+        <activity
+            android:name=".ui.vm.SearchActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.ProductsActivity"
             android:launchMode="singleTask" />

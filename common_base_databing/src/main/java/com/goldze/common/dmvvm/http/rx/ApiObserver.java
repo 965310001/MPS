@@ -17,7 +17,7 @@ public abstract class ApiObserver<T> extends BaseObserver<BaseResponse<T>> {
         if (response.isSuccess()) {
             onSuccess(response);
         } else {
-            onFailure(response.getErrorCode(), response.getErrorMsg());
+            onFailure(response.getCode(), response.getMessage());
         }
     }
 

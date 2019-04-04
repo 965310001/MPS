@@ -28,6 +28,9 @@
         <activity
             android:name=".ui.ShoppingDetailsActivity"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.vm.SearchActivity"
+            android:launchMode="singleTask" />
 
     </application>
 

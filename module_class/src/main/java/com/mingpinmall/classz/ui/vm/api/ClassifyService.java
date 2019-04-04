@@ -42,7 +42,7 @@ public interface ClassifyService {
     String EVALUATE = "/mo_bile/index.php?app=goods&wwi=goods_evaluate";
 
     /*搜索列表*/
-    String[] HOTKEY = {"", ""};
+    String[] HOTKEY = {"index", "search_key_list"};
 
     /*添加收藏*/
     String ADDCOLLECTION_APP = "member_favorites";
@@ -51,15 +51,9 @@ public interface ClassifyService {
     String DELCOLLECTION_WWI = "favorites_del";
 
     /*左边*/
-    @FormUrlEncoded
-    @POST(BASEURL)
-    Flowable<ClassificationBean> getLeft(@Field("app") String app,
-                                         @Field("wwi") String wwi);
-
-    @FormUrlEncoded
-    @POST(BASEURL)
-    Flowable<BaseResponse<ClassificationBean>> getLeft1(@Field("app") String app,
-                                                        @Field("wwi") String wwi);
+    @GET(BASEURL)
+    Flowable<ClassificationBean> getLeft(@Query("app") String app,
+                                         @Query("wwi") String wwi);
 
     /*右边*/
     @GET(BASEURL)

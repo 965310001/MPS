@@ -47,6 +47,9 @@ public class ProductsActivity extends HorizontalTabActivity {
     @Autowired
     int type;
 
+    @Autowired
+    String keyword;
+
     @Override
     protected String[] getTabTitles() {
         return Constants.PRODUCTS_TITLE;
@@ -56,6 +59,8 @@ public class ProductsActivity extends HorizontalTabActivity {
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
+
+        KLog.i("搜索" + keyword);
 
         mEasyIndicator.setOnTabClickListener(new EasyIndicator.onTabClickListener() {
             @Override

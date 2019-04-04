@@ -21,8 +21,8 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
             if (data != null) {
                 callback(data);
             } else {
-                if (response.getErrorCode() != 0) {
-                    onError(response.getErrorMsg());
+                if (response.getCode() != 0) {
+                    onError(response.getMessage());
                 }
             }
         }
