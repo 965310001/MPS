@@ -51,7 +51,7 @@ public interface MeApiService {
      * /mo_bile/index.php?app=member_feedback&wwi=feedback_add
      * 请求方式：POST
      * 请求参数：
-     * 	feedback:反馈内容
+     * feedback:反馈内容
      */
     String FeedBack = "mo_bile/index.php?app=member_feedback&wwi=feedback_add";
 
@@ -84,6 +84,32 @@ public interface MeApiService {
     @GET(ProductCollectList)
     Flowable<BasePageBean> getProductCollectList(@Query("key") String key, @Query("curpage") int curpage, @Query("page") int page);
 
+    /**
+     * 描述：根据条件查询订单
+     * 请求地址：
+     * http://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_list&page=10&curpage=1
+     * 请求方式：POST
+     * 请求参数：
+     * State_type:
+     * [state_new:待付款]
+     * [state_send:待收货]
+     * [state_notakes:待自提]
+     * [state_noeval:待评价]
+     * Order_key:搜索内容，产品标题或订单号
+     */
+    String getOrder = "/mo_bile/index.php?app=member_order&wwi=order_list";
+
+    @FormUrlEncoded
+    @POST(getOrder)
+    Flowable<BaseIntDatasBean> getOrder(
+            @Field("key") String key,
+            @Field("state_type") String state_type,
+            @Field("order_key") String order_key,
+            @Field("page") int page,
+            @Field("curpage") int curpage
+    );
+
+
     /*我的商城中用户信息获取*/
     @GET(GETUSERINFO)
     Flowable<MyInfoBean> getUserInfo(@Query("key") String key);
@@ -95,7 +121,6 @@ public interface MeApiService {
     /*检测是否绑定手机*/
     @GET(PHONENUMBER_INFO)
     Flowable<BaseCheckBean> getPhoneInfo(@Query("key") String key);
-
 
 
 }

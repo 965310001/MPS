@@ -4,10 +4,8 @@
 
 
     <application>
-        <!--<activity android:name=".MeActivity"></activity>-->
         <activity android:name=".ui.acitivity.account.LoginActivity" />
         <activity android:name=".ui.acitivity.setting.SettingActivity" />
-        <activity android:name=".ui.acitivity.account.CreateAccountActivity" />
         <activity android:name=".ui.acitivity.order.OrderActivity" />
         <activity android:name=".ui.acitivity.collection.CollectionActivity" />
         <activity android:name=".ui.acitivity.collection.FootprintActivity" />

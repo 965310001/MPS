@@ -23,7 +23,7 @@ import com.mingpinmall.me.ui.adapter.BasePagerStateAdapter;
 import com.xuexiang.xui.widget.tabbar.TabControlView;
 
 /**
- * 功能描述：
+ * 功能描述：我的订单
  * 创建人：小斌
  * 创建时间: 2019/3/26
  **/

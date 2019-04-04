@@ -43,9 +43,6 @@ import java.util.Random;
 @Route(path = ARouterConfig.LOGINACTIVITY)
 public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, UserViewModel> implements TextWatcher {
 
-    private String codeKey = "";
-    private boolean lock = false;
-
     private ProgressDialog progressDialog;
 
     @Override
@@ -112,11 +109,6 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     }
 
     @Override
-    protected Object getStateEventKey() {
-        return "";
-    }
-
-    @Override
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_sublimt) {
             /*登陆*/
@@ -153,6 +145,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                                 progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
                                     @Override
                                     public void onDismiss() {
+                                        LiveBus.getDefault().postEvent("LoginSuccess", true);
                                         finish();
                                     }
                                 });
