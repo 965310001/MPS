@@ -109,6 +109,11 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     }
 
     @Override
+    protected Object getStateEventKey() {
+        return "";
+    }
+
+    @Override
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_sublimt) {
             /*登陆*/

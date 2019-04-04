@@ -28,5 +28,10 @@ public interface Constants {
 
     /*搜索*/
     Object[] SEARCH_EVENT_KEY = {"SEARCH_EVENT_KEY", "SEARCH_EVENT_KEY_STATE",
-            "SEARCH_EVENT_KEY_SSEARCH","SEARCH_EVENT_KEY_DELETE"};/*2 3 */
+            "SEARCH_EVENT_KEY_SSEARCH", "SEARCH_EVENT_KEY_DELETE"};/*2 3 */
+    /*搜索传值*/
+    String KEYWORD = "KEYWORD";
+
+    /*筛选框*/
+    Object[] CUSTOMPOPWINDOW_KEY = {"CUSTOMPOPWINDOW_KEY","CUSTOMPOPWINDOW_KEY_SCREENING"};
 }

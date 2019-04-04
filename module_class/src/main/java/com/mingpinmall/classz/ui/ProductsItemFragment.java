@@ -20,6 +20,8 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
     private final static String TYPEID = "typeId";
     private String typeId;
     private String keyword = "";
+    private String id;
+    private String areaId, priceFrom, priceTo;//地区 价格区间最低范围 价格区间最高范围
 
     public ProductsItemFragment() {
     }
@@ -29,6 +31,16 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
         Bundle args = new Bundle();
         args.putString(ID, id);
         args.putString(TYPEID, typeId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ProductsItemFragment newInstance(String id, String typeId, String keyword) {
+        ProductsItemFragment fragment = new ProductsItemFragment();
+        Bundle args = new Bundle();
+        args.putString(ID, id);
+        args.putString(TYPEID, typeId);
+        args.putString(Constants.KEYWORD, keyword);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,7 +71,11 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
     protected void getRemoteData() {
         super.getRemoteData();
 
-        mViewModel.getShappingList(getArguments().getString(ID), String.valueOf(page), keyword, typeId);
+        if (null != getArguments()) {
+            id = getArguments().getString(ID);
+            keyword = getArguments().getString(Constants.KEYWORD);
+        }
+        mViewModel.getShappingList(id, String.valueOf(page), keyword, typeId, areaId, priceFrom, priceTo);
     }
 
     @Override

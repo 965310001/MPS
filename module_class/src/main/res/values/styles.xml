@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- popwindow动画 -->
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/pop_arrow_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_arrow_out</item>
+    </style>
+
+</resources>

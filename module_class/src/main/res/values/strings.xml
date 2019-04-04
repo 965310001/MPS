@@ -32,4 +32,19 @@
     <string name="market_next">下一步</string>
     <string name="market_add_to_cart">加入购物车</string>
     <string name="market_buy_now">立即购买</string>
+
+    <string-array name="fit_sex_tabs">
+        <item>不限</item>
+        <item>女</item>
+        <item>男</item>
+    </string-array>
+
+    <string-array name="fit_age_tabs">
+        <item>不限</item>
+        <item>18-22岁</item>
+        <item>23-30岁</item>
+        <item>31-35岁</item>
+        <item>36-50岁</item>
+        <item>50以上</item>
+    </string-array>
 </resources>

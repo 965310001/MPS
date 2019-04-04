@@ -1,5 +1,7 @@
 package com.mingpinmall.classz.ui.vm;
 
+import android.text.TextUtils;
+
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
@@ -123,18 +125,23 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*商品列表*/
-    public void getShappingList(String bId, String curpage, String keyword, final String typeId) {
+    public void getShappingList(String bId, String curpage, String keyword, final String typeId, String areaId, String priceFrom, String priceTo) {
         Map<String, Object> map = new HashMap<>();
-        if ("0".equals(typeId)) {
-            map.put("gc_id", bId);
-        } else {
-            map.put("b_id", bId);
+        if (!TextUtils.isEmpty(bId)) {
+            if ("0".equals(typeId)) {
+                map.put("gc_id", bId);
+            } else {
+                map.put("b_id", bId);
+            }
+        } else if (!TextUtils.isEmpty(keyword)) {
+            map.put("keyword", keyword);
+        }
+        if (!TextUtils.isEmpty(areaId)) {
+            map.put("Area_id", areaId);//地区
+            map.put("price_from", priceFrom);//价格区间最低范围
+            map.put("price_to", priceTo);// 价格区间最高范围
         }
         map.put("Key", 1);/*使用排序*/
-        map.put("keyword", keyword);
-//        map.put("Area_id", Area_id);//地区
-//        map.put("price_from", price_from);//价格区间最低范围
-//        map.put("price_to", price_to);// 价格区间最高范围
         map.put("page", Constants.PAGE_RN);
         map.put("curpage", curpage);
         addDisposable(apiService.getShappingList(map)
@@ -275,7 +282,6 @@ public class ClassifyRepository extends BaseRepository {
         );
 
     }
-
 
     /*通用*/
     public void execute(String app, String wwi, final Object eventKey, Map<String, Object> map) {

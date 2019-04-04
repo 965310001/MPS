@@ -2,14 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.v4.widget.DrawerLayout
+        android:id="@+id/dl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <LinearLayout
             android:id="@+id/content_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="end|right"
+            android:layout_gravity="end|right"
             android:orientation="vertical"
             android:padding="@dimen/dp_10">
 
@@ -96,4 +98,5 @@
 
 
     </android.support.v4.widget.DrawerLayout>
+
 </layout>

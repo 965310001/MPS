@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -67,7 +68,6 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
     @Override
     protected void dataObserver() {
         super.dataObserver();
-
         registerObserver(Constants.SEARCH_EVENT_KEY[0], BaseResponse.class).observe(this, new Observer<BaseResponse>() {
             @Override
             public void onChanged(@Nullable BaseResponse baseResponse) {
@@ -78,9 +78,11 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
                         addHotKey(response.getData().getList());
                     }
                     if (data.getHis_list() != null && data.getHis_list().size() > 0) {
-                        for (String s : data.getHis_list()) {
-                            saveSearchKey(s);
-                        }
+//                        for (String s : data.getHis_list()) {
+//                            saveSearchKey(s);
+//                        }
+                        items.addAll(data.getHis_list());
+                        adapter.notifyDataSetChanged();
                     } else {
                         loadSearchHistory();
                     }
