@@ -34,8 +34,9 @@ public class ScreeningPopWindow extends PopupWindow {
 
     public ScreeningPopWindow(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setWidth((int) (DisplayUtil.getScreenWidth(context) * 0.8));
+//        setWidth((int) (DisplayUtil.getScreenWidth(context) * 0.8));
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.context = context;
         initView();
     }
@@ -46,19 +47,14 @@ public class ScreeningPopWindow extends PopupWindow {
         FragmentScreeningBinding bind = DataBindingUtil
                 .bind(LayoutInflater.from(context)
                         .inflate(R.layout.fragment_screening, null));
-        View view = bind.getRoot();
+        LinearLayout view = (LinearLayout) bind.getRoot();
 
         view.setBackgroundColor(context.getResources().getColor(R.color.color_f8f8f8));
-        DrawerLayout drawerLayout = bind.dl;
-        drawerLayout.openDrawer(Gravity.END);
-        drawerLayout.setScrimColor(Color.TRANSPARENT);
 
-
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-
-        }
+        view.setLayoutParams(new LinearLayout.LayoutParams((int) (DisplayUtil.getScreenWidth(context) * 0.4),
+                ViewGroup.LayoutParams.MATCH_PARENT));
         setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.color_33000000)));
-
+        update();
         setContentView(view);
 
     }
