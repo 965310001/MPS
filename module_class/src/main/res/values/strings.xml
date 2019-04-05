@@ -13,17 +13,17 @@
     <string name="salenum_holder">销量 %s</string>
 
     <string-array name="tags_values_type">
-        <item>7天退货</item>
-        <item>品质承诺</item>
-        <item>破损补寄</item>
-        <item>急速物流</item>
-    </string-array>
-
-    <string-array name="tags_values_server">
         <item>赠品</item>
         <item>团购</item>
         <item>限时折扣</item>
         <item>虚拟</item>
+    </string-array>
+
+    <string-array name="tags_values_server">
+        <item>7天退货</item>
+        <item>品质承诺</item>
+        <item>破损补寄</item>
+        <item>急速物流</item>
     </string-array>
 
 

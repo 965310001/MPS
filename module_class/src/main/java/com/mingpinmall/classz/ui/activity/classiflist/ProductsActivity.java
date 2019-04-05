@@ -13,12 +13,15 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
+import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.xuexiang.xui.widget.tabbar.EasyIndicator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -52,15 +55,19 @@ public class ProductsActivity extends HorizontalTabActivity {
         mEasyIndicator.setOnTabClickListener(new EasyIndicator.onTabClickListener() {
             @Override
             public void onTabClick(String title, int position) {
-//                if (position == 0) {
-//                    new CustomPopWindow.Builder(ProductsActivity.this).setColumnCount(3)//设置列数，测试2.3.4.5没问题
-//                            .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
-//                            .setColorBg(R.color.color_f8f8f8).build().createPop().showAsDropDown(mEasyIndicator);
-//                }
-                ScreeningPopWindow screeningPopWindow = new ScreeningPopWindow(ProductsActivity.this);
-//                screeningPopWindow.showAsDropDown(mEasyIndicator);
-//                screeningPopWindow.showAtLocation(mEasyIndicator, Gravity.TOP | Gravity.RIGHT, 0, 0);
-                screeningPopWindow.showAtLocation(mEasyIndicator, Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
+                if (position == 10) {
+                    new CustomPopWindow.Builder(ProductsActivity.this).setColumnCount(3)//设置列数，测试2.3.4.5没问题
+                            .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
+                            .setColorBg(R.color.color_f8f8f8).build().createPop().showAsDropDown(mEasyIndicator);
+                }
+//                ScreeningPopWindow screeningPopWindow = new ScreeningPopWindow(ProductsActivity.this);
+                new ScreeningPopWindow.Builder(ProductsActivity.this)
+//                        .setColumnCount(3)//设置列数，测试2.3.4.5没问题
+                        .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
+                        .setColorBg(R.color.color_f8f8f8).build().createPop()
+//                        .showAsDropDown(mEasyIndicator);
+                        .showAtLocation(mEasyIndicator,
+                                Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
             }
         });
 
@@ -82,7 +89,6 @@ public class ProductsActivity extends HorizontalTabActivity {
                         KLog.i("选择的内容" + s);
                     }
                 });
-
     }
 
     @Override

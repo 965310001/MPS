@@ -4,21 +4,38 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.goldze.common.dmvvm.base.event.LiveBus;
+import com.goldze.common.dmvvm.utils.ColorUtil;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentScreeningBinding;
+import com.mingpinmall.classz.ui.constants.Constants;
+import com.socks.library.KLog;
+import com.xuexiang.xui.utils.ResUtils;
+import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author GuoFeng
@@ -26,36 +43,164 @@ import com.mingpinmall.classz.databinding.FragmentScreeningBinding;
  * @description: 筛选PopWindow
  */
 public class ScreeningPopWindow extends PopupWindow {
-    private Context context;
 
-    public ScreeningPopWindow(Context context) {
-        this(context, null);
+    public ScreeningPopWindow() {
     }
 
-    public ScreeningPopWindow(Context context, AttributeSet attrs) {
-        super(context, attrs);
-//        setWidth((int) (DisplayUtil.getScreenWidth(context) * 0.8));
-        setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.context = context;
-        initView();
+    public ScreeningPopWindow(Context context, View view) {
+        //这里可以修改popupwindow的宽高
+        super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        setContentView(view);
+        initViews();
     }
 
-    private void initView() {
+    private void initViews() {
+        setAnimationStyle(R.style.popwinscreening_anim_style);
         setFocusable(true);
         setOutsideTouchable(true);
-        FragmentScreeningBinding bind = DataBindingUtil
-                .bind(LayoutInflater.from(context)
-                        .inflate(R.layout.fragment_screening, null));
-        LinearLayout view = (LinearLayout) bind.getRoot();
+    }
 
-        view.setBackgroundColor(context.getResources().getColor(R.color.color_f8f8f8));
+    public static class Builder {
+        private Context context;
+        private List<String> listData;
+        private int columnCount;
+        //        private GridLayout rootGridLayout;
+        private LinearLayout contextll;
+        //背景颜色
+        private int colorBg = Color.parseColor("#F8F8F8");
+        private int titleTextSize = 14;//SP
+        private int tabTextSize = 14;//SP
+        private int titleTextColor = Color.parseColor("#333333");//标题字体颜色
+        private int tabTextColor = R.color.fit_item_textcolor;//选项字体颜色
+        private int tabBgDrawable = R.drawable.item_lable_bg_shape;//选项背景颜色
+        //当前加载的行数
+        private int row = -1;
+        private ScreeningPopWindow mScreeningPopWindow;
 
-        view.setLayoutParams(new LinearLayout.LayoutParams((int) (DisplayUtil.getScreenWidth(context) * 0.4),
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.color_33000000)));
-        update();
-        setContentView(view);
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        /**
+         * 设置数据源
+         *
+         * @return
+         */
+        public ScreeningPopWindow.Builder setDataSource(List<String> listData) {
+            this.listData = listData;
+            return this;
+        }
+
+        public ScreeningPopWindow.Builder setColumnCount(int columnCount) {
+            this.columnCount = columnCount;
+            return this;
+        }
+
+        public ScreeningPopWindow.Builder setColorBg(int color) {
+            colorBg = context.getResources().getColor(color);
+            return this;
+        }
+
+        public ScreeningPopWindow.Builder setTitleTextSize(int titleTextSize) {
+            this.titleTextSize = titleTextSize;
+            return this;
+        }
+
+        public ScreeningPopWindow.Builder setTabTextSize(int tabTextSize) {
+            this.tabTextSize = tabTextSize;
+            return this;
+        }
+
+        public ScreeningPopWindow.Builder setTitleTextColor(int titleTextColor) {
+            this.titleTextColor = titleTextColor;
+            return this;
+        }
+
+        public ScreeningPopWindow.Builder setTabTextColor(int tabTextColor) {
+            this.tabTextColor = tabTextColor;
+            return this;
+        }
+
+        public ScreeningPopWindow.Builder setTabBgDrawable(int tabBgDrawable) {
+            this.tabBgDrawable = tabBgDrawable;
+            return this;
+        }
+
+        public ScreeningPopWindow.Builder build() {
+            newItemLayout();
+            return this;
+        }
+
+        private void newItemLayout() {
+            contextll = new LinearLayout(context);
+            contextll.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            contextll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mScreeningPopWindow != null) {
+                        mScreeningPopWindow.dismiss();
+                    }
+                }
+            });
+            final FragmentScreeningBinding bind = DataBindingUtil
+                    .bind(LayoutInflater.from(context)
+                            .inflate(R.layout.fragment_screening, null));
+            View contentView = bind.getRoot();
+            bind.contentLayout.setBackgroundColor(colorBg);
+
+            bind.msAddressSelect.setItems(ResUtils.getStringArray(R.array.tags_values_type));
+
+            /*类型*/
+            bind.ftlGoodType.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
+            bind.ftlGoodType.setItems(context.getResources().getStringArray(R.array.tags_values_type));
+            bind.ftlShopType.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
+            bind.ftlShopType.setItems("平台自营");
+            bind.ftlShopServer.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
+            bind.ftlShopServer.setItems(context.getResources().getStringArray(R.array.tags_values_server));
+
+            /*点击事件*/
+            bind.btnReset.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (EditText editText : Arrays.asList(bind.etPriceFrom, bind.etPriceTo)) {
+                        editText.setText("");
+                    }
+                    for (FlowTagLayout flowTagLayout : Arrays.asList(bind.ftlGoodType, bind.ftlShopType, bind.ftlShopServer)) {
+                        flowTagLayout.getAdapter().notifyDataSetChanged();
+                    }
+                }
+            });
+            bind.btnOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (Integer index : bind.ftlGoodType.getSelectedIndexs()) {
+                        KLog.i(context.getResources().getStringArray(R.array.tags_values_type)[index]);
+                    }
+                    for (Integer index : bind.ftlShopType.getSelectedIndexs()) {
+                        KLog.i("平台自营");
+                    }
+                    for (Integer index : bind.ftlShopServer.getSelectedIndexs()) {
+                        KLog.i(context.getResources().getStringArray(R.array.tags_values_server)[index]);
+                    }
+                }
+            });
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            contextll.addView(contentView, lp);
+        }
+
+        public ScreeningPopWindow createPop() {
+            if (listData == null || listData.size() == 0) {
+                try {
+                    throw new Exception("没有筛选条件");
+                } catch (Exception e) {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            mScreeningPopWindow = new ScreeningPopWindow(context, contextll);
+            return mScreeningPopWindow;
+        }
 
     }
 

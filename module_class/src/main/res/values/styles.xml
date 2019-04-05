@@ -6,4 +6,10 @@
         <item name="android:windowExitAnimation">@anim/pop_arrow_out</item>
     </style>
 
+    <!--筛选动画-->
+    <style name="popwinscreening_anim_style">
+        <item name="android:windowEnterAnimation">@anim/dialog_right_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_right_out</item>
+    </style>
+
 </resources>
