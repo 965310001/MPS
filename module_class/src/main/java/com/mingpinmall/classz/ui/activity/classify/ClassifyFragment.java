@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui;
+package com.mingpinmall.classz.ui.activity.classify;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
@@ -10,25 +10,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.BuildConfig;
-import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.http.rx.ApiObserver;
-import com.goldze.common.dmvvm.http.rx.BaseObserver;
-import com.goldze.common.dmvvm.http.rx.RxBus;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.RxUtils;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.AdapterPool;
-import com.mingpinmall.classz.constants.Constants;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.databinding.FragmentClassifyBinding;
-import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
+import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
-import com.socks.library.KLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
@@ -36,19 +28,17 @@ import com.trecyclerview.listener.OnItemClickListener;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-
 /**
  * 分类
  */
 public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel>
         implements OnItemClickListener, View.OnClickListener {
 
-    TRecyclerView rvRightRecyclerView;
-    DelegateAdapter rightAdapter;
-
+//    private TRecyclerView rvRightRecyclerView;
+    private DelegateAdapter rightAdapter;
+//    private LinearLayoutManager linearLayoutManager;
+    private int leftPostion = 0;
+    private ClassificationBean.DatasBean.ClassListBean data;
     private final ItemData rightData = new ItemData();
 
     public ClassifyFragment() {
@@ -68,13 +58,6 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         return R.id.content_layout;
     }
 
-    LinearLayoutManager linearLayoutManager;
-
-    @Override
-    protected <T extends View> T getViewById(int id) {
-        return super.getViewById(id);
-    }
-
     @Override
     public void initView(Bundle state) {
         super.initView(state);
@@ -88,7 +71,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 .build();
         rightAdapter.setDatas(rightData);
         final TRecyclerView rvLeftRecyclerView = binding.trvLeft;
-        rvRightRecyclerView = binding.trvRight;
+        TRecyclerView rvRightRecyclerView = binding.trvRight;
 
         rvLeftRecyclerView.setAdapter(AdapterPool.newInstance().getLeftAdapter(getActivity())
                 .setOnItemClickListener(this)
@@ -97,9 +80,9 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
 
         rvLeftRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        rvLeftRecyclerView.setLayoutManager(linearLayoutManager);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+//        linearLayoutManager = new LinearLayoutManager(getActivity());
+        rvLeftRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        linearLayoutManager = new LinearLayoutManager(getActivity());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -114,14 +97,18 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
             }
         });
         rvRightRecyclerView.setLayoutManager(gridLayoutManager);
+    }
+
+    @Override
+    protected void getRemoteData() {
+        super.getRemoteData();
         mViewModel.getLeft();
     }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        LiveBus.getDefault()
-                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE[0], ClassificationBean.class)
+        registerObserver(Constants.EVENT_KEY_CLASSIFY_MORE[0], ClassificationBean.class)
                 .observeForever(new Observer<ClassificationBean>() {
                     @Override
                     public void onChanged(@Nullable ClassificationBean response) {
@@ -134,8 +121,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                     }
                 });
 
-        LiveBus.getDefault()
-                .subscribe(Constants.EVENT_KEY_CLASSIFY_MORE[2], Object.class)
+        registerObserver(Constants.EVENT_KEY_CLASSIFY_MORE[2], Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object object) {
@@ -156,9 +142,6 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     protected Object getStateEventKey() {
         return Constants.EVENT_KEY_CLASSIFY_MORE[1];
     }
-
-    int leftPostion = 0;
-    ClassificationBean.DatasBean.ClassListBean data;
 
     @Override
     public void onItemClick(View view, int postion, Object object) {

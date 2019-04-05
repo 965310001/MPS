@@ -9,7 +9,7 @@
 
         <import type="android.view.View" />
 
-        <import type="com.mingpinmall.classz.ShoppingCartUtils" />
+        <import type="com.mingpinmall.classz.db.utils.ShoppingCartUtils" />
     </data>
 
     <RelativeLayout
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
-        tools:context=".ui.ShoppingDetailsActivity">
+        tools:context=".ui.activity.details.ShoppingDetailsActivity">
 
         <RelativeLayout
             android:id="@+id/rl_top"

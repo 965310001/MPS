@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui.vm;
+package com.mingpinmall.classz.ui.api;
 
 import android.text.TextUtils;
 
@@ -9,8 +9,7 @@ import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.classz.ResultBean;
-import com.mingpinmall.classz.constants.Constants;
-import com.mingpinmall.classz.ui.vm.api.ClassifyService;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
@@ -50,12 +49,12 @@ public class ClassifyRepository extends BaseRepository {
                         showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        KLog.i(e.toString());
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
-                    }
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        super.onError(e);
+//                        KLog.i(e.toString());
+//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
+//                    }
                 })
         );
     }
@@ -113,12 +112,12 @@ public class ClassifyRepository extends BaseRepository {
 //                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                             }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                super.onError(e);
-                                KLog.i(e.toString());
-//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
-                            }
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                super.onError(e);
+//                                KLog.i(e.toString());
+////                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
+//                            }
                         })
         );
 
@@ -158,11 +157,11 @@ public class ClassifyRepository extends BaseRepository {
                         showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.ERROR_STATE);
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.ERROR_STATE);
-                    }
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        super.onError(e);
+//                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.ERROR_STATE);
+//                    }
 
                     @Override
                     protected void onNoNetWork() {
@@ -190,11 +189,11 @@ public class ClassifyRepository extends BaseRepository {
                         showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
-                    @Override
+                    /*@Override
                     public void onError(Throwable e) {
                         super.onError(e);
                         showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.ERROR_STATE);
-                    }
+                    }*/
 
                     @Override
                     protected void onNoNetWork() {
@@ -222,11 +221,11 @@ public class ClassifyRepository extends BaseRepository {
                                 showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.ERROR_STATE);
                             }
 
-                            @Override
+                           /* @Override
                             public void onError(Throwable e) {
                                 super.onError(e);
                                 showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.ERROR_STATE);
-                            }
+                            }*/
 
                             @Override
                             protected void onNoNetWork() {
@@ -267,11 +266,11 @@ public class ClassifyRepository extends BaseRepository {
                         showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
-                    @Override
+                    /*@Override
                     public void onError(Throwable e) {
                         super.onError(e);
                         showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
-                    }
+                    }*/
 
                     @Override
                     protected void onNoNetWork() {
@@ -300,12 +299,12 @@ public class ClassifyRepository extends BaseRepository {
 //                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
                             }
 
-                            @Override
+                           /* @Override
                             public void onError(Throwable e) {
                                 super.onError(e);
                                 KLog.i(e.toString());
 //                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
-                            }
+                            }*/
 
                             @Override
                             protected void onNoNetWork() {

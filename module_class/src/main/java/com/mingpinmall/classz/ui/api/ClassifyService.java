@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui.vm.api;
+package com.mingpinmall.classz.ui.api;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.classz.ResultBean;

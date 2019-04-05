@@ -17,7 +17,7 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.heima.tabview.library.TabView;
 import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.cart.ui.CartFragment;
-import com.mingpinmall.classz.ui.ClassifyFragment;
+import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.home.ui.HomeFragment;
 import com.mingpinmall.me.ui.MeFragment;
 import com.mingpinmall.shopping.R;

@@ -59,7 +59,7 @@ public class GoodsDetailInfo extends BaseBean {
         private GoodsInfo goods_info;
         private Object mansong_info;
         private StoreInfoBean store_info;
-        private SpecListBean spec_list;
+//        private SpecListBean spec_list;
         private String goods_image;
         private GoodsEvaluateInfoBean goods_evaluate_info;
         private GoodsHairInfoBean goods_hair_info;
@@ -92,13 +92,13 @@ public class GoodsDetailInfo extends BaseBean {
             this.store_info = store_info;
         }
 
-        public SpecListBean getSpec_list() {
-            return spec_list;
-        }
-
-        public void setSpec_list(SpecListBean spec_list) {
-            this.spec_list = spec_list;
-        }
+//        public SpecListBean getSpec_list() {
+//            return spec_list;
+//        }
+//
+//        public void setSpec_list(SpecListBean spec_list) {
+//            this.spec_list = spec_list;
+//        }
 
         public String getGoods_image() {
             return goods_image;
@@ -290,22 +290,22 @@ public class GoodsDetailInfo extends BaseBean {
             }
         }
 
-        public class SpecListBean extends BaseBean {
-            /**
-             * : 109928
-             */
-
-            @SerializedName("")
-            public String _$101; // FIXME check this code
-
-            public String get_$101() {
-                return _$101;
-            }
-
-            public void set_$101(String _$101) {
-                this._$101 = _$101;
-            }
-        }
+//        public class SpecListBean extends BaseBean {
+//            /**
+//             * : 109928
+//             */
+//
+//            @SerializedName("")
+//            public String _$101; // FIXME check this code
+//
+//            public String get_$101() {
+//                return _$101;
+//            }
+//
+//            public void set_$101(String _$101) {
+//                this._$101 = _$101;
+//            }
+//        }
 
         public class GoodsEvaluateInfoBean extends BaseBean {
             /**

@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui;
+package com.mingpinmall.classz.ui.activity.details;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,8 +14,7 @@ import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoDetailMainBinding;
-import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
-import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
+import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -19,15 +18,13 @@ import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.SearchHistoryAdapter;
-import com.mingpinmall.classz.constants.Constants;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.databinding.ActivitySearchBinding;
+import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -78,9 +75,6 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
                         addHotKey(response.getData().getList());
                     }
                     if (data.getHis_list() != null && data.getHis_list().size() > 0) {
-//                        for (String s : data.getHis_list()) {
-//                            saveSearchKey(s);
-//                        }
                         items.addAll(data.getHis_list());
                         adapter.notifyDataSetChanged();
                     } else {

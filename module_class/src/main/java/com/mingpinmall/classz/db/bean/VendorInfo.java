@@ -1,4 +1,4 @@
-package com.mingpinmall.classz;
+package com.mingpinmall.classz.db.bean;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.google.gson.annotations.SerializedName;

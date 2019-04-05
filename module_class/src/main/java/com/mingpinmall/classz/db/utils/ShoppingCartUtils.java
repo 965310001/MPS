@@ -1,10 +1,11 @@
-package com.mingpinmall.classz;
+package com.mingpinmall.classz.db.utils;
 
 import android.text.TextUtils;
 
 import com.goldze.common.dmvvm.utils.BeanCopyUtils;
 import com.goldze.common.dmvvm.utils.GroupUtils;
 import com.mingpinmall.classz.db.ShoppingDBFactory;
+import com.mingpinmall.classz.db.bean.VendorInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.socks.library.KLog;
 

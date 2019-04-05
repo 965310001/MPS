@@ -7,10 +7,10 @@
             android:name=".ui.vm.SearchActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.ProductsActivity"
+            android:name=".ui.activity.classiflist.ProductsActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.ShoppingDetailsActivity"
+            android:name=".ui.activity.details.ShoppingDetailsActivity"
             android:launchMode="singleTask" />
     </application>
 

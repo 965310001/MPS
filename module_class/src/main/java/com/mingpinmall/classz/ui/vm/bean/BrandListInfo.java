@@ -40,7 +40,7 @@ public class BrandListInfo extends BaseBean {
         this.datas = datas;
     }
 
-    public static class DatasBean {
+    public static class DatasBean extends BaseBean{
         private List<BrandListBean> brand_list;
 
         public List<BrandListBean> getBrand_list() {
@@ -52,7 +52,7 @@ public class BrandListInfo extends BaseBean {
             this.brand_list = brand_list;
         }
 
-        public static class BrandListBean {
+        public static class BrandListBean extends BaseBean{
             /**
              * brand_id : 366
              * brand_name : bestdon/邦顿

@@ -1,9 +1,8 @@
-package com.mingpinmall.classz.ui;
+package com.mingpinmall.classz.ui.activity.classiflist;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -14,15 +13,12 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
-import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.constants.Constants;
-import com.mingpinmall.classz.widget.CustomPopWindow;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.xuexiang.xui.widget.tabbar.EasyIndicator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 

@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui;
+package com.mingpinmall.classz.ui.activity.details;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -9,13 +9,12 @@ import android.webkit.WebViewClient;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoWebBinding;
-import com.socks.library.KLog;
 
 /**
  * 商品详情 - 图文详情 Fragment
  */
 public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBinding> {
-    private String url;
+//    private String url;
     //    @BindView(R.id.hwv_detail)
     public WebView webView;
     private WebSettings webSettings;
@@ -50,11 +49,11 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
     }
 
     private void initWebView() {
-        url = getArguments().getString("url");
-        KLog.i("initWebView:" + url);
+//        url = getArguments().getString("url");
+//        KLog.i("initWebView:" + url);
 
         webView.setFocusable(false);
-        webView.loadUrl(url);
+        webView.loadUrl(getArguments().getString("url"));
         webSettings = webView.getSettings();
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setBuiltInZoomControls(true);

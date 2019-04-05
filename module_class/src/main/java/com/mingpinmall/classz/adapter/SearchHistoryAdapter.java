@@ -9,7 +9,7 @@ import com.goldze.common.dmvvm.adapter.BaseRecyclerAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseViewHolder;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.constants.Constants;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.socks.library.KLog;
 
 import java.util.List;

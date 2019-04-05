@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui;
+package com.mingpinmall.classz.ui.activity.classiflist;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.view.View;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.mingpinmall.classz.adapter.AdapterPool;
-import com.mingpinmall.classz.constants.Constants;
-import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
+import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
@@ -24,15 +24,6 @@ public class ProductsItemFragment extends BaseListFragment<ClassifyViewModel> im
     private String areaId, priceFrom, priceTo;//地区 价格区间最低范围 价格区间最高范围
 
     public ProductsItemFragment() {
-    }
-
-    public static ProductsItemFragment newInstance(String id, String typeId) {
-        ProductsItemFragment fragment = new ProductsItemFragment();
-        Bundle args = new Bundle();
-        args.putString(ID, id);
-        args.putString(TYPEID, typeId);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     public static ProductsItemFragment newInstance(String id, String typeId, String keyword) {

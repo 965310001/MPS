@@ -175,7 +175,7 @@ public class FiltPopuWindow extends PopupWindow {
                 final FiltModel.TableMode tab = tabs.get(i);
                 final TextView lable = new TextView(context);
                 lable.setTextColor(context.getResources().getColorStateList(tabTextColor));
-                lable.setBackgroundDrawable(context.getResources().getDrawable(tabBgDrawable));
+                lable.setBackground(context.getResources().getDrawable(tabBgDrawable));
                 lable.setSingleLine(true);
                 lable.setGravity(Gravity.CENTER);
                 lable.setEllipsize(TextUtils.TruncateAt.MIDDLE);

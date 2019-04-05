@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.constants;
+package com.mingpinmall.classz.ui.constants;
 
 /**
  * 常量

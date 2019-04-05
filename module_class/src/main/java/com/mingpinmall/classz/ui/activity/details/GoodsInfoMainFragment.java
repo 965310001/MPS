@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui;
+package com.mingpinmall.classz.ui.activity.details;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
@@ -23,9 +23,9 @@ import com.leon.lib.settingview.LSettingItem;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
-import com.mingpinmall.classz.constants.Constants;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoMainBinding;
-import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
+import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.adapter.RecommendGoodsInfoAdapter;
 import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
@@ -69,7 +69,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 
     RecyclerView recyclerViewRecommend;
 
-    ConvenientBanner<List<GoodsInfo>> vpRecommend; //推荐位置
+//    ConvenientBanner<List<GoodsInfo>> vpRecommend; //推荐位置
 
 
     /**
@@ -78,7 +78,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     GoodsInfo goodsInfo;
     GoodsDetailInfo goodsDetailInfo;
     private ShoppingDetailsActivity shoppingDetailsActivity;
-    private GoodsCommentAdapter adapter;
+//    private GoodsCommentAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
@@ -119,7 +119,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         tvGoodsPrice = binding.tvGoodsPrice;
 //        tvOldPrice = binding.tvOldPrice;
         ccvClick = binding.ccvClick;
-        vpRecommend = binding.vpRecommend;
+//        ConvenientBanner<List<GoodsInfo>> vpRecommend = binding.vpRecommend;
 
         tvCommentCount = binding.getRoot().findViewById(R.id.tv_comment_count);
         llComment = binding.getRoot().findViewById(R.id.ll_comment);
@@ -362,8 +362,8 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                     DividerItemDecoration.VERTICAL));
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            adapter = new GoodsCommentAdapter(getContext(), commentList);
-            recyclerView.setAdapter(adapter);
+//            GoodsCommentAdapter adapter = new GoodsCommentAdapter(getContext(), commentList);
+            recyclerView.setAdapter(new GoodsCommentAdapter(getContext(), commentList));
         } else {
             tvEmptyComment.setVisibility(View.VISIBLE);
             tvEmptyComment.setText("暂无精彩评论");

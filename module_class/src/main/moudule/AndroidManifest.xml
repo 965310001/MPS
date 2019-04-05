@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.mingpinmall.classz">
     <!-- 权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,7 +14,7 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".ClasszActivity">
+        <activity android:name=".ui.activity.ClasszActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,10 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ProductsActivity"
+            android:name=".ui.activity.classiflist.ProductsActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.ShoppingDetailsActivity"
+            android:name=".ui.activity.details.ShoppingDetailsActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.vm.SearchActivity"

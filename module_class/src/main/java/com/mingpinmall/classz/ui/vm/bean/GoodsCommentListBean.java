@@ -50,7 +50,7 @@ public class GoodsCommentListBean extends BaseBean {
         this.datas = datas;
     }
 
-    public static class DatasBean {
+    public static class DatasBean extends BaseBean{
         private List<GoodsComment> goods_eval_list;
 
         public List<GoodsComment> getGoods_eval_list() {

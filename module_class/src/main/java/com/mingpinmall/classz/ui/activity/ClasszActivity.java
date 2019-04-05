@@ -1,11 +1,10 @@
-package com.mingpinmall.classz;
+package com.mingpinmall.classz.ui.activity;
 
 import android.os.Bundle;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
-import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.mingpinmall.classz.ui.ClassifyFragment;
+import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 
 
 public class ClasszActivity extends BaseActivity {

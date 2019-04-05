@@ -1,10 +1,9 @@
-package com.mingpinmall.classz.ui.vm;
+package com.mingpinmall.classz.ui.api;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
 
 import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
-import com.mingpinmall.classz.ui.vm.api.ClassifyService;
 
 import java.util.HashMap;
 import java.util.Map;

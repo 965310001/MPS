@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.constants.Constants;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.socks.library.KLog;
 
 import java.util.List;

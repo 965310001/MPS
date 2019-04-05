@@ -97,9 +97,14 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
     @Override
     protected void onStateRefresh() {
         showLoading();
-        lazyLoad();
+        getRemoteData();
     }
 
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
+        getRemoteData();
+    }
 
     /**
      * 获取网络数据

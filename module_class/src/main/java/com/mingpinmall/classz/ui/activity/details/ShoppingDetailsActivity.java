@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui;
+package com.mingpinmall.classz.ui.activity.details;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
@@ -17,11 +17,11 @@ import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
-import com.mingpinmall.classz.ShoppingCartUtils;
+import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.adapter.FragmentPagerAdapter;
-import com.mingpinmall.classz.constants.Constants;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.databinding.ActivityShoppingDetailsBinding;
-import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
+import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.socks.library.KLog;
@@ -134,14 +134,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         binding.vpContent.setNoScroll(scrollToBottom);
         binding.tvTitle.setVisibility(scrollToBottom ? VISIBLE : GONE);
         binding.pstsTabs.setVisibility(scrollToBottom ? GONE : VISIBLE);
-
-        if (scrollToBottom) {
-            binding.tvTitle.setVisibility(VISIBLE);
-            binding.pstsTabs.setVisibility(GONE);
-        } else {
-            binding.tvTitle.setVisibility(GONE);
-            binding.pstsTabs.setVisibility(VISIBLE);
-        }
     }
 
     public void finish(View view) {
