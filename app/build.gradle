@@ -1,3 +1,8 @@
+tasks.whenTaskAdded { task ->
+    if (task.name.equals("lint")) {
+        task.enabled = false
+    }
+}
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
@@ -60,9 +65,15 @@ android {
 //            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
         }
         debug {
+            aaptOptions {
+                cruncherEnabled = false
+            }
 //            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
         }
 
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 
 }
