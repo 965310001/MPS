@@ -66,7 +66,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         getViewById(R.id.iv_search).setVisibility(View.VISIBLE);
         getViewById(R.id.iv_search).setOnClickListener(this);
         ((TextView) getViewById(R.id.tv_title)).setText("分类");
-
+        setTitlePadding(binding.getRoot());
         rightAdapter = AdapterPool.newInstance().getRightAdapter(getActivity())
                 .build();
         rightAdapter.setDatas(rightData);

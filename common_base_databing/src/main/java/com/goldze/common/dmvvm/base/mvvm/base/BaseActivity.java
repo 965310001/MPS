@@ -79,7 +79,6 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
             rlTitleBar.setVisibility(View.VISIBLE);
 
             setTitle(getTitle());
-
             ivBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

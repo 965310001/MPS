@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * ContentView注解
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 public @interface ContentView {
     int value();
 }

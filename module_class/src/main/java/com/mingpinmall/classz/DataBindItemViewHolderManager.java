@@ -7,9 +7,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.freelib.multiitem.adapter.holder.DataBindViewHolderManager;
-import com.goldze.common.dmvvm.base.bean.BaseBean;
-import com.mingpinmall.classz.adapter.ProductsItemHolder;
 import com.trecyclerview.holder.AbsHolder;
 import com.trecyclerview.holder.AbsItemHolder;
 

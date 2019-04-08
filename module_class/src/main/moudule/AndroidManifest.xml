@@ -30,6 +30,9 @@
         <activity
             android:name=".ui.vm.SearchActivity"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.classiflist.ProductsActivity2"
+            android:launchMode="singleTask" />
 
     </application>
 

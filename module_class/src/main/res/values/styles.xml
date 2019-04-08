@@ -12,4 +12,26 @@
         <item name="android:windowExitAnimation">@anim/dialog_right_out</item>
     </style>
 
+
+    <style name="filterTextStyle">
+        <item name="android:textColor">@drawable/sel_filter_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="filterImageStyle">
+        <item name="android:src">@drawable/ic_expand_more_black_24dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_toRightOf">@+id/filter_text</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+    <declare-styleable name="FilterTab">
+        <attr name="filterText" format="string" />
+        <attr name="isImage" format="boolean" />
+        <attr name="isSelect" format="boolean" />
+    </declare-styleable>
 </resources>

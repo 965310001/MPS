@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.base.core.banner.BannerList;
+import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
+import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
 import com.goldze.common.dmvvm.databinding.FragmentListBinding;
 import com.goldze.common.dmvvm.utils.Utils;
 import com.socks.library.KLog;
@@ -35,7 +37,7 @@ import static android.view.View.VISIBLE;
  * @date : 2019/1/26 13:56
  * @description:
  */
-public abstract class BaseListActivity extends BaseActivity<FragmentListBinding> implements OnRefreshListener {
+public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecycleActivity<FragmentListBinding, T> implements OnRefreshListener {
 
     protected TRecyclerView mRecyclerView;
 
@@ -76,6 +78,7 @@ public abstract class BaseListActivity extends BaseActivity<FragmentListBinding>
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        super.initViews(savedInstanceState);
         mRecyclerView = findViewById(R.id.recycler_view);
 //        mTitleBar = findViewById(R.id.rl_title_bar);
 //        mTitle = findViewById(R.id.tv_title);
@@ -91,9 +94,8 @@ public abstract class BaseListActivity extends BaseActivity<FragmentListBinding>
 //        });
         oldItems = new ItemData();
         newItems = new ItemData();
-        adapter = createAdapter();
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(createLayoutManager());
+        mRecyclerView.setAdapter(adapter = createAdapter());
+        mRecyclerView.setLayoutManager(layoutManager = createLayoutManager());
         mRecyclerView.addOnRefreshListener(this);
         mRecyclerView.addOnScrollStateListener(new OnScrollStateListener() {
             @Override
@@ -199,11 +201,10 @@ public abstract class BaseListActivity extends BaseActivity<FragmentListBinding>
     }
 
     protected void setData(List<?> collection) {
-        if (isLoadMore) {
-            onLoadMoreSuccess(collection);
-        } else {
-            onRefreshSuccess(collection);
-        }
+        isLoadMore = collection.size() >= 10;
+        if (isLoadMore) onLoadMoreSuccess(collection);
+        else onRefreshSuccess(collection);
+        KLog.i(isLoadMore + "=" + collection.size());
     }
 
     protected void setBannerData(BannerList headAdList) {
@@ -211,11 +212,17 @@ public abstract class BaseListActivity extends BaseActivity<FragmentListBinding>
     }
 
     protected void onRefreshSuccess(Collection<?> collection) {
-        newItems.clear();
-        newItems.addAll(collection);
+        if (!newItems.containsAll(collection)) {
+            KLog.i("不存在");
+            newItems.addAll(collection);
+        } else {
+            KLog.i("存在");
+        }
+//        newItems.clear();
+//        newItems.addAll(collection);
         oldItems.clear();
         oldItems.addAll(newItems);
-        if (collection.size() < 20) {
+        if (collection.size() < 10) {
             mRecyclerView.refreshComplete(oldItems, true);
         } else {
             mRecyclerView.refreshComplete(oldItems, false);
@@ -227,7 +234,7 @@ public abstract class BaseListActivity extends BaseActivity<FragmentListBinding>
         isLoading = true;
         isLoadMore = false;
         oldItems.addAll(collection);
-        if (collection.size() < 20) {
+        if (collection.size() < 10) {
             mRecyclerView.loadMoreComplete(collection, true);
         } else {
             mRecyclerView.loadMoreComplete(collection, false);
@@ -254,6 +261,7 @@ public abstract class BaseListActivity extends BaseActivity<FragmentListBinding>
      * 获取更多网络数据t
      */
     protected void getLoadMoreData() {
+        getRemoteData();
     }
 
     /**

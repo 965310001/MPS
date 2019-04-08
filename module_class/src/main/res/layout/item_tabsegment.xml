@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.mingpinmall.classz.widget.FilterBar
+            android:id="@+id/filter_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#fff"
+            android:dividerPadding="10dp"
+            android:showDividers="middle">
+
+            <com.mingpinmall.classz.widget.FilterTab
+                android:id="@+id/filter_tab0"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="#fff"
+                app:filterText="综合排序"
+                app:isSelect="true" />
+
+            <com.mingpinmall.classz.widget.FilterTab
+                android:id="@+id/filter_tab1"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="#fff"
+                app:filterText="销量优先"
+                app:isImage="false"
+                app:isSelect="false" />
+
+            <com.mingpinmall.classz.widget.FilterTab
+                android:id="@+id/filter_tab2"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="#fff"
+                android:visibility="gone"
+                app:filterText="产品色系"
+                app:isSelect="false" />
+
+            <com.mingpinmall.classz.widget.FilterTab
+                android:id="@+id/filter_tab3"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="#fff"
+                app:filterText="筛选"
+                app:isSelect="false" />
+        </com.mingpinmall.classz.widget.FilterBar>
+    </LinearLayout>
+</layout>

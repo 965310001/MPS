@@ -23,6 +23,8 @@ import com.socks.library.KLog;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Observable;
+
 public class ClassifyRepository extends BaseRepository {
 
     ClassifyService apiService = RetrofitClient.getInstance().create(ClassifyService.class);
@@ -105,7 +107,9 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*商品列表*/
-    public void getShappingList(String bId, String curpage, String keyword, final String typeId, String areaId, String priceFrom, String priceTo) {
+    public void getShappingList(String bId, String curpage, String keyword, final String typeId,
+                                String areaId, String priceFrom, String priceTo,
+                                String key, String order) {
         Map<String, Object> map = new HashMap<>();
         if (!TextUtils.isEmpty(bId)) {
             if ("0".equals(typeId)) {
@@ -121,7 +125,16 @@ public class ClassifyRepository extends BaseRepository {
             map.put("price_from", priceFrom);//价格区间最低范围
             map.put("price_to", priceTo);// 价格区间最高范围
         }
-        map.put("Key", 1);/*使用排序*/
+
+        if (!TextUtils.isEmpty(key)) {
+            map.put("key", key);/*使用排序*/
+
+        }
+        if (!TextUtils.isEmpty(order)) {
+            map.put("order", order);/*使用排序*/
+        }
+
+
         map.put("page", Constants.PAGE_RN);
         map.put("curpage", curpage);
         addDisposable(apiService.getShappingList(map)
