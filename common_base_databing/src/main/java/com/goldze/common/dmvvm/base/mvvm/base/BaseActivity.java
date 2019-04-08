@@ -24,12 +24,14 @@ import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.LoadingState;
 import com.goldze.common.dmvvm.databinding.ActivityBaseBinding;
+import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.gyf.barlibrary.ImmersionBar;
 
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 import com.xuexiang.xui.XUI;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
+import com.xuexiang.xui.widget.tabbar.TabControlView;
 
 /**
  * @author GuoFeng
@@ -38,7 +40,7 @@ import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
  */
 public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentActivity implements View.OnClickListener, ILoadManager {
 
-    private ActivityBaseBinding baseBinding;
+    protected ActivityBaseBinding baseBinding;
 
     private LoadManager loadManager;
 
@@ -46,6 +48,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
     protected MaterialEditText edSearch;
     protected TextView tvTitle, tvRight;
     private RelativeLayout rlTitleBar;
+    protected TabControlView tabControlView;
 
     private ImmersionBar mImmersionBar;
     private ViewGroup contentLayout;
@@ -55,12 +58,12 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         XUI.initTheme(this);
+        StatusBarUtils.immersive(this);
         /*竖屏*/
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         /*android软键盘挡住输入框问题*/
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
         initViewDataBinding();
 
         initLoadManager();
@@ -72,9 +75,11 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
             tvRight = findViewById(R.id.tv_right);
             ivSearch = findViewById(R.id.iv_search);
             edSearch = findViewById(R.id.ed_search);
+            tabControlView = findViewById(R.id.tab_control);
             rlTitleBar.setVisibility(View.VISIBLE);
 
             setTitle(getTitle());
+
             ivBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -83,25 +88,52 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
             });
             ivBack.setVisibility(isBack() ? View.VISIBLE : View.GONE);
 
+            tvTitle.setVisibility(isTabsBar() ? View.GONE : View.VISIBLE);
+            tabControlView.setVisibility(isTabsBar() ? View.VISIBLE : View.GONE);
+
             ivSearch.setOnClickListener(this);
         }
 
         /*沉浸式状态栏*/
-        initImmersionBar(R.color.colorPrimaryDark);
+//        initImmersionBar(R.color.colorPrimaryDark);
 
         initViews(savedInstanceState);
         initData();
+    }
+
+    /* IOS式状态栏沉浸 */
+
+    /**
+     * 设置顶部标题栏内部控件不超出内容区域（不覆盖到状态栏区域，用于实现IOS式真沉浸式状态栏）
+     *
+     * @param view
+     */
+    private void setTitlePadding(View view) {
+        StatusBarUtils.setPaddingSmart(this, view);
+    }
+
+    /**
+     * 设置状态栏字体颜色
+     *
+     * @param darkMode true 黑色，建议在浅色背景色使用，例如白色背景色。  false 白色，建议在深色背景色时使用，例如蓝色，黑色，红色。
+     */
+    private void setDarkMode(boolean darkMode) {
+        StatusBarUtils.darkMode(this, darkMode);
     }
 
     /**
      * DataBing 注入绑定
      */
     private void initViewDataBinding() {
-        baseBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_base, null, false);
+        baseBinding = DataBindingUtil.inflate(LayoutInflater.from(this), getBaseLayout(), null, false);
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), getLayoutId(), null, false);
         contentLayout = baseBinding.flContent;
         contentLayout.addView(binding.getRoot());
         setContentView(baseBinding.getRoot());
+    }
+
+    protected int getBaseLayout() {
+        return R.layout.activity_base;
     }
 
     /**
@@ -209,7 +241,13 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
 
     /*是否需要ActionBar*/
     protected boolean isActionBar() {
+        setDarkMode(true);
         return true;
+    }
+
+    /*是否是带有分页标签的ActionBar*/
+    protected boolean isTabsBar() {
+        return false;
     }
 
     /*初始化数据*/

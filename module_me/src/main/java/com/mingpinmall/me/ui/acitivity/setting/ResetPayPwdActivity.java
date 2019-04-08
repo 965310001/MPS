@@ -66,8 +66,7 @@ public class ResetPayPwdActivity extends AbsLifecycleActivity<ActivityResetPassw
 
     @Override
     protected void dataObserver() {
-        LiveBus.getDefault()
-                .subscribe("GET_SMS_CODE", SmsBean.class)
+        registerObserver("GET_SMS_CODE", SmsBean.class)
                 .observeForever(new Observer<SmsBean>() {
                     @Override
                     public void onChanged(@Nullable SmsBean smsBean) {
@@ -79,7 +78,7 @@ public class ResetPayPwdActivity extends AbsLifecycleActivity<ActivityResetPassw
     @Override
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_getPsdCode) {
-            MyInfoBean.DatasBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.DatasBean.MemberInfoBean.class);
+            MyInfoBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.MemberInfoBean.class);
             mViewModel.getSmsCode(3, infoBean.getMember_mobile());
         }
     }

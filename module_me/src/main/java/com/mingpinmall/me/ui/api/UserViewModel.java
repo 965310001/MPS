@@ -20,6 +20,10 @@ public class UserViewModel extends AbsViewModel<UserRepository> {
         mRepository.makeCodeKey();
     }
 
+    public void checkCode(String code) {
+        mRepository.checkCode(code);
+    }
+
     public void getSmsCode(int type, String phone) {
         mRepository.getSmsCode(type, phone);
     }

@@ -21,48 +21,57 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/sv_search"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:drawableLeft="@drawable/search"
-            android:paddingStart="8dp"
-            android:drawablePadding="6dp"
-            android:layout_margin="6dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/button_translucence_white_search"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ll_msg"
-            />
-
-        <LinearLayout
-            android:id="@+id/ll_msg"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_search_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginEnd="6dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintTop_toTopOf="@id/sv_search"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/sv_search"
-            app:layout_constraintStart_toEndOf="@id/sv_search"
-            >
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_message_white"
-                />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="消息"
-                />
+                android:id="@+id/sv_banner_search"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_margin="6dp"
+                android:background="@drawable/button_translucency_search"
+                android:drawableLeft="@drawable/search"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                app:layout_constraintEnd_toStartOf="@id/ll_banner_msg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_banner_msg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/sv_banner_search"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/sv_banner_search"
+                app:layout_constraintTop_toTopOf="@id/sv_banner_search">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_msg_sx" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消息"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

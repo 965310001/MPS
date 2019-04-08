@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 import com.goldze.common.dmvvm.ILoadManager;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.LoadingState;
+import com.goldze.common.dmvvm.utils.FragmentUserVisibleController;
+import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.socks.library.KLog;
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
@@ -23,7 +26,7 @@ import com.tqzhang.stateview.stateview.BaseStateControl;
  * @date :2019/1/17 14:57
  * @description: 基类Fragment
  */
-public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment implements ILoadManager {
+public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment implements ILoadManager, FragmentUserVisibleController.UserVisibleCallback {
 
     private View rootView;
 
@@ -35,6 +38,11 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
 
     protected VD binding;
 
+    private FragmentUserVisibleController userVisibleController;
+
+    {
+        userVisibleController = new FragmentUserVisibleController(this, this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -55,6 +63,23 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
             initView(state);
         }
         return rootView;
+    }
+
+    /* IOS式状态栏沉浸 */
+    /**
+     * 设置顶部标题栏内部控件不超出内容区域（不覆盖到状态栏区域，用于实现IOS式真沉浸式状态栏）
+     * @param view
+     */
+    protected void setTitlePadding(View view){
+        StatusBarUtils.setPaddingSmart(activity, view);
+    }
+
+    /**
+     * 设置状态栏字体颜色
+     * @param darkMode true 黑色，建议在浅色背景色使用，例如白色背景色。  false 白色，建议在深色背景色时使用，例如蓝色，黑色，红色。
+     */
+    protected void setDarkMode(boolean darkMode){
+        StatusBarUtils.darkMode(activity, darkMode);
     }
 
     /************************************************** LoadManager start *****************************************************/
@@ -131,27 +156,11 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            onVisible();
-        } else {
-            onInVisible();
-        }
-    }
-
-    /*当界面可见时的操作*/
-    protected void onVisible() {
-        if (mIsFirstVisible && isResumed()) {
-            lazyLoad();
-            mIsFirstVisible = false;
-        }
+        userVisibleController.setUserVisibleHint(isVisibleToUser);
     }
 
     /*数据懒加载*/
     protected void lazyLoad() {
-    }
-
-    /*当界面不可见时的操作*/
-    protected void onInVisible() {
     }
 
     @Override
@@ -176,7 +185,7 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (null!=binding) {
+        if (null != binding) {
             binding.unbind();
         }
     }
@@ -186,4 +195,65 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
         return (T) rootView.findViewById(id);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        userVisibleController.activityCreated();
+    }
+
+    @Override
+    public boolean isWaitingShowToUser() {
+        return userVisibleController.isWaitingShowToUser();
+    }
+
+    @Override
+    public void setWaitingShowToUser(boolean waitingShowToUser) {
+        userVisibleController.setWaitingShowToUser(waitingShowToUser);
+    }
+
+    @Override
+    public boolean isVisibleToUser() {
+        return userVisibleController.isVisibleToUser();
+    }
+
+    @Override
+    public void callSuperSetUserVisibleHint(boolean isVisibleToUser) {
+
+    }
+
+    @Override
+    public void onVisibleToUserChanged(boolean isVisibleToUser, boolean invokeInResumeOrPause) {
+        handleOnVisibilityChangedToUser(isVisibleToUser);
+    }
+
+    /**
+     * 对用户可见时触发该方法。如果只想在对用户可见时才加载数据，在子类中重写该方法
+     */
+    protected void onVisible() {
+    }
+
+    /**
+     * 对用户不可见时触发该方法
+     */
+    protected void onInVisible() {
+    }
+
+    /**
+     * 处理对用户是否可见
+     *
+     * @param isVisibleToUser
+     */
+    private void handleOnVisibilityChangedToUser(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            // 对用户可见
+            if (mIsFirstVisible && isResumed()) {
+                lazyLoad();
+                mIsFirstVisible = false;
+            }
+            onVisible();
+        } else {
+            // 对用户不可见
+            onInVisible();
+        }
+    }
 }

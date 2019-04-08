@@ -6,101 +6,68 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/rl_title_bar"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#F9F9F9"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
-            <ImageView
-                android:id="@+id/iv_back2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/back_icon" />
-
-            <com.xuexiang.xui.widget.tabbar.TabControlView
-                android:id="@+id/tab_control"
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/ed_search"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                app:tcv_defaultSelection="0"
-                app:tcv_equalWidth="true"
-                app:tcv_selectedColor="@color/xui_config_color_blue" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/shape_search"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_text_search"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_14"
+                app:layout_constraintBottom_toTopOf="@id/tabs"
+                app:layout_constraintEnd_toStartOf="@id/iv_search"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:met_hideUnderline="true" />
 
-            <View
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_search"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                android:padding="9dp"
+                android:src="@drawable/search"
+                app:layout_constraintBottom_toBottomOf="@id/ed_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ed_search"
+                app:layout_constraintTop_toTopOf="@id/ed_search" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_hight"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line_color" />
+                android:layout_height="42dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_search"
+                app:tabIndicatorColor="@color/app_theme_d61619"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/app_theme_d61619"
+                app:tabTextColor="@color/dark" />
 
-        </RelativeLayout>
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/ed_search"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_margin="6dp"
-            android:background="@drawable/shape_search"
-            android:gravity="center_vertical"
-            android:hint="@string/hint_text_search"
-            android:textColor="@color/black"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:singleLine="true"
-            android:textSize="@dimen/text_14"
-            app:layout_constraintEnd_toStartOf="@id/iv_search"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rl_title_bar"
-            app:layout_constraintBottom_toTopOf="@id/tabs"
-            app:met_hideUnderline="true" />
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_search"
-            android:layout_width="50dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="12dp"
-            android:padding="8dp"
-            app:layout_constraintStart_toEndOf="@id/ed_search"
-            app:layout_constraintTop_toTopOf="@id/ed_search"
-            app:layout_constraintBottom_toBottomOf="@id/ed_search"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/search"
-            />
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ed_search"
-            app:layout_constraintBottom_toTopOf="@id/viewPager"
-            app:tabIndicatorColor="@color/xui_config_color_blue"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/xui_config_color_blue"
-            app:tabTextColor="@color/black" />
+        </android.support.constraint.ConstraintLayout>
 
         <com.goldze.common.dmvvm.widget.NoScrollViewPager
             android:id="@+id/viewPager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/tabs"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 </layout>

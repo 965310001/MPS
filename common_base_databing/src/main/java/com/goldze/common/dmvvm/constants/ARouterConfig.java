@@ -89,6 +89,9 @@ public interface ARouterConfig {
     //重设登录密码
     String ResetPasswordActivity = "/me/ResetPasswordActivity";
 
+    //修改 密码，手机，支付密码 前，检查验证码是否正确
+    String CheckAuthActivity = "/me/CheckAuthActivity";
+
     //用户反馈
     String FeedBackActivity = "/me/FeedBackActivity";
 

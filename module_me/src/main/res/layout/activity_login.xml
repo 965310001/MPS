@@ -109,15 +109,15 @@
                         app:met_floatingLabelText="验证码"
                         app:met_hideUnderline="true" />
 
-                    <com.xuexiang.xui.widget.button.CountDownButton
-                        android:id="@+id/btn_getPsdCode"
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_getPsdCode"
                         style="@style/Button.Blue"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="12dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:text="获取动态码"
-                        android:visibility="gone" />
+                        android:visibility="invisible" />
 
                 </LinearLayout>
 

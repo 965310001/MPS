@@ -13,17 +13,22 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color" />
+
         <com.heima.tabview.library.TabView
             android:id="@+id/tabView"
             style="@style/width_warp_height_warp"
-            app:imageViewTextViewMargin="2dip"
-            app:tab_imageViewHeight="30dp"
-            app:tab_imageViewWidth="30dp"
+            app:imageViewTextViewMargin="2dp"
+            app:tab_imageViewHeight="18dp"
+            app:tab_imageViewWidth="18dp"
             app:tab_tabViewBackgroundColor="@color/white"
             app:tab_tabViewDefaultPosition="0"
             app:tab_tabViewGravity="bottom"
             app:tab_tabViewHeight="50dp"
-            app:tab_textViewSelColor="@color/orange"
+            app:tab_textViewSelColor="@color/app_theme_d61619"
             app:tab_textViewSize="@dimen/text_12"
             app:tab_textViewUnSelColor="@color/dark" />
 

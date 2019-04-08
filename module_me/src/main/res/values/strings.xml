@@ -89,6 +89,10 @@
     <string name="tips_text_youPhone">您当前的手机号是：</string>
     <!-- ResetPasswordActivity Over -->
 
+    <!-- ResetPayPasswordActivity -->
+    <string name="title_resetPayPasswordActivity">修改支付密码</string>
+    <!-- ResetPayPasswordActivity Over -->
+
     <!-- ResetPhoneActivity -->
     <string name="title_resetPhoneActivity">修改手机验证</string>
     <string name="tips_text_change"><u>通过支付密码来验证</u></string>
@@ -105,16 +109,6 @@
 
     <!-- PropertyActivity -->
     <string name="title_propertyActivity">我的财产</string>
-    <string name="item_text_item1">账户余额</string>
-    <string name="item_text_item2">充值卡余额</string>
-    <string name="item_text_item3">店铺代金券</string>
-    <string name="item_text_item4">平台红包</string>
-    <string name="item_text_item5">会员积分</string>
-    <string name="item_subtext_item1">预存款账户余额、充值及提现明细</string>
-    <string name="item_subtext_item2">充值卡账户余额以及卡密充值操作</string>
-    <string name="item_subtext_item3">店铺代金券使用情况以及卡密兑换代金券操作</string>
-    <string name="item_subtext_item4">平台红包使用情况以及卡密领取红包操作</string>
-    <string name="item_subtext_item5">会员积分获取以及消费日志</string>
     <!-- PropertyActivity Over -->
 
     <!-- LoginActivity -->
@@ -133,33 +127,15 @@
     <string name="hint_text_authCode">请输入4位验证码</string>
     <string name="text_protocol">用户注册协议</string>
     <string name="cb_agree">同意</string>
-    <string name="text_login_tips">绑定手机不收任何费用，一个手机只能绑定一个账号，若需修改或解除已绑定的手机，请登陆商城PC端进行操作。</string>
+    <string name="text_login_tips">手机登录注册统一入口，第一次登录默认注册，登录后到我的商城中设置密码</string>
     <!-- LoginActivity Over -->
 
     <!-- MeFragment -->
     <string name="label_click_login">请登录</string>
     <string name="label_myshop">我的商城</string>
-    <string name="me_order_item1">待付款</string>
-    <string name="me_order_item2">待收款</string>
-    <string name="me_order_item3">待自提</string>
-    <string name="me_order_item4">待评价</string>
-    <string name="me_order_item5">退款/退货</string>
-    <string name="me_estate_item1">预存款</string>
-    <string name="me_estate_item2">充值卡</string>
-    <string name="me_estate_item3">代金券</string>
-    <string name="me_estate_item4">红包</string>
-    <string name="me_estate_item5">积分</string>
     <string name="me_headitem_item1">商品收藏</string>
     <string name="me_headitem_item2">店铺收藏</string>
     <string name="me_headitem_item3">我的足迹</string>
-    <string name="me_item_item1">我的订单</string>
-    <string name="me_item_item2">我的财产</string>
-    <string name="me_item_item3">我的分销管理</string>
-    <string name="me_item_item4">我的推广码</string>
-    <string name="me_item_item5">收货地址管理</string>
-    <string name="me_item_item6">用户设置</string>
-    <string name="me_item_sub_item1">查看全部订单</string>
-    <string name="me_item_sub_item2">查看全部财产</string>
     <!-- MeFragment Over -->
 
     <!-- SettingActivity -->

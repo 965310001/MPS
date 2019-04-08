@@ -1,6 +1,8 @@
 package com.mingpinmall.me.ui.acitivity.collection;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -8,6 +10,8 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityFootprintBinding;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 /**
  * 功能描述：我的足迹
@@ -27,8 +31,21 @@ public class FootprintActivity extends BaseActivity<ActivityFootprintBinding> {
         setTitle(getString(R.string.title_footprintActivity));
         tvRight.setText(getString(R.string.text_clearn));
         tvRight.setVisibility(View.VISIBLE);
-
         tvRight.setOnClickListener(this);
+
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+            }
+        });
     }
 
     @Override

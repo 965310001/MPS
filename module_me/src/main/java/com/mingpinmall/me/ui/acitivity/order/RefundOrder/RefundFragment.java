@@ -4,17 +4,17 @@ import android.os.Bundle;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.databinding.FragmentOrderBinding;
+import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 
 /**
  * 功能描述：退货单列表
  * 创建人：小斌
  * 创建时间: 2019/3/26
  **/
-public class RefundFragment extends BaseFragment<FragmentOrderBinding> {
+public class RefundFragment extends BaseFragment<FragmentDefaultRecyclerviewBinding> {
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_order;
+        return R.layout.fragment_default_recyclerview;
     }
 
     @Override

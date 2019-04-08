@@ -107,6 +107,7 @@ dependencies {
     /*okhttp*/
     api rootProject.ext.dependencies["okhttp3"]
     api rootProject.ext.dependencies["retrofit2"]
+    api 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     api rootProject.ext.dependencies["converter_gson"]
 
     api rootProject.ext.dependencies["lifecycle"]

@@ -38,9 +38,5 @@
         <activity android:name=".ui.acitivity.setting.ResetPhoneActivity" />
         <activity android:name=".ui.acitivity.setting.ResetPayPwdActivity" />
         <activity android:name=".ui.acitivity.setting.FeedBackActivity" />
-        <!--<activity-->
-            <!--android:name=".ui.LoginActivity"-->
-            <!--android:launchMode="singleTask"-->
-            <!--android:screenOrientation="portrait" />-->
     </application>
 </manifest>

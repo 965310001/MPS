@@ -4,6 +4,10 @@
     <corners
         android:radius="19dp" />
 
-    <solid android:color="#E9EBEBEB" />
+    <stroke
+        android:width="@dimen/line_hight"
+        android:color="@color/dark" />
+
+    <solid android:color="#CEEBEBEB" />
 
 </shape>

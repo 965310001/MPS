@@ -10,6 +10,21 @@
         <activity android:name=".ui.acitivity.collection.CollectionActivity" />
         <activity android:name=".ui.acitivity.collection.FootprintActivity" />
         <activity android:name=".ui.acitivity.order.RefundActivity" />
+        <activity android:name=".ui.acitivity.property.PropertyActivity" />
+        <activity android:name=".ui.acitivity.message.MessageActivity" />
+        <activity android:name=".ui.acitivity.property.CardSurplusActivity" />
+        <activity android:name=".ui.acitivity.property.AccountSurplusActivity" />
+        <activity android:name=".ui.acitivity.property.CouponActivity" />
+        <activity android:name=".ui.acitivity.property.StorePacketActivity" />
+        <activity android:name=".ui.acitivity.property.VipIntegralActivity" />
+        <activity android:name=".ui.acitivity.distribution.DistributionActivity" />
+        <activity android:name=".ui.acitivity.address.AddressManagerActivity" />
+        <activity android:name=".ui.acitivity.address.EditAddressActivity" />
+        <activity android:name=".ui.acitivity.setting.ResetPasswordActivity" />
+        <activity android:name=".ui.acitivity.setting.ResetPhoneActivity" />
+        <activity android:name=".ui.acitivity.setting.ResetPayPwdActivity" />
+        <activity android:name=".ui.acitivity.setting.FeedBackActivity" />
+        <activity android:name=".ui.acitivity.setting.CheckAuthActivity" />
     </application>
 
 </manifest>

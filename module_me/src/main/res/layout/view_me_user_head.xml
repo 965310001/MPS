@@ -11,7 +11,7 @@
         android:background="@color/xui_config_color_blue"
         android:foreground="@drawable/pic_me_top"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h, 3:2"
+        app:layout_constraintDimensionRatio="h, 41:28"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,25 +24,35 @@
         app:layout_constraintBottom_toTopOf="@id/v_space"
         app:layout_constraintEnd_toEndOf="@id/iv_bg"
         app:layout_constraintStart_toStartOf="@id/iv_bg"
-        app:layout_constraintTop_toTopOf="@id/iv_bg" />
+        app:layout_constraintTop_toTopOf="@id/top_btn_content" />
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/iv_setting"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:layout_margin="8dp"
-        android:src="@drawable/ic_setting_white"
-        app:layout_constraintStart_toStartOf="@id/iv_bg"
-        app:layout_constraintTop_toTopOf="@id/iv_bg" />
-
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/iv_message"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:layout_margin="8dp"
-        android:src="@drawable/ic_message_white"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/top_btn_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@id/iv_bg"
-        app:layout_constraintTop_toTopOf="@id/iv_bg" />
+        app:layout_constraintStart_toStartOf="@id/iv_bg"
+        app:layout_constraintTop_toTopOf="@id/iv_bg">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_setting_white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_message"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_message_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_name"
@@ -64,9 +74,9 @@
         android:background="@drawable/shape_red_radius"
         android:paddingStart="2dp"
         android:paddingEnd="2dp"
-        android:text="V0"
         android:textColor="@color/white"
         android:textSize="12sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/tv_name"
         app:layout_constraintStart_toEndOf="@id/tv_name"
         app:layout_constraintTop_toTopOf="@id/tv_name" />
@@ -92,11 +102,15 @@
         app:layout_constraintStart_toStartOf="@id/v_space"
         app:layout_constraintTop_toTopOf="@id/v_space">
 
-        <android.support.v7.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/iv_headItem1"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@drawable/ic_me_favorite"
+            android:background="@drawable/ic_me_favorite"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -125,11 +139,15 @@
         app:layout_constraintTop_toTopOf="@id/v_space">
 
 
-        <android.support.v7.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/iv_headItem2"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@drawable/ic_me_store"
+            android:background="@drawable/ic_me_store"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

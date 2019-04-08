@@ -37,15 +37,13 @@ public class RefundActivity extends BaseActivity<ActivityCollectionBinding> {
     }
 
     @Override
-    protected boolean isBack() {
-        return false;
+    protected boolean isTabsBar() {
+        return true;
     }
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
-        findViewById(R.id.rl_title_bar).setVisibility(View.GONE);
-        binding.ivBack2.setOnClickListener(this);
 
         refundFragment = new RefundFragment();
         refunMoneyFragment = new RefunMoneyFragment();
@@ -54,15 +52,15 @@ public class RefundActivity extends BaseActivity<ActivityCollectionBinding> {
         pagerAdapter.addFragment(refundFragment, getString(R.string.tabs_text_refund));
         binding.viewPager.setAdapter(pagerAdapter);
         binding.viewPager.setNoScroll(true);
-        binding.tabControl.setOnTabSelectionChangedListener(new TabControlView.OnTabSelectionChangedListener() {
+        tabControlView.setOnTabSelectionChangedListener(new TabControlView.OnTabSelectionChangedListener() {
             @Override
             public void newSelection(String title, String value) {
                 binding.viewPager.setCurrentItem(value.equals("1") ? 0 : 1, false);
             }
         });
         try {
-            binding.tabControl.setItems(new String[]{getString(R.string.tabs_text_refundMoney), getString(R.string.tabs_text_refund)}, new String[]{"1", "2"});
-            binding.tabControl.setDefaultSelection(pageIndex);
+            tabControlView.setItems(new String[]{getString(R.string.tabs_text_refundMoney), getString(R.string.tabs_text_refund)}, new String[]{"1", "2"});
+            tabControlView.setDefaultSelection(pageIndex);
         } catch (Exception e) {
             e.printStackTrace();
         }
