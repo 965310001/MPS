@@ -51,7 +51,7 @@ public class FeedBackActivity extends AbsLifecycleActivity<ActivityFeedbackBindi
 
     @Override
     protected Object getStateEventKey() {
-        return null;
+        return "FEED_BACK";
     }
 
     @Override
