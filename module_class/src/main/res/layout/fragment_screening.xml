@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +27,8 @@
                 android:layout_gravity="end|right"
                 android:orientation="vertical"
                 android:padding="@dimen/dp_10">
+
+                <include layout="@layout/item_title_layout" />
 
                 <TextView
                     style="@style/TextStyle_14"
@@ -94,15 +95,12 @@
                     android:text="商品属在地"
                     android:textSize="@dimen/text_14" />
 
-                <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
-                    android:id="@+id/ms_address_select"
-                    style="@style/Material.SpinnerStyle"
-                    android:layout_width="200dp"
-                    android:layout_marginLeft="20dp"
-                    app:ms_in_dialog="true" />
-
-                <!--最低价 最高价-->
-                <!--平台自营-->
+                <Spinner
+                    android:id="@+id/spinner_system"
+                    style="@style/SpinnerStyle"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
+                    android:spinnerMode="dialog" />
 
                 <View style="@style/HorizontalLine" />
 

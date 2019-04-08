@@ -10,6 +10,7 @@ import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
@@ -48,13 +49,6 @@ public class ClassifyRepository extends BaseRepository {
                         KLog.i(msg);
                         showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                     }
-
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        super.onError(e);
-//                        KLog.i(e.toString());
-//                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
-//                    }
                 })
         );
     }
@@ -77,12 +71,6 @@ public class ClassifyRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        KLog.i(e.toString());
                     }
                 })
         );
@@ -111,13 +99,6 @@ public class ClassifyRepository extends BaseRepository {
                                 KLog.i(msg);
 //                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                             }
-
-//                            @Override
-//                            public void onError(Throwable e) {
-//                                super.onError(e);
-//                                KLog.i(e.toString());
-////                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
-//                            }
                         })
         );
 
@@ -157,12 +138,6 @@ public class ClassifyRepository extends BaseRepository {
                         showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.ERROR_STATE);
                     }
 
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        super.onError(e);
-//                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.ERROR_STATE);
-//                    }
-
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
@@ -189,12 +164,6 @@ public class ClassifyRepository extends BaseRepository {
                         showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
-                    /*@Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.ERROR_STATE);
-                    }*/
-
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
@@ -220,12 +189,6 @@ public class ClassifyRepository extends BaseRepository {
                             public void onFailure(String msg) {
                                 showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.ERROR_STATE);
                             }
-
-                           /* @Override
-                            public void onError(Throwable e) {
-                                super.onError(e);
-                                showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.ERROR_STATE);
-                            }*/
 
                             @Override
                             protected void onNoNetWork() {
@@ -266,12 +229,6 @@ public class ClassifyRepository extends BaseRepository {
                         showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
-                    /*@Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
-                    }*/
-
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
@@ -281,6 +238,36 @@ public class ClassifyRepository extends BaseRepository {
         );
 
     }
+
+    /*省 市 区*/
+    public void getArea(String areaId) {
+        Map<String, Object> map = parames("area_list", "area_list");
+        map.put("area_id", areaId);
+        addDisposable(apiService.getArea(map)
+                        .compose(RxSchedulers.<BaseResponse<AreaListInfo>>io_main())
+                        .subscribeWith(new RxSubscriber<BaseResponse<AreaListInfo>>() {
+                            @Override
+                            public void onSuccess(BaseResponse<AreaListInfo> result) {
+                                sendData(Constants.AREA_LIST_EVENT_KEY, result);
+//                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.SUCCESS_STATE);
+                            }
+
+                            @Override
+                            public void onFailure(String msg) {
+                                KLog.i(msg);
+//                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
+                            }
+
+                            @Override
+                            protected void onNoNetWork() {
+                                super.onNoNetWork();
+//                                showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
+                            }
+                        })
+        );
+
+    }
+
 
     /*通用*/
     public void execute(String app, String wwi, final Object eventKey, Map<String, Object> map) {
@@ -298,13 +285,6 @@ public class ClassifyRepository extends BaseRepository {
                                 KLog.i(msg);
 //                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
                             }
-
-                           /* @Override
-                            public void onError(Throwable e) {
-                                super.onError(e);
-                                KLog.i(e.toString());
-//                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
-                            }*/
 
                             @Override
                             protected void onNoNetWork() {

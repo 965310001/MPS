@@ -60,7 +60,6 @@ public class ProductsActivity extends HorizontalTabActivity {
                             .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
                             .setColorBg(R.color.color_f8f8f8).build().createPop().showAsDropDown(mEasyIndicator);
                 }
-//                ScreeningPopWindow screeningPopWindow = new ScreeningPopWindow(ProductsActivity.this);
                 new ScreeningPopWindow.Builder(ProductsActivity.this)
 //                        .setColumnCount(3)//设置列数，测试2.3.4.5没问题
                         .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
@@ -68,6 +67,8 @@ public class ProductsActivity extends HorizontalTabActivity {
 //                        .showAsDropDown(mEasyIndicator);
                         .showAtLocation(mEasyIndicator,
                                 Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
+
+
             }
         });
 

@@ -25,6 +25,9 @@ public interface Constants {
 
     /*评价列表*/
     Object[] EVALUATE_EVENT_KEY = {"EVALUATE_EVENT_KEY", "EVALUATE_EVENT_KEY_LIST_STATE"};
+    /*省 市 区*/
+    Object AREA_LIST_EVENT_KEY = "AREA_LIST_EVENT_KEY";
+
 
     /*搜索*/
     Object[] SEARCH_EVENT_KEY = {"SEARCH_EVENT_KEY", "SEARCH_EVENT_KEY_STATE",
@@ -33,5 +36,5 @@ public interface Constants {
     String KEYWORD = "KEYWORD";
 
     /*筛选框*/
-    Object[] CUSTOMPOPWINDOW_KEY = {"CUSTOMPOPWINDOW_KEY","CUSTOMPOPWINDOW_KEY_SCREENING"};
+    Object[] CUSTOMPOPWINDOW_KEY = {"CUSTOMPOPWINDOW_KEY", "CUSTOMPOPWINDOW_KEY_SCREENING"};
 }

@@ -32,6 +32,7 @@ import com.mingpinmall.classz.databinding.FragmentScreeningBinding;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.socks.library.KLog;
 import com.xuexiang.xui.utils.ResUtils;
+import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
 import java.util.Arrays;
@@ -147,9 +148,10 @@ public class ScreeningPopWindow extends PopupWindow {
                             .inflate(R.layout.fragment_screening, null));
             View contentView = bind.getRoot();
             bind.contentLayout.setBackgroundColor(colorBg);
-
-            bind.msAddressSelect.setItems(ResUtils.getStringArray(R.array.tags_values_type));
-
+//            bind.msAddressSelect.setItems(ResUtils.getStringArray(R.array.tags_values_type));
+            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, ResUtils.getStringArray(R.array.tags_values_type));
+//            bind.spinnerSystem.getSelectedItem().toString();
+            KLog.i(bind.spinnerSystem.getSelectedItem().toString());
             /*类型*/
             bind.ftlGoodType.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
             bind.ftlGoodType.setItems(context.getResources().getStringArray(R.array.tags_values_type));
@@ -184,9 +186,24 @@ public class ScreeningPopWindow extends PopupWindow {
                     }
                 }
             });
+            /*titlebar*/
+            View ivBack = bind.getRoot().findViewById(R.id.iv_back);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mScreeningPopWindow.dismiss();
+                }
+            });
+
+            bind.getRoot().findViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
+            TextView tvTitle = bind.getRoot().findViewById(R.id.tv_title);
+            tvTitle.setText("筛选");
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             contextll.addView(contentView, lp);
+
         }
+
 
         public ScreeningPopWindow createPop() {
             if (listData == null || listData.size() == 0) {

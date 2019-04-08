@@ -2,6 +2,7 @@ package com.mingpinmall.classz.ui.api;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.classz.ResultBean;
+import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
@@ -72,6 +73,10 @@ public interface ClassifyService {
     /*商品评价*/
     @GET(EVALUATE)
     Flowable<GoodsCommentListBean> getEvaluate(@QueryMap Map<String, Object> map);
+
+    /*商品评价*/
+    @GET(EVALUATE)
+    Flowable<BaseResponse<AreaListInfo>> getArea(@QueryMap Map<String, Object> map);
 
 
     /*商品详情*/
