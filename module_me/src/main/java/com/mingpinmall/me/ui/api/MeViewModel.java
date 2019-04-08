@@ -21,6 +21,13 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     }
 
     /**
+     * 获取我的财产
+     */
+    public void getProperty() {
+        mRepository.getProperty();
+    }
+
+    /**
      * 获取支付密码状态，是否设置
      */
     public void getPayPwdInfo() {
@@ -36,6 +43,7 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
 
     /**
      * 发送用户反馈
+     *
      * @param feedback
      */
     public void sendFeedBack(String feedback) {
@@ -44,6 +52,7 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
 
     /**
      * 获取店铺收藏列表
+     *
      * @param
      */
     public void getShopsCollectList(int curpage) {
@@ -52,6 +61,7 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
 
     /**
      * 获取商品收藏列表
+     *
      * @param
      */
     public void getProductCollectList(int curpage) {

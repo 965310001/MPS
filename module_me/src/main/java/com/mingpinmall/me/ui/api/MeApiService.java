@@ -1,9 +1,14 @@
 package com.mingpinmall.me.ui.api;
 
+import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
 import com.mingpinmall.me.ui.bean.BasePageBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
+import com.mingpinmall.me.ui.bean.ProductCollectionBean;
+import com.mingpinmall.me.ui.bean.PropertyBean;
+import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
@@ -57,7 +62,7 @@ public interface MeApiService {
 
     @FormUrlEncoded
     @POST(FeedBack)
-    Flowable<BaseIntDatasBean> sendFeedBack(@Field("key") String key, @Field("feedback") String feedback);
+    Flowable<BaseResponse<BaseIntDatasBean>> sendFeedBack(@Field("key") String key, @Field("feedback") String feedback);
 
     /**
      * 描述：店铺收藏
@@ -68,9 +73,9 @@ public interface MeApiService {
      */
     String ShopsCollectList = "/mo_bile/index.php?app=member_favorites_store&wwi=favorites_list";
 
-    /*我的商城中用户信息获取*/
+    /*店铺收藏*/
     @GET(ShopsCollectList)
-    Flowable<BasePageBean> getShopsCollectList(@Query("key") String key, @Query("curpage") int curpage, @Query("page") int page);
+    Flowable<BaseResponse<ShopsCollectionBean>> getShopsCollectList(@Query("key") String key, @Query("curpage") int curpage, @Query("page") int page);
 
     /**
      * 描述：产品收藏
@@ -80,9 +85,9 @@ public interface MeApiService {
      */
     String ProductCollectList = "/mo_bile/index.php?app=member_favorites&wwi=favorites_list";
 
-    /*我的商城中用户信息获取*/
+    /*产品收藏*/
     @GET(ProductCollectList)
-    Flowable<BasePageBean> getProductCollectList(@Query("key") String key, @Query("curpage") int curpage, @Query("page") int page);
+    Flowable<BaseResponse<ProductCollectionBean>> getProductCollectList(@Query("key") String key, @Query("curpage") int curpage, @Query("page") int page);
 
     /**
      * 描述：根据条件查询订单
@@ -109,18 +114,35 @@ public interface MeApiService {
             @Field("curpage") int curpage
     );
 
+    /**
+     * 描述：根据条件查询订单
+     * 请求地址：
+     * http://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_list&page=10&curpage=1
+     * 请求方式：POST
+     * 请求参数：
+     * State_type:
+     * [state_new:待付款]
+     * [state_send:待收货]
+     * [state_notakes:待自提]
+     * [state_noeval:待评价]
+     * Order_key:搜索内容，产品标题或订单号
+     */
+    String myAsset = "/mo_bile/index.php?app=member_index&wwi=my_asset";
+
+    @GET(myAsset)
+    Flowable<BaseResponse<PropertyBean>> getMyAsset(@Query("key") String key);
 
     /*我的商城中用户信息获取*/
     @GET(GETUSERINFO)
-    Flowable<MyInfoBean> getUserInfo(@Query("key") String key);
+    Flowable<BaseResponse<MyInfoBean>> getUserInfo(@Query("key") String key);
 
     /*检测是否设置了支付密码*/
     @GET(PAYPWD_INFO)
-    Flowable<BaseCheckBean> getPayPwdInfo(@Query("key") String key);
+    Flowable<BaseResponse<BaseCheckBean>> getPayPwdInfo(@Query("key") String key);
 
     /*检测是否绑定手机*/
     @GET(PHONENUMBER_INFO)
-    Flowable<BaseCheckBean> getPhoneInfo(@Query("key") String key);
+    Flowable<BaseResponse<BaseCheckBean>> getPhoneInfo(@Query("key") String key);
 
 
 }

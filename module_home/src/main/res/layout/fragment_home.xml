@@ -4,10 +4,6 @@
 
     <data>
 
-        <variable
-            name="adapter"
-            type="com.mingpinmall.home.ui.adapter.HomeListAdapter" />
-
     </data>
 
     <FrameLayout
@@ -22,9 +18,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:adapter="@{adapter}"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+                android:layout_height="match_parent" />
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
@@ -32,14 +26,15 @@
             android:id="@+id/cl_title_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#CBFFFFFF"
-            android:visibility="gone">
+            android:background="#D5FFFFFF"
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/ll_QRCode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_marginStart="6dp"
+                android:padding="4dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@id/sv_search"
@@ -51,21 +46,17 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="@drawable/ic_message_black" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="扫一扫" />
+                    android:padding="3dp"
+                    android:src="@drawable/ic_scan" />
 
             </LinearLayout>
 
-            <android.support.v7.widget.AppCompatEditText
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/sv_search"
                 android:layout_width="0dp"
-                android:layout_height="38dp"
+                android:layout_height="32dp"
                 android:layout_margin="6dp"
-                android:background="@drawable/button_translucence_white_search"
+                android:background="@drawable/button_white_search"
                 android:drawableLeft="@drawable/search"
                 android:drawablePadding="6dp"
                 android:gravity="center_vertical"
@@ -79,8 +70,8 @@
                 android:id="@+id/ll_msg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
                 android:layout_marginEnd="6dp"
+                android:padding="4dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@id/sv_search"
@@ -94,11 +85,6 @@
                     android:layout_height="28dp"
                     android:src="@drawable/ic_message_black" />
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="消息" />
-
             </LinearLayout>
 
             <View
@@ -109,8 +95,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-
         </android.support.constraint.ConstraintLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_2top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="18dp"
+            app:backgroundTint="@color/white"
+            android:src="@drawable/ic_to_top"
+            android:visibility="gone"
+            app:fabSize="mini" />
 
         <RelativeLayout
             android:id="@+id/content_layout"

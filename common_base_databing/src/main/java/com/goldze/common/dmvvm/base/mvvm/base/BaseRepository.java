@@ -1,7 +1,9 @@
 package com.goldze.common.dmvvm.base.mvvm.base;
 
+import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsRepository;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 
 /**
  * @author GuoFeng
@@ -9,6 +11,11 @@ import com.goldze.common.dmvvm.base.mvvm.AbsRepository;
  * @description:
  */
 public class BaseRepository extends AbsRepository {
+
+    protected String getUserKey() {
+        UserBean userBean = (UserBean) SharePreferenceUtil.getUser(UserBean.class);
+        return userBean.getDatas().getKey();
+    }
 
     protected void sendData(Object eventKey, Object t) {
         sendData(eventKey, null, t);

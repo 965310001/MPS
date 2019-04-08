@@ -68,8 +68,7 @@ public class ResetPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneB
 
     @Override
     protected void dataObserver() {
-        LiveBus.getDefault()
-                .subscribe("GET_SMS_CODE", SmsBean.class)
+        registerObserver("GET_SMS_CODE", SmsBean.class)
                 .observeForever(new Observer<SmsBean>() {
                     @Override
                     public void onChanged(@Nullable SmsBean smsBean) {
@@ -82,7 +81,7 @@ public class ResetPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneB
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_getPsdCode) {
             //获取短信验证码
-            MyInfoBean.DatasBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.DatasBean.MemberInfoBean.class);
+            MyInfoBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.MemberInfoBean.class);
             mViewModel.getSmsCode(3, infoBean.getMember_mobile());
         } else if (viewId == R.id.tv_change) {
             //使用支付密码来验证

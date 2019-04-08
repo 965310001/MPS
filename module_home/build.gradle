@@ -54,6 +54,9 @@ dependencies {
     //公用依赖包
     implementation project(':common_base_databing')
 
+    /*二维码扫描*/
+    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
+
     //Arouter路由
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     annotationProcessor rootProject.ext.dependencies["arouter_compiler"]

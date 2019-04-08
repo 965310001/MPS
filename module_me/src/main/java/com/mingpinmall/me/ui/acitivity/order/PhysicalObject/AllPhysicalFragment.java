@@ -1,12 +1,15 @@
 package com.mingpinmall.me.ui.acitivity.order.PhysicalObject;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.databinding.FragmentOrderBinding;
+import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.AddressListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -18,11 +21,11 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
  * 创建人：小斌
  * 创建时间: 2019/3/26
  **/
-public class AllPhysicalFragment extends AbsLifecycleFragment<FragmentOrderBinding, MeViewModel> {
+public class AllPhysicalFragment extends AbsLifecycleFragment<FragmentDefaultRecyclerviewBinding, MeViewModel> {
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_order;
+        return R.layout.fragment_default_recyclerview;
     }
 
     @Override
@@ -50,6 +53,20 @@ public class AllPhysicalFragment extends AbsLifecycleFragment<FragmentOrderBindi
 
     @Override
     protected void dataObserver() {
+        registerObserver("ALL_PHYSICAL", BaseResponse.class)
+                .observeForever(new Observer<BaseResponse>() {
+                    @Override
+                    public void onChanged(@Nullable BaseResponse baseResponse) {
+
+                    }
+                });
+        registerObserver("Err_ALL_PHYSICAL", BaseResponse.class)
+                .observeForever(new Observer<BaseResponse>() {
+                    @Override
+                    public void onChanged(@Nullable BaseResponse baseResponse) {
+                        
+                    }
+                });
     }
 
     @Override

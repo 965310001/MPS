@@ -18,8 +18,26 @@ public class BaseResponse<T> extends BaseBean {
     private int code;
     @SerializedName("error")
     private String message;
+    private boolean hasmore;
+    private int page_total;
     @SerializedName("datas")
     private T data;
+
+    public boolean isHasmore() {
+        return hasmore;
+    }
+
+    public void setHasmore(boolean hasmore) {
+        this.hasmore = hasmore;
+    }
+
+    public int getPage_total() {
+        return page_total;
+    }
+
+    public void setPage_total(int page_total) {
+        this.page_total = page_total;
+    }
 
     public boolean isSuccess() {
         return code == SUCCESS;

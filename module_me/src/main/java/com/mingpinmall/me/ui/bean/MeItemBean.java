@@ -1,5 +1,7 @@
 package com.mingpinmall.me.ui.bean;
 
+import android.content.res.TypedArray;
+
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 
@@ -31,7 +33,7 @@ public class MeItemBean extends BaseBean implements MultiItemEntity {
     }
 
     private String[] subLabel;
-    private int[] subImage;
+    private TypedArray subImage;
     private int[] colors;
     private int[] subCorner;
 
@@ -43,11 +45,11 @@ public class MeItemBean extends BaseBean implements MultiItemEntity {
         this.subCorner = subCorner;
     }
 
-    public int[] getSubImage() {
+    public TypedArray getSubImage() {
         return subImage;
     }
 
-    public void setSubImage(int[] subImage) {
+    public void setSubImage(TypedArray subImage) {
         this.subImage = subImage;
     }
 

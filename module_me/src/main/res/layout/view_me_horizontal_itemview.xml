@@ -27,8 +27,8 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_item1"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginTop="4dp"
                 android:padding="3dp"
                 app:layout_constraintBottom_toTopOf="@id/tv_item1"
@@ -75,8 +75,8 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_item2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginTop="4dp"
                 android:padding="3dp"
                 app:layout_constraintBottom_toTopOf="@id/tv_item2"
@@ -123,8 +123,8 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_item3"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginTop="4dp"
                 android:padding="3dp"
                 app:layout_constraintBottom_toTopOf="@id/tv_item3"
@@ -171,8 +171,8 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_item4"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginTop="4dp"
                 android:padding="3dp"
                 app:layout_constraintBottom_toTopOf="@id/tv_item4"
@@ -219,8 +219,8 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_item5"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginTop="4dp"
                 android:padding="3dp"
                 app:layout_constraintBottom_toTopOf="@id/tv_item5"

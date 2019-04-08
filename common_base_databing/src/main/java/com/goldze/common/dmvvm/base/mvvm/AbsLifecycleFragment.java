@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
+import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.utils.TUtil;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
@@ -83,6 +86,11 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
         return registerObserver(eventKey, null, tClass);
     }
 
+    protected <T> MutableLiveData<T> registerObserver(Object eventKey, String tag) {
+
+        return registerObserver(eventKey, tag, null);
+    }
+
     protected <T> MutableLiveData<T> registerObserver(Object eventKey, String tag, Class<T> tClass) {
         String event;
         if (TextUtils.isEmpty(tag)) {
@@ -91,6 +99,9 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
             event = eventKey + tag;
         }
         eventKeys.add(event);
+        if (tClass == null) {
+            return LiveBus.getDefault().subscribe(eventKey, tag);
+        }
         return LiveBus.getDefault().subscribe(eventKey, tag, tClass);
     }
 

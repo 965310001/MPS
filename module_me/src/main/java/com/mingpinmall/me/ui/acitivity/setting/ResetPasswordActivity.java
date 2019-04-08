@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -13,6 +14,7 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityResetPasswordBinding;
@@ -57,21 +59,45 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
             }
         });
         binding.btnGetPsdCode.setOnClickListener(this);
+        binding.btnSublimt.setOnClickListener(this);
     }
 
     @Override
     protected Object getStateEventKey() {
-        return null;
+        return "RESET_PASSWORD";
     }
 
     @Override
     protected void dataObserver() {
-        LiveBus.getDefault()
-                .subscribe("GET_SMS_CODE", SmsBean.class)
-                .observeForever(new Observer<SmsBean>() {
+        registerObserver("GET_SMS_CODE", "success")
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable SmsBean smsBean) {
+                    public void onChanged(@Nullable Object result) {
+                        ToastUtils.showShort("验证码发送成功");
+                    }
+                });
+        registerObserver("GET_SMS_CODE", "err")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        ToastUtils.showShort(result.toString());
+                    }
+                });
+        registerObserver("CHECK_CODE", "success")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        //验证成功
 
+                    }
+                });
+        registerObserver("CHECK_CODE", "err")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        //验证码验证失败
+                        ToastUtils.showShort(result.toString());
+                        binding.btnSublimt.setEnabled(true);
                     }
                 });
     }
@@ -79,8 +105,12 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
     @Override
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_getPsdCode) {
-            MyInfoBean.DatasBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.DatasBean.MemberInfoBean.class);
+            MyInfoBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.MemberInfoBean.class);
             mViewModel.getSmsCode(3, infoBean.getMember_mobile());
+        } else if (viewId == R.id.btn_sublimt) {
+            //点击下一步
+            binding.btnSublimt.setEnabled(false);
+            mViewModel.checkCode(binding.edMsgCode.getText().toString().trim());
         }
     }
 }

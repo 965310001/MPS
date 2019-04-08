@@ -1,15 +1,16 @@
 package com.mingpinmall.me.ui.api;
 
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
-import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
-import com.mingpinmall.me.ui.bean.BasePageBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
-import com.mingpinmall.me.ui.bean.UserBean;
+import com.mingpinmall.me.ui.bean.ProductCollectionBean;
+import com.mingpinmall.me.ui.bean.PropertyBean;
+import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.socks.library.KLog;
 
@@ -21,18 +22,18 @@ import com.socks.library.KLog;
 public class MeRepository extends BaseRepository {
 
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
-    UserBean userBean = (UserBean) SharePreferenceUtil.getUser(UserBean.class);
+
 
     /**
      * 我的商城页面 获取用户信息
      **/
     protected void getUserInfo() {
-        addDisposable(apiService.getUserInfo(userBean.getDatas().getKey())
-                .compose(RxSchedulers.<MyInfoBean>io_main())
-                .subscribeWith(new RxSubscriber<MyInfoBean>() {
+        addDisposable(apiService.getUserInfo(getUserKey())
+                .compose(RxSchedulers.<BaseResponse<MyInfoBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<MyInfoBean>>() {
                                    @Override
-                                   public void onSuccess(MyInfoBean result) {
-                                       sendData(Constants.EVENT_KEY_ME_GETUSERINFO, result);
+                                   public void onSuccess(BaseResponse<MyInfoBean> result) {
+                                       sendData(Constants.EVENT_KEY_ME_GETUSERINFO, result.getData());
                                    }
 
                                    @Override
@@ -46,12 +47,12 @@ public class MeRepository extends BaseRepository {
     }
 
     public void getPayPwdInfo() {
-        addDisposable(apiService.getPayPwdInfo(userBean.getDatas().getKey())
-                .compose(RxSchedulers.<BaseCheckBean>io_main())
-                .subscribeWith(new RxSubscriber<BaseCheckBean>() {
+        addDisposable(apiService.getPayPwdInfo(getUserKey())
+                .compose(RxSchedulers.<BaseResponse<BaseCheckBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<BaseCheckBean>>() {
                                    @Override
-                                   public void onSuccess(BaseCheckBean result) {
-                                       sendData("USER_PAYPWD_INFO", result);
+                                   public void onSuccess(BaseResponse<BaseCheckBean> result) {
+                                       sendData("USER_PAYPWD_INFO", result.getData());
                                    }
 
                                    @Override
@@ -64,13 +65,35 @@ public class MeRepository extends BaseRepository {
         );
     }
 
-    public void getPhoneInfo() {
-        addDisposable(apiService.getPhoneInfo(userBean.getDatas().getKey())
-                .compose(RxSchedulers.<BaseCheckBean>io_main())
-                .subscribeWith(new RxSubscriber<BaseCheckBean>() {
+    /**
+     * 获取我的财产
+     */
+    public void getProperty() {
+        addDisposable(apiService.getMyAsset(getUserKey())
+                .compose(RxSchedulers.<BaseResponse<PropertyBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<PropertyBean>>() {
                                    @Override
-                                   public void onSuccess(BaseCheckBean result) {
-                                       sendData("USER_PHONE_INFO", result);
+                                   public void onSuccess(BaseResponse<PropertyBean> result) {
+                                       sendData("MY_ASSET", result.getData());
+                                   }
+
+                                   @Override
+                                   public void onFailure(String msg) {
+                                       KLog.i(msg);
+                                       sendData("Err_MY_ASSET", msg);
+                                   }
+                               }
+                )
+        );
+    }
+
+    public void getPhoneInfo() {
+        addDisposable(apiService.getPhoneInfo(getUserKey())
+                .compose(RxSchedulers.<BaseResponse<BaseCheckBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<BaseCheckBean>>() {
+                                   @Override
+                                   public void onSuccess(BaseResponse<BaseCheckBean> result) {
+                                       sendData("USER_PHONE_INFO", result.getData());
                                    }
 
                                    @Override
@@ -85,12 +108,12 @@ public class MeRepository extends BaseRepository {
 
     /*发送用户反馈*/
     protected void sendFeedBack(String feedBack) {
-        addDisposable(apiService.sendFeedBack(userBean.getDatas().getKey(), feedBack)
-                .compose(RxSchedulers.<BaseIntDatasBean>io_main())
-                .subscribeWith(new RxSubscriber<BaseIntDatasBean>() {
+        addDisposable(apiService.sendFeedBack(getUserKey(), feedBack)
+                .compose(RxSchedulers.<BaseResponse<BaseIntDatasBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<BaseIntDatasBean>>() {
                     @Override
-                    public void onSuccess(BaseIntDatasBean result) {
-                        sendData("SEND_FEEDBACK", result);
+                    public void onSuccess(BaseResponse<BaseIntDatasBean> result) {
+                        sendData("SEND_FEEDBACK", result.getData());
                     }
 
                     @Override
@@ -107,19 +130,23 @@ public class MeRepository extends BaseRepository {
      * 获取店铺收藏列表
      * @param
      */
-    protected void getShopsCollectList(int curpage) {
-        addDisposable(apiService.getShopsCollectList(userBean.getDatas().getKey(), curpage, 10)
-                .compose(RxSchedulers.<BasePageBean>io_main())
-                .subscribeWith(new RxSubscriber<BasePageBean>() {
+    protected void getShopsCollectList(final int curpage) {
+        addDisposable(apiService.getShopsCollectList(getUserKey(), curpage, 10)
+                .compose(RxSchedulers.<BaseResponse<ShopsCollectionBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ShopsCollectionBean>>() {
                                    @Override
-                                   public void onSuccess(BasePageBean result) {
-                                       sendData("SHOPS_COLLECT_LIST", result);
+                                   public void onSuccess(BaseResponse<ShopsCollectionBean> result) {
+                                       if (curpage > 1) {
+                                           sendData("SHOPS_COLLECT_LIST", "loadmore", result);
+                                       } else {
+                                           sendData("SHOPS_COLLECT_LIST", "success", result);
+                                       }
                                    }
 
                                    @Override
                                    public void onFailure(String msg) {
                                        KLog.i(msg);
-                                       sendData("Err_SHOPS_COLLECT_LIST", msg);
+                                       sendData("SHOPS_COLLECT_LIST", "err", msg);
                                    }
                                }
                 )
@@ -130,19 +157,23 @@ public class MeRepository extends BaseRepository {
      * 获取商品收藏列表
      * @param
      */
-    protected void getProductCollectList(int curpage){
-        addDisposable(apiService.getProductCollectList(userBean.getDatas().getKey(), curpage, 10)
-                .compose(RxSchedulers.<BasePageBean>io_main())
-                .subscribeWith(new RxSubscriber<BasePageBean>() {
+    protected void getProductCollectList(final int curpage){
+        addDisposable(apiService.getProductCollectList(getUserKey(), curpage, 10)
+                .compose(RxSchedulers.<BaseResponse<ProductCollectionBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ProductCollectionBean>>() {
                                    @Override
-                                   public void onSuccess(BasePageBean result) {
-                                       sendData("PRODUCT_COLLECT_LIST", result);
+                                   public void onSuccess(BaseResponse<ProductCollectionBean> result) {
+                                       if (curpage > 1) {
+                                           sendData("PRODUCT_COLLECT_LIST", "loadmore", result);
+                                       } else {
+                                           sendData("PRODUCT_COLLECT_LIST", "success", result);
+                                       }
                                    }
 
                                    @Override
                                    public void onFailure(String msg) {
                                        KLog.i(msg);
-                                       sendData("Err_PRODUCT_COLLECT_LIST", msg);
+                                       sendData("PRODUCT_COLLECT_LIST", "err", msg);
                                    }
                                }
                 )

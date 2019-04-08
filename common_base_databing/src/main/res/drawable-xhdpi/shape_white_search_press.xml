@@ -1,9 +1,0 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- 设置圆角半径 -->
-    <corners
-        android:radius="19dp" />
-
-    <solid android:color="#E9EBEBEB" />
-
-</shape>

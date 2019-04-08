@@ -8,15 +8,15 @@
         <item>"我的"</item>
     </string-array>
     <integer-array name="tab_icon">
-        <item>@drawable/ic_arrow</item>
-        <item>@drawable/ic_arrow</item>
-        <item>@drawable/ic_arrow</item>
-        <item>@drawable/ic_arrow</item>
+        <item>@drawable/ic_home_select</item>
+        <item>@drawable/ic_class_select</item>
+        <item>@drawable/ic_cart_select</item>
+        <item>@drawable/ic_user_select</item>
     </integer-array>
     <integer-array name="tab_icon_def">
-        <item>@drawable/ic_arrow</item>
-        <item>@drawable/ic_arrow</item>
-        <item>@drawable/ic_arrow</item>
-        <item>@drawable/ic_arrow</item>
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_class</item>
+        <item>@drawable/ic_cart</item>
+        <item>@drawable/ic_user</item>
     </integer-array>
 </resources>

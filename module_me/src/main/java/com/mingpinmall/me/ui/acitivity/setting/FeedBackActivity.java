@@ -56,20 +56,29 @@ public class FeedBackActivity extends AbsLifecycleActivity<ActivityFeedbackBindi
 
     @Override
     protected void dataObserver() {
-        LiveBus.getDefault().subscribe("SEND_FEEDBACK", BaseIntDatasBean.class).observeForever(new Observer<BaseIntDatasBean>() {
-            @Override
-            public void onChanged(@Nullable BaseIntDatasBean result) {
-                if (result.getCode() == 400) {
-                    ToastUtils.showShort("提交失败！");
-                } else {
-                    progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            finish();
-                        }
-                    });
-                }
-            }
-        });
+        registerObserver("SEND_FEEDBACK", BaseIntDatasBean.class)
+                .observeForever(new Observer<BaseIntDatasBean>() {
+                    @Override
+                    public void onChanged(@Nullable BaseIntDatasBean result) {
+                        progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                finish();
+                            }
+                        });
+                    }
+                });
+        registerObserver("Err_SEND_FEEDBACK", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String result) {
+                        progressDialog.onFail(result, new ProgressDialog.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                finish();
+                            }
+                        });
+                    }
+                });
     }
 }

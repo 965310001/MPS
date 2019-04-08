@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 我的财产 -->
+    <string-array name="titles_property">
+        <item>账户余额</item>
+        <item>充值卡余额</item>
+        <item>店铺代金券</item>
+        <item>平台红包</item>
+        <item>会员积分</item>
+    </string-array>
+    <string-array name="desc_property">
+        <item>预存款账户余额、充值及提现明细</item>
+        <item>充值卡账户余额以及卡密充值操作</item>
+        <item>店铺代金券使用情况以及卡密兑换代金券操作</item>
+        <item>平台红包使用情况以及卡密领取红包操作</item>
+        <item>会员积分获取以及消费日志</item>
+    </string-array>
+    <!-- 主页 - 我的 -->
+    <string-array name="home_me_order_items" >
+        <item>待付款</item>
+        <item>待收款</item>
+        <item>待自提</item>
+        <item>待评价</item>
+        <item>退款/退货</item>
+    </string-array>
+    <string-array name="home_me_estate_items" >
+        <item>预存款</item>
+        <item>充值卡</item>
+        <item>代金券</item>
+        <item>红包</item>
+        <item>积分</item>
+    </string-array>
+    <string-array name="home_me_items">
+        <item>我的订单</item>
+        <item>我的财产</item>
+        <item>我的分销管理</item>
+        <item>我的推广码</item>
+        <item>收货地址管理</item>
+        <item>用户设置</item>
+    </string-array>
+    <string-array name="home_me_item_sublabel">
+        <item>查看全部订单</item>
+        <item>查看全部财产</item>
+        <item> </item>
+        <item> </item>
+        <item> </item>
+        <item> </item>
+    </string-array>
+    <integer-array name="home_me_items_image">
+        <item>@drawable/mc_01</item>
+        <item>@drawable/mc_02</item>
+        <item>@drawable/mc_05</item>
+        <item>@drawable/mc_05</item>
+        <item>@drawable/mc_03</item>
+        <item>@drawable/mc_04</item>
+    </integer-array>
+    <integer-array name="home_me_orders_image">
+        <item>@drawable/mcc_01</item>
+        <item>@drawable/mcc_02</item>
+        <item>@drawable/mcc_03</item>
+        <item>@drawable/mcc_04</item>
+        <item>@drawable/mcc_05</item>
+    </integer-array>
+    <integer-array name="home_me_estates_image">
+        <item>@drawable/mcc_06_b</item>
+        <item>@drawable/mcc_07_b</item>
+        <item>@drawable/mcc_08_b</item>
+        <item>@drawable/mcc_09_b</item>
+        <item>@drawable/mcc_10_b</item>
+    </integer-array>
+    <integer-array name="home_me_item_funcode">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </integer-array>
+
+</resources>

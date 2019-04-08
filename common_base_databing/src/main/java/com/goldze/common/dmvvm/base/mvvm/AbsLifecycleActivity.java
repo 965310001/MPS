@@ -80,6 +80,11 @@ public abstract class AbsLifecycleActivity<VD extends ViewDataBinding, T extends
         return registerObserver(eventKey, null, tClass);
     }
 
+    protected <T> MutableLiveData<T> registerObserver(Object eventKey, String tag) {
+
+        return registerObserver(eventKey, tag, null);
+    }
+
     protected <T> MutableLiveData<T> registerObserver(Object eventKey, String tag, Class<T> tClass) {
         String event;
         if (TextUtils.isEmpty(tag)) {
@@ -88,6 +93,9 @@ public abstract class AbsLifecycleActivity<VD extends ViewDataBinding, T extends
             event = eventKey + tag;
         }
         eventKeys.add(event);
+        if (tClass == null) {
+            return LiveBus.getDefault().subscribe(eventKey, tag);
+        }
         return LiveBus.getDefault().subscribe(eventKey, tag, tClass);
     }
 

@@ -1,6 +1,7 @@
 package com.mingpinmall.me.ui;
 
 import android.arch.lifecycle.Observer;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,7 +20,9 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.mingpinmall.me.R;
@@ -43,6 +46,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     private MeItemAdapter meItemAdapter;
     private AutoColorView autoColorView;
     private View headView;
+    private boolean darkMode = false;
 
     private final int[] colorIds = new int[]{
             R.color.bg_color_0,
@@ -55,11 +59,6 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             R.color.bg_color_7,
             R.color.bg_color_8,
     };
-
-    /**
-     * 我的财产下方导航，动态添加
-     */
-    private String[] subEstate;
 
     public MeFragment() {
     }
@@ -81,6 +80,8 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     @Override
     public void initView(Bundle state) {
         super.initView(state);
+        setTitlePadding(binding.titleBar);
+
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         initHeadView();
         initSettingItem();
@@ -111,7 +112,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             }
         });
 
-        LiveBus.getDefault().subscribe(Constants.EVENT_KEY_ME_GETUSERINFO, MyInfoBean.class).observeForever(new Observer<MyInfoBean>() {
+        registerObserver(Constants.EVENT_KEY_ME_GETUSERINFO, MyInfoBean.class).observeForever(new Observer<MyInfoBean>() {
             @Override
             public void onChanged(@Nullable MyInfoBean result) {
                 KLog.i("获取成功，刷新展示内容。");
@@ -125,13 +126,13 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         headView.findViewById(R.id.iv_headItem1).setBackgroundColor(Color.parseColor("#00000000"));
         headView.findViewById(R.id.iv_headItem2).setBackgroundColor(Color.parseColor("#00000000"));
 
-        MyInfoBean.DatasBean.MemberInfoBean datas = result.getDatas().getMember_info();
+        MyInfoBean.MemberInfoBean datas = result.getMember_info();
         SharePreferenceUtil.saveKeyValue("USER_INFO", new Gson().toJson(datas));
 
-        ((AppCompatTextView)headView.findViewById(R.id.tv_name)).setText(datas.getUser_name());
-        ((AppCompatTextView)headView.findViewById(R.id.tv_level)).setText(datas.getLevel_name());
-        ((AppCompatTextView)headView.findViewById(R.id.iv_headItem1)).setText(datas.getFavorites_goods());
-        ((AppCompatTextView)headView.findViewById(R.id.iv_headItem2)).setText(datas.getFavorites_store());
+        ((AppCompatTextView) headView.findViewById(R.id.tv_name)).setText(datas.getUser_name());
+        ((AppCompatTextView) headView.findViewById(R.id.tv_level)).setText(datas.getLevel_name());
+        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText(datas.getFavorites_goods());
+        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText(datas.getFavorites_store());
 
         ImageUtils.loadImageAsGIF((AppCompatImageView) headView.findViewById(R.id.iv_headImage), datas.getAvatar());
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
@@ -147,17 +148,19 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     private void clearnDatas() {
         headView.findViewById(R.id.iv_headItem1).setBackgroundResource(R.drawable.ic_me_favorite);
         headView.findViewById(R.id.iv_headItem2).setBackgroundResource(R.drawable.ic_me_store);
+        headView.findViewById(R.id.tv_level).setVisibility(View.GONE);
 
         SharePreferenceUtil.saveKeyValue("USER_INFO", null);
 
-        ((AppCompatTextView)headView.findViewById(R.id.tv_name)).setText(R.string.label_click_login);
-        ((AppCompatTextView)headView.findViewById(R.id.tv_level)).setText("");
-        ((AppCompatTextView)headView.findViewById(R.id.iv_headItem1)).setText("");
-        ((AppCompatTextView)headView.findViewById(R.id.iv_headItem2)).setText("");
+        ((AppCompatTextView) headView.findViewById(R.id.tv_name)).setText(R.string.label_click_login);
+        ((AppCompatTextView) headView.findViewById(R.id.tv_level)).setText("");
+
+        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText("");
+        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText("");
 
         ImageUtils.loadImageCircle((AppCompatImageView) headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
-                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0
         });
         meItemAdapter.notifyDataSetChanged();
     }
@@ -171,13 +174,19 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         //初始化适配器和头部
         meItemAdapter = new MeItemAdapter();
         headView = LayoutInflater.from(activity).inflate(R.layout.view_me_user_head, binding.recyclerView, false);
+        //设置控件上部增加一个状态栏的高度
+        StatusBarUtils.setPaddingSmart(activity, headView.findViewById(R.id.top_btn_content));
+        StatusBarUtils.setMargin(activity, headView.findViewById(R.id.iv_headImage));
+        //添加headview
         meItemAdapter.addHeaderView(headView);
         meItemAdapter.bindToRecyclerView(binding.recyclerView);
         //拿到头部 View
         ImageUtils.loadImageCircle((AppCompatImageView) headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
+        //开始自动变换背景色
         autoColorView = headView.findViewById(R.id.iv_bg);
         autoColorView.setColors(colorIds);
         autoColorView.start();
+        //设置监听
         headView.findViewById(R.id.iv_setting).setOnClickListener(this);
         headView.findViewById(R.id.iv_message).setOnClickListener(this);
         headView.findViewById(R.id.iv_headImage).setOnClickListener(this);
@@ -202,8 +211,12 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
                     if (alpha > 0) {
                         binding.titleBar.setVisibility(View.VISIBLE);
                         binding.titleBar.setAlpha(alpha);
+                        darkMode = alpha > 128 ? true : false;
+                        setDarkMode(darkMode);
                     } else {
                         binding.titleBar.setVisibility(View.GONE);
+                        darkMode = false;
+                        setDarkMode(darkMode);
                     }
                 }
             }
@@ -333,58 +346,23 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
      */
     private void initSettingItem() {
         // init list item data.
-        subEstate = new String[]{
-                getString(R.string.me_estate_item1),
-                getString(R.string.me_estate_item2),
-                getString(R.string.me_estate_item3),
-                getString(R.string.me_estate_item4),
-                getString(R.string.me_estate_item5)
-        };
-        String[] titles = new String[]{
-                getString(R.string.me_item_item1),
-                getString(R.string.me_item_item2),
-                getString(R.string.me_item_item3),
-                getString(R.string.me_item_item4),
-                getString(R.string.me_item_item5),
-                getString(R.string.me_item_item6)
-        };
-        int[] titleImgs = new int[]{
-                R.drawable.mc_01,
-                R.drawable.mc_02,
-                R.drawable.mc_05,
-                R.drawable.mc_05,
-                R.drawable.mc_03,
-                R.drawable.mc_04,
-        };
-        int[] subImage0 = new int[]{
-                R.drawable.mcc_01,
-                R.drawable.mcc_02,
-                R.drawable.mcc_03,
-                R.drawable.mcc_04,
-                R.drawable.mcc_05,
-        };
-        int[] subImage1 = new int[]{
-                R.drawable.mcc_06_b,
-                R.drawable.mcc_07_b,
-                R.drawable.mcc_08_b,
-                R.drawable.mcc_09_b,
-                R.drawable.mcc_10_b
-        };
-        String[] subOrder = new String[]{
-                getString(R.string.me_order_item1),
-                getString(R.string.me_order_item2),
-                getString(R.string.me_order_item3),
-                getString(R.string.me_order_item4),
-                getString(R.string.me_order_item5)
-        };
-        int[] funCodes = new int[]{
-                0, 1, 2, 3, 4, 5
-        };
-        String[] titles2 = new String[]{
-                getString(R.string.me_item_sub_item1),
-                getString(R.string.me_item_sub_item2),
-                "", "", "", "",
-        };
+        //我的财产下方导航文字
+        String[] subEstate = ResourcesUtils.getInstance().getStringArray(R.array.home_me_estate_items);
+        //我的财产下方导航图标
+        TypedArray subImage1 = ResourcesUtils.getInstance().obtainTypedArray(R.array.home_me_estates_image);
+        //列表item文字
+        String[] titles = ResourcesUtils.getInstance().getStringArray(R.array.home_me_items);
+        //列表item图标
+        TypedArray titleImgs = ResourcesUtils.getInstance().obtainTypedArray(R.array.home_me_items_image);
+        //列表item功能码
+        int[] funCodes = new int[]{0, 1, 2, 3, 4, 5};
+        //我的订单下方导航文字
+        String[] subOrder = ResourcesUtils.getInstance().getStringArray(R.array.home_me_order_items);
+        //我的订单下方导航图标
+        TypedArray subImage0 = ResourcesUtils.getInstance().obtainTypedArray(R.array.home_me_orders_image);
+        //列表item右侧副标题文字
+        String[] titles2 = ResourcesUtils.getInstance().getStringArray(R.array.home_me_item_sublabel);
+
         List<MeItemBean> data = new ArrayList<>();
         /** 空行，分隔行 **/
         MeItemBean space0 = new MeItemBean();
@@ -395,7 +373,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             MeItemBean itemBean = new MeItemBean();
             itemBean.setItemType(1);
             itemBean.setFunCode(funCodes[i]);
-            itemBean.setDrawable(titleImgs[i]);
+            itemBean.setDrawable(titleImgs.getResourceId(i, 0));
             itemBean.setTitle(titles[i]);
             itemBean.setTitle2(titles2[i]);
             itemBean.setPoint(0);
@@ -432,9 +410,8 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("我的", "onResume: 恢复");
+    protected void onVisible() {
+        setDarkMode(darkMode);
         if (meItemAdapter != null && meItemAdapter.getData().size() > 0) {
             Log.d("我的", "onResume: 更新");
             autoColorView.start();
@@ -449,17 +426,10 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("我的", "onPause: 暂停");
+    protected void onInVisible() {
         if (meItemAdapter != null && meItemAdapter.getData().size() > 0) {
             autoColorView.pause();
         }
-    }
-
-    @Override
-    protected void onInVisible() {
-        super.onInVisible();
     }
 
     @Override

@@ -4,17 +4,17 @@ import android.os.Bundle;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.databinding.FragmentOrderBinding;
+import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 
 /**
  * 功能描述：余额提现
  * 创建人：小斌
  * 创建时间: 2019/3/28
  **/
-public class SurplusFragment3 extends BaseFragment<FragmentOrderBinding> {
+public class SurplusFragment3 extends BaseFragment<FragmentDefaultRecyclerviewBinding> {
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_order;
+        return R.layout.fragment_default_recyclerview;
     }
 
     @Override

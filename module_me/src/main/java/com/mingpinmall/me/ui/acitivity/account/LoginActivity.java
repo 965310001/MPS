@@ -6,33 +6,24 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityLoginBinding;
-import com.mingpinmall.me.ui.api.UserApiService;
 import com.mingpinmall.me.ui.api.UserViewModel;
-import com.mingpinmall.me.ui.bean.CodeKeyMode;
 import com.mingpinmall.me.ui.bean.SmsBean;
-import com.mingpinmall.me.ui.bean.UserBean;
+import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.xuexiang.xui.utils.WidgetUtils;
-import com.xuexiang.xui.widget.banner.widget.banner.base.ImageLoader;
-import com.xuexiang.xui.widget.dialog.LoadingDialog;
-
-import java.util.Random;
+import com.xuexiang.xui.utils.CountDownButtonHelper;
 
 
 /**
@@ -44,6 +35,7 @@ import java.util.Random;
 public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, UserViewModel> implements TextWatcher {
 
     private ProgressDialog progressDialog;
+    private CountDownButtonHelper buttonHelper;
 
     @Override
     protected int getLayoutId() {
@@ -73,7 +65,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         binding.edMsgCode.addTextChangedListener(this);
 
         binding.tvProtocol.setOnClickListener(this);
-        binding.btnGetPsdCode.setOnClickListener(this);
+        binding.tvGetPsdCode.setOnClickListener(this);
 
         binding.cbAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -106,6 +98,20 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        buttonHelper = new CountDownButtonHelper(binding.tvGetPsdCode, 60);
+        buttonHelper.setOnCountDownListener(new CountDownButtonHelper.OnCountDownListener() {
+            @Override
+            public void onCountDown(int time) {
+                binding.tvGetPsdCode.setEnabled(false);
+                binding.tvGetPsdCode.setText(time + "s");
+            }
+
+            @Override
+            public void onFinished() {
+                binding.tvGetPsdCode.setEnabled(true);
+                binding.tvGetPsdCode.setText("重新获取");
+            }
+        });
     }
 
     @Override
@@ -136,8 +142,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
 
     @Override
     protected void dataObserver() {
-        LiveBus.getDefault()
-                .subscribe(Constants.EVENT_KEY_USER_GETUSER, UserBean.class)
+        registerObserver(Constants.EVENT_KEY_USER_GETUSER, UserBean.class)
                 .observeForever(new Observer<UserBean>() {
                     @Override
                     public void onChanged(@Nullable UserBean userBean) {
@@ -158,45 +163,28 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                         }
                     }
                 });
-        LiveBus.getDefault()
-                .subscribe(Constants.Err_EVENT_KEY_USER_GETUSER, String.class)
+        registerObserver(Constants.Err_EVENT_KEY_USER_GETUSER, String.class)
                 .observeForever(new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String msg) {
                         progressDialog.onFail(msg, 1500);
                     }
                 });
-        LiveBus.getDefault()
-                .subscribe("GET_SMS_CODE", SmsBean.class)
+        registerObserver("GET_SMS_CODE", SmsBean.class)
                 .observeForever(new Observer<SmsBean>() {
                     @Override
                     public void onChanged(@Nullable SmsBean result) {
-                        switch (result.getCode()) {
-                            case 400:
-                                ToastUtils.showShort("发送验证码失败");
-                                break;
-                            case 200:
-                                ToastUtils.showShort("验证码已发送");
-                                break;
-                        }
+                        ToastUtils.showShort("验证码已发送");
+                        buttonHelper.start();
                     }
                 });
-        LiveBus.getDefault()
-                .subscribe("Err_GET_SMS_CODE", String.class)
+        registerObserver("Err_GET_SMS_CODE", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String msg) {
                         ToastUtils.showShort(msg);
                     }
                 });
-    }
-
-    @Override
-    public void onDestroy() {
-        LiveBus.getDefault().clear(Constants.EVENT_KEY_USER_GETUSER);
-        LiveBus.getDefault().clear(Constants.Err_EVENT_KEY_USER_GETUSER);
-        LiveBus.getDefault().clear(Constants.EVENT_KEY_GETCODEKEY);
-        super.onDestroy();
     }
 
     @Override
@@ -213,16 +201,9 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     public void afterTextChanged(Editable s) {
         int phoneCount = binding.edPhone.getText().length();
         int msgCodeCount = binding.edMsgCode.getText().length();
-        int psdCount = binding.edPassword.getText().length();
-        switch (binding.tabs.getSelectedTabPosition()) {
-            case 0:
-                binding.btnGetPsdCode.setVisibility(phoneCount >= 11 ? View.VISIBLE : View.GONE);
-                editTextAllOK = phoneCount >= 11 && msgCodeCount > 4;
-                break;
-            case 1:
-                editTextAllOK = phoneCount >= 11 && psdCount >= 4;
-                break;
-        }
+
+        binding.tvGetPsdCode.setVisibility(phoneCount >= 11 ? View.VISIBLE : View.INVISIBLE);
+        editTextAllOK = phoneCount >= 11 && msgCodeCount > 4;
         setEnabled();
     }
 

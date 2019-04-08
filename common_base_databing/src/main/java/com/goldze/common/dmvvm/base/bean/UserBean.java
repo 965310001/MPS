@@ -1,13 +1,7 @@
-package com.mingpinmall.me.ui.bean;
-
-import com.goldze.common.dmvvm.base.bean.BaseBean;
+package com.goldze.common.dmvvm.base.bean;
 
 public class UserBean extends BaseBean {
 
-    /**
-     * code : 200
-     * datas : {"username":"15013070796","userid":"30547","key":"3406da061713a16f195fa78b8b444437"}
-     */
     private int code;
     private DatasBean datas;
 

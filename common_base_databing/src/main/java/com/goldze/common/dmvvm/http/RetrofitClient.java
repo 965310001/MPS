@@ -25,6 +25,7 @@ import okhttp3.Cache;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.platform.Platform;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -98,16 +99,18 @@ public class RetrofitClient {
                 .addInterceptor(new BaseInterceptor(headers))
                 .addInterceptor(new CacheInterceptor(mContext))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-                .addInterceptor(new LoggingInterceptor
-                        .Builder()//构建者模式
-                        .loggable(true) //是否开启日志打印 BuildConfig.DEBUG
-                        .setLevel(Level.BASIC) //打印的等级
-                        .log(Platform.INFO) // 打印类型
-                        .request("Request") // request的Tag
-                        .response("Response")// Response的Tag
-                        .addHeader("log-header", "I am the log request header.") // 添加打印头, 注意 key 和 value 都不能是中文
-                        .build()
-                ).connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+//                .addInterceptor(new LoggingInterceptor
+//                        .Builder()//构建者模式
+//                        .loggable(true) //是否开启日志打印 BuildConfig.DEBUG
+//                        .setLevel(Level.BASIC) //打印的等级
+//                        .log(Platform.INFO) // 打印类型
+//                        .request("Request") // request的Tag
+//                        .response("Response")// Response的Tag
+//                        .addHeader("log-header", "I am the log request header.") // 添加打印头, 注意 key 和 value 都不能是中文
+//                        .build()
+//                )
+                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
                 // 这里你可以根据自己的机型设置同时连接的个数和时间，我这里8个，和每个保持时间为10s

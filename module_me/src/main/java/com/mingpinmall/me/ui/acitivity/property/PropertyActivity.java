@@ -1,17 +1,24 @@
 package com.mingpinmall.me.ui.acitivity.property;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.base.event.LiveBus;
+import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityPropertyBinding;
 import com.mingpinmall.me.ui.adapter.PropertyItemAdapter;
+import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
+import com.mingpinmall.me.ui.bean.PropertyBean;
 import com.mingpinmall.me.ui.widget.SettingItemView;
 
 import java.util.ArrayList;
@@ -23,7 +30,7 @@ import java.util.List;
  * 创建时间: 2019/3/27
  **/
 @Route(path = ARouterConfig.PROPERTYACTIVITY)
-public class PropertyActivity extends BaseActivity<ActivityPropertyBinding> {
+public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBinding, MeViewModel> {
 
     private PropertyItemAdapter itemAdapter;
 
@@ -33,13 +40,41 @@ public class PropertyActivity extends BaseActivity<ActivityPropertyBinding> {
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState) {
+    public void initViews(Bundle savedInstanceState) {
+        super.initViews(savedInstanceState);
         setTitle(getString(R.string.title_propertyActivity));
         itemAdapter = new PropertyItemAdapter();
         binding.setAdapter(itemAdapter);
 
         initItemData();
         setItemClickListener();
+
+        mViewModel.getProperty();
+    }
+
+    @Override
+    protected Object getStateEventKey() {
+        return "PROPERTY_ACTIVITY";
+    }
+
+    @Override
+    protected void dataObserver() {
+        registerObserver("MY_ASSET", PropertyBean.class)
+                .observeForever(new Observer<PropertyBean>() {
+                    @Override
+                    public void onChanged(@Nullable PropertyBean propertyBean) {
+                        setData(propertyBean);
+                    }
+                });
+    }
+
+    private void setData(PropertyBean propertyBean) {
+        itemAdapter.getData().get(0).setSubTitle(propertyBean.getPredepoit() + " 元");
+        itemAdapter.getData().get(1).setSubTitle(propertyBean.getAvailable_rc_balance() + " 元");
+        itemAdapter.getData().get(2).setSubTitle(propertyBean.getVoucher() + " 张");
+        itemAdapter.getData().get(3).setSubTitle(propertyBean.getRedpacket() + " 个");
+        itemAdapter.getData().get(4).setSubTitle(propertyBean.getPoint() + " 分");
+        itemAdapter.notifyDataSetChanged();
     }
 
     private void setItemClickListener() {
@@ -71,35 +106,16 @@ public class PropertyActivity extends BaseActivity<ActivityPropertyBinding> {
      * 初始化Item
      */
     private void initItemData() {
-        int[] titleIds = new int[]{
-                R.string.item_text_item1,
-                R.string.item_text_item2,
-                R.string.item_text_item3,
-                R.string.item_text_item4,
-                R.string.item_text_item5,
-        };
-        int[] descIds = new int[]{
-                R.string.item_subtext_item1,
-                R.string.item_subtext_item2,
-                R.string.item_subtext_item3,
-                R.string.item_subtext_item4,
-                R.string.item_subtext_item5,
-        };
-        String[] subTitleIds = new String[]{
-                "0.00 元",
-                "0.00 元",
-                "1 张",
-                "0 个",
-                "50 分",
-        };
+        String[] titles = getResources().getStringArray(R.array.titles_property);
+        String[] desc = getResources().getStringArray(R.array.desc_property);
         List<BaseItemBean> itemBeanList = new ArrayList<>();
-        for (int i = 0; i < titleIds.length; i++) {
+        for (int i = 0; i < titles.length; i++) {
             BaseItemBean itemBean = new BaseItemBean();
             itemBean.setItemType(1);
             itemBean.setItemMode(SettingItemView.ThemeMode.Default);
-            itemBean.setTitle(getString(titleIds[i]));
-            itemBean.setSubTitle(subTitleIds[i]);
-            itemBean.setDescription(getString(descIds[i]));
+            itemBean.setTitle(titles[i]);
+            itemBean.setSubTitle("");
+            itemBean.setDescription(desc[i]);
             itemBean.setDrawable(R.drawable.icon_cartfill_press);
             itemBeanList.add(itemBean);
         }

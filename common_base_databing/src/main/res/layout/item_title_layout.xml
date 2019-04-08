@@ -4,7 +4,6 @@
     android:id="@+id/rl_title_bar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="#F9F9F9"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:visibility="gone">
@@ -31,6 +30,17 @@
         android:textSize="@dimen/text_14"
         android:visibility="gone"
         app:met_hideUnderline="true" />
+
+    <com.xuexiang.xui.widget.tabbar.TabControlView
+        android:id="@+id/tab_control"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:tcv_defaultSelection="0"
+        app:tcv_equalWidth="true"
+        app:tcv_unselectedTextColor="@color/black"
+        app:tcv_selectedColor="@color/app_theme_d61619" />
 
     <TextView
         android:id="@+id/tv_title"

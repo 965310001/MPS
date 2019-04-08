@@ -53,25 +53,28 @@ public class OrderActivity extends BaseActivity<ActivityOrderBinding> {
     }
 
     @Override
+    protected boolean isTabsBar() {
+        return true;
+    }
+
+    @Override
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
 
-        findViewById(R.id.rl_title_bar).setVisibility(View.GONE);
-        binding.ivBack2.setOnClickListener(this);
         pagerAdapter = new BasePagerStateAdapter(getSupportFragmentManager(), this);
         binding.viewPager.setAdapter(pagerAdapter);
         binding.viewPager.setNoScroll(false);
         binding.tabs.setupWithViewPager(binding.viewPager);
 
         try {
-            binding.tabControl.setItems(new String[]{getString(R.string.tabs_text_physical), getString(R.string.tabs_text_virtual)}, new String[]{"1", "2"});
+            tabControlView.setItems(new String[]{getString(R.string.tabs_text_physical), getString(R.string.tabs_text_virtual)}, new String[]{"1", "2"});
         } catch (Exception e) {
             e.printStackTrace();
         }
         initFragments();
         setFunctionPage("1");
         binding.viewPager.setCurrentItem(pageIndex);
-        binding.tabControl.setOnTabSelectionChangedListener(new TabControlView.OnTabSelectionChangedListener() {
+        tabControlView.setOnTabSelectionChangedListener(new TabControlView.OnTabSelectionChangedListener() {
             @Override
             public void newSelection(String title, String value) {
                 setFunctionPage(value);
@@ -134,11 +137,6 @@ public class OrderActivity extends BaseActivity<ActivityOrderBinding> {
         pagerAdapter.notifyDataSetChanged();
         binding.viewPager.setOffscreenPageLimit(index.equals("1") ? 5 : 3);
         binding.viewPager.setCurrentItem(0, false);
-    }
-
-    @Override
-    protected boolean isBack() {
-        return false;
     }
 
     @Override

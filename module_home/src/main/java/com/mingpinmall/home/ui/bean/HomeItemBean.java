@@ -2,6 +2,7 @@ package com.mingpinmall.home.ui.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * 创建人：小斌
  * 创建时间: 2019/4/3
  **/
-public class HomeItemBean {
+public class HomeItemBean implements Serializable {
 
     private int code;
     private String error;
@@ -39,19 +40,60 @@ public class HomeItemBean {
         this.datas = datas;
     }
 
-    public static class DatasBean implements MultiItemEntity {
+    public static class DatasBean implements MultiItemEntity, Serializable {
 
         private int itemType;
 
-        @Override
-        public int getItemType() {
-            return itemType;
+        /**
+         * 导航ITEM, 布局C，
+         * @return
+         */
+        private String image;
+        private String type;
+        private String data;
+
+        private Goods1Bean.ItemBeanXX goods1ItemBean;
+
+        public Goods1Bean.ItemBeanXX getGoods1ItemBean() {
+            return goods1ItemBean;
+        }
+
+        public void setGoods1ItemBean(Goods1Bean.ItemBeanXX goods1ItemBean) {
+            this.goods1ItemBean = goods1ItemBean;
+        }
+
+        public String getImage() {
+            return image == null ? "" : image;
+        }
+
+        public void setImage(String image) {
+            this.image = image == null ? "" : image;
+        }
+
+        public String getType() {
+            return type == null ? "" : type;
+        }
+
+        public void setType(String type) {
+            this.type = type == null ? "" : type;
+        }
+
+        public String getData() {
+            return data == null ? "" : data;
+        }
+
+        public void setData(String data) {
+            this.data = data == null ? "" : data;
         }
 
         public void setItemType(int itemType) {
             this.itemType = itemType;
         }
 
+        @Override
+        public int getItemType() {
+            return itemType;
+        }
 
         private AdvListBean adv_list;
         private Home6Bean home6;
@@ -144,7 +186,7 @@ public class HomeItemBean {
             this.goods = goods;
         }
 
-        public static class AdvListBean {
+        public static class AdvListBean implements Serializable {
             private List<ItemBean> item;
 
             public List<ItemBean> getItem() {
@@ -187,7 +229,7 @@ public class HomeItemBean {
             }
         }
 
-        public static class Home6Bean {
+        public static class Home6Bean implements Serializable {
 
             private String title;
             private List<ItemBeanX> item;
@@ -240,7 +282,7 @@ public class HomeItemBean {
             }
         }
 
-        public static class Home2Bean {
+        public static class Home2Bean implements Serializable {
 
             private String title;
             private String square_image;
@@ -334,7 +376,7 @@ public class HomeItemBean {
             }
         }
 
-        public static class Home4Bean {
+        public static class Home4Bean implements Serializable {
 
             private String title;
             private String rectangle1_image;
@@ -428,7 +470,7 @@ public class HomeItemBean {
             }
         }
 
-        public static class Home5Bean {
+        public static class Home5Bean implements Serializable {
 
             private String title;
             private String stitle;
@@ -567,7 +609,7 @@ public class HomeItemBean {
             }
         }
 
-        public static class Goods1Bean {
+        public static class Goods1Bean implements Serializable {
 
             private String title;
             private List<ItemBeanXX> item;
@@ -611,10 +653,10 @@ public class HomeItemBean {
             }
         }
 
-        public static class Goods2Bean {
+        public static class Goods2Bean implements Serializable {
 
             private String title;
-            private List<?> item;
+            private List<Goods2BeanItem> item;
 
             public String getTitle() {
                 return title;
@@ -624,16 +666,47 @@ public class HomeItemBean {
                 this.title = title;
             }
 
-            public List<?> getItem() {
+            public List<Goods2BeanItem> getItem() {
                 return item;
             }
 
-            public void setItem(List<?> item) {
+            public void setItem(List<Goods2BeanItem> item) {
                 this.item = item;
+            }
+
+            public static class Goods2BeanItem {
+
+                private String image;
+                private String type;
+                private String data;
+
+                public String getImage() {
+                    return image;
+                }
+
+                public void setImage(String image) {
+                    this.image = image;
+                }
+
+                public String getType() {
+                    return type;
+                }
+
+                public void setType(String type) {
+                    this.type = type;
+                }
+
+                public String getData() {
+                    return data;
+                }
+
+                public void setData(String data) {
+                    this.data = data;
+                }
             }
         }
 
-        public static class Home1Bean {
+        public static class Home1Bean implements Serializable {
 
             private String title;
             private String image;
@@ -673,7 +746,7 @@ public class HomeItemBean {
             }
         }
 
-        public static class Home3Bean {
+        public static class Home3Bean implements Serializable {
 
             private String title;
             private List<ItemBean> item;
@@ -726,7 +799,7 @@ public class HomeItemBean {
             }
         }
 
-        public static class GoodsBean {
+        public static class GoodsBean implements Serializable {
 
             private String title;
             private List<?> item;
