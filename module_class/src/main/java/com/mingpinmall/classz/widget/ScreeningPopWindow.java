@@ -25,18 +25,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldze.common.dmvvm.base.event.LiveBus;
+import com.goldze.common.dmvvm.utils.AssetsUtils;
 import com.goldze.common.dmvvm.utils.ColorUtil;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
+import com.goldze.common.dmvvm.utils.Utils;
+import com.google.gson.Gson;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentScreeningBinding;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
+import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
+import com.mingpinmall.classz.utils.AssetsData;
 import com.socks.library.KLog;
 import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GuoFeng
@@ -149,16 +157,17 @@ public class ScreeningPopWindow extends PopupWindow {
             View contentView = bind.getRoot();
             bind.contentLayout.setBackgroundColor(colorBg);
 //            bind.msAddressSelect.setItems(ResUtils.getStringArray(R.array.tags_values_type));
-            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, ResUtils.getStringArray(R.array.tags_values_type));
+//            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, ResUtils.getStringArray(R.array.tags_values_type));
+            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, AssetsData.getAreaListInfos());
 //            bind.spinnerSystem.getSelectedItem().toString();
-            KLog.i(bind.spinnerSystem.getSelectedItem().toString());
+//            KLog.i(bind.spinnerSystem.getSelectedItem().toString());
             /*类型*/
             bind.ftlGoodType.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
-            bind.ftlGoodType.setItems(context.getResources().getStringArray(R.array.tags_values_type));
+            bind.ftlGoodType.setItems(context.getResources().getStringArray(R.array.tags_values_server));
             bind.ftlShopType.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
             bind.ftlShopType.setItems("平台自营");
             bind.ftlShopServer.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
-            bind.ftlShopServer.setItems(context.getResources().getStringArray(R.array.tags_values_server));
+            bind.ftlShopServer.setItems(context.getResources().getStringArray(R.array.tags_values_type));
 
             /*点击事件*/
             bind.btnReset.setOnClickListener(new View.OnClickListener() {
@@ -175,15 +184,24 @@ public class ScreeningPopWindow extends PopupWindow {
             bind.btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ScreenInfo screenInfo = new ScreenInfo();
+                    screenInfo.priceFrom = bind.etPriceFrom.getText().toString().trim();
+                    screenInfo.priceTo = bind.etPriceTo.getText().toString().trim();
+                    List<String> goodsType = screenInfo.goodsType;
+                    goodsType.clear();
                     for (Integer index : bind.ftlGoodType.getSelectedIndexs()) {
-                        KLog.i(context.getResources().getStringArray(R.array.tags_values_type)[index]);
+                        goodsType.add(context.getResources().getStringArray(R.array.tags_values_server_index)[index]);
                     }
                     for (Integer index : bind.ftlShopType.getSelectedIndexs()) {
-                        KLog.i("平台自营");
+                        screenInfo.shoppingType = true;
                     }
+                    List<String> shoppingServer = screenInfo.shoppingServer;
+                    shoppingServer.clear();
                     for (Integer index : bind.ftlShopServer.getSelectedIndexs()) {
-                        KLog.i(context.getResources().getStringArray(R.array.tags_values_server)[index]);
+                        shoppingServer.add(String.valueOf(index));
                     }
+                    screenInfo.areaId = AssetsData.getAreaByName(bind.spinnerSystem.getSelectedItem().toString());
+                    LiveBus.getDefault().postEvent(Constants.CUSTOMPOPWINDOW_KEY[1], screenInfo);
                 }
             });
             /*titlebar*/
@@ -201,7 +219,6 @@ public class ScreeningPopWindow extends PopupWindow {
             tvTitle.setText("筛选");
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             contextll.addView(contentView, lp);
-
         }
 
 

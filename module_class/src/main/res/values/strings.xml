@@ -26,6 +26,13 @@
         <item>虚拟</item>
     </string-array>
 
+    <string-array name="tags_values_server_index">
+        <item>gift</item>
+        <item>groupbuy</item>
+        <item>xianshi</item>
+        <item>virtual</item>
+    </string-array>
+
 
     <string name="market_check_all">全选</string>
     <string name="market_total">合计：</string>

@@ -37,4 +37,6 @@ public interface Constants {
 
     /*筛选框*/
     Object[] CUSTOMPOPWINDOW_KEY = {"CUSTOMPOPWINDOW_KEY", "CUSTOMPOPWINDOW_KEY_SCREENING"};
+    /*接收筛选的值*/
+//    Object SCREENINFO = "SCREENINFO";
 }

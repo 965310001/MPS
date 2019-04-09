@@ -22,16 +22,22 @@ import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 
+import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
-import com.mingpinmall.classz.widget.FilterBar;
+
 import com.mingpinmall.classz.widget.FilterTab;
 
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
-import com.trecyclerview.listener.OnItemClickListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+
+import freemarker.template.utility.StringUtil;
 
 /**
  * 商品分类list
@@ -49,6 +55,9 @@ public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel> {
     String keyword;
 
     View curressView;
+
+    /*店铺服务*/
+    String ci="";
 
     private String areaId = "", priceFrom = "", priceTo = "";//地区 价格区间最低范围 价格区间最高范围
 
@@ -117,13 +126,21 @@ public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel> {
                 });
 
         /*筛选*/
-        registerObserver(Constants.CUSTOMPOPWINDOW_KEY[1], String.class)
-                .observe(this, new Observer<String>() {
+        registerObserver(Constants.CUSTOMPOPWINDOW_KEY[1], ScreenInfo.class)
+                .observe(this, new Observer<ScreenInfo>() {
                     @Override
-                    public void onChanged(@Nullable String s) {
-                        KLog.i("选择的内容" + s);
+                    public void onChanged(@Nullable ScreenInfo reponse) {
+                        areaId = reponse.areaId;
+                        priceFrom = reponse.priceFrom;
+                        priceTo = reponse.priceTo;
+                        for (String s : reponse.shoppingServer) {
+                            ci = ci.concat(s).concat("_");
+                        }
+                        KLog.i(ci);
                     }
                 });
+
+
     }
 
     /*获取更多数据*/

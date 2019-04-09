@@ -201,7 +201,7 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
     }
 
     protected void setData(List<?> collection) {
-        isLoadMore = collection.size() >= 10;
+        isLoadMore = collection.size() > 10;
         if (isLoadMore) onLoadMoreSuccess(collection);
         else onRefreshSuccess(collection);
         KLog.i(isLoadMore + "=" + collection.size());
