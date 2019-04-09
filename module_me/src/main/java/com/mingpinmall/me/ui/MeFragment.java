@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -81,6 +82,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     public void initView(Bundle state) {
         super.initView(state);
         setTitlePadding(binding.titleBar);
+        setDarkMode(false);
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         initHeadView();
@@ -112,17 +114,38 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             }
         });
 
-        registerObserver(Constants.EVENT_KEY_ME_GETUSERINFO, MyInfoBean.class).observeForever(new Observer<MyInfoBean>() {
+        registerObserver("GET_USER_INFO", "success").observeForever(new Observer<Object>() {
             @Override
-            public void onChanged(@Nullable MyInfoBean result) {
+            public void onChanged(@Nullable Object result) {
                 KLog.i("获取成功，刷新展示内容。");
-                setNewData(result);
+                MyInfoBean myInfoBean = (MyInfoBean) result;
+                setNewData(myInfoBean);
                 SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
+            }
+        });
+
+        registerObserver("GET_USER_INFO", "fail").observeForever(new Observer<Object>() {
+            @Override
+            public void onChanged(@Nullable Object result) {
+                KLog.i("获取成功，刷新展示内容。");
+                BaseResponse<MyInfoBean> myInfoBean = (BaseResponse<MyInfoBean>) result;
+                if (!myInfoBean.getLogin().isEmpty() && myInfoBean.getLogin().equals("0")) {
+                    SharePreferenceUtil.saveLogin(false);
+                }
+            }
+        });
+
+        registerObserver("GET_USER_INFO", "err").observeForever(new Observer<Object>() {
+            @Override
+            public void onChanged(@Nullable Object result) {
+                KLog.i("获取个人信息失败。");
+                SharePreferenceUtil.saveBooleanKeyValue("needRefresh", true);
             }
         });
     }
 
     private void setNewData(MyInfoBean result) {
+        if (result == null) return;
         headView.findViewById(R.id.iv_headItem1).setBackgroundColor(Color.parseColor("#00000000"));
         headView.findViewById(R.id.iv_headItem2).setBackgroundColor(Color.parseColor("#00000000"));
 

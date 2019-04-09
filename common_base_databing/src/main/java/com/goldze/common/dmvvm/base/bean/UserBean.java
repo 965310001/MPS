@@ -1,68 +1,42 @@
 package com.goldze.common.dmvvm.base.bean;
 
-public class UserBean extends BaseBean {
+public class UserBean {
 
-    private int code;
-    private DatasBean datas;
+    private String username;
+    private String userid;
+    private String key;
+    private String error;
 
-    public int getCode() {
-        return code;
+    public String getError() {
+        return error == null ? "" : error;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setError(String error) {
+        this.error = error == null ? "" : error;
     }
 
-    public DatasBean getDatas() {
-        return datas;
+    public String getUsername() {
+        return username == null ? "" : username;
     }
 
-    public void setDatas(DatasBean datas) {
-        this.datas = datas;
+    public void setUsername(String username) {
+        this.username = username == null ? "" : username;
     }
 
-    public static class DatasBean {
-        /**
-         * username : 15013070796    密码 888888
-         * userid : 30547
-         * key : 3406da061713a16f195fa78b8b444437
-         */
-
-        private String username;
-        private String userid;
-        private String key;
-        private String error;
-
-        public String getError() {
-            return error == null ? "" : error;
-        }
-
-        public void setError(String error) {
-            this.error = error == null ? "" : error;
-        }
-
-        public String getUsername() {
-            return username == null ? "" : username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username == null ? "" : username;
-        }
-
-        public String getUserid() {
-            return userid == null ? "" : userid;
-        }
-
-        public void setUserid(String userid) {
-            this.userid = userid == null ? "" : userid;
-        }
-
-        public String getKey() {
-            return key == null ? "" : key;
-        }
-
-        public void setKey(String key) {
-            this.key = key == null ? "" : key;
-        }
+    public String getUserid() {
+        return userid == null ? "" : userid;
     }
+
+    public void setUserid(String userid) {
+        this.userid = userid == null ? "" : userid;
+    }
+
+    public String getKey() {
+        return key == null ? "" : key;
+    }
+
+    public void setKey(String key) {
+        this.key = key == null ? "" : key;
+    }
+    
 }

@@ -84,6 +84,11 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         getViewById(R.id.iv_search).setOnClickListener(this);
         ((TextView) getViewById(R.id.tv_title)).setText("分类");
 
+        //在这里设置沉浸式状态栏
+        setTitlePadding(getViewById(R.id.rl_title_content));
+        //并且设置状态栏字体颜色为黑色
+        setDarkMode(true);
+
         rightAdapter = AdapterPool.newInstance().getRightAdapter(getActivity())
                 .build();
         rightAdapter.setDatas(rightData);
@@ -183,5 +188,11 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         if (i == R.id.iv_search) {
             ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
         }
+    }
+
+    @Override
+    protected void onVisible() {
+        //当这个fragment用户可见时，重新设置为黑色状态栏字体
+        setDarkMode(true);
     }
 }

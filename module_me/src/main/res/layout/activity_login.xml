@@ -11,11 +11,13 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toTopOf="@id/ll_panel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:tabSelectedTextColor="@color/app_theme_d61619"
+            app:tabIndicatorColor="@color/app_theme_d61619"
             app:tabBackground="@color/white" />
 
         <LinearLayout
@@ -190,7 +192,7 @@
             android:layout_marginTop="12dp"
             android:checked="true"
             android:text="@string/cb_agree"
-            android:textColorHighlight="@color/colorPrimaryDark"
+            android:textColorHighlight="@color/app_theme_d61619"
             app:layout_constraintBottom_toTopOf="@id/btn_sublimt"
             app:layout_constraintStart_toStartOf="@id/btn_sublimt"
             app:layout_constraintTop_toBottomOf="@id/ll_panel" />

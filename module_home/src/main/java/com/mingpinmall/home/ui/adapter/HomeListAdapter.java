@@ -4,6 +4,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
@@ -21,11 +22,15 @@ import java.util.List;
  **/
 public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.DatasBean, BaseViewHolder> {
 
-    private com.bigkoo.convenientbanner.listener.OnItemClickListener bannerClickListener;
+    private ListBannerItemClickListener bannerClickListener;
 
     private boolean isFirstInit = true;
 
-    public void setBannerClickListener(com.bigkoo.convenientbanner.listener.OnItemClickListener bannerClickListener) {
+    /**
+     * 轮播图 监听
+     * @param bannerClickListener
+     */
+    public void setBannerClickListener(ListBannerItemClickListener bannerClickListener) {
         this.bannerClickListener = bannerClickListener;
     }
 
@@ -53,7 +58,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, HomeItemBean.DatasBean item) {
+    protected void convert(final BaseViewHolder helper, HomeItemBean.DatasBean item) {
         switch (item.getItemType()) {
             case 0:
                 /*轮播图*/
@@ -70,7 +75,14 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                     urls.add(itemBean.getImage());
                 }
                 ConvenientBanner banner = helper.getView(R.id.view_banner);
-                ImageUtils.loadBanner(banner, urls, bannerClickListener);
+                ImageUtils.loadBanner(banner, urls, new com.bigkoo.convenientbanner.listener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        if (bannerClickListener != null) {
+                            bannerClickListener.onItemClick(helper.getAdapterPosition(), position);
+                        }
+                    }
+                });
                 banner.startTurning(3000);
                 break;
             case 1:
@@ -112,8 +124,8 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
             case 5:
                 //手机通讯  自营超市
                 HomeItemBean.DatasBean.Home5Bean datasBean5 = item.getHome5();
-                helper.setText(R.id.tv_label, datasBean5.getTitle());
-                helper.setText(R.id.tv_sub_label, datasBean5.getStitle())
+                helper.setText(R.id.tv_label, datasBean5.getTitle())
+                        .setText(R.id.tv_sub_label, datasBean5.getStitle())
                         .addOnClickListener(R.id.iv_square)
                         .addOnClickListener(R.id.iv_rectangle1)
                         .addOnClickListener(R.id.iv_rectangle2)
@@ -129,13 +141,33 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 break;
             case 10:
                 //商品列表
+                HomeItemBean.DatasBean.GoodsBean.ItemBean goodsBean = item.getGoodsItemBean();
+                helper.setText(R.id.tv_label, goodsBean.getGoods_name())
+                        .setText(R.id.tv_money, goodsBean.getGoods_promotion_price())
+                        .setVisible(R.id.tv_tips, false);
+                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), goodsBean.getGoods_image());
                 break;
             case 11:
                 //限购
-
+                HomeItemBean.DatasBean.Goods1Bean goods1Bean = item.getGoods1();
+                ConvenientBanner subBanner = helper.getView(R.id.view_banner);
+                ImageUtils.loadBanner(subBanner, goods1Bean.getItem(), new BannerAdapter(), new com.bigkoo.convenientbanner.listener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        if (bannerClickListener != null) {
+                            bannerClickListener.onItemClick(helper.getAdapterPosition(), position);
+                        }
+                    }
+                });
+                subBanner.startTurning(3000);
                 break;
             case 12:
                 //团购
+                HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem goods2Bean = item.getGoods2ItemBean();
+                helper.setText(R.id.tv_label, goods2Bean.getGoods_name())
+                        .setText(R.id.tv_money, goods2Bean.getGoods_promotion_price())
+                        .setVisible(R.id.tv_tips, true);
+                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), goods2Bean.getGoods_image());
 
                 break;
             default:

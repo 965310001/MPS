@@ -33,6 +33,9 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
     @Autowired
     String phoneNumber;
 
+    @Autowired
+    int type;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_reset_password;
@@ -42,23 +45,19 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
     public void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        setTitle(R.string.title_resetPasswordActivity);
-        binding.tvPhone.setText(phoneNumber);
-        binding.edMsgCode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                binding.btnSublimt.setEnabled(s.length() >= 4);
-            }
-        });
-        binding.btnGetPsdCode.setOnClickListener(this);
+        switch (type) {
+            case 0:
+                //重设登陆密码
+                setTitle(R.string.title_resetPasswordActivity);
+                break;
+            case 1:
+                //重设支付密码
+                setTitle(R.string.title_resetPayPasswordActivity);
+                break;
+            default:
+                finish();
+                return;
+        }
         binding.btnSublimt.setOnClickListener(this);
     }
 
@@ -69,48 +68,18 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_SMS_CODE", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        ToastUtils.showShort("验证码发送成功");
-                    }
-                });
-        registerObserver("GET_SMS_CODE", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        ToastUtils.showShort(result.toString());
-                    }
-                });
-        registerObserver("CHECK_CODE", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //验证成功
-
-                    }
-                });
-        registerObserver("CHECK_CODE", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //验证码验证失败
-                        ToastUtils.showShort(result.toString());
-                        binding.btnSublimt.setEnabled(true);
-                    }
-                });
     }
 
     @Override
     public void onViewClicked(int viewId) {
-        if (viewId == R.id.btn_getPsdCode) {
-            MyInfoBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.MemberInfoBean.class);
-            mViewModel.getSmsCode(3, infoBean.getMember_mobile());
-        } else if (viewId == R.id.btn_sublimt) {
+        if (viewId == R.id.btn_sublimt) {
             //点击下一步
+            if (binding.edPassword.getText().toString().length() < 6 ||
+                    !binding.edPassword.getText().toString().equals(binding.edPassword2.getText().toString())) {
+                binding.edPassword.setError("两次密码不一致，或少于6位。");
+                return;
+            }
             binding.btnSublimt.setEnabled(false);
-            mViewModel.checkCode(binding.edMsgCode.getText().toString().trim());
         }
     }
 }

@@ -52,7 +52,28 @@ public class HomeItemBean implements Serializable {
         private String type;
         private String data;
 
+        /**
+         * 各种item
+         */
         private Goods1Bean.ItemBeanXX goods1ItemBean;
+        private Goods2Bean.Goods2BeanItem goods2ItemBean;
+        private GoodsBean.ItemBean goodsItemBean;
+
+        public Goods2Bean.Goods2BeanItem getGoods2ItemBean() {
+            return goods2ItemBean;
+        }
+
+        public void setGoods2ItemBean(Goods2Bean.Goods2BeanItem goods2ItemBean) {
+            this.goods2ItemBean = goods2ItemBean;
+        }
+
+        public GoodsBean.ItemBean getGoodsItemBean() {
+            return goodsItemBean;
+        }
+
+        public void setGoodsItemBean(GoodsBean.ItemBean goodsItemBean) {
+            this.goodsItemBean = goodsItemBean;
+        }
 
         public Goods1Bean.ItemBeanXX getGoods1ItemBean() {
             return goods1ItemBean;
@@ -632,15 +653,103 @@ public class HomeItemBean implements Serializable {
 
             public static class ItemBeanXX {
 
-                private int time;
+                private String xianshi_goods_id;
+                private String xianshi_id;
+                private String xianshi_name;
+                private String xianshi_title;
+                private String xianshi_explain;
+                private String goods_id;
+                private String store_id;
+                private String goods_name;
+                private String goods_price;
+                private String xianshi_price;
                 private String goods_image;
+                private String start_time;
+                private String end_time;
+                private String lower_limit;
+                private String state;
+                private String xianshi_recommend;
+                private String gc_id_1;
+                private int time;
 
-                public int getTime() {
-                    return time;
+                public String getXianshi_goods_id() {
+                    return xianshi_goods_id;
                 }
 
-                public void setTime(int time) {
-                    this.time = time;
+                public void setXianshi_goods_id(String xianshi_goods_id) {
+                    this.xianshi_goods_id = xianshi_goods_id;
+                }
+
+                public String getXianshi_id() {
+                    return xianshi_id;
+                }
+
+                public void setXianshi_id(String xianshi_id) {
+                    this.xianshi_id = xianshi_id;
+                }
+
+                public String getXianshi_name() {
+                    return xianshi_name;
+                }
+
+                public void setXianshi_name(String xianshi_name) {
+                    this.xianshi_name = xianshi_name;
+                }
+
+                public String getXianshi_title() {
+                    return xianshi_title;
+                }
+
+                public void setXianshi_title(String xianshi_title) {
+                    this.xianshi_title = xianshi_title;
+                }
+
+                public String getXianshi_explain() {
+                    return xianshi_explain;
+                }
+
+                public void setXianshi_explain(String xianshi_explain) {
+                    this.xianshi_explain = xianshi_explain;
+                }
+
+                public String getGoods_id() {
+                    return goods_id;
+                }
+
+                public void setGoods_id(String goods_id) {
+                    this.goods_id = goods_id;
+                }
+
+                public String getStore_id() {
+                    return store_id;
+                }
+
+                public void setStore_id(String store_id) {
+                    this.store_id = store_id;
+                }
+
+                public String getGoods_name() {
+                    return goods_name;
+                }
+
+                public void setGoods_name(String goods_name) {
+                    this.goods_name = goods_name;
+                }
+
+                public String getGoods_price() {
+                    return goods_price;
+                }
+
+                public void setGoods_price(String goods_price) {
+                    this.goods_price = goods_price;
+                }
+
+                public String getXianshi_price() {
+                    return xianshi_price;
+                }
+
+                public void setXianshi_price(String xianshi_price) {
+                    this.xianshi_price = xianshi_price;
                 }
 
                 public String getGoods_image() {
@@ -649,6 +758,62 @@ public class HomeItemBean implements Serializable {
 
                 public void setGoods_image(String goods_image) {
                     this.goods_image = goods_image;
+                }
+
+                public String getStart_time() {
+                    return start_time;
+                }
+
+                public void setStart_time(String start_time) {
+                    this.start_time = start_time;
+                }
+
+                public String getEnd_time() {
+                    return end_time;
+                }
+
+                public void setEnd_time(String end_time) {
+                    this.end_time = end_time;
+                }
+
+                public String getLower_limit() {
+                    return lower_limit;
+                }
+
+                public void setLower_limit(String lower_limit) {
+                    this.lower_limit = lower_limit;
+                }
+
+                public String getState() {
+                    return state;
+                }
+
+                public void setState(String state) {
+                    this.state = state;
+                }
+
+                public String getXianshi_recommend() {
+                    return xianshi_recommend;
+                }
+
+                public void setXianshi_recommend(String xianshi_recommend) {
+                    this.xianshi_recommend = xianshi_recommend;
+                }
+
+                public String getGc_id_1() {
+                    return gc_id_1;
+                }
+
+                public void setGc_id_1(String gc_id_1) {
+                    this.gc_id_1 = gc_id_1;
+                }
+
+                public int getTime() {
+                    return time;
+                }
+
+                public void setTime(int time) {
+                    this.time = time;
                 }
             }
         }
@@ -676,32 +841,41 @@ public class HomeItemBean implements Serializable {
 
             public static class Goods2BeanItem {
 
-                private String image;
-                private String type;
-                private String data;
+                private String goods_id;
+                private String goods_name;
+                private String goods_promotion_price;
+                private String goods_image;
 
-                public String getImage() {
-                    return image;
+                public String getGoods_id() {
+                    return goods_id;
                 }
 
-                public void setImage(String image) {
-                    this.image = image;
+                public void setGoods_id(String goods_id) {
+                    this.goods_id = goods_id;
                 }
 
-                public String getType() {
-                    return type;
+                public String getGoods_name() {
+                    return goods_name;
                 }
 
-                public void setType(String type) {
-                    this.type = type;
+                public void setGoods_name(String goods_name) {
+                    this.goods_name = goods_name;
                 }
 
-                public String getData() {
-                    return data;
+                public String getGoods_promotion_price() {
+                    return goods_promotion_price;
                 }
 
-                public void setData(String data) {
-                    this.data = data;
+                public void setGoods_promotion_price(String goods_promotion_price) {
+                    this.goods_promotion_price = goods_promotion_price;
+                }
+
+                public String getGoods_image() {
+                    return goods_image;
+                }
+
+                public void setGoods_image(String goods_image) {
+                    this.goods_image = goods_image;
                 }
             }
         }
@@ -802,7 +976,7 @@ public class HomeItemBean implements Serializable {
         public static class GoodsBean implements Serializable {
 
             private String title;
-            private List<?> item;
+            private List<ItemBean> item;
 
             public String getTitle() {
                 return title;
@@ -812,12 +986,52 @@ public class HomeItemBean implements Serializable {
                 this.title = title;
             }
 
-            public List<?> getItem() {
+            public List<ItemBean> getItem() {
                 return item;
             }
 
-            public void setItem(List<?> item) {
+            public void setItem(List<ItemBean> item) {
                 this.item = item;
+            }
+
+            public static class ItemBean {
+
+                private String goods_id;
+                private String goods_name;
+                private String goods_promotion_price;
+                private String goods_image;
+
+                public String getGoods_id() {
+                    return goods_id;
+                }
+
+                public void setGoods_id(String goods_id) {
+                    this.goods_id = goods_id;
+                }
+
+                public String getGoods_name() {
+                    return goods_name;
+                }
+
+                public void setGoods_name(String goods_name) {
+                    this.goods_name = goods_name;
+                }
+
+                public String getGoods_promotion_price() {
+                    return goods_promotion_price;
+                }
+
+                public void setGoods_promotion_price(String goods_promotion_price) {
+                    this.goods_promotion_price = goods_promotion_price;
+                }
+
+                public String getGoods_image() {
+                    return goods_image;
+                }
+
+                public void setGoods_image(String goods_image) {
+                    this.goods_image = goods_image;
+                }
             }
         }
     }

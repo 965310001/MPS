@@ -23,6 +23,8 @@ public interface UserApiService {
     String MAKECODE = "http://39.108.254.185/mo_bile/index.php?app=seccode&wwi=makecode";
     /*短信验证码*/
     String SENDSMS = "/mo_bile/index.php?app=connect&wwi=get_sms_captcha";
+    /*短信验证码*/
+    String SEND_ResetSMS = "/mo_bile/index.php?app=member_account&wwi=modify_mobile_step2";
     /*短信验证码 验证*/
     String CheckCode = "/mo_bile/index.php?app=member_account&wwi=modify_password_step3";
 
@@ -42,10 +44,17 @@ public interface UserApiService {
                                            @Field("client") String Client//android/ios
     );
 
-    /*发送短信验证码*/
+    /*发送短信验证码 登陆，注册，找回密码 */
     @GET(UserApiService.SENDSMS)
     Flowable<BaseResponse<SmsBean>> sendSMS(@Query("type") int type,//短信类型:1为注册、登录,3为找回密码
                                             @Query("phone") String phone
+    );
+
+    /*发送短信验证码 修改密码，修改手机，修改支付密码 */
+    @FormUrlEncoded
+    @POST(UserApiService.SEND_ResetSMS)
+    Flowable<BaseResponse<SmsBean>> sendResetSMS(@Field("client") String client,//android
+                                            @Field("key") String key
     );
 
     /*获取和生成图形验证码钥匙*/

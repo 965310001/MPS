@@ -52,13 +52,15 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
 
     private ImmersionBar mImmersionBar;
     private ViewGroup contentLayout;
+    //黑色状态栏字体
+    private boolean darkMode = true;
 
     protected VD binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         XUI.initTheme(this);
-        StatusBarUtils.immersive(this);
+        StatusBarUtils.immersive(this, false);
         /*竖屏*/
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
@@ -108,7 +110,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
      *
      * @param view
      */
-    private void setTitlePadding(View view) {
+    protected void setTitlePadding(View view) {
         StatusBarUtils.setPaddingSmart(this, view);
     }
 
@@ -117,8 +119,16 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
      *
      * @param darkMode true 黑色，建议在浅色背景色使用，例如白色背景色。  false 白色，建议在深色背景色时使用，例如蓝色，黑色，红色。
      */
-    private void setDarkMode(boolean darkMode) {
-        StatusBarUtils.darkMode(this, darkMode);
+    protected void setDarkMode(boolean darkMode) {
+        this.darkMode = darkMode;
+        StatusBarUtils.immersive(this, darkMode);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //每次界面恢复可见时，都重新设置一次。
+        setDarkMode(darkMode);
     }
 
     /**

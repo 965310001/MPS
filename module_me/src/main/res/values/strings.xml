@@ -84,10 +84,18 @@
 
     <!-- ResetPasswordActivity -->
     <string name="title_resetPasswordActivity">修改登录密码</string>
-    <string name="bt_text_next">下一步</string>
-    <string name="tips_text_resetPassword">小提示：通过手机验证后，可用于快速找回登录密码及支付密码，接收账户资产变更提醒。</string>
-    <string name="tips_text_youPhone">您当前的手机号是：</string>
+    <string name="tips_text_resetPassword">登录密码由 6-20个大小写英文字母、符号或数字组成</string>
+    <string name="text_reset_password">设置密码</string>
+    <string name="text_reset_password2">密码确认</string>
+    <string name="hint_text_reset_password">输入登陆密码</string>
+    <string name="hint_text_reset_password2">在次输入登录密码</string>
     <!-- ResetPasswordActivity Over -->
+
+    <!-- CheckAuthActivity -->
+    <string name="tips_text_youPhone">您当前的手机号是：</string>
+    <string name="bt_text_next">下一步</string>
+    <string name="tips_text_checkAuth">小提示：通过手机验证后，可用于快速找回登录密码及支付密码，接收账户资产变更提醒。</string>
+    <!-- CheckAuthActivity Over -->
 
     <!-- ResetPayPasswordActivity -->
     <string name="title_resetPayPasswordActivity">修改支付密码</string>

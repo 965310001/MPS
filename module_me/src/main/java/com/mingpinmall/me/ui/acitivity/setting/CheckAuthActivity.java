@@ -120,6 +120,7 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
                                 ActivityToActivity.toActivity(ARouterConfig.ResetPayPwdActivity);
                                 break;
                         }
+                        finish();
                     }
                 });
         registerObserver("CHECK_CODE", "err")
@@ -137,7 +138,7 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_getPsdCode) {
             MyInfoBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.MemberInfoBean.class);
-            mViewModel.getSmsCode(3, infoBean.getMember_mobile());
+            mViewModel.getResetSmsCode();
         } else if (viewId == R.id.btn_sublimt) {
             //点击下一步
             binding.btnSublimt.setEnabled(false);
