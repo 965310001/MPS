@@ -139,11 +139,4 @@ public class OrderActivity extends BaseActivity<ActivityOrderBinding> {
         binding.viewPager.setCurrentItem(0, false);
     }
 
-    @Override
-    public void onViewClicked(int viewId) {
-        if (viewId == R.id.iv_back2) {
-            onBackPressed();
-        }
-    }
-
 }
