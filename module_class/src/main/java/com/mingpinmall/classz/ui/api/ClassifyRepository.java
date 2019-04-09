@@ -215,7 +215,7 @@ public class ClassifyRepository extends BaseRepository {
         Map<String, Object> map = new HashMap<>();
         map.put("goods_id", gId);
         map.put("type", type);
-        map.put("page", Constants.PAGE_RN);
+        map.put("page", Integer.parseInt(Constants.PAGE_RN)*2);
         map.put("curpage", curpage);
         addDisposable(apiService.getEvaluate(map)
                 .compose(RxSchedulers.<GoodsCommentListBean>io_main())

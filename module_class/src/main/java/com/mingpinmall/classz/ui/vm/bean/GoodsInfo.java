@@ -102,7 +102,7 @@ public class GoodsInfo extends BaseBean {
 
     @Generated(hash = 1392708661)
     public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_promotion_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name,
-            String is_own_mall, String goods_image_url, int num) {
+                     String is_own_mall, String goods_image_url, int num) {
         this.goods_id = goods_id;
         this.store_id = store_id;
         this.goods_name = goods_name;
@@ -335,33 +335,4 @@ public class GoodsInfo extends BaseBean {
 //        KLog.i("onclick");
 //        ToastUtils.showLong(view.getId() + " " + data.toString() + getGoods_id());
 //    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GoodsInfo goodsInfo = (GoodsInfo) o;
-        return Objects.equals(goods_id, goodsInfo.goods_id) &&
-                Objects.equals(store_id, goodsInfo.store_id) &&
-                Objects.equals(goods_name, goodsInfo.goods_name) &&
-                Objects.equals(goods_jingle, goodsInfo.goods_jingle) &&
-                Objects.equals(goods_price, goodsInfo.goods_price) &&
-                Objects.equals(goods_marketprice, goodsInfo.goods_marketprice) &&
-                Objects.equals(goods_image, goodsInfo.goods_image) &&
-                Objects.equals(goods_salenum, goodsInfo.goods_salenum) &&
-                Objects.equals(evaluation_good_star, goodsInfo.evaluation_good_star) &&
-                Objects.equals(evaluation_count, goodsInfo.evaluation_count) &&
-                Objects.equals(is_virtual, goodsInfo.is_virtual) &&
-                Objects.equals(is_presell, goodsInfo.is_presell) &&
-                Objects.equals(is_fcode, goodsInfo.is_fcode) &&
-                Objects.equals(have_gift, goodsInfo.have_gift) &&
-                Objects.equals(store_name, goodsInfo.store_name) &&
-                Objects.equals(is_own_mall, goodsInfo.is_own_mall) &&
-                Objects.equals(goods_image_url, goodsInfo.goods_image_url);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(goods_id, store_id, goods_name, goods_jingle, goods_price, goods_marketprice, goods_image, goods_salenum, evaluation_good_star, evaluation_count, is_virtual, is_presell, is_fcode, have_gift, store_name, is_own_mall, goods_image_url);
-    }
 }

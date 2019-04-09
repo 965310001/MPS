@@ -22,6 +22,8 @@ buildscript {
 
         //bugtags
         classpath 'com.bugtags.library:bugtags-gradle:latest.integration'
+
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
     }
 }
 

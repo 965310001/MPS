@@ -8,9 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.goldze.common.dmvvm.R;
@@ -29,9 +26,6 @@ import com.trecyclerview.listener.OnScrollStateListener;
 import java.util.Collection;
 import java.util.List;
 
-
-import static android.view.View.VISIBLE;
-
 /**
  * @author GuoFeng
  * @date : 2019/1/26 13:56
@@ -40,10 +34,6 @@ import static android.view.View.VISIBLE;
 public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecycleActivity<FragmentListBinding, T> implements OnRefreshListener {
 
     protected TRecyclerView mRecyclerView;
-
-//    protected RelativeLayout mTitleBar;
-//    protected TextView mTitle;
-//    protected ImageView ivBack;
 
     protected FloatingActionButton floatBtn;
 
@@ -57,7 +47,7 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
 
     protected boolean isLoadMore = true, isLoading = true, isRefresh = false;
 
-    protected ItemData oldItems, newItems;
+    protected ItemData oldItems;//, newItems;
 
     int lastItemPosition;
 
@@ -75,7 +65,7 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
         mRecyclerView = findViewById(R.id.recycler_view);
         floatBtn = binding.floatBtn;
         oldItems = new ItemData();
-        newItems = new ItemData();
+//        newItems = new ItemData();
         mRecyclerView.setAdapter(adapter = createAdapter());
         mRecyclerView.setLayoutManager(layoutManager = createLayoutManager());
         mRecyclerView.addOnRefreshListener(this);
@@ -105,7 +95,8 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
                         ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(lastPositions);
                         lastItemPosition = findMax(lastPositions);
                     }
-                    if (lastItemPosition + 1 == adapter.getItemCount()
+                    /*KLog.i((lastItemPosition + 5) + " =" + adapter.getItemCount() + "=" + isLoadMore);*/
+                    if (lastItemPosition + 5 == adapter.getItemCount()
                             && isLoadMore) {
                         /*加载更多数据*/
                         KLog.i("加载更多数据");
@@ -153,9 +144,7 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
     private int findMax(int[] lastPositions) {
         int max = lastPositions[0];
         for (int value : lastPositions) {
-            if (value > max) {
-                max = value;
-            }
+            if (value > max) max = value;
         }
         return max;
     }
@@ -164,7 +153,7 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
     public void onLoadMore() {
         ++page;
         isLoadMore = true;
-        getLoadMoreData();
+        getRemoteData();
     }
 
     @Override
@@ -183,67 +172,43 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
     }
 
     protected void setData(List<?> collection) {
-        isLoadMore = collection.size() > 10;
-        if (isLoadMore) onLoadMoreSuccess(collection);
+        isLoadMore = collection.size() >= 10;
+        if (!isRefresh) onLoadMoreSuccess(collection);
         else onRefreshSuccess(collection);
-        KLog.i(isLoadMore + "=" + collection.size());
     }
 
     protected void setBannerData(BannerList headAdList) {
-        newItems.add(headAdList);
+        oldItems.add(headAdList);
     }
 
     protected void onRefreshSuccess(Collection<?> collection) {
-        if (!newItems.containsAll(collection)) {
-            KLog.i("不存在");
-            newItems.addAll(collection);
-        } else {
-            KLog.i("存在");
-        }
-//        newItems.clear();
-//        newItems.addAll(collection);
         oldItems.clear();
-        oldItems.addAll(newItems);
-        if (collection.size() < 10) {
-            mRecyclerView.refreshComplete(oldItems, true);
-        } else {
-            mRecyclerView.refreshComplete(oldItems, false);
-        }
+        oldItems.addAll(collection);
+//        if (collection.size() < 10) {
+//            mRecyclerView.refreshComplete(oldItems, true);
+//        } else {
+//            mRecyclerView.refreshComplete(oldItems, false);
+//        }
+        mRecyclerView.refreshComplete(oldItems, !isLoadMore);
         isRefresh = false;
     }
 
     protected void onLoadMoreSuccess(List<?> collection) {
         isLoading = true;
-        isLoadMore = false;
+//        isLoadMore = false;
         oldItems.addAll(collection);
-        if (collection.size() < 10) {
-            mRecyclerView.loadMoreComplete(collection, true);
-        } else {
-            mRecyclerView.loadMoreComplete(collection, false);
-        }
+//        if (collection.size() < 10) {
+//            mRecyclerView.loadMoreComplete(collection, true);
+//        } else {
+//            mRecyclerView.loadMoreComplete(collection, false);
+//        }
+        mRecyclerView.loadMoreComplete(collection, !isLoadMore);
     }
 
     protected abstract DelegateAdapter createAdapter();
 
     protected RecyclerView.LayoutManager createLayoutManager() {
         return new LinearLayoutManager(this);
-    }
-
-//    protected void setTitle(String titleName) {
-//        mTitleBar.setVisibility(VISIBLE);
-//        mTitle.setText(titleName);
-//    }
-//
-//    protected void showBack() {
-//        ivBack.setVisibility(VISIBLE);
-//    }
-
-
-    /**
-     * 获取更多网络数据t
-     */
-    protected void getLoadMoreData() {
-        getRemoteData();
     }
 
     /**
@@ -255,5 +220,19 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
     //    @OnClick({R2.id.iv_back})
 //    public void onClick(View v) {
 //        finish();
+//    }
+    //    protected void setTitle(String titleName) {
+//        mTitleBar.setVisibility(VISIBLE);
+//        mTitle.setText(titleName);
+//    }
+//
+//    protected void showBack() {
+//        ivBack.setVisibility(VISIBLE);
+//    }
+//    /**
+//     * 获取更多网络数据t
+//     */
+//    private void getLoadMoreData() {
+//        getRemoteData();
 //    }
 }

@@ -25,6 +25,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.LoadingState;
 import com.goldze.common.dmvvm.databinding.ActivityBaseBinding;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
+import com.goldze.common.dmvvm.xutils.ViewUtils;
 import com.gyf.barlibrary.ImmersionBar;
 
 import com.tqzhang.stateview.core.LoadManager;
@@ -64,6 +65,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
         super.onCreate(savedInstanceState);
         /*android软键盘挡住输入框问题*/
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        ViewUtils.inject(this);
         initViewDataBinding();
 
         initLoadManager();
@@ -107,7 +109,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
      *
      * @param view
      */
-    private void setTitlePadding(View view) {
+    protected void setTitlePadding(View view) {
         StatusBarUtils.setPaddingSmart(this, view);
     }
 

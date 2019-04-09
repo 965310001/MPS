@@ -54,7 +54,7 @@ public class DatabingUtils {
     public static void setChild(TRecyclerView rv, List data) {
         DelegateAdapter adapter = (DelegateAdapter) rv.getAdapter();
         if (null == adapter) {
-            KLog.i(rv.getTag());
+//            KLog.i(rv.getTag());
             Context context = rv.getContext();
             switch (Integer.parseInt(rv.getTag().toString())) {
                 case 0:

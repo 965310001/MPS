@@ -45,15 +45,9 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 
     protected long page = 1;
 
-    protected boolean isLoadMore = true;
-
-    protected boolean isLoading = true;
-
-    protected boolean isRefresh = false;
+    protected boolean isLoadMore = true, isLoading = true, isRefresh = false;
 
     protected ItemData oldItems;
-
-    protected ItemData newItems;
 
     private int lastItemPosition;
 
@@ -76,7 +70,6 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         mRecyclerView = getViewById(R.id.recycler_view);
         floatBtn = getViewById(R.id.float_btn);
         oldItems = new ItemData();
-        newItems = new ItemData();
         adapter = createAdapter();
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(layoutManager = createLayoutManager());
@@ -214,7 +207,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     @Override
     protected void lazyLoad() {
         isLoadMore = false;
-        getRemoteData();
+        onRefresh();
     }
 
     @Override
@@ -224,12 +217,14 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     }
 
     protected void setData(List<?> collection) {
-        isLoadMore = collection.size() > 10;
-        if (isLoadMore) {
-            onLoadMoreSuccess(collection);
-        } else {
-            onRefreshSuccess(collection);
-        }
+        isLoadMore = collection.size() >= 10;
+//        if (isLoadMore) {
+//            onLoadMoreSuccess(collection);
+//        } else {
+//            onRefreshSuccess(collection);
+//        }
+        if (!isRefresh) onLoadMoreSuccess(collection);
+        else onRefreshSuccess(collection);
     }
 
     @Override
@@ -251,19 +246,12 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     }
 
     protected void setBannerData(BannerList headAdList) {
-        newItems.add(headAdList);
+        oldItems.add(headAdList);
     }
 
     protected void onRefreshSuccess(Collection<?> collection) {
-//        newItems.clear();
-        if (!newItems.containsAll(collection)) {
-            KLog.i("不存在");
-            newItems.addAll(collection);
-        } else {
-//            KLog.i("存在");
-        }
         oldItems.clear();
-        oldItems.addAll(newItems);
+        oldItems.addAll(collection);
         if (null != collection && collection.size() < 10) {
             mRecyclerView.refreshComplete(oldItems, true);
         } else {
@@ -275,7 +263,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 
     protected void onLoadMoreSuccess(List<?> collection) {
         isLoading = true;
-        isLoadMore = false;
+//        isLoadMore = false;
         oldItems.addAll(collection);
         if (null != collection && collection.size() < 10) {
             mRecyclerView.loadMoreComplete(collection, true);

@@ -58,6 +58,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     public void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
+        setTitlePadding(binding.rlTop);
     }
 
     @Override
