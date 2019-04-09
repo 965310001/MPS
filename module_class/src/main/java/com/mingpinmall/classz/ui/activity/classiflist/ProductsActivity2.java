@@ -31,13 +31,7 @@ import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.StringJoiner;
-import java.util.stream.Collectors;
-
-import freemarker.template.utility.StringUtil;
 
 /**
  * 商品分类list
@@ -57,7 +51,7 @@ public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel> {
     View curressView;
 
     /*店铺服务*/
-    String ci="";
+    String ci = "", st = "";
 
     private String areaId = "", priceFrom = "", priceTo = "";//地区 价格区间最低范围 价格区间最高范围
 
@@ -125,6 +119,7 @@ public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel> {
                     }
                 });
 
+        // TODO: 2019/4/9 待测试
         /*筛选*/
         registerObserver(Constants.CUSTOMPOPWINDOW_KEY[1], ScreenInfo.class)
                 .observe(this, new Observer<ScreenInfo>() {
@@ -136,7 +131,10 @@ public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel> {
                         for (String s : reponse.shoppingServer) {
                             ci = ci.concat(s).concat("_");
                         }
-                        KLog.i(ci);
+                        for (String s : reponse.goodsType) {
+                            st = st.concat(s).concat("_");
+                        }
+                        onRefresh();
                     }
                 });
 
@@ -150,7 +148,7 @@ public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel> {
 
         KLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
 
-        mViewModel.getShappingList(id, String.valueOf(page), keyword, String.valueOf(type), areaId, priceFrom, priceTo, key, order);
+        mViewModel.getShappingList(id, String.valueOf(page), keyword, String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
     }
 
     @Override

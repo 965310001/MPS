@@ -109,32 +109,21 @@ public class ClassifyRepository extends BaseRepository {
     /*商品列表*/
     public void getShappingList(String bId, String curpage, String keyword, final String typeId,
                                 String areaId, String priceFrom, String priceTo,
-                                String key, String order) {
+                                String key, String order, String ci, String st) {
         Map<String, Object> map = new HashMap<>();
         if (!TextUtils.isEmpty(bId)) {
-            if ("0".equals(typeId)) {
-                map.put("gc_id", bId);
-            } else {
-                map.put("b_id", bId);
-            }
+            map.put("0".equals(typeId) ? "gc_id" : "b_id", bId);
         } else if (!TextUtils.isEmpty(keyword)) {
             map.put("keyword", keyword);
         }
-        if (!TextUtils.isEmpty(areaId)) {
-            map.put("Area_id", areaId);//地区
-            map.put("price_from", priceFrom);//价格区间最低范围
-            map.put("price_to", priceTo);// 价格区间最高范围
-        }
-
-        if (!TextUtils.isEmpty(key)) {
-            map.put("key", key);/*使用排序*/
-
-        }
-        if (!TextUtils.isEmpty(order)) {
-            map.put("order", order);/*使用排序*/
-        }
-
-
+        if (!TextUtils.isEmpty(ci)) map.put("ci", ci);
+        if (!TextUtils.isEmpty(st)) map.put("st", st);
+        if (!TextUtils.isEmpty(areaId)) map.put("area_id", areaId);//地区
+        map.put("price_from", priceFrom);//价格区间最低范围
+        map.put("price_to", priceTo);// 价格区间最高范围
+        if (!TextUtils.isEmpty(key)) map.put("key", key);/*使用排序*/
+        if (!TextUtils.isEmpty(order)) map.put("order", order);/*使用排序*/
+        for (String s : st.split("_")) map.put(s, "1");
         map.put("page", Constants.PAGE_RN);
         map.put("curpage", curpage);
         addDisposable(apiService.getShappingList(map)

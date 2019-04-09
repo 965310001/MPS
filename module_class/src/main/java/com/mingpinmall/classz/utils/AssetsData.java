@@ -25,6 +25,7 @@ public class AssetsData {
     public static String[] getAreaListInfos() {
         AreaListInfo areaListInfo = getAreaListInfo();
         List<String> list = new ArrayList<>();
+        list.add("不限");
         for (AreaListInfo.AreaListBean areaListBean : areaListInfo.getArea_list()) {
             list.add(areaListBean.areaName);
         }

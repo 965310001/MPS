@@ -55,15 +55,9 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
 
     protected String lastId = null;
 
-    protected boolean isLoadMore = true;
+    protected boolean isLoadMore = true, isLoading = true, isRefresh = false;
 
-    protected boolean isLoading = true;
-
-    protected boolean isRefresh = false;
-
-    protected ItemData oldItems;
-
-    protected ItemData newItems;
+    protected ItemData oldItems, newItems;
 
     int lastItemPosition;
 
@@ -75,23 +69,11 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
         return R.layout.fragment_list;
     }
 
-
     @Override
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         mRecyclerView = findViewById(R.id.recycler_view);
-//        mTitleBar = findViewById(R.id.rl_title_bar);
-//        mTitle = findViewById(R.id.tv_title);
-//        ivBack = findViewById(R.id.iv_back);
-//        floatBtn = findViewById(R.id.float_btn);
         floatBtn = binding.floatBtn;
-
-//        ivBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
         oldItems = new ItemData();
         newItems = new ItemData();
         mRecyclerView.setAdapter(adapter = createAdapter());

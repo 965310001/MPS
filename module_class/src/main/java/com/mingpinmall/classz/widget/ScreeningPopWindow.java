@@ -173,12 +173,11 @@ public class ScreeningPopWindow extends PopupWindow {
             bind.btnReset.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for (EditText editText : Arrays.asList(bind.etPriceFrom, bind.etPriceTo)) {
+                    for (EditText editText : Arrays.asList(bind.etPriceFrom, bind.etPriceTo))
                         editText.setText("");
-                    }
-                    for (FlowTagLayout flowTagLayout : Arrays.asList(bind.ftlGoodType, bind.ftlShopType, bind.ftlShopServer)) {
+                    for (FlowTagLayout flowTagLayout : Arrays.asList(bind.ftlGoodType, bind.ftlShopType, bind.ftlShopServer))
                         flowTagLayout.getAdapter().notifyDataSetChanged();
-                    }
+                    bind.spinnerSystem.setSelection(0);
                 }
             });
             bind.btnOk.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +201,7 @@ public class ScreeningPopWindow extends PopupWindow {
                     }
                     screenInfo.areaId = AssetsData.getAreaByName(bind.spinnerSystem.getSelectedItem().toString());
                     LiveBus.getDefault().postEvent(Constants.CUSTOMPOPWINDOW_KEY[1], screenInfo);
+                    mScreeningPopWindow.dismiss();
                 }
             });
             /*titlebar*/
