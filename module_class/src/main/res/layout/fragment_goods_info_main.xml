@@ -3,7 +3,7 @@
     xmlns:leon="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <data>a
 
         <variable
             name="data"
@@ -111,6 +111,14 @@
                             android:textSize="@dimen/dp_20"
                             tools:text="￥599.00" />
 
+                        <TextView
+                            android:id="@+id/tv_goods_num"
+                            style="@style/TextStyle"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:textSize="@dimen/text_14"
+                            tools:text="销量：0件" />
+
                         <!--<TextView-->
                         <!--android:id="@+id/tv_old_price"-->
                         <!--android:layout_width="wrap_content"-->
@@ -128,25 +136,38 @@
                             android:id="@+id/ccv_click"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true" />
+                            android:layout_alignParentEnd="true"
+                            android:visibility="gone" />
                     </RelativeLayout>
 
                 </LinearLayout>
 
 
                 <!-- 当前已选的商品 -->
-                <!--
-                            <com.wss.common.widget.MultipleItemView
-                                android:id="@+id/miv_current_goods"
-                                android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:layout_marginTop="10dp"
-                                android:background="@color/white"
-                                app:leftText="已选：黑色，1件"
-                                app:showBottomLine="false"
-                                app:showLeftIcon="false"
-                                app:showTopLine="false" />
-                -->
+                <!--<com.goldze.common.dmvvm.widget.MultipleItemView-->
+                <!--android:visibility="gone"-->
+                <!--android:id="@+id/miv_goods_specification"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:background="@color/white"-->
+                <!--leon:leftText="已选：黑色，1件"-->
+                <!--leon:showBottomLine="false"-->
+                <!--leon:showLeftIcon="false"-->
+                <!--leon:showTopLine="false" />-->
+
+                <com.leon.lib.settingview.LSettingItem
+                    android:id="@+id/lsi_goods_specification"
+                    style="@style/width_match_height_warp"
+                    android:layout_height="@dimen/dp_40"
+                    leon:LtextColor="@color/black"
+                    leon:LtextSize="12"
+                    leon:isShowRightText="false"
+                    leon:leftIconSize="@dimen/image_height_litter"
+                    leon:leftText="已选：默认"
+                    leon:rightText="更多"
+                    leon:rightTextColor="@color/gray"
+                    leon:rightTextSize="8" />
 
                 <!-- 商品保障图 -->
                 <View style="@style/HorizontalLine" />

@@ -73,6 +73,8 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         mViewModel.getGoodsDetail(id);
     }
 
+    boolean is_favorate;
+
     @Override
     protected void dataObserver() {
         super.dataObserver();
@@ -88,6 +90,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                                 title.add(horizontalTabTitle);
                             }
                             List<BaseFragment> fragmentList = new ArrayList<>();
+                            response.getDatas().getGoods_info().setfavorate(response.getDatas().isIs_favorate());
                             fragmentList.add(GoodsInfoMainFragment.newInstance(id, response));
                             fragmentList.add(GoodsInfoDetailMainFragment.newInstance(id));
                             fragmentList.add(GoodsCommentFragment.newInstance(id));
@@ -95,6 +98,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                             binding.vpContent.setOffscreenPageLimit(3);
                             binding.pstsTabs.setViewPager(binding.vpContent);
                             goodsInfo = response.getDatas().getGoods_info();
+                            is_favorate = response.getDatas().isIs_favorate();
                             setCartNumber();
                         } else {
                             showErrorState();
@@ -103,19 +107,46 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                 });
 
         /*添加到购物车*/
-        registerObserver(Constants.CART_EVENT_KEY, ResultBean.class)
+//        registerObserver(Constants.CART_EVENT_KEY, ResultBean.class)
+//                .observeForever(new Observer<ResultBean>() {
+//                    @Override
+//                    public void onChanged(@Nullable ResultBean response) {
+//                        /*if (!response.isSuccess() || response.isLogin()) {
+//                            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+//                            ToastUtils.showLong(response.getError());
+//                        } else {
+//                            ShoppingCartUtils.addCartGoods(goodsInfo);
+//                            setCartNumber();
+//                            ToastUtils.showLong("添加购物车成功");
+//                        }*/
+//                        if (response.isSuccess()) {
+//                            ShoppingCartUtils.addCartGoods(goodsInfo);
+//                            setCartNumber();
+//                            ToastUtils.showLong("添加购物车成功");
+//                        } else {
+//                            if (response.isLogin()) {
+//                                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+//                                ToastUtils.showLong(response.getError());
+//                            } else {
+//                                ToastUtils.showLong(response.getError());
+//                            }
+//                        }
+//                        KLog.i(response);
+//                    }
+//                });
+
+        /*收藏*/
+        registerObserver(Constants.FAVORITES, ResultBean.class)
                 .observeForever(new Observer<ResultBean>() {
                     @Override
                     public void onChanged(@Nullable ResultBean response) {
-                        if (!response.isSuccess() || response.isLogin()) {
-                            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                            ToastUtils.showLong(response.getError());
+                        KLog.i(response.isSuccess() + " " + response.getError());
+                        if (response.isSuccess()) {
+                            ToastUtils.showLong(is_favorate ? "取消收藏成功" : "添加收藏成功");
+                            is_favorate = !is_favorate;
                         } else {
-                            ShoppingCartUtils.addCartGoods(goodsInfo);
-                            setCartNumber();
-                            ToastUtils.showLong("添加购物车成功");
+                            ToastUtils.showLong(response.getError());
                         }
-                        KLog.i(response);
                     }
                 });
 
@@ -162,18 +193,18 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     // TODO: 2019/4/2 收藏
     public void favorites(View view) {
-        KLog.i("收藏");
+        KLog.i("收藏" + goodsInfo.isfavorate());
         if (!SharePreferenceUtil.isLogin()) {
             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {
-            mViewModel.favorites(id, goodsInfo.isfavorate(), Constants.FAVORITES);
+            mViewModel.favorites(id, is_favorate, Constants.FAVORITES);
         }
     }
 
     /**
      * 设置购物车数量
      */
-    private void setCartNumber() {
+    public void setCartNumber() {
         setCartNumber(SharePreferenceUtil.isLogin() ? ShoppingCartUtils.getCartCount() : 0);
     }
 

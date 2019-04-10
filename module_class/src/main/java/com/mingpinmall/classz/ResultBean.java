@@ -12,7 +12,8 @@ public class ResultBean extends BaseBean {
 
     private int code;
     private String login;
-    public DatasBean datas;
+    private String error;
+//    public DatasBean datas;
 
     public boolean isSuccess() {
         return 200 == code;
@@ -36,7 +37,7 @@ public class ResultBean extends BaseBean {
     }
 
     public String getError() {
-        return datas.getError();
+        return error;
     }
 
     public static class DatasBean {
@@ -60,7 +61,7 @@ public class ResultBean extends BaseBean {
         return "ResultBean{" +
                 "code=" + code +
                 ", login='" + login + '\'' +
-                ", datas=" + datas +
+
                 '}';
     }
 }

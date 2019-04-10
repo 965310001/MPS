@@ -87,13 +87,24 @@ public class ImageUtils {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(imageView.getContext())
-                .load(url)
-                .apply(new RequestOptions()
-                        .placeholder(R.drawable.ic_loading_image)
-                        .error(new ColorDrawable(Color.WHITE))
-                        .fallback(new ColorDrawable(Color.RED)))
-                .into(imageView);
+        try {
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.ic_loading_image)
+                            .error(new ColorDrawable(Color.WHITE))
+                            .fallback(new ColorDrawable(Color.RED)))
+                    .into(imageView);
+        } catch (Exception e) {
+            Glide.with(Utils.getApplication())
+                    .load(url)
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.ic_loading_image)
+                            .error(new ColorDrawable(Color.WHITE))
+                            .fallback(new ColorDrawable(Color.RED)))
+                    .into(imageView);
+        }
+
     }
 
     /**

@@ -28,10 +28,12 @@ public class DatabingUtils {
 
     @BindingAdapter({"src"})
     public static void imageLoader(ImageView imageView, String url) {
-        if (".gif".endsWith(url)) {
-            ImageUtils.loadImageAsGIF(imageView, url);
-        } else {
-            ImageUtils.loadImage(imageView, url);
+        if (!TextUtils.isEmpty(url)) {
+            if (".gif".endsWith(url)) {
+                ImageUtils.loadImageAsGIF(imageView, url);
+            } else {
+                ImageUtils.loadImage(imageView, url);
+            }
         }
     }
 

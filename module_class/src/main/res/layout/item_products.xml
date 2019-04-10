@@ -42,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/iv_icon"
                 android:maxLines="2"
@@ -55,6 +56,7 @@
                 android:layout_width="245dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_name"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_toEndOf="@+id/iv_icon"
                 android:text="@{@string/price_holder(data.goods_price)}"
                 android:textColor="@color/shallow_red"
@@ -66,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_icon"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginBottom="10dp"
                 android:layout_toEndOf="@+id/iv_icon"
                 android:text="@{@string/salenum_holder(data.goods_salenum)}"
@@ -82,6 +85,7 @@
                 tools:text="TextView" />
 
             <TextView
+                android:layout_marginRight="@dimen/dp_10"
                 android:id="@+id/tv_brand"
                 style="@style/TextStyle_12"
                 android:layout_alignTop="@+id/tv_evaluation"

@@ -59,7 +59,7 @@ public class GoodsDetailInfo extends BaseBean {
         private GoodsInfo goods_info;
         private Object mansong_info;
         private StoreInfoBean store_info;
-//        private SpecListBean spec_list;
+        //        private SpecListBean spec_list;
         private String goods_image;
         private GoodsEvaluateInfoBean goods_evaluate_info;
         private GoodsHairInfoBean goods_hair_info;
@@ -67,6 +67,15 @@ public class GoodsDetailInfo extends BaseBean {
         //        private List<?> gift_array;
         private List<GoodsInfo> goods_commend_list;
         public List<GoodsComment> goods_eval_list;
+        private boolean is_favorate;
+
+        public boolean isIs_favorate() {
+            return is_favorate;
+        }
+
+        public void setIs_favorate(boolean is_favorate) {
+            this.is_favorate = is_favorate;
+        }
 
         public GoodsInfo getGoods_info() {
             return goods_info;

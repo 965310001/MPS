@@ -12,6 +12,10 @@
         <item name="android:windowExitAnimation">@anim/dialog_right_out</item>
     </style>
 
+    <style name="AnimSheetBottom" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_bottom_out</item>
+    </style>
 
     <style name="filterTextStyle">
         <item name="android:textColor">@drawable/sel_filter_text</item>

@@ -65,6 +65,7 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
 //        ButterKnife.bind(this, View.inflate(context, R.layout.layout_count_click_view, this));
 
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.layout_count_click_view, null, false);
+
         tvCount = binding.tvCount;
         ivPlus = binding.ivPlus;
         ivMinus = binding.ivMinus;
@@ -96,7 +97,11 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
 //            }
 //        });
 
+        ivPlus.setOnClickListener(this);
+        ivMinus.setOnClickListener(this);
+
         judgeTheViews(getCount());
+        addView(binding.getRoot());
     }
 
     public int getCount() {
@@ -213,7 +218,6 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
         this.input = input;
     }
 
-
     public void setCurrCount(int count) {
         tvCount.setText(String.valueOf(count));
         judgeTheViews(count);
@@ -235,7 +239,6 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
         this.minCount = minCount;
         judgeTheViews(getCount());
     }
-
 
     private int getMaxCount() {
         return maxCount < MAX_COUNT ? maxCount : MAX_COUNT;

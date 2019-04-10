@@ -6,7 +6,6 @@ import android.view.View;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.BR;
 import com.socks.library.KLog;
 
@@ -69,6 +68,8 @@ public class GoodsInfo extends BaseBean {
     private boolean is_favorate;/*是否已经收藏*/
 
     @Transient
+    private String goods_storage;/*库存*/
+    @Transient
     private boolean checked = true;//是否选择
 
     /*购买的数量*/
@@ -121,6 +122,22 @@ public class GoodsInfo extends BaseBean {
         this.is_own_mall = is_own_mall;
         this.goods_image_url = goods_image_url;
         this.num = num;
+    }
+
+    public boolean isIs_favorate() {
+        return is_favorate;
+    }
+
+    public void setIs_favorate(boolean is_favorate) {
+        this.is_favorate = is_favorate;
+    }
+
+    public String getGoods_storage() {
+        return goods_storage;
+    }
+
+    public void setGoods_storage(String goods_storage) {
+        this.goods_storage = goods_storage;
     }
 
     public String getGoods_promotion_price() {
