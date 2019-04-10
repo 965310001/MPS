@@ -43,8 +43,10 @@ import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author GuoFeng
@@ -186,7 +188,7 @@ public class ScreeningPopWindow extends PopupWindow {
                     ScreenInfo screenInfo = new ScreenInfo();
                     screenInfo.priceFrom = bind.etPriceFrom.getText().toString().trim();
                     screenInfo.priceTo = bind.etPriceTo.getText().toString().trim();
-                    List<String> goodsType = screenInfo.goodsType;
+                    List<String> goodsType = screenInfo.goodsType = new ArrayList<>();
                     goodsType.clear();
                     for (Integer index : bind.ftlGoodType.getSelectedIndexs()) {
                         goodsType.add(context.getResources().getStringArray(R.array.tags_values_server_index)[index]);
@@ -194,8 +196,8 @@ public class ScreeningPopWindow extends PopupWindow {
                     for (Integer index : bind.ftlShopType.getSelectedIndexs()) {
                         screenInfo.shoppingType = true;
                     }
-                    List<String> shoppingServer = screenInfo.shoppingServer;
-                    shoppingServer.clear();
+                    List<String> shoppingServer = screenInfo.shoppingServer = new ArrayList<>();
+//                    shoppingServer.clear();
                     for (Integer index : bind.ftlShopServer.getSelectedIndexs()) {
                         shoppingServer.add(String.valueOf(index));
                     }

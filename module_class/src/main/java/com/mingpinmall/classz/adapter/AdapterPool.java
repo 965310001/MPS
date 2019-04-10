@@ -2,7 +2,6 @@ package com.mingpinmall.classz.adapter;
 
 import android.content.Context;
 
-import com.goldze.common.dmvvm.base.core.banner.BannerList;
 import com.mingpinmall.classz.BR;
 import com.mingpinmall.classz.DataBindItemViewHolderManager;
 import com.mingpinmall.classz.R;

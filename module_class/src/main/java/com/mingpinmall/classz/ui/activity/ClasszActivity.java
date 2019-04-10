@@ -13,12 +13,12 @@ import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
 import com.socks.library.KLog;
 
 
-@ContentView(R.layout.brvah_quick_view_load_more)
+//@ContentView(R.layout.brvah_quick_view_load_more)
 public class ClasszActivity extends BaseActivity {
-    @BindString(R.string.load_all)
+//    @BindString(R.string.load_all)
     String title;
 
-    @BindArray(R.array.fit_age_tabs)
+//    @BindArray(R.array.fit_age_tabs)
     String[] strings;
 
     @BindAssets(value = "area.json", clazz = AreaListInfo.class)

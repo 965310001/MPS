@@ -120,12 +120,12 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
                             key = "3";
                             order = "1";
                         }
-                        keyword="";
-                        areaId="";
-                        priceFrom="";
-                        priceTo="";
-                        ci="";
-                        st="";
+                        keyword = "";
+//                        areaId = "";
+//                        priceFrom = "";
+//                        priceTo = "";
+//                        ci = "";
+//                        st = "";
                         onRefresh();
                     }
                 });
@@ -145,7 +145,11 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
                         for (String s : reponse.goodsType) {
                             st = st.concat(s).concat("_");
                         }
-                        keyword="";
+                        keyword = "";
+//                        areaId="";
+                        order = "";
+                        key = "";
+                        id = "";
                         onRefresh();
                     }
                 });
@@ -177,31 +181,40 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
             }
             int i = v.getId();
             if (i == R.id.filter_tab0) {
-                new CustomPopWindow.Builder(ProductsActivity.this).setColumnCount(3)//设置列数，测试2.3.4.5没问题
-                        .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
-                        .setColorBg(R.color.color_f8f8f8).build().createPop().showAsDropDown(filterTab0);
-                adapter = createAdapter();
+                if (null == customPopWindow) {
+                    customPopWindow =
+                            new CustomPopWindow.Builder(ProductsActivity.this).setColumnCount(3)//设置列数，测试2.3.4.5没问题
+                                    .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
+                                    .setColorBg(R.color.color_f8f8f8).build().createPop();
+                }
+                customPopWindow.showAsDropDown(filterTab0);
+//                adapter = createAdapter();
 
             } else if (i == R.id.filter_tab1) {
                 key = "1";
                 order = "2";
-                keyword="";
-                areaId="";
-                priceFrom="";
-                priceTo="";
-                ci="";
-                st="";
+                keyword = "";
+//                areaId = "";
+//                priceFrom="";
+//                priceTo="";
+//                ci = "";
+//                st = "";
                 onRefresh();
             } else if (i == R.id.filter_tab3) {
-                new ScreeningPopWindow.Builder(ProductsActivity.this)
-                        .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
-                        .setColorBg(R.color.color_f8f8f8).build().createPop()
-                        .showAtLocation(filterTab0,
-                                Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
+                if (null == screeningPopWindow) {
+                    screeningPopWindow = new ScreeningPopWindow.Builder(ProductsActivity.this)
+                            .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
+                            .setColorBg(R.color.color_f8f8f8).build().createPop();
+                }
+                screeningPopWindow.showAtLocation(filterTab0,
+                        Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
 
             }
 
         }
 
     }
+
+    ScreeningPopWindow screeningPopWindow;
+    CustomPopWindow customPopWindow;
 }
