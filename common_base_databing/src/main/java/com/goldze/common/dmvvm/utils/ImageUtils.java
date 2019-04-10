@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -169,6 +170,22 @@ public class ImageUtils {
      */
     public static void loadBanner(ConvenientBanner banner, List<String> imgUrl, OnItemClickListener listener) {
         banner.setPages(new BannerImgAdapter(), imgUrl)
+                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
+                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+                .setOnItemClickListener(listener)
+                .startTurning();
+    }
+
+    /**
+     * 加载自定义的Banner
+     *
+     * @param holderCreator adapter
+     * @param banner        banner
+     * @param dataList      dataList
+     * @param listener      listener
+     */
+    public static void loadBanner(ConvenientBanner banner, List<?> dataList, CBViewHolderCreator holderCreator, OnItemClickListener listener) {
+        banner.setPages(holderCreator, dataList)
                 .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
                 .setOnItemClickListener(listener)

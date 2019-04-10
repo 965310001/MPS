@@ -29,6 +29,7 @@ import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentHomeBinding;
 import com.mingpinmall.home.ui.activity.qrCode.ScanQRCodeActivity;
 import com.mingpinmall.home.ui.adapter.HomeListAdapter;
+import com.mingpinmall.home.ui.adapter.ListBannerItemClickListener;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -82,13 +83,16 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
                 int span;
                 switch (homeListAdapter.getData().get(position).getItemType()) {
-                    case 3:
+                    case 3://布局c
                         span = 2;
                         break;
-                    case 6:
+                    case 6://导航
                         span = 1;
                         break;
-                    case 10:
+                    case 10://商品
+                        span = 2;
+                        break;
+                    case 12://团购
                         span = 2;
                         break;
                     default:
@@ -135,14 +139,24 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 mViewModel.getHomeDataList();
             }
         });
-        homeListAdapter.setBannerClickListener(new OnItemClickListener() {
+        //列表上的轮播图
+        homeListAdapter.setBannerClickListener(new ListBannerItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position, int index) {
                 //轮播图点击事件
-                HomeItemBean.DatasBean.AdvListBean bannerDatas = homeListAdapter.getItem(0).getAdv_list();
-                ToastUtils.showShort("事件: " + bannerDatas.getItem().get(position).getData());
+                HomeItemBean.DatasBean bannerDatas = homeListAdapter.getItem(position);
+                if (bannerDatas.getAdv_list() != null) {
+                    //顶部单张图片式轮播图
+                    HomeItemBean.DatasBean.AdvListBean advListBean = bannerDatas.getAdv_list();
+                    ToastUtils.showShort("事件: " + advListBean.getItem().get(index).getData());
+                } else {
+                    //其他轮播图
+                    HomeItemBean.DatasBean.Goods1Bean goods1Bean = bannerDatas.getGoods1();
+                    ToastUtils.showShort("事件: " + goods1Bean.getItem().get(index).getGoods_name());
+                }
             }
         });
+        //item内部子View点击
         homeListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -165,6 +179,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 int type = datasBean.getItemType();
                 switch (type) {
                     case 5:
+                        //手机通讯  自营超市
                         HomeItemBean.DatasBean.Home5Bean home5Bean = datasBean.getHome5();
                         if (id == R.id.iv_square) {
                             ToastUtils.showShort("事件: " + home5Bean.getSquare_data());
@@ -177,6 +192,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                         }
                         break;
                     case 4:
+                        //热门活动  特色市场
                         HomeItemBean.DatasBean.Home4Bean home4Bean = datasBean.getHome4();
                         if (id == R.id.iv_square) {
                             ToastUtils.showShort("事件: " + home4Bean.getSquare_data());
@@ -187,6 +203,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                         }
                         break;
                     case 2:
+                        //超值购  品牌街  有利可图
                         HomeItemBean.DatasBean.Home2Bean home2Bean = datasBean.getHome2();
                         if (id == R.id.iv_square) {
                             ToastUtils.showShort("事件: " + home2Bean.getSquare_data());
@@ -200,6 +217,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
             }
         });
+        //item点击
         homeListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -210,14 +228,34 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 }
                 HomeItemBean.DatasBean datasBean = homeListAdapter.getItem(position);
                 int type = datasBean.getItemType();
-                if (type == 6) {
-                    //导航
-                    navARouter(datasBean);
-                } else if (type == 1) {
-                    //模型板块布局A
+                switch (type) {
+                    case 1:
+                        //模型板块布局A
+                        HomeItemBean.DatasBean.Home1Bean datasBean0 = datasBean.getHome1();
+                        ToastUtils.showShort("事件: " + datasBean0.getData());
+                        break;
+                    case 3:
+                        //布局c ITEM
+                        ToastUtils.showShort("事件: " + datasBean.getData());
+                        break;
+                    case 6:
+                        //导航
+                        navARouter(datasBean);
+                        break;
+                    case 10:
+                        //商品列表
+                        HomeItemBean.DatasBean.GoodsBean.ItemBean goodsBean = datasBean.getGoodsItemBean();
+                        ToastUtils.showShort("事件: " + goodsBean.getGoods_name());
+                        break;
+                    case 12:
+                        //团购
+                        HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem goods2Bean = datasBean.getGoods2ItemBean();
+                        ToastUtils.showShort("事件: " + goods2Bean.getGoods_name());
+                        break;
                 }
             }
         });
+        //列表滑动监听
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @SuppressLint("RestrictedApi")
             @Override
@@ -316,8 +354,13 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 datasBean.setItemType(0);
                 listData.add(datasBean);
             } else if (datasBean.getGoods() != null) {
-                //未知
-                datasBean.setItemType(10);
+                //商品
+                for (HomeItemBean.DatasBean.GoodsBean.ItemBean goodsBean : datasBean.getGoods().getItem()) {
+                    HomeItemBean.DatasBean bean0 = new HomeItemBean.DatasBean();
+                    bean0.setItemType(10);
+                    bean0.setGoodsItemBean(goodsBean);
+                    listData.add(bean0);
+                }
             } else if (datasBean.getGoods1() != null) {
                 //限购
                 datasBean.setItemType(11);
@@ -329,12 +372,9 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 listData.add(datasBean);
                 //添加内容
                 for (HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem good2Bean : datasBean.getGoods2().getItem()) {
-                    // TODO 有待修改
                     HomeItemBean.DatasBean bean2 = new HomeItemBean.DatasBean();
                     bean2.setItemType(12);
-                    bean2.setData(good2Bean.getData());
-                    bean2.setType(good2Bean.getType());
-                    bean2.setImage(good2Bean.getImage());
+                    bean2.setGoods2ItemBean(good2Bean);
                     listData.add(bean2);
                 }
             } else if (datasBean.getHome1() != null) {

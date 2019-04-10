@@ -41,22 +41,6 @@ public class ResetPayPwdActivity extends AbsLifecycleActivity<ActivityResetPassw
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
         setTitle(R.string.title_resetPasswordActivity);
-        binding.tvPhone.setText(phoneNumber);
-        binding.edMsgCode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                binding.btnSublimt.setEnabled(s.length() >= 4);
-            }
-        });
-        binding.btnGetPsdCode.setOnClickListener(this);
     }
 
     @Override
@@ -66,20 +50,9 @@ public class ResetPayPwdActivity extends AbsLifecycleActivity<ActivityResetPassw
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_SMS_CODE", SmsBean.class)
-                .observeForever(new Observer<SmsBean>() {
-                    @Override
-                    public void onChanged(@Nullable SmsBean smsBean) {
-
-                    }
-                });
     }
 
     @Override
     public void onViewClicked(int viewId) {
-        if (viewId == R.id.btn_getPsdCode) {
-            MyInfoBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.MemberInfoBean.class);
-            mViewModel.getSmsCode(3, infoBean.getMember_mobile());
-        }
     }
 }

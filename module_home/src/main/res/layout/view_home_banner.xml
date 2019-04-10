@@ -39,8 +39,8 @@
                 android:drawablePadding="6dp"
                 android:gravity="center_vertical"
                 android:paddingStart="8dp"
-                app:layout_constraintEnd_toStartOf="@id/ll_banner_msg"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ll_banner_msg"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

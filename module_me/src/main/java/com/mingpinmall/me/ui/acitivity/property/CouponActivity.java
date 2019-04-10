@@ -24,14 +24,12 @@ public class CouponActivity extends BaseActivity<ActivityBaseTabsViewpagerBindin
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        findViewById(R.id.rl_title_bar).setVisibility(View.GONE);
-        binding.ivBackbtn.setOnClickListener(this);
         try {
-            binding.tabs.setItems(new String[]{getString(R.string.tabs_text_coupon1), getString(R.string.tabs_text_coupon2)}, new String[]{"1", "2"});
+            tabControlView.setItems(new String[]{getString(R.string.tabs_text_coupon1), getString(R.string.tabs_text_coupon2)}, new String[]{"1", "2"});
         } catch (Exception e) {
             e.printStackTrace();
         }
-        binding.tabs.setOnTabSelectionChangedListener(new TabControlView.OnTabSelectionChangedListener() {
+        tabControlView.setOnTabSelectionChangedListener(new TabControlView.OnTabSelectionChangedListener() {
             @Override
             public void newSelection(String title, String value) {
             }
@@ -39,14 +37,7 @@ public class CouponActivity extends BaseActivity<ActivityBaseTabsViewpagerBindin
     }
 
     @Override
-    protected boolean isBack() {
-        return false;
-    }
-
-    @Override
-    public void onViewClicked(int viewId) {
-        if (viewId == R.id.iv_backbtn) {
-            onBackPressed();
-        }
+    protected boolean isTabsBar() {
+        return true;
     }
 }

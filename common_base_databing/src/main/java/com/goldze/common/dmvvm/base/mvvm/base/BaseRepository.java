@@ -14,7 +14,7 @@ public class BaseRepository extends AbsRepository {
 
     protected String getUserKey() {
         UserBean userBean = (UserBean) SharePreferenceUtil.getUser(UserBean.class);
-        return userBean.getDatas().getKey();
+        return userBean.getKey();
     }
 
     protected void sendData(Object eventKey, Object t) {

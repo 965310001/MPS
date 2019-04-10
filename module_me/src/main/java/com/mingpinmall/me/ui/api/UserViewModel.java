@@ -28,4 +28,8 @@ public class UserViewModel extends AbsViewModel<UserRepository> {
         mRepository.getSmsCode(type, phone);
     }
 
+    public void getResetSmsCode() {
+        mRepository.getResetSmsCode();
+    }
+
 }

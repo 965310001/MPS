@@ -22,7 +22,10 @@ public class UserRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<UserBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<UserBean> result) {
-                        sendData(Constants.EVENT_KEY_USER_GETUSER, result.getData());
+                        if (result.isSuccess())
+                            sendData(Constants.EVENT_KEY_USER_GETUSER, result.getData());
+                        else
+                            sendData(Constants.Err_EVENT_KEY_USER_GETUSER, result.getMessage());
                     }
 
                     @Override
@@ -73,14 +76,40 @@ public class UserRepository extends BaseRepository {
         );
     }
 
-    /*获取短信验证码*/
+    /*获取 登录，注册，找回密码 短信验证码*/
     protected void getSmsCode(int type, String phone) {
         addDisposable(apiService.sendSMS(type, phone)
                 .compose(RxSchedulers.<BaseResponse<SmsBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<SmsBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<SmsBean> result) {
-                        sendData("GET_SMS_CODE", "success", result.getData());
+                        if (result.isSuccess())
+                            sendData("GET_SMS_CODE", "success", result.getData());
+                        else
+                            sendData("GET_SMS_CODE", "err", result.getMessage());
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("GET_SMS_CODE", "err", msg);
+                    }
+
+                })
+        );
+    }
+
+    /*获取 修改密码，修改手机，修改支付密码 短信验证码 */
+    protected void getResetSmsCode() {
+        addDisposable(apiService.sendResetSMS("android", getUserKey())
+                .compose(RxSchedulers.<BaseResponse<SmsBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<SmsBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<SmsBean> result) {
+                        if (result.isSuccess())
+                            sendData("GET_SMS_CODE", "success", result.getData());
+                        else
+                            sendData("GET_SMS_CODE", "err", result.getMessage());
                     }
 
                     @Override

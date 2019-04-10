@@ -33,13 +33,16 @@ public class MeRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<MyInfoBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<MyInfoBean> result) {
-                                       sendData(Constants.EVENT_KEY_ME_GETUSERINFO, result.getData());
+                                       if (result.isSuccess())
+                                           sendData("GET_USER_INFO", "success", result.getData());
+                                       else
+                                           sendData("GET_USER_INFO", "fail", result);
                                    }
 
                                    @Override
                                    public void onFailure(String msg) {
                                        KLog.i(msg);
-                                       sendData(Constants.Err_EVENT_KEY_ME_GETUSERINFO, msg);
+                                       sendData("GET_USER_INFO", "err", msg);
                                    }
                                }
                 )
@@ -128,6 +131,7 @@ public class MeRepository extends BaseRepository {
 
     /**
      * 获取店铺收藏列表
+     *
      * @param
      */
     protected void getShopsCollectList(final int curpage) {
@@ -155,9 +159,10 @@ public class MeRepository extends BaseRepository {
 
     /**
      * 获取商品收藏列表
+     *
      * @param
      */
-    protected void getProductCollectList(final int curpage){
+    protected void getProductCollectList(final int curpage) {
         addDisposable(apiService.getProductCollectList(getUserKey(), curpage, 10)
                 .compose(RxSchedulers.<BaseResponse<ProductCollectionBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ProductCollectionBean>>() {

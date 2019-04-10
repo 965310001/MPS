@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui.activity.classify;
+package com.mingpinmall.classz.ui;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
@@ -10,23 +10,35 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.BuildConfig;
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.http.rx.ApiObserver;
+import com.goldze.common.dmvvm.http.rx.BaseObserver;
+import com.goldze.common.dmvvm.http.rx.RxBus;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.RxUtils;
 import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.AdapterPool;
-import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.constants.Constants;
 import com.mingpinmall.classz.databinding.FragmentClassifyBinding;
-import com.mingpinmall.classz.ui.api.ClassifyViewModel;
+import com.mingpinmall.classz.ui.vm.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.socks.library.KLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 
 /**
  * 分类
@@ -66,7 +78,12 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         getViewById(R.id.iv_search).setVisibility(View.VISIBLE);
         getViewById(R.id.iv_search).setOnClickListener(this);
         ((TextView) getViewById(R.id.tv_title)).setText("分类");
-        setTitlePadding(binding.getRoot());
+
+        //在这里设置沉浸式状态栏
+        setTitlePadding(getViewById(R.id.rl_title_content));
+        //并且设置状态栏字体颜色为黑色
+        setDarkMode(true);
+
         rightAdapter = AdapterPool.newInstance().getRightAdapter(getActivity())
                 .build();
         rightAdapter.setDatas(rightData);
@@ -166,5 +183,11 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         if (i == R.id.iv_search) {
             ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
         }
+    }
+
+    @Override
+    protected void onVisible() {
+        //当这个fragment用户可见时，重新设置为黑色状态栏字体
+        setDarkMode(true);
     }
 }

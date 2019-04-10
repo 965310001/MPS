@@ -9,7 +9,7 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityVipintergralBinding;
 
 /**
- * 功能描述：
+ * 功能描述：会员积分
  * 创建人：小斌
  * 创建时间: 2019/3/28
  **/

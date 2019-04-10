@@ -18,10 +18,38 @@ public class BaseResponse<T> extends BaseBean {
     private int code;
     @SerializedName("error")
     private String message;
-    private boolean hasmore;
-    private int page_total;
     @SerializedName("datas")
     private T data;
+
+    /**
+     * 补充
+     * {
+     *     "code": 400,
+     *     "login": "0",
+     *     "error": "请登录",
+     *     "datas": {
+     *         "error": "请登录"
+     *     }
+     * }
+     */
+    private String login;
+
+    /**
+     * 是否有更多分页
+     */
+    private boolean hasmore;
+    /**
+     * 分页页码
+     */
+    private int page_total;
+
+    public String getLogin() {
+        return login == null ? "" : login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login == null ? "" : login;
+    }
 
     public boolean isHasmore() {
         return hasmore;

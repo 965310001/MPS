@@ -16,11 +16,24 @@
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <include layout="@layout/item_title_layout" />
+        <!--
+        为了实现沉浸式状态栏体验，这里用一个布局包裹住title layout然后设置背景色。
+        这个背景色将会覆盖到状态栏上面。
+        -->
+
+        <RelativeLayout
+            android:id="@+id/rl_title_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F9F9F9">
+
+            <include layout="@layout/item_title_layout" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/content_layout"

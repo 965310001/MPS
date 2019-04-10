@@ -46,7 +46,6 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         setTitle(R.string.title_loginActivity);
-//        mViewModel.makeCodeKey();
         progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
 
         TabLayout.Tab tab = binding.tabs.newTab();
@@ -130,7 +129,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                             : binding.edPassword.getText().toString().trim(),
                     binding.tabs.getSelectedTabPosition() == 0 ? 1 : 2//1:表示手机验证码登录 2:表示密码登录
             );
-        } else if (viewId == R.id.btn_getPsdCode) {
+        } else if (viewId == R.id.tv_getPsdCode) {
             /*获取登陆短信动态码*/
             mViewModel.getSmsCode(1, binding.edPhone.getText().toString().trim());
         } else if (viewId == R.id.tv_protocol) {
@@ -146,21 +145,14 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                 .observeForever(new Observer<UserBean>() {
                     @Override
                     public void onChanged(@Nullable UserBean userBean) {
-                        switch (userBean.getCode()) {
-                            case 400:
-                                progressDialog.onFail(userBean.getDatas().getError());
-                                break;
-                            case 200:
-                                SharePreferenceUtil.saveUser(userBean);
-                                progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                                    @Override
-                                    public void onDismiss() {
-                                        LiveBus.getDefault().postEvent("LoginSuccess", true);
-                                        finish();
-                                    }
-                                });
-                                break;
-                        }
+                        SharePreferenceUtil.saveUser(userBean);
+                        progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                LiveBus.getDefault().postEvent("LoginSuccess", true);
+                                finish();
+                            }
+                        });
                     }
                 });
         registerObserver(Constants.Err_EVENT_KEY_USER_GETUSER, String.class)
@@ -170,19 +162,19 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                         progressDialog.onFail(msg, 1500);
                     }
                 });
-        registerObserver("GET_SMS_CODE", SmsBean.class)
-                .observeForever(new Observer<SmsBean>() {
+        registerObserver("GET_SMS_CODE", "success")
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable SmsBean result) {
+                    public void onChanged(@Nullable Object result) {
                         ToastUtils.showShort("验证码已发送");
                         buttonHelper.start();
                     }
                 });
-        registerObserver("Err_GET_SMS_CODE", String.class)
-                .observeForever(new Observer<String>() {
+        registerObserver("GET_SMS_CODE", "err")
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable String msg) {
-                        ToastUtils.showShort(msg);
+                    public void onChanged(@Nullable Object msg) {
+                        ToastUtils.showShort(msg.toString());
                     }
                 });
     }

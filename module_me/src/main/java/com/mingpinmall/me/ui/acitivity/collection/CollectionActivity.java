@@ -71,10 +71,4 @@ public class CollectionActivity extends AbsLifecycleActivity<ActivityCollectionB
         return "COLLECTION_ACTIVITY";
     }
 
-    @Override
-    public void onViewClicked(int viewId) {
-        if (viewId == R.id.iv_back2) {
-            onBackPressed();
-        }
-    }
 }

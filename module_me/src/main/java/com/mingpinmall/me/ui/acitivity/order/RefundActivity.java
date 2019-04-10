@@ -1,7 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.order;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -66,10 +65,4 @@ public class RefundActivity extends BaseActivity<ActivityCollectionBinding> {
         }
     }
 
-    @Override
-    public void onViewClicked(int viewId) {
-        if (viewId == R.id.iv_back2) {
-            onBackPressed();
-        }
-    }
 }

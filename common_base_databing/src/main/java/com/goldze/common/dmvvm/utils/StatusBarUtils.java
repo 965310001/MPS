@@ -30,128 +30,77 @@ import java.util.Properties;
 public class StatusBarUtils {
 
     public static int DEFAULT_COLOR = 0;
-    public static float DEFAULT_ALPHA = 0;//Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 0.2f : 0.3f;
+    public static float DEFAULT_ALPHA = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? 0.2f : 0;
     public static final int MIN_API = 19;
 
-    //<editor-fold desc="沉侵">
+    /**
+     * 设置状态栏透明
+     */
     public static void immersive(Activity activity) {
-        immersive(activity, DEFAULT_COLOR, DEFAULT_ALPHA);
+        immersive(activity, DEFAULT_COLOR, DEFAULT_ALPHA, false);
     }
 
-    public static void immersive(Activity activity, int color, @FloatRange(from = 0.0, to = 1.0) float alpha) {
+    /**
+     * 设置状态栏透明 字体颜色(黑白切换。目前支持MIUI6以上,Flyme4以上,Android M以上)
+     */
+    public static void immersive(Activity activity, boolean dark) {
+        immersive(activity, DEFAULT_COLOR, DEFAULT_ALPHA, dark);
+    }
+
+    /**
+     * 设置状态栏颜色 字体颜色(黑白切换。目前支持MIUI6以上,Flyme4以上,Android M以上)
+     */
+    public static void immersive(Activity activity, int color, @FloatRange(from = 0.0, to = 1.0) float alpha, boolean dark) {
+        if (isAndroidMOrAbove()) {
+            darkModeForM(activity.getWindow(), dark);
+        } else if (isMiUIV6OrAbove()) {
+            darkModeForMIUI6(activity.getWindow(), dark);
+        } else if (isFlyme()) {
+            setStatusBarDarkIcon(activity, true, true);
+        }
         immersive(activity.getWindow(), color, alpha);
     }
 
-    public static void immersive(Activity activity, int color) {
-        immersive(activity.getWindow(), color, 1f);
-    }
-
-    public static void immersive(Window window) {
-        immersive(window, DEFAULT_COLOR, DEFAULT_ALPHA);
-    }
-
-    public static void immersive(Window window, int color) {
-        immersive(window, color, 1f);
-    }
-
+    /**
+     * 实现透明 or 半透明 变色
+     *
+     * @param window
+     * @param color
+     * @param alpha
+     */
     public static void immersive(Window window, int color, @FloatRange(from = 0.0, to = 1.0) float alpha) {
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(mixtureColor(color, alpha));
-
             int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
             systemUiVisibility |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
             systemUiVisibility |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             window.getDecorView().setSystemUiVisibility(systemUiVisibility);
-        } else if (Build.VERSION.SDK_INT >= 19) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             setTranslucentView((ViewGroup) window.getDecorView(), color, alpha);
-        } else if (Build.VERSION.SDK_INT >= MIN_API && Build.VERSION.SDK_INT > 16) {
-            int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
-            systemUiVisibility |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-            systemUiVisibility |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            window.getDecorView().setSystemUiVisibility(systemUiVisibility);
         }
     }
-    //</editor-fold>
-
-    //<editor-fold desc="DarkMode">
-    public static void darkMode(Activity activity, boolean dark) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            darkModeForM(activity.getWindow(), dark);
-        } else {
-            darkModeForFlyme4(activity.getWindow(), dark);
-            darkModeForMIUI6(activity.getWindow(), dark);
-        }
-    }
-
-    /**
-     * 设置状态栏darkMode,字体颜色及icon变黑(目前支持MIUI6以上,Flyme4以上,Android M以上)
-     */
-    public static void darkMode(Activity activity) {
-        darkMode(activity.getWindow(), DEFAULT_COLOR, DEFAULT_ALPHA,activity);
-    }
-
-    public static void darkMode(Activity activity, int color, @FloatRange(from = 0.0, to = 1.0) float alpha) {
-        darkMode(activity.getWindow(), color, alpha,activity);
-    }
-
-    /**
-     * 设置状态栏darkMode,字体颜色及icon变黑(目前支持MIUI6以上,Flyme4以上,Android M以上)
-     */
-    public static void darkMode(Window window, int color, @FloatRange(from = 0.0, to = 1.0) float alpha,Activity activity) {
-        if (isFlyme4Later()) {
-//            darkModeForFlyme4(window, true);
-            setStatusBarDarkIcon(activity, true, true);
-            immersive(window, color, alpha);
-        } else if (isMIUI6Later()) {
-            darkModeForMIUI6(window, true);
-            immersive(window, color, alpha);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            darkModeForM(window, true);
-            immersive(window, color, alpha);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            setTranslucentView((ViewGroup) window.getDecorView(), color, alpha);
-        } else {
-            immersive(window, color, alpha);
-        }
-//        if (Build.VERSION.SDK_INT >= 21) {
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.setStatusBarColor(Color.TRANSPARENT);
-//        } else if (Build.VERSION.SDK_INT >= 19) {
-//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        }
-
-//        setTranslucentView((ViewGroup) window.getDecorView(), color, alpha);
-    }
-
-    //------------------------->
 
     /**
      * android 6.0设置字体颜色
      */
     @RequiresApi(Build.VERSION_CODES.M)
     private static void darkModeForM(Window window, boolean dark) {
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        window.setStatusBarColor(Color.TRANSPARENT);
-
-        int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
+        View systemUi = window.getDecorView();
         if (dark) {
-            systemUiVisibility |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            systemUi.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         } else {
-            systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            systemUi.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
-        window.getDecorView().setSystemUiVisibility(systemUiVisibility);
     }
 
     /**
      * 设置Flyme4+的darkMode,darkMode时候字体颜色及icon变黑
      * http://open-wiki.flyme.cn/index.php?title=Flyme%E7%B3%BB%E7%BB%9FAPI
      */
+    @Deprecated
     public static boolean darkModeForFlyme4(Window window, boolean dark) {
         boolean result = false;
         if (window != null) {
@@ -212,35 +161,6 @@ public class StatusBarUtils {
             return false;
         }
     }
-
-
-    /**
-     * 判断是否Flyme4以上
-     */
-    public static boolean isFlyme4Later() {
-//        return Build.FINGERPRINT.contains("Flyme")
-//                || Build.VERSION.INCREMENTAL.contains("Flyme_OS_4")
-//                || Pattern.compile("Flyme OS [4|5]", Pattern.CASE_INSENSITIVE).matcher(Build.DISPLAY).find();
-        return isFlyme();
-    }
-
-    /**
-     * 判断是否为MIUI6以上
-     */
-    public static boolean isMIUI6Later() {
-        try {
-            Class<?> clz = Class.forName("android.os.SystemProperties");
-            Method mtd = clz.getMethod("get", String.class);
-            String val = (String) mtd.invoke(null, "ro.miui.ui.version.name");
-            val = val.replaceAll("[vV]", "");
-            int version = Integer.parseInt(val);
-            return version >= 6;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    //</editor-fold>
-
 
     /**
      * 增加View的paddingTop,增加的值为状态栏高度
@@ -311,6 +231,12 @@ public class StatusBarUtils {
         }
     }
 
+    /**
+     * 计算对应透明度的颜色值
+     * @param color
+     * @param alpha
+     * @return
+     */
     public static int mixtureColor(int color, @FloatRange(from = 0.0, to = 1.0) float alpha) {
         int a = (color & 0xff000000) == 0 ? 0xff : color >>> 24;
         return (color & 0x00ffffff) | (((int) (a * alpha)) << 24);
@@ -329,35 +255,6 @@ public class StatusBarUtils {
                     result, Resources.getSystem().getDisplayMetrics());
         }
         return result;
-    }
-
-
-    class AvailableRomType {
-        public static final int MIUI = 1;
-        public static final int FLYME = 2;
-        public static final int ANDROID_NATIVE = 3;
-        public static final int NA = 4;
-    }
-
-    public static int getLightStatusBarAvailableRomType() {
-        //开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错
-        if (isMiUIV7OrAbove()) {
-            return AvailableRomType.ANDROID_NATIVE;
-        }
-
-        if (isMiUIV6OrAbove()) {
-            return AvailableRomType.MIUI;
-        }
-
-        if (isFlymeV4OrAbove()) {
-            return AvailableRomType.FLYME;
-        }
-
-        if (isAndroidMOrAbove()) {
-            return AvailableRomType.ANDROID_NATIVE;
-        }
-
-        return AvailableRomType.NA;
     }
 
     //Flyme V4的displayId格式为 [Flyme OS 4.x.x.xA]
@@ -383,6 +280,10 @@ public class StatusBarUtils {
 
     private static final String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
 
+    /**
+     * 判断是否MIUI V6及以上
+     * @return
+     */
     private static boolean isMiUIV6OrAbove() {
         try {
             final Properties properties = new Properties();
@@ -401,6 +302,10 @@ public class StatusBarUtils {
 
     }
 
+    /**
+     * 判断是否MIUI V6及以上
+     * @return
+     */
     static boolean isMiUIV7OrAbove() {
         try {
             final Properties properties = new Properties();
@@ -641,14 +546,6 @@ public class StatusBarUtils {
             if (!TextUtils.isEmpty(version)) {
                 if (version.toLowerCase().contains("flyme"))
                     return true;
-                //判断系统版本是否大于flyme4
-                //int num;
-                //if (version.toLowerCase().contains("os")) {
-                //    num = Integer.valueOf(version.substring(9, 10));
-                //} else {
-                //    num = Integer.valueOf(version.substring(6, 7));
-                //}
-                //return num >= 4;
             }
         } catch (Exception e) {
         }

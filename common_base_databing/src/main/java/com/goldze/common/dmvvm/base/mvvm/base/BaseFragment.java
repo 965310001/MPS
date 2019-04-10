@@ -66,20 +66,27 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     }
 
     /* IOS式状态栏沉浸 */
+
     /**
      * 设置顶部标题栏内部控件不超出内容区域（不覆盖到状态栏区域，用于实现IOS式真沉浸式状态栏）
+     *
      * @param view
      */
-    protected void setTitlePadding(View view){
+    protected void setTitlePadding(View view) {
         StatusBarUtils.setPaddingSmart(activity, view);
     }
 
     /**
      * 设置状态栏字体颜色
+     *
      * @param darkMode true 黑色，建议在浅色背景色使用，例如白色背景色。  false 白色，建议在深色背景色时使用，例如蓝色，黑色，红色。
      */
-    protected void setDarkMode(boolean darkMode){
-        StatusBarUtils.darkMode(activity, darkMode);
+    protected void setDarkMode(boolean darkMode) {
+        if (activity instanceof BaseActivity) {
+            ((BaseActivity) activity).setDarkMode(darkMode);
+        } else {
+            StatusBarUtils.immersive(activity, darkMode);
+        }
     }
 
     /************************************************** LoadManager start *****************************************************/
