@@ -53,7 +53,7 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         Map<String, Object> map = new HashMap<>();
         map.put("goods_id", goodsId);
         map.put("quantity", num);
-        map.put("client", "android");
+        map.put("_client", "android");
         mRepository.execute(ClassifyService.ADD_CART_APP, ClassifyService.ADD_CART_WWI, eventKey, map);
     }
 
@@ -62,7 +62,7 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     public void favorites(String goodsId, boolean isLike, Object eventKey) {
         Map<String, Object> map = new HashMap<>();
         map.put(isLike ? "fav_id" : "goods_id", goodsId);
-        map.put("client", "android");
+        map.put("_client", "android");
         KLog.i(isLike ? "取消收藏" : "添加收藏");
         mRepository.execute(ClassifyService.ADDCOLLECTION_APP,
                 isLike ? ClassifyService.DELCOLLECTION_WWI : ClassifyService.ADDCOLLECTION_WWI, eventKey, map);
@@ -71,6 +71,11 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     /*评价列表*/
     public void getEvaluate(String gId, String type, String curpage) {
         mRepository.getEvaluate(gId, type, curpage);
+    }
+
+    /*获取订单信息*/
+    public void getOrderInfo(String cartId, Object eventKey) {
+        mRepository.getOrderInfo(cartId,eventKey);
     }
 
     /*搜索列表*/

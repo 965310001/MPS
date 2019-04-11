@@ -101,6 +101,10 @@ public interface ClassifyService {
     Flowable<ResultBean> execute(@Path("path") String url,
                                  @Query("Goods_id") String goodsId);
 
+    /*获取订单信息*/
+    Flowable<BaseResponse<HotKeyInfo>> getOrderInfo(@QueryMap Map<String, Object> map);
+
+
     /*封装通用*/
     @FormUrlEncoded
     @POST("mo_bile/index.php")

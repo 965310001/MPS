@@ -12,7 +12,7 @@ public interface ARouterConfig {
         LOGINACTIVITY(ARouterConfig.LOGINACTIVITY),//登录
         SPLASHACTIVITY(ARouterConfig.SPLASHACTIVITY),//过渡
         MAINACTIVITY(ARouterConfig.MAINACTIVITY),//主界面
-//        REGISTERACTIVITY(ARouterConfig.REGISTERACTIVITY),//注册
+        //        REGISTERACTIVITY(ARouterConfig.REGISTERACTIVITY),//注册
         SHOPPINGACTIVITY(ARouterConfig.Shopping.SHOPPINGACTIVITY),//
         ADDRESSLISTACTIVITY(ARouterConfig.Me.ADDRESSLISTACTIVITY),//地址
         WEBVIEWACTIVITY(ARouterConfig.WEBVIEWACTIVITY);//web
@@ -139,6 +139,8 @@ public interface ARouterConfig {
         /*商品分类list*/
         String PRODUCTSACTIVITY = "/clasz/ProductsActivity";
 
+        /*提交订单*/
+        String CONFIRMORDERACTIVITY = "/clasz/ConfirmOrderActivity";
 
 //        String DISTRIBUTIONACTIVITY = "/clasz/DistributionActivity";
     }

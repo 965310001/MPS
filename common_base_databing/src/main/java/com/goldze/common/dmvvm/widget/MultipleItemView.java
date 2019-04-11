@@ -117,6 +117,8 @@ public class MultipleItemView extends LinearLayout {
 
         a.recycle();
         init();
+
+        addView(binding.getRoot());
     }
 
     private void init() {

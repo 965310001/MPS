@@ -185,6 +185,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     public void buyNow(View view) {
         KLog.i("立即购买");
+        ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY);
     }
 
     public void contactService(View view) {

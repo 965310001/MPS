@@ -12,6 +12,9 @@
         <activity
             android:name=".ui.activity.details.ShoppingDetailsActivity"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.order.ConfirmOrderActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

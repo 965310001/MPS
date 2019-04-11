@@ -202,20 +202,12 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
-    Map<String, Object> map = new HashMap<>();
-
-    Map<String, Object> parames(Object app, Object wwi) {
-        map.put("app", app);
-        map.put("wwi", wwi);
-        return map;
-    }
-
     /*评价列表*/
     public void getEvaluate(String gId, String type, String curpage) {
         Map<String, Object> map = new HashMap<>();
         map.put("goods_id", gId);
         map.put("type", type);
-        map.put("page", Integer.parseInt(Constants.PAGE_RN)*2);
+        map.put("page", Integer.parseInt(Constants.PAGE_RN) * 2);
         map.put("curpage", curpage);
         addDisposable(apiService.getEvaluate(map)
                 .compose(RxSchedulers.<GoodsCommentListBean>io_main())
@@ -239,6 +231,32 @@ public class ClassifyRepository extends BaseRepository {
                 })
         );
 
+    }
+
+    /*获取订单信息*/
+    public void getOrderInfo(String cartId, final Object eventKey) {
+        Map<String, Object> map = parames("", "");
+        map.put("", cartId);
+        addDisposable(apiService.getOrderInfo(map)
+                .compose(RxSchedulers.<BaseResponse<HotKeyInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<HotKeyInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<HotKeyInfo> result) {
+                        sendData(eventKey, result);
+                        showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
     }
 
     /*省 市 区*/
@@ -296,6 +314,15 @@ public class ClassifyRepository extends BaseRepository {
                             }
                         })
         );
+    }
+
+
+    Map<String, Object> map = new HashMap<>();
+
+    Map<String, Object> parames(Object app, Object wwi) {
+        map.put("app", app);
+        map.put("wwi", wwi);
+        return map;
     }
 
 }

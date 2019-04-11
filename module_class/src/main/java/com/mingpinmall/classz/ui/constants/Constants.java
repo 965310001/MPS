@@ -39,4 +39,7 @@ public interface Constants {
     Object[] CUSTOMPOPWINDOW_KEY = {"CUSTOMPOPWINDOW_KEY", "CUSTOMPOPWINDOW_KEY_SCREENING"};
     /*接收筛选的值*/
 //    Object SCREENINFO = "SCREENINFO";
+
+    /*提交订单*/
+    Object[] CONFIRMORDER_KEY={"CONFIRMORDER_KEY","CONFIRMORDER_STATE"};
 }
