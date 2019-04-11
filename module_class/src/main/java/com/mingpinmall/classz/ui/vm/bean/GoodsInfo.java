@@ -58,7 +58,9 @@ public class GoodsInfo extends BaseBean {
     private String is_presell;
     private String is_fcode;
     private String have_gift;
-    private String store_name;
+    private String store_name;/*商家名字*/
+    @Transient
+    private boolean isStoreName = false;
     private String is_own_mall;
     //            private boolean sole_flag;
 //            private boolean group_flag;
@@ -71,6 +73,10 @@ public class GoodsInfo extends BaseBean {
     private String goods_storage;/*库存*/
     @Transient
     private boolean checked = true;//是否选择
+
+    @Transient
+    private String goods_num;/*购物车的数量*/
+
 
     /*购买的数量*/
     private int num;//数量
@@ -122,6 +128,17 @@ public class GoodsInfo extends BaseBean {
         this.is_own_mall = is_own_mall;
         this.goods_image_url = goods_image_url;
         this.num = num;
+    }
+
+    @Bindable
+    public boolean isStoreName() {
+        KLog.i(isStoreName + "==");
+        return isStoreName;
+    }
+
+    public void setStoreName(boolean storeName) {
+        isStoreName = storeName;
+        notifyPropertyChanged(BR.storeName);
     }
 
     public boolean isIs_favorate() {
@@ -222,6 +239,16 @@ public class GoodsInfo extends BaseBean {
     public void setGoods_image(String goods_image) {
         this.goods_image = goods_image;
         notifyPropertyChanged(BR.goods_image);
+    }
+
+    @Bindable
+    public String getGoods_num() {
+        return goods_num;
+    }
+
+    public void setGoods_num(String goods_num) {
+        this.goods_num = goods_num;
+        notifyPropertyChanged(BR.goods_num);
     }
 
     @Bindable
@@ -344,7 +371,16 @@ public class GoodsInfo extends BaseBean {
     public void click(View view) {
         KLog.i("click");
 //        ToastUtils.showLong(view.getId() + " " + getGoods_id() + "");
-        ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", goods_id);
+//        ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", goods_id);
+        ActivityToActivity.goShoppingDetails(goods_id);
+    }
+
+    public boolean getIsStoreName() {
+        return this.isStoreName;
+    }
+
+    public void setIsStoreName(boolean isStoreName) {
+        this.isStoreName = isStoreName;
     }
 
 //    public void onclick(View view, GoodsInfo data) {

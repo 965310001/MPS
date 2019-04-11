@@ -67,6 +67,12 @@ public class AdapterPool {
                 context, ProgressStyle.Pacman);
     }
 
+    /*确认订单*/
+    public DelegateAdapter.Builder getConfirmOrder(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_products_confirm, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
 
     /*-------------------------------------------------------------------首页---------------------------------------------------*/
 //    public DelegateAdapter.Builder getRightAdapter1(Context context) {

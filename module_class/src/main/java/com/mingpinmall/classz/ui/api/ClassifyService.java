@@ -10,25 +10,29 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
+import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface ClassifyService {
 
-    String BASEURL = "/mobile/index.php";
+    String BASEURL = "/mo_bile/index.php";
 
     //    String CLASSIFYLEFT = "/mobile/index.php";
-    String SHAPPINGLIST = "/mobile/index.php?app=goods&wwi=goods_list";
+    String SHAPPINGLIST = "/mo_bile/index.php?app=goods&wwi=goods_list";
 
     /*品牌*/
     String BRAND = "/mo_bile/index.php?app=brand&wwi=recommend_list";
@@ -102,7 +106,11 @@ public interface ClassifyService {
                                  @Query("Goods_id") String goodsId);
 
     /*获取订单信息*/
-    Flowable<BaseResponse<HotKeyInfo>> getOrderInfo(@QueryMap Map<String, Object> map);
+    @FormUrlEncoded
+//    @Multipart
+    @POST(BASEURL)
+//    Flowable<BaseResponse<OrderInfo>> getOrderInfo(@QueryMap Map<String, Object> map);
+    Flowable<BaseResponse<OrderInfo>> getOrderInfo(@FieldMap Map<String, Object> map);
 
 
     /*封装通用*/

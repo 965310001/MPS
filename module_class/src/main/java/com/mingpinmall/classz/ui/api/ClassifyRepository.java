@@ -18,12 +18,15 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
+import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class ClassifyRepository extends BaseRepository {
 
@@ -235,13 +238,14 @@ public class ClassifyRepository extends BaseRepository {
 
     /*获取订单信息*/
     public void getOrderInfo(String cartId, final Object eventKey) {
-        Map<String, Object> map = parames("", "");
-        map.put("", cartId);
+        Map<String, Object> map = parames("member_buy", "buy_step1");
+        map.put("cart_id", cartId);
+        map.put("key", getUserKey());
         addDisposable(apiService.getOrderInfo(map)
-                .compose(RxSchedulers.<BaseResponse<HotKeyInfo>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<HotKeyInfo>>() {
+                .compose(RxSchedulers.<BaseResponse<OrderInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<OrderInfo>>() {
                     @Override
-                    public void onSuccess(BaseResponse<HotKeyInfo> result) {
+                    public void onSuccess(BaseResponse<OrderInfo> result) {
                         sendData(eventKey, result);
                         showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.SUCCESS_STATE);
                     }
@@ -323,6 +327,16 @@ public class ClassifyRepository extends BaseRepository {
         map.put("app", app);
         map.put("wwi", wwi);
         return map;
+    }
+
+    Map<String, RequestBody> generateRequestBody(Map<String, Object> requestDataMap) {
+        Map<String, RequestBody> requestBodyMap = new HashMap<>();
+        for (String key : requestDataMap.keySet()) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    requestDataMap.get(key) == null ? "" : (String) requestDataMap.get(key));
+            requestBodyMap.put(key, requestBody);
+        }
+        return requestBodyMap;
     }
 
 }

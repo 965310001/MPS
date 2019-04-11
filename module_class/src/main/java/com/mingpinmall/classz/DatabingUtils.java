@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.widget.MultipleItemView;
 import com.leon.lib.settingview.LSettingItem;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
@@ -52,6 +53,26 @@ public class DatabingUtils {
         });
     }
 
+    @BindingAdapter({"pleftText"})
+    public static void pleftText(MultipleItemView settingItem, final String data) {
+        if (null != data && !TextUtils.isEmpty(data)) {
+            settingItem.setLeftText(data);
+        }
+        settingItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KLog.i("商家界面");
+            }
+        });
+    }
+
+    @BindingAdapter({"prightText"})
+    public static void prightText(MultipleItemView settingItem, final String data) {
+        if (null != data && !TextUtils.isEmpty(data)) {
+            settingItem.setRightText(data);
+        }
+    }
+
     @BindingAdapter("items")
     public static void setChild(TRecyclerView rv, List data) {
         DelegateAdapter adapter = (DelegateAdapter) rv.getAdapter();
@@ -67,6 +88,14 @@ public class DatabingUtils {
                 case 1:
                     /*左边*/
                     adapter = AdapterPool.newInstance().getLeftAdapter(context)
+                            .build();
+                    rv.addItemDecoration(new DividerItemDecoration(context,
+                            DividerItemDecoration.VERTICAL));
+                    layout = new GridLayoutManager(context, 1);
+                    rv.setLayoutManager(layout);
+                    break;
+                case 2:
+                    adapter = AdapterPool.newInstance().getConfirmOrder(context)
                             .build();
                     rv.addItemDecoration(new DividerItemDecoration(context,
                             DividerItemDecoration.VERTICAL));

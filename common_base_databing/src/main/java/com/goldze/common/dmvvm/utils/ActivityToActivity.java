@@ -2,6 +2,7 @@ package com.goldze.common.dmvvm.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.constraint.solver.GoalRow;
 import android.text.TextUtils;
 
 import com.alibaba.android.arouter.facade.Postcard;
@@ -60,7 +61,6 @@ public final class ActivityToActivity {
 //        }
 //        toActivity(url, map, isRequestCode);
 //    }
-
     public static void toActivity(String url, Map<String, ?> params, boolean isRequestCode) {
         if (TextUtils.isEmpty(url)) {
             return;
@@ -148,6 +148,23 @@ public final class ActivityToActivity {
 
     /******************************************** end **************************************/
 
+    /*跳转到商品详情*/
+    public static void goShoppingDetails(String goodsId) {
+        ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", goodsId);
+    }
+
+    /**
+     * 商品分类list
+     *
+     * @param goodsId 商品id
+     * @param keyword 搜索关键字
+     */
+    public static void goProductsActivity(String goodsId, String keyword) {
+        Map<String, Object> map = new HashMap<>();
+        if (!TextUtils.isEmpty(goodsId)) map.put("id", goodsId);
+        if (!TextUtils.isEmpty(keyword)) map.put("keyword", keyword);
+        ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, map);
+    }
 
     // TODO: 2019/2/22 删除
     public static void toWebView(String url) {
