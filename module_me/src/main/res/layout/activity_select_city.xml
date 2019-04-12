@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_top_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_one"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toStartOf="@id/cl_two"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_label_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一级地区"
+                    android:textColor="@color/app_theme_d61619"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/line_one"
+                    android:layout_width="0dp"
+                    android:layout_height="4dp"
+                    android:background="@color/app_theme_d61619"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/tv_label_one"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_one" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_two"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toStartOf="@id/cl_three"
+                app:layout_constraintStart_toEndOf="@id/cl_one"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_label_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="二级地区"
+                    android:textColor="@color/dark"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/line_two"
+                    android:layout_width="0dp"
+                    android:layout_height="4dp"
+                    android:background="#00000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/tv_label_two"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_two" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_three"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cl_two"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_label_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="三级地区"
+                    android:textColor="@color/dark"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/line_three"
+                    android:layout_width="0dp"
+                    android:layout_height="4dp"
+                    android:background="#00000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/tv_label_three"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_three" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_one" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            style="@style/VerticalScrollBarRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_top_content" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

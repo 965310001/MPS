@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,123 +10,189 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="@color/white"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                />
+                android:gravity="end"
+                android:text="@string/label_name"
+                android:textColor="@color/dark"
+                android:textSize="14sp" />
 
-            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/ed_name"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:hint=""
-                />
+                android:gravity="center_vertical"
+                android:hint="@string/hint_text_name"
+                android:textColor="@color/black"
+                android:background="#00000000"
+                android:textSize="14sp" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="@color/white"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                />
+                android:gravity="end"
+                android:text="@string/label_phone"
+                android:textColor="@color/dark"
+                android:textSize="14sp" />
 
-            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/ed_phone"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:hint=""
-                />
+                android:background="#00000000"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_text_phone"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="@color/white"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                />
+                android:gravity="end"
+                android:text="@string/label_block"
+                android:textColor="@color/dark"
+                android:textSize="14sp" />
 
-            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_selectBlock"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:hint=""
-                />
+                android:gravity="center_vertical"
+                android:hint="@string/hint_text_block"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="@color/white"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                />
+                android:gravity="end"
+                android:text="@string/label_address"
+                android:textColor="@color/dark"
+                android:textSize="14sp" />
 
-            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/ed_address"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:hint=""
-                />
+                android:background="#00000000"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_text_address"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="@color/white"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                />
+                android:gravity="end"
+                android:text="@string/label_default_address"
+                android:textColor="@color/dark"
+                android:textSize="14sp" />
 
-            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:hint=""
-                />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_default"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:layout_margin="16dp"
+            android:background="@drawable/button_shape_redcolor"
+            android:gravity="center"
             android:text="@string/text_saveAddress"
-            />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </layout>

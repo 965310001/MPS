@@ -16,6 +16,53 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         super(application);
     }
 
+    /**
+     * 获取收货地址列表
+     */
+    public void getAddressList() {
+        mRepository.getAddressList();
+    }
+
+    /**
+     * 新增收货地址
+     *
+     * @param id_default
+     * @param name
+     * @param city_id
+     * @param area_id
+     * @param area_info
+     * @param address
+     * @param phone
+     */
+    public void addAddress(int id_default, String name, String city_id, String area_id, String area_info,
+                           String address, String phone) {
+        mRepository.addAddress(id_default, name, city_id, area_id, area_info, address, phone);
+    }
+
+    /**
+     * 编辑收货地址
+     *
+     * @param address_id 收货地址ID
+     * @param id_default
+     * @param name
+     * @param city_id
+     * @param area_id
+     * @param area_info
+     * @param address
+     * @param phone
+     */
+    public void editAddress(int address_id, int id_default, String name, String city_id, String area_id, String area_info,
+                            String address, String phone) {
+        mRepository.editAddress(address_id, id_default, name, city_id, area_id, area_info, address, phone);
+    }
+
+    /**
+     * 获取城市列表
+     */
+    public void getCityList(String areaId) {
+        mRepository.getCityList(areaId);
+    }
+
     public void getUserInfo() {
         mRepository.getUserInfo();
     }

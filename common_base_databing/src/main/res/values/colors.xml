@@ -10,6 +10,7 @@
     <color name="color_aaaaaa">#aaaaaa</color>
     <color name="color_D6D8DA">#D6D8DA</color>
     <color name="dark">#5e5656</color>
+    <color name="transparent">#00000000</color>
 
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>

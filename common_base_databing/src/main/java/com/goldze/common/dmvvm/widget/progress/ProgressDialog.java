@@ -207,6 +207,9 @@ public class ProgressDialog extends BaseDialog {
      * 关闭这个对话框
      */
     public void close() {
+        if (getDialog() == null) {
+            return;
+        }
         dismissAllowingStateLoss();
     }
 

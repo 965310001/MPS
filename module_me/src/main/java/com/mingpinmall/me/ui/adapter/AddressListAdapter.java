@@ -1,29 +1,30 @@
 package com.mingpinmall.me.ui.adapter;
 
-import android.support.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.ui.bean.BaseItemBean;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 功能描述：收货地址列表适配器
  * 创建人：小斌
  * 创建时间: 2019/3/29
  **/
-public class AddressListAdapter extends BaseQuickAdapter<BaseItemBean, BaseViewHolder> {
+public class AddressListAdapter extends BaseQuickAdapter<AddressDataBean.AddressListBean, BaseViewHolder> {
 
     public AddressListAdapter() {
-        super(R.layout.item_address, new ArrayList<BaseItemBean>());
+        super(R.layout.item_address, new ArrayList<AddressDataBean.AddressListBean>());
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, BaseItemBean item) {
+    protected void convert(BaseViewHolder helper, AddressDataBean.AddressListBean item) {
         helper.addOnClickListener(R.id.tv_edit)
-                .addOnClickListener(R.id.tv_delete);
+                .addOnClickListener(R.id.tv_delete)
+                .setText(R.id.tv_name, item.getTrue_name())
+                .setText(R.id.tv_phone, item.getMob_phone())
+                .setText(R.id.tv_address, item.getArea_info() + " " + item.getAddress())
+        ;
     }
 }

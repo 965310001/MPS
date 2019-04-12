@@ -101,6 +101,9 @@ public interface ARouterConfig {
     //重设手机
     String ResetPhoneActivity = "/me/ResetPhoneActivity";
 
+    //选择城市
+    String SelectCityActivity = "/me/SelectCityActivity";
+
     //第二部注册
     String REGISTERACTIVITY2 = "/me/RegisterActivity2";
 
