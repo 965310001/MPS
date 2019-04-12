@@ -176,6 +176,32 @@ public interface MeApiService {
     Flowable<BaseResponse<AddressDataBean>> getAddressList(@Query("key") String key);
 
     /**
+     * 描述：收货地址详细信息
+     * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_info
+     * 请求方式：post
+     * 请求参数：
+     * 	address_id:地址id
+     */
+    String GetAddress = "/mo_bile/index.php?app=member_address&wwi=address_info";
+
+    @FormUrlEncoded
+    @POST(GetAddress)
+    Flowable<BaseResponse<AddressDataBean.AddressListBean>> getAddress(@Field("key") String key, @Field("address_id") String address_id);
+
+    /**
+     * 描述：删除收货地址
+     * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_del
+     * 请求方式：post
+     * 请求参数：
+     * 	address_id:地址id
+     */
+    String DelAddress = "/mo_bile/index.php?app=member_address&wwi=address_del";
+
+    @FormUrlEncoded
+    @POST(DelAddress)
+    Flowable<BaseNothingBean> delAddress(@Field("key") String key, @Field("address_id") String address_id);
+
+    /**
      * 描述：新增收货地址
      * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_add
      * 请求方式：post
@@ -193,7 +219,7 @@ public interface MeApiService {
     @FormUrlEncoded
     @POST(AddAddress)
     Flowable<BaseNothingBean> addAddress(@Field("key") String key,
-                                         @Field("id_default") int id_default,
+                                         @Field("is_default") int id_default,
                                          @Field("true_name") String name,
                                          @Field("city_id") String city_id,
                                          @Field("area_id") String area_id,
@@ -221,8 +247,8 @@ public interface MeApiService {
     @FormUrlEncoded
     @POST(EditAddress)
     Flowable<BaseNothingBean> editAddress(@Field("key") String key,
-                                                     @Field("address_id") int address_id,
-                                                     @Field("id_default") int id_default,
+                                                     @Field("address_id") String address_id,
+                                                     @Field("is_default") int id_default,
                                                      @Field("true_name") String name,
                                                      @Field("city_id") String city_id,
                                                      @Field("area_id") String area_id,

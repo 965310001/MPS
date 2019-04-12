@@ -6,26 +6,31 @@
 
         <variable
             name="adapter"
-            type="com.mingpinmall.me.ui.adapter.AddressListAdapter"/>
+            type="com.mingpinmall.me.ui.adapter.AddressListAdapter" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f3f3f3"
-        >
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            style="@style/VerticalScrollBarRecyclerView"
-            android:adapter="@{adapter}"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/v_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                style="@style/VerticalScrollBarRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adapter="@{adapter}"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <View
             android:id="@+id/v_bottom"

@@ -29,6 +29,56 @@ public class MeRepository extends BaseRepository {
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
 
     /**
+     * 获取收货地址详细内容
+     * @param addressId
+     */
+    protected void getAddress(String addressId) {
+        addDisposable(apiService.getAddress(getUserKey(), addressId)
+        .compose(RxSchedulers.<BaseResponse<AddressDataBean.AddressListBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<AddressDataBean.AddressListBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<AddressDataBean.AddressListBean> addressListBeanBaseResponse) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+                })
+        );
+    }
+
+    /**
+     * 删除收货地址
+     * @param addressId
+     */
+    protected void delAddress(String addressId) {
+        addDisposable(apiService.delAddress(getUserKey(), addressId)
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.getCode() == 200) {
+                            sendData("DEL_ADDRESS", "success", "删除成功");
+                        } else {
+                            sendData("DEL_ADDRESS", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("DEL_ADDRESS", "err", msg == null ? "删除失败" : msg);
+                    }
+                })
+
+        );
+    }
+
+    /**
      * 获取收货地址列表
      */
     protected void getAddressList() {
@@ -111,7 +161,7 @@ public class MeRepository extends BaseRepository {
      * @param address
      * @param phone
      */
-    protected void editAddress(int address_id, int id_default, String name, String city_id, String area_id, String area_info,
+    protected void editAddress(String address_id, int id_default, String name, String city_id, String area_id, String area_info,
                                String address, String phone) {
         addDisposable(apiService.editAddress(getUserKey(), address_id, id_default, name, city_id, area_id, area_info, address, phone)
                 .compose(RxSchedulers.<BaseNothingBean>io_main())

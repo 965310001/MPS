@@ -25,6 +25,6 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressDataBean.Address
                 .setText(R.id.tv_name, item.getTrue_name())
                 .setText(R.id.tv_phone, item.getMob_phone())
                 .setText(R.id.tv_address, item.getArea_info() + " " + item.getAddress())
-        ;
+                .setGone(R.id.tv_isDefault, item.getIs_default().equals("1"));
     }
 }

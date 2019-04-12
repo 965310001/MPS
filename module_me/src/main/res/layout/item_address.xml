@@ -59,6 +59,16 @@
             app:layout_constraintTop_toBottomOf="@id/tv_address" />
 
         <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_isDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_text_defaultAddress"
+            android:textColor="@color/app_theme_d61619"
+            app:layout_constraintBottom_toBottomOf="@id/tv_delete"
+            app:layout_constraintStart_toStartOf="@id/tv_address"
+            app:layout_constraintTop_toTopOf="@id/tv_delete" />
+
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +79,6 @@
             android:text="@string/text_edit"
             app:layout_constraintBottom_toBottomOf="@id/tv_delete"
             app:layout_constraintEnd_toStartOf="@id/tv_delete"
-
             app:layout_constraintTop_toTopOf="@id/tv_delete"
             app:layout_constraintVertical_chainStyle="packed" />
 

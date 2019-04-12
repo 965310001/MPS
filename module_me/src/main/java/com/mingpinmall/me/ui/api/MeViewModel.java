@@ -22,6 +22,12 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     public void getAddressList() {
         mRepository.getAddressList();
     }
+    /**
+     * 删除收货地址
+     */
+    public void delAddress(String addressId) {
+        mRepository.delAddress(addressId);
+    }
 
     /**
      * 新增收货地址
@@ -51,7 +57,7 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
      * @param address
      * @param phone
      */
-    public void editAddress(int address_id, int id_default, String name, String city_id, String area_id, String area_info,
+    public void editAddress(String address_id, int id_default, String name, String city_id, String area_id, String area_info,
                             String address, String phone) {
         mRepository.editAddress(address_id, id_default, name, city_id, area_id, area_info, address, phone);
     }
@@ -136,5 +142,13 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
      */
     public void getOrderList(String event_key, String state_type, String order_key, int curpage) {
         mRepository.getOrderList(event_key, state_type, order_key, 10, curpage);
+    }
+
+    /**
+     * 获取收货地址详细内容
+     * @param addressId
+     */
+    public void getAddress(String addressId) {
+        mRepository.getAddress(addressId);
     }
 }

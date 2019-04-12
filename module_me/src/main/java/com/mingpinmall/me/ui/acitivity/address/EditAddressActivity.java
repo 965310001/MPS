@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -36,7 +37,7 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
 
     boolean isAdd = true;//是否是新增， false则是编辑模式
 
-    int addressId;//收货地址ID，编辑收货地址时用到
+    private AddressDataBean.AddressListBean addressData;//收货地址信息，编辑收货地址时用到
 
     @Override
     protected int getLayoutId() {
@@ -53,8 +54,11 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
         binding.btnSubmit.setOnClickListener(this);
 
         if (!isAdd) {
-            addressId = getIntent().getIntExtra("addressId", 0);
-
+            addressData = (AddressDataBean.AddressListBean) getIntent().getSerializableExtra("addressData");
+            binding.setData(addressData);
+            binding.sbDefault.setChecked(addressData.getIs_default().equals("1"));
+            cityId = addressData.getCity_id();
+            areaId = addressData.getArea_id();
         }
     }
 
@@ -92,7 +96,7 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
              *                            String address, String phone
              */
             mViewModel.addAddress(
-                    binding.sbDefault.isSelected() ? 1 : 0,
+                    binding.sbDefault.isChecked() ? 1 : 0,
                     binding.edName.getText().toString(),
                     cityId,
                     areaId,
@@ -102,8 +106,8 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
             );
         } else {
             mViewModel.editAddress(
-                    addressId,
-                    binding.sbDefault.isSelected() ? 1 : 0,
+                    addressData.getAddress_id(),
+                    binding.sbDefault.isChecked() ? 1 : 0,
                     binding.edName.getText().toString(),
                     cityId,
                     areaId,

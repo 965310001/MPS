@@ -74,6 +74,7 @@
     <!-- AddressManagerActivity -->
     <string name="title_addressManagerActivity">地址管理</string>
     <string name="button_text_addAddress">添加新地址</string>
+    <string name="label_text_defaultAddress">默认地址</string>
     <!-- AddressManagerActivity Over -->
 
     <!-- EditAddressActivity -->
