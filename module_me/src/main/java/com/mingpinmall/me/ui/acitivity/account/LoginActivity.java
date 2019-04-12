@@ -193,9 +193,10 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     public void afterTextChanged(Editable s) {
         int phoneCount = binding.edPhone.getText().length();
         int msgCodeCount = binding.edMsgCode.getText().length();
+        int passwordCount = binding.edPassword.getText().length();
 
         binding.tvGetPsdCode.setVisibility(phoneCount >= 11 ? View.VISIBLE : View.INVISIBLE);
-        editTextAllOK = phoneCount >= 11 && msgCodeCount > 4;
+        editTextAllOK = phoneCount >= 11 && binding.tabs.getSelectedTabPosition() == 0 ? msgCodeCount >= 4 : passwordCount >= 6;
         setEnabled();
     }
 

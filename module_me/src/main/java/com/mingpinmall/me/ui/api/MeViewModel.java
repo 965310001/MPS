@@ -21,6 +21,20 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     }
 
     /**
+     * 清空我的足迹
+     */
+    public void clearnMyFootprint() {
+        mRepository.clearnMyFootprint();
+    }
+
+    /**
+     * 获取我的足迹
+     */
+    public void getMyFootprint(int curPage) {
+        mRepository.getMyFootprint(curPage);
+    }
+
+    /**
      * 获取我的财产
      */
     public void getProperty() {
@@ -66,5 +80,14 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
      */
     public void getProductCollectList(int curpage) {
         mRepository.getProductCollectList(curpage);
+    }
+
+    /**
+     * 获取订单列表
+     *
+     * @param
+     */
+    public void getOrderList(String event_key, String state_type, String order_key, int curpage) {
+        mRepository.getOrderList(event_key, state_type, order_key, 10, curpage);
     }
 }

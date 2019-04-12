@@ -94,6 +94,7 @@
     <!-- CheckAuthActivity -->
     <string name="tips_text_youPhone">您当前的手机号是：</string>
     <string name="bt_text_next">下一步</string>
+    <string name="dialog_text_tips">您还未设置支付密码，是否前往设置支付密码？</string>
     <string name="tips_text_checkAuth">小提示：通过手机验证后，可用于快速找回登录密码及支付密码，接收账户资产变更提醒。</string>
     <!-- CheckAuthActivity Over -->
 

@@ -45,7 +45,7 @@ public class ResetPayPwdActivity extends AbsLifecycleActivity<ActivityResetPassw
 
     @Override
     protected Object getStateEventKey() {
-        return null;
+        return "RESET_PAY_PASSWORD";
     }
 
     @Override

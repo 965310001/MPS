@@ -2,19 +2,25 @@ package com.mingpinmall.me.ui.acitivity.setting;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.google.gson.Gson;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityResetCheckBinding;
@@ -34,6 +40,8 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
     public final static int RESET_PASSWORD = 1;
     public final static int RESET_PAY_PASSWORD = 2;
 
+    private ProgressDialog progressDialog;
+
     @Autowired
     String phoneNumber;
 
@@ -49,6 +57,7 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
     public void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
+        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         switch (type) {
             case 0:
                 setTitle(R.string.title_resetPhoneActivity);
@@ -81,6 +90,7 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
         });
         binding.btnGetPsdCode.setOnClickListener(this);
         binding.btnSublimt.setOnClickListener(this);
+        binding.tvChange.setOnClickListener(this);
     }
 
     @Override
@@ -90,14 +100,50 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_SMS_CODE", "success")
+        registerObserver("CHECK_PAY_PASSWORD", "success")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        //设置了支付密码，跳转到使用支付密码设置手机
+                        progressDialog.close();
+                    }
+                });
+
+        registerObserver("CHECK_PAY_PASSWORD", "fail")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        //没设置支付密码，跳转到设置支付密码
+                        progressDialog.close();
+                        MaterialDialogUtils.showBasicDialog(CheckAuthActivity.this, getString(R.string.dialog_text_tips))
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        //跳转操作放在这
+                                        //这里直接销毁这个界面，返回个人设置界面
+                                        finish();
+                                    }
+                                })
+                                .show();
+                    }
+                });
+
+        registerObserver("CHECK_PAY_PASSWORD", "err")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        //支付密码 查询失败
+                        progressDialog.onFail("网络错误！");
+                    }
+                });
+        registerObserver("GET_RESET_SMS_CODE", "success")
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
                         ToastUtils.showShort("验证码发送成功");
                     }
                 });
-        registerObserver("GET_SMS_CODE", "err")
+        registerObserver("GET_RESET_SMS_CODE", "err")
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
@@ -137,12 +183,27 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
     @Override
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_getPsdCode) {
-            MyInfoBean.MemberInfoBean infoBean = new Gson().fromJson(SharePreferenceUtil.getKeyValue("USER_INFO"), MyInfoBean.MemberInfoBean.class);
             mViewModel.getResetSmsCode();
+        } else if (viewId == R.id.tv_change) {
+            //通过支付密码修改手机
+            //检查是否设置了支付密码
+            progressDialog.onLoading("");
+            mViewModel.checkPayPassword();
         } else if (viewId == R.id.btn_sublimt) {
             //点击下一步
             binding.btnSublimt.setEnabled(false);
-            mViewModel.checkCode(binding.edMsgCode.getText().toString().trim());
+            String smsCode = binding.edMsgCode.getText().toString().trim();
+            switch (type) {
+                case 0:
+                    mViewModel.checkPhonePsdSmsCode(smsCode);
+                    break;
+                case 1:
+                    mViewModel.checkLoginPsdSmsCode(smsCode);
+                    break;
+                case 2:
+                    mViewModel.checkPayPsdSmsCode(smsCode);
+                    break;
+            }
         }
     }
 }

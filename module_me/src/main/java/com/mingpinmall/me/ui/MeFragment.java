@@ -34,6 +34,8 @@ import com.mingpinmall.me.ui.bean.MeItemBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.AutoColorView;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
@@ -85,6 +87,17 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         setDarkMode(false);
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        binding.refreshLayout.setEnableLoadMore(false);
+        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if (SharePreferenceUtil.isLogin())
+                    mViewModel.getUserInfo();
+                else
+                    refreshLayout.finishRefresh(false);
+            }
+        });
+
         initHeadView();
         initSettingItem();
         setItemClickListener();
@@ -118,6 +131,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             @Override
             public void onChanged(@Nullable Object result) {
                 KLog.i("获取成功，刷新展示内容。");
+                binding.refreshLayout.finishRefresh();
                 MyInfoBean myInfoBean = (MyInfoBean) result;
                 setNewData(myInfoBean);
                 SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
@@ -127,7 +141,8 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         registerObserver("GET_USER_INFO", "fail").observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object result) {
-                KLog.i("获取成功，刷新展示内容。");
+                KLog.i("获取失败，刷新展示内容。");
+                binding.refreshLayout.finishRefresh(false);
                 BaseResponse<MyInfoBean> myInfoBean = (BaseResponse<MyInfoBean>) result;
                 if (!myInfoBean.getLogin().isEmpty() && myInfoBean.getLogin().equals("0")) {
                     SharePreferenceUtil.saveLogin(false);
@@ -139,6 +154,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             @Override
             public void onChanged(@Nullable Object result) {
                 KLog.i("获取个人信息失败。");
+                binding.refreshLayout.finishRefresh(false);
                 SharePreferenceUtil.saveBooleanKeyValue("needRefresh", true);
             }
         });

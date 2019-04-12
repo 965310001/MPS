@@ -103,5 +103,12 @@
         <item name="android:textSize">@dimen/text_18</item>
     </style>
 
+    <style name="VerticalScrollBarRecyclerView">
+        <item name="android:background">#00000000</item>
+        <item name="android:scrollbarSize">2dp</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
 
 </resources>

@@ -7,6 +7,7 @@ import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
+import com.mingpinmall.me.ui.bean.FootprintBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.bean.ProductCollectionBean;
 import com.mingpinmall.me.ui.bean.PropertyBean;
@@ -22,6 +23,60 @@ import com.socks.library.KLog;
 public class MeRepository extends BaseRepository {
 
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
+
+    /**
+     * 我的商城页面 清空我的足迹
+     **/
+    protected void clearnMyFootprint() {
+        addDisposable(apiService.clearnFootprint(getUserKey())
+                .compose(RxSchedulers.<BaseResponse<FootprintBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<FootprintBean>>() {
+                                   @Override
+                                   public void onSuccess(BaseResponse<FootprintBean> result) {
+                                       if (result.isSuccess())
+                                           sendData("CLEAR_FOOTPRINT", "success loadmore", "");
+                                       else
+                                           sendData("CLEAR_FOOTPRINT", "err", result.getMessage());
+                                   }
+
+                                   @Override
+                                   public void onFailure(String msg) {
+                                       KLog.i(msg);
+                                       sendData("CLEAR_FOOTPRINT", "err", msg == null ? "清空失败" : msg);
+                                   }
+                               }
+                )
+        );
+    }
+
+    /**
+     * 我的商城页面 获取我的足迹
+     **/
+    protected void getMyFootprint(final int curPage) {
+        addDisposable(apiService.getFootprint(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<FootprintBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<FootprintBean>>() {
+                                   @Override
+                                   public void onSuccess(BaseResponse<FootprintBean> result) {
+                                       if (result.isSuccess())
+                                           if (curPage > 1) {
+                                               sendData("GET_FOOTPRINT", "success loadmore", result);
+                                           } else {
+                                               sendData("GET_FOOTPRINT", "success refresh", result);
+                                           }
+                                       else
+                                           sendData("GET_FOOTPRINT", "err", result.getMessage());
+                                   }
+
+                                   @Override
+                                   public void onFailure(String msg) {
+                                       KLog.i(msg);
+                                       sendData("GET_FOOTPRINT", "err", msg);
+                                   }
+                               }
+                )
+        );
+    }
 
 
     /**
@@ -183,6 +238,44 @@ public class MeRepository extends BaseRepository {
                                }
                 )
         );
+    }
+
+    /**
+     * 获取订单列表（包括搜索）
+     *
+     * @param state_type [state_new:待付款]
+     *                   [state_send:待收货]
+     *                   [state_notakes:待自提]
+     *                   [state_noeval:待评价]
+     * @param order_key  搜索内容，产品标题或订单号
+     * @param page       每页数量
+     * @param curpage    页码
+     */
+    protected void getOrderList(final String event_key, String state_type, String order_key, int page, final int curpage) {
+        addDisposable(apiService.getOrder(getUserKey(), state_type, order_key, page, curpage)
+                .compose(RxSchedulers.<BaseIntDatasBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseIntDatasBean>() {
+
+                    @Override
+                    public void onSuccess(BaseIntDatasBean baseIntDatasBean) {
+                        if (curpage == 1) {
+                            sendData(event_key, "refresh success", baseIntDatasBean);
+                        } else {
+                            sendData(event_key, "loadmore success", baseIntDatasBean);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        if (curpage == 1) {
+                            sendData(event_key, "refresh err", msg);
+                        } else {
+                            sendData(event_key, "loadmore err", msg);
+                        }
+                    }
+                })
+        );
+
     }
 
 }
