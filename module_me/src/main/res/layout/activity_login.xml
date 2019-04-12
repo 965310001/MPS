@@ -16,9 +16,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabSelectedTextColor="@color/app_theme_d61619"
+            app:tabBackground="@color/white"
+            app:tabGravity="fill"
             app:tabIndicatorColor="@color/app_theme_d61619"
-            app:tabBackground="@color/white" />
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/app_theme_d61619"
+            app:tabTextColor="@color/dark" />
 
         <LinearLayout
             android:id="@+id/ll_panel"
