@@ -29,6 +29,7 @@ public class LoginInterceptor implements IInterceptor {
         //给需要跳转的页面添加值为Constant.LOGIN_NEEDED的extra参数，用来标记是否需要用户先登录才可以访问该页面
         if (postcard.getExtra() == ARouterConfig.LOGIN_NEEDED) {
             boolean isLogin = null != SharePreferenceUtil.getUser(Object.class);
+            isLogin = SharePreferenceUtil.isLogin();
             KLog.i("是否已登录: " + isLogin);
             if (isLogin) {
                 callback.onContinue(postcard);

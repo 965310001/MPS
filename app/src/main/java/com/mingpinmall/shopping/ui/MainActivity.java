@@ -11,6 +11,7 @@ import com.goldze.common.dmvvm.activity.BottomNavigationActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.manage.AppManager;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -79,7 +80,8 @@ public class MainActivity extends BottomNavigationActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             checkUpdate();
         }
-//        ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+        /*测试*/
+        ActivityToActivity.toActivity(ARouterConfig.classify.INVOICEACTIVITY);
     }
 
     private void checkUpdate() {

@@ -44,11 +44,11 @@ public class TokenInterceptor implements Interceptor {
         }
         String bodyString = buffer.clone().readString(charset);
 
-        KLog.i(bodyString);
+        KLog.i("\n"+bodyString);
         try {
             jsonObject = new JSONObject(bodyString);
-            if (jsonObject.has("error_desc") &&
-                    jsonObject.get("error_desc").toString().contains("Token 无效")) {
+            if (jsonObject.has("login") &&
+                    jsonObject.get("error").toString().contains("请登录")) {
                 response.body().close();
                 failed();
                 return null;

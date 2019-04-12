@@ -8,6 +8,7 @@ import com.goldze.common.dmvvm.http.cookie.CookieJarImpl;
 import com.goldze.common.dmvvm.http.cookie.store.PersistentCookieStore;
 import com.goldze.common.dmvvm.http.interceptor.BaseInterceptor;
 import com.goldze.common.dmvvm.http.interceptor.CacheInterceptor;
+import com.goldze.common.dmvvm.http.interceptor.TokenInterceptor;
 import com.goldze.common.dmvvm.http.interceptor.logging.Level;
 import com.goldze.common.dmvvm.http.interceptor.logging.LoggingInterceptor;
 import com.goldze.common.dmvvm.utils.Utils;
@@ -98,6 +99,7 @@ public class RetrofitClient {
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(mContext)))
                 .addInterceptor(new BaseInterceptor(headers))
                 .addInterceptor(new CacheInterceptor(mContext))
+                .addInterceptor(new TokenInterceptor())
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式

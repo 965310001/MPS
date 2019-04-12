@@ -11,6 +11,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="0dp"
+            app:tabMode="fixed"
             android:layout_height="50dp"
             app:layout_constraintBottom_toTopOf="@id/ll_panel"
             app:layout_constraintEnd_toEndOf="parent"

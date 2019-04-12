@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.mingpinmall.classz.R;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * 提交订单
  */
-@Route(path = ARouterConfig.classify.CONFIRMORDERACTIVITY)
+@Route(path = ARouterConfig.classify.CONFIRMORDERACTIVITY, extras = ARouterConfig.LOGIN_NEEDED)
 public class ConfirmOrderActivity extends
         AbsLifecycleActivity<ActivityConfirmOrderBinding, ClassifyViewModel> implements MaterialDialog.ListCallbackSingleChoice {
 
@@ -117,6 +118,7 @@ public class ConfirmOrderActivity extends
     public void invoiceInfo(View view) {
         KLog.i("发票信息");
         // TODO: 2019/4/11 发票信息
+        ActivityToActivity.toActivity(ARouterConfig.classify.INVOICEACTIVITY);
     }
 
     public void sublimit(View view) {

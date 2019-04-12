@@ -141,6 +141,8 @@ public interface ARouterConfig {
 
         /*提交订单*/
         String CONFIRMORDERACTIVITY = "/clasz/ConfirmOrderActivity";
+        /*管理发票信息*/
+        String INVOICEACTIVITY = "/clasz/InvoiceActivity";
 
 //        String DISTRIBUTIONACTIVITY = "/clasz/DistributionActivity";
     }
