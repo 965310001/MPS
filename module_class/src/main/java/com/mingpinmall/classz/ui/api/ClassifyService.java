@@ -10,6 +10,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
+import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 
 import java.util.Map;
@@ -107,18 +108,24 @@ public interface ClassifyService {
 
     /*获取订单信息*/
     @FormUrlEncoded
-//    @Multipart
     @POST(BASEURL)
-//    Flowable<BaseResponse<OrderInfo>> getOrderInfo(@QueryMap Map<String, Object> map);
     Flowable<BaseResponse<OrderInfo>> getOrderInfo(@FieldMap Map<String, Object> map);
 
+    /*获取发票内容*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<BaseResponse<InvoiceListInfo>> getInvoiceContentList(@FieldMap Map<String, Object> map);
 
+
+    /***************************************封装通用******************************/
     /*封装通用*/
     @FormUrlEncoded
-    @POST("mo_bile/index.php")
+    @POST(BASEURL)
     Flowable<ResultBean> execute(@Field("app") String app,
                                  @Field("wwi") String wwi,
                                  @FieldMap Map<String, Object> map);
 
-
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<ResultBean> execute(@FieldMap Map<String, Object> map);
 }

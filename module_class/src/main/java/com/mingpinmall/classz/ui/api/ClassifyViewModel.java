@@ -75,11 +75,33 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
 
     /*获取订单信息*/
     public void getOrderInfo(String cartId, Object eventKey) {
-        mRepository.getOrderInfo(cartId,eventKey);
+        mRepository.getOrderInfo(cartId, eventKey);
     }
 
     /*搜索列表*/
     public void getHotKeys() {
         mRepository.getHotKeys();
     }
+
+    /*获取发票内容*/
+    public void getInvoiceContentList(final Object eventKey) {
+        mRepository.getInvoiceContentList(eventKey);
+    }
+
+    /*获取发票列表*/
+    public void getInvoiceList(final Object eventKey) {
+        mRepository.getInvoiceList(eventKey);
+    }
+
+    /*确定发票内容*/
+    public void addInvoice(final Object eventKey, Map<String, Object> map) {
+        mRepository.addInvoice(eventKey, map);
+    }
+
+    /*删除发票列表*/
+    public void invoiceDel(final Object eventKey, String invId) {
+        mRepository.invoiceDel(eventKey, invId);
+
+    }
+
 }

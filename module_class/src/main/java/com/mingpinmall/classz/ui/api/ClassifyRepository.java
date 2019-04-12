@@ -18,6 +18,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
+import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.socks.library.KLog;
 
@@ -263,6 +264,98 @@ public class ClassifyRepository extends BaseRepository {
                 }));
     }
 
+    /*获取发票内容*/
+    public void getInvoiceContentList(final Object eventKey) {
+        Map<String, Object> map = parames("member_invoice", "invoice_content_list");
+        map.put("key", getUserKey());
+        addDisposable(apiService.getInvoiceContentList(map)
+                .compose(RxSchedulers.<BaseResponse<InvoiceListInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<InvoiceListInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<InvoiceListInfo> result) {
+                        sendData(eventKey, result);
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
+    }
+
+    /*确定发票内容*/
+    public void getInvoiceList(final Object eventKey) {
+        map = parames(map, "member_invoice",
+                "invoice_list");
+        map.put("key", getUserKey());
+        addDisposable(apiService.getInvoiceContentList(map)
+                .compose(RxSchedulers.<BaseResponse<InvoiceListInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<InvoiceListInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<InvoiceListInfo> result) {
+                        sendData(eventKey, result);
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
+    }
+
+    /*获取发票列表*/
+    public void addInvoice(final Object eventKey, Map<String, Object> map) {
+        map = parames(map, "member_invoice",
+                "invoice_add");
+        map.put("key", getUserKey());
+        addDisposable(apiService.getInvoiceContentList(map)
+                .compose(RxSchedulers.<BaseResponse<InvoiceListInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<InvoiceListInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<InvoiceListInfo> result) {
+                        sendData(eventKey, result);
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
+    }
+
+    /*删除发票列表*/
+    public void invoiceDel(final Object eventKey, String invId) {
+        map = parames("member_invoice",
+                "invoice_del");
+        map.put("_client", "android");
+        map.put("key", getUserKey());
+        map.put("inv_id", invId);
+        execute(eventKey, map);
+    }
+
+    /**************************************/
+
     /*省 市 区*/
     public void getArea(String areaId) {
         Map<String, Object> map = parames("area_list", "area_list");
@@ -320,10 +413,42 @@ public class ClassifyRepository extends BaseRepository {
         );
     }
 
+    public void execute(final Object eventKey, Map<String, Object> map) {
+        addDisposable(apiService.execute(map)
+                        .compose(RxSchedulers.<ResultBean>io_main())
+                        .subscribeWith(new RxSubscriber<ResultBean>() {
+                            @Override
+                            public void onSuccess(ResultBean result) {
+                                sendData(eventKey, result);
+//                        showPageState(eventStateKey, StateConstants.SUCCESS_STATE);
+                            }
+
+                            @Override
+                            public void onFailure(String msg) {
+                                KLog.i(msg);
+//                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
+                            }
+
+                            @Override
+                            protected void onNoNetWork() {
+                                super.onNoNetWork();
+                                KLog.i("onNoNetWork");
+//                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
+                            }
+                        })
+        );
+    }
+
 
     Map<String, Object> map = new HashMap<>();
 
     Map<String, Object> parames(Object app, Object wwi) {
+        map.put("app", app);
+        map.put("wwi", wwi);
+        return map;
+    }
+
+    Map<String, Object> parames(Map<String, Object> map, Object app, Object wwi) {
         map.put("app", app);
         map.put("wwi", wwi);
         return map;

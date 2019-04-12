@@ -17,6 +17,7 @@ import com.goldze.common.dmvvm.widget.MultipleItemView;
 import com.leon.lib.settingview.LSettingItem;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.socks.library.KLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
@@ -97,6 +98,24 @@ public class DatabingUtils {
                 case 2:
                     adapter = AdapterPool.newInstance().getConfirmOrder(context)
                             .build();
+                    rv.addItemDecoration(new DividerItemDecoration(context,
+                            DividerItemDecoration.VERTICAL));
+                    layout = new GridLayoutManager(context, 1);
+                    rv.setLayoutManager(layout);
+                    break;
+                case 3:
+                    final InvoiceListInfo.InvoiceListBean[] bean = {null};
+                    adapter = AdapterPool.newInstance().getInvoiceList(context)
+                            .setOnItemClickListener(new OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int i, Object o) {
+                                    if (null != bean[0]) {
+                                        bean[0].setChecked(false);
+                                    }
+                                    bean[0] = (InvoiceListInfo.InvoiceListBean) o;
+                                    bean[0].setChecked(true);
+                                }
+                            }).build();
                     rv.addItemDecoration(new DividerItemDecoration(context,
                             DividerItemDecoration.VERTICAL));
                     layout = new GridLayoutManager(context, 1);

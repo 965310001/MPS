@@ -10,6 +10,7 @@ import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
+import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.footview.FootViewHolder;
 import com.trecyclerview.headview.HeaderViewHolder;
@@ -71,6 +72,13 @@ public class AdapterPool {
     public DelegateAdapter.Builder getConfirmOrder(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
                         .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_products_confirm, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
+
+    /*获取发票列表*/
+    public DelegateAdapter.Builder getInvoiceList(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(InvoiceListInfo.InvoiceListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_invoice, BR.data)),
                 context, ProgressStyle.Pacman);
     }
 

@@ -102,6 +102,7 @@ public abstract class AbsLifecycleActivity<VD extends ViewDataBinding, T extends
     @Override
     protected void onStateRefresh() {
         showLoading();
+        initData();
     }
 
 
