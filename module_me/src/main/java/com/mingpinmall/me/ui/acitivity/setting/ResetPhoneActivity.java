@@ -63,7 +63,7 @@ public class ResetPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneB
 
     @Override
     protected Object getStateEventKey() {
-        return null;
+        return "RESET_PHONE";
     }
 
     @Override

@@ -2,8 +2,10 @@ package com.mingpinmall.shopping.common;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 
 import com.goldze.common.dmvvm.base.BaseApplication;
+import com.mingpinmall.shopping.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -34,8 +36,8 @@ public class MyApplication extends BaseApplication {
             public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
                 ClassicsHeader header = new ClassicsHeader(context);
                 header.setSpinnerStyle(SpinnerStyle.Translate);
-//                header.setAccentColor(ContextCompat.getColor(context, R.color.text_black));
-//                header.setPrimaryColor(ContextCompat.getColor(context, R.color.background_hui));
+                header.setAccentColor(ContextCompat.getColor(context, R.color.white));
+                header.setPrimaryColor(ContextCompat.getColor(context, R.color.color_666666));
                 return header;
             }
         });
@@ -45,8 +47,8 @@ public class MyApplication extends BaseApplication {
             public RefreshFooter createRefreshFooter(@NonNull Context context, @NonNull RefreshLayout layout) {
                 ClassicsFooter footer = new ClassicsFooter(context);
                 footer.setSpinnerStyle(SpinnerStyle.Translate);
-//                        footer.setAccentColor(ContextCompat.getColor(context, R.color.text_black));
-//                        footer.setPrimaryColor(ContextCompat.getColor(context, R.color.background_hui));
+                footer.setAccentColor(ContextCompat.getColor(context, R.color.white));
+                footer.setPrimaryColor(ContextCompat.getColor(context, R.color.color_666666));
                 return footer;
             }
         });

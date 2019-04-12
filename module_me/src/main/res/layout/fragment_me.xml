@@ -7,10 +7,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/VerticalScrollBarRecyclerView" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/titleBar"

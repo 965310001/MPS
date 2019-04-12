@@ -1,8 +1,10 @@
 package com.mingpinmall.me.ui.api;
 
+import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.bean.CheckSmsCodeBean;
 import com.mingpinmall.me.ui.bean.CodeKeyMode;
+import com.mingpinmall.me.ui.bean.DefaultCheckBean;
 import com.mingpinmall.me.ui.bean.SmsBean;
 import com.goldze.common.dmvvm.base.bean.UserBean;
 
@@ -23,21 +25,72 @@ public interface UserApiService {
     String MAKECODE = "http://39.108.254.185/mo_bile/index.php?app=seccode&wwi=makecode";
     /*短信验证码*/
     String SENDSMS = "/mo_bile/index.php?app=connect&wwi=get_sms_captcha";
+
     /*短信验证码*/
     String SEND_ResetSMS = "/mo_bile/index.php?app=member_account&wwi=modify_mobile_step2";
-    /*短信验证码 验证*/
-    String CheckCode = "/mo_bile/index.php?app=member_account&wwi=modify_password_step3";
 
-    /*短信验证码 验证*/
+    /*验证 登录密码短信验证码*/
+    String CheckLoginPsdSMSCode = "/mo_bile/index.php?app=member_account&wwi=modify_password_step3";
+    /*验证 支付密码手机短信验证码*/
+    String CheckPayPsdSMSCode = "/mo_bile/index.php?app=member_account&wwi=modify_paypwd_step3";
+    /*验证 更改绑定手机短信验证码*/
+    String CheckBindPhoneSMSCode = "/mo_bile/index.php?app=member_account&wwi=modify_mobile_step3";
+
+    /*检测是否设置了支付密码*/
+    String CheckPayPassword = "/mo_bile/index.php?app=member_account&wwi=get_paypwd_info";
+    /*修改登陆密码*/
+    String RestPassword = "/mo_bile/index.php?app=member_account&wwi=modify_password_step5";
+    /*修改支付密码*/
+    String RestPayPassword = "/mo_bile/index.php?app=member_account&wwi=modify_paypwd_step5";
+
+    /*修改登陆密码*/
     @FormUrlEncoded
-    @POST(CheckCode)
-    Flowable<CheckSmsCodeBean> checkCode(@Field("auth_code") String code,
-                                         @Field("key") String key
+    @POST(RestPassword)
+    Flowable<BaseResponse<BaseBean>> resetPassword(@Field("password") String password,
+                                                   @Field("password1") String password1,
+                                                   @Field("_client") String client,
+                                                   @Field("key") String key
+    );
+
+    /*修改支付密码*/
+    @FormUrlEncoded
+    @POST(RestPayPassword)
+    Flowable<BaseResponse<BaseBean>> resetPayPassword(@Field("password") String password,
+                                                      @Field("password1") String password1,
+                                                      @Field("_client") String client,
+                                                      @Field("key") String key
+    );
+
+    /*验证 短信验证码 登陆密码修改 */
+    @FormUrlEncoded
+    @POST(CheckLoginPsdSMSCode)
+    Flowable<CheckSmsCodeBean> checkLoginPsdSmsCode(@Field("auth_code") String code,
+                                                    @Field("key") String key,
+                                                    @Field("client") String client,
+                                                    @Field("_client") String _client
+    );
+
+    /*验证 短信验证码 支付密码修改 */
+    @FormUrlEncoded
+    @POST(CheckPayPsdSMSCode)
+    Flowable<CheckSmsCodeBean> checkPayPsdSmsCode(@Field("auth_code") String code,
+                                                  @Field("key") String key,
+                                                  @Field("client") String client,
+                                                  @Field("_client") String _client
+    );
+
+    /*验证 短信验证码 支付密码修改 */
+    @FormUrlEncoded
+    @POST(CheckBindPhoneSMSCode)
+    Flowable<CheckSmsCodeBean> checkBindPhoneSmsCode(@Field("auth_code") String code,
+                                                     @Field("key") String key,
+                                                     @Field("client") String client,
+                                                     @Field("_client") String _client
     );
 
     /*登录*/
     @FormUrlEncoded
-    @POST(UserApiService.LOGIN)
+    @POST(LOGIN)
     Flowable<BaseResponse<UserBean>> login(@Field("username") String userName,
                                            @Field("password") String password,
                                            @Field("login_type") int loginType,//1:表示手机验证码登录 2:表示密码登录
@@ -45,20 +98,26 @@ public interface UserApiService {
     );
 
     /*发送短信验证码 登陆，注册，找回密码 */
-    @GET(UserApiService.SENDSMS)
+    @GET(SENDSMS)
     Flowable<BaseResponse<SmsBean>> sendSMS(@Query("type") int type,//短信类型:1为注册、登录,3为找回密码
                                             @Query("phone") String phone
     );
 
+    /*检查是否设置了 支付密码 */
+    @GET(CheckPayPassword)
+    Flowable<BaseResponse<DefaultCheckBean>> checkPayPassword(
+            @Query("key") String key
+    );
+
     /*发送短信验证码 修改密码，修改手机，修改支付密码 */
     @FormUrlEncoded
-    @POST(UserApiService.SEND_ResetSMS)
+    @POST(SEND_ResetSMS)
     Flowable<BaseResponse<SmsBean>> sendResetSMS(@Field("client") String client,//android
-                                            @Field("key") String key
+                                                 @Field("key") String key
     );
 
     /*获取和生成图形验证码钥匙*/
-    @GET(UserApiService.MAKECODEKEY)
+    @GET(MAKECODEKEY)
     Flowable<BaseResponse<CodeKeyMode>> makeCodeKey();
 
 }

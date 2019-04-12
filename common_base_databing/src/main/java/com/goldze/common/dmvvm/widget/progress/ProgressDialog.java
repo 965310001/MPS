@@ -82,19 +82,12 @@ public class ProgressDialog extends BaseDialog {
     private Runnable runnableForLoading = new Runnable() {
         @Override
         public void run() {
-            delayedDoing();
+            if (onDismissListener != null) {
+                onDismissListener.onDismiss();
+            }
             dismissAllowingStateLoss();
         }
     };
-
-
-    /**
-     * 关闭对话框时的回调
-     */
-    private void delayedDoing() {
-        if (onDismissListener != null)
-            onDismissListener.onDismiss();
-    }
 
     /**
      * 完成
@@ -208,6 +201,13 @@ public class ProgressDialog extends BaseDialog {
         label.setVisibility(title.isEmpty() ? View.GONE : View.VISIBLE);
         label.setText(title);
         handler.postDelayed(runnableForLoading, delayMillis);
+    }
+
+    /**
+     * 关闭这个对话框
+     */
+    public void close() {
+        dismissAllowingStateLoss();
     }
 
     /**

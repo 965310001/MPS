@@ -139,4 +139,8 @@ public class OrderActivity extends BaseActivity<ActivityOrderBinding> {
         binding.viewPager.setCurrentItem(0, false);
     }
 
+    public String getOrderKey() {
+
+        return binding.edSearch.getText().toString();
+    }
 }

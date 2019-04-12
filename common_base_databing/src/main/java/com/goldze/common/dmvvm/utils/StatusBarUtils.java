@@ -30,7 +30,7 @@ import java.util.Properties;
 public class StatusBarUtils {
 
     public static int DEFAULT_COLOR = 0;
-    public static float DEFAULT_ALPHA = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? 0.2f : 0;
+    public static float DEFAULT_ALPHA = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? 0.3f : 0;
     public static final int MIN_API = 19;
 
     /**

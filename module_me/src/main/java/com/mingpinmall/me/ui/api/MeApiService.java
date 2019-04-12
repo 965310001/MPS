@@ -5,6 +5,7 @@ import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
 import com.mingpinmall.me.ui.bean.BasePageBean;
+import com.mingpinmall.me.ui.bean.FootprintBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.bean.ProductCollectionBean;
 import com.mingpinmall.me.ui.bean.PropertyBean;
@@ -115,17 +116,33 @@ public interface MeApiService {
     );
 
     /**
-     * 描述：根据条件查询订单
+     * 描述：浏览记录
      * 请求地址：
-     * http://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_list&page=10&curpage=1
-     * 请求方式：POST
-     * 请求参数：
-     * State_type:
-     * [state_new:待付款]
-     * [state_send:待收货]
-     * [state_notakes:待自提]
-     * [state_noeval:待评价]
-     * Order_key:搜索内容，产品标题或订单号
+     * http://www.mingpinmall.cn/mo_bile/index.php?app=member_goodsbrowse&wwi=browse_list &curpage=1&page=10
+     * 请求方式：get
+     * 请求参数：无
+     */
+    String MyFootprint = "/mo_bile/index.php?app=member_goodsbrowse&wwi=browse_list";
+
+    @GET(MyFootprint)
+    Flowable<BaseResponse<FootprintBean>> getFootprint(@Query("key") String key, @Query("page") int page, @Query("curpage") int curPage);
+
+    /**
+     * 描述：清空浏览记录
+     * 请求地址:http://www.mingpinmall.cn/mo_bile/index.php?app=member_ goodsbrowse&wwi=browse_clearall
+     * 请求方式：get
+     * 请求参数：无
+     */
+    String ClearnFootprint = "/mo_bile/index.php?app=member_ goodsbrowse&wwi=browse_clearall";
+
+    @GET(ClearnFootprint)
+    Flowable<BaseResponse<FootprintBean>> clearnFootprint(@Query("key") String key);
+
+    /**
+     * 描述：我的财产
+     * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_index&wwi=my_asset
+     * 请求方式：get
+     * 请求参数：无
      */
     String myAsset = "/mo_bile/index.php?app=member_index&wwi=my_asset";
 
