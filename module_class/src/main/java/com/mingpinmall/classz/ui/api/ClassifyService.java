@@ -116,6 +116,11 @@ public interface ClassifyService {
     @POST(BASEURL)
     Flowable<BaseResponse<InvoiceListInfo>> getInvoiceContentList(@FieldMap Map<String, Object> map);
 
+    /*收藏排行*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<BaseResponse<InvoiceListInfo>> getStoreGoodsRank(@FieldMap Map<String, Object> map);
+
 
     /***************************************封装通用******************************/
     /*封装通用*/

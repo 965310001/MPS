@@ -121,6 +121,13 @@ public class DatabingUtils {
                     layout = new GridLayoutManager(context, 1);
                     rv.setLayoutManager(layout);
                     break;
+                case 4:
+                    adapter = AdapterPool.newInstance().getRecommend(context).build();
+                    rv.addItemDecoration(new DividerItemDecoration(context,
+                            DividerItemDecoration.VERTICAL));
+                    layout = new GridLayoutManager(context, 4);
+                    rv.setLayoutManager(layout);
+                    break;
                 default:
                     KLog.i("必须个TRecyclerView 设置TAG");
                     break;

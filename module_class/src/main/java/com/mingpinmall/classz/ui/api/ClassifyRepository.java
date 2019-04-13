@@ -238,9 +238,15 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*获取订单信息*/
-    public void getOrderInfo(String cartId, final Object eventKey) {
+    public void getOrderInfo(String cartId, String addressId, String ifcart, final Object eventKey) {
         Map<String, Object> map = parames("member_buy", "buy_step1");
         map.put("cart_id", cartId);
+        if (!TextUtils.isEmpty(addressId)) {
+            map.put("address_id", ifcart);
+        }
+        if (!TextUtils.isEmpty(addressId)) {
+            map.put("ifcart", ifcart);
+        }
         map.put("key", getUserKey());
         addDisposable(apiService.getOrderInfo(map)
                 .compose(RxSchedulers.<BaseResponse<OrderInfo>>io_main())
@@ -354,8 +360,40 @@ public class ClassifyRepository extends BaseRepository {
         execute(eventKey, map);
     }
 
-    /**************************************/
+    /************************************* 店铺 start ******************************/
+    /*收藏排行*/
+    public void getStoreGoodsRank(String storeId, String orderType, String num) {
+        Map<String, Object> map = parames("", "");
+        map.put("store_id", storeId);
+        map.put("ordertype", orderType);
+        map.put("num", num);
+        addDisposable(apiService.getStoreGoodsRank(this.map)
+                .compose(RxSchedulers.<BaseResponse<InvoiceListInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<InvoiceListInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<InvoiceListInfo> result) {
+//                        sendData(eventKey, result);
+//                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.SUCCESS_STATE);
+                    }
 
+                    @Override
+                    public void onFailure(String msg) {
+//                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
+
+    }
+
+    /************************************* 店铺 end ******************************/
+
+
+    /**************************************/
     /*省 市 区*/
     public void getArea(String areaId) {
         Map<String, Object> map = parames("area_list", "area_list");

@@ -10,22 +10,21 @@
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/rl_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#AF000000"
-        android:fitsSystemWindows="true"
-        android:gravity="bottom"
         android:orientation="vertical">
 
         <View
             android:id="@+id/view_close"
             android:layout_width="match_parent"
-            android:layout_height="117dp" />
+            android:layout_height="0dp"
+            android:layout_weight="3" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="2">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,16 +65,24 @@
                         android:textStyle="bold"
                         tools:text="库存：1件" />
 
+                    <ImageView
+                        android:id="@+id/iv_close"
+                        android:layout_width="@dimen/image_height"
+                        android:layout_height="@dimen/image_height"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/popup_icon_close" />
+
                     <TextView
+                        android:id="@+id/tv_name"
                         style="@style/TextStyle"
                         android:layout_marginStart="15dp"
                         android:layout_toLeftOf="@id/iv_close"
                         android:layout_toEndOf="@+id/iv_goods_img"
                         android:gravity="left"
-                        android:maxLines="2"
+                        android:maxLines="3"
                         android:text="@{data.goods_name}"
                         android:textStyle="bold"
-                        tools:text="小米小米小米小米小米小米小米" />
+                        tools:text="夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼" />
 
                     <TextView
                         android:id="@+id/tv_goods_no"
@@ -87,12 +94,6 @@
                         android:textSize="10sp"
                         android:visibility="invisible" />
 
-                    <ImageView
-                        android:id="@+id/iv_close"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/popup_icon_close" />
                 </RelativeLayout>
 
 

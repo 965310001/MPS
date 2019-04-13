@@ -370,7 +370,6 @@ public class GoodsInfo extends BaseBean {
 
     public void click(View view) {
         KLog.i("click");
-//        ToastUtils.showLong(view.getId() + " " + getGoods_id() + "");
 //        ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", goods_id);
         ActivityToActivity.goShoppingDetails(goods_id);
     }

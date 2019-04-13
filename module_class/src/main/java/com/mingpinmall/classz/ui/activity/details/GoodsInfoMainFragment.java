@@ -272,6 +272,8 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 recyclerViewRecommend.setLayoutManager(new GridLayoutManager(getContext(), 4));
                 recyclerViewRecommend.setAdapter(new RecommendGoodsInfoAdapter(getContext(),
                         goodsDetailInfo.getDatas().getGoods_commend_list()));
+
+                binding.setList(goodsDetailInfo.getDatas().getGoods_commend_list());
             }
 
             // TODO: 2019/4/1  全国 有货 免运费

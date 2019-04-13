@@ -26,9 +26,7 @@ import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.socks.library.KLog;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 提交订单
@@ -42,6 +40,12 @@ public class ConfirmOrderActivity extends
 
     @Autowired
     String cartId;
+
+    /*地址id*/
+    String addressId;
+
+    @Autowired
+    String ifcart;/*是否是购物车*/
 
     @Override
     protected int getLayoutId() {
@@ -57,12 +61,6 @@ public class ConfirmOrderActivity extends
     }
 
     @Override
-    protected void onStateRefresh() {
-        super.onStateRefresh();
-        initData();
-    }
-
-    @Override
     protected Object getStateEventKey() {
         return Constants.CONFIRMORDER_KEY[1];
     }
@@ -72,8 +70,7 @@ public class ConfirmOrderActivity extends
         super.initData();
         KLog.i(cartId);
 
-//        cartId = "\"109938|1,109936|1\"";
-        mViewModel.getOrderInfo(cartId, Constants.CONFIRMORDER_KEY[0]);
+        mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 
     @Override
@@ -102,7 +99,7 @@ public class ConfirmOrderActivity extends
                                     }
                                     binding.setData(goods_list);
                                     binding.setPayment("在线付款");
-                                    binding.setInvoice("不需要发票");
+                                    binding.setInvoice(data.getData().getInv_info().getContent());
                                     binding.executePendingBindings();
                                 } catch (Exception e) {
                                     KLog.i(e.toString());
@@ -146,10 +143,6 @@ public class ConfirmOrderActivity extends
         ARouter.getInstance().build(ARouterConfig.ADDRESSMANAGERACTIVITY)
                 .withBoolean("isGetAddress", true).navigation(this,
                 100);
-
-// Map<String, Object> map = new HashMap<>();
-//        map.put("isGetAddress", true);
-//        ActivityToActivity.toActivityForResult(ARouterConfig.ADDRESSMANAGERACTIVITY, map, 100);
     }
 
     @Override
@@ -163,7 +156,9 @@ public class ConfirmOrderActivity extends
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == requestCode && requestCode == 100) {
-            binding.setAddress((AddressDataBean.AddressListBean) intent.getSerializableExtra("addressData"));
+            AddressDataBean.AddressListBean data = (AddressDataBean.AddressListBean) intent.getSerializableExtra("addressData");
+            binding.setAddress(data);
+            addressId = data.getAddress_id();
         }
 
     }

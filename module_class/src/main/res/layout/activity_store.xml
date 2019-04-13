@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.store.StoreActivity">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#D5FFFFFF"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/ll_QRCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/sv_search"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@id/sv_search"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sv_search">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:onClick="finish"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_back"
+                    android:tint="@color/black" />
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/sv_search"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_margin="6dp"
+                android:background="@drawable/button_white_search"
+                android:drawableLeft="@drawable/search"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ll_msg"
+                app:layout_constraintStart_toEndOf="@id/ll_QRCode"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_msg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/sv_search"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/sv_search"
+                app:layout_constraintTop_toTopOf="@id/sv_search">
+
+                <!--<android.support.v7.widget.AppCompatImageView-->
+                <!--android:layout_width="28dp"-->
+                <!--android:layout_height="28dp"-->
+                <!--android:src="@drawable/ic_message_black" />-->
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <com.xuexiang.xui.widget.XUIObservableScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ll"
+
+            android:layout_below="@id/cl_title_bar">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/rl_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@color/blue"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_height_large"
+                            android:layout_height="@dimen/image_height_large"
+                            android:src="@drawable/ic_launcher" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="店铺推荐" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="end"
+                        android:layout_marginRight="60dp"
+                        android:background="@color/shallow_red"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/dp_12"
+                        android:paddingTop="@dimen/dp_5"
+                        android:paddingRight="@dimen/dp_12"
+                        android:paddingBottom="@dimen/dp_5"
+                        android:text="收藏"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="end"
+                        android:background="@color/shallow_red"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/dp_12"
+                        android:paddingTop="@dimen/dp_5"
+                        android:paddingRight="@dimen/dp_12"
+                        android:paddingBottom="@dimen/dp_5"
+                        android:text="粉丝"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <com.heima.tabview.library.TabView
+                    android:id="@+id/tabView"
+                    style="@style/width_match_height_match"
+                    android:layout_below="@+id/rl_head"
+                    android:background="@color/gray"
+                    app:imageViewTextViewMargin="2dp"
+                    app:tab_imageViewHeight="18dp"
+                    app:tab_imageViewWidth="18dp"
+                    app:tab_tabViewBackgroundColor="@color/white"
+                    app:tab_tabViewDefaultPosition="0"
+                    app:tab_tabViewGravity="top"
+                    app:tab_tabViewHeight="50dp"
+                    app:tab_textViewSelColor="@color/app_theme_d61619"
+                    app:tab_textViewSize="@dimen/text_12"
+                    app:tab_textViewUnSelColor="@color/dark" />
+
+                <RelativeLayout
+                    android:id="@+id/content_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dp_150"
+                    android:background="@color/shallow_red"
+                    android:visibility="gone">
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+        </com.xuexiang.xui.widget.XUIObservableScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/dp_12"
+                android:text="店铺推荐" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/dp_12"
+                android:text="店铺推荐" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/dp_12"
+                android:text="店铺推荐" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/dp_12"
+                android:text="店铺推荐" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>

@@ -18,6 +18,9 @@
         <activity
             android:name=".ui.activity.invoice.InvoiceActivity"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.store.StoreActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

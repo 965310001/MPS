@@ -68,6 +68,14 @@ public class AdapterPool {
                 context, ProgressStyle.Pacman);
     }
 
+    /*店铺推荐*/
+    public DelegateAdapter.Builder getRecommend(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.market_item_of_goods_recommend_list, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
+
+
     /*确认订单*/
     public DelegateAdapter.Builder getConfirmOrder(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()

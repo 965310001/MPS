@@ -23,6 +23,13 @@ public class RecommendGoodsInfoAdapter extends BaseRecyclerAdapter<GoodsInfo> {
         holder.setText(R.id.tv_goods_name, data.getGoods_name());
         holder.setText(R.id.tv_goods_price, String.format("¥%s", data.getGoods_promotion_price()));
         ImageUtils.loadImage(((ImageView) holder.getView(R.id.iv_goods)), data.getGoods_image_url());
+        holder.convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KLog.i(data.getGoods_id() + "==");
+                ActivityToActivity.goShoppingDetails(data.getGoods_id());
+            }
+        });
     }
 
     public RecommendGoodsInfoAdapter(Context context, @Nullable List<GoodsInfo> list) {

@@ -83,7 +83,10 @@ public class MainActivity extends BottomNavigationActivity {
         /*测试*/
 //        ActivityToActivity.toActivity(ARouterConfig.classify.INVOICEACTIVITY);
         /*测试商品*/
-        ActivityToActivity.goShoppingDetails("109928");
+//        ActivityToActivity.goShoppingDetails("109928");
+
+        /*店铺商家*/
+        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
     }
 
     private void checkUpdate() {

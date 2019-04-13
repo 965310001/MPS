@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:leon="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>a
+    <data>
 
         <variable
             name="data"
             type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
 
+        <variable
+            name="list"
+            type="java.util.List" />
 
-        <!--<variable-->
-        <!--name="putData"-->
-        <!--type="com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo" />-->
     </data>
 
     <com.goldze.common.dmvvm.widget.SlideLayout
@@ -239,7 +240,13 @@
 
                     <include
                         android:id="@+id/recycle_recommend_view"
-                        layout="@layout/recyclerview_base" />
+                        layout="@layout/recyclerview_base"
+                        android:visibility="gone" />
+
+                    <include
+                        layout="@layout/trecyclerview_base"
+                        bind:data="@{list}"
+                        bind:tag='@{"4"}' />
                 </LinearLayout>
 
 

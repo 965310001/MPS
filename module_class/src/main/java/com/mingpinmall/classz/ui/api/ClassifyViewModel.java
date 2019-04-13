@@ -74,8 +74,8 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /*获取订单信息*/
-    public void getOrderInfo(String cartId, Object eventKey) {
-        mRepository.getOrderInfo(cartId, eventKey);
+    public void getOrderInfo(String cartId, String addressId, String ifcart, Object eventKey) {
+        mRepository.getOrderInfo(cartId, addressId, ifcart, eventKey);
     }
 
     /*搜索列表*/
@@ -101,7 +101,12 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     /*删除发票列表*/
     public void invoiceDel(final Object eventKey, String invId) {
         mRepository.invoiceDel(eventKey, invId);
+    }
 
+    /************************************* 店铺 ******************************/
+    /*收藏排行*/
+    public void getStoreGoodsRank(String storeId, String orderType, String num) {
+        mRepository.getStoreGoodsRank(storeId, orderType, num);
     }
 
 }
