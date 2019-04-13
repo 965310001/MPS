@@ -1,10 +1,11 @@
 package com.mingpinmall.me.ui.api;
 
-import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.base.bean.AddressDataBean;
+import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
-import com.mingpinmall.me.ui.bean.BasePageBean;
+import com.mingpinmall.me.ui.bean.CityBean;
 import com.mingpinmall.me.ui.bean.FootprintBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.bean.ProductCollectionBean;
@@ -148,6 +149,113 @@ public interface MeApiService {
 
     @GET(myAsset)
     Flowable<BaseResponse<PropertyBean>> getMyAsset(@Query("key") String key);
+
+    /**
+     * 描述：各级地区
+     * 请求地址：
+     * http://www.mingpinmall.cn/mo_bile/index.php?app=area&wwi=area_list
+     * 请求方式：get
+     * 请求参数：
+     * key:用户key
+     * area_id:地区id
+     */
+    String GetCity = "/mo_bile/index.php?app=area&wwi=area_list";
+
+    @GET(GetCity)
+    Flowable<BaseResponse<CityBean>> getCityList(@Query("key") String key, @Query("area_id") String area_id);
+
+    /**
+     * 描述：收货地址管理
+     * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_list
+     * 请求方式：get
+     * 请求参数：无
+     */
+    String AddressList = "/mo_bile/index.php?app=member_address&wwi=address_list";
+
+    @GET(AddressList)
+    Flowable<BaseResponse<AddressDataBean>> getAddressList(@Query("key") String key);
+
+    /**
+     * 描述：收货地址详细信息
+     * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_info
+     * 请求方式：post
+     * 请求参数：
+     * 	address_id:地址id
+     */
+    String GetAddress = "/mo_bile/index.php?app=member_address&wwi=address_info";
+
+    @FormUrlEncoded
+    @POST(GetAddress)
+    Flowable<BaseResponse<AddressDataBean.AddressListBean>> getAddress(@Field("key") String key, @Field("address_id") String address_id);
+
+    /**
+     * 描述：删除收货地址
+     * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_del
+     * 请求方式：post
+     * 请求参数：
+     * 	address_id:地址id
+     */
+    String DelAddress = "/mo_bile/index.php?app=member_address&wwi=address_del";
+
+    @FormUrlEncoded
+    @POST(DelAddress)
+    Flowable<BaseNothingBean> delAddress(@Field("key") String key, @Field("address_id") String address_id);
+
+    /**
+     * 描述：新增收货地址
+     * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_add
+     * 请求方式：post
+     * 请求参数：
+     * id_default:设置默认地址  0否，1是
+     * true_name:收货人姓名
+     * area_id:地区id   3级 如果三级没有id，则使用二级的
+     * city_id:市级id   2级
+     * area_info:地区 名字
+     * address:详细地址 名字
+     * mob_phone:联系手机
+     */
+    String AddAddress = "/mo_bile/index.php?app=member_address&wwi=address_add";
+
+    @FormUrlEncoded
+    @POST(AddAddress)
+    Flowable<BaseNothingBean> addAddress(@Field("key") String key,
+                                         @Field("is_default") int id_default,
+                                         @Field("true_name") String name,
+                                         @Field("city_id") String city_id,
+                                         @Field("area_id") String area_id,
+                                         @Field("area_info") String area_info,
+                                         @Field("address") String address,
+                                         @Field("mob_phone") String phone
+    );
+
+    /**
+     * 描述：收货地址编辑
+     * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_edit
+     * 请求方式：post
+     * 请求参数：
+     * address_id:地址id
+     * id_default:设置默认地址  0否，1是
+     * true_name:收货人姓名
+     * area_id:地区id   3级 如果三级没有id，则使用二级的
+     * city_id:市级id   2级
+     * area_info:地区 名字
+     * address:详细地址 名字
+     * mob_phone:联系手机
+     */
+    String EditAddress = "/mo_bile/index.php?app=member_address&wwi=address_edit";
+
+    @FormUrlEncoded
+    @POST(EditAddress)
+    Flowable<BaseNothingBean> editAddress(@Field("key") String key,
+                                                     @Field("address_id") String address_id,
+                                                     @Field("is_default") int id_default,
+                                                     @Field("true_name") String name,
+                                                     @Field("city_id") String city_id,
+                                                     @Field("area_id") String area_id,
+                                                     @Field("area_info") String area_info,
+                                                     @Field("address") String address,
+                                                     @Field("mob_phone") String phone
+    );
 
     /*我的商城中用户信息获取*/
     @GET(GETUSERINFO)

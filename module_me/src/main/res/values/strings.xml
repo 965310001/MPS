@@ -74,12 +74,23 @@
     <!-- AddressManagerActivity -->
     <string name="title_addressManagerActivity">地址管理</string>
     <string name="button_text_addAddress">添加新地址</string>
+    <string name="label_text_defaultAddress">默认地址</string>
     <!-- AddressManagerActivity Over -->
 
     <!-- EditAddressActivity -->
     <string name="title_editAddressActivity">编辑地址</string>
     <string name="title_addAddressActivity">新增地址</string>
     <string name="text_saveAddress">保存地址</string>
+    <string name="label_name">收货人姓名</string>
+    <string name="label_phone">联系手机</string>
+    <string name="label_block">地区选择</string>
+    <string name="label_address">详细地址</string>
+    <string name="label_default_address">默认地址</string>
+
+    <string name="hint_text_name">请输入收货人姓名</string>
+    <string name="hint_text_phone">请输入联系手机</string>
+    <string name="hint_text_block">点击选择地区</string>
+    <string name="hint_text_address">请输入详细地址</string>
     <!-- EditAddressActivity Over -->
 
     <!-- ResetPasswordActivity -->

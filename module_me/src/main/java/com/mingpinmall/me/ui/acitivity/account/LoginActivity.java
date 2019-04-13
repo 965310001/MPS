@@ -48,16 +48,9 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         setTitle(R.string.title_loginActivity);
         progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
 
-        TabLayout.Tab tab = binding.tabs.newTab();
-        tab.setText(R.string.tabs_login_puk);
-        tab.setTag("puk");
-
-        TabLayout.Tab tab2 = binding.tabs.newTab();
-        tab2.setText(R.string.tabs_login_phone);
-        tab2.setTag("psd");
-
-        binding.tabs.addTab(tab);
-        binding.tabs.addTab(tab2);
+        binding.tabs.addTab(binding.tabs.newTab().setText(R.string.tabs_login_puk));
+        binding.tabs.addTab(binding.tabs.newTab().setText(R.string.tabs_login_phone));
+        binding.tabs.getTabAt(0).select();
 
         binding.edPassword.addTextChangedListener(this);
         binding.edPhone.addTextChangedListener(this);
@@ -75,18 +68,19 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         binding.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getTag().toString()) {
-                    case "puk":
+                switch (tab.getPosition()) {
+                    case 0:
                         binding.llPanel0.setVisibility(View.VISIBLE);
                         binding.llPanel1.setVisibility(View.GONE);
                         break;
-                    case "psd":
+                    case 1:
                         binding.llPanel0.setVisibility(View.GONE);
                         binding.llPanel1.setVisibility(View.VISIBLE);
                         break;
                     default:
                         break;
                 }
+                setEnabled();
             }
 
             @Override
@@ -191,18 +185,20 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
 
     @Override
     public void afterTextChanged(Editable s) {
-        int phoneCount = binding.edPhone.getText().length();
-        int msgCodeCount = binding.edMsgCode.getText().length();
-        int passwordCount = binding.edPassword.getText().length();
-
-        binding.tvGetPsdCode.setVisibility(phoneCount >= 11 ? View.VISIBLE : View.INVISIBLE);
-        editTextAllOK = phoneCount >= 11 && binding.tabs.getSelectedTabPosition() == 0 ? msgCodeCount >= 4 : passwordCount >= 6;
         setEnabled();
     }
 
     private boolean editTextAllOK = false;
 
     private void setEnabled() {
+        int phoneCount = binding.edPhone.getText().length();
+
+        binding.tvGetPsdCode.setVisibility(phoneCount >= 11 ? View.VISIBLE : View.INVISIBLE);
+        if (binding.tabs.getSelectedTabPosition() == 0) {
+            editTextAllOK = phoneCount >= 11 && binding.edMsgCode.getText().length() >= 4;
+        } else {
+            editTextAllOK = phoneCount >= 11 && binding.edPassword.getText().length() >= 6;
+        }
         if (binding.cbAgree.isChecked() && editTextAllOK) {
             binding.btnSublimt.setEnabled(true);
         } else {
