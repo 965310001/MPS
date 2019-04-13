@@ -57,12 +57,12 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mViewModel.getMyFootprint(1);
+                mViewModel.getMyFootprint(pageIndex + 1);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mViewModel.getMyFootprint(pageIndex + 1);
+                mViewModel.getMyFootprint(1);
             }
         });
 
@@ -82,6 +82,7 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
+                        pageIndex = 1;
                         binding.refreshLayout.finishRefresh();
                         BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
                         if (!data.isHasmore()) {
@@ -96,7 +97,11 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
                     @Override
                     public void onChanged(@Nullable Object result) {
                         BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
-                        binding.refreshLayout.finishLoadMore();
+                        if (data.isHasmore()) {
+                            binding.refreshLayout.finishLoadMore();
+                        } else {
+                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                        }
                         footprintListAdapter.addData(data.getData().getGoodsbrowse_list());
                         pageIndex++;
                     }

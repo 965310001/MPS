@@ -47,6 +47,28 @@ public class ImageUtils {
         Glide.with(imageView.getContext())
                 .asGif()
                 .load(url)
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.ic_loading_image)
+                        .error(new ColorDrawable(Color.WHITE))
+                        .fallback(new ColorDrawable(Color.RED))
+                )
+                .into(imageView);
+    }
+
+    /**
+     * 加载GIF网络图片
+     *
+     * @param url       url
+     * @param imageView imageView
+     * @param imageView transformation 转换器
+     */
+    public static void loadImageAsGIFWithCircle(ImageView imageView, String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(imageView.getContext())
+                .asGif()
+                .load(url)
                 .apply(RequestOptions.circleCropTransform()
                         .placeholder(R.drawable.ic_loading_image)
                         .error(new ColorDrawable(Color.WHITE))
@@ -124,9 +146,9 @@ public class ImageUtils {
         }
         Glide.with(imageView.getContext())
                 .load(url)
-                .apply(RequestOptions.circleCropTransform()
+                .apply(new RequestOptions().circleCrop()
                         .placeholder(R.drawable.ic_loading_image)
-                        .error(new ColorDrawable(Color.WHITE))
+                        .error(new ColorDrawable(Color.TRANSPARENT))
                         .fallback(new ColorDrawable(Color.RED)))
                 .into(imageView);
     }

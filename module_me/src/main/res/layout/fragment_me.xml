@@ -14,9 +14,9 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
+                style="@style/VerticalScrollBarRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/VerticalScrollBarRecyclerView" />
+                android:layout_height="match_parent" />
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
@@ -31,6 +31,7 @@
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:layout_margin="8dp"
+                android:padding="4dp"
                 android:src="@drawable/ic_setting_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +54,7 @@
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:layout_margin="8dp"
+                android:padding="4dp"
                 android:src="@drawable/ic_message_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

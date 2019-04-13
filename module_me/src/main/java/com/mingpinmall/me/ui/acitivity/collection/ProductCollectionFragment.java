@@ -84,15 +84,21 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                         binding.refreshLayout.finishRefresh();
                         BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
                         collectionAdapter.setNewData(data.getData().getFavorites_list());
+                        if (data.getData().getFavorites_list().size() == 0) {
+                            showSuccess();
+                        }
                     }
                 });
         registerObserver("PRODUCT_COLLECT_LIST", "loadmore")
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
-                        pageIndex++;
-                        binding.refreshLayout.finishLoadMore();
                         BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
+                        pageIndex++;
+                        if (data.isHasmore())
+                            binding.refreshLayout.finishLoadMore();
+                        else
+                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
                         collectionAdapter.addData(data.getData().getFavorites_list());
                     }
                 });

@@ -17,6 +17,15 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     }
 
     /**
+     * 分销管理
+     * @param wwi
+     * @param curpage
+     */
+    public void getInviteList(String wwi, int curpage){
+        mRepository.getInviteList(wwi, curpage);
+    }
+
+    /**
      * 获取收货地址列表
      */
     public void getAddressList() {
@@ -140,8 +149,16 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
      *
      * @param
      */
-    public void getOrderList(String event_key, String state_type, String order_key, int curpage) {
-        mRepository.getOrderList(event_key, state_type, order_key, 10, curpage);
+    public void getPhysicalOrderList(String event_key, String state_type, String order_key, int curpage) {
+        mRepository.getPhysicalOrderList(event_key, state_type, order_key, 10, curpage);
+    }
+    /**
+     * 获取订单列表
+     *
+     * @param
+     */
+    public void getVirtualOrderList(String event_key, String state_type, String order_key, int curpage) {
+        mRepository.getVirtualOrderList(event_key, state_type, order_key, 10, curpage);
     }
 
     /**

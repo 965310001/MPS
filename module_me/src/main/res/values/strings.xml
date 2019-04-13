@@ -18,6 +18,10 @@
     <string name="tabs_text_uncomments">待评价</string>
     <string name="tabs_text_unuse">待使用</string>
     <string name="hint_text_search">请输入商品标题或者订单号进行搜索</string>
+    <string name="btn_text_appraiseOrder">评价订单</string>
+    <string name="btn_text_harvestOrder">确认收货</string>
+    <string name="btn_text_payOrder">订单支付</string>
+    <string name="btn_text_cancelOrder">取消订单</string>
     <!-- OrderActivity Over -->
 
     <!-- CollectionActivity -->

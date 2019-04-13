@@ -173,13 +173,13 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText(datas.getFavorites_goods());
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText(datas.getFavorites_store());
 
-        ImageUtils.loadImageAsGIF((AppCompatImageView) headView.findViewById(R.id.iv_headImage), datas.getAvatar());
+        ImageUtils.loadImageCircle((AppCompatImageView) headView.findViewById(R.id.iv_headImage), datas.getAvatar());
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
                 datas.getOrder_nopay_count(),
                 datas.getOrder_noreceipt_count(),
-                0,
-                datas.getOrder_noeval_count(),
                 datas.getOrder_notakes_count(),
+                datas.getOrder_noeval_count(),
+                0
         });
         meItemAdapter.notifyDataSetChanged();
     }
