@@ -75,7 +75,7 @@
                         android:maxLines="2"
                         android:text="@{data.goods_name}"
                         android:textStyle="bold"
-                        tools:text="小米" />
+                        tools:text="小米小米小米小米小米小米小米" />
 
                     <TextView
                         android:id="@+id/tv_goods_no"

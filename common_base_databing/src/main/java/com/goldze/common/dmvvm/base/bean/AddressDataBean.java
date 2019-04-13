@@ -121,5 +121,10 @@ public class AddressDataBean implements Serializable {
         public void setDlyp_id(String dlyp_id) {
             this.dlyp_id = dlyp_id;
         }
+
+        /*收货人*/
+        public String getUserName() {
+            return "收货人:".concat(getTrue_name().concat(" ").concat(getMob_phone()));
+        }
     }
 }

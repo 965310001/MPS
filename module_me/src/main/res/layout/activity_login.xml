@@ -20,7 +20,6 @@
             app:tabBackground="@color/white"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/app_theme_d61619"
-            app:tabMode="fixed"
             app:tabSelectedTextColor="@color/app_theme_d61619"
             app:tabTextColor="@color/dark" />
 

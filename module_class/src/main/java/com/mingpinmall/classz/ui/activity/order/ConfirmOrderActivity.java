@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.activity.order;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,6 +10,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -24,7 +26,9 @@ import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.socks.library.KLog;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 提交订单
@@ -35,6 +39,9 @@ public class ConfirmOrderActivity extends
 
     @Autowired
     String id;
+
+    @Autowired
+    String cartId;
 
     @Override
     protected int getLayoutId() {
@@ -63,8 +70,10 @@ public class ConfirmOrderActivity extends
     @Override
     protected void initData() {
         super.initData();
+        KLog.i(cartId);
 
-        mViewModel.getOrderInfo("109938|1,109936|1", Constants.CONFIRMORDER_KEY[0]);
+//        cartId = "\"109938|1,109936|1\"";
+        mViewModel.getOrderInfo(cartId, Constants.CONFIRMORDER_KEY[0]);
     }
 
     @Override
@@ -79,20 +88,25 @@ public class ConfirmOrderActivity extends
                         if (data.isData()) {
                             KLog.i(data.getData().toString());
                             if (data.isSuccess()) {
-                                binding.setAddress(data.getData().getAddress_info());
-                                binding.setTotal(data.getData().getOrder_amount());
-                                List<GoodsInfo> goods_list = data.getData().getStore_cart_list().get_$10().getGoods_list();
-                                String name = "";
-                                for (GoodsInfo goodsInfo : goods_list) {
-                                    if (!name.equals(goodsInfo.getStore_name())) {
-                                        name = goodsInfo.getStore_name();
-                                        goodsInfo.setStoreName(true);
+                                try {
+                                    binding.setAddress(data.getData().getAddress_info());
+                                    binding.setTotal(data.getData().getOrder_amount());
+                                    List<GoodsInfo> goods_list = data.getData().getStore_cart_list().get_$10().getGoods_list();
+                                    String name = "";
+                                    for (GoodsInfo goodsInfo : goods_list) {
+                                        if (!name.equals(goodsInfo.getStore_name())) {
+//                                        name = goodsInfo.getStore_name();
+                                            goodsInfo.setStoreName(true);
+                                            break;
+                                        }
                                     }
+                                    binding.setData(goods_list);
+                                    binding.setPayment("在线付款");
+                                    binding.setInvoice("不需要发票");
+                                    binding.executePendingBindings();
+                                } catch (Exception e) {
+                                    KLog.i(e.toString());
                                 }
-                                binding.setData(goods_list);
-                                binding.setPayment("在线付款");
-                                binding.setInvoice("不需要发票");
-                                binding.executePendingBindings();
                             } else {
                                 ToastUtils.showLong(data.getMessage());
                             }
@@ -129,6 +143,13 @@ public class ConfirmOrderActivity extends
     public void selectAddress(View view) {
         // TODO: 2019/4/11 选择收获地址
         KLog.i("选择收获地址");
+        ARouter.getInstance().build(ARouterConfig.ADDRESSMANAGERACTIVITY)
+                .withBoolean("isGetAddress", true).navigation(this,
+                100);
+
+// Map<String, Object> map = new HashMap<>();
+//        map.put("isGetAddress", true);
+//        ActivityToActivity.toActivityForResult(ARouterConfig.ADDRESSMANAGERACTIVITY, map, 100);
     }
 
     @Override
@@ -136,5 +157,14 @@ public class ConfirmOrderActivity extends
         KLog.i("支付方式" + text);
         binding.setPayment(text.toString());
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == requestCode && requestCode == 100) {
+            binding.setAddress((AddressDataBean.AddressListBean) intent.getSerializableExtra("addressData"));
+        }
+
     }
 }

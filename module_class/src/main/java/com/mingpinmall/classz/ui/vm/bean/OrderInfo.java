@@ -1,6 +1,6 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
-import com.goldze.common.dmvvm.base.bean.AddressBean;
+import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class OrderInfo extends BaseBean {
 
     private StoreCartListBean store_cart_list;
-    private AddressBean address_info;
+    private AddressDataBean.AddressListBean address_info;
     private Object ifshow_offpay;
     private String vat_hash;
     private InvInfoBean inv_info;
@@ -28,11 +28,11 @@ public class OrderInfo extends BaseBean {
         this.store_cart_list = store_cart_list;
     }
 
-    public AddressBean getAddress_info() {
+    public AddressDataBean.AddressListBean getAddress_info() {
         return address_info;
     }
 
-    public void setAddress_info(AddressBean address_info) {
+    public void setAddress_info(AddressDataBean.AddressListBean address_info) {
         this.address_info = address_info;
     }
 

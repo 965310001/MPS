@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.widget.CountClickView;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.MarketPopGoodsSpecificationBinding;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
+import com.socks.library.KLog;
 
 /**
  * 商品规格Pop
@@ -88,6 +91,18 @@ public class GoodsSpecificationPop extends PopupWindow {
 
         bind.ccvClick.setMaxCount(Integer.parseInt(goodsInfo.getGoods_storage()));
         bind.ccvClick.setMinCount(1);
+        bind.ccvClick.setAfterClickListener(new CountClickView.OnClickAfterListener() {
+            @Override
+            public void onAfter(int value) {
+                KLog.i(value + "");
+                SharePreferenceUtil.saveKeyValue("ccvclick_goods_num", String.valueOf(value));
+            }
+
+            @Override
+            public void onMin() {
+
+            }
+        });
 
         bind.setData(goodsInfo);
         bind.executePendingBindings();

@@ -3,6 +3,7 @@ package com.mingpinmall.classz.ui.activity.details;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -185,7 +186,11 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     public void buyNow(View view) {
         KLog.i("立即购买");
-        ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY);
+
+        String goodsNum = SharePreferenceUtil.getKeyValue("ccvclick_goods_num");
+        ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, "cartId",
+                String.format("%s|%s", id, TextUtils.isEmpty(goodsNum) ? "1" : goodsNum));
+        SharePreferenceUtil.saveKeyValue("ccvclick_goods_num","");
     }
 
     public void contactService(View view) {

@@ -13,7 +13,7 @@
         <!--地址-->
         <variable
             name="address"
-            type="com.goldze.common.dmvvm.base.bean.AddressBean" />
+            type="com.goldze.common.dmvvm.base.bean.AddressDataBean.AddressListBean" />
 
         <!--商品列表-->
         <import type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
@@ -105,8 +105,8 @@
                     android:background="@color/white"
                     android:onClick="paymentMethod"
                     leon:leftText="支付方式"
-                    leon:ptleftIcon="@drawable/ic_launcher"
                     leon:prightText="@{payment}"
+                    leon:ptleftIcon="@drawable/ic_launcher"
                     leon:showBottomLine="false"
                     leon:showLeftIcon="false"
                     leon:showRightIcon="true"
@@ -119,8 +119,8 @@
                     android:background="@color/white"
                     android:onClick="invoiceInfo"
                     leon:leftText="发票信息"
-                    leon:ptleftIcon="@drawable/ic_launcher"
                     leon:prightText="@{invoice}"
+                    leon:ptleftIcon="@drawable/ic_launcher"
                     leon:showBottomLine="false"
                     leon:showLeftIcon="false"
                     leon:showRightIcon="true"

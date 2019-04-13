@@ -2,7 +2,6 @@ package com.goldze.common.dmvvm.utils;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.constraint.solver.GoalRow;
 import android.text.TextUtils;
 
 import com.alibaba.android.arouter.facade.Postcard;
@@ -190,6 +189,7 @@ public final class ActivityToActivity {
         toActivity(url, null);
     }
 
+    public static void toActivityForResult(){}
 
     /********************************************返回数据的activity**************************************/
     public static void toActivityForResult(Activity activity, Class<? extends Activity> clazz,
