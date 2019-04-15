@@ -52,6 +52,25 @@ public class HomeItemBean implements Serializable {
         private String type;
         private String data;
 
+        private String label;
+        private String subLabel;
+
+        public String getLabel() {
+            return label == null ? "" : label;
+        }
+
+        public void setLabel(String label) {
+            this.label = label == null ? "" : label;
+        }
+
+        public String getSubLabel() {
+            return subLabel == null ? "" : subLabel;
+        }
+
+        public void setSubLabel(String subLabel) {
+            this.subLabel = subLabel == null ? "" : subLabel;
+        }
+
         /**
          * 各种item
          */

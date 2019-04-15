@@ -6,5 +6,6 @@
             android:name=".ui.activity.qrCode.ScanQRCodeActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
+        <activity android:name=".ui.activity.shopStreet.ShopStreetActivity" />
     </application>
 </manifest>

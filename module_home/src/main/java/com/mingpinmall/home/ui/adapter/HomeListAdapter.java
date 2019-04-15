@@ -28,6 +28,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
 
     /**
      * 轮播图 监听
+     *
      * @param bannerClickListener
      */
     public void setBannerClickListener(ListBannerItemClickListener bannerClickListener) {
@@ -169,6 +170,11 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         .setVisible(R.id.tv_tips, true);
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), goods2Bean.getGoods_image());
 
+                break;
+            case 22:
+                //团购
+                helper.setText(R.id.tv_label, item.getLabel())
+                        .setText(R.id.tv_sub_label, item.getSubLabel());
                 break;
             default:
                 break;

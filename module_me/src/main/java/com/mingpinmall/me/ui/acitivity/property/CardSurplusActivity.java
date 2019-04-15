@@ -14,7 +14,7 @@ import com.xuexiang.xui.widget.tabbar.TabControlView;
  * 创建人：小斌
  * 创建时间: 2019/3/28
  **/
-@Route(path = ARouterConfig.CARDSURPLUSACTIVITY)
+@Route(path = ARouterConfig.Me.CARDSURPLUSACTIVITY)
 public class CardSurplusActivity extends BaseActivity<ActivityBaseTabsViewpagerBinding> {
     @Override
     protected int getLayoutId() {

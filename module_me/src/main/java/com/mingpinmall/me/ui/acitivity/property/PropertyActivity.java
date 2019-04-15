@@ -29,7 +29,7 @@ import java.util.List;
  * 创建人：小斌
  * 创建时间: 2019/3/27
  **/
-@Route(path = ARouterConfig.PROPERTYACTIVITY)
+@Route(path = ARouterConfig.Me.PROPERTYACTIVITY)
 public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBinding, MeViewModel> {
 
     private PropertyItemAdapter itemAdapter;
@@ -83,19 +83,19 @@ public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBindi
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
                     case 0:
-                        ActivityToActivity.toActivity(ARouterConfig.ACCOUNTSURPLUSACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY);
                         break;
                     case 1:
-                        ActivityToActivity.toActivity(ARouterConfig.CARDSURPLUSACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.CARDSURPLUSACTIVITY);
                         break;
                     case 2:
-                        ActivityToActivity.toActivity(ARouterConfig.COUPONACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.COUPONACTIVITY);
                         break;
                     case 3:
-                        ActivityToActivity.toActivity(ARouterConfig.STOREPACKETACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.STOREPACKETACTIVITY);
                         break;
                     case 4:
-                        ActivityToActivity.toActivity(ARouterConfig.VIPINTERGRALACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.VIPINTERGRALACTIVITY);
                         break;
                 }
             }

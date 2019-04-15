@@ -38,7 +38,7 @@ import java.util.Map;
  * 创建人：小斌
  * 创建时间: 2019/3/25
  **/
-@Route(path = ARouterConfig.SETTINGACTIVITY)
+@Route(path = ARouterConfig.Me.SETTINGACTIVITY)
 public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding, MeViewModel> {
 
     @Autowired
@@ -46,6 +46,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
 
     private UserBean userBean;
     private BaseCheckBean checkPhoneState;
+
 
     SettingAdapter settingAdapter;
 
@@ -65,7 +66,10 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
         settingAdapter.bindToRecyclerView(binding.recyclerView);
 
         initItems();
+    }
 
+    @Override
+    protected void initData() {
         mViewModel.getPayPwdInfo();
         mViewModel.getPhoneInfo();
     }
@@ -92,6 +96,13 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                         checkPhoneState = result;
                         settingAdapter.getData().get(1).setSubTitle(result.isState() ? result.getMobile() : "未绑定");
                         settingAdapter.notifyDataSetChanged();
+                    }
+                });
+        registerObserver("Refresh_Data", "SettingActivity")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object o) {
+                        initData();
                     }
                 });
     }
@@ -138,28 +149,43 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                 switch (position) {
                     case 0:
                         //修改密码   登录密码
+                        if (!checkPhoneState.isState()) {
+                            toBindPhone();
+                            break;
+                        }
                         Map params = new HashMap<>();
                         params.put("type", CheckAuthActivity.RESET_PASSWORD);
                         params.put("phoneNumber", checkPhoneState != null ? checkPhoneState.getMobile() : "");
-                        ActivityToActivity.toActivity(ARouterConfig.CheckAuthActivity, params);
+                        params.put("phoneNumber2", checkPhoneState != null ? checkPhoneState.getMobile_full() : "");
+                        ActivityToActivity.toActivity(ARouterConfig.Me.CheckAuthActivity, params);
                         break;
                     case 1:
                         //手机验证
+                        if (!checkPhoneState.isState()) {
+                            ActivityToActivity.toActivity(ARouterConfig.Me.BindPhoneActivity);
+                            break;
+                        }
                         Map params1 = new HashMap<>();
                         params1.put("type", CheckAuthActivity.RESET_PHONE);
                         params1.put("phoneNumber", checkPhoneState != null ? checkPhoneState.getMobile() : "");
-                        ActivityToActivity.toActivity(ARouterConfig.CheckAuthActivity, params1);
+                        params1.put("phoneNumber2", checkPhoneState != null ? checkPhoneState.getMobile_full() : "");
+                        ActivityToActivity.toActivity(ARouterConfig.Me.CheckAuthActivity, params1);
                         break;
                     case 2:
                         //支付密码
+                        if (!checkPhoneState.isState()) {
+                            toBindPhone();
+                            break;
+                        }
                         Map params2 = new HashMap<>();
                         params2.put("type", CheckAuthActivity.RESET_PAY_PASSWORD);
                         params2.put("phoneNumber", checkPhoneState != null ? checkPhoneState.getMobile() : "");
-                        ActivityToActivity.toActivity(ARouterConfig.CheckAuthActivity, params2);
+                        params2.put("phoneNumber2", checkPhoneState != null ? checkPhoneState.getMobile_full() : "");
+                        ActivityToActivity.toActivity(ARouterConfig.Me.CheckAuthActivity, params2);
                         break;
                     case 4:
                         //用户反馈
-                        ActivityToActivity.toActivity(ARouterConfig.FeedBackActivity);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.FeedBackActivity);
                         break;
                     case 6:
                         //退出登录
@@ -177,5 +203,19 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                 }
             }
         });
+    }
+
+    /**
+     * 前往绑定手机
+     */
+    private void toBindPhone() {
+        MaterialDialogUtils.showBasicDialog(SettingActivity.this, "您还未绑定手机，不能进行此操作。是否前往绑定手机？")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        ActivityToActivity.toActivity(ARouterConfig.Me.BindPhoneActivity);
+                    }
+                })
+                .show();
     }
 }

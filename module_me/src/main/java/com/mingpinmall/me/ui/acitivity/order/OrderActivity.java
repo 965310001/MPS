@@ -17,7 +17,7 @@ import com.xuexiang.xui.widget.tabbar.TabControlView;
  * 创建人：小斌
  * 创建时间: 2019/3/26
  **/
-@Route(path = ARouterConfig.ORDERACTIVITY)
+@Route(path = ARouterConfig.Me.ORDERACTIVITY)
 public class OrderActivity extends BaseActivity<ActivityOrderBinding> {
 
     @Autowired

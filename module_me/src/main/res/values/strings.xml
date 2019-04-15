@@ -117,8 +117,8 @@
     <string name="title_resetPayPasswordActivity">修改支付密码</string>
     <!-- ResetPayPasswordActivity Over -->
 
-    <!-- ResetPhoneActivity -->
-    <string name="title_resetPhoneActivity">修改手机验证</string>
+    <!-- BindPhoneActivity -->
+    <string name="title_resetPhoneActivity">绑定新的手机</string>
     <string name="tips_text_change"><u>通过支付密码来验证</u></string>
     <!-- ResetPasswordActivity Over -->
 

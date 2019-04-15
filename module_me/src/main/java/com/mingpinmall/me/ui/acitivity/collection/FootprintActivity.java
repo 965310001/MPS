@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * 创建人：小斌
  * 创建时间: 2019/3/27
  **/
-@Route(path = ARouterConfig.FOOTPRINTACTIVITY)
+@Route(path = ARouterConfig.Me.FOOTPRINTACTIVITY)
 public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBinding, MeViewModel> {
 
     private int pageIndex = 1;

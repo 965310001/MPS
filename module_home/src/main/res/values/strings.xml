@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">首页</string>
+
+    <!-- ShopStreetActivity -->
+    <string name="title_ShopStreetActivity">店铺街</string>
+    <string name="label_shopAddress">店铺所在地：</string>
+    <string name="text_selectShopAddress">请选择店铺地区</string>
+    <string name="text_editSearch">请输入店铺名称</string>
+    <!-- ShopStreetActivity Over -->
+
 </resources>

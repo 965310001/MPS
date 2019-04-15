@@ -1,6 +1,7 @@
 package com.mingpinmall.me.ui.api;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.bean.CheckSmsCodeBean;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
@@ -134,25 +135,6 @@ public class UserRepository extends BaseRepository {
         );
     }
 
-    /*验证 修改手机前，短信验证码是否正确*/
-    protected void checkPhonePsdSmsCode(String code) {
-        addDisposable(apiService.checkBindPhoneSmsCode(code, getUserKey(), "android", "android")
-                .compose(RxSchedulers.<CheckSmsCodeBean>io_main())
-                .subscribeWith(new RxSubscriber<CheckSmsCodeBean>() {
-
-                    @Override
-                    public void onSuccess(CheckSmsCodeBean result) {
-                        sendData("CHECK_CODE", "success", result);
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-                        sendData("CHECK_CODE", "err", msg);
-                    }
-                })
-        );
-    }
-
     /*验证是否设置了支付密码*/
     protected void checkPayPassword() {
         addDisposable(apiService.checkPayPassword(getUserKey())
@@ -197,7 +179,7 @@ public class UserRepository extends BaseRepository {
 
     /*获取 登录，注册，找回密码 短信验证码*/
     protected void getSmsCode(int type, String phone) {
-        addDisposable(apiService.sendSMS(type, phone)
+        addDisposable(apiService.sendSMS(type, phone, "android")
                 .compose(RxSchedulers.<BaseResponse<SmsBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<SmsBean>>() {
                     @Override
@@ -211,30 +193,53 @@ public class UserRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("GET_SMS_CODE", "err", msg);
+                        sendData("GET_SMS_CODE", "err", msg == null ? "短信验证码发送失败" : msg);
                     }
 
                 })
         );
     }
 
-    /*获取 修改密码，修改手机，修改支付密码 短信验证码 */
-    protected void getResetSmsCode() {
-        addDisposable(apiService.sendResetSMS("android", getUserKey())
-                .compose(RxSchedulers.<BaseResponse<SmsBean>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<SmsBean>>() {
+    /* 解除手机绑定 */
+    protected void unBindPhone(String authCode) {
+        addDisposable(apiService.unBindPhone(authCode, getUserKey())
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
-                    public void onSuccess(BaseResponse<SmsBean> result) {
-                        if (result.isSuccess())
-                            sendData("GET_RESET_SMS_CODE", "success", "");
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.getCode() == 200)
+                            sendData("CHECK_CODE", "success", "成功");
                         else
-                            sendData("GET_RESET_SMS_CODE", "err", result.getMessage());
+                            sendData("CHECK_CODE", "err", result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("GET_RESET_SMS_CODE", "err", msg == null ? "" : msg);
+                        sendData("CHECK_CODE", "err", msg == null ? "" : msg);
+                    }
+
+                })
+        );
+    }
+
+    /* 绑定手机 */
+    protected void bindPhone(String authCode) {
+        addDisposable(apiService.bindPhone(authCode, "android", getUserKey())
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.getCode() == 200)
+                            sendData("BIND_PHONE", "success", "成功");
+                        else
+                            sendData("BIND_PHONE", "err", result.getMessage());
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("BIND_PHONE", "err", msg == null ? "" : msg);
                     }
 
                 })

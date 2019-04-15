@@ -96,7 +96,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
             @Override
             public void onCountDown(int time) {
                 binding.tvGetPsdCode.setEnabled(false);
-                binding.tvGetPsdCode.setText(time + "s");
+                binding.tvGetPsdCode.setText(time + "s后可重新获取");
             }
 
             @Override

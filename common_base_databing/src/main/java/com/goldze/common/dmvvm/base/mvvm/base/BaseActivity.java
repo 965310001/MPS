@@ -94,6 +94,9 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
             tabControlView.setVisibility(isTabsBar() ? View.VISIBLE : View.GONE);
 
             ivSearch.setOnClickListener(this);
+        } else {
+            //直接隐藏
+            baseBinding.rlTitleContent.setVisibility(View.GONE);
         }
 
         /*沉浸式状态栏*/

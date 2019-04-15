@@ -18,7 +18,7 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
  * 创建人：小斌
  * 创建时间: 2019/3/29
  **/
-@Route(path = ARouterConfig.DISRTIBUTIONACTIVITY)
+@Route(path = ARouterConfig.Me.DISRTIBUTIONACTIVITY)
 public class DistributionActivity extends BaseActivity<ActivityDistributionBinding> {
 
     private DistributionFragment oneFragment;

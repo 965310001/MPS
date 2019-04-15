@@ -17,6 +17,14 @@ public class HomeViewModel extends AbsViewModel<HomeRepository> {
     }
 
     /**
+     * 获取店铺列表
+     * @param curPage
+     */
+    public void getStoreStreet(String keyword, String area_info, int sc_id, int curPage) {
+        mRepository.getStoreStreet(keyword, area_info, sc_id, curPage);
+    }
+
+    /**
      * @date 创建时间： 2019/4/3
      * @author 创建人：小斌
      * @Description 描述：获取首页数据
