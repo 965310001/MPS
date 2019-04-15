@@ -20,14 +20,14 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getLeft();
     }
 
-    /*右边分类*/
-    public void getRight(String gcId) {
-        mRepository.getRight(gcId);
-    }
-
     /*品牌列表*/
     public void getRightByBrand() {
         mRepository.getRightByBrand();
+    }
+
+    /*右边分类*/
+    public void getRight(String gcId) {
+        mRepository.getRight(gcId);
     }
 
     /*商品列表*/
@@ -113,7 +113,21 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     public void getStoreGoodsRank(String storeId, String orderType, String num, Object eventKey) {
         mRepository.getStoreGoodsRank(storeId, orderType, num, eventKey);
     }
+
+    /*全部商品*/
+    public void getStoreGoods(String storeId, int page, Object eventKey) {
+        mRepository.getStoreGoods(storeId, page, eventKey);
+    }
+
+    /*商品上新*/
+    public void getStoreNewGoods(String storeId, int page, Object eventKey) {
+        mRepository.getStoreNewGoods(storeId, page, eventKey);
+    }
+
+    /*活动店铺*/
+    public void getStorePromotion(String storeId, int page, Object eventKey) {
+        mRepository.getStorePromotion(storeId, page, eventKey);
+    }
+
     /************************************* end ******************************/
-
-
 }

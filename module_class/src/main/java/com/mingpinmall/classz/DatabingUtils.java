@@ -140,39 +140,4 @@ public class DatabingUtils {
         adapter.notifyDataSetChanged();
     }
 
-//    @BindingAdapter("bind:onItemClickListener")
-//    public static void setOnItemClickListener(TRecyclerView rv, OnItemClickListener listener) {
-//        DelegateAdapter.Builder adapter = (DelegateAdapter.Builder) rv.getAdapter();
-//        KLog.i(rv.getTag());
-//        if (null != adapter) {
-////            Context context = rv.getContext();
-////            switch (Integer.parseInt(rv.getTag().toString())) {
-////                case 0:
-////                    adapter = AdapterPool.newInstance().getRightAdapter(context).build();
-////                    GridLayoutManager layout = new GridLayoutManager(context, 3);
-////                    rv.setLayoutManager(layout);
-////                    break;
-////                case 1:
-////                    /*左边*/
-////                    adapter = AdapterPool.newInstance().getLeftAdapter(context)
-////                            .setOnItemClickListener((OnItemClickListener) context)
-////                            .build();
-////                    rv.addItemDecoration(new DividerItemDecoration(context,
-////                            DividerItemDecoration.VERTICAL));
-////                    layout = new GridLayoutManager(context, 1);
-////                    rv.setLayoutManager(layout);
-////                    break;
-////                default:
-////                    KLog.i("必须个TRecyclerView 设置TAG");
-////                    break;
-////            }
-////            rv.setAdapter(adapter);
-//        }
-//        if (null != data && data.size() > 0) {
-//            adapter.setDatas(data);
-//        }
-//        adapter.notifyDataSetChanged();
-//    }
-
-
 }

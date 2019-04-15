@@ -26,6 +26,7 @@ import com.socks.library.KLog;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -299,7 +300,7 @@ public class ClassifyRepository extends BaseRepository {
 
     /*确定发票内容*/
     public void getInvoiceList(final Object eventKey) {
-        map = parames(map, "member_invoice",
+        Map<String, Object> map = parames("member_invoice",
                 "invoice_list");
         map.put("key", getUserKey());
         addDisposable(apiService.getInvoiceContentList(map)
@@ -353,7 +354,7 @@ public class ClassifyRepository extends BaseRepository {
 
     /*删除发票列表*/
     public void invoiceDel(final Object eventKey, String invId) {
-        map = parames("member_invoice",
+        Map<String, Object> map = parames("member_invoice",
                 "invoice_del");
         map.put("_client", "android");
         map.put("key", getUserKey());
@@ -367,17 +368,26 @@ public class ClassifyRepository extends BaseRepository {
         Map<String, Object> map = parames("store", "store_info");
         map.put("store_id", storeId);
         map.put("key", key);
-        addDisposable(apiService.getStoreInfo(this.map)
+
+
+        /************店铺首页信息***********/
+//        addDisposable(Flowable.concat(apiService.getStoreGoodsRank(storeId, "", "", ""))
+//                .compose(RxSchedulers.io_main()));
+        /**************店铺首页end*********/
+
+
+        addDisposable(apiService.getStoreInfo(map)
                 .compose(RxSchedulers.<BaseResponse<StoreInfo>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<StoreInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<StoreInfo> result) {
                         sendData(eventKey, result);
-//                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.SUCCESS_STATE);
+                        showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     public void onFailure(String msg) {
+                        KLog.i(msg);
 //                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
@@ -396,7 +406,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("store_id", storeId);
         map.put("ordertype", orderType);
         map.put("num", num);
-        addDisposable(apiService.getStoreGoodsRank(this.map)
+        addDisposable(apiService.getStoreGoodsRank(map)
                 .compose(RxSchedulers.<GoodsListInfo>io_main())
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
@@ -417,6 +427,81 @@ public class ClassifyRepository extends BaseRepository {
                     }
                 }));
 
+    }
+
+    /*全部商品*/
+    public void getStoreGoods(String storeId, int page, final Object eventKey) {
+        Map<String, Object> map = parames("store", "store_goods");
+        map.put("store_id", storeId);
+        map.put("curpage", page);
+        map.put("page", Constants.PAGE_RN);
+        addDisposable(apiService.getStoreGoods(map)
+                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .subscribeWith(new RxSubscriber<GoodsListInfo>() {
+                    @Override
+                    public void onSuccess(GoodsListInfo result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                }));
+    }
+
+    /*商品上新*/
+    public void getStoreNewGoods(String storeId, int page, final Object eventKey) {
+        Map<String, Object> map = parames("store", "store_new_goods");
+        map.put("store_id", storeId);
+        map.put("curpage", page);
+        map.put("page", Constants.PAGE_RN);
+        addDisposable(apiService.getStoreGoodsRank(map)
+                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .subscribeWith(new RxSubscriber<GoodsListInfo>() {
+                    @Override
+                    public void onSuccess(GoodsListInfo result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                }));
+    }
+
+    /*活动店铺*/
+    public void getStorePromotion(String storeId, int page, final Object eventKey) {
+        Map<String, Object> map = parames("store", "store_promotion");
+        map.put("store_id", storeId);
+        map.put("curpage", page);
+        map.put("page", Constants.PAGE_RN);
+        addDisposable(apiService.getStoreGoodsRank(map)
+                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .subscribeWith(new RxSubscriber<GoodsListInfo>() {
+                    @Override
+                    public void onSuccess(GoodsListInfo result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                }));
     }
 
     /************************************* 店铺 end ******************************/
@@ -507,9 +592,8 @@ public class ClassifyRepository extends BaseRepository {
     }
 
 
-    Map<String, Object> map = new HashMap<>();
-
     Map<String, Object> parames(Object app, Object wwi) {
+        Map<String, Object> map = new HashMap<>();
         map.put("app", app);
         map.put("wwi", wwi);
         return map;

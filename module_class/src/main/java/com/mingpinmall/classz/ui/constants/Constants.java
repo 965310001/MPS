@@ -37,8 +37,6 @@ public interface Constants {
 
     /*筛选框*/
     Object[] CUSTOMPOPWINDOW_KEY = {"CUSTOMPOPWINDOW_KEY", "CUSTOMPOPWINDOW_KEY_SCREENING"};
-    /*接收筛选的值*/
-//    Object SCREENINFO = "SCREENINFO";
 
     /*提交订单*/
     Object[] CONFIRMORDER_KEY = {"CONFIRMORDER_KEY", "CONFIRMORDER_STATE"};
@@ -49,5 +47,8 @@ public interface Constants {
 
     /*收藏排行*/
     Object[] STORE_GOODS_RANK_KEY = {"STORE_GOODS_RANK_KEY", "STORE_GOODS_RANK_STATE",
-            "STORE_INFO_KEY"};//2
+            "STORE_INFO_KEY",//2
+            "STORE_NEW_GOODS_KEY", "STOREPROMOTION_KEY",//商品上新3   活动店铺4
+            "STORE_GOODS_KEY",//全部商品5
+    };
 }

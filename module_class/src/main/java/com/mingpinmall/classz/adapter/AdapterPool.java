@@ -10,7 +10,9 @@ import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
+import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
+import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.footview.FootViewHolder;
 import com.trecyclerview.headview.HeaderViewHolder;
@@ -88,6 +90,14 @@ public class AdapterPool {
         return getAdapter(new DelegateAdapter.Builder<>()
                         .bind(InvoiceListInfo.InvoiceListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_invoice, BR.data)),
                 context, ProgressStyle.Pacman);
+    }
+
+    /*店铺首页*/
+    public DelegateAdapter.Builder getStoreHomeAdapter(Context context) {
+        return new DelegateAdapter.Builder<>()
+                .bind(TypeInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_type, BR.data))
+                .bind(GoodsListInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_list_info, BR.data))
+                .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_store, BR.data));
     }
 
     /*-------------------------------------------------------------------首页---------------------------------------------------*/

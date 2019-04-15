@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+
+        <variable
+            name="data"
+            type="com.mingpinmall.classz.ui.vm.bean.StoreInfo.StoreInfoBean" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -98,18 +104,21 @@
                 android:layout_height="80dp"
                 android:background="@color/blue"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="@dimen/image_height_large"
                     android:layout_height="@dimen/image_height_large"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/ic_launcher"
+                    src="@{data.store_avatar}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="店铺推荐" />
+                    android:text="@{data.store_name}"
+                    tools:text="商家名字" />
             </LinearLayout>
 
             <TextView
@@ -140,14 +149,16 @@
                 android:paddingTop="@dimen/dp_5"
                 android:paddingRight="@dimen/dp_12"
                 android:paddingBottom="@dimen/dp_5"
-                android:text="粉丝"
-                android:textColor="@color/white" />
+                android:text="@{`粉丝`+data.store_collect}"
+                android:textColor="@color/white"
+                tools:text="粉丝100" />
         </RelativeLayout>
 
         <RadioGroup
+            android:id="@+id/rg_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_head"
             android:orientation="horizontal">
 
             <RadioButton
@@ -165,18 +176,19 @@
         </RadioGroup>
 
         <RelativeLayout
-            android:id="@+id/fl_content"
+            android:id="@+id/rl_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/ll"
-            android:layout_below="@id/rl_head" />
+            android:layout_below="@id/rg_title" />
 
         <LinearLayout
             android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="0dp"

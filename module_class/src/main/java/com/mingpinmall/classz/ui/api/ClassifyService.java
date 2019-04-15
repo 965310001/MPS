@@ -93,14 +93,6 @@ public interface ClassifyService {
     @GET(BASEURL)
     Flowable<BaseResponse<HotKeyInfo>> getHotKeys(@QueryMap Map<String, Object> map);
 
-    /*添加收藏*/
-//    @GET(ADDCOLLECTION)
-//    Flowable<GoodsListInfo> getAddCollection(@Query("Goods_id") String goodsId);
-//
-//    /*删除收藏*/
-//    @GET(DELCOLLECTION)
-//    Flowable<GoodsListInfo> getDelCollection(@Query("Goods_id") String goodsId);
-
     /*添加 删除 收藏*/
     @FormUrlEncoded
     @POST("{path}")
@@ -122,6 +114,12 @@ public interface ClassifyService {
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<BaseResponse<StoreInfo>> getStoreInfo(@FieldMap Map<String, Object> map);
+
+    /*全部商品*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<GoodsListInfo> getStoreGoods(@FieldMap Map<String, Object> map);
+
 
     /*收藏排行*/
     @FormUrlEncoded
