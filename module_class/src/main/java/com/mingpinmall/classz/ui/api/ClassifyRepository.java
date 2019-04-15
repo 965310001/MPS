@@ -20,6 +20,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
+import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.socks.library.KLog;
 
 import java.util.HashMap;
@@ -361,18 +362,17 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /************************************* 店铺 start ******************************/
-    /*收藏排行*/
-    public void getStoreGoodsRank(String storeId, String orderType, String num) {
-        Map<String, Object> map = parames("", "");
+    /*店铺信息*/
+    public void getStoreInfo(String storeId, String key, final Object eventKey) {
+        Map<String, Object> map = parames("store", "store_info");
         map.put("store_id", storeId);
-        map.put("ordertype", orderType);
-        map.put("num", num);
-        addDisposable(apiService.getStoreGoodsRank(this.map)
-                .compose(RxSchedulers.<BaseResponse<InvoiceListInfo>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<InvoiceListInfo>>() {
+        map.put("key", key);
+        addDisposable(apiService.getStoreInfo(this.map)
+                .compose(RxSchedulers.<BaseResponse<StoreInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<StoreInfo>>() {
                     @Override
-                    public void onSuccess(BaseResponse<InvoiceListInfo> result) {
-//                        sendData(eventKey, result);
+                    public void onSuccess(BaseResponse<StoreInfo> result) {
+                        sendData(eventKey, result);
 //                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.SUCCESS_STATE);
                     }
 
@@ -384,7 +384,36 @@ public class ClassifyRepository extends BaseRepository {
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
-                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.NET_WORK_STATE);
+//                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
+
+    }
+
+    /*收藏排行*/
+    public void getStoreGoodsRank(String storeId, String orderType, String num, final Object eventKey) {
+        Map<String, Object> map = parames("store", "store_goods_rank");
+        map.put("store_id", storeId);
+        map.put("ordertype", orderType);
+        map.put("num", num);
+        addDisposable(apiService.getStoreGoodsRank(this.map)
+                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .subscribeWith(new RxSubscriber<GoodsListInfo>() {
+                    @Override
+                    public void onSuccess(GoodsListInfo result) {
+                        sendData(eventKey, result);
+//                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+//                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+//                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.NET_WORK_STATE);
                     }
                 }));
 

@@ -67,4 +67,13 @@ public class GoodsListInfo extends BaseBean {
             notifyPropertyChanged(BR.goods_list);
         }
     }
+
+    @Override
+    public String toString() {
+        return "GoodsListInfo{" +
+                "hasmore=" + hasmore +
+                ", page_total=" + page_total +
+                ", datas=" + datas +
+                '}';
+    }
 }

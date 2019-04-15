@@ -104,9 +104,16 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /************************************* 店铺 ******************************/
-    /*收藏排行*/
-    public void getStoreGoodsRank(String storeId, String orderType, String num) {
-        mRepository.getStoreGoodsRank(storeId, orderType, num);
+    /*店铺信息*/
+    public void getStoreInfo(String storeId, String key, Object eventKey) {
+        mRepository.getStoreInfo(storeId, key, eventKey);
     }
+
+    /*收藏排行*/
+    public void getStoreGoodsRank(String storeId, String orderType, String num, Object eventKey) {
+        mRepository.getStoreGoodsRank(storeId, orderType, num, eventKey);
+    }
+    /************************************* end ******************************/
+
 
 }
