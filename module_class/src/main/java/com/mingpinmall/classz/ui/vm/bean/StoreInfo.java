@@ -12,6 +12,9 @@ public class StoreInfo extends BaseBean {
     private StoreInfoBean store_info;
     private int rec_goods_list_count;
     private List<GoodsInfo> rec_goods_list;
+    /*收藏 销量*/
+    private List<GoodsInfo> collectdesc_goods_list;
+    private List<GoodsInfo> salenumdesc_goods_list;
 
     public StoreInfoBean getStore_info() {
         return store_info;
@@ -35,6 +38,22 @@ public class StoreInfo extends BaseBean {
 
     public void setRec_goods_list(List<GoodsInfo> rec_goods_list) {
         this.rec_goods_list = rec_goods_list;
+    }
+
+    public List<GoodsInfo> getCollectdesc_goods_list() {
+        return collectdesc_goods_list;
+    }
+
+    public void setCollectdesc_goods_list(List<GoodsInfo> collectdesc_goods_list) {
+        this.collectdesc_goods_list = collectdesc_goods_list;
+    }
+
+    public List<GoodsInfo> getSalenumdesc_goods_list() {
+        return salenumdesc_goods_list;
+    }
+
+    public void setSalenumdesc_goods_list(List<GoodsInfo> salenumdesc_goods_list) {
+        this.salenumdesc_goods_list = salenumdesc_goods_list;
     }
 
     public static class StoreInfoBean {

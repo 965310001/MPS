@@ -66,6 +66,10 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                             try {
                                 ItemData itemData = new ItemData();
                                 itemData.add(new TypeInfo("店铺排行榜"));
+                                GoodsListInfo goodsListInfo = new GoodsListInfo();
+                                goodsListInfo.setCollectdesc_goods_list(data.getData().getCollectdesc_goods_list());
+                                goodsListInfo.setSalenumdesc_goods_list(data.getData().getSalenumdesc_goods_list());
+                                itemData.add(goodsListInfo);
                                 itemData.add(new TypeInfo("店主推荐"));
                                 itemData.addAll(data.getData().getRec_goods_list());
                                 setData(itemData);

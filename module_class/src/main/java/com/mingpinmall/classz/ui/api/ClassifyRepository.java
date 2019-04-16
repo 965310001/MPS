@@ -368,7 +368,8 @@ public class ClassifyRepository extends BaseRepository {
         Map<String, Object> map = parames("store", "store_info");
         map.put("store_id", storeId);
         map.put("key", key);
-
+        map.put("return_full", "1");
+        map.put("num", "3");
 
         /************店铺首页信息***********/
 //        addDisposable(Flowable.concat(apiService.getStoreGoodsRank(storeId, "", "", ""))
