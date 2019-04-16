@@ -246,6 +246,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 public void click(boolean isChecked) {
                     // TODO: 2019/4/2 品牌网自营
                     KLog.i("点击");
+                    ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", goodsDetailInfo.getDatas().getStore_info().getStore_id());
                 }
             });
             if (null != storeInfo.getNew_storeCredit()) {

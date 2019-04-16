@@ -9,28 +9,29 @@
         <import type="com.mingpinmall.classz.ui.vm.bean.GoodsListInfo" />
 
         <!--<variable-->
-            <!--name="data"-->
-            <!--type="java.util.List&lt;GoodsInfo>" />-->
+        <!--name="data"-->
+        <!--type="java.util.List&lt;GoodsInfo>" />-->
 
         <variable
             name="data"
-            type="GoodsListInfo"/>
+            type="GoodsListInfo" />
 
         <!--<variable-->
-            <!--name="listdata"-->
-            <!--type="GoodsListInfo"/>-->
+        <!--name="listdata"-->
+        <!--type="GoodsListInfo"/>-->
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1.2"
             android:gravity="center"
+            android:onClick="@{data.collectdesc_goods_list.get(0).click}"
             android:orientation="vertical">
 
             <ImageView
@@ -50,7 +51,7 @@
                     android:layout_weight="4"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@{`已售`+data.collectdesc_goods_list.get(0).evaluation_count}"
+                    android:text="@{`已售`+data.collectdesc_goods_list.get(0).goods_salenum}"
                     tools:text="已售2" />
 
                 <TextView

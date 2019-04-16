@@ -42,7 +42,7 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
         super.getRemoteData();
 
         String storeId = ((StoreActivity) activity).getStoreId();
-        mViewModel.getStoreInfo("7", "",
+        mViewModel.getStoreInfo(storeId, "",
                 Constants.STORE_GOODS_RANK_KEY[2]);
 
 //        mViewModel.getStoreGoodsRank("7",
@@ -108,10 +108,8 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
             @Override
             public int getSpanSize(int i) {
                 int span = 1;
-//                if (adapter.getItems().get(i) instanceof GoodsInfo) {
-//                    span = 1;
-//                }
-                if (adapter.getItems().get(i) instanceof TypeInfo) {
+                if (adapter.getItems().get(i) instanceof TypeInfo ||
+                        adapter.getItems().get(i) instanceof GoodsListInfo) {
                     span = 2;
                 }
                 return span;
