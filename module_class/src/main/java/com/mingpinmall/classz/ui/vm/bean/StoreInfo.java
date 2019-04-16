@@ -1,6 +1,9 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
+import android.databinding.Bindable;
+
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.mingpinmall.classz.BR;
 
 import java.util.List;
 
@@ -56,7 +59,7 @@ public class StoreInfo extends BaseBean {
         this.salenumdesc_goods_list = salenumdesc_goods_list;
     }
 
-    public static class StoreInfoBean {
+    public static class StoreInfoBean extends BaseBean {
         /**
          * store_id : 7
          * store_name : 瑞士邦顿（bestdon）手表旗舰店
@@ -131,12 +134,14 @@ public class StoreInfo extends BaseBean {
             this.store_collect = store_collect;
         }
 
+        @Bindable
         public boolean isIs_favorate() {
             return is_favorate;
         }
 
         public void setIs_favorate(boolean is_favorate) {
             this.is_favorate = is_favorate;
+            notifyPropertyChanged(BR.is_favorate);
         }
 
         public boolean isIs_own_mall() {

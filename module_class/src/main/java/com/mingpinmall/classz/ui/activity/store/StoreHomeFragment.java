@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.activity.store;
 
 import android.arch.lifecycle.Observer;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,10 +9,10 @@ import android.view.View;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.mingpinmall.classz.BuildConfig;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
-import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
@@ -19,8 +20,6 @@ import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
-
-import java.util.List;
 
 import io.reactivex.annotations.Nullable;
 
@@ -42,22 +41,18 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
         super.getRemoteData();
 
         String storeId = ((StoreActivity) activity).getStoreId();
+//        if (BuildConfig.DEBUG) {
+//            storeId = "7";// TODO: 2019/4/16 删除
+//        }
         mViewModel.getStoreInfo(storeId, "",
-                Constants.STORE_GOODS_RANK_KEY[2]);
-
-//        mViewModel.getStoreGoodsRank("7",
-//                "collectdesc", "3",
-//                Constants.STORE_GOODS_RANK_KEY[0]);
-//
-//        mViewModel.getStoreGoodsRank(storeId, "salenumdesc",
-//                "3", "");
+                Constants.STORE_GOODS_RANK_KEY[0]);
     }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
 
-        registerObserver(Constants.STORE_GOODS_RANK_KEY[2], BaseResponse.class)
+        registerObserver(Constants.STORE_GOODS_RANK_KEY[0], BaseResponse.class)
                 .observeForever(new Observer<BaseResponse>() {
                     @Override
                     public void onChanged(@Nullable BaseResponse response) {
@@ -73,6 +68,7 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                                 itemData.add(new TypeInfo("店主推荐"));
                                 itemData.addAll(data.getData().getRec_goods_list());
                                 setData(itemData);
+                                ((StoreActivity) getActivity()).setStoreInfo(data.getData().getStore_info());
                             } catch (Exception e) {
                                 KLog.i(e.toString());
                             }
@@ -81,18 +77,6 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                         }
                     }
                 });
-
-        /*收藏排行*/
-//        registerObserver(Constants.STORE_GOODS_RANK_KEY[0], GoodsListInfo.class)
-//                .observeForever(new Observer<GoodsListInfo>() {
-//                    @Override
-//                    public void onChanged(@Nullable GoodsListInfo response) {
-//                        KLog.i("TAGS", response.toString());
-//                        KLog.i("====");
-//
-////                        addItems(response.getDatas());
-//                    }
-//                });
     }
 
 

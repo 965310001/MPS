@@ -44,11 +44,11 @@ public class TokenInterceptor implements Interceptor {
         }
         String bodyString = buffer.clone().readString(charset);
 
-        KLog.i("\n"+bodyString);
+        KLog.i("\n" + bodyString);
         try {
             jsonObject = new JSONObject(bodyString);
             if (jsonObject.has("login") &&
-                    jsonObject.get("error").toString().contains("请登录")) {
+                    jsonObject.get("error").toString().contains("登录")) {
                 response.body().close();
                 failed();
                 return null;
@@ -85,6 +85,7 @@ public class TokenInterceptor implements Interceptor {
     }
 
     private void failed() {
+        KLog.i("请登录");
         ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
     }
 }

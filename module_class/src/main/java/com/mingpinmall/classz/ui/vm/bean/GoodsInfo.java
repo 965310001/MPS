@@ -77,6 +77,9 @@ public class GoodsInfo extends BaseBean {
     @Transient
     private String goods_num;/*购物车的数量*/
 
+    @Transient
+    private String goods_addtime_text;/*添加时间*/
+
 
     /*购买的数量*/
     private int num;//数量
@@ -128,6 +131,14 @@ public class GoodsInfo extends BaseBean {
         this.is_own_mall = is_own_mall;
         this.goods_image_url = goods_image_url;
         this.num = num;
+    }
+
+    public String getGoods_addtime_text() {
+        return goods_addtime_text;
+    }
+
+    public void setGoods_addtime_text(String goods_addtime_text) {
+        this.goods_addtime_text = goods_addtime_text;
     }
 
     @Bindable

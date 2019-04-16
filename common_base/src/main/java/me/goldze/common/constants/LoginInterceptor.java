@@ -34,6 +34,7 @@ public class LoginInterceptor implements IInterceptor {
             if (isLogin) {
                 callback.onContinue(postcard);
             } else {//没有登录,注意需要传入context
+                KLog.i("去登录");
                 callback.onInterrupt(null);
                 ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
             }

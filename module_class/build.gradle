@@ -1,3 +1,8 @@
+tasks.whenTaskAdded { task ->
+    if (task.name.equals("lint")) {
+        task.enabled = false
+    }
+}
 if (Boolean.valueOf(rootProject.ext.isModule)) {
     apply plugin: 'com.android.application'
 } else {
@@ -55,7 +60,9 @@ android {
             }
         }
     }
-
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 }
 
 dependencies {

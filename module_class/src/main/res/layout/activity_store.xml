@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.activity.store.StoreActivity">
 
     <data>
 
@@ -13,8 +13,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.activity.store.StoreActivity">
+        android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/cl_title_bar"
@@ -131,8 +130,9 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="end"
                 android:layout_marginRight="60dp"
-                android:background="@color/shallow_red"
+                android:background="@{data.is_favorate?@color/gray:@color/shallow_red}"
                 android:gravity="center"
+                android:onClick="favorites"
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingTop="@dimen/dp_5"
                 android:paddingRight="@dimen/dp_12"
@@ -161,21 +161,37 @@
             android:id="@+id/rg_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/ll"
             android:layout_below="@id/rl_head"
             android:orientation="horizontal">
 
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="1" />
+            <!--<RadioButton-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:checked="true"-->
+            <!--android:text="1" />-->
 
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1" />
+            <!--<RadioButton-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="1" />-->
+
+            <com.heima.tabview.library.TabView
+                android:id="@+id/tabView"
+                style="@style/width_warp_height_warp"
+                app:imageViewTextViewMargin="2dp"
+                app:tab_imageViewHeight="18dp"
+                app:tab_imageViewWidth="18dp"
+                app:tab_tabViewBackgroundColor="@color/white"
+                app:tab_tabViewDefaultPosition="0"
+                app:tab_tabViewGravity="top"
+                app:tab_tabViewHeight="50dp"
+                app:tab_textViewSelColor="@color/app_theme_d61619"
+                app:tab_textViewSize="@dimen/text_12"
+                app:tab_textViewUnSelColor="@color/dark" />
+
         </RadioGroup>
 
         <RelativeLayout
@@ -183,7 +199,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/ll"
-            android:layout_below="@id/rg_title" />
+            android:layout_below="@id/rg_title"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/ll"

@@ -431,7 +431,7 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*全部商品*/
-    public void getStoreGoods(String storeId, int page, final Object eventKey) {
+    public void getStoreGoods(String storeId, long page, final Object eventKey) {
         Map<String, Object> map = parames("store", "store_goods");
         map.put("store_id", storeId);
         map.put("curpage", page);
@@ -455,6 +455,45 @@ public class ClassifyRepository extends BaseRepository {
                 }));
     }
 
+    public void getStoreGoods(String storeId, long page, String key, final String areaId, String priceFrom, String priceTo,
+                              String order, String ci, String st, final Object eventKey) {
+        Map<String, Object> map = parames("store", "store_goods");
+        map.put("store_id", storeId);
+        map.put("curpage", page);
+        map.put("page", Constants.PAGE_RN);
+        if (!TextUtils.isEmpty(ci)) map.put("ci", ci);
+        if (!TextUtils.isEmpty(st)) map.put("st", st);
+        if (!TextUtils.isEmpty(areaId)) map.put("area_id", areaId);//地区
+        map.put("price_from", priceFrom);//价格区间最低范围
+        map.put("price_to", priceTo);// 价格区间最高范围
+        if (!TextUtils.isEmpty(key)) map.put("key", key);/*使用排序*/
+        if (!TextUtils.isEmpty(order)) map.put("order", order);/*使用排序*/
+        for (String s : st.split("_")) map.put(s, "1");
+        map.put("page", Constants.PAGE_RN);
+
+        addDisposable(apiService.getStoreGoods(map)
+                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .subscribeWith(new RxSubscriber<GoodsListInfo>() {
+                    @Override
+                    public void onSuccess(GoodsListInfo result) {
+                        sendData(eventKey, result);
+                        showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
+    }
+
     /*商品上新*/
     public void getStoreNewGoods(String storeId, int page, final Object eventKey) {
         Map<String, Object> map = parames("store", "store_new_goods");
@@ -471,6 +510,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
+                        KLog.i(msg);
                     }
 
                     @Override

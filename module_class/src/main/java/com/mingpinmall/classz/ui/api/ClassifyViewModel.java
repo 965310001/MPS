@@ -115,8 +115,14 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /*全部商品*/
-    public void getStoreGoods(String storeId, int page, Object eventKey) {
+    public void getStoreGoods(String storeId, long page, Object eventKey) {
         mRepository.getStoreGoods(storeId, page, eventKey);
+    }
+
+    public void getStoreGoods(String storeId, long page, String keyword,
+                              String areaId, String priceFrom, String priceTo,
+                              String order, String ci, String st, Object eventKey) {
+        mRepository.getStoreGoods(storeId, page, keyword, areaId, priceFrom, priceTo, order, ci, st, eventKey);
     }
 
     /*商品上新*/

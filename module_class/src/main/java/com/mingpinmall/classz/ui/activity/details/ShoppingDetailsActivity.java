@@ -201,10 +201,10 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     public void favorites(View view) {
         KLog.i("收藏" + goodsInfo.isfavorate());
         if (!SharePreferenceUtil.isLogin()) {
-            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+//            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {
-            mViewModel.favorites(id, is_favorate, Constants.FAVORITES);
         }
+        mViewModel.favorites(id, is_favorate, Constants.FAVORITES);
     }
 
     /**
