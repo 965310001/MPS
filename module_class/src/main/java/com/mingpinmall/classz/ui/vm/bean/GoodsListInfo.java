@@ -18,6 +18,7 @@ public class GoodsListInfo extends BaseBean {
     private List<GoodsInfo> collectdesc_goods_list;
     private List<GoodsInfo> salenumdesc_goods_list;
 
+    private List<GoodsInfo> list;
 
     public boolean isHasmore() {
         return hasmore;
@@ -59,6 +60,15 @@ public class GoodsListInfo extends BaseBean {
         this.salenumdesc_goods_list = salenumdesc_goods_list;
     }
 
+    @Bindable
+    public List<GoodsInfo> getList() {
+        return list;
+    }
+
+    public void setList(List<GoodsInfo> list) {
+        this.list = list;
+        notifyPropertyChanged(BR.list);
+    }
 
     public class DatasBean extends BaseBean {
         private List<GoodsInfo> goods_list;

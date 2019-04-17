@@ -56,7 +56,6 @@
     </string-array>
 
 
-
     <string-array name="tab_name">
         <item>"首页"</item>
         <item>"分类"</item>
@@ -75,4 +74,6 @@
         <item>@drawable/ic_cart</item>
         <item>@drawable/ic_user</item>
     </integer-array>
+
+    <string name="store_title">收藏排行;销量排行</string>
 </resources>

@@ -2,6 +2,7 @@ package com.mingpinmall.classz;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,7 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
@@ -71,6 +74,34 @@ public class DatabingUtils {
     public static void prightText(MultipleItemView settingItem, final String data) {
         if (null != data && !TextUtils.isEmpty(data)) {
             settingItem.setRightText(data);
+        }
+    }
+
+    @BindingAdapter("titles")
+    public static void setTitles(TabLayout tabLayout,
+                                 String titles) {
+        KLog.i(titles);
+        if (!TextUtils.isEmpty(titles)) {
+            String[] strings = titles.split(";");
+            for (String string : strings) {
+                tabLayout.addTab(tabLayout.newTab().setText(string));
+            }
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    LiveBus.getDefault().postEvent("TabLayout", "TabLayout", tab.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
         }
     }
 

@@ -3,6 +3,7 @@ package com.mingpinmall.classz.ui.activity.store;
 import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -123,25 +124,6 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
     @Override
     protected void dataObserver() {
         super.dataObserver();
-
-//        registerObserver(Constants.STORE_GOODS_RANK_KEY[2], BaseResponse.class)
-//                .observeForever(new Observer<BaseResponse>() {
-//                    @Override
-//                    public void onChanged(@Nullable BaseResponse response) {
-//                        if (response.isSuccess()) {
-//                            BaseResponse<StoreInfo> data = response;
-//                            try {
-//                                storeInfo = data.getData().getStore_info();
-//                                binding.setData(storeInfo);
-//                            } catch (Exception e) {
-//                                KLog.i(e.toString());
-//                            }
-//                        } else {
-//                            ToastUtils.showLong(response.getMessage());
-//                        }
-//                    }
-//                });
-
         /*收藏*/
         registerObserver(Constants.FAVORITES, ResultBean.class)
                 .observeForever(new Observer<ResultBean>() {

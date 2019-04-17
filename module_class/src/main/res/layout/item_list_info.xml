@@ -1,107 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <!--<import type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />-->
-
         <import type="com.mingpinmall.classz.ui.vm.bean.GoodsListInfo" />
-
-        <!--<variable-->
-        <!--name="data"-->
-        <!--type="java.util.List&lt;GoodsInfo>" />-->
 
         <variable
             name="data"
             type="GoodsListInfo" />
-
-        <!--<variable-->
-        <!--name="listdata"-->
-        <!--type="GoodsListInfo"/>-->
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            titles='@{@string/store_title}'
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:tabBackground="@color/white"
+            app:tabIndicatorColor="@color/shallow_red"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/shallow_red"
+            app:tabTextColor="@color/black" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.2"
-            android:gravity="center"
-            android:onClick="@{data.collectdesc_goods_list.get(0).click}"
-            android:orientation="vertical">
-
-            <ImageView
-                src="@{data.collectdesc_goods_list.get(0).goods_image_url}"
-                android:layout_width="@dimen/image_height_big"
-                android:layout_height="@dimen/image_height_big"
-                android:src="@drawable/ic_launcher" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@{`已售`+data.collectdesc_goods_list.get(0).goods_salenum}"
-                    tools:text="已售2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{@string/price_holder(data.collectdesc_goods_list.get(0).goods_price)}"
-                    android:textColor="@color/shallow_red"
-                    android:textSize="@dimen/text_16"
-                    tools:text="TextView" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1.2"
                 android:gravity="center"
+                android:onClick="@{data.list.get(0).click}"
                 android:orientation="vertical">
 
                 <ImageView
-                    src="@{data.collectdesc_goods_list.get(1).goods_image_url}"
-                    android:layout_width="@dimen/image_height"
-                    android:layout_height="@dimen/image_height"
+                    src="@{data.collectdesc_goods_list.get(0).goods_image_url}"
+                    android:layout_width="@dimen/image_height_big"
+                    android:layout_height="@dimen/image_height_big"
                     android:src="@drawable/ic_launcher" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{`已售`+data.collectdesc_goods_list.get(1).evaluation_count}"
-                    tools:text="已售2" />
+                    android:padding="10dp">
 
-                <ImageView
-                    src="@{data.collectdesc_goods_list.get(2).goods_image_url}"
-                    android:layout_width="@dimen/image_height"
-                    android:layout_height="@dimen/image_height"
-                    android:src="@drawable/ic_launcher" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{`已售`+data.list.get(0).goods_salenum}"
+                        tools:text="已售2" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{`已售`+data.collectdesc_goods_list.get(2).evaluation_count}"
-                    tools:text="已售2" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/price_holder(data.list.get(0).goods_price)}"
+                        android:textColor="@color/shallow_red"
+                        android:textSize="@dimen/text_16"
+                        tools:text="TextView" />
+                </LinearLayout>
+
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:onClick="@{data.list.get(1).click}"
+
+                        android:orientation="vertical">
+
+                        <ImageView
+                            src="@{data.list.get(1).goods_image_url}"
+                            android:layout_width="@dimen/image_height"
+                            android:layout_height="@dimen/image_height"
+                            android:src="@drawable/ic_launcher" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{`已售`+data.list.get(1).evaluation_count}"
+                            tools:text="已售2" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:onClick="@{data.list.get(2).click}"
+
+                        android:orientation="vertical">
+
+                        <ImageView
+                            src="@{data.list.get(2).goods_image_url}"
+                            android:layout_width="@dimen/image_height"
+                            android:layout_height="@dimen/image_height"
+                            android:src="@drawable/ic_launcher" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{`已售`+data.list.get(2).evaluation_count}"
+                            tools:text="已售2" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

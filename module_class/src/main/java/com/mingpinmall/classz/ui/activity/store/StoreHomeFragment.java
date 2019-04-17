@@ -64,6 +64,7 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                                 GoodsListInfo goodsListInfo = new GoodsListInfo();
                                 goodsListInfo.setCollectdesc_goods_list(data.getData().getCollectdesc_goods_list());
                                 goodsListInfo.setSalenumdesc_goods_list(data.getData().getSalenumdesc_goods_list());
+                                goodsListInfo.setList(goodsListInfo.getCollectdesc_goods_list());
                                 itemData.add(goodsListInfo);
                                 itemData.add(new TypeInfo("店主推荐"));
                                 itemData.addAll(data.getData().getRec_goods_list());
@@ -74,6 +75,30 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                             }
                         } else {
                             ToastUtils.showLong(response.getMessage());
+                        }
+                    }
+                });
+
+        registerObserver("TabLayout", "TabLayout")
+                .observe(this, new Observer<Object>() {
+                    @Override
+                    public void onChanged(@android.support.annotation.Nullable Object object) {
+                        int index = (int) object;
+
+                        KLog.i(index + "==");
+                        GoodsListInfo goodsListInfo;
+                        for (int i = 0; i < adapter.getItems().size(); i++) {
+                            if (adapter.getItems().get(i) instanceof GoodsListInfo) {
+                                goodsListInfo = (GoodsListInfo) adapter.getItems().get(i);
+                                switch (index) {
+                                    case 0:
+                                        goodsListInfo.setList(goodsListInfo.getCollectdesc_goods_list());
+                                        break;
+                                    case 1:
+                                        goodsListInfo.setList(goodsListInfo.getSalenumdesc_goods_list());
+                                        break;
+                                }
+                            }
                         }
                     }
                 });

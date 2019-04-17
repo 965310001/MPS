@@ -11,226 +11,235 @@
             type="com.mingpinmall.classz.ui.vm.bean.StoreInfo.StoreInfoBean" />
     </data>
 
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/cl_title_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#D5FFFFFF"
-            android:visibility="visible">
-
-            <LinearLayout
-                android:id="@+id/ll_QRCode"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="4dp"
-                app:layout_constraintBottom_toBottomOf="@id/sv_search"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toStartOf="@id/sv_search"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/sv_search">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:onClick="finish"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_back"
-                    android:tint="@color/black" />
-            </LinearLayout>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/sv_search"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
-                android:layout_margin="6dp"
-                android:background="@drawable/button_white_search"
-                android:drawableLeft="@drawable/search"
-                android:drawablePadding="6dp"
-                android:gravity="center_vertical"
-                android:paddingStart="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/ll_msg"
-                app:layout_constraintStart_toEndOf="@id/ll_QRCode"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/ll_msg"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="4dp"
-                app:layout_constraintBottom_toBottomOf="@id/sv_search"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/sv_search"
-                app:layout_constraintTop_toTopOf="@id/sv_search">
-
-                <!--<android.support.v7.widget.AppCompatImageView-->
-                <!--android:layout_width="28dp"-->
-                <!--android:layout_height="28dp"-->
-                <!--android:src="@drawable/ic_message_black" />-->
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="@dimen/line_hight"
-                android:background="@color/line_color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-        </android.support.constraint.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/rl_head"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cl_title_bar">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="@drawable/bg_store"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:layout_above="@id/ll"
+                android:orientation="vertical">
 
-                <ImageView
-                    src="@{data.store_avatar}"
-                    android:layout_width="@dimen/image_height_large"
-                    android:layout_height="@dimen/image_height_large"
-                    android:src="@drawable/ic_launcher" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cl_title_bar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dp_10"
-                    android:text="@{data.store_name}"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_16"
-                    tools:text="商家名字" />
+                    android:background="#D5FFFFFF">
+
+                    <LinearLayout
+                        android:id="@+id/ll_QRCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp"
+                        app:layout_constraintBottom_toBottomOf="@id/sv_search"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toStartOf="@id/sv_search"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/sv_search">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:onClick="finish"
+                            android:padding="3dp"
+                            android:src="@drawable/ic_back"
+                            android:tint="@color/black" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/sv_search"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_margin="6dp"
+                        android:background="@drawable/button_white_search"
+                        android:drawableLeft="@drawable/search"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/ll_msg"
+                        app:layout_constraintStart_toEndOf="@id/ll_QRCode"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_msg"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp"
+                        app:layout_constraintBottom_toBottomOf="@id/sv_search"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/sv_search"
+                        app:layout_constraintTop_toTopOf="@id/sv_search">
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/line_hight"
+                        android:background="@color/line_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.design.widget.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.design.widget.CollapsingToolbarLayout
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        app:contentInsetLeft="0dp"
+                        app:contentInsetStart="0dp"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_head"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/cl_title_bar"
+                            app:layout_scrollFlags="scroll">
+
+                            <!--店铺布局-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                android:background="@drawable/bg_store"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:padding="10dp"
+                                app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                                <ImageView
+                                    src="@{data.store_avatar}"
+                                    android:layout_width="@dimen/image_height_large"
+                                    android:layout_height="@dimen/image_height_large"
+                                    android:src="@drawable/ic_launcher" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:paddingLeft="@dimen/dp_10"
+                                    android:text="@{data.store_name}"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_16"
+                                    tools:text="商家名字" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="end"
+                                android:layout_marginRight="60dp"
+                                android:background="@{data.is_favorate?@color/gray:@color/shallow_red}"
+                                android:gravity="center"
+                                android:onClick="favorites"
+                                android:paddingLeft="@dimen/dp_12"
+                                android:paddingTop="@dimen/dp_5"
+                                android:paddingRight="@dimen/dp_12"
+                                android:paddingBottom="@dimen/dp_5"
+                                android:text="收藏"
+                                android:textColor="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="end"
+                                android:background="@color/shallow_red"
+                                android:gravity="center"
+                                android:paddingLeft="@dimen/dp_12"
+                                android:paddingTop="@dimen/dp_5"
+                                android:paddingRight="@dimen/dp_12"
+                                android:paddingBottom="@dimen/dp_5"
+                                android:text="@{`粉丝`+data.store_collect}"
+                                android:textColor="@color/white"
+                                tools:text="粉丝100" />
+                        </RelativeLayout>
+                    </android.support.design.widget.CollapsingToolbarLayout>
+
+                    <com.heima.tabview.library.TabView
+                        android:id="@+id/tabView"
+                        style="@style/width_match_height_match"
+                        android:background="@color/white"
+                        app:imageViewTextViewMargin="2dp"
+                        app:tab_imageViewHeight="18dp"
+                        app:tab_imageViewWidth="18dp"
+                        app:tab_tabViewBackgroundColor="@color/white"
+                        app:tab_tabViewDefaultPosition="0"
+                        app:tab_tabViewGravity="top"
+                        app:tab_tabViewHeight="50dp"
+                        app:tab_textViewSelColor="@color/app_theme_d61619"
+                        app:tab_textViewSize="@dimen/text_12"
+                        app:tab_textViewUnSelColor="@color/dark" />
+                </android.support.design.widget.AppBarLayout>
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!--底部-->
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="end"
-                android:layout_marginRight="60dp"
-                android:background="@{data.is_favorate?@color/gray:@color/shallow_red}"
-                android:gravity="center"
-                android:onClick="favorites"
-                android:paddingLeft="@dimen/dp_12"
-                android:paddingTop="@dimen/dp_5"
-                android:paddingRight="@dimen/dp_12"
-                android:paddingBottom="@dimen/dp_5"
-                android:text="收藏"
-                android:textColor="@color/white" />
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="end"
-                android:background="@color/shallow_red"
-                android:gravity="center"
-                android:paddingLeft="@dimen/dp_12"
-                android:paddingTop="@dimen/dp_5"
-                android:paddingRight="@dimen/dp_12"
-                android:paddingBottom="@dimen/dp_5"
-                android:text="@{`粉丝`+data.store_collect}"
-                android:textColor="@color/white"
-                tools:text="粉丝100" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_12"
+                    android:text="店铺推荐" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_12"
+                    android:text="店铺推荐" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_12"
+                    android:text="店铺推荐" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_12"
+                    android:text="店铺推荐" />
+            </LinearLayout>
+
         </RelativeLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/ll"
-            android:layout_below="@id/rl_head"
-            android:orientation="horizontal">
 
-            <com.heima.tabview.library.TabView
-                android:id="@+id/tabView"
-                style="@style/width_warp_height_warp"
-                app:imageViewTextViewMargin="2dp"
-                app:tab_imageViewHeight="18dp"
-                app:tab_imageViewWidth="18dp"
-                app:tab_tabViewBackgroundColor="@color/white"
-                app:tab_tabViewDefaultPosition="0"
-                app:tab_tabViewGravity="top"
-                app:tab_tabViewHeight="50dp"
-                app:tab_textViewSelColor="@color/app_theme_d61619"
-                app:tab_textViewSize="@dimen/text_12"
-                app:tab_textViewUnSelColor="@color/dark" />
-
-        </RadioGroup>
-
-        <RelativeLayout
-            android:id="@+id/rl_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/ll"
-            android:layout_below="@id/rg_title"
-            android:visibility="gone" />
-
-
-        <LinearLayout
-            android:id="@+id/ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:visibility="visible">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/dp_12"
-                android:text="店铺推荐" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/dp_12"
-                android:text="店铺推荐" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/dp_12"
-                android:text="店铺推荐" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/dp_12"
-                android:text="店铺推荐" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
+    </android.support.design.widget.CoordinatorLayout>
 </layout>
