@@ -109,6 +109,9 @@ public interface ARouterConfig {
         //我的订单
         String ORDERACTIVITY = "/me/OrderActivity";
 
+        //订单详情
+        String PHYSICALORDERINFORMATIONACTIVITY = "/me/PhysicalOrderInformationActivity";
+
         //退换货
         String REFUNDACTIVITY = "/me/RefundActivity";
 

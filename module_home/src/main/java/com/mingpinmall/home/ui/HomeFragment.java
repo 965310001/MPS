@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.goldze.common.dmvvm.activity.BottomNavigationActivity;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
@@ -26,6 +27,7 @@ import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.mingpinmall.home.HomeActivity;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentHomeBinding;
 import com.mingpinmall.home.ui.activity.qrCode.ScanQRCodeActivity;
@@ -337,6 +339,22 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             case "tmpl/member/member_invite.html":
                 //我的名师  分销管理 DISRTIBUTIONACTIVITY
                 ActivityToActivity.toActivity(ARouterConfig.Me.DISRTIBUTIONACTIVITY);
+                break;
+            case "tmpl/product_first_categroy.html":
+                //分类 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 1);
+                break;
+            case "tmpl/cart_list.html":
+                //购物车 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 2);
+                break;
+            case "tmpl/member/member.html":
+                //我的 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 3);
+                break;
+            case "tmpl/member/signin.html":
+                //签到
+                ToastUtils.showShort("签到");
                 break;
         }
     }

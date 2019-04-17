@@ -8,6 +8,7 @@ import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
 import com.mingpinmall.me.ui.bean.CityBean;
 import com.mingpinmall.me.ui.bean.FootprintBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
+import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 import com.mingpinmall.me.ui.bean.ProductCollectionBean;
 import com.mingpinmall.me.ui.bean.PropertyBean;
@@ -78,9 +79,9 @@ public interface MeApiService {
 
     @GET(GETINVITE)
     Flowable<BaseResponse<BaseNothingBean>> getInviteList(@Query("key") String key,
-                                                      @Query("wwi") String wwi,
-                                                      @Query("page") int page,
-                                                      @Query("curpage") int curpage
+                                                          @Query("wwi") String wwi,
+                                                          @Query("page") int page,
+                                                          @Query("curpage") int curpage
     );
 
     /**
@@ -149,6 +150,18 @@ public interface MeApiService {
     Flowable<BaseResponse<ProductCollectionBean>> getProductCollectList(@Query("key") String key, @Query("curpage") int curpage, @Query("page") int page);
 
     /**
+     * 描述：查看订单详情
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_info&order_id=71
+     * 请求方式：get
+     * 请求参数：
+     * order_id:订单id
+     */
+    String OrderInformation = "/mo_bile/index.php?app=member_order&wwi=order_info";
+
+    @GET(OrderInformation)
+    Flowable<BaseResponse<OrderInformationBean>> getOrderInformation(@Query("key") String key, @Query("order_id") String order_id);
+
+    /**
      * 描述：根据条件查询订单
      * 请求地址：
      * http://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_list&page=10&curpage=1
@@ -172,6 +185,7 @@ public interface MeApiService {
             @Field("page") int page,
             @Field("curpage") int curpage
     );
+
     /**
      * 描述：请求虚拟订单列表
      * 请求地址：

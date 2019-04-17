@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -34,8 +38,8 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
 
     private ShopsStreetAdapter shopsStreetAdapter;
     private int pageIndex = 1;
-    private int cityId;
-    private int areaId;
+    private boolean isLoadmore = false;
+    private String sc_id = "";
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -43,7 +47,10 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         AndroidBug5497Workaround.assistActivity(findViewById(android.R.id.content));
         setTitle(R.string.title_ShopStreetActivity);
+        binding.ivClass.setOnClickListener(this);
         binding.tvSelectAddress.setOnClickListener(this);
+        binding.tvClearnAddress.setOnClickListener(this);
+        binding.tvSearch.setOnClickListener(this);
         binding.fab.setOnClickListener(this);
 
         shopsStreetAdapter = new ShopsStreetAdapter();
@@ -54,7 +61,14 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mViewModel.getStoreStreet(binding.edSearch.getText().toString(), "0", 0, pageIndex + 1);
+                isLoadmore = true;
+                String text = binding.tvSelectAddress.getText().toString();
+                mViewModel.getStoreStreet(
+                        binding.edSearch.getText().toString(),
+                        text.equals(getString(R.string.text_selectShopAddress)) ? "" : text,
+                        sc_id,
+                        pageIndex + 1
+                );
             }
 
             @Override
@@ -62,11 +76,44 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
                 initData();
             }
         });
+
+        /*监听变化显示和隐藏按钮*/
+        binding.tvSelectAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.tvClearnAddress.setVisibility(
+                        s.toString().equals(getString(R.string.text_selectShopAddress))
+                                ? View.INVISIBLE
+                                : View.VISIBLE
+                );
+            }
+        });
+        shopsStreetAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                //列表点击事件   TODO 跳转到对应的店铺
+            }
+        });
     }
 
     @Override
     protected void initData() {
-        mViewModel.getStoreStreet(binding.edSearch.getText().toString(), "0", 0, 1);
+        isLoadmore = false;
+        String text = binding.tvSelectAddress.getText().toString();
+        mViewModel.getStoreStreet(
+                binding.edSearch.getText().toString(),
+                text.equals(getString(R.string.text_selectShopAddress)) ? "" : text,
+                sc_id,
+                1
+        );
     }
 
     @Override
@@ -79,11 +126,13 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
                         if (!data.isHasmore()) {
                             binding.refreshLayout.finishLoadMoreWithNoMoreData();
                         }
-                        pageIndex = data.getPage_total();
-                        if (data.getPage_total() == 1) {
+
+                        if (!isLoadmore) {
+                            pageIndex = 1;
                             binding.refreshLayout.finishRefresh();
                             shopsStreetAdapter.setNewData(data.getData().getStore_list());
                         } else {
+                            pageIndex++;
                             binding.refreshLayout.finishLoadMore();
                             shopsStreetAdapter.addData(data.getData().getStore_list());
                         }
@@ -102,12 +151,20 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
 
     @Override
     public void onViewClicked(int viewId) {
+        if (viewId == R.id.tv_search) {
+            //搜索
+            initData();
+        }
         if (viewId == R.id.tv_selectAddress) {
             //选择店铺地区
             ARouter.getInstance().build(ARouterConfig.Me.SelectCityActivity).navigation(this, 1);
         } else if (viewId == R.id.iv_class) {
             //分类
-
+            ARouter.getInstance().build(ARouterConfig.home.SHOPCLASSACTIVITY).navigation(this, 2);
+        } else if (viewId == R.id.tv_clearnAddress) {
+            //重置选择的地址
+            binding.tvSelectAddress.setText(getString(R.string.text_selectShopAddress));
+            initData();
         } else if (viewId == R.id.fab) {
             //我的足迹
             ActivityToActivity.toActivity(ARouterConfig.Me.FOOTPRINTACTIVITY);
@@ -117,17 +174,23 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == 100) {
-//                intent.putExtra("address", addressOne + addressTwo);
-//                intent.putExtra("cityId", cityId);
-//                intent.putExtra("areaId", cityId);
-                //选择地区回来，更新列表
-                cityId = data.getIntExtra("cityId", 0);
-                areaId = data.getIntExtra("areaId", 0);
-                binding.tvSelectAddress.setText(data.getStringExtra("address"));
-                initData();
-            }
+        switch (requestCode) {
+            case 1:
+                //选择地址
+                if (resultCode == 100) {
+                    //选择地区回来，更新列表
+                    binding.tvSelectAddress.setText(data.getStringExtra("address"));
+                    initData();
+                }
+                break;
+            case 2:
+                //选择分类
+                if (resultCode == 100) {
+                    //选择地区回来，更新列表
+                    sc_id = data.getStringExtra("sc_id");
+                    initData();
+                }
+                break;
         }
     }
 

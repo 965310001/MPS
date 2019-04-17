@@ -1,9 +1,11 @@
 package com.mingpinmall.me.ui.acitivity.order;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.PhysicalOrderListAdapter;
@@ -20,7 +23,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.socks.library.KLog;
 
 /**
  * 功能描述：全部实物订单页面
@@ -33,6 +35,7 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
     private String TYPE = "";
     private String EVENT_KEY = "ALL_PHYSICAL";
     private PhysicalOrderListAdapter physicalOrderListAdapter;
+    private boolean isLoadmore = false;
 
     public PhysicalOrderListFragment() {
     }
@@ -75,18 +78,15 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
         binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                KLog.i(activity+"");
-                try{
-                    mViewModel.getPhysicalOrderList(EVENT_KEY, TYPE, ((OrderActivity) activity).getOrderKey(), 1);
-                }catch (Exception e){
-                    KLog.i(e.toString());
-                }
+                isLoadmore = false;
+                mViewModel.getPhysicalOrderList(EVENT_KEY, TYPE, getOrderKey(), 1);
             }
         });
         binding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mViewModel.getPhysicalOrderList(EVENT_KEY, TYPE, ((OrderActivity) activity).getOrderKey(), (pageIndex + 1));
+                isLoadmore = true;
+                mViewModel.getPhysicalOrderList(EVENT_KEY, TYPE, getOrderKey(), (pageIndex + 1));
             }
         });
         setListItemClickListener();
@@ -97,6 +97,10 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //item点击事件
+                PhysicalOrderBean orderBean = physicalOrderListAdapter.getItem(position);
+                Intent intent = new Intent(activity, PhysicalOrderInformationActivity.class);
+                intent.putExtra("orderId", orderBean.getOrder_id());
+                startActivityForResult(intent, 1);
             }
         });
         physicalOrderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -108,32 +112,48 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
     }
 
     @Override
-    protected void dataObserver() {
-        registerObserver(EVENT_KEY, EVENT_KEY + "success").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                BaseResponse<PhysicalOrderBean> data = (BaseResponse<PhysicalOrderBean>) result;
-                if (binding.refreshLayout.getState() == RefreshState.Refreshing || binding.refreshLayout.getState() == RefreshState.None) {
-                    pageIndex = 1;
-                    binding.refreshLayout.finishRefresh();
-                    physicalOrderListAdapter.setNewData(data.getData().getNewdata());
-                } else if (binding.refreshLayout.getState() == RefreshState.Loading) {
-                    pageIndex++;
-                    if (data.isHasmore())
-                        binding.refreshLayout.finishLoadMore();
-                    else
-                        binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                    physicalOrderListAdapter.addData(data.getData().getNewdata());
-                }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == 100) {
+                ToastUtils.showShort("dddd");
             }
-        });
-        registerObserver(EVENT_KEY, EVENT_KEY + "err").observeForever(new Observer<Object>() {
+        }
+    }
+
+    @Override
+    protected void dataObserver() {
+        super.dataObserver();
+        registerObserver(EVENT_KEY, EVENT_KEY + "success")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        Log.i("数据", "onChanged: 进入Success " + EVENT_KEY);
+                        BaseResponse<PhysicalOrderBean> data = (BaseResponse<PhysicalOrderBean>) result;
+                        if (!data.isHasmore()) {
+                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                        }
+                        if (!isLoadmore) {
+                            pageIndex = 1;
+                            binding.refreshLayout.finishRefresh();
+                            physicalOrderListAdapter.setNewData(data.getNewdata());
+                        } else {
+                            pageIndex++;
+                            binding.refreshLayout.finishLoadMore();
+                            physicalOrderListAdapter.addData(data.getNewdata());
+                        }
+                    }
+                });
+        registerObserver(EVENT_KEY, EVENT_KEY + "err", String.class).observeForever(new Observer<String>() {
             @Override
-            public void onChanged(@Nullable Object o) {
+            public void onChanged(@Nullable String o) {
+                Log.i("数据", "onChanged: 进入Err " + EVENT_KEY);
                 if (binding.refreshLayout.getState() == RefreshState.Refreshing) {
                     binding.refreshLayout.finishRefresh(false);
                 } else if (binding.refreshLayout.getState() == RefreshState.Loading) {
                     binding.refreshLayout.finishLoadMore(false);
+                } else {
+                    ToastUtils.showShort(o);
                 }
             }
         });
@@ -141,7 +161,12 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
 
     @Override
     protected void lazyLoad() {
-        mViewModel.getPhysicalOrderList(EVENT_KEY, TYPE, ((OrderActivity) activity).getOrderKey(), 1);
+        mViewModel.getPhysicalOrderList(EVENT_KEY, TYPE, getOrderKey(), 1);
+    }
+
+    private String getOrderKey() {
+        AppCompatEditText editText = getActivity().findViewById(R.id.ed_search);
+        return editText == null ? "" : editText.getText().toString();
     }
 
     @Override

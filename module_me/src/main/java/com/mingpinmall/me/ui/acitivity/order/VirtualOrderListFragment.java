@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 /**
  * 功能描述：全部虚拟订单页面
@@ -29,6 +31,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefaultRecyclerviewBinding, MeViewModel> {
 
     private int pageIndex = 1;
+    private boolean isLoadmore = false;
     private String TYPE = "";
     private String EVENT_KEY = "ALL_VIRTUAL";
     private VirtualOrderListAdapter virtualOrderListAdapter;
@@ -71,16 +74,17 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
         virtualOrderListAdapter = new VirtualOrderListAdapter();
         binding.recyclerView.setAdapter(virtualOrderListAdapter);
 
-        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mViewModel.getVirtualOrderList(EVENT_KEY, TYPE, ((OrderActivity) activity).getOrderKey(), 1);
-            }
-        });
-        binding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+        binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mViewModel.getVirtualOrderList(EVENT_KEY, TYPE, ((OrderActivity) activity).getOrderKey(), (pageIndex + 1));
+                isLoadmore = true;
+                mViewModel.getVirtualOrderList(EVENT_KEY, TYPE, getOrderKey(), (pageIndex + 1));
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                isLoadmore = false;
+                mViewModel.getVirtualOrderList(EVENT_KEY, TYPE, getOrderKey(), 1);
             }
         });
         setListItemClickListener();
@@ -107,16 +111,16 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
             @Override
             public void onChanged(@Nullable Object result) {
                 BaseResponse<VirtualOrderBean> data = (BaseResponse<VirtualOrderBean>) result;
-                if (binding.refreshLayout.getState() == RefreshState.Refreshing || binding.refreshLayout.getState() == RefreshState.None) {
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                }
+                if (!isLoadmore) {
                     pageIndex = 1;
                     binding.refreshLayout.finishRefresh();
                     virtualOrderListAdapter.setNewData(data.getData().getOrder_list());
-                } else if (binding.refreshLayout.getState() == RefreshState.Loading) {
+                } else {
                     pageIndex++;
-                    if (data.isHasmore())
-                        binding.refreshLayout.finishLoadMore();
-                    else
-                        binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                    binding.refreshLayout.finishLoadMore();
                     virtualOrderListAdapter.addData(data.getData().getOrder_list());
                 }
             }
@@ -135,7 +139,12 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
 
     @Override
     protected void lazyLoad() {
-        mViewModel.getVirtualOrderList(EVENT_KEY, TYPE, ((OrderActivity) activity).getOrderKey(), 1);
+        mViewModel.getVirtualOrderList(EVENT_KEY, TYPE, getOrderKey(), 1);
+    }
+
+    private String getOrderKey() {
+        AppCompatEditText editText = getActivity().findViewById(R.id.ed_search);
+        return editText == null ? "" : editText.getText().toString();
     }
 
     @Override

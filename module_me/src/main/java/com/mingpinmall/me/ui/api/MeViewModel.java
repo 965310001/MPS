@@ -152,6 +152,12 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     public void getPhysicalOrderList(String event_key, String state_type, String order_key, int curpage) {
         mRepository.getPhysicalOrderList(event_key, state_type, order_key, 10, curpage);
     }
+
+    /*获取订单详情*/
+    public void getOrderInformation(String order_id) {
+        mRepository.getOrderInformation(order_id);
+    }
+
     /**
      * 获取订单列表
      *

@@ -173,7 +173,7 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        this.activity = null;
+
     }
 
     @Override
@@ -186,12 +186,12 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     public void onDetach() {
         super.onDetach();
         this.activity = null;
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        this.activity = null;
         if (null != binding) {
             binding.unbind();
         }

@@ -26,6 +26,7 @@
         <activity android:name=".ui.acitivity.setting.FeedBackActivity" />
         <activity android:name=".ui.acitivity.setting.CheckAuthActivity" />
         <activity android:name=".ui.acitivity.address.SelectCityActivity" />
+        <activity android:name=".ui.acitivity.order.PhysicalOrderInformationActivity" />
     </application>
 
 </manifest>

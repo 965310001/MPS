@@ -2,6 +2,7 @@ package com.mingpinmall.me.ui.adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -9,20 +10,21 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 功能描述：实物订单适配器
  * 创建人：小斌
  * 创建时间: 2019/4/13
  **/
-public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean.NewdataBean, BaseViewHolder> {
+public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean, BaseViewHolder> {
 
     public PhysicalOrderListAdapter() {
-        super(R.layout.item_physical_order_group, new ArrayList<PhysicalOrderBean.NewdataBean>());
+        super(R.layout.item_physical_order_group, new ArrayList<PhysicalOrderBean>());
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, PhysicalOrderBean.NewdataBean item) {
+    protected void convert(final BaseViewHolder helper, PhysicalOrderBean item) {
         String state = item.getOrder_state();
 
         helper.setText(R.id.tv_storeName, item.getStore_name())
@@ -43,5 +45,13 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
         RecyclerView recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(helper.itemView.getContext()));
         recyclerView.setAdapter(physicalOrderChildListAdapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
+        physicalOrderChildListAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                helper.itemView.callOnClick();
+            }
+        });
     }
 }

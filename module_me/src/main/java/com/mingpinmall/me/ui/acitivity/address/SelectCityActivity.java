@@ -67,7 +67,7 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
                     cityId = bean.getArea_id();
                 } else if (level >= 3) {
                     Intent intent = new Intent();
-                    intent.putExtra("address", addressOne + addressTwo + bean.getArea_name());
+                    intent.putExtra("address", addressOne + " " +  addressTwo + " " +  bean.getArea_name());
                     intent.putExtra("cityId", cityId);
                     intent.putExtra("areaId", bean.getArea_id());
                     setResult(100, intent);
@@ -78,10 +78,14 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
                 level++;
             }
         });
-        mViewModel.getCityList("0");
         binding.clOne.setOnClickListener(this);
         binding.clThree.setOnClickListener(this);
         binding.clTwo.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
+        mViewModel.getCityList("0");
     }
 
     @Override

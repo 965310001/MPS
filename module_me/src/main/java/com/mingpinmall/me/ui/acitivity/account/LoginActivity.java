@@ -197,7 +197,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         if (binding.tabs.getSelectedTabPosition() == 0) {
             editTextAllOK = phoneCount >= 11 && binding.edMsgCode.getText().length() >= 4;
         } else {
-            editTextAllOK = phoneCount >= 11 && binding.edPassword.getText().length() >= 6;
+            editTextAllOK = phoneCount >= 4 && binding.edPassword.getText().length() >= 6;
         }
         if (binding.cbAgree.isChecked() && editTextAllOK) {
             binding.btnSublimt.setEnabled(true);

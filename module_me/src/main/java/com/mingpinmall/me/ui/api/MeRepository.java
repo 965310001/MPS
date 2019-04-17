@@ -15,6 +15,7 @@ import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
 import com.mingpinmall.me.ui.bean.CityBean;
 import com.mingpinmall.me.ui.bean.FootprintBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
+import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 import com.mingpinmall.me.ui.bean.ProductCollectionBean;
 import com.mingpinmall.me.ui.bean.PropertyBean;
@@ -486,16 +487,48 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<PhysicalOrderBean> result) {
                         if (!result.isSuccess()) {
+                            Log.i("数据", "onChanged: 发送err " + event_key + "err");
                             sendData(event_key, event_key + "err", result.getMessage());
                             return;
                         }
+                        Log.i("数据", "onChanged: 发送sucess " + event_key + "success");
                         sendData(event_key, event_key + "success", result);
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
+                        Log.i("数据", "onChanged: 发送err " + event_key);
                         sendData(event_key, event_key + "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+
+    }
+
+    /**
+     * 获取订单详情
+     *
+     * @param order_id
+     */
+    protected void getOrderInformation(String order_id) {
+        addDisposable(apiService.getOrderInformation(getUserKey(), order_id)
+                .compose(RxSchedulers.<BaseResponse<OrderInformationBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<OrderInformationBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<OrderInformationBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("ORDER_INFORMATION", "success", result.getData());
+                        } else {
+                            sendData("ORDER_INFORMATION", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("ORDER_INFORMATION", "err", msg == null ? "获取失败" : msg);
                     }
                 })
         );

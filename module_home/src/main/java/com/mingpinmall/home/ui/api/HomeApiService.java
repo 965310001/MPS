@@ -2,6 +2,7 @@ package com.mingpinmall.home.ui.api;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
+import com.mingpinmall.home.ui.bean.ShopClassBean;
 import com.mingpinmall.home.ui.bean.ShopStreetBean;
 
 import io.reactivex.Flowable;
@@ -40,10 +41,24 @@ public interface HomeApiService {
     Flowable<BaseResponse<ShopStreetBean>> getStoreStreet(
             @Query("keyword") String keyword,
             @Query("area_info") String area_info,
-            @Query("sc_id") int sc_id,
+            @Query("sc_id") String sc_id,
             @Query("key") String key,
             @Query("page") int page,
             @Query("curpage") int curPage
+    );
+
+    /**
+     * 描述：店铺街 获取分类
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=store&wwi=store_class_list
+     * 请求方式：get
+     * 请求参数：无
+     */
+    String STORE_CLASS = "/mo_bile/index.php?app=store&wwi=store_class_list";
+
+    /*店铺街*/
+    @GET(STORE_CLASS)
+    Flowable<BaseResponse<ShopClassBean>> getStoreClass(
+            @Query("key") String key
     );
 
 }

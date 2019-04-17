@@ -15,14 +15,14 @@ import java.util.List;
  * 创建人：小斌
  * 创建时间: 2019/4/13
  **/
-public class PhysicalOrderChildListAdapter extends BaseQuickAdapter<PhysicalOrderBean.NewdataBean.ExtendOrderGoodsBean, BaseViewHolder> {
+public class PhysicalOrderChildListAdapter extends BaseQuickAdapter<PhysicalOrderBean.ExtendOrderGoodsBean, BaseViewHolder> {
 
-    public PhysicalOrderChildListAdapter(List<PhysicalOrderBean.NewdataBean.ExtendOrderGoodsBean> dataList) {
+    public PhysicalOrderChildListAdapter(List<PhysicalOrderBean.ExtendOrderGoodsBean> dataList) {
         super(R.layout.item_physical_order_child, dataList);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, PhysicalOrderBean.NewdataBean.ExtendOrderGoodsBean item) {
+    protected void convert(BaseViewHolder helper, PhysicalOrderBean.ExtendOrderGoodsBean item) {
         helper.setText(R.id.tv_label, item.getGoods_name())
                 .setText(R.id.tv_payMoney, "¥" + item.getGoods_price())
                 .setText(R.id.tv_count, "x" + item.getGoods_num());

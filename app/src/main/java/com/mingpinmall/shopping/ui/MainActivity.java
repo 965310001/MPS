@@ -1,13 +1,17 @@
 package com.mingpinmall.shopping.ui;
 
 import android.Manifest;
+import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
+import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.activity.BottomNavigationActivity;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.manage.AppManager;
@@ -80,6 +84,15 @@ public class MainActivity extends BottomNavigationActivity {
             checkUpdate();
         }
 //        ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+
+        LiveBus.getDefault().subscribe("Main", "tab").observeForever(new Observer<Object>() {
+            @Override
+            public void onChanged(@Nullable Object o) {
+                int index = (int) o;
+                LinearLayout linearLayout = (LinearLayout) binding.tabView.getChildAt(0);
+                linearLayout.getChildAt(index).callOnClick();
+            }
+        });
     }
 
     private void checkUpdate() {

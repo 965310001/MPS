@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mingpinmall.me.ui.bean.OrderInformationBean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:minHeight="48dp"
+                    android:padding="12dp">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="6dp"
+                        android:src="@drawable/ic_order"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_label"
+                        app:layout_constraintEnd_toStartOf="@id/tv_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_label" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="交易状态"
+                        android:textColor="#1B1B1B"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_description"
+                        app:layout_constraintEnd_toStartOf="@id/tv_sublabel"
+                        app:layout_constraintStart_toEndOf="@id/iv_icon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="请于1小时内完成付款，逾期未付订单自动关闭"
+                        android:textColor="#424242"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_sublabel"
+                        app:layout_constraintStart_toStartOf="@id/tv_label"
+                        app:layout_constraintTop_toBottomOf="@id/tv_label" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_sublabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_marginStart="4dp"
+                        android:text="待付款"
+                        android:textColor="@color/app_theme_d61619"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_label"
+                        app:layout_constraintTop_toTopOf="@id/tv_label" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <com.mingpinmall.me.ui.widget.SettingItemView
+                    android:id="@+id/siv_item2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:description="收货地址：广州市天河区体育中心啦啦啦啦啦卡的看法是开放"
+                    app:image="@drawable/ic_gps"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:mode="NoMoreIcon"
+                    app:smallIcon="true"
+                    app:title="收货人：小斌" />
+
+                <com.mingpinmall.me.ui.widget.SettingItemView
+                    android:id="@+id/siv_item3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:description="留言内容"
+                    app:image="@drawable/ic_leavemsg"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:mode="NoMoreIcon"
+                    app:smallIcon="true"
+                    app:title="买家留言" />
+
+                <com.mingpinmall.me.ui.widget.SettingItemView
+                    android:id="@+id/siv_item4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:description="类型：普通发票  抬头：个人  内容：明细"
+                    app:image="@drawable/ic_invoice"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:mode="NoMoreIcon"
+                    app:smallIcon="true"
+                    app:title="发票信息" />
+
+                <com.mingpinmall.me.ui.widget.SettingItemView
+                    android:id="@+id/siv_item5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:description="在线付款"
+                    app:image="@drawable/ic_pay"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:mode="NoMoreIcon"
+                    app:smallIcon="true"
+                    app:title="付款方式" />
+
+                <!-- 商品列表模块 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/cl_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:foreground="@drawable/button_foreground">
+
+                        <LinearLayout
+                            android:id="@+id/ll_shopContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="12dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toTopOf="@id/line"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_store_b" />
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_storeName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                tools:text="品牌网自营" />
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_svg_more" />
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_orderState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:textColor="@color/app_theme_d61619"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/ll_shopContent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/ll_shopContent"
+                            tools:text="待付款" />
+
+                        <View
+                            android:id="@+id/line"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/line_hight"
+                            android:background="@color/dark"
+                            app:layout_constraintBottom_toTopOf="@id/recyclerView"
+                            app:layout_constraintEnd_toEndOf="@id/tv_orderState"
+                            app:layout_constraintStart_toStartOf="@id/ll_shopContent"
+                            app:layout_constraintTop_toBottomOf="@id/ll_shopContent" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toTopOf="@id/line1"
+                            app:layout_constraintEnd_toEndOf="@id/tv_orderState"
+                            app:layout_constraintStart_toStartOf="@id/ll_shopContent"
+                            app:layout_constraintTop_toBottomOf="@id/line" />
+
+                        <View
+                            android:id="@+id/line1"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/line_hight"
+                            android:background="@color/dark"
+                            app:layout_constraintEnd_toEndOf="@id/recyclerView"
+                            app:layout_constraintStart_toStartOf="@id/recyclerView"
+                            app:layout_constraintTop_toBottomOf="@id/recyclerView" />
+
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/line_hight"
+                            android:background="@color/line_color"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <!-- 优惠 运费 实付款 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="6dp">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="优惠"
+                        android:textColor="@color/color_text" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_youhui"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        tools:text="ceshi yixia " />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="6dp">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="优惠"
+                        android:textColor="@color/color_text" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="¥"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_yunfei"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        tools:text="0.00" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="6dp">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="实付款(含运费)"
+                        android:textColor="@color/color_text" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="¥"
+                        android:textColor="@color/app_theme_d61619"
+                        android:textSize="14sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_payMoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/app_theme_d61619"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="2680.00" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <!-- 联系客服 与 拨打电话 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:id="@+id/fl_service"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:foreground="@drawable/button_foreground">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawableLeft="@drawable/ic_service"
+                            android:gravity="center_vertical"
+                            android:text="联系客服"
+                            android:textSize="16sp" />
+
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="@dimen/line_hight"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/line_color" />
+
+                    <FrameLayout
+                        android:id="@+id/fl_call"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:foreground="@drawable/button_foreground">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawableLeft="@drawable/ic_call_phone"
+                            android:gravity="center_vertical"
+                            android:text="拨打电话"
+                            android:textSize="16sp" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <!-- 订单编号和时间 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_order_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="订单编号：20000000055887" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_order_createTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="创建时间：2019-04-16 14:48:11" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                android:id="@+id/bt_cancelOrder"
+                style="@style/RoundButton.Auto"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:text="@string/btn_text_cancelOrder"
+                android:textColor="@color/dark"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:rb_backgroundColor="@color/transparent"
+                app:rb_borderColor="@color/dark"
+                app:rb_borderWidth="1dp"
+                app:rb_radius="5dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</layout>

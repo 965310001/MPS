@@ -30,6 +30,8 @@ import java.util.ArrayList;
 public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefaultRecyclerviewBinding, MeViewModel> {
 
     private int pageIndex = 1;
+    private boolean isLoadmore = false;
+
     private ProductCollectionAdapter collectionAdapter;
 
     @Override
@@ -51,11 +53,13 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                isLoadmore = true;
                 mViewModel.getProductCollectList(pageIndex + 1);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                isLoadmore = false;
                 mViewModel.getProductCollectList(1);
             }
         });

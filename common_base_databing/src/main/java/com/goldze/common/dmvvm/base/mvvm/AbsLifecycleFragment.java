@@ -18,6 +18,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.utils.TUtil;
+import com.socks.library.KLog;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
 import java.util.ArrayList;
@@ -156,6 +157,12 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         if (eventKeys != null && eventKeys.size() > 0) {
             for (int i = 0; i < eventKeys.size(); i++) {
                 LiveBus.getDefault().clear(eventKeys.get(i));
