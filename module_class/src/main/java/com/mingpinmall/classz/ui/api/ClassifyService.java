@@ -13,6 +13,7 @@ import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
+import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 
 import java.util.Map;
 
@@ -122,9 +123,15 @@ public interface ClassifyService {
 
 
     /*收藏排行*/
+
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<GoodsListInfo> getStoreGoodsRank(@FieldMap Map<String, Object> map);
+
+    /*店铺活动*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<StorePromotionInfo> getStorePromotionInfo(@FieldMap Map<String, Object> map);
 
 
     /***************************************封装通用******************************/

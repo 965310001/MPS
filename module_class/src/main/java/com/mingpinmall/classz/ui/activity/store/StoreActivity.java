@@ -4,13 +4,10 @@ import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -18,27 +15,20 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.heima.tabview.library.TabView;
 import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.databinding.ActivityStoreBinding;
 import com.mingpinmall.classz.ui.activity.classiflist.ProductsFragment;
-import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StoreNewGoodsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StorePromotionFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
-import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
-import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
 import com.socks.library.KLog;
-import com.trecyclerview.adapter.ItemData;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.annotations.Nullable;
 
 /**
  * 商家店铺

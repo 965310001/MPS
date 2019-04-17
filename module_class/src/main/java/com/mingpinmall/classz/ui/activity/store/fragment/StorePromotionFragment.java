@@ -19,6 +19,7 @@ import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
+import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
@@ -32,8 +33,6 @@ import java.util.Arrays;
  */
 public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> {
 
-    String id;
-
     public static StorePromotionFragment newInstance() {
         StorePromotionFragment fragment = new StorePromotionFragment();
         Bundle bundle = new Bundle();
@@ -41,15 +40,12 @@ public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> 
         return fragment;
     }
 
-
     /*获取更多数据*/
     @Override
     protected void getRemoteData() {
         super.getRemoteData();
 
-        id = ((StoreActivity) activity).getStoreId();
-
-        mViewModel.getStorePromotion(id, 1,
+        mViewModel.getStorePromotion(((StoreActivity) activity).getStoreId(), 1,
                 Constants.STORE_GOODS_RANK_KEY[4]);
     }
 
@@ -57,11 +53,12 @@ public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> 
     protected void dataObserver() {
         super.dataObserver();
 
-        registerObserver(Constants.STORE_GOODS_RANK_KEY[4], GoodsListInfo.class)
-                .observe(this, new Observer<GoodsListInfo>() {
+        registerObserver(Constants.STORE_GOODS_RANK_KEY[4], StorePromotionInfo.class)
+                .observe(this, new Observer<StorePromotionInfo>() {
                     @Override
-                    public void onChanged(@Nullable GoodsListInfo response) {
-                        setData(response.getDatas().getGoods_list());
+                    public void onChanged(@Nullable StorePromotionInfo response) {
+//                        setData(response.getDatas().);
+                        // TODO: 2019/4/17 设置数据 
                     }
                 });
     }
@@ -69,7 +66,7 @@ public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> 
     @Override
     protected DelegateAdapter createAdapter() {
         return AdapterPool.newInstance()
-                .getProductsAdapter(getActivity())
+                .getStorePromotionAdapter(getActivity())
                 .build();
     }
 

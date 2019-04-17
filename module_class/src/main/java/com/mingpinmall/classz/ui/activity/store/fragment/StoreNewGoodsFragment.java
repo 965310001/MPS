@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
+import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
@@ -74,7 +77,7 @@ public class StoreNewGoodsFragment extends BaseListFragment<ClassifyViewModel> {
                     public void onChanged(@Nullable GoodsListInfo response) {
                         KLog.i("TAG123", "新品" + response.getDatas().getGoods_list().size());
 
-                        final ItemData itemData = new ItemData();
+                        ItemData itemData = new ItemData();
                         String s = "";
 
                         for (GoodsInfo goodsInfo : response.getDatas().getGoods_list()) {
@@ -91,12 +94,26 @@ public class StoreNewGoodsFragment extends BaseListFragment<ClassifyViewModel> {
     }
 
     @Override
-    protected DelegateAdapter createAdapter() {
-        return AdapterPool.newInstance()
-                .getProductsAdapter(getActivity())
-                .build();
+    protected RecyclerView.LayoutManager createLayoutManager() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int i) {
+                if (adapter.getItems().get(i) instanceof GoodsInfo) {
+                    return 1;
+                }
+                return 2;
+            }
+        });
+        return gridLayoutManager;
     }
 
+    @Override
+    protected DelegateAdapter createAdapter() {
+        return AdapterPool.newInstance()
+                .getStoreNewGoodsAdapter(getActivity())
+                .build();
+    }
 
 
     @Override

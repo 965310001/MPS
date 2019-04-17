@@ -21,6 +21,7 @@ import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
+import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.socks.library.KLog;
 
 import java.util.HashMap;
@@ -526,16 +527,17 @@ public class ClassifyRepository extends BaseRepository {
         map.put("store_id", storeId);
         map.put("curpage", page);
         map.put("page", Constants.PAGE_RN);
-        addDisposable(apiService.getStoreGoodsRank(map)
-                .compose(RxSchedulers.<GoodsListInfo>io_main())
-                .subscribeWith(new RxSubscriber<GoodsListInfo>() {
+        addDisposable(apiService.getStorePromotionInfo(map)
+                .compose(RxSchedulers.<StorePromotionInfo>io_main())
+                .subscribeWith(new RxSubscriber<StorePromotionInfo>() {
                     @Override
-                    public void onSuccess(GoodsListInfo result) {
+                    public void onSuccess(StorePromotionInfo result) {
                         sendData(eventKey, result);
                     }
 
                     @Override
                     public void onFailure(String msg) {
+                        KLog.i(msg);
                     }
 
                     @Override

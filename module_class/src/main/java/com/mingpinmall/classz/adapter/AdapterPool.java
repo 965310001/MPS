@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.adapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.mingpinmall.classz.BR;
 import com.mingpinmall.classz.DataBindItemViewHolderManager;
@@ -13,6 +14,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
+import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.footview.FootViewHolder;
 import com.trecyclerview.headview.HeaderViewHolder;
@@ -99,6 +101,22 @@ public class AdapterPool {
                 .bind(GoodsListInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_list_info, BR.data))
                 .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_store, BR.data));
     }
+
+    /*商品上新*/
+    public DelegateAdapter.Builder getStoreNewGoodsAdapter(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(String.class, new DataBindItemViewHolderManager(context, R.layout.item_text, BR.data))
+                        .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_store, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
+
+    /*店铺活动*/
+    public DelegateAdapter.Builder getStorePromotionAdapter(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_promotion, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
+
 
     /*-------------------------------------------------------------------首页---------------------------------------------------*/
 //    public DelegateAdapter.Builder getRightAdapter1(Context context) {
@@ -302,6 +320,4 @@ public class AdapterPool {
         return builder.bind(HeaderVo.class,
                 new HeaderViewHolder(context, mProgressStyle));
     }
-
-
 }

@@ -165,19 +165,6 @@
             android:layout_below="@id/rl_head"
             android:orientation="horizontal">
 
-            <!--<RadioButton-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:checked="true"-->
-            <!--android:text="1" />-->
-
-            <!--<RadioButton-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="1" />-->
-
             <com.heima.tabview.library.TabView
                 android:id="@+id/tabView"
                 style="@style/width_warp_height_warp"
@@ -201,6 +188,7 @@
             android:layout_above="@id/ll"
             android:layout_below="@id/rg_title"
             android:visibility="gone" />
+
 
         <LinearLayout
             android:id="@+id/ll"
