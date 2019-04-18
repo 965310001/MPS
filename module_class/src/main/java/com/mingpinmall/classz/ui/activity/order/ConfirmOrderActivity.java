@@ -140,7 +140,7 @@ public class ConfirmOrderActivity extends
     public void selectAddress(View view) {
         // TODO: 2019/4/11 选择收获地址
         KLog.i("选择收获地址");
-        ARouter.getInstance().build(ARouterConfig.ADDRESSMANAGERACTIVITY)
+        ARouter.getInstance().build(ARouterConfig.Me.ADDRESSMANAGERACTIVITY)
                 .withBoolean("isGetAddress", true).navigation(this,
                 100);
     }

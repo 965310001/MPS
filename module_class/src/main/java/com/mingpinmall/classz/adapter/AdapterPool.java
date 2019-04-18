@@ -13,6 +13,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
+import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.trecyclerview.adapter.DelegateAdapter;
@@ -113,7 +114,10 @@ public class AdapterPool {
     /*店铺活动*/
     public DelegateAdapter.Builder getStorePromotionAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_promotion, BR.data)),
+                        .bind(StorePromotionInfo.DatasBean.PromotionBean.MansongBean.class,
+                                new DataBindItemViewHolderManager(context, R.layout.item_manson, BR.data))
+                        .bind(StorePromotionInfo.DatasBean.PromotionBean.XianshiBean.class,
+                                new DataBindItemViewHolderManager(context, R.layout.item_xianshi, BR.data)),
                 context, ProgressStyle.Pacman);
     }
 

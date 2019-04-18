@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -9,7 +10,33 @@ import java.util.List;
  */
 public class StorePromotionInfo extends BaseBean {
 
+
+    /**
+     * code : 200
+     * newdata : []
+     * error :
+     * datas : {"promotion":{"mansong":{"mansong_id":"4","mansong_name":"满1000元送10元","quota_id":"0","start_time":"1555309200","end_time":"1573833600","member_id":"16","store_id":"10","member_name":"15013070796","store_name":"qqqqqq","state":"1","remark":"111","mansong_state_text":"正常","editable":true,"rules":[{"rule_id":"5","mansong_id":"4","price":"1000.00","discount":"10.00","mansong_goods_name":"","goods_id":"0","goods_image_url":"http://192.168.0.44/data/upload/mall/common/default_goods_image_60.gif"}],"start_time_text":"2019-04-15","end_time_text":"2019-11-16"},"xianshi":{"xianshi_id":"14","xianshi_name":"涛涛涛涛涛涛","xianshi_title":"涛涛涛涛他","xianshi_explain":"涛涛涛涛涛涛涛涛","quota_id":"0","start_time":"1555344000","end_time":"1576771200","member_id":"16","store_id":"10","member_name":"15013070796","store_name":"qqqqqq","lower_limit":"1","state":"1","xianshi_image":"","xianshi_image1":"","class_id":"6","xianshi_intro":"啊撒旦飞洒发生阿斯蒂芬","xianshi_image2":"","recommended":"0","xianshi_state_text":"正常","editable":true,"start_time_text":"2019-04-16","end_time_text":"2019-12-20"}}}
+     */
+
+    private int code;
+    private String error;
     private DatasBean datas;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     public DatasBean getDatas() {
         return datas;
@@ -19,7 +46,22 @@ public class StorePromotionInfo extends BaseBean {
         this.datas = datas;
     }
 
+
     public static class DatasBean {
+        /**
+         * promotion : {"mansong":{"mansong_id":"4","mansong_name":"满1000元送10元","quota_id":"0","start_time":"1555309200","end_time":"1573833600","member_id":"16","store_id":"10","member_name":"15013070796","store_name":"qqqqqq","state":"1","remark":"111","mansong_state_text":"正常","editable":true,"rules":[{"rule_id":"5","mansong_id":"4","price":"1000.00","discount":"10.00","mansong_goods_name":"","goods_id":"0","goods_image_url":"http://192.168.0.44/data/upload/mall/common/default_goods_image_60.gif"}],"start_time_text":"2019-04-15","end_time_text":"2019-11-16"},"xianshi":{"xianshi_id":"14","xianshi_name":"涛涛涛涛涛涛","xianshi_title":"涛涛涛涛他","xianshi_explain":"涛涛涛涛涛涛涛涛","quota_id":"0","start_time":"1555344000","end_time":"1576771200","member_id":"16","store_id":"10","member_name":"15013070796","store_name":"qqqqqq","lower_limit":"1","state":"1","xianshi_image":"","xianshi_image1":"","class_id":"6","xianshi_intro":"啊撒旦飞洒发生阿斯蒂芬","xianshi_image2":"","recommended":"0","xianshi_state_text":"正常","editable":true,"start_time_text":"2019-04-16","end_time_text":"2019-12-20"}}
+         */
+
+        private PromotionBean promotion;
+
+        public PromotionBean getPromotion() {
+            return promotion;
+        }
+
+        public void setPromotion(PromotionBean promotion) {
+            this.promotion = promotion;
+        }
+
         public static class PromotionBean {
             /**
              * mansong : {"mansong_id":"4","mansong_name":"满1000元送10元","quota_id":"0","start_time":"1555309200","end_time":"1573833600","member_id":"16","store_id":"10","member_name":"15013070796","store_name":"qqqqqq","state":"1","remark":"111","mansong_state_text":"正常","editable":true,"rules":[{"rule_id":"5","mansong_id":"4","price":"1000.00","discount":"10.00","mansong_goods_name":"","goods_id":"0","goods_image_url":"http://192.168.0.44/data/upload/mall/common/default_goods_image_60.gif"}],"start_time_text":"2019-04-15","end_time_text":"2019-11-16"}
@@ -81,6 +123,29 @@ public class StorePromotionInfo extends BaseBean {
                 private String start_time_text;
                 private String end_time_text;
                 private List<RulesBean> rules;
+
+                private String time;
+
+                public String getTime() {
+                    try {
+                        time = String.format("活动时间:%s至 %s", start_time, end_time);
+                    } catch (Exception e) {
+                        KLog.i(e.toString());
+                        return "";
+                    }
+                    return time;
+                }
+
+                public String getDiscount() {
+                    try {
+                        RulesBean rulesBean = getRules().get(0);
+                        return String.format("单笔订单消费满%s，立减现金%s", rulesBean.getPrice(), rulesBean.getDiscount());
+                    } catch (Exception e) {
+                        KLog.i(e.toString());
+                    }
+                    return "";
+                }
+
 
                 public String getMansong_id() {
                     return mansong_id;
@@ -337,6 +402,32 @@ public class StorePromotionInfo extends BaseBean {
                 private boolean editable;
                 private String start_time_text;
                 private String end_time_text;
+
+
+                private String time;
+
+                public String getTime() {
+                    try {
+                        time = String.format("活动时间:%s至 %s", start_time, end_time);
+                    } catch (Exception e) {
+                        KLog.i(e.toString());
+                        return "";
+                    }
+                    return time;
+                }
+
+                public String getDiscount() {
+                    try {
+                        return String.format("单件活动商品满%s，件即可享受折扣价。", lower_limit);
+                    } catch (Exception e) {
+                        KLog.i(e.toString());
+                    }
+                    return "";
+                }
+
+                public void setTime(String time) {
+                    this.time = time;
+                }
 
                 public String getXianshi_id() {
                     return xianshi_id;

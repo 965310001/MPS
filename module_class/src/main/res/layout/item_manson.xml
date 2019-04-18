@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo.DatasBean.PromotionBean.MansongBean" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="@dimen/dp_1"
+        app:cardElevation="4dp"
+        app:cardMaxElevation="@dimen/dp_10"
+        app:contentPadding="@dimen/dp_10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/shallow_red"
+                android:padding="10dp"
+                android:text="@{data.mansong_name}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16"
+                tools:text="满1000元送10元" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@{data.time}"
+                android:textSize="@dimen/text_14"
+                tools:text="活动时间：2019-04-15 至 2019-11-16" />
+
+            <!--<View-->
+            <!--style="@style/HorizontalLine"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2dp" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#D870AD"
+                android:padding="10dp"
+                android:text="@{data.discount}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16"
+                tools:text="满1000元送10元" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@{`活动说明`+data.remark}"
+                android:textSize="@dimen/text_14"
+                tools:text="活动说明：111" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>

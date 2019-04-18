@@ -1,37 +1,27 @@
 package com.mingpinmall.classz.ui.activity.store.fragment;
 
 import android.arch.lifecycle.Observer;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
-import com.goldze.common.dmvvm.utils.DisplayUtil;
-import com.mingpinmall.classz.R;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.mingpinmall.classz.adapter.AdapterPool;
-import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
 import com.mingpinmall.classz.ui.activity.store.StoreActivity;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
-import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
-import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
-import com.mingpinmall.classz.widget.CustomPopWindow;
-import com.mingpinmall.classz.widget.FilterTab;
-import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
-
-import java.util.Arrays;
+import com.trecyclerview.adapter.ItemData;
+import com.trecyclerview.listener.OnItemClickListener;
 
 /**
  * 店铺活动
  */
-public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> {
+public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
     public static StorePromotionFragment newInstance() {
         StorePromotionFragment fragment = new StorePromotionFragment();
@@ -57,21 +47,39 @@ public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> 
                 .observe(this, new Observer<StorePromotionInfo>() {
                     @Override
                     public void onChanged(@Nullable StorePromotionInfo response) {
-//                        setData(response.getDatas().);
-                        // TODO: 2019/4/17 设置数据 
+                        try {
+                            ItemData itemData = new ItemData();
+                            itemData.add(response.getDatas().getPromotion().getMansong());
+                            itemData.add(response.getDatas().getPromotion().getXianshi());
+                            setData(itemData);
+                        } catch (Exception e) {
+                            KLog.i(e.toString());
+                        }
                     }
                 });
+    }
+
+    @Override
+    protected boolean isItemDecoration() {
+        return false;
     }
 
     @Override
     protected DelegateAdapter createAdapter() {
         return AdapterPool.newInstance()
                 .getStorePromotionAdapter(getActivity())
+                .setOnItemClickListener(this)
                 .build();
     }
 
     @Override
     protected Object getStateEventKey() {
         return Constants.STORE_GOODS_RANK_KEY[1];
+    }
+
+    @Override
+    public void onItemClick(View view, int i, Object object) {
+        // TODO: 2019/4/18 待修改 
+        ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", ((StoreActivity) activity).getStoreId());
     }
 }

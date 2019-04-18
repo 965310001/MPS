@@ -8,6 +8,7 @@ import com.goldze.common.dmvvm.http.cookie.CookieJarImpl;
 import com.goldze.common.dmvvm.http.cookie.store.PersistentCookieStore;
 import com.goldze.common.dmvvm.http.interceptor.BaseInterceptor;
 import com.goldze.common.dmvvm.http.interceptor.CacheInterceptor;
+import com.goldze.common.dmvvm.http.interceptor.TokenInterceptor;
 import com.goldze.common.dmvvm.http.interceptor.logging.Level;
 import com.goldze.common.dmvvm.http.interceptor.logging.LoggingInterceptor;
 import com.goldze.common.dmvvm.utils.Utils;

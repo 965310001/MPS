@@ -52,5 +52,8 @@ public interface Constants {
             "STORE_GOODS_KEY",//全部商品5
     };
     /*店铺收藏 取消*/
-    Object STORE_FAVORITES="STORE_FAVORITES";
+    Object STORE_FAVORITES = "STORE_FAVORITES";
+
+    /*店铺介绍*/
+    Object[] STOREINTRO = {"STOREPROMOTION_KEY", "STOREPROMOTION_KEY_STATE"};/*店铺介绍*/
 }

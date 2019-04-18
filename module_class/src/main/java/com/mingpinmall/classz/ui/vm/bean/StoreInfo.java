@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import android.databinding.Bindable;
+import android.text.TextUtils;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.mingpinmall.classz.BR;
@@ -85,6 +86,32 @@ public class StoreInfo extends BaseBean {
         private String store_credit_text;
         private String mb_title_img;
         private List<?> mb_sliders;
+        /**
+         * store_company_name : 桃桃
+         * province_id : 4
+         * area_info : 山西 大同市 城区
+         * store_address : 111
+         */
+
+        private String store_company_name;
+        private String province_id;
+        private String area_info;
+        private String store_address;
+        private String store_time_text;
+        /**
+         * store_keywords : 瑞士邦顿手表，手表，男表，女表，邦顿手表，bestdon，情侣手表
+         */
+
+        private String store_keywords;
+        private String store_zy;
+
+        private String store_workingtime;
+        /**
+         * sc_name : 品牌手表/流行手表
+         */
+
+        private String sc_name;
+        private List<StoreCreditNewBean> store_credit_new;
 
         public String getStore_id() {
             return store_id;
@@ -126,12 +153,14 @@ public class StoreInfo extends BaseBean {
             this.goods_count = goods_count;
         }
 
+        @Bindable
         public int getStore_collect() {
             return store_collect;
         }
 
         public void setStore_collect(int store_collect) {
             this.store_collect = store_collect;
+            notifyPropertyChanged(BR.store_collect);
         }
 
         @Bindable
@@ -175,201 +204,156 @@ public class StoreInfo extends BaseBean {
         public void setMb_sliders(List<?> mb_sliders) {
             this.mb_sliders = mb_sliders;
         }
-    }
 
-//    public static class RecGoodsListBean {
-//        /**
-//         * goods_id : 109928
-//         * store_id : 7
-//         * store_name : 瑞士邦顿（bestdon）手表旗舰店
-//         * goods_name : 正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表
-//         * goods_price : 599.00
-//         * goods_marketprice : 599.00
-//         * goods_image : 7_05175802468129745.jpg
-//         * goods_salenum : 2
-//         * evaluation_good_star : 5
-//         * evaluation_count : 0
-//         * is_virtual : 0
-//         * is_presell : 0
-//         * is_fcode : 0
-//         * have_gift : 0
-//         * goods_addtime : 1472822300
-//         * sole_flag : false
-//         * group_flag : false
-//         * xianshi_flag : false
-//         * goods_image_url : http://192.168.0.44/data/upload/mall/common/default_goods_image_360.gif
-//         */
-//
-//        private String goods_id;
-//        private String store_id;
-//        private String store_name;
-//        private String goods_name;
-//        private String goods_price;
-//        private String goods_marketprice;
-//        private String goods_image;
-//        private String goods_salenum;
-//        private String evaluation_good_star;
-//        private String evaluation_count;
-//        private String is_virtual;
-//        private String is_presell;
-//        private String is_fcode;
-//        private String have_gift;
-//        private String goods_addtime;
-//        private boolean sole_flag;
-//        private boolean group_flag;
-//        private boolean xianshi_flag;
-//        private String goods_image_url;
-//
-//        public String getGoods_id() {
-//            return goods_id;
-//        }
-//
-//        public void setGoods_id(String goods_id) {
-//            this.goods_id = goods_id;
-//        }
-//
-//        public String getStore_id() {
-//            return store_id;
-//        }
-//
-//        public void setStore_id(String store_id) {
-//            this.store_id = store_id;
-//        }
-//
-//        public String getStore_name() {
-//            return store_name;
-//        }
-//
-//        public void setStore_name(String store_name) {
-//            this.store_name = store_name;
-//        }
-//
-//        public String getGoods_name() {
-//            return goods_name;
-//        }
-//
-//        public void setGoods_name(String goods_name) {
-//            this.goods_name = goods_name;
-//        }
-//
-//        public String getGoods_price() {
-//            return goods_price;
-//        }
-//
-//        public void setGoods_price(String goods_price) {
-//            this.goods_price = goods_price;
-//        }
-//
-//        public String getGoods_marketprice() {
-//            return goods_marketprice;
-//        }
-//
-//        public void setGoods_marketprice(String goods_marketprice) {
-//            this.goods_marketprice = goods_marketprice;
-//        }
-//
-//        public String getGoods_image() {
-//            return goods_image;
-//        }
-//
-//        public void setGoods_image(String goods_image) {
-//            this.goods_image = goods_image;
-//        }
-//
-//        public String getGoods_salenum() {
-//            return goods_salenum;
-//        }
-//
-//        public void setGoods_salenum(String goods_salenum) {
-//            this.goods_salenum = goods_salenum;
-//        }
-//
-//        public String getEvaluation_good_star() {
-//            return evaluation_good_star;
-//        }
-//
-//        public void setEvaluation_good_star(String evaluation_good_star) {
-//            this.evaluation_good_star = evaluation_good_star;
-//        }
-//
-//        public String getEvaluation_count() {
-//            return evaluation_count;
-//        }
-//
-//        public void setEvaluation_count(String evaluation_count) {
-//            this.evaluation_count = evaluation_count;
-//        }
-//
-//        public String getIs_virtual() {
-//            return is_virtual;
-//        }
-//
-//        public void setIs_virtual(String is_virtual) {
-//            this.is_virtual = is_virtual;
-//        }
-//
-//        public String getIs_presell() {
-//            return is_presell;
-//        }
-//
-//        public void setIs_presell(String is_presell) {
-//            this.is_presell = is_presell;
-//        }
-//
-//        public String getIs_fcode() {
-//            return is_fcode;
-//        }
-//
-//        public void setIs_fcode(String is_fcode) {
-//            this.is_fcode = is_fcode;
-//        }
-//
-//        public String getHave_gift() {
-//            return have_gift;
-//        }
-//
-//        public void setHave_gift(String have_gift) {
-//            this.have_gift = have_gift;
-//        }
-//
-//        public String getGoods_addtime() {
-//            return goods_addtime;
-//        }
-//
-//        public void setGoods_addtime(String goods_addtime) {
-//            this.goods_addtime = goods_addtime;
-//        }
-//
-//        public boolean isSole_flag() {
-//            return sole_flag;
-//        }
-//
-//        public void setSole_flag(boolean sole_flag) {
-//            this.sole_flag = sole_flag;
-//        }
-//
-//        public boolean isGroup_flag() {
-//            return group_flag;
-//        }
-//
-//        public void setGroup_flag(boolean group_flag) {
-//            this.group_flag = group_flag;
-//        }
-//
-//        public boolean isXianshi_flag() {
-//            return xianshi_flag;
-//        }
-//
-//        public void setXianshi_flag(boolean xianshi_flag) {
-//            this.xianshi_flag = xianshi_flag;
-//        }
-//
-//        public String getGoods_image_url() {
-//            return goods_image_url;
-//        }
-//
-//        public void setGoods_image_url(String goods_image_url) {
-//            this.goods_image_url = goods_image_url;
-//        }
-//    }
+        public String getStore_company_name() {
+            return store_company_name;
+        }
+
+        public void setStore_company_name(String store_company_name) {
+            this.store_company_name = store_company_name;
+        }
+
+        public String getProvince_id() {
+            return province_id;
+        }
+
+        public void setProvince_id(String province_id) {
+            this.province_id = province_id;
+        }
+
+        public String getArea_info() {
+            return area_info;
+        }
+
+        public String getStore_time_text() {
+            return store_time_text;
+        }
+
+        public void setStore_time_text(String store_time_text) {
+            this.store_time_text = store_time_text;
+        }
+
+        public void setArea_info(String area_info) {
+            this.area_info = area_info;
+        }
+
+        public String getStore_address() {
+            return store_address;
+        }
+
+        public void setStore_address(String store_address) {
+            this.store_address = store_address;
+        }
+
+        public String getStore_keywords() {
+            return store_keywords;
+        }
+
+        public void setStore_keywords(String store_keywords) {
+            this.store_keywords = store_keywords;
+        }
+
+        public String getStore_zy() {
+            return store_zy;
+        }
+
+        public void setStore_zy(String store_zy) {
+            this.store_zy = store_zy;
+        }
+
+        public String getStore_workingtime() {
+            return store_workingtime;
+        }
+
+        public void setStore_workingtime(String store_workingtime) {
+            this.store_workingtime = store_workingtime;
+        }
+
+        public String getSc_name() {
+            return sc_name;
+        }
+
+        public void setSc_name(String sc_name) {
+            this.sc_name = sc_name;
+        }
+
+        public List<StoreCreditNewBean> getStore_credit_new() {
+            return store_credit_new;
+        }
+
+        public void setStore_credit_new(List<StoreCreditNewBean> store_credit_new) {
+            this.store_credit_new = store_credit_new;
+        }
+
+        public static class StoreCreditNewBean extends BaseBean {
+            /**
+             * text : 描述
+             * credit : 5.0
+             * percent : ----
+             * percent_class : equal
+             * percent_text : 持平
+             */
+
+            private String text;
+            private String credit;
+            private String percent;
+            private String percent_class;
+            private String percent_text;
+
+            private String context;
+
+            @Bindable
+            public String getContext() {
+                if (TextUtils.isEmpty(context)) {
+                    context = credit + " 与同行业" + percent_text + " " + percent;
+                }
+                return context;
+            }
+
+            public void setContext(String context) {
+                this.context = context;
+                notifyPropertyChanged(BR.context);
+            }
+
+            public String getText() {
+                return text;
+            }
+
+            public void setText(String text) {
+                this.text = text;
+            }
+
+            public String getCredit() {
+                return credit;
+            }
+
+            public void setCredit(String credit) {
+                this.credit = credit;
+            }
+
+            public String getPercent() {
+                return percent;
+            }
+
+            public void setPercent(String percent) {
+                this.percent = percent;
+            }
+
+            public String getPercent_class() {
+                return percent_class;
+            }
+
+            public void setPercent_class(String percent_class) {
+                this.percent_class = percent_class;
+            }
+
+            public String getPercent_text() {
+                return percent_text;
+            }
+
+            public void setPercent_text(String percent_text) {
+                this.percent_text = percent_text;
+            }
+        }
+    }
 }

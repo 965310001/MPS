@@ -1,13 +1,17 @@
 package com.mingpinmall.shopping.ui;
 
 import android.Manifest;
+import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
+import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.activity.BottomNavigationActivity;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.manage.AppManager;
@@ -17,7 +21,7 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.heima.tabview.library.TabView;
 import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.cart.ui.CartFragment;
-import com.mingpinmall.classz.ui.ClassifyFragment;
+import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.home.ui.HomeFragment;
 import com.mingpinmall.me.ui.MeFragment;
 import com.mingpinmall.shopping.R;

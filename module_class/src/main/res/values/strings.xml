@@ -76,4 +76,30 @@
     </integer-array>
 
     <string name="store_title">收藏排行;销量排行</string>
+
+    <!--店铺首页-->
+    <string-array name="store_tab_name">
+        <item>店铺首页</item>
+        <item>全部商品</item>
+        <item>商品上新</item>
+        <item>店铺活动</item>
+    </string-array>
+    <integer-array name="store_tab_icon">
+        <item>@drawable/ic_home_select</item>
+        <item>@drawable/ic_class_select</item>
+        <item>@drawable/ic_cart_select</item>
+        <item>@drawable/ic_user_select</item>
+    </integer-array>
+    <integer-array name="store_tab_icon_def">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_class</item>
+        <item>@drawable/ic_cart</item>
+        <item>@drawable/ic_user</item>
+    </integer-array>
+
+
+    <string-array name="store_type">
+        <item>普通店铺</item>
+        <item>平台自营</item>
+    </string-array>
 </resources>

@@ -103,6 +103,11 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.invoiceDel(eventKey, invId);
     }
 
+    /*店铺介绍*/
+    public void getStoreIntro(String storeId, Object eventKey) {
+        mRepository.getStoreIntro(storeId, eventKey);
+    }
+
     /************************************* 店铺 ******************************/
     /*店铺信息*/
     public void getStoreInfo(String storeId, String key, Object eventKey) {

@@ -9,6 +9,7 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -20,82 +21,82 @@ import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.databinding.ActivityStoreBinding;
+import com.mingpinmall.classz.databinding.ActivityStoreIntroBinding;
 import com.mingpinmall.classz.ui.activity.classiflist.ProductsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StoreNewGoodsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StorePromotionFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
+import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
 import com.socks.library.KLog;
+import com.trecyclerview.adapter.ItemData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 商家店铺
+ * 店铺介绍
  */
-@Route(path = ARouterConfig.classify.STOREACTIVITY)
-public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, ClassifyViewModel> {
+@Route(path = ARouterConfig.classify.STOREINTROACTIVITY)
+public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroBinding, ClassifyViewModel> {
 
     @Autowired
     String storeId;
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_store;
-    }
+    StoreInfo.StoreInfoBean storeInfo;
 
     @Override
-    protected boolean isActionBar() {
-        return false;
+    protected int getLayoutId() {
+        return R.layout.activity_store_intro;
     }
+
 
     @Override
     public void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        setTitlePadding(binding.clTitleBar);
+        setTitlePadding(baseBinding.rlTitleContent);
 
-        List<TabViewChild> tabViewChildList = new ArrayList<>();
-        BaseFragment[] fragmentList = {StoreHomeFragment.newInstance(),
-                ProductsFragment.newInstance(storeId),
-                StoreNewGoodsFragment.newInstance(),
-                StorePromotionFragment.newInstance()
-        };
+        setTitle("店铺介绍");
+    }
 
-        TypedArray tabIcon = ResourcesUtils.getInstance().obtainTypedArray(R.array.store_tab_icon);
-        TypedArray tabIconDef = ResourcesUtils.getInstance().obtainTypedArray(R.array.store_tab_icon_def);
-        String[] tabName = ResourcesUtils.getInstance().getStringArray(R.array.store_tab_name);
-
-        TabViewChild tabViewChild;
-        for (int i = 0; i < tabIcon.length(); i++) {
-            tabViewChild = new TabViewChild(tabIcon.getResourceId(i, 0),
-                    tabIconDef.getResourceId(i, 0),
-                    tabName[i],
-                    fragmentList[i]);
-            tabViewChildList.add(tabViewChild);
-        }
-
-        binding.tabView.setTabViewChild(tabViewChildList, getSupportFragmentManager());
+    @Override
+    protected void initData() {
+        super.initData();
+        mViewModel.getStoreIntro(storeId, Constants.STOREINTRO[0]);
     }
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.STORE_GOODS_RANK_KEY[1];
+        return Constants.STOREINTRO[1];
     }
 
-    StoreInfo.StoreInfoBean storeInfo;
-
-    public void setStoreInfo(StoreInfo.StoreInfoBean storeInfo) {
-        this.storeInfo = storeInfo;
-        binding.setData(storeInfo);
-    }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
+        registerObserver(Constants.STOREINTRO[0], BaseResponse.class)
+                .observeForever(new Observer<BaseResponse>() {
+                    @Override
+                    public void onChanged(@io.reactivex.annotations.Nullable BaseResponse response) {
+                        if (response.isSuccess()) {
+                            BaseResponse<StoreInfo> data = response;
+                            try {
+                                storeInfo = data.getData().getStore_info();
+                                binding.setData(storeInfo);
+                            } catch (Exception e) {
+                                KLog.i(e.toString());
+                            }
+                        } else {
+                            ToastUtils.showLong(response.getMessage());
+                        }
+                    }
+                });
+
         /*收藏*/
-        registerObserver(Constants.STORE_FAVORITES, ResultBean.class)
+        registerObserver("Constants.STORE_FAVORITES", ResultBean.class)
                 .observeForever(new Observer<ResultBean>() {
                     @Override
                     public void onChanged(@android.support.annotation.Nullable ResultBean response) {
@@ -104,6 +105,8 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                             int store_collect = storeInfo.getStore_collect();
                             storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);
                             storeInfo.setIs_favorate(!storeInfo.isIs_favorate());
+
+                            // TODO: 2019/4/18 这里还需要修改
                         } else {
                             ToastUtils.showLong(response.getError());
                         }
@@ -117,22 +120,8 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
         if (!SharePreferenceUtil.isLogin()) {
             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {
-            mViewModel.getStoreFavorites(getStoreId(), storeInfo.isIs_favorate(),
-                    Constants.STORE_FAVORITES);
+            mViewModel.getStoreFavorites(storeId, storeInfo.isIs_favorate(),
+                    "Constants.STORE_FAVORITES");
         }
-    }
-
-    /*店铺介绍*/
-    public void getStoreIntro(View view) {
-        ActivityToActivity.toActivity(ARouterConfig.classify.STOREINTROACTIVITY, "storeId", getStoreId());
-    }
-
-    public void finish(View view) {
-        finish();
-    }
-
-    public String getStoreId() {
-        storeId = "10";
-        return storeId;
     }
 }

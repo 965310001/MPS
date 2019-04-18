@@ -574,6 +574,31 @@ public class ClassifyRepository extends BaseRepository {
                 }));
     }
 
+    /*店铺介绍*/
+    public void getStoreIntro(String storeId, final Object eventKey) {
+        Map<String, Object> map = parames("store", "store_intro");
+        map.put("store_id", storeId);
+        addDisposable(apiService.getStoreIntro(map)
+                .compose(RxSchedulers.<BaseResponse<StoreInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<StoreInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<StoreInfo> result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+
+                    }
+                }));
+    }
+
 
     /************************************* 店铺 end ******************************/
 

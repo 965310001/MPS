@@ -84,8 +84,6 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                     @Override
                     public void onChanged(@android.support.annotation.Nullable Object object) {
                         int index = (int) object;
-
-                        KLog.i(index + "==");
                         GoodsListInfo goodsListInfo;
                         for (int i = 0; i < adapter.getItems().size(); i++) {
                             if (adapter.getItems().get(i) instanceof GoodsListInfo) {
