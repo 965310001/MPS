@@ -51,4 +51,6 @@ public interface Constants {
             "STORE_NEW_GOODS_KEY", "STOREPROMOTION_KEY",//商品上新3   活动店铺4
             "STORE_GOODS_KEY",//全部商品5
     };
+    /*店铺收藏 取消*/
+    Object STORE_FAVORITES="STORE_FAVORITES";
 }

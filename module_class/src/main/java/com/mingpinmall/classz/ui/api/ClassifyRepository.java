@@ -547,6 +547,34 @@ public class ClassifyRepository extends BaseRepository {
                 }));
     }
 
+    /*店铺取消 收藏*/
+    public void getStoreFavorites(String storeId, boolean isDel, final Object eventKey) {
+        Map<String, Object> map = parames("member_favorites_store",
+                isDel ? "favorites_del" : "favorites_add");
+        map.put("store_id", storeId);
+        map.put("_client", "android");
+//        map.put("key", getUserKey());
+        addDisposable(apiService.getStoreFavorites(map)
+                .compose(RxSchedulers.<ResultBean>io_main())
+                .subscribeWith(new RxSubscriber<ResultBean>() {
+                    @Override
+                    public void onSuccess(ResultBean result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                }));
+    }
+
+
     /************************************* 店铺 end ******************************/
 
 

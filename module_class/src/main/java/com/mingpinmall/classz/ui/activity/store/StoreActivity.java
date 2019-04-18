@@ -89,30 +89,30 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
         return Constants.STORE_GOODS_RANK_KEY[1];
     }
 
-    @Override
-    protected void initData() {
-        super.initData();
-        /*店铺信息*/
-//        mViewModel.getStoreInfo("7", "",
-//                Constants.STORE_GOODS_RANK_KEY[2]);
-//
-//        /*全部商品*/
-//        mViewModel.getStoreGoods("7", 1,
-//                Constants.STORE_GOODS_RANK_KEY[5]);
-//
-//        /*商品上新*/
-//        mViewModel.getStoreNewGoods("7", 1,
-//                Constants.STORE_GOODS_RANK_KEY[3]);
-//
-////        /*收藏排行*/
-////        mViewModel.getStoreGoodsRank("7",
-////                "collectdesc", "3",
-////                Constants.STORE_GOODS_RANK_KEY[0]);
-//
-//        /*活动店铺*/
-//        mViewModel.getStorePromotion("7", 1,
-//                Constants.STORE_GOODS_RANK_KEY[4]);
-    }
+//    @Override
+//    protected void initData() {
+//        super.initData();
+//        /*店铺信息*/
+////        mViewModel.getStoreInfo("7", "",
+////                Constants.STORE_GOODS_RANK_KEY[2]);
+////
+////        /*全部商品*/
+////        mViewModel.getStoreGoods("7", 1,
+////                Constants.STORE_GOODS_RANK_KEY[5]);
+////
+////        /*商品上新*/
+////        mViewModel.getStoreNewGoods("7", 1,
+////                Constants.STORE_GOODS_RANK_KEY[3]);
+////
+//////        /*收藏排行*/
+//////        mViewModel.getStoreGoodsRank("7",
+//////                "collectdesc", "3",
+//////                Constants.STORE_GOODS_RANK_KEY[0]);
+////
+////        /*活动店铺*/
+////        mViewModel.getStorePromotion("7", 1,
+////                Constants.STORE_GOODS_RANK_KEY[4]);
+//    }
 
     StoreInfo.StoreInfoBean storeInfo;
 
@@ -125,7 +125,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
     protected void dataObserver() {
         super.dataObserver();
         /*收藏*/
-        registerObserver(Constants.FAVORITES, ResultBean.class)
+        registerObserver(Constants.STORE_FAVORITES, ResultBean.class)
                 .observeForever(new Observer<ResultBean>() {
                     @Override
                     public void onChanged(@android.support.annotation.Nullable ResultBean response) {
@@ -146,7 +146,8 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
         if (!SharePreferenceUtil.isLogin()) {
             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {
-//            mViewModel.favorites(id, is_favorate, Constants.FAVORITES);
+            mViewModel.getStoreFavorites(getStoreId(), storeInfo.isIs_favorate(),
+                    Constants.STORE_FAVORITES);
         }
     }
 

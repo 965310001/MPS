@@ -135,5 +135,10 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getStorePromotion(storeId, page, eventKey);
     }
 
+    /*店铺收藏 取消*/
+    public void getStoreFavorites(String storeId, boolean isDel, final Object eventKey) {
+        mRepository.getStoreFavorites(storeId, isDel, eventKey);
+    }
+
     /************************************* end ******************************/
 }

@@ -35,16 +35,18 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.2"
+                android:layout_weight="2"
                 android:gravity="center"
                 android:onClick="@{data.list.get(0).click}"
                 android:orientation="vertical">
 
                 <ImageView
-                    src="@{data.collectdesc_goods_list.get(0).goods_image_url}"
-                    android:layout_width="@dimen/image_height_big"
-                    android:layout_height="@dimen/image_height_big"
-                    android:src="@drawable/ic_launcher" />
+                    src="@{data.list.get(0).goods_image_url}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/dp_10"
+                    tools:src="@drawable/ic_launcher" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -91,16 +93,18 @@
 
                         android:orientation="vertical">
 
-                        <ImageView
+                        <ImageView                    android:padding="@dimen/dp_10"
+
                             src="@{data.list.get(1).goods_image_url}"
-                            android:layout_width="@dimen/image_height"
-                            android:layout_height="@dimen/image_height"
-                            android:src="@drawable/ic_launcher" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            tools:src="@drawable/ic_launcher" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{`已售`+data.list.get(1).evaluation_count}"
+                            android:text="@{`已售`+data.list.get(1).goods_salenum}"
                             tools:text="已售2" />
 
                     </LinearLayout>
@@ -113,16 +117,18 @@
 
                         android:orientation="vertical">
 
-                        <ImageView
+                        <ImageView                    android:padding="@dimen/dp_10"
+
                             src="@{data.list.get(2).goods_image_url}"
-                            android:layout_width="@dimen/image_height"
-                            android:layout_height="@dimen/image_height"
-                            android:src="@drawable/ic_launcher" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            tools:src="@drawable/ic_launcher" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{`已售`+data.list.get(2).evaluation_count}"
+                            android:text="@{`已售`+data.list.get(2).goods_salenum}"
                             tools:text="已售2" />
                     </LinearLayout>
                 </LinearLayout>

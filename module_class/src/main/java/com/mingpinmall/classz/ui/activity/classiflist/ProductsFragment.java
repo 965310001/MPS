@@ -82,10 +82,6 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
     @Override
     protected void getRemoteData() {
         super.getRemoteData();
-
-//        if (getArguments() != null) {
-//            id = getArguments().getString("id");
-//        }
         id = ((StoreActivity) activity).getStoreId();
 //        mViewModel.getShappingList(id, String.valueOf(page), keyword,
 //                String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
@@ -115,16 +111,16 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                             key = "";
                             order = "";
                         } else if (s.equals("人气排序")) {
-                            key = "2";
+                            key = "5";
                             order = "2";
                         } else if (s.equals("价格从高到低")) {
-                            key = "3";
+                            key = "2";
                             order = "2";
                         } else if (s.equals("价格从低到高")) {
-                            key = "3";
+                            key = "2";
                             order = "1";
                         }
-                        keyword = "";
+//                        keyword = "";
 //                        areaId = "";
 //                        priceFrom = "";
 //                        priceTo = "";
@@ -192,7 +188,7 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
 //                adapter = createAdapter();
 
             } else if (i == R.id.filter_tab1) {
-                key = "1";
+                key = "3";
                 order = "2";
                 keyword = "";
 //                areaId = "";

@@ -134,6 +134,11 @@ public interface ClassifyService {
     Flowable<StorePromotionInfo> getStorePromotionInfo(@FieldMap Map<String, Object> map);
 
 
+    /*店铺收藏 取消*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<ResultBean> getStoreFavorites(@FieldMap Map<String, Object> map);
+
     /***************************************封装通用******************************/
     /*封装通用*/
     @FormUrlEncoded
