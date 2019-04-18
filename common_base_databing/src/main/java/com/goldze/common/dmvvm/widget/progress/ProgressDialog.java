@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.R;
+import com.goldze.common.dmvvm.utils.StatusBarUtils;
 
 /**
  * 功能描述：快速提示    等待中Dialog

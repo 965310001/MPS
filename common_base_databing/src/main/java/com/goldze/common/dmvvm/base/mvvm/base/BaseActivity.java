@@ -1,5 +1,6 @@
 package com.goldze.common.dmvvm.base.mvvm.base;
 
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -44,6 +45,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
     protected ActivityBaseBinding baseBinding;
 
     private LoadManager loadManager;
+    protected Activity activity;
 
     protected ImageView ivBack, ivSearch;
     protected MaterialEditText edSearch;
@@ -65,6 +67,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
         /*竖屏*/
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
+        activity = this;
         /*android软键盘挡住输入框问题*/
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         ViewUtils.inject(this);
@@ -95,6 +98,9 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
             tabControlView.setVisibility(isTabsBar() ? View.VISIBLE : View.GONE);
 
             ivSearch.setOnClickListener(this);
+        } else {
+            //直接隐藏
+            baseBinding.rlTitleContent.setVisibility(View.GONE);
         }
 
         /*沉浸式状态栏*/

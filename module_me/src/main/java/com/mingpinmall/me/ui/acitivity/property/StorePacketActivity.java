@@ -15,7 +15,7 @@ import com.xuexiang.xui.widget.tabbar.TabControlView;
  * 创建人：小斌
  * 创建时间: 2019/3/28
  **/
-@Route(path = ARouterConfig.STOREPACKETACTIVITY)
+@Route(path = ARouterConfig.Me.STOREPACKETACTIVITY)
 public class StorePacketActivity extends BaseActivity<ActivityBaseTabsViewpagerBinding> {
     @Override
     protected int getLayoutId() {

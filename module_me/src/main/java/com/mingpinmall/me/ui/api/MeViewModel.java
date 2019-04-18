@@ -16,6 +16,54 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         super(application);
     }
 
+    /*获取退款列表*/
+    public void getRefundList(int curPage) {
+        mRepository.getRefundList(curPage);
+    }
+
+    /**
+     * 获取虚拟订单详细内容 中的店铺地址
+     * @param orderId
+     */
+    public void getVitrualOrderStoreAddrs(String orderId) {
+        mRepository.getVitrualOrderStoreAddrs(orderId);
+    }
+
+    /**
+     * 获取虚拟订单详细内容
+     * @param orderId
+     */
+    public void getVitrualOrderInformation(String orderId) {
+        mRepository.getVitrualOrderInformation(orderId);
+    }
+
+    /**
+     * 取消虚拟订单
+     * @param eventKey
+     * @param orderId
+     */
+    public void cancelVirtualOrder(String eventKey, String orderId) {
+        mRepository.cancelVirtualOrder(eventKey, orderId);
+    }
+
+    /**
+     * 取消订单
+     * @param eventKey
+     * @param orderId
+     */
+    public void cancelOrder(String eventKey, String orderId) {
+        mRepository.cancelOrder(eventKey, orderId);
+    }
+
+    /**
+     * 分销管理
+     * @param wwi
+     * @param curpage
+     */
+    public void getInviteList(String wwi, int curpage){
+        mRepository.getInviteList(wwi, curpage);
+    }
+
     /**
      * 获取收货地址列表
      */
@@ -140,8 +188,22 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
      *
      * @param
      */
-    public void getOrderList(String event_key, String state_type, String order_key, int curpage) {
-        mRepository.getOrderList(event_key, state_type, order_key, 10, curpage);
+    public void getPhysicalOrderList(String event_key, String state_type, String order_key, int curpage) {
+        mRepository.getPhysicalOrderList(event_key, state_type, order_key, 10, curpage);
+    }
+
+    /*获取订单详情*/
+    public void getOrderInformation(String order_id) {
+        mRepository.getOrderInformation(order_id);
+    }
+
+    /**
+     * 获取订单列表
+     *
+     * @param
+     */
+    public void getVirtualOrderList(String event_key, String state_type, String order_key, int curpage) {
+        mRepository.getVirtualOrderList(event_key, state_type, order_key, 10, curpage);
     }
 
     /**

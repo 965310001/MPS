@@ -13,7 +13,7 @@ import com.mingpinmall.me.databinding.ActivityVipintergralBinding;
  * 创建人：小斌
  * 创建时间: 2019/3/28
  **/
-@Route(path = ARouterConfig.VIPINTERGRALACTIVITY)
+@Route(path = ARouterConfig.Me.VIPINTERGRALACTIVITY)
 public class VipIntegralActivity extends BaseActivity<ActivityVipintergralBinding> {
     @Override
     protected int getLayoutId() {

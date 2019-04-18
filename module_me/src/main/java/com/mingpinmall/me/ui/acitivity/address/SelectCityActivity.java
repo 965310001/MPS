@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.widget.SpacesItemDecoration;
 import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivitySelectCityBinding;
@@ -26,7 +28,7 @@ import java.util.List;
  * 创建人：小斌
  * 创建时间: 2019/4/12
  **/
-@Route(path = ARouterConfig.SelectCityActivity)
+@Route(path = ARouterConfig.Me.SelectCityActivity)
 public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityBinding, MeViewModel> {
 
     private SelectCityAdapter selectCityAdapter;
@@ -49,6 +51,8 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
         progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         selectCityAdapter = new SelectCityAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
         binding.recyclerView.setAdapter(selectCityAdapter);
 
         selectCityAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -63,7 +67,7 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
                     cityId = bean.getArea_id();
                 } else if (level >= 3) {
                     Intent intent = new Intent();
-                    intent.putExtra("address", addressOne + addressTwo + bean.getArea_name());
+                    intent.putExtra("address", addressOne + " " +  addressTwo + " " +  bean.getArea_name());
                     intent.putExtra("cityId", cityId);
                     intent.putExtra("areaId", bean.getArea_id());
                     setResult(100, intent);
@@ -74,10 +78,14 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
                 level++;
             }
         });
-        mViewModel.getCityList("0");
         binding.clOne.setOnClickListener(this);
         binding.clThree.setOnClickListener(this);
         binding.clTwo.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
+        mViewModel.getCityList("0");
     }
 
     @Override

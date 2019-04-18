@@ -46,10 +46,9 @@
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_square"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="fitXY"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@id/line0"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintHorizontal_weight="1"
@@ -69,13 +68,13 @@
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_rectangle1"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="fitXY"
-                app:layout_constraintDimensionRatio="h, 2:1"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/line0"
                 app:layout_constraintTop_toTopOf="@id/line0"
+                app:layout_constraintBottom_toTopOf="@id/line1"
                 app:layout_constraintVertical_weight="1" />
 
             <View
@@ -83,16 +82,16 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_hight"
                 android:background="@color/line_color"
-                app:layout_constraintBottom_toTopOf="@id/iv_rectangle2"
+                app:layout_constraintBottom_toBottomOf="@id/iv_square"
                 app:layout_constraintEnd_toEndOf="@id/iv_rectangle1"
                 app:layout_constraintStart_toStartOf="@id/iv_rectangle1"
-                app:layout_constraintTop_toBottomOf="@id/iv_rectangle1" />
+                app:layout_constraintTop_toTopOf="@id/iv_square" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_rectangle2"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="fitXY"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 app:layout_constraintBottom_toBottomOf="@id/iv_square"
                 app:layout_constraintEnd_toEndOf="@id/line1"
                 app:layout_constraintStart_toEndOf="@id/line0"

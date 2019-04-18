@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.goldze.common.dmvvm.activity.BottomNavigationActivity;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
@@ -25,6 +27,7 @@ import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.mingpinmall.home.HomeActivity;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentHomeBinding;
 import com.mingpinmall.home.ui.activity.qrCode.ScanQRCodeActivity;
@@ -50,7 +53,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     private boolean darkMode = false;
 
-    HomeListAdapter homeListAdapter;
+    private HomeListAdapter homeListAdapter;
 
     public HomeFragment() {
     }
@@ -103,6 +106,58 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             }
         });
 
+        //不使用上拉加载更多
+        binding.refreshLayout.setEnableLoadMore(false);
+        //下拉刷新监听
+        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mViewModel.getHomeDataList();
+            }
+        });
+        /**
+         * 列表上点击事件
+         */
+        setItemCLickListener();
+        /**
+         * 除列表外，其他按钮点击事件
+         */
+        setClickListener();
+
+        //列表滑动监听
+        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                //当前条目索引
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int position = layoutManager.findFirstVisibleItemPosition();
+                if (position == 0) {
+                    View firstView = layoutManager.findViewByPosition(position);
+                    float scrollY = Math.abs(firstView.getTop());
+                    float firstViewHeight = firstView.getHeight();
+                    float alpha = scrollY / firstViewHeight;
+                    if (alpha > 0) {
+                        binding.clTitleBar.setVisibility(View.VISIBLE);
+                        binding.fab2top.setVisibility(View.VISIBLE);
+                        binding.clTitleBar.setAlpha(alpha);
+                        darkMode = true;
+                        setDarkMode(true);
+                    } else {
+                        binding.clTitleBar.setVisibility(View.GONE);
+                        binding.fab2top.setVisibility(View.GONE);
+                        darkMode = false;
+                        setDarkMode(false);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 除列表外，其他按钮点击事件
+     */
+    private void setClickListener() {
         binding.fab2top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,13 +169,14 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             @Override
             public void onClick(View v) {
                 //点击搜索框
+                ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
             }
         });
         binding.llMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //点击消息
-                ActivityToActivity.toActivity(ARouterConfig.MESSAGEACTIVITY);
+                ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
             }
         });
         binding.llQRCode.setOnClickListener(new View.OnClickListener() {
@@ -130,15 +186,12 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 IntentIntegrator.forSupportFragment(HomeFragment.this).setCaptureActivity(ScanQRCodeActivity.class).initiateScan();
             }
         });
-        //不使用上拉加载更多
-        binding.refreshLayout.setEnableLoadMore(false);
-        //下拉刷新监听
-        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mViewModel.getHomeDataList();
-            }
-        });
+    }
+
+    /**
+     * 列表上点击事件
+     */
+    private void setItemCLickListener() {
         //列表上的轮播图
         homeListAdapter.setBannerClickListener(new ListBannerItemClickListener() {
             @Override
@@ -168,10 +221,11 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 int id = view.getId();
                 if (id == R.id.ll_banner_msg) {
                     //点击消息
-                    ActivityToActivity.toActivity(ARouterConfig.MESSAGEACTIVITY);
+                    ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
                     return;
                 } else if (id == R.id.sv_banner_search) {
                     //点击搜索
+                    ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
                     return;
                 }
                 // 2 4 5
@@ -240,7 +294,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                         break;
                     case 6:
                         //导航
-                        navARouter(datasBean);
+                        navigationRouter(datasBean);
                         break;
                     case 10:
                         //商品列表
@@ -252,34 +306,6 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                         HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem goods2Bean = datasBean.getGoods2ItemBean();
                         ToastUtils.showShort("事件: " + goods2Bean.getGoods_name());
                         break;
-                }
-            }
-        });
-        //列表滑动监听
-        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @SuppressLint("RestrictedApi")
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                //当前条目索引
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int position = layoutManager.findFirstVisibleItemPosition();
-                if (position == 0) {
-                    View firstView = layoutManager.findViewByPosition(position);
-                    float scrollY = Math.abs(firstView.getTop());
-                    float firstViewHeight = firstView.getHeight();
-                    float alpha = scrollY / firstViewHeight;
-                    if (alpha > 0) {
-                        binding.clTitleBar.setVisibility(View.VISIBLE);
-                        binding.fab2top.setVisibility(View.VISIBLE);
-                        binding.clTitleBar.setAlpha(alpha);
-                        darkMode = true;
-                        setDarkMode(darkMode);
-                    } else {
-                        binding.clTitleBar.setVisibility(View.GONE);
-                        binding.fab2top.setVisibility(View.GONE);
-                        darkMode = false;
-                        setDarkMode(false);
-                    }
                 }
             }
         });
@@ -296,22 +322,39 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
      * @Description 描述：列表上的导航功能
      * @Version
      **/
-    private void navARouter(HomeItemBean.DatasBean datasBean) {
+    private void navigationRouter(HomeItemBean.DatasBean datasBean) {
         switch (datasBean.getData()) {
             case "tmpl/mall.html":
                 //店铺街
+                ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
                 break;
             case "tmpl/member/member_asset.html":
                 //资产管理
-                ActivityToActivity.toActivity(ARouterConfig.PROPERTYACTIVITY);
+                ActivityToActivity.toActivity(ARouterConfig.Me.PROPERTYACTIVITY);
                 break;
             case "tmpl/member/views_list.html":
                 //我的足迹
-                ActivityToActivity.toActivity(ARouterConfig.FOOTPRINTACTIVITY);
+                ActivityToActivity.toActivity(ARouterConfig.Me.FOOTPRINTACTIVITY);
                 break;
             case "tmpl/member/member_invite.html":
                 //我的名师  分销管理 DISRTIBUTIONACTIVITY
-                ActivityToActivity.toActivity(ARouterConfig.DISRTIBUTIONACTIVITY);
+                ActivityToActivity.toActivity(ARouterConfig.Me.DISRTIBUTIONACTIVITY);
+                break;
+            case "tmpl/product_first_categroy.html":
+                //分类 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 1);
+                break;
+            case "tmpl/cart_list.html":
+                //购物车 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 2);
+                break;
+            case "tmpl/member/member.html":
+                //我的 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 3);
+                break;
+            case "tmpl/member/signin.html":
+                //签到
+                ToastUtils.showShort("签到");
                 break;
         }
     }
@@ -355,6 +398,10 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 listData.add(datasBean);
             } else if (datasBean.getGoods() != null) {
                 //商品
+                datasBean.setItemType(22);
+                datasBean.setLabel(datasBean.getGoods().getTitle());
+                datasBean.setSubLabel("小编向您推荐以下商品");
+                listData.add(datasBean);
                 for (HomeItemBean.DatasBean.GoodsBean.ItemBean goodsBean : datasBean.getGoods().getItem()) {
                     HomeItemBean.DatasBean bean0 = new HomeItemBean.DatasBean();
                     bean0.setItemType(10);
@@ -369,6 +416,8 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 //团购
                 //添加一个标题
                 datasBean.setItemType(22);
+                datasBean.setLabel("团购商品");
+                datasBean.setSubLabel("精品抢购 有你所选");
                 listData.add(datasBean);
                 //添加内容
                 for (HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem good2Bean : datasBean.getGoods2().getItem()) {

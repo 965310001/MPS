@@ -18,7 +18,15 @@
     <string name="tabs_text_uncomments">待评价</string>
     <string name="tabs_text_unuse">待使用</string>
     <string name="hint_text_search">请输入商品标题或者订单号进行搜索</string>
+    <string name="btn_text_appraiseOrder">评价订单</string>
+    <string name="btn_text_harvestOrder">确认收货</string>
+    <string name="btn_text_payOrder">订单支付</string>
+    <string name="btn_text_cancelOrder">取消订单</string>
     <!-- OrderActivity Over -->
+
+    <!-- PhysicalOrderInformationActivity -->
+    <string name="title_OrderInformation">订单详情</string>
+    <!-- PhysicalOrderInformationActivity Over -->
 
     <!-- CollectionActivity -->
     <string name="tabs_text_product">商品收藏</string>
@@ -113,8 +121,8 @@
     <string name="title_resetPayPasswordActivity">修改支付密码</string>
     <!-- ResetPayPasswordActivity Over -->
 
-    <!-- ResetPhoneActivity -->
-    <string name="title_resetPhoneActivity">修改手机验证</string>
+    <!-- BindPhoneActivity -->
+    <string name="title_resetPhoneActivity">绑定新的手机</string>
     <string name="tips_text_change"><u>通过支付密码来验证</u></string>
     <!-- ResetPasswordActivity Over -->
 

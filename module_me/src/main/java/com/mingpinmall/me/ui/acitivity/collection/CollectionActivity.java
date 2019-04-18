@@ -20,7 +20,7 @@ import com.xuexiang.xui.widget.tabbar.TabControlView;
  * 创建人：小斌
  * 创建时间: 2019/3/27
  **/
-@Route(path = ARouterConfig.COLLECTIONACTIVITY)
+@Route(path = ARouterConfig.Me.COLLECTIONACTIVITY)
 public class CollectionActivity extends AbsLifecycleActivity<ActivityCollectionBinding, MeViewModel> {
 
     @Autowired

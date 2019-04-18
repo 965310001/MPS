@@ -173,13 +173,13 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText(datas.getFavorites_goods());
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText(datas.getFavorites_store());
 
-        ImageUtils.loadImageAsGIF((AppCompatImageView) headView.findViewById(R.id.iv_headImage), datas.getAvatar());
+        ImageUtils.loadImageCircle((AppCompatImageView) headView.findViewById(R.id.iv_headImage), datas.getAvatar());
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
                 datas.getOrder_nopay_count(),
                 datas.getOrder_noreceipt_count(),
-                0,
-                datas.getOrder_noeval_count(),
                 datas.getOrder_notakes_count(),
+                datas.getOrder_noeval_count(),
+                0
         });
         meItemAdapter.notifyDataSetChanged();
     }
@@ -274,7 +274,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
                     ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
                     return;
                 }
-                ActivityToActivity.toActivity(ARouterConfig.SETTINGACTIVITY);
+                ActivityToActivity.toActivity(ARouterConfig.Me.SETTINGACTIVITY);
             }
         });
         binding.ivMessage.setOnClickListener(new View.OnClickListener() {
@@ -284,7 +284,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
                     ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
                     return;
                 }
-                ActivityToActivity.toActivity(ARouterConfig.MESSAGEACTIVITY);
+                ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
             }
         });
         /**
@@ -302,37 +302,37 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
                 if (i == R.id.ll_item1) {
 //                    ToastUtils.showShort(funCode == -1 ? "点击了 待付款" : "点击了 预存款");
                     if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.ORDERACTIVITY, "pageIndex", 1);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 1);
                     } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.ACCOUNTSURPLUSACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY);
                     }
                 } else if (i == R.id.ll_item2) {
 //                    ToastUtils.showShort(funCode == -1 ? "点击了 待收货" : "充值卡");
                     if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.ORDERACTIVITY, "pageIndex", 2);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 2);
                     } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.CARDSURPLUSACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.CARDSURPLUSACTIVITY);
                     }
                 } else if (i == R.id.ll_item3) {
 //                    ToastUtils.showShort(funCode == -1 ? "点击了 待自提" : "代金券");
                     if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.ORDERACTIVITY, "pageIndex", 3);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 3);
                     } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.COUPONACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.COUPONACTIVITY);
                     }
                 } else if (i == R.id.ll_item4) {
 //                    ToastUtils.showShort(funCode == -1 ? "点击了 待评价" : "红包");
                     if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.ORDERACTIVITY, "pageIndex", 4);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 4);
                     } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.STOREPACKETACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.STOREPACKETACTIVITY);
                     }
                 } else if (i == R.id.ll_item5) {
 //                    ToastUtils.showShort(funCode == -1 ? "点击了 退款/退货" : "积分");
                     if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.REFUNDACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.REFUNDACTIVITY);
                     } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.VIPINTERGRALACTIVITY);
+                        ActivityToActivity.toActivity(ARouterConfig.Me.VIPINTERGRALACTIVITY);
                     }
                 }
             }
@@ -352,26 +352,26 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
                     switch (itemBean.getFunCode()) {
                         case 0:
 //                            ToastUtils.showShort("我的订单");
-                            ActivityToActivity.toActivity(ARouterConfig.ORDERACTIVITY);
+                            ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY);
                             break;
                         case 1:
 //                            ToastUtils.showShort("我的财产");
-                            ActivityToActivity.toActivity(ARouterConfig.PROPERTYACTIVITY);
+                            ActivityToActivity.toActivity(ARouterConfig.Me.PROPERTYACTIVITY);
                             break;
                         case 2:
 //                            ToastUtils.showShort("我的分销管理");
-                            ActivityToActivity.toActivity(ARouterConfig.DISRTIBUTIONACTIVITY);
+                            ActivityToActivity.toActivity(ARouterConfig.Me.DISRTIBUTIONACTIVITY);
                             break;
                         case 3:
                             ToastUtils.showShort("我的推广码");
                             break;
                         case 4:
 //                            ToastUtils.showShort("收货地址管理");
-                            ActivityToActivity.toActivity(ARouterConfig.ADDRESSMANAGERACTIVITY);
+                            ActivityToActivity.toActivity(ARouterConfig.Me.ADDRESSMANAGERACTIVITY);
                             break;
                         case 5:
 //                            ToastUtils.showShort("用户设置");
-                            ActivityToActivity.toActivity(ARouterConfig.SETTINGACTIVITY);
+                            ActivityToActivity.toActivity(ARouterConfig.Me.SETTINGACTIVITY);
                             break;
                     }
                 }
@@ -394,7 +394,9 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         //列表item图标
         TypedArray titleImgs = ResourcesUtils.getInstance().obtainTypedArray(R.array.home_me_items_image);
         //列表item功能码
-        int[] funCodes = new int[]{0, 1, 2, 3, 4, 5};
+        int[] funCodes = new int[]{0, 1,
+//                2, 3,
+                4, 5};
         //我的订单下方导航文字
         String[] subOrder = ResourcesUtils.getInstance().getStringArray(R.array.home_me_order_items);
         //我的订单下方导航图标
@@ -480,19 +482,19 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         }
         if (i == R.id.iv_setting) {
 //                    ToastUtils.showShort("点击了 左上角设置");
-            ActivityToActivity.toActivity(ARouterConfig.SETTINGACTIVITY);
+            ActivityToActivity.toActivity(ARouterConfig.Me.SETTINGACTIVITY);
         } else if (i == R.id.iv_message) {
 //                    ToastUtils.showShort("点击了 右上角消息");
-            ActivityToActivity.toActivity(ARouterConfig.MESSAGEACTIVITY);
+            ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
         } else if (i == R.id.ll_headItem1) {
 //                    ToastUtils.showShort("点击了 商品收藏");
-            ActivityToActivity.toActivity(ARouterConfig.COLLECTIONACTIVITY, "pageIndex", 0);
+            ActivityToActivity.toActivity(ARouterConfig.Me.COLLECTIONACTIVITY, "pageIndex", 0);
         } else if (i == R.id.ll_headItem2) {
 //                    ToastUtils.showShort("点击了 店铺收藏");
-            ActivityToActivity.toActivity(ARouterConfig.COLLECTIONACTIVITY, "pageIndex", 1);
+            ActivityToActivity.toActivity(ARouterConfig.Me.COLLECTIONACTIVITY, "pageIndex", 1);
         } else if (i == R.id.ll_headItem3) {
 //                    ToastUtils.showShort("点击了 我的足迹");
-            ActivityToActivity.toActivity(ARouterConfig.FOOTPRINTACTIVITY);
+            ActivityToActivity.toActivity(ARouterConfig.Me.FOOTPRINTACTIVITY);
         } else if (i == R.id.iv_headImage) {
 //                    ToastUtils.showShort("点击了 头像");
         }

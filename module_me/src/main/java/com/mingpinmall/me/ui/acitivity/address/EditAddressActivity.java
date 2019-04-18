@@ -23,7 +23,7 @@ import com.mingpinmall.me.ui.api.MeViewModel;
  * 创建人：小斌
  * 创建时间: 2019/3/29
  **/
-@Route(path = ARouterConfig.EDITADDRESSACTIVITY)
+@Route(path = ARouterConfig.Me.EDITADDRESSACTIVITY)
 public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddressBinding, MeViewModel> {
 
     private ProgressDialog progressDialog;

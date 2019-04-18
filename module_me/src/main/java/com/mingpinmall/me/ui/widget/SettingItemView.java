@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -49,6 +51,11 @@ public class SettingItemView extends FrameLayout {
     private AppCompatImageView iv_icon;
     //右侧箭头
     private AppCompatImageView iv_more;
+
+    /**
+     * 是否小图标模式
+     */
+    private boolean isSmallIcon = false;
 
     /**
      * 主标题内容
@@ -95,12 +102,14 @@ public class SettingItemView extends FrameLayout {
 
     private void initAttrs(@Nullable AttributeSet attrs) {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingItemView);
+        isSmallIcon = a.getBoolean(R.styleable.SettingItemView_smallIcon, false);
         title = a.getString(R.styleable.SettingItemView_title);
         subTitle = a.getString(R.styleable.SettingItemView_subTitle);
         drawable = a.getDrawable(R.styleable.SettingItemView_image);
         description = a.getString(R.styleable.SettingItemView_description);
         theme = a.getInt(R.styleable.SettingItemView_mode, -1);
         a.recycle();
+        setSmallIconMode(isSmallIcon);
     }
 
     @Override
@@ -219,6 +228,42 @@ public class SettingItemView extends FrameLayout {
         iv_icon = findViewById(R.id.iv_icon);
         iv_more = findViewById(R.id.iv_more);
         tv_redPoint.setVisibility(View.GONE);
+    }
+
+    /**
+     * 是否使用小图标，小图标模式将会将图标和标题栏对齐。 默认模式下是item上下居中
+     * @param isSmall
+     */
+    public void setSmallIconMode(boolean isSmall) {
+        this.isSmallIcon = isSmall;
+        ConstraintSet set = new ConstraintSet();
+        ConstraintLayout constraintLayout = findViewById(R.id.content_layout);
+        set.clone(constraintLayout);
+        set.connect(
+                iv_icon.getId(),
+                ConstraintSet.LEFT,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.LEFT
+        );
+        set.connect(
+                iv_icon.getId(),
+                ConstraintSet.END,
+                tv_label.getId(),
+                ConstraintSet.START
+        );
+        set.connect(
+                iv_icon.getId(),
+                ConstraintSet.BOTTOM,
+                isSmall ? tv_label.getId() : ConstraintSet.PARENT_ID,
+                ConstraintSet.BOTTOM
+        );
+        set.connect(
+                iv_icon.getId(),
+                ConstraintSet.TOP,
+                isSmall ? tv_label.getId() : ConstraintSet.PARENT_ID,
+                ConstraintSet.TOP
+        );
+        set.applyTo(constraintLayout);
     }
 
     /**

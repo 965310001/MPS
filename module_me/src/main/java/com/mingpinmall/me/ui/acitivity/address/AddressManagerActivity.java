@@ -13,32 +13,24 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityAddressmanagerBinding;
 import com.mingpinmall.me.ui.adapter.AddressListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
-import com.mingpinmall.me.ui.bean.BaseItemBean;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 功能描述：
  * 创建人：小斌
  * 创建时间: 2019/3/29
  **/
-@Route(path = ARouterConfig.ADDRESSMANAGERACTIVITY)
+@Route(path = ARouterConfig.Me.ADDRESSMANAGERACTIVITY)
 public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddressmanagerBinding, MeViewModel> {
 
     private AddressListAdapter addressListAdapter;
@@ -102,10 +94,10 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
      * 删除地址
      */
     private void deleteAddress(final String addressId) {
-        MaterialDialogUtils.showBasicDialog(AddressManagerActivity.this, "删除提示")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
+        TextDialog.showBaseDialog(activity, "删除提示", "确定要删除这个地址吗？",
+                new TextDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onClick() {
                         progressDialog.onLoading("");
                         mViewModel.delAddress(addressId);
                     }
@@ -177,7 +169,7 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
     @Override
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_submit) {
-            ActivityToActivity.toActivity(ARouterConfig.EDITADDRESSACTIVITY, "isAdd", true);
+            ActivityToActivity.toActivity(ARouterConfig.Me.EDITADDRESSACTIVITY, "isAdd", true);
         }
     }
 }

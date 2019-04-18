@@ -18,7 +18,7 @@
     <!-- 主页 - 我的 -->
     <string-array name="home_me_order_items" >
         <item>待付款</item>
-        <item>待收款</item>
+        <item>待收货</item>
         <item>待自提</item>
         <item>待评价</item>
         <item>退款/退货</item>
@@ -33,8 +33,8 @@
     <string-array name="home_me_items">
         <item>我的订单</item>
         <item>我的财产</item>
-        <item>我的分销管理</item>
-        <item>我的推广码</item>
+        <!--<item>我的分销管理</item>-->
+        <!--<item>我的推广码</item>-->
         <item>收货地址管理</item>
         <item>用户设置</item>
     </string-array>
@@ -49,8 +49,8 @@
     <integer-array name="home_me_items_image">
         <item>@drawable/mc_01</item>
         <item>@drawable/mc_02</item>
-        <item>@drawable/mc_05</item>
-        <item>@drawable/mc_05</item>
+        <!--<item>@drawable/mc_05</item>-->
+        <!--<item>@drawable/mc_05</item>-->
         <item>@drawable/mc_03</item>
         <item>@drawable/mc_04</item>
     </integer-array>

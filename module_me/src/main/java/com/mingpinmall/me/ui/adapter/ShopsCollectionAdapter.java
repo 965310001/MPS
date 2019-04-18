@@ -25,7 +25,7 @@ public class ShopsCollectionAdapter extends BaseQuickAdapter<ShopsCollectionBean
         ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), item.getStore_avatar_url());
         helper.setText(R.id.tv_label, item.getStore_name())
                 .setText(R.id.tv_fans, item.getStore_collect())
-                .setText(R.id.tv_count, item.getGoods_count())
+                .setText(R.id.tv_count, item.getGoods_count() + "")
                 .addOnClickListener(R.id.iv_delete);
     }
 }

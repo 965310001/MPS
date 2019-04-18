@@ -17,7 +17,7 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
  * 创建人：小斌
  * 创建时间: 2019/3/28
  **/
-@Route(path = ARouterConfig.ACCOUNTSURPLUSACTIVITY)
+@Route(path = ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY)
 public class AccountSurplusActivity extends BaseActivity<ActivityAccountSurplusBinding> {
 
     private SurplusFragment1 surplusFragment1;

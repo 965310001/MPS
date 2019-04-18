@@ -1,5 +1,7 @@
 package com.mingpinmall.me.ui.api;
 
+import android.util.Log;
+
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
@@ -13,10 +15,15 @@ import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
 import com.mingpinmall.me.ui.bean.CityBean;
 import com.mingpinmall.me.ui.bean.FootprintBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
+import com.mingpinmall.me.ui.bean.OrderInformationBean;
+import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 import com.mingpinmall.me.ui.bean.ProductCollectionBean;
 import com.mingpinmall.me.ui.bean.PropertyBean;
+import com.mingpinmall.me.ui.bean.RefundBean;
 import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
-import com.mingpinmall.me.ui.constants.Constants;
+import com.mingpinmall.me.ui.bean.VirtualInformationBean;
+import com.mingpinmall.me.ui.bean.VirtualOrderBean;
+import com.mingpinmall.me.ui.bean.VirtualStoreAddrsBean;
 import com.socks.library.KLog;
 
 /**
@@ -28,13 +35,165 @@ public class MeRepository extends BaseRepository {
 
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
 
+    /*获取退款列表*/
+    protected void getRefundList(int curPage) {
+        addDisposable(apiService.getRefundList(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<RefundBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<RefundBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<RefundBean> virtualStoreAddrsBeanBaseResponse) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+                })
+        );
+    }
+
+    /**
+     * 获取虚拟订单详细内容
+     * @param orderId
+     */
+    protected void getVitrualOrderInformation(String orderId) {
+        addDisposable(apiService.getVitrualOrderInformation(getUserKey(), orderId)
+                .compose(RxSchedulers.<BaseResponse<VirtualInformationBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<VirtualInformationBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<VirtualInformationBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("VIRTUAL_ORDER_INFORMATION", "success", result.getData());
+                        } else {
+                            sendData("VIRTUAL_ORDER_INFORMATION", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("VIRTUAL_ORDER_INFORMATION", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /**
+     * 获取虚拟订单详细内容 中的店铺地址
+     * @param orderId
+     */
+    protected void getVitrualOrderStoreAddrs(String orderId) {
+        addDisposable(apiService.getVitrualOrderStoreAddrs(getUserKey(), orderId)
+                .compose(RxSchedulers.<BaseResponse<VirtualStoreAddrsBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<VirtualStoreAddrsBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<VirtualStoreAddrsBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("VIRTUAL_ORDER_ADDRS", "success", result.getData());
+                        } else {
+                            sendData("VIRTUAL_ORDER_ADDRS", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("VIRTUAL_ORDER_ADDRS", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param orderId
+     */
+    protected void cancelOrder(final String eventKey, String orderId) {
+        addDisposable(apiService.cancelOrder(getUserKey(), orderId)
+                .compose(RxSchedulers.<BaseResponse<BaseNothingBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<BaseNothingBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<BaseNothingBean> result) {
+                        if (result.isSuccess())
+                            sendData(eventKey, "REFRESH_ORDER_LIST", "");
+                        else
+                            sendData(eventKey, "DO_SOMETHING_ERR", result.getMessage());
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(eventKey, "DO_SOMETHING_ERR", msg == null ? "取消订单失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /**
+     * 取消虚拟订单
+     *
+     * @param orderId
+     */
+    protected void cancelVirtualOrder(final String eventKey, String orderId) {
+        addDisposable(apiService.cancelVirtualOrder(getUserKey(), orderId)
+                .compose(RxSchedulers.<BaseResponse<BaseNothingBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<BaseNothingBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<BaseNothingBean> result) {
+                        if (result.isSuccess())
+                            sendData(eventKey, "REFRESH_ORDER_LIST", "");
+                        else
+                            sendData(eventKey, "DO_SOMETHING_ERR", result.getMessage());
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(eventKey, "DO_SOMETHING_ERR", msg == null ? "取消订单失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /**
+     * 分销管理
+     *
+     * @param wwi
+     * @param curpage
+     */
+    protected void getInviteList(String wwi, int curpage) {
+        addDisposable(apiService.getInviteList(getUserKey(), wwi, 10, curpage)
+                .compose(RxSchedulers.<BaseResponse<BaseNothingBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<BaseNothingBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<BaseNothingBean> baseNothingBeanBaseResponse) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+                })
+        );
+    }
+
     /**
      * 获取收货地址详细内容
+     *
      * @param addressId
      */
     protected void getAddress(String addressId) {
         addDisposable(apiService.getAddress(getUserKey(), addressId)
-        .compose(RxSchedulers.<BaseResponse<AddressDataBean.AddressListBean>>io_main())
+                .compose(RxSchedulers.<BaseResponse<AddressDataBean.AddressListBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<AddressDataBean.AddressListBean>>() {
 
                     @Override
@@ -52,6 +211,7 @@ public class MeRepository extends BaseRepository {
 
     /**
      * 删除收货地址
+     *
      * @param addressId
      */
     protected void delAddress(String addressId) {
@@ -83,7 +243,7 @@ public class MeRepository extends BaseRepository {
      */
     protected void getAddressList() {
         addDisposable(apiService.getAddressList(getUserKey())
-                        .compose(RxSchedulers.<BaseResponse<AddressDataBean>>io_main())
+                .compose(RxSchedulers.<BaseResponse<AddressDataBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<AddressDataBean>>() {
 
                     @Override
@@ -439,7 +599,7 @@ public class MeRepository extends BaseRepository {
     }
 
     /**
-     * 获取订单列表（包括搜索）
+     * 获取实物订单列表（包括搜索）
      *
      * @param state_type [state_new:待付款]
      *                   [state_send:待收货]
@@ -449,27 +609,92 @@ public class MeRepository extends BaseRepository {
      * @param page       每页数量
      * @param curpage    页码
      */
-    protected void getOrderList(final String event_key, String state_type, String order_key, int page, final int curpage) {
-        addDisposable(apiService.getOrder(getUserKey(), state_type, order_key, page, curpage)
-                .compose(RxSchedulers.<BaseIntDatasBean>io_main())
-                .subscribeWith(new RxSubscriber<BaseIntDatasBean>() {
+    protected void getPhysicalOrderList(final String event_key, String state_type, String order_key, int page, final int curpage) {
+        addDisposable(apiService.getPhysicalOrderList(getUserKey(), state_type, order_key, page, curpage)
+                .compose(RxSchedulers.<BaseResponse<PhysicalOrderBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<PhysicalOrderBean>>() {
 
                     @Override
-                    public void onSuccess(BaseIntDatasBean baseIntDatasBean) {
-                        if (curpage == 1) {
-                            sendData(event_key, "refresh success", baseIntDatasBean);
+                    public void onSuccess(BaseResponse<PhysicalOrderBean> result) {
+                        if (!result.isSuccess()) {
+                            Log.i("数据", "onChanged: 发送err " + event_key + "err");
+                            sendData(event_key, event_key + "err", result.getMessage());
+                            return;
+                        }
+                        Log.i("数据", "onChanged: 发送sucess " + event_key + "success");
+                        sendData(event_key, event_key + "success", result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        Log.i("数据", "onChanged: 发送err " + event_key);
+                        sendData(event_key, event_key + "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+
+    }
+
+    /**
+     * 获取订单详情
+     *
+     * @param order_id
+     */
+    protected void getOrderInformation(String order_id) {
+        addDisposable(apiService.getOrderInformation(getUserKey(), order_id)
+                .compose(RxSchedulers.<BaseResponse<OrderInformationBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<OrderInformationBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<OrderInformationBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("ORDER_INFORMATION", "success", result.getData());
                         } else {
-                            sendData(event_key, "loadmore success", baseIntDatasBean);
+                            sendData("ORDER_INFORMATION", "err", result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        if (curpage == 1) {
-                            sendData(event_key, "refresh err", msg);
-                        } else {
-                            sendData(event_key, "loadmore err", msg);
+                        KLog.i(msg);
+                        sendData("ORDER_INFORMATION", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+
+    }
+
+    /**
+     * 获取虚拟订单列表（包括搜索）
+     *
+     * @param state_type [state_new:待付款]
+     *                   [state_send:待收货]
+     *                   [state_notakes:待自提]
+     *                   [state_noeval:待评价]
+     * @param order_key  搜索内容，产品标题或订单号
+     * @param page       每页数量
+     * @param curpage    页码
+     */
+    protected void getVirtualOrderList(final String event_key, String state_type, String order_key, int page, final int curpage) {
+        addDisposable(apiService.getVirtualOrderList(getUserKey(), state_type, order_key, page, curpage)
+                .compose(RxSchedulers.<BaseResponse<VirtualOrderBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<VirtualOrderBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<VirtualOrderBean> result) {
+                        Log.e("网络请求", "onSuccess: " + event_key);
+                        if (!result.isSuccess()) {
+                            sendData(event_key, event_key + "err", result.getMessage());
+                            return;
                         }
+                        sendData(event_key, event_key + "success", result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(event_key, event_key + "err", msg == null ? "获取失败" : msg);
                     }
                 })
         );

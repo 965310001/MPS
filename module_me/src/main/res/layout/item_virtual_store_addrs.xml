@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_storeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="直通车VIP中心" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_storeAddr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_text"
+                android:textSize="13sp"
+                tools:text="广东省广州市天河区天河路228号正佳金殿3808" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="@dimen/line_hight"
+            android:layout_height="0dp"
+            android:background="@color/line_color"
+            app:layout_constraintBottom_toBottomOf="@id/ll_content"
+            app:layout_constraintEnd_toStartOf="@id/iv_callPhone"
+            app:layout_constraintStart_toEndOf="@id/ll_content"
+            app:layout_constraintTop_toTopOf="@id/ll_content" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_callPhone"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_call_phone"
+            android:padding="14dp"
+            app:layout_constraintBottom_toBottomOf="@id/ll_content"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/line"
+            app:layout_constraintTop_toTopOf="@id/ll_content" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

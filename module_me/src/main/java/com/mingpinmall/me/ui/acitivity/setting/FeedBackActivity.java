@@ -20,7 +20,7 @@ import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
  * 创建人：小斌
  * 创建时间: 2019/4/2
  **/
-@Route(path = ARouterConfig.FeedBackActivity)
+@Route(path = ARouterConfig.Me.FeedBackActivity)
 public class FeedBackActivity extends AbsLifecycleActivity<ActivityFeedbackBinding, MeViewModel> {
 
     ProgressDialog progressDialog;

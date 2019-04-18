@@ -3,14 +3,7 @@ package com.mingpinmall.me.ui.api;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.mingpinmall.me.ui.bean.BaseCheckBean;
-import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
-import com.mingpinmall.me.ui.bean.CityBean;
-import com.mingpinmall.me.ui.bean.FootprintBean;
-import com.mingpinmall.me.ui.bean.MyInfoBean;
-import com.mingpinmall.me.ui.bean.ProductCollectionBean;
-import com.mingpinmall.me.ui.bean.PropertyBean;
-import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
+import com.mingpinmall.me.ui.bean.*;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
@@ -25,6 +18,126 @@ import retrofit2.http.Query;
  * 创建时间: 2019/4/1
  **/
 public interface MeApiService {
+
+    /**
+     * 描述：退款列表
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_refund&wwi=get_refund_list
+     * curpage=1&page=10
+     * 请求方式：get
+     * 请求参数：
+     * 	无
+     */
+    String REFUND_LIST = "/mo_bile/index.php?app=member_refund&wwi=get_refund_list";
+
+    @GET(REFUND_LIST)
+    Flowable<BaseResponse<RefundBean>> getRefundList(@Query("key") String key, @Query("page") int page, @Query("curpage") int curpage);
+
+    /**
+     * 描述：取消订单
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_cancel
+     * 请求方式：post
+     * 请求参数：
+     * 	order_id:订单id
+     */
+    String CANCEL_ORDER = "/mo_bile/index.php?app=member_order&wwi=order_cancel";
+
+    @POST(CANCEL_ORDER)
+    @FormUrlEncoded
+    Flowable<BaseResponse<BaseNothingBean>> cancelOrder(@Field("key") String key, @Field("order_id") String order_id);
+
+    /**
+     * 描述：取消订单
+     * 请求地址：
+     * https://www.mingpinmall.cn/mo_bile/index.php?app=member_vr_order&wwi=order_cancel
+     * 请求方式：post
+     * 请求参数：
+     * Order_id:订单id
+     * Key:用户key
+     */
+    String CANCEL_VR_ORDER = "/mo_bile/index.php?app=member_vr_order&wwi=order_cancel";
+
+    @POST(CANCEL_VR_ORDER)
+    @FormUrlEncoded
+    Flowable<BaseResponse<BaseNothingBean>> cancelVirtualOrder(@Field("key") String key, @Field("order_id") String order_id);
+
+    /**
+     * 描述：虚拟订单详情
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=goods&wwi=store_o2o_addr
+     * 请求方式：get
+     * 请求参数：
+     * 	store_id:店铺id
+     */
+    String V_ORDER_ADDRS = "/mo_bile/index.php?app=goods&wwi=store_o2o_addr";
+
+    @GET(V_ORDER_ADDRS)
+    Flowable<BaseResponse<VirtualStoreAddrsBean>> getVitrualOrderStoreAddrs(@Query("key") String key, @Query("store_id") String order_id);
+
+    /**
+     * 描述：虚拟订单详情
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_vr_order&wwi=order_info
+     * 请求方式：get
+     * 请求参数：
+     * 	order_id:订单id
+     */
+    String V_ORDER_IMFORMATION = "/mo_bile/index.php?app=member_vr_order&wwi=order_info";
+
+    @GET(V_ORDER_IMFORMATION)
+    Flowable<BaseResponse<VirtualInformationBean>> getVitrualOrderInformation(@Query("key") String key, @Query("order_id") String order_id);
+
+    String redPacket = "/mo_bile/index.php?app=member_redpacket&wwi=redpacket_list&key=9d818aeef03b5778b2a3d1b3eb0de5bb&curpage=1&page=10";
+
+    /**
+     * 描述：账户余额
+     * 请求地址：
+     * http://www.mingpinmall.cn/mo_bile/index.php?app=member_index&wwi=my_asset&key=9d818aeef0	3b5778b2a3d1b3eb0de5bb&fields=predepoit
+     * 请求方式：post
+     * 参数
+     * key：用户key
+     * fields：predepoit（固定值）
+     */
+    String predepoit = "/mo_bile/index.php?app=member_index&wwi=my_asset";
+
+    /**
+     * 账户余额列表
+     */
+    String predepoitLog = "/mo_bile/index.php?app=member_fund&wwi=predepositlog";
+
+    /**
+     * 充值明细
+     */
+    String pdrechargelist = "/mo_bile/index.php?app=member_fund&wwi=pdrechargelist";
+
+    /**
+     * 余额提现
+     */
+    String pdcashlist = "/mo_bile/index.php?app=member_fund&wwi=pdcashlist";
+
+    /**
+     * 提现明细
+     */
+    String pdcashinfo = "/mo_bile/index.php?app=member_fund&wwi=pdcashinfo";
+
+    /**
+     * 描述：分销管理
+     * 请求地址：
+     * http://www.mingpinmall.cn/mo_bile/index.php?app=member_invite&wwi=inviteone&key=644b675d88d2c167b7513d0bdc7dadb9&curpage=1&page=10
+     * 请求方式：get
+     * 请求参数：
+     * wwi:
+     * inviteone:一级列表
+     * invitetwo：二级列表
+     * invitethir：三级列表
+     * curpage:当前页
+     * page:显示数量
+     */
+    String GETINVITE = "/mo_bile/index.php?app=member_invite";
+
+    @GET(GETINVITE)
+    Flowable<BaseResponse<BaseNothingBean>> getInviteList(@Query("key") String key,
+                                                          @Query("wwi") String wwi,
+                                                          @Query("page") int page,
+                                                          @Query("curpage") int curpage
+    );
 
     /**
      * 描述：我的商城中用户信息获取
@@ -92,6 +205,18 @@ public interface MeApiService {
     Flowable<BaseResponse<ProductCollectionBean>> getProductCollectList(@Query("key") String key, @Query("curpage") int curpage, @Query("page") int page);
 
     /**
+     * 描述：查看订单详情
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_info&order_id=71
+     * 请求方式：get
+     * 请求参数：
+     * order_id:订单id
+     */
+    String OrderInformation = "/mo_bile/index.php?app=member_order&wwi=order_info";
+
+    @GET(OrderInformation)
+    Flowable<BaseResponse<OrderInformationBean>> getOrderInformation(@Query("key") String key, @Query("order_id") String order_id);
+
+    /**
      * 描述：根据条件查询订单
      * 请求地址：
      * http://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_list&page=10&curpage=1
@@ -104,11 +229,34 @@ public interface MeApiService {
      * [state_noeval:待评价]
      * Order_key:搜索内容，产品标题或订单号
      */
-    String getOrder = "/mo_bile/index.php?app=member_order&wwi=order_list";
+    String GetPhysicalOrder = "/mo_bile/index.php?app=member_order&wwi=order_list";
 
     @FormUrlEncoded
-    @POST(getOrder)
-    Flowable<BaseIntDatasBean> getOrder(
+    @POST(GetPhysicalOrder)
+    Flowable<BaseResponse<PhysicalOrderBean>> getPhysicalOrderList(
+            @Field("key") String key,
+            @Field("state_type") String state_type,
+            @Field("order_key") String order_key,
+            @Field("page") int page,
+            @Field("curpage") int curpage
+    );
+
+    /**
+     * 描述：请求虚拟订单列表
+     * 请求地址：
+     * https://www.mingpinmall.cn/mo_bile/index.php?app=member_vr_order&wwi=order_list&page=10&curpage=1
+     * 请求方式：POST
+     * 请求参数：
+     * State_type:
+     * [state_new:待付款]
+     * [state_pay:待使用]
+     * Order_key:搜索内容，产品标题或订单号
+     */
+    String GetVirtualOrder = "/mo_bile/index.php?app=member_vr_order&wwi=order_list";
+
+    @FormUrlEncoded
+    @POST(GetVirtualOrder)
+    Flowable<BaseResponse<VirtualOrderBean>> getVirtualOrderList(
             @Field("key") String key,
             @Field("state_type") String state_type,
             @Field("order_key") String order_key,
@@ -180,7 +328,7 @@ public interface MeApiService {
      * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_info
      * 请求方式：post
      * 请求参数：
-     * 	address_id:地址id
+     * address_id:地址id
      */
     String GetAddress = "/mo_bile/index.php?app=member_address&wwi=address_info";
 
@@ -193,7 +341,7 @@ public interface MeApiService {
      * 请求地址：http://www.mingpinmall.cn/mo_bile/index.php?app=member_address&wwi=address_del
      * 请求方式：post
      * 请求参数：
-     * 	address_id:地址id
+     * address_id:地址id
      */
     String DelAddress = "/mo_bile/index.php?app=member_address&wwi=address_del";
 
@@ -247,14 +395,14 @@ public interface MeApiService {
     @FormUrlEncoded
     @POST(EditAddress)
     Flowable<BaseNothingBean> editAddress(@Field("key") String key,
-                                                     @Field("address_id") String address_id,
-                                                     @Field("is_default") int id_default,
-                                                     @Field("true_name") String name,
-                                                     @Field("city_id") String city_id,
-                                                     @Field("area_id") String area_id,
-                                                     @Field("area_info") String area_info,
-                                                     @Field("address") String address,
-                                                     @Field("mob_phone") String phone
+                                          @Field("address_id") String address_id,
+                                          @Field("is_default") int id_default,
+                                          @Field("true_name") String name,
+                                          @Field("city_id") String city_id,
+                                          @Field("area_id") String area_id,
+                                          @Field("area_info") String area_info,
+                                          @Field("address") String address,
+                                          @Field("mob_phone") String phone
     );
 
     /*我的商城中用户信息获取*/

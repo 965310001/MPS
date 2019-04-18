@@ -30,31 +30,17 @@ public class MeItemAdapter extends BaseMultiItemQuickAdapter<MeItemBean, BaseVie
         switch (helper.getItemViewType()) {
             case 0:
                 //横向五个按钮
-                helper.setText(R.id.tv_item1, item.getSubLabel()[0])
-                        .setText(R.id.tv_item2, item.getSubLabel()[1])
-                        .setText(R.id.tv_item3, item.getSubLabel()[2])
-                        .setText(R.id.tv_item4, item.getSubLabel()[3])
-                        .setText(R.id.tv_item5, item.getSubLabel()[4])
-                        .setText(R.id.tv_corner1, String.valueOf(item.getSubCorner()[0]))
-                        .setText(R.id.tv_corner2, String.valueOf(item.getSubCorner()[1]))
-                        .setText(R.id.tv_corner3, String.valueOf(item.getSubCorner()[2]))
-                        .setText(R.id.tv_corner4, String.valueOf(item.getSubCorner()[3]))
-                        .setText(R.id.tv_corner5, String.valueOf(item.getSubCorner()[4]))
-                        .setGone(R.id.tv_corner1, item.getSubCorner()[0] > 0)
-                        .setGone(R.id.tv_corner2, item.getSubCorner()[1] > 0)
-                        .setGone(R.id.tv_corner3, item.getSubCorner()[2] > 0)
-                        .setGone(R.id.tv_corner4, item.getSubCorner()[3] > 0)
-                        .setGone(R.id.tv_corner5, item.getSubCorner()[4] > 0)
-                        .setImageResource(R.id.iv_item1, item.getSubImage().getResourceId(0, 0))
-                        .setImageResource(R.id.iv_item2, item.getSubImage().getResourceId(1, 0))
-                        .setImageResource(R.id.iv_item3, item.getSubImage().getResourceId(2, 0))
-                        .setImageResource(R.id.iv_item4, item.getSubImage().getResourceId(3, 0))
-                        .setImageResource(R.id.iv_item5, item.getSubImage().getResourceId(4, 0))
-                        .addOnClickListener(R.id.ll_item1)
-                        .addOnClickListener(R.id.ll_item2)
-                        .addOnClickListener(R.id.ll_item3)
-                        .addOnClickListener(R.id.ll_item4)
-                        .addOnClickListener(R.id.ll_item5);
+                int[] textView = new int[]{R.id.tv_item1, R.id.tv_item2, R.id.tv_item3, R.id.tv_item4, R.id.tv_item5};
+                int[] textView2 = new int[]{R.id.tv_corner1, R.id.tv_corner2, R.id.tv_corner3, R.id.tv_corner4, R.id.tv_corner5};
+                int[] imageView = new int[]{R.id.iv_item1, R.id.iv_item2, R.id.iv_item3, R.id.iv_item4, R.id.iv_item5};
+                int[] linearLayout = new int[]{R.id.ll_item1, R.id.ll_item2, R.id.ll_item3, R.id.ll_item4, R.id.ll_item5};
+                for (int i = 0; i < 5; i++) {
+                    helper.setText(textView[i], item.getSubLabel()[i])
+                            .setText(textView2[i], String.valueOf(item.getSubCorner()[i]))
+                            .setGone(textView2[i], item.getSubCorner()[i] > 0)
+                            .setImageResource(imageView[i], item.getSubImage().getResourceId(i, 0))
+                            .addOnClickListener(linearLayout[i]);
+                }
                 break;
             case 1:
                 //正常按钮

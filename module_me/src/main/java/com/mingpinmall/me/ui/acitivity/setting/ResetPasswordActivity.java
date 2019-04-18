@@ -28,7 +28,7 @@ import com.mingpinmall.me.ui.bean.SmsBean;
  * 创建人：小斌
  * 创建时间: 2019/4/2
  **/
-@Route(path = ARouterConfig.ResetPasswordActivity)
+@Route(path = ARouterConfig.Me.ResetPasswordActivity)
 public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPasswordBinding, UserViewModel> implements TextWatcher {
 
     private ProgressDialog progressDialog;
@@ -57,6 +57,8 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
             case 1:
                 //重设支付密码
                 setTitle(R.string.title_resetPayPasswordActivity);
+                binding.edPassword.setHint("请输入支付密码");
+                binding.edPassword2.setHint("在次输入支付密码");
                 break;
             default:
                 finish();
@@ -82,6 +84,8 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
                         progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
                             @Override
                             public void onDismiss() {
+                                //发起更新数据
+                                LiveBus.getDefault().postEvent("Refresh_Data", "SettingActivity", "");
                                 finish();
                             }
                         });

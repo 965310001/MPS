@@ -45,14 +45,6 @@ public class UserViewModel extends AbsViewModel<UserRepository> {
     }
 
     /**
-     * 绑定手机修改时验证短信验证码
-     * @param code
-     */
-    public void checkPhonePsdSmsCode(String code) {
-        mRepository.checkPhonePsdSmsCode(code);
-    }
-
-    /**
      * 检查是否设置了支付密码
      */
     public void checkPayPassword() {
@@ -63,8 +55,14 @@ public class UserViewModel extends AbsViewModel<UserRepository> {
         mRepository.getSmsCode(type, phone);
     }
 
-    public void getResetSmsCode() {
-        mRepository.getResetSmsCode();
+    /*解除手机绑定*/
+    public void unBindPhone(String authCode) {
+        mRepository.unBindPhone(authCode);
+    }
+
+    /*绑定手机*/
+    public void bindPhone(String authCode) {
+        mRepository.bindPhone(authCode);
     }
 
 }

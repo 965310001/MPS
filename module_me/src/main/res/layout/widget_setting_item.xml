@@ -15,6 +15,7 @@
         android:background="@color/line_color" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
@@ -25,7 +26,6 @@
             android:id="@+id/iv_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_label"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:textColor="#1B1B1B"
             android:textSize="16sp"
+            android:layout_marginStart="6dp"
             app:layout_constraintBottom_toTopOf="@id/tv_description"
             app:layout_constraintEnd_toStartOf="@id/tv_sublabel"
             app:layout_constraintStart_toEndOf="@id/iv_icon"
@@ -48,13 +49,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="#424242"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_sublabel"
             app:layout_constraintStart_toStartOf="@id/tv_label"
             app:layout_constraintTop_toBottomOf="@id/tv_label"
-            tools:text="主标题内容" />
+            tools:text="主标题描述" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_sublabel"
@@ -68,7 +69,7 @@
             app:layout_constraintEnd_toStartOf="@id/tv_redPoint"
             app:layout_constraintStart_toEndOf="@id/tv_label"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="副标题内容" />
+            tools:text="尾部描述" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_redPoint"

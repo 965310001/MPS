@@ -27,13 +27,14 @@ import com.mingpinmall.me.databinding.ActivityResetCheckBinding;
 import com.mingpinmall.me.databinding.ActivityResetPasswordBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
+import com.xuexiang.xui.utils.CountDownButtonHelper;
 
 /**
  * 功能描述：重设密码
  * 创建人：小斌
  * 创建时间: 2019/4/2
  **/
-@Route(path = ARouterConfig.CheckAuthActivity)
+@Route(path = ARouterConfig.Me.CheckAuthActivity)
 public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBinding, UserViewModel> {
 
     public final static int RESET_PHONE = 0;
@@ -41,9 +42,12 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
     public final static int RESET_PAY_PASSWORD = 2;
 
     private ProgressDialog progressDialog;
+    private CountDownButtonHelper buttonHelper;
 
     @Autowired
     String phoneNumber;
+    @Autowired
+    String phoneNumber2;
 
     @Autowired
     int type;
@@ -61,7 +65,7 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
         switch (type) {
             case 0:
                 setTitle(R.string.title_resetPhoneActivity);
-                binding.tvChange.setVisibility(View.VISIBLE);
+//                binding.tvChange.setVisibility(View.VISIBLE); //通过支付密码验证 按钮
                 break;
             case 1:
                 setTitle(R.string.title_resetPasswordActivity);
@@ -73,7 +77,27 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
                 finish();
                 return;
         }
-        binding.tvPhone.setText(phoneNumber);
+        binding.tvPhone.setText(phoneNumber2);
+
+        setListener();
+    }
+
+    /*设置监听*/
+    private void setListener() {
+        buttonHelper = new CountDownButtonHelper(binding.tvGetPsdCode, 60);
+        buttonHelper.setOnCountDownListener(new CountDownButtonHelper.OnCountDownListener() {
+            @Override
+            public void onCountDown(int time) {
+                binding.tvGetPsdCode.setEnabled(false);
+                binding.tvGetPsdCode.setText(time + "s后可重新获取");
+            }
+
+            @Override
+            public void onFinished() {
+                binding.tvGetPsdCode.setEnabled(true);
+                binding.tvGetPsdCode.setText("重新获取");
+            }
+        });
         binding.edMsgCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -88,7 +112,7 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
                 binding.btnSublimt.setEnabled(s.length() >= 4);
             }
         });
-        binding.btnGetPsdCode.setOnClickListener(this);
+        binding.tvGetPsdCode.setOnClickListener(this);
         binding.btnSublimt.setOnClickListener(this);
         binding.tvChange.setOnClickListener(this);
     }
@@ -157,13 +181,13 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
                         //验证成功
                         switch (type) {
                             case 0:
-                                ActivityToActivity.toActivity(ARouterConfig.ResetPhoneActivity);
+                                ActivityToActivity.toActivity(ARouterConfig.Me.BindPhoneActivity);
                                 break;
                             case 1:
-                                ActivityToActivity.toActivity(ARouterConfig.ResetPasswordActivity);
+                                ActivityToActivity.toActivity(ARouterConfig.Me.ResetPasswordActivity, "type", 0);
                                 break;
                             case 2:
-                                ActivityToActivity.toActivity(ARouterConfig.ResetPayPwdActivity);
+                                ActivityToActivity.toActivity(ARouterConfig.Me.ResetPasswordActivity, "type", 1);
                                 break;
                         }
                         finish();
@@ -182,8 +206,12 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
 
     @Override
     public void onViewClicked(int viewId) {
-        if (viewId == R.id.btn_getPsdCode) {
-            mViewModel.getResetSmsCode();
+        if (viewId == R.id.tv_getPsdCode) {
+            if (type == 0) {
+                mViewModel.getSmsCode(4, phoneNumber2);
+            } else {
+                mViewModel.getSmsCode(5, phoneNumber2);
+            }
         } else if (viewId == R.id.tv_change) {
             //通过支付密码修改手机
             //检查是否设置了支付密码
@@ -192,10 +220,17 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
         } else if (viewId == R.id.btn_sublimt) {
             //点击下一步
             binding.btnSublimt.setEnabled(false);
-            String smsCode = binding.edMsgCode.getText().toString().trim();
+            final String smsCode = binding.edMsgCode.getText().toString().trim();
             switch (type) {
                 case 0:
-                    mViewModel.checkPhonePsdSmsCode(smsCode);
+                    MaterialDialogUtils.showBasicDialog(CheckAuthActivity.this, "继续将解除当前已绑定的手机，是否继续？")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    mViewModel.unBindPhone(smsCode);
+                                }
+                            })
+                            .show();
                     break;
                 case 1:
                     mViewModel.checkLoginPsdSmsCode(smsCode);

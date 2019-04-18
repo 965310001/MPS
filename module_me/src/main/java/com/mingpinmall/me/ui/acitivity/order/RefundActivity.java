@@ -19,7 +19,7 @@ import com.xuexiang.xui.widget.tabbar.TabControlView;
  * 创建人：小斌
  * 创建时间: 2019/3/27
  **/
-@Route(path = ARouterConfig.REFUNDACTIVITY)
+@Route(path = ARouterConfig.Me.REFUNDACTIVITY)
 public class RefundActivity extends BaseActivity<ActivityCollectionBinding> {
 
     @Autowired

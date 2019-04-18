@@ -25,8 +25,15 @@ import com.tqzhang.stateview.stateview.BaseStateControl;
  * @author GuoFeng
  * @date :2019/1/17 14:57
  * @description: 基类Fragment
+ *
+ * 修订：徐小斌
+ * 最后修订时间：2019/4/18
+ * 全部修订内容：
+ * 1.加入FragmentUserVisibleController处理fragment可见和不可见时在某些情况下不能正常触发回调的问题。
+ * 2.加入StatusBarUtils沉浸式状态栏控制方法：setDarkMode(boolean darkMode)  setTitlePadding(View view)
  */
-public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment implements ILoadManager, FragmentUserVisibleController.UserVisibleCallback {
+public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment implements ILoadManager,
+        FragmentUserVisibleController.UserVisibleCallback {
 
     private View rootView;
 
@@ -173,7 +180,7 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        this.activity = null;
+
     }
 
     @Override
@@ -186,12 +193,12 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     public void onDetach() {
         super.onDetach();
         this.activity = null;
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        this.activity = null;
         if (null != binding) {
             binding.unbind();
         }
@@ -225,7 +232,7 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
 
     @Override
     public void callSuperSetUserVisibleHint(boolean isVisibleToUser) {
-
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     @Override

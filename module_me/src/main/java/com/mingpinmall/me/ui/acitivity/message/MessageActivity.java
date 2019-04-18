@@ -13,7 +13,7 @@ import com.mingpinmall.me.databinding.ActivityMessageBinding;
  * 创建人：小斌
  * 创建时间: 2019/3/27
  **/
-@Route(path = ARouterConfig.MESSAGEACTIVITY)
+@Route(path = ARouterConfig.Me.MESSAGEACTIVITY)
 public class MessageActivity extends BaseActivity<ActivityMessageBinding> {
 
     @Override

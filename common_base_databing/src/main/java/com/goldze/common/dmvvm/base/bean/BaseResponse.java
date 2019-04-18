@@ -2,6 +2,8 @@ package com.goldze.common.dmvvm.base.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * @author GuoFeng
  * @date :2019/1/15 20:53
@@ -20,6 +22,19 @@ public class BaseResponse<T> extends BaseBean {
     private String message;
     @SerializedName("datas")
     private T data;
+
+    /**
+     * 补充 部分接口需要使用到
+     */
+    private List<T> newdata;
+
+    public List<T> getNewdata() {
+        return newdata;
+    }
+
+    public void setNewdata(List<T> newdata) {
+        this.newdata = newdata;
+    }
 
     /**
      * 补充

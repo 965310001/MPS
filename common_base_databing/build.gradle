@@ -129,6 +129,8 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
 
+    api 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
+
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'
     }

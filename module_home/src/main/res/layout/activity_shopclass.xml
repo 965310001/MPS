@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.kongzue.stacklabelview.StackLabel
+            android:id="@+id/stackLabelView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:deleteButton="false"
+            app:itemMargin="4dp"
+            app:maxSelectNum="1"
+            app:paddingHorizontal="12dp"
+            app:paddingVertical="8dp"
+            app:selectMode="true"
+            app:textColor="#e6000000"
+            app:textSize="12dp" />
+
+    </LinearLayout>
+</layout>

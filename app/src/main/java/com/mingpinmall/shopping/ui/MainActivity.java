@@ -11,14 +11,13 @@ import com.goldze.common.dmvvm.activity.BottomNavigationActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.manage.AppManager;
-import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.heima.tabview.library.TabView;
 import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.cart.ui.CartFragment;
-import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
+import com.mingpinmall.classz.ui.ClassifyFragment;
 import com.mingpinmall.home.ui.HomeFragment;
 import com.mingpinmall.me.ui.MeFragment;
 import com.mingpinmall.shopping.R;
@@ -80,13 +79,16 @@ public class MainActivity extends BottomNavigationActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             checkUpdate();
         }
-        /*测试*/
-//        ActivityToActivity.toActivity(ARouterConfig.classify.INVOICEACTIVITY);
-        /*测试商品*/
-//        ActivityToActivity.goShoppingDetails("109928");
+//        ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
 
-        /*店铺商家*/
-        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
+        LiveBus.getDefault().subscribe("Main", "tab").observeForever(new Observer<Object>() {
+            @Override
+            public void onChanged(@Nullable Object o) {
+                int index = (int) o;
+                LinearLayout linearLayout = (LinearLayout) binding.tabView.getChildAt(0);
+                linearLayout.getChildAt(index).callOnClick();
+            }
+        });
     }
 
     private void checkUpdate() {

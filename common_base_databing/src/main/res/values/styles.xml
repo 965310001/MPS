@@ -24,6 +24,10 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+    <style name="dialogWindowAnim" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_show</item>
+        <item name="android:windowExitAnimation">@anim/dialog_hide</item>
+    </style>
 
     <!--******************************************************我的***************************************-->
     <!-- <style name="LSettingItem" parent="@android:s">

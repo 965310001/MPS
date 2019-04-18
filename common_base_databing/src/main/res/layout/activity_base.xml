@@ -16,7 +16,7 @@
             android:visibility="gone" />
         -->
 
-        <RelativeLayout
+        <com.goldze.common.dmvvm.widget.ImmerseGroup
             android:id="@+id/rl_title_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
 
             <include layout="@layout/item_title_layout" />
 
-        </RelativeLayout>
+        </com.goldze.common.dmvvm.widget.ImmerseGroup>
 
         <FrameLayout
             android:id="@+id/fl_content"
