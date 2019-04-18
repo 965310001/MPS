@@ -18,7 +18,7 @@
     <!-- 主页 - 我的 -->
     <string-array name="home_me_order_items" >
         <item>待付款</item>
-        <item>待收款</item>
+        <item>待收货</item>
         <item>待自提</item>
         <item>待评价</item>
         <item>退款/退货</item>

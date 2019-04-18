@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 退出时动画效果 -->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <alpha
+        android:duration="130"
+        android:fromAlpha="1"
+        android:toAlpha="0.1" />
+
+    <scale
+        android:duration="135"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="0.8"
+        android:toYScale="0.8" />
+
+</set>

@@ -16,6 +16,45 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         super(application);
     }
 
+    /*获取退款列表*/
+    public void getRefundList(int curPage) {
+        mRepository.getRefundList(curPage);
+    }
+
+    /**
+     * 获取虚拟订单详细内容 中的店铺地址
+     * @param orderId
+     */
+    public void getVitrualOrderStoreAddrs(String orderId) {
+        mRepository.getVitrualOrderStoreAddrs(orderId);
+    }
+
+    /**
+     * 获取虚拟订单详细内容
+     * @param orderId
+     */
+    public void getVitrualOrderInformation(String orderId) {
+        mRepository.getVitrualOrderInformation(orderId);
+    }
+
+    /**
+     * 取消虚拟订单
+     * @param eventKey
+     * @param orderId
+     */
+    public void cancelVirtualOrder(String eventKey, String orderId) {
+        mRepository.cancelVirtualOrder(eventKey, orderId);
+    }
+
+    /**
+     * 取消订单
+     * @param eventKey
+     * @param orderId
+     */
+    public void cancelOrder(String eventKey, String orderId) {
+        mRepository.cancelOrder(eventKey, orderId);
+    }
+
     /**
      * 分销管理
      * @param wwi

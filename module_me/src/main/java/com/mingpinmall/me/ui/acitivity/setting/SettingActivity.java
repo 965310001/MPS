@@ -19,6 +19,7 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivitySettingBinding;
 import com.mingpinmall.me.ui.adapter.SettingAdapter;
@@ -189,10 +190,10 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                         break;
                     case 6:
                         //退出登录
-                        MaterialDialogUtils.showBasicDialog(SettingActivity.this, getString(R.string.text_isLoginOut))
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        TextDialog.showBaseDialog(activity, "登出提示", getString(R.string.text_isLoginOut),
+                                new TextDialog.SingleButtonCallback() {
                                     @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    public void onClick() {
                                         LiveBus.getDefault().postEvent("LOGIN_OUT", true);
                                         SharePreferenceUtil.saveUser(null);
                                         SharePreferenceUtil.saveKeyValue("UserPhone", "");

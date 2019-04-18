@@ -15,10 +15,9 @@
             </intent-filter>
         </activity>
 
-        <activity xmlns:tools="http://schemas.android.com/tools"
+        <activity
             android:name=".ui.activity.qrCode.ScanQRCodeActivity"
-            android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation" />
+            android:screenOrientation="fullSensor" />
     </application>
 
 </manifest>

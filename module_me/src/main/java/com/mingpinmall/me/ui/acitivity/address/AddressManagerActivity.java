@@ -16,6 +16,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityAddressmanagerBinding;
@@ -93,10 +94,10 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
      * 删除地址
      */
     private void deleteAddress(final String addressId) {
-        MaterialDialogUtils.showBasicDialog(AddressManagerActivity.this, "删除提示")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
+        TextDialog.showBaseDialog(activity, "删除提示", "确定要删除这个地址吗？",
+                new TextDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onClick() {
                         progressDialog.onLoading("");
                         mViewModel.delAddress(addressId);
                     }

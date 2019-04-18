@@ -3,17 +3,7 @@ package com.mingpinmall.me.ui.api;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.mingpinmall.me.ui.bean.BaseCheckBean;
-import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
-import com.mingpinmall.me.ui.bean.CityBean;
-import com.mingpinmall.me.ui.bean.FootprintBean;
-import com.mingpinmall.me.ui.bean.MyInfoBean;
-import com.mingpinmall.me.ui.bean.OrderInformationBean;
-import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
-import com.mingpinmall.me.ui.bean.ProductCollectionBean;
-import com.mingpinmall.me.ui.bean.PropertyBean;
-import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
-import com.mingpinmall.me.ui.bean.VirtualOrderBean;
+import com.mingpinmall.me.ui.bean.*;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
@@ -28,6 +18,71 @@ import retrofit2.http.Query;
  * 创建时间: 2019/4/1
  **/
 public interface MeApiService {
+
+    /**
+     * 描述：退款列表
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_refund&wwi=get_refund_list
+     * curpage=1&page=10
+     * 请求方式：get
+     * 请求参数：
+     * 	无
+     */
+    String REFUND_LIST = "/mo_bile/index.php?app=member_refund&wwi=get_refund_list";
+
+    @GET(REFUND_LIST)
+    Flowable<BaseResponse<RefundBean>> getRefundList(@Query("key") String key, @Query("page") int page, @Query("curpage") int curpage);
+
+    /**
+     * 描述：取消订单
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_cancel
+     * 请求方式：post
+     * 请求参数：
+     * 	order_id:订单id
+     */
+    String CANCEL_ORDER = "/mo_bile/index.php?app=member_order&wwi=order_cancel";
+
+    @POST(CANCEL_ORDER)
+    @FormUrlEncoded
+    Flowable<BaseResponse<BaseNothingBean>> cancelOrder(@Field("key") String key, @Field("order_id") String order_id);
+
+    /**
+     * 描述：取消订单
+     * 请求地址：
+     * https://www.mingpinmall.cn/mo_bile/index.php?app=member_vr_order&wwi=order_cancel
+     * 请求方式：post
+     * 请求参数：
+     * Order_id:订单id
+     * Key:用户key
+     */
+    String CANCEL_VR_ORDER = "/mo_bile/index.php?app=member_vr_order&wwi=order_cancel";
+
+    @POST(CANCEL_VR_ORDER)
+    @FormUrlEncoded
+    Flowable<BaseResponse<BaseNothingBean>> cancelVirtualOrder(@Field("key") String key, @Field("order_id") String order_id);
+
+    /**
+     * 描述：虚拟订单详情
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=goods&wwi=store_o2o_addr
+     * 请求方式：get
+     * 请求参数：
+     * 	store_id:店铺id
+     */
+    String V_ORDER_ADDRS = "/mo_bile/index.php?app=goods&wwi=store_o2o_addr";
+
+    @GET(V_ORDER_ADDRS)
+    Flowable<BaseResponse<VirtualStoreAddrsBean>> getVitrualOrderStoreAddrs(@Query("key") String key, @Query("store_id") String order_id);
+
+    /**
+     * 描述：虚拟订单详情
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_vr_order&wwi=order_info
+     * 请求方式：get
+     * 请求参数：
+     * 	order_id:订单id
+     */
+    String V_ORDER_IMFORMATION = "/mo_bile/index.php?app=member_vr_order&wwi=order_info";
+
+    @GET(V_ORDER_IMFORMATION)
+    Flowable<BaseResponse<VirtualInformationBean>> getVitrualOrderInformation(@Query("key") String key, @Query("order_id") String order_id);
 
     String redPacket = "/mo_bile/index.php?app=member_redpacket&wwi=redpacket_list&key=9d818aeef03b5778b2a3d1b3eb0de5bb&curpage=1&page=10";
 

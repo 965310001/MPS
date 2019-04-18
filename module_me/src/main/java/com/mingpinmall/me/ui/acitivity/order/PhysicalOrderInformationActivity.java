@@ -4,18 +4,23 @@ import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.databinding.ActivityOrderInformationBinding;
+import com.mingpinmall.me.databinding.ActivityPhysicalOrderInformationBinding;
 import com.mingpinmall.me.ui.adapter.PhysicalOrderInformationListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
@@ -26,7 +31,7 @@ import com.mingpinmall.me.ui.bean.OrderInformationBean;
  * 创建时间: 2019/4/16
  **/
 @Route(path = ARouterConfig.Me.PHYSICALORDERINFORMATIONACTIVITY)
-public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<ActivityOrderInformationBinding, MeViewModel> {
+public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<ActivityPhysicalOrderInformationBinding, MeViewModel> {
 
     private String orderId;
     private PhysicalOrderInformationListAdapter listAdapter;
@@ -72,11 +77,25 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
                         ToastUtils.showShort(s);
                     }
                 });
+        registerObserver("PL_INFORMATION", "REFRESH_ORDER_LIST", OrderInformationBean.class)
+                .observeForever(new Observer<OrderInformationBean>() {
+                    @Override
+                    public void onChanged(@Nullable OrderInformationBean orderInformationBean) {
+                        setResult(100);
+                        finish();
+                    }
+                });
+        registerObserver("PL_INFORMATION", "DO_SOMETHING_ERR", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+                        ToastUtils.showShort(s);
+                    }
+                });
     }
 
     /**
      * 填充内容
-     *
      */
     private void showDataInfo() {
         if (data == null) {
@@ -85,6 +104,7 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         /*交易状态*/
         binding.tvSublabel.setText(data.getState_desc());
         binding.tvDescription.setText(data.getOrder_tips());
+        binding.tvDescription.setVisibility(data.getOrder_tips().isEmpty() ? View.GONE : View.VISIBLE);
         /*收货人 收货地址*/
         binding.sivItem2.setTitle("收货人：" + data.getReciver_name() + "  " + data.getReciver_phone())
                 .setDescription("收货地址：" + data.getReciver_addr());
@@ -121,8 +141,18 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
     public void onViewClicked(int viewId) {
         if (viewId == R.id.bt_cancelOrder) {
             //取消订单
-            setResult(100);
-            finish();
+            if (data == null) {
+                return;
+            }
+            TextDialog.showBaseDialog(activity, "提示", "确定取消订单？",
+                    new TextDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick() {
+
+                            mViewModel.cancelOrder("INFORMATION", data.getOrder_id());
+                        }
+                    })
+                    .show();
         } else if (viewId == R.id.ll_shopContent) {
             //点击店铺
         } else if (viewId == R.id.fl_call) {
@@ -139,9 +169,10 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
 
     /**
      * 拨打电话（直接拨打电话）
+     *
      * @param phoneNum 电话号码
      */
-    private void callPhone(String phoneNum){
+    private void callPhone(String phoneNum) {
         Intent intent = new Intent(Intent.ACTION_CALL);
         Uri data = Uri.parse("tel:" + phoneNum);
         intent.setData(data);
@@ -155,6 +186,6 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_order_information;
+        return R.layout.activity_physical_order_information;
     }
 }

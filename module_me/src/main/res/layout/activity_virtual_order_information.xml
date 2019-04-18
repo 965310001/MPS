@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mingpinmall.me.ui.bean.OrderInformationBean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:minHeight="48dp"
+                    android:padding="12dp">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="6dp"
+                        android:src="@drawable/ic_order"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_label"
+                        app:layout_constraintEnd_toStartOf="@id/tv_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_label" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="交易状态"
+                        android:textColor="#1B1B1B"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_description"
+                        app:layout_constraintEnd_toStartOf="@id/tv_sublabel"
+                        app:layout_constraintStart_toEndOf="@id/iv_icon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_sublabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_marginStart="4dp"
+                        android:text="待付款"
+                        android:textColor="@color/app_theme_d61619"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_label"
+                        app:layout_constraintTop_toTopOf="@id/tv_label" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white">
+
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:id="@+id/siv_item2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:description="17681553279"
+                        app:image="@drawable/ic_mobile_phone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btn_sendCode"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:mode="NoMoreIcon"
+                        app:smallIcon="true"
+                        app:title="买家手机" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_sendCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/bg_btn_dark"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="重新发送兑换码"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/siv_item2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/siv_item2"
+                        app:layout_constraintTop_toTopOf="@id/siv_item2" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <com.mingpinmall.me.ui.widget.SettingItemView
+                    android:id="@+id/siv_item3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:description="留言内容"
+                    app:image="@drawable/ic_leavemsg"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:mode="NoMoreIcon"
+                    app:smallIcon="true"
+                    app:title="买家留言" />
+
+                <com.mingpinmall.me.ui.widget.SettingItemView
+                    android:id="@+id/siv_item4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:image="@drawable/ic_convert"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:mode="NoMoreIcon_NoDescription"
+                    app:smallIcon="true"
+                    app:subTitle="有效期至2020-03-30"
+                    app:title="虚拟兑换码" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.mingpinmall.me.ui.widget.SettingItemView
+                    android:id="@+id/siv_item5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:image="@drawable/ic_gps"
+                    app:mode="NoMoreIcon_NoDescription"
+                    app:smallIcon="true"
+                    app:title="商家信息" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <!-- 商家信息 -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <com.mingpinmall.me.ui.widget.SettingItemView
+                    android:id="@+id/siv_goMaps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mode="NoLeftImage_NoDescription"
+                    app:smallIcon="true"
+                    app:title="查看商家地址" />
+
+                <com.mingpinmall.me.ui.widget.SettingItemView
+                    android:id="@+id/siv_item6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:image="@drawable/ic_store_b"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:mode="NoMoreIcon_NoDescription"
+                    app:smallIcon="true"
+                    app:title="订单商品" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cl_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_image"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_goodsName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_goodsName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="18dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@id/tv_payMoney"
+                        app:layout_constraintStart_toEndOf="@id/iv_image"
+                        app:layout_constraintTop_toTopOf="@id/iv_image"
+                        tools:text="这里是商品标题内容" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_payMoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/iv_image"
+                        tools:text="¥48.00" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_payMoney"
+                        tools:text="x1" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <!-- 订单编号和时间 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_order_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="订单编号：20000000055887" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_order_createTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="创建时间：2019-04-16 14:48:11" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                android:id="@+id/bt_cancelOrder"
+                style="@style/RoundButton.Auto"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:text="@string/btn_text_cancelOrder"
+                android:textColor="@color/dark"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:rb_backgroundColor="@color/transparent"
+                app:rb_borderColor="@color/dark"
+                app:rb_borderWidth="1dp"
+                app:rb_radius="5dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</layout>

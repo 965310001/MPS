@@ -2,10 +2,9 @@
     package="com.mingpinmall.home">
 
     <application>
-        <activity xmlns:tools="http://schemas.android.com/tools"
+        <activity
             android:name=".ui.activity.qrCode.ScanQRCodeActivity"
-            android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation" />
+            android:screenOrientation="fullSensor" />
         <activity android:name=".ui.activity.shopStreet.ShopStreetActivity" />
         <activity android:name=".ui.activity.shopStreet.ShopClassActivity" />
     </application>

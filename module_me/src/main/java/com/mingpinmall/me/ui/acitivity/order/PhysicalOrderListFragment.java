@@ -10,10 +10,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.PhysicalOrderListAdapter;
@@ -107,6 +111,18 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 //子控件点击事件
+                final PhysicalOrderBean orderBean = physicalOrderListAdapter.getItem(position);
+                if (view.getId() == R.id.bt_cancelOrder) {
+                    //取消订单
+                    TextDialog.showBaseDialog(activity, "提示", "确定取消订单？",
+                            new TextDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick() {
+                                    mViewModel.cancelOrder(EVENT_KEY, orderBean.getOrder_id());
+                                }
+                            })
+                            .show();
+                }
             }
         });
     }
@@ -124,6 +140,22 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
     @Override
     protected void dataObserver() {
         super.dataObserver();
+        registerObserver(EVENT_KEY, "REFRESH_ORDER_LIST")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object o) {
+                        //操作成功后刷新列表
+                        lazyLoad();
+                    }
+                });
+        registerObserver(EVENT_KEY, "DO_SOMETHING_ERR", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String o) {
+                        //操作失败
+                        ToastUtils.showShort(o);
+                    }
+                });
         registerObserver(EVENT_KEY, EVENT_KEY + "success")
                 .observeForever(new Observer<Object>() {
                     @Override
