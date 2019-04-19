@@ -97,7 +97,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
                 .observe(this, new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
-                        KLog.i("" + type);
+//                        KLog.i("" + type);
                         setData(response.getDatas().getGoods_list());
                     }
                 });

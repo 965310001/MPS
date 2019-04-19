@@ -41,9 +41,6 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
         super.getRemoteData();
 
         String storeId = ((StoreActivity) activity).getStoreId();
-//        if (BuildConfig.DEBUG) {
-//            storeId = "7";// TODO: 2019/4/16 删除
-//        }
         mViewModel.getStoreInfo(storeId, "",
                 Constants.STORE_GOODS_RANK_KEY[0]);
     }
@@ -114,12 +111,11 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int i) {
-                int span = 1;
                 if (adapter.getItems().get(i) instanceof TypeInfo ||
                         adapter.getItems().get(i) instanceof GoodsListInfo) {
-                    span = 2;
+                    return 2;
                 }
-                return span;
+                return 1;
             }
         });
         return gridLayoutManager;

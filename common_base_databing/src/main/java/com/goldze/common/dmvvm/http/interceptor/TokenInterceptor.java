@@ -8,11 +8,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
+import java.util.Iterator;
+import java.util.Set;
 
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
@@ -44,7 +49,23 @@ public class TokenInterceptor implements Interceptor {
         }
         String bodyString = buffer.clone().readString(charset);
 
-        KLog.i("\n" + bodyString);
+        /*************** 查看url *************/
+//        if (request.method().equals("POST")) {
+//            KLog.i(request.body().toString());
+//            RequestBody requestBody = request.body();
+//            MediaType rContentType = null;
+//            if (requestBody != null) {
+//                rContentType = request.body().contentType();
+//            }
+//            String rSubtype = null;
+//            if (rContentType != null) {
+//                rSubtype = rContentType.subtype();
+//            }
+//        }
+        /****************************/
+
+
+        KLog.i("\n" + request.url() + "\n" + bodyString);
         try {
             jsonObject = new JSONObject(bodyString);
             if (jsonObject.has("login") &&

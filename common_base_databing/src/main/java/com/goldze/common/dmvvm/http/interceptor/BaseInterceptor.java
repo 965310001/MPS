@@ -42,7 +42,7 @@ public class BaseInterceptor implements Interceptor {
             /*KLog.i("TAG", token);*/
             builder.addHeader("X-ECAPI-Authorization", token);
         }
-        KLog.i("-------------------------BaseInterceptor----------------------------");
+//        KLog.i("-------------------------BaseInterceptor----------------------------");
         //请求信息
         return chain.proceed(builder.build());
 //        return chain.proceed(request);
