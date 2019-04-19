@@ -79,7 +79,7 @@ public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> 
 
     @Override
     public void onItemClick(View view, int i, Object object) {
-        // TODO: 2019/4/18 待修改 
-        ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", ((StoreActivity) activity).getStoreId());
+        // TODO: 2019/4/18 待修改
+        ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY2, "id", ((StoreActivity) activity).getStoreId());
     }
 }

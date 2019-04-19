@@ -1,9 +1,7 @@
 package com.mingpinmall.classz.ui.activity.store;
 
 import android.arch.lifecycle.Observer;
-import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -11,30 +9,17 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
-import com.mingpinmall.classz.databinding.ActivityStoreBinding;
 import com.mingpinmall.classz.databinding.ActivityStoreIntroBinding;
-import com.mingpinmall.classz.ui.activity.classiflist.ProductsFragment;
-import com.mingpinmall.classz.ui.activity.store.fragment.StoreNewGoodsFragment;
-import com.mingpinmall.classz.ui.activity.store.fragment.StorePromotionFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
-import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
-import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
 import com.socks.library.KLog;
-import com.trecyclerview.adapter.ItemData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 店铺介绍
@@ -65,6 +50,7 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
     @Override
     protected void initData() {
         super.initData();
+        showLoading();
         mViewModel.getStoreIntro(storeId, Constants.STOREINTRO[0]);
     }
 
@@ -81,6 +67,7 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
                 .observeForever(new Observer<BaseResponse>() {
                     @Override
                     public void onChanged(@io.reactivex.annotations.Nullable BaseResponse response) {
+                        showSuccess();
                         if (response.isSuccess()) {
                             BaseResponse<StoreInfo> data = response;
                             try {

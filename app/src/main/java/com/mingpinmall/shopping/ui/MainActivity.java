@@ -15,6 +15,7 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.manage.AppManager;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -93,6 +94,9 @@ public class MainActivity extends BottomNavigationActivity {
                 linearLayout.getChildAt(index).callOnClick();
             }
         });
+
+        // TODO: 2019/4/19 测试
+        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
     }
 
     private void checkUpdate() {

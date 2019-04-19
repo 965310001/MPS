@@ -22,6 +22,7 @@ import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
+import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 import com.socks.library.KLog;
 
 import java.util.HashMap;
@@ -597,6 +598,103 @@ public class ClassifyRepository extends BaseRepository {
 
                     }
                 }));
+    }
+
+    /*店铺列表*/
+    public void getStoreShappingList(String bId, String curpage, String keyword, final String typeId,
+                                     String areaId, String priceFrom, String priceTo,
+                                     String key, String order, String ci, String st) {
+        Map<String, Object> map = parames("store", "store_goods");
+        if (!TextUtils.isEmpty(bId)) {
+            map.put("store_id", bId);
+        } else if (!TextUtils.isEmpty(keyword)) {
+            map.put("keyword", keyword);
+        }
+        if (!TextUtils.isEmpty(ci)) map.put("ci", ci);
+        if (!TextUtils.isEmpty(st)) map.put("st", st);
+        if (!TextUtils.isEmpty(areaId)) map.put("area_id", areaId);//地区
+        map.put("price_from", priceFrom);//价格区间最低范围
+        map.put("price_to", priceTo);// 价格区间最高范围
+        if (!TextUtils.isEmpty(key)) map.put("key", key);/*使用排序*/
+        if (!TextUtils.isEmpty(order)) map.put("order", order);/*使用排序*/
+        for (String s : st.split("_")) map.put(s, "1");
+        map.put("page", Constants.PAGE_RN);
+        map.put("curpage", curpage);
+        addDisposable(apiService.getShappingList(map)
+                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .subscribeWith(new RxSubscriber<GoodsListInfo>() {
+                    @Override
+                    public void onSuccess(GoodsListInfo result) {
+                        sendData(Constants.STOREINTRO_LIST[0], typeId, result);
+                        showPageState(Constants.STOREINTRO_LIST[1], typeId, StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        showPageState(Constants.STOREINTRO_LIST[1], typeId, StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.STOREINTRO_LIST[1], typeId, StateConstants.NET_WORK_STATE);
+                    }
+                })
+        );
+
+    }
+
+    /*店铺代金券*/
+    public void getVoucherTplList(String storeId, String gettype, final Object eventKey) {
+        Map<String, Object> map = parames("voucher", "voucher_tpl_list");
+        map.put("store_id", storeId);
+        map.put("gettype", gettype);
+        addDisposable(apiService.getVoucherTplList(map)
+                .compose(RxSchedulers.<BaseResponse<VoucherInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<VoucherInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<VoucherInfo> result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
+    }
+
+    /*店铺代金券*/
+    public void getVoucherFreeex(String storeId, final Object eventKey) {
+        Map<String, Object> map = parames("member_voucher", "voucher_freeex");
+        map.put("tid", storeId);
+        addDisposable(apiService.execute(map)
+                .compose(RxSchedulers.<ResultBean>io_main())
+                .subscribeWith(new RxSubscriber<ResultBean>() {
+                    @Override
+                    public void onSuccess(ResultBean result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
     }
 
 

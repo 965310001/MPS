@@ -206,37 +206,40 @@
                 android:visibility="visible">
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:onClick="getStoreIntro"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
                     android:padding="@dimen/dp_12"
-                    android:text="店铺推荐" />
+                    android:text="店铺介绍" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="getVoucherTplList"
                     android:padding="@dimen/dp_12"
-                    android:text="店铺推荐" />
+                    android:text="免费领劵" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="getContactService"
                     android:padding="@dimen/dp_12"
-                    android:text="店铺推荐" />
+                    android:text="联系客服" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="getGoodsClassif"
                     android:padding="@dimen/dp_12"
-                    android:text="店铺推荐" />
+                    android:text="商品分类" />
             </LinearLayout>
 
         </RelativeLayout>

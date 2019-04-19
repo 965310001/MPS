@@ -56,4 +56,11 @@ public interface Constants {
 
     /*店铺介绍*/
     Object[] STOREINTRO = {"STOREPROMOTION_KEY", "STOREPROMOTION_KEY_STATE"};/*店铺介绍*/
+
+    /*店铺列表*/
+    Object[] STOREINTRO_LIST = {"STOREINTRO_LIST_KEY", "STOREINTRO_LIST_STATE"};/*店铺介绍*/
+
+    /**/
+    Object[] VOUCHER = {"VOUCHER_KEY", "VOUCHER_LIST_STATE",
+            "VOUCHER_FREEEX_KEY"};/*代金券 2*/
 }

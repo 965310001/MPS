@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui.activity.classiflist;
+package com.mingpinmall.classz.ui.activity.store;
 
 import android.arch.lifecycle.Observer;
 import android.databinding.DataBindingUtil;
@@ -9,13 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.base.mvvm.base.BaseListActivity;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
-import com.mingpinmall.classz.ui.activity.store.StoreActivity;
-import com.mingpinmall.classz.ui.activity.store.StoreHomeFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
@@ -31,7 +32,8 @@ import java.util.Arrays;
 /**
  * 商品分类list
  */
-public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implements View.OnClickListener {
+@Route(path = ARouterConfig.classify.PRODUCTSACTIVITY2)
+public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel> {
 
     @Autowired
     String id;
@@ -53,19 +55,12 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
 
     private FilterTab filterTab0;
 
-    public static ProductsFragment newInstance(String id) {
-        ProductsFragment fragment = new ProductsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("id", id);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-
     @Override
-    public void initView(Bundle state) {
-        super.initView(state);
-        ItemTabsegmentBinding itemTabsegmentBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_tabsegment, null, false);
+    protected void initViews(Bundle savedInstanceState) {
+        ARouter.getInstance().inject(this);
+        super.initViews(savedInstanceState);
+
+        ItemTabsegmentBinding itemTabsegmentBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.item_tabsegment, null, false);
         binding.llRecyclerview.addView(itemTabsegmentBinding.getRoot(), 0);
         filterTab0 = itemTabsegmentBinding.filterTab0;
         filterTab0.setFilterTabSelected(true);
@@ -77,27 +72,27 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
         }
     }
 
-
     /*获取更多数据*/
     @Override
     protected void getRemoteData() {
         super.getRemoteData();
-        id = ((StoreActivity) activity).getStoreId();
-//        mViewModel.getShappingList(id, String.valueOf(page), keyword,
-//                String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
+
         KLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
-        mViewModel.getStoreGoods(id, page, key, areaId, priceFrom, priceTo, order, ci, st, Constants.STORE_GOODS_RANK_KEY[2]);
+
+        mViewModel.getStoreShappingList(id, String.valueOf(page),
+                keyword, String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
     }
+
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
 
-        registerObserver(Constants.STORE_GOODS_RANK_KEY[2], GoodsListInfo.class)
+        registerObserver(Constants.STOREINTRO_LIST[0], String.valueOf(type), GoodsListInfo.class)
                 .observe(this, new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
-                        KLog.i("" + type);
+//                        KLog.i("" + type);
                         setData(response.getDatas().getGoods_list());
                     }
                 });
@@ -108,8 +103,8 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                     public void onChanged(@Nullable String s) {
                         filterTab0.setText(s);
                         if (s.equals("综合排序")) {
-                            key = "";
-                            order = "";
+                            key = "0";
+                            order = "0";
                         } else if (s.equals("人气排序")) {
                             key = "5";
                             order = "2";
@@ -120,7 +115,7 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                             key = "2";
                             order = "1";
                         }
-//                        keyword = "";
+                        keyword = "";
 //                        areaId = "";
 //                        priceFrom = "";
 //                        priceTo = "";
@@ -132,7 +127,7 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
 
         // TODO: 2019/4/9 待测试
         /*筛选*/
-        registerObserver(Constants.CUSTOMPOPWINDOW_KEY[1], ScreenInfo.class)
+        registerObserver(Constants.STOREINTRO_LIST[1], ScreenInfo.class)
                 .observe(this, new Observer<ScreenInfo>() {
                     @Override
                     public void onChanged(@Nullable ScreenInfo reponse) {
@@ -153,20 +148,18 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                         onRefresh();
                     }
                 });
-
-
     }
 
     @Override
     protected DelegateAdapter createAdapter() {
         return AdapterPool.newInstance()
-                .getProductsAdapter(getActivity())
+                .getProductsAdapter(this)
                 .build();
     }
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.STORE_GOODS_RANK_KEY[1];
+        return Constants.STOREINTRO_LIST[1];
     }
 
     @Override
@@ -180,7 +173,7 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
             if (i == R.id.filter_tab0) {
                 if (null == customPopWindow) {
                     customPopWindow =
-                            new CustomPopWindow.Builder(getActivity()).setColumnCount(3)//设置列数，测试2.3.4.5没问题
+                            new CustomPopWindow.Builder(ProductsActivity2.this).setColumnCount(3)//设置列数，测试2.3.4.5没问题
                                     .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
                                     .setColorBg(R.color.color_f8f8f8).build().createPop();
                 }
@@ -199,13 +192,12 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                 onRefresh();
             } else if (i == R.id.filter_tab3) {
                 if (null == screeningPopWindow) {
-                    screeningPopWindow = new ScreeningPopWindow.Builder(getActivity())
+                    screeningPopWindow = new ScreeningPopWindow.Builder(ProductsActivity2.this)
                             .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
                             .setColorBg(R.color.color_f8f8f8).build().createPop();
                 }
                 screeningPopWindow.showAtLocation(filterTab0,
-                        Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(getActivity()));
-
+                        Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity2.this));
             }
 
         }

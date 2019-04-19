@@ -87,6 +87,8 @@ public interface ARouterConfig {
         String STOREACTIVITY = "/clasz/StoreActivity";
         /*店铺介绍*/
         String STOREINTROACTIVITY = "/clasz/StoreIntroActivity";
+        /*店铺分类列表*/
+        String PRODUCTSACTIVITY2 = "/clasz/ProductsActivity2'";
 
 //        String DISTRIBUTIONACTIVITY = "/clasz/DistributionActivity";
     }

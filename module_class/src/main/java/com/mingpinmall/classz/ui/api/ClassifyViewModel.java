@@ -108,6 +108,13 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getStoreIntro(storeId, eventKey);
     }
 
+    /*店铺列表*/
+    public void getStoreShappingList(String bId, String curpage, String keyword, String typeId,
+                                     String areaId, String priceFrom, String priceTo,
+                                     String key, String order, String ci, String st) {
+        mRepository.getStoreShappingList(bId, curpage, keyword, typeId, areaId, priceFrom, priceTo, key, order, ci, st);
+    }
+
     /************************************* 店铺 ******************************/
     /*店铺信息*/
     public void getStoreInfo(String storeId, String key, Object eventKey) {
@@ -143,6 +150,16 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     /*店铺收藏 取消*/
     public void getStoreFavorites(String storeId, boolean isDel, final Object eventKey) {
         mRepository.getStoreFavorites(storeId, isDel, eventKey);
+    }
+
+    /*店铺代金券*/
+    public void getVoucherTplList(String storeId, final Object eventKey) {
+        mRepository.getVoucherTplList(storeId, "free", eventKey);
+    }
+
+    /*领取代金券*/
+    public void getVoucherFreeex(String storeId, final Object eventKey) {
+        mRepository.getVoucherFreeex(storeId, eventKey);
     }
 
     /************************************* end ******************************/

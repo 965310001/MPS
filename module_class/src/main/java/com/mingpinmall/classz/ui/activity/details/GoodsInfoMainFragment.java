@@ -19,7 +19,6 @@ import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.SlideLayout;
@@ -44,21 +43,14 @@ import java.util.List;
 public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel>
         implements SlideLayout.OnSlideDetailsListener {
 
-    String id;
+    //TextView tvGoodsName;TextView tvGoodsPrice;TextView tvGoodsNum;CountClickView ccvClick;TextView tvPraiseRate;SlideLayout svSwitch;ImageView ivIcon;TextView tvEnsure;tvEnsure = binding.tvEnsure;tvGoodsPrice = binding.tvGoodsPrice;tvGoodsName = binding.tvGoodsName;tvGoodsNum = binding.tvGoodsNum;tvOldPrice = binding.tvOldPrice;ccvClick = binding.ccvClick;ConvenientBanner<List<GoodsInfo>> vpRecommend = binding.vpRecommend;binding.ccvClick.setCurrCount(1);binding.ccvClick.setMinCount(1);
 
+    String id;
     ConvenientBanner vpItemGoodsImg;
-    TextView tvGoodsName;
-    TextView tvEnsure;
-    TextView tvGoodsPrice;
-    TextView tvGoodsNum;
-    CountClickView ccvClick;
     TextView tvCommentCount;/*用于点评*/
     LinearLayout llComment;/*用于点评*/
-    TextView tvPraiseRate;
     TextView tvEmptyComment;
     RecyclerView recyclerView;//评论
-    SlideLayout svSwitch;
-    ImageView ivIcon;
 
     RecyclerView recyclerViewRecommend;
 
@@ -103,23 +95,13 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         showSuccess();
 
         vpItemGoodsImg = binding.vpItemGoodsImg;
-        tvGoodsName = binding.tvGoodsName;
-        tvEnsure = binding.tvEnsure;
-        tvGoodsPrice = binding.tvGoodsPrice;
-        tvGoodsNum = binding.tvGoodsNum;
 
-//        tvOldPrice = binding.tvOldPrice;
-        ccvClick = binding.ccvClick;
-//        ConvenientBanner<List<GoodsInfo>> vpRecommend = binding.vpRecommend;
 
         tvCommentCount = binding.getRoot().findViewById(R.id.tv_comment_count);
         llComment = binding.getRoot().findViewById(R.id.ll_comment);
         recyclerView = binding.getRoot().findViewById(R.id.recycle_view);
         recyclerViewRecommend = binding.recycleRecommendView.recyclerView;
         tvEmptyComment = binding.getRoot().findViewById(R.id.tv_empty_comment);
-
-        binding.ccvClick.setCurrCount(1);
-        binding.ccvClick.setMinCount(1);
 
         binding.svSwitch.setOnSlideDetailsListener(this);
 
@@ -128,7 +110,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         goodsInfo = goodsDetailInfo.getDatas().getGoods_info();
         KLog.i(goodsInfo);
 
-        //设置文字中间一条横线
 //        binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         setGoodsInfo();
@@ -232,13 +213,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
      */
     private void setGoodsInfo() {
         if (goodsInfo != null) {
-            tvGoodsName.setText(goodsInfo.getGoods_name());
-            tvGoodsPrice.setText(String.format("¥%s", goodsInfo.getGoods_price()));
-            tvGoodsNum.setText(String.format("销量 %s件", goodsInfo.getGoods_salenum()));
+//            tvGoodsName.setText(goodsInfo.getGoods_name());
+//            tvGoodsPrice.setText(String.format("¥%s", goodsInfo.getGoods_price()));
+//            tvGoodsNum.setText(String.format("销量 %s件", goodsInfo.getGoods_salenum()));
+//            ccvClick.setMaxCount(goodsInfo.getNum());/*设置最大*/
 
-            ccvClick.setMaxCount(goodsInfo.getNum());/*设置最大*/
             setGoodsHeadImg();
-
             GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = goodsDetailInfo.getDatas().getStore_info();
             binding.lsiItem.setLeftText(storeInfo.getStore_name());
             binding.lsiItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
@@ -281,6 +261,9 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             KLog.i(goodsDetailInfo.getDatas().getGoods_hair_info().content + " " +
                     goodsDetailInfo.getDatas().getGoods_hair_info().if_store_cn +
                     goodsDetailInfo.getDatas().getGoods_hair_info().area_name);
+
+
+            binding.setData(goodsInfo);
         }
 
     }

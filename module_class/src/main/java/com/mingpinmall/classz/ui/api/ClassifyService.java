@@ -14,6 +14,7 @@ import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
+import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 
 import java.util.Map;
 
@@ -123,7 +124,6 @@ public interface ClassifyService {
 
 
     /*收藏排行*/
-
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<GoodsListInfo> getStoreGoodsRank(@FieldMap Map<String, Object> map);
@@ -143,6 +143,11 @@ public interface ClassifyService {
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<BaseResponse<StoreInfo>> getStoreIntro(@FieldMap Map<String, Object> map);
+
+    /*店铺代金券*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<BaseResponse<VoucherInfo>> getVoucherTplList(@FieldMap Map<String, Object> map);
 
     /***************************************封装通用******************************/
     /*封装通用*/

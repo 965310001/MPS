@@ -192,21 +192,27 @@ public class GoodsInfo extends BaseBean {
         this.store_id = store_id;
     }
 
+    @Bindable
     public int getNum() {
         return num;
     }
 
+    public void setNum(int num) {
+        this.num = num;
+        notifyPropertyChanged(BR.num);
+    }
+
+
+    @Bindable
     public boolean isfavorate() {
         return is_favorate;
     }
 
     public void setfavorate(boolean is_favorate) {
         this.is_favorate = is_favorate;
+        notifyPropertyChanged(BR.is_favorate);
     }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
 
     @Bindable
     public String getGoods_name() {

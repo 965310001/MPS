@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mingpinmall.classz.ui.vm.bean.VoucherInfo.VoucherListBean" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@{data.voucher_t_price}"
+                android:textColor="@color/shallow_red"
+                android:textSize="@dimen/text_16"
+                tools:text="面额50元" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingBottom="@dimen/dp_4"
+                android:text="@{data.voucher_t_limit}"
+                android:textSize="@dimen/text_14"
+                tools:text="需消费1000元" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="@{data.voucher_t_end_date_text}"
+                android:textSize="@dimen/text_14"
+                tools:text="至2020年有用" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:onClick="getReceive"
+            android:tag="@{data.voucher_t_id}"
+            android:text="领取" />
+    </RelativeLayout>
+
+
+</layout>

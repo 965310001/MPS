@@ -63,26 +63,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center">
 
-                        <!--<ImageView-->
-                        <!--android:id="@+id/iv_icon"-->
-                        <!--android:layout_width="@dimen/dp_60"-->
-                        <!--android:layout_height="@dimen/dp_60"-->
-                        <!--android:layout_alignParentRight="true"-->
-                        <!--android:layout_marginRight="45dp"-->
-                        <!--android:visibility="gone" />-->
-
-                        <!--<CheckBox android:id="@+id/tv_like"
-                                                android:layout_width="24dp"
-                                                android:layout_height="24dp"
-                                                android:layout_alignParentRight="true"
-                                                android:background="@drawable/ic_launcher" /> -->
                         <ImageView
                             android:id="@+id/iv_like"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_alignParentRight="true"
                             android:onClick="favorites"
-                            android:src="@drawable/ic_launcher" />
+                            android:src="@{data.isfavorate?@drawable/ic_me_favorite:@drawable/ic_me_favorite_red}"
+                            android:tint="@color/shallow_red" />
 
                         <TextView
                             android:id="@+id/tv_goods_name"
@@ -93,6 +81,7 @@
                             android:gravity="left"
                             android:maxLines="2"
                             android:paddingRight="@dimen/dp_10"
+                            android:text="@{data.goods_name}"
                             tools:text="正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表" />
 
                     </RelativeLayout>
@@ -108,6 +97,7 @@
                             android:id="@+id/tv_goods_price"
                             style="@style/TextStyle"
                             android:layout_alignParentBottom="true"
+                            android:text="@{String.format(@string/price_holder,data.goods_price)}"
                             android:textColor="@color/shallow_red"
                             android:textSize="@dimen/dp_20"
                             tools:text="￥599.00" />
@@ -117,24 +107,15 @@
                             style="@style/TextStyle"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentBottom="true"
+                            android:text="@{String.format(@string/salenum_holder,data.goods_salenum)}"
                             android:textSize="@dimen/text_14"
                             tools:text="销量：0件" />
 
-                        <!--<TextView-->
-                        <!--android:id="@+id/tv_old_price"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_alignParentBottom="true"-->
-                        <!--android:layout_marginStart="5dp"-->
-                        <!--android:layout_marginBottom="2dp"-->
-                        <!--android:layout_toEndOf="@+id/tv_goods_price"-->
-                        <!--android:gravity="center_vertical"-->
-                        <!--android:textColor="@color/gray"-->
-                        <!--android:textSize="13sp"-->
-                        <!--android:visibility="gone" />-->
-
                         <com.goldze.common.dmvvm.widget.CountClickView
                             android:id="@+id/ccv_click"
+                            currcount="@{String.valueOf(`1`)}"
+                            maxcount="@{String.valueOf(data.num)}"
+                            mincount="@{String.valueOf(`1`)}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -142,20 +123,6 @@
                     </RelativeLayout>
 
                 </LinearLayout>
-
-
-                <!-- 当前已选的商品 -->
-                <!--<com.goldze.common.dmvvm.widget.MultipleItemView-->
-                <!--android:visibility="gone"-->
-                <!--android:id="@+id/miv_goods_specification"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:background="@color/white"-->
-                <!--leon:leftText="已选：黑色，1件"-->
-                <!--leon:showBottomLine="false"-->
-                <!--leon:showLeftIcon="false"-->
-                <!--leon:showTopLine="false" />-->
 
                 <com.leon.lib.settingview.LSettingItem
                     android:id="@+id/lsi_goods_specification"
@@ -275,19 +242,11 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-
         </android.support.v4.widget.NestedScrollView>
 
         <FrameLayout
             android:id="@+id/fl_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <!--商品下方 详情Html 和规格介绍-->
-        <!--<fragment-->
-        <!--class="com.bdgw.cc.ui.home.GoodsInfoDetailMainFragment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
     </com.goldze.common.dmvvm.widget.SlideLayout>
 </layout>

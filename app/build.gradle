@@ -76,6 +76,10 @@ android {
         javaMaxHeapSize "4g"
     }
 
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
+
 }
 //configurations.all {
 //    resolutionStrategy.force 'com.android.support:support-annotations:27.1.1'

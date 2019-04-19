@@ -4,13 +4,17 @@ import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
+import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
@@ -19,16 +23,21 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
+import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityStoreBinding;
-import com.mingpinmall.classz.ui.activity.classiflist.ProductsFragment;
+import com.mingpinmall.classz.ui.activity.store.fragment.ProductsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StoreNewGoodsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StorePromotionFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
+import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
+import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
+import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,6 +48,8 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
 
     @Autowired
     String storeId;
+
+    XBottomSheet xBottomSheet;
 
     @Override
     protected int getLayoutId() {
@@ -109,6 +120,55 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                         }
                     }
                 });
+        /*代金券*/
+        registerObserver(Constants.VOUCHER[0], BaseResponse.class)
+                .observeForever(new Observer<BaseResponse>() {
+                    @Override
+                    public void onChanged(@Nullable BaseResponse response) {
+                        KLog.i("======接收数据");
+                        BaseResponse<VoucherInfo> data = response;
+                        if (data.isSuccess()) {
+                            List<VoucherInfo.VoucherListBean> voucher_list = data.getData().getVoucher_list();
+//                            KLog.i(voucher_list);
+                            if (null == xBottomSheet) {
+                                xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
+                                        .setItemData(voucher_list)
+//                                        .setItemData(voucher_list)
+//                                        .setItemData(voucher_list)
+//                                        .addItem("1")
+                                        .setAdapter(AdapterPool.newInstance()
+                                                .getVoucherInfoAdapter(activity)
+                                                .build())
+                                        .setLayoutManager(new LinearLayoutManager(activity))
+                                        .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
+                                            @Override
+                                            public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
+                                                dialog.dismiss();
+                                                ToastUtils.showLong("Item " + (position + 1));
+                                            }
+                                        })
+                                        .build();
+                            }
+                            xBottomSheet.show();
+                        } else {
+                            ToastUtils.showLong(data.getMessage());
+                        }
+                    }
+                });
+
+        /*领取代金券*/
+        registerObserver(Constants.VOUCHER[2], ResultBean.class)
+                .observe(this, new Observer<ResultBean>() {
+                    @Override
+                    public void onChanged(@Nullable ResultBean response) {
+                        xBottomSheet.dismiss();
+                        if (response.isSuccess()) {
+                            ToastUtils.showLong("领取成功");
+                        } else {
+                            ToastUtils.showLong(response.getError());
+                        }
+                    }
+                });
     }
 
     // TODO: 2019/4/16 店铺收藏代码添加
@@ -125,6 +185,25 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
     /*店铺介绍*/
     public void getStoreIntro(View view) {
         ActivityToActivity.toActivity(ARouterConfig.classify.STOREINTROACTIVITY, "storeId", getStoreId());
+    }
+
+    /*代金券*/
+    public void getVoucherTplList(View view) {
+        mViewModel.getVoucherTplList(getStoreId(), Constants.VOUCHER[0]);
+    }
+
+    /*领取代金券*/
+    public void getReceive(View view) {
+        String tId = (String) view.getTag();
+        mViewModel.getVoucherFreeex(tId, Constants.VOUCHER[2]);
+    }
+
+    /*联系客服*/
+    public void getContactService(View view) {
+    }
+
+    /*商品分类*/
+    public void getGoodsClassif(View view) {
     }
 
     public void finish(View view) {

@@ -15,6 +15,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
+import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.footview.FootViewHolder;
@@ -119,6 +120,12 @@ public class AdapterPool {
                         .bind(StorePromotionInfo.DatasBean.PromotionBean.XianshiBean.class,
                                 new DataBindItemViewHolderManager(context, R.layout.item_xianshi, BR.data)),
                 context, ProgressStyle.Pacman);
+    }
+
+    /*代金券*/
+    public DelegateAdapter.Builder getVoucherInfoAdapter(Context context) {
+        return new DelegateAdapter.Builder<>()
+                .bind(VoucherInfo.VoucherListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_voucherinfo, BR.data));
     }
 
 

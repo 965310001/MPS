@@ -16,6 +16,7 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.MultipleItemView;
 import com.leon.lib.settingview.LSettingItem;
 import com.mingpinmall.classz.adapter.AdapterPool;
@@ -99,10 +100,21 @@ public class DatabingUtils {
 
                 @Override
                 public void onTabReselected(TabLayout.Tab tab) {
-
                 }
             });
         }
+    }
+
+    @BindingAdapter(value = {"maxcount", "mincount", "currcount"}, requireAll = false)
+    public static void setMaxCount(CountClickView ccvClick, String max, String min, String currcount) {
+        try {
+            ccvClick.setMinCount(Integer.valueOf(min));
+            ccvClick.setMaxCount(Integer.valueOf(max));
+            ccvClick.setCurrCount(Integer.valueOf(currcount));
+        } catch (Exception e) {
+            KLog.i(e.toString() + "最好两个都设置");
+        }
+
     }
 
     @BindingAdapter("items")
