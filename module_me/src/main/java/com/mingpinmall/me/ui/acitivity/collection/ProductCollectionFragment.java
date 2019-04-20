@@ -13,6 +13,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.ProductCollectionAdapter;
@@ -70,10 +71,40 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                 ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data.getGoods_id());
             }
         });
+        collectionAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                //子控件点击事件
+                final ProductCollectionBean.FavoritesListBean itemData = collectionAdapter.getItem(position);
+                if (view.getId() == R.id.iv_delete) {
+                    //删除这条收藏
+                    TextDialog.showBaseDialog(activity, "取消店铺收藏", "确定取消收藏吗？", new TextDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick() {
+                            mViewModel.deleGoodsCollect(itemData.getGoods_id());
+                        }
+                    }).show();
+                }
+            }
+        });
     }
 
     @Override
     protected void dataObserver() {
+        registerObserver("DEL_GOODS_COLLECT", "success")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        lazyLoad();
+                    }
+                });
+        registerObserver("DEL_GOODS_COLLECT", "err", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String msg) {
+                        ToastUtils.showShort(msg);
+                    }
+                });
         registerObserver("PRODUCT_COLLECT_LIST", "success")
                 .observeForever(new Observer<Object>() {
                     @Override

@@ -430,7 +430,7 @@ public interface MeApiService {
      * key:用户key
      * 	store_id:产品id
      */
-    String DELSHOPSCOLLECT = "/mo_bile/index.php?app=member_favorites_store &wwi=favorites_del";
+    String DELSHOPSCOLLECT = "/mo_bile/index.php?app=member_favorites_store&wwi=favorites_del";
 
     /*店铺收藏*/
     @FormUrlEncoded
@@ -439,6 +439,24 @@ public interface MeApiService {
             @Field("key") String key,
             @Field("_client") String clinet,
             @Field("store_id") String storeId
+    );
+
+    /**
+     * 描述：产品删除收藏动作
+     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_favorites&wwi=favorites_del
+     * 请求方式：post
+     * 请求参数：
+     * 	fav_id:产品id
+     */
+    String DELGOODSCOLLECT = "/mo_bile/index.php?app=member_favorites&wwi=favorites_del";
+
+    /*店铺收藏*/
+    @FormUrlEncoded
+    @POST(DELGOODSCOLLECT)
+    Flowable<BaseNothingBean> deleGoodsCollect(
+            @Field("key") String key,
+            @Field("_client") String clinet,
+            @Field("fav_id") String favId
     );
 
     /**

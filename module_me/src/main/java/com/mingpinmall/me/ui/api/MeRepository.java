@@ -894,6 +894,29 @@ public class MeRepository extends BaseRepository {
         );
     }
 
+    /*商品删除收藏动作*/
+    protected void deleGoodsCollect(String favId) {
+        addDisposable(apiService.deleGoodsCollect(getUserKey(), "android", favId)
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData("DEL_GOODS_COLLECT", "success", result);
+                        } else {
+                            sendData("DEL_GOODS_COLLECT", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("DEL_GOODS_COLLECT", "err", msg == null ? "删除失败" : msg);
+                    }
+                })
+        );
+    }
+
     /**
      * 获取商品收藏列表
      *

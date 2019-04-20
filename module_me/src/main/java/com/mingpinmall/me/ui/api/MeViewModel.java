@@ -187,6 +187,11 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         mRepository.deleShopsCollect(storeId);
     }
 
+    /*商品删除收藏动作*/
+    public void deleGoodsCollect(String favId) {
+        mRepository.deleGoodsCollect(favId);
+    }
+
     /*获取商品收藏列表*/
     public void getProductCollectList(int curpage) {
         mRepository.getProductCollectList(curpage);
