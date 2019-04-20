@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -117,34 +118,42 @@ public class DatabingUtils {
 
     }
 
-    @BindingAdapter("items")
-    public static void setChild(TRecyclerView rv, List data) {
-        DelegateAdapter adapter = (DelegateAdapter) rv.getAdapter();
-        if (null == adapter) {
-//            KLog.i(rv.getTag());
+    /*封装*/
+    @BindingAdapter(value = {"items", "adapter", "layout"}, requireAll = false)
+    public static void setChild(TRecyclerView rv,
+                                List data,
+                                DelegateAdapter adapter,
+                                RecyclerView.LayoutManager layout) {
+//        adapter = (DelegateAdapter) rv.getAdapter();
+        if (null == rv.getAdapter()) {
             Context context = rv.getContext();
+            if (null == rv.getLayoutManager()) {
+                if (layout == null) {
+                    layout = new LinearLayoutManager(context);
+                }
+            } else {
+                layout = rv.getLayoutManager();
+            }
             switch (Integer.parseInt(rv.getTag().toString())) {
                 case 0:
                     adapter = AdapterPool.newInstance().getRightAdapter(context).build();
-                    GridLayoutManager layout = new GridLayoutManager(context, 3);
-                    rv.setLayoutManager(layout);
+                    layout = new GridLayoutManager(context, 3);
                     break;
                 case 1:
+                    KLog.i("左边");
                     /*左边*/
-                    adapter = AdapterPool.newInstance().getLeftAdapter(context)
-                            .build();
+//                    adapter = AdapterPool.newInstance().getLeftAdapter(context)
+//                            .build();
+//                    layout = new LinearLayoutManager(context);
                     rv.addItemDecoration(new DividerItemDecoration(context,
                             DividerItemDecoration.VERTICAL));
-                    layout = new GridLayoutManager(context, 1);
-                    rv.setLayoutManager(layout);
                     break;
                 case 2:
-                    adapter = AdapterPool.newInstance().getConfirmOrder(context)
-                            .build();
+//                    adapter = AdapterPool.newInstance().getConfirmOrder(context)
+//                            .build();
                     rv.addItemDecoration(new DividerItemDecoration(context,
                             DividerItemDecoration.VERTICAL));
-                    layout = new GridLayoutManager(context, 1);
-                    rv.setLayoutManager(layout);
+//                    layout = new LinearLayoutManager(context);
                     break;
                 case 3:
                     final InvoiceListInfo.InvoiceListBean[] bean = {null};
@@ -161,26 +170,109 @@ public class DatabingUtils {
                             }).build();
                     rv.addItemDecoration(new DividerItemDecoration(context,
                             DividerItemDecoration.VERTICAL));
-                    layout = new GridLayoutManager(context, 1);
-                    rv.setLayoutManager(layout);
+                    layout = new LinearLayoutManager(context);
                     break;
                 case 4:
                     adapter = AdapterPool.newInstance().getRecommend(context).build();
                     rv.addItemDecoration(new DividerItemDecoration(context,
                             DividerItemDecoration.VERTICAL));
                     layout = new GridLayoutManager(context, 4);
-                    rv.setLayoutManager(layout);
                     break;
                 default:
                     KLog.i("必须个TRecyclerView 设置TAG");
                     break;
             }
+            rv.setLayoutManager(layout);
             rv.setAdapter(adapter);
+        } else {
+            adapter = (DelegateAdapter) rv.getAdapter();
         }
-        if (null != data && data.size() > 0) {
-            adapter.setDatas(data);
+        if (null != adapter) {
+            if (null != data && data.size() > 0) {
+                adapter.setDatas(data);
+            }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
+
+//    @BindingAdapter(value = {"items", "adapter", "layout", "isdecoration"}, requireAll = false)
+//    public static void setChild(TRecyclerView rv,
+//                                List data,
+//                                DelegateAdapter adapter,
+//                                RecyclerView.LayoutManager layout,
+//                                boolean isDecoration) {/*默认是false 是需要*/
+//        adapter = (DelegateAdapter) rv.getAdapter();
+//        if (null == adapter) {
+//            Context context = rv.getContext();
+//            if (null == layout) {
+//                layout = new GridLayoutManager(context, 1);
+//            }
+////            if (!isDecoration) {
+////                rv.addItemDecoration(new DividerItemDecoration(context,
+////                        DividerItemDecoration.VERTICAL));
+////            }
+//            switch (Integer.parseInt(rv.getTag().toString())) {
+//                case 0:
+//                    adapter = AdapterPool.newInstance().getRightAdapter(context).build();
+//                    layout = new GridLayoutManager(context, 3);
+//                    break;
+//                case 1:
+//                    KLog.i("左边");
+//                    /*左边*/
+//                    adapter = AdapterPool.newInstance().getLeftAdapter(context)
+//                            .build();
+//                    rv.addItemDecoration(new DividerItemDecoration(context,
+//                            DividerItemDecoration.VERTICAL));
+//                    layout = new GridLayoutManager(context, 1);
+//
+//                    if (null == layout) {
+//                        layout = new LinearLayoutManager(context);
+//                    }
+//                    rv.addItemDecoration(new DividerItemDecoration(context,
+//                            DividerItemDecoration.VERTICAL));
+//                    break;
+//                case 2:
+//                    adapter = AdapterPool.newInstance().getConfirmOrder(context)
+//                            .build();
+//                    rv.addItemDecoration(new DividerItemDecoration(context,
+//                            DividerItemDecoration.VERTICAL));
+//                    layout = new GridLayoutManager(context, 1);
+//                    break;
+//                case 3:
+//                    final InvoiceListInfo.InvoiceListBean[] bean = {null};
+//                    adapter = AdapterPool.newInstance().getInvoiceList(context)
+//                            .setOnItemClickListener(new OnItemClickListener() {
+//                                @Override
+//                                public void onItemClick(View view, int i, Object o) {
+//                                    if (null != bean[0]) {
+//                                        bean[0].setChecked(false);
+//                                    }
+//                                    bean[0] = (InvoiceListInfo.InvoiceListBean) o;
+//                                    bean[0].setChecked(true);
+//                                }
+//                            }).build();
+//                    rv.addItemDecoration(new DividerItemDecoration(context,
+//                            DividerItemDecoration.VERTICAL));
+//                    layout = new GridLayoutManager(context, 1);
+//                    break;
+//                case 4:
+//                    adapter = AdapterPool.newInstance().getRecommend(context).build();
+//                    rv.addItemDecoration(new DividerItemDecoration(context,
+//                            DividerItemDecoration.VERTICAL));
+//                    layout = new GridLayoutManager(context, 4);
+//                    break;
+//                default:
+//                    KLog.i("必须个TRecyclerView 设置TAG");
+//                    break;
+//            }
+//            rv.setLayoutManager(layout);
+//            rv.setAdapter(adapter);
+//        }
+//        if (null != data && data.size() > 0) {
+//            adapter.setDatas(data);
+//        }
+//        adapter.notifyDataSetChanged();
+//    }
+
 
 }

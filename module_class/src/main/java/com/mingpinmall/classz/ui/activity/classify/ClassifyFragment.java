@@ -35,10 +35,10 @@ import java.util.List;
 public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel>
         implements OnItemClickListener, View.OnClickListener {
 
-//    private TRecyclerView rvRightRecyclerView;
-    private DelegateAdapter rightAdapter;
-//    private LinearLayoutManager linearLayoutManager;
+    //    private TRecyclerView rvRightRecyclerView;
+    //    private LinearLayoutManager linearLayoutManager;
     private int leftPostion = 0;
+    private DelegateAdapter rightAdapter;
     private ClassificationBean.DatasBean.ClassListBean data;
     private final ItemData rightData = new ItemData();
 
@@ -76,18 +76,21 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         rightAdapter = AdapterPool.newInstance().getRightAdapter(getActivity())
                 .build();
         rightAdapter.setDatas(rightData);
-        final TRecyclerView rvLeftRecyclerView = binding.trvLeft;
-        TRecyclerView rvRightRecyclerView = binding.trvRight;
+//        final TRecyclerView rvLeftRecyclerView = binding.trvLeft;
+//        TRecyclerView rvRightRecyclerView = binding.trvRight;
 
-        rvLeftRecyclerView.setAdapter(AdapterPool.newInstance().getLeftAdapter(getActivity())
+//        rvLeftRecyclerView.setAdapter(AdapterPool.newInstance().getLeftAdapter(getActivity())
+//                .setOnItemClickListener(this)
+//                .build());
+        binding.setLeftAdapter(AdapterPool.newInstance().getLeftAdapter(getActivity())
                 .setOnItemClickListener(this)
                 .build());
-        rvRightRecyclerView.setAdapter(rightAdapter);
+//        rvRightRecyclerView.setAdapter(rightAdapter);
 
-        rvLeftRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
+//        rvLeftRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+//                DividerItemDecoration.VERTICAL));
 //        linearLayoutManager = new LinearLayoutManager(getActivity());
-        rvLeftRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        rvLeftRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        linearLayoutManager = new LinearLayoutManager(getActivity());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -102,7 +105,10 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 }
             }
         });
-        rvRightRecyclerView.setLayoutManager(gridLayoutManager);
+        binding.setRightLayout(gridLayoutManager);
+        binding.setRightAdapter(rightAdapter);
+
+//        rvRightRecyclerView.setLayoutManager(gridLayoutManager);
     }
 
     @Override

@@ -6,13 +6,28 @@
 
         <import type="java.util.List" />
 
+        <import type="com.trecyclerview.adapter.DelegateAdapter" />
+
+        <import type="android.support.v7.widget.RecyclerView.LayoutManager" />
+
         <variable
             name="data"
             type="List" />
 
         <variable
+            name="leftAdapter"
+            type="DelegateAdapter" />
+
+        <variable
             name="rightdata"
             type="List" />
+
+        <variable
+            name="rightAdapter"
+            type="DelegateAdapter" />
+        <variable
+            name="rightLayout"
+            type="LayoutManager"/>
     </data>
 
     <LinearLayout
@@ -41,9 +56,9 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-
             <com.trecyclerview.TRecyclerView
                 android:id="@+id/trv_left"
+                adapter="@{leftAdapter}"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
@@ -55,11 +70,13 @@
 
             <com.trecyclerview.TRecyclerView
                 android:id="@+id/trv_right"
+                adapter="@{rightAdapter}"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:background="@color/white"
                 android:tag="2"
+                layout="@{rightLayout}"
                 bind:items="@{rightdata}" />
 
             <!--<android.support.v7.widget.RecyclerView-->
