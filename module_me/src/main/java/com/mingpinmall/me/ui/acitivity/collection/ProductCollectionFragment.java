@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
@@ -19,8 +20,6 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.ProductCollectionBean;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
-
-import java.util.ArrayList;
 
 /**
  * 功能描述：商品收藏页面
@@ -66,14 +65,9 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
         collectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-            }
-        });
-        collectionAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-
-                return true;
+                //点击事件，跳转商品详情
+                ProductCollectionBean.FavoritesListBean data = collectionAdapter.getItem(position);
+                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data.getGoods_id());
             }
         });
     }
@@ -84,9 +78,11 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
+                        BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
                         pageIndex = 1;
                         binding.refreshLayout.finishRefresh();
-                        BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
+                        if (!data.isHasmore())
+                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
                         collectionAdapter.setNewData(data.getData().getFavorites_list());
                         if (data.getData().getFavorites_list().size() == 0) {
                             showSuccess();

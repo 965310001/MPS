@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintSet;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
@@ -81,7 +82,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                     urls.add(itemBean.getImage());
                 }
                 ConvenientBanner banner = helper.getView(R.id.view_banner);
-                ImageUtils.loadBanner(banner, urls, new com.bigkoo.convenientbanner.listener.OnItemClickListener() {
+                ImageUtils.loadBanners(banner, urls, new com.bigkoo.convenientbanner.listener.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         if (bannerClickListener != null) {
@@ -89,14 +90,15 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         }
                     }
                 });
-                banner.startTurning(3000);
+                if (!banner.isTurning())
+                    banner.startTurning(3000);
                 break;
             case 1:
                 //板块A
                 HomeItemBean.DatasBean.Home1Bean datasBean1 = item.getHome1();
                 helper.setText(R.id.tv_label, datasBean1.getTitle())
-                        .setGone(R.id.tv_label, datasBean1.getTitle().equals(""))
-                        .setGone(R.id.v_0, datasBean1.getTitle().equals(""));
+                        .setGone(R.id.tv_label, !datasBean1.getTitle().equals(""))
+                        .setGone(R.id.v_0, !datasBean1.getTitle().equals(""));
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_0), datasBean1.getImage());
                 break;
             case 2:
@@ -106,8 +108,8 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         .addOnClickListener(R.id.iv_square)
                         .addOnClickListener(R.id.iv_rectangle1)
                         .addOnClickListener(R.id.iv_rectangle2)
-                        .setGone(R.id.tv_label, datasBean2.getTitle().equals(""))
-                        .setGone(R.id.v_0, datasBean2.getTitle().equals(""));
+                        .setGone(R.id.tv_label, !datasBean2.getTitle().equals(""))
+                        .setGone(R.id.v_0, !datasBean2.getTitle().equals(""));
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_square), datasBean2.getSquare_image());
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean2.getRectangle1_image());
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean2.getRectangle2_image());
@@ -116,19 +118,19 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 //布局c 标题
                 HomeItemBean.DatasBean.Home3Bean datasBean3 = item.getHome3();
                 helper.setText(R.id.tv_label, datasBean3.getTitle())
-                        .setGone(R.id.tv_label, datasBean3.getTitle().equals(""))
-                        .setGone(R.id.v_0, datasBean3.getTitle().equals(""));
+                        .setGone(R.id.tv_label, !datasBean3.getTitle().equals(""))
+                        .setGone(R.id.v_0, !datasBean3.getTitle().equals(""));
                 break;
             case 3:
                 //布局c ITEM
                 final AppCompatImageView imageView = helper.getView(R.id.iv_0);
-                final ConstraintLayout constraintLayout = ((ConstraintLayout) helper.itemView);
+                final ConstraintLayout parentLayout = ((ConstraintLayout) helper.itemView);
 
                 ImageUtils.loadImage(imageView, item.getImage());
                 imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        constraintLayout.setMaxHeight(imageView.getHeight());
+                        parentLayout.setMaxHeight(imageView.getHeight());
                         imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
@@ -141,8 +143,8 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         .addOnClickListener(R.id.iv_square)
                         .addOnClickListener(R.id.iv_rectangle1)
                         .addOnClickListener(R.id.iv_rectangle2)
-                        .setGone(R.id.tv_label, datasBean4.getTitle().equals(""))
-                        .setGone(R.id.v_0, datasBean4.getTitle().equals(""));
+                        .setGone(R.id.tv_label, !datasBean4.getTitle().equals(""))
+                        .setGone(R.id.v_0, !datasBean4.getTitle().equals(""));
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean4.getRectangle1_image());
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean4.getRectangle2_image());
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_square), datasBean4.getSquare_image());
@@ -156,8 +158,8 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         .addOnClickListener(R.id.iv_rectangle1)
                         .addOnClickListener(R.id.iv_rectangle2)
                         .addOnClickListener(R.id.iv_rectangle3)
-                        .setGone(R.id.tv_label, datasBean5.getTitle().equals(""))
-                        .setGone(R.id.tv_sub_label, datasBean5.getStitle().equals(""));
+                        .setGone(R.id.tv_label, !datasBean5.getTitle().equals(""))
+                        .setGone(R.id.tv_sub_label, !datasBean5.getStitle().equals(""));
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_square), datasBean5.getSquare_image());
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean5.getRectangle1_image());
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean5.getRectangle2_image());
@@ -165,7 +167,18 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 break;
             case 6:
                 //导航
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.image), item.getImage());
+                final AppCompatImageView imageView6 = helper.getView(R.id.image);
+                final ConstraintLayout parentLayout6 = ((ConstraintLayout) helper.itemView);
+
+                ImageUtils.loadImage(imageView6, item.getImage());
+                imageView6.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        parentLayout6.setMaxHeight(imageView6.getHeight());
+                        imageView6.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+
                 break;
             case 10:
                 //商品列表

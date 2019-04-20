@@ -11,7 +11,10 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.ShopsCollectionAdapter;
@@ -61,20 +64,45 @@ public class ShopsCollectionFragment extends AbsLifecycleFragment<FragmentDefaul
         collectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                //点击事件，跳转到店铺
+                ShopsCollectionBean.FavoritesListBean bean = collectionAdapter.getItem(position);
+                ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", bean.getStore_id());
             }
         });
-        collectionAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+        collectionAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-
-                return true;
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                //子控件点击事件
+                final ShopsCollectionBean.FavoritesListBean itemData = collectionAdapter.getItem(position);
+                if (view.getId() == R.id.iv_delete) {
+                    //删除这条收藏
+                    TextDialog.showBaseDialog(activity, "取消店铺收藏", "确定取消收藏吗？", new TextDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick() {
+                            mViewModel.deleShopsCollect(itemData.getStore_id());
+                        }
+                    }).show();
+                }
             }
         });
     }
 
     @Override
     protected void dataObserver() {
+        registerObserver("DEL_SHOP_COLLECT", "success")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        lazyLoad();
+                    }
+                });
+        registerObserver("DEL_SHOP_COLLECT", "err", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String msg) {
+                        ToastUtils.showShort(msg);
+                    }
+                });
         registerObserver("SHOPS_COLLECT_LIST", "success")
                 .observeForever(new Observer<Object>() {
                     @Override

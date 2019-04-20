@@ -9,9 +9,18 @@ import com.google.gson.annotations.SerializedName;
  **/
 public class BaseNothingBean extends BaseBean {
 
+    private final int SUCCESS = 200;
+    private final int FAIL = 500;
+    private final int ERROR = 400;
+    private final int NO_LOGIN = 300;
+
     private int code;
     @SerializedName("error")
     private String message;
+
+    public boolean isSuccess() {
+        return code == SUCCESS;
+    }
 
     public int getCode() {
         return code;

@@ -4,9 +4,11 @@ package com.mingpinmall.home.ui;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -77,8 +79,9 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
         super.initView(state);
         setTitlePadding(binding.clTitleBar);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 4);
-
         binding.recyclerView.setLayoutManager(gridLayoutManager);
+        binding.recyclerView.setNestedScrollingEnabled(false);
+        binding.recyclerView.setHasFixedSize(true);
         homeListAdapter = new HomeListAdapter();
         homeListAdapter.bindToRecyclerView(binding.recyclerView);
         homeListAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
@@ -123,6 +126,29 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
          * 除列表外，其他按钮点击事件
          */
         setClickListener();
+        //列表滑动监听
+//        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @SuppressLint("RestrictedApi")
+//            @Override
+//            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldX, int oldY) {
+//                Log.i(TAG, "onScrollChange: " + scrollY);
+//                if (scrollY <= 640) {
+//                    float alpha = scrollY / (float) 640;
+//                    if (alpha > 0) {
+//                        binding.clTitleBar.setVisibility(View.VISIBLE);
+//                        binding.fab2top.setVisibility(View.VISIBLE);
+//                        binding.clTitleBar.setAlpha(alpha);
+//                        darkMode = true;
+//                        setDarkMode(true);
+//                    } else {
+//                        binding.clTitleBar.setVisibility(View.GONE);
+//                        binding.fab2top.setVisibility(View.GONE);
+//                        darkMode = false;
+//                        setDarkMode(false);
+//                    }
+//                }
+//            }
+//        });
 
         //列表滑动监听
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -370,10 +396,16 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
         registerObserver("HOME_DATA_JSON", HomeItemBean.class)
                 .observeForever(new Observer<HomeItemBean>() {
                     @Override
-                    public void onChanged(@Nullable HomeItemBean data) {
+                    public void onChanged(@Nullable final HomeItemBean data) {
                         if (data.getCode() == 200) {
                             binding.refreshLayout.finishRefresh();
                             homeListAdapter.setNewData(formatDatas(data.getDatas()));
+                            new Handler().postDelayed(new Runnable(){
+                                @Override
+                                public void run() {
+                                    homeListAdapter.setNewData(formatDatas(data.getDatas()));
+                                }
+                            },1000);
                         } else {
                             binding.refreshLayout.finishRefresh(false);
                         }
@@ -416,7 +448,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 //团购
                 //添加一个标题
                 datasBean.setItemType(22);
-                datasBean.setLabel("团购商品");
+                datasBean.setLabel(datasBean.getGoods2().getTitle().equals("") ? "团购商品" : datasBean.getGoods2().getTitle());
                 datasBean.setSubLabel("精品抢购 有你所选");
                 listData.add(datasBean);
                 //添加内容

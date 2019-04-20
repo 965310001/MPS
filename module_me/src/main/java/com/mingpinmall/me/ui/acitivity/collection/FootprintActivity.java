@@ -70,6 +70,8 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //item点击事件
+                FootprintBean.GoodsbrowseListBean bean = footprintListAdapter.getItem(position);
+                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", bean.getGoods_id());
             }
         });
 

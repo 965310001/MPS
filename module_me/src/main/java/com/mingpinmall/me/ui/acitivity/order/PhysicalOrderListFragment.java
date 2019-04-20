@@ -15,6 +15,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
@@ -122,6 +124,9 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                                 }
                             })
                             .show();
+                } else if (view.getId() == R.id.ll_shopContent) {
+                    //查看店铺
+                    ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", orderBean.getStore_id());
                 }
             }
         });

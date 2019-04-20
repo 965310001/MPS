@@ -210,6 +210,20 @@ public class ImageUtils {
     }
 
     /**
+     * 加载只有一张图的Banner，解决在列表中更新列表时，重复调用startTurning()，导致错误的翻页
+     *
+     * @param banner   banner
+     * @param imgUrl   imgUrl
+     * @param listener listener
+     */
+    public static void loadBanners(ConvenientBanner banner, List<String> imgUrl, OnItemClickListener listener) {
+        banner.setPages(new BannerImgAdapter(), imgUrl)
+                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
+                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+                .setOnItemClickListener(listener);
+    }
+
+    /**
      * 加载自定义的Banner
      *
      * @param holderCreator adapter

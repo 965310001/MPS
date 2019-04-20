@@ -155,6 +155,9 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
                     .show();
         } else if (viewId == R.id.ll_shopContent) {
             //点击店铺
+            if (data != null) {
+                ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", data.getStore_id());
+            }
         } else if (viewId == R.id.fl_call) {
             //拨打电话
             if (data == null || data.getStore_phone().isEmpty()) {

@@ -1,5 +1,6 @@
 package com.mingpinmall.home.ui.activity.shopStreet;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
@@ -99,7 +100,9 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
         shopsStreetAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //列表点击事件   TODO 跳转到对应的店铺
+                //列表点击事件
+                ShopStreetBean.StoreListBean storeListBean = shopsStreetAdapter.getItem(position);
+                ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", storeListBean.getStore_id());
             }
         });
     }

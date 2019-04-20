@@ -28,6 +28,7 @@
         <activity android:name=".ui.acitivity.address.SelectCityActivity" />
         <activity android:name=".ui.acitivity.order.PhysicalOrderInformationActivity" />
         <activity android:name=".ui.acitivity.order.VirtualOrderInformationActivity" />
+        <activity android:name=".ui.acitivity.property.PdcashInformationActivity" />
     </application>
 
 </manifest>

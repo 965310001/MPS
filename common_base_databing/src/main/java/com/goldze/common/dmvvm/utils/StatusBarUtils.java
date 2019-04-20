@@ -55,8 +55,10 @@ public class StatusBarUtils {
             darkModeForM(activity.getWindow(), dark);
         } else if (isMiUIV6OrAbove()) {
             darkModeForMIUI6(activity.getWindow(), dark);
+            alpha = 0;
         } else if (isFlyme()) {
-            setStatusBarDarkIcon(activity, true, true);
+            setStatusBarDarkIcon(activity, dark, true);
+            alpha = 0;
         }
         immersive(activity.getWindow(), color, alpha);
     }

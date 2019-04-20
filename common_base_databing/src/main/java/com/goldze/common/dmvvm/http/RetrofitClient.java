@@ -101,16 +101,6 @@ public class RetrofitClient {
                 .addInterceptor(new CacheInterceptor(mContext))
                 .addInterceptor(new TokenInterceptor())
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-                .addInterceptor(new LoggingInterceptor
-                        .Builder()//构建者模式
-                        .loggable(true) //是否开启日志打印 BuildConfig.DEBUG
-                        .setLevel(Level.BASIC) //打印的等级
-                        .log(Platform.INFO) // 打印类型
-                        .request("Request") // request的Tag
-                        .response("Response")// Response的Tag
-                        .addHeader("log-header", "I am the log request header.") // 添加打印头, 注意 key 和 value 都不能是中文
-                        .build()
-                )
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式

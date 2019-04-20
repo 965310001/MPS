@@ -8,7 +8,7 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
-import com.mingpinmall.me.ui.bean.CodeKeyMode;
+import com.mingpinmall.me.ui.bean.CodeKeyBean;
 import com.mingpinmall.me.ui.bean.DefaultCheckBean;
 import com.mingpinmall.me.ui.bean.SmsBean;
 import com.goldze.common.dmvvm.base.bean.UserBean;
@@ -160,10 +160,10 @@ public class UserRepository extends BaseRepository {
     /*获取创建验证码图片的key*/
     protected void makeCodeKey() {
         addDisposable(apiService.makeCodeKey()
-                .compose(RxSchedulers.<BaseResponse<CodeKeyMode>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<CodeKeyMode>>() {
+                .compose(RxSchedulers.<BaseResponse<CodeKeyBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<CodeKeyBean>>() {
                     @Override
-                    public void onSuccess(BaseResponse<CodeKeyMode> result) {
+                    public void onSuccess(BaseResponse<CodeKeyBean> result) {
                         sendData(Constants.EVENT_KEY_GETCODEKEY, result.getData());
                     }
 
