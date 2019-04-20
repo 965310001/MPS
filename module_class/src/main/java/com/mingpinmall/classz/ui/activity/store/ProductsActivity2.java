@@ -173,7 +173,7 @@ public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel> {
             if (i == R.id.filter_tab0) {
                 if (null == customPopWindow) {
                     customPopWindow =
-                            new CustomPopWindow.Builder(ProductsActivity2.this).setColumnCount(3)//设置列数，测试2.3.4.5没问题
+                            new CustomPopWindow.Builder(ProductsActivity2.this)//.setColumnCount(3)//设置列数，测试2.3.4.5没问题
                                     .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
                                     .setColorBg(R.color.color_f8f8f8).build().createPop();
                 }
@@ -193,7 +193,6 @@ public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel> {
             } else if (i == R.id.filter_tab3) {
                 if (null == screeningPopWindow) {
                     screeningPopWindow = new ScreeningPopWindow.Builder(ProductsActivity2.this)
-                            .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
                             .setColorBg(R.color.color_f8f8f8).build().createPop();
                 }
                 screeningPopWindow.showAtLocation(filterTab0,

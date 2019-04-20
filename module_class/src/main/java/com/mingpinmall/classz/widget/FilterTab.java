@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mingpinmall.classz.R;
+import com.socks.library.KLog;
 
 /**
  * 自定义bar
@@ -43,7 +44,6 @@ public class FilterTab extends RelativeLayout {
         }
     }
 
-
     public FilterTab(Context context) {
         this(context, null);
     }
@@ -55,8 +55,8 @@ public class FilterTab extends RelativeLayout {
     public FilterTab(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.filter_tab, this);
-        textFilter =  findViewById(R.id.filter_text);
-        imgArrow =  findViewById(R.id.filter_img);
+        textFilter = findViewById(R.id.filter_text);
+        imgArrow = findViewById(R.id.filter_img);
 
         //设置筛选条件
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FilterTab);
@@ -68,9 +68,7 @@ public class FilterTab extends RelativeLayout {
         if (!isShow) {
             imgArrow.setVisibility(GONE);
         }
-
         typedArray.recycle();
-
     }
 
 
@@ -91,20 +89,23 @@ public class FilterTab extends RelativeLayout {
      */
     public void setFilterTabSelected(boolean selected) {
         boolean selectedState = isSelected();
-
         if (selectedState && selected) {//去除无效的状态
             return;
         }
-
         //设置切换选中状态
         setSelected(selected);
         //改变箭头方向
         rotateArrow(selected);
 
-
         //通知观察者选中状态改变
         tabSelectedObervable.notifyTabChanged(this, selected);
 
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        super.setSelected(selected);
+        textFilter.setTextColor(getResources().getColor(selected ? R.color.shallow_red : R.color.gray));
     }
 
     /**
@@ -113,14 +114,11 @@ public class FilterTab extends RelativeLayout {
      * @param up
      */
     private void rotateArrow(boolean up) {
-
         ObjectAnimator rotation = ObjectAnimator.ofFloat(imgArrow, "rotation", up ? 0f : 180f, up ? 180f : 360f);
         rotation.setInterpolator(new LinearOutSlowInInterpolator());
         rotation.setDuration(DURATION_ROTATE);
         rotation.start();
-
     }
-
 
     /**
      * 添加状态改变的监听
@@ -130,7 +128,6 @@ public class FilterTab extends RelativeLayout {
     public void addTabSelectedChangeListener(OnTabSelectedChangeListener listener) {
         tabSelectedObervable.registerObserver(listener);
     }
-
 
     /**
      * 移除状态改变的监听

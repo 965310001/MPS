@@ -30,14 +30,10 @@ import java.util.List;
  */
 public class CustomPopWindow extends PopupWindow {
 
-    private int colorBg = Color.parseColor("#F8F8F8");
-    private int titleTextColor = Color.parseColor("#333333");//标题字体颜色
-
     public CustomPopWindow() {
     }
 
     public CustomPopWindow(Context context, View view) {
-        //这里可以修改popupwindow的宽高
         super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setContentView(view);
         initViews();
@@ -45,7 +41,6 @@ public class CustomPopWindow extends PopupWindow {
 
     private void initViews() {
         setAnimationStyle(R.style.popwin_anim_style);
-        //setBackgroundDrawable(new ColorDrawable(0x00000000));
         setFocusable(true);
         setOutsideTouchable(true);
     }
@@ -53,66 +48,34 @@ public class CustomPopWindow extends PopupWindow {
     public static class Builder {
         private Context context;
         private List<String> listData;
-        private int columnCount;
-        //        private GridLayout rootGridLayout;
         private LinearLayout contextll;
         //背景颜色
         private int colorBg = Color.parseColor("#F8F8F8");
-        private int titleTextSize = 14;//SP
-        private int tabTextSize = 14;//SP
-        private int titleTextColor = Color.parseColor("#333333");//标题字体颜色
-        private int tabTextColor = R.color.fit_item_textcolor;//选项字体颜色
-        private int tabBgDrawable = R.drawable.item_lable_bg_shape;//选项背景颜色
-        //当前加载的行数
-        private int row = -1;
+
         private CustomPopWindow mCustomPopWindow;
+
+        private OnCustomPopWindowClickListener listener;
+
+        public interface OnCustomPopWindowClickListener {
+            void onClick(PopupWindow dialog, View itemView, int position, String content);
+        }
+
+        public CustomPopWindow.Builder setListener(OnCustomPopWindowClickListener listener) {
+            this.listener = listener;
+            return this;
+        }
 
         public Builder(Context context) {
             this.context = context;
         }
 
-        /**
-         * 设置数据源
-         *
-         * @return
-         */
         public CustomPopWindow.Builder setDataSource(List<String> listData) {
             this.listData = listData;
             return this;
         }
 
-        public CustomPopWindow.Builder setColumnCount(int columnCount) {
-            this.columnCount = columnCount;
-            return this;
-        }
-
         public CustomPopWindow.Builder setColorBg(int color) {
             colorBg = context.getResources().getColor(color);
-            return this;
-        }
-
-        public CustomPopWindow.Builder setTitleTextSize(int titleTextSize) {
-            this.titleTextSize = titleTextSize;
-            return this;
-        }
-
-        public CustomPopWindow.Builder setTabTextSize(int tabTextSize) {
-            this.tabTextSize = tabTextSize;
-            return this;
-        }
-
-        public CustomPopWindow.Builder setTitleTextColor(int titleTextColor) {
-            this.titleTextColor = titleTextColor;
-            return this;
-        }
-
-        public CustomPopWindow.Builder setTabTextColor(int tabTextColor) {
-            this.tabTextColor = tabTextColor;
-            return this;
-        }
-
-        public CustomPopWindow.Builder setTabBgDrawable(int tabBgDrawable) {
-            this.tabBgDrawable = tabBgDrawable;
             return this;
         }
 
@@ -129,6 +92,7 @@ public class CustomPopWindow extends PopupWindow {
                 private RecyclerHolder(View itemView) {
                     super(itemView);
                     textView = itemView.findViewById(R.id.text);
+                    textView.setTextSize(context.getResources().getDimensionPixelSize(R.dimen.text_8));
                 }
             }
 
@@ -142,15 +106,19 @@ public class CustomPopWindow extends PopupWindow {
                 }
 
                 @Override
-                public void onBindViewHolder(@NonNull RecyclerHolder holder, final int position) {
+                public void onBindViewHolder(@NonNull final RecyclerHolder holder, final int position) {
                     holder.textView.setText(listData.get(position));
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            KLog.i(listData.get(position));
-                            LiveBus.getDefault().postEvent(Constants.CUSTOMPOPWINDOW_KEY[0], listData.get(position));
-                            mCustomPopWindow.dismiss();
-
+                            if (null != listener) {
+                                listener.onClick(mCustomPopWindow, holder.itemView, position, listData.get(position));
+                            }else{
+                                KLog.i("你还没有初始化 listener");
+                            }
+//                            KLog.i(listData.get(position));
+//                            LiveBus.getDefault().postEvent(Constants.CUSTOMPOPWINDOW_KEY[0], listData.get(position));
+//                            mCustomPopWindow.dismiss();
                         }
                     });
                 }

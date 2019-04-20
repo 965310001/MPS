@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
@@ -30,7 +31,7 @@ import java.util.Arrays;
 /**
  * 商品分类list
  */
-public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implements View.OnClickListener {
+public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implements View.OnClickListener, CustomPopWindow.Builder.OnCustomPopWindowClickListener {
 
     @Autowired
     String id;
@@ -82,8 +83,6 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
     protected void getRemoteData() {
         super.getRemoteData();
         id = ((StoreActivity) activity).getStoreId();
-//        mViewModel.getShappingList(id, String.valueOf(page), keyword,
-//                String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
         KLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
         mViewModel.getStoreGoods(id, page, key, areaId, priceFrom, priceTo, order, ci, st, Constants.STORE_GOODS_RANK_KEY[2]);
     }
@@ -98,34 +97,6 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                     public void onChanged(@Nullable GoodsListInfo response) {
                         KLog.i("" + type);
                         setData(response.getDatas().getGoods_list());
-                    }
-                });
-        /*综合排序*/
-        registerObserver(Constants.CUSTOMPOPWINDOW_KEY[0], String.class)
-                .observe(this, new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String s) {
-                        filterTab0.setText(s);
-                        if (s.equals("综合排序")) {
-                            key = "";
-                            order = "";
-                        } else if (s.equals("人气排序")) {
-                            key = "5";
-                            order = "2";
-                        } else if (s.equals("价格从高到低")) {
-                            key = "2";
-                            order = "2";
-                        } else if (s.equals("价格从低到高")) {
-                            key = "2";
-                            order = "1";
-                        }
-//                        keyword = "";
-//                        areaId = "";
-//                        priceFrom = "";
-//                        priceTo = "";
-//                        ci = "";
-//                        st = "";
-                        onRefresh();
                     }
                 });
 
@@ -152,8 +123,6 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                         onRefresh();
                     }
                 });
-
-
     }
 
     @Override
@@ -179,8 +148,9 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
             if (i == R.id.filter_tab0) {
                 if (null == customPopWindow) {
                     customPopWindow =
-                            new CustomPopWindow.Builder(getActivity()).setColumnCount(3)//设置列数，测试2.3.4.5没问题
+                            new CustomPopWindow.Builder(getActivity())//.setColumnCount(3)//设置列数，测试2.3.4.5没问题
                                     .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
+                                    .setListener(this)
                                     .setColorBg(R.color.color_f8f8f8).build().createPop();
                 }
                 customPopWindow.showAsDropDown(filterTab0);
@@ -199,18 +169,42 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
             } else if (i == R.id.filter_tab3) {
                 if (null == screeningPopWindow) {
                     screeningPopWindow = new ScreeningPopWindow.Builder(getActivity())
-                            .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
+                            .setEventKey(Constants.CUSTOMPOPWINDOW_KEY[1])
                             .setColorBg(R.color.color_f8f8f8).build().createPop();
                 }
                 screeningPopWindow.showAtLocation(filterTab0,
                         Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(getActivity()));
-
             }
-
         }
 
     }
 
     ScreeningPopWindow screeningPopWindow;
     CustomPopWindow customPopWindow;
+
+    @Override
+    public void onClick(PopupWindow dialog, View itemView, int position, String content) {
+        filterTab0.setText(content);
+        switch (position) {
+            case 0:/*综合排序*/
+                key = "";
+                order = "";
+                break;
+            case 1:/*价格从高到低*/
+                key = "2";
+                order = "2";
+                break;
+            case 2:/*价格从低到高*/
+                key = "2";
+                order = "1";
+                break;
+            case 3:/*综合排序*/
+                key = "5";
+                order = "2";
+                break;
+        }
+        keyword = "";
+        onRefresh();
+        dialog.dismiss();
+    }
 }

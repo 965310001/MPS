@@ -7,13 +7,11 @@ import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.goldze.common.dmvvm.activity.HorizontalTabActivity;
-import com.goldze.common.dmvvm.base.event.LiveBus;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 
@@ -33,17 +31,15 @@ import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
-import com.xuexiang.xui.widget.tabbar.EasyIndicator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 商品分类list
  */
 @Route(path = ARouterConfig.classify.PRODUCTSACTIVITY)
-public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
+public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
+        implements CustomPopWindow.Builder.OnCustomPopWindowClickListener {
 
     @Autowired
     String id;
@@ -65,6 +61,8 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
 
     private FilterTab filterTab0;
 
+    private PopupWindow screeningPopWindow, customPopWindow;
+
     @Override
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
@@ -77,7 +75,10 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
         curressView = filterTab0;
 
         for (FilterTab tab :
-                Arrays.asList(itemTabsegmentBinding.filterTab0, itemTabsegmentBinding.filterTab1, itemTabsegmentBinding.filterTab2, itemTabsegmentBinding.filterTab3)) {
+                Arrays.asList(itemTabsegmentBinding.filterTab0,
+                        itemTabsegmentBinding.filterTab1,
+                        itemTabsegmentBinding.filterTab2,
+                        itemTabsegmentBinding.filterTab3)) {
             tab.setOnClickListener(this);
         }
     }
@@ -97,36 +98,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
                 .observe(this, new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
-//                        KLog.i("" + type);
                         setData(response.getDatas().getGoods_list());
-                    }
-                });
-        /*综合排序*/
-        registerObserver(Constants.CUSTOMPOPWINDOW_KEY[0], String.class)
-                .observe(this, new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String s) {
-                        filterTab0.setText(s);
-                        if (s.equals("综合排序")) {
-                            key = "";
-                            order = "";
-                        } else if (s.equals("人气排序")) {
-                            key = "2";
-                            order = "2";
-                        } else if (s.equals("价格从高到低")) {
-                            key = "3";
-                            order = "2";
-                        } else if (s.equals("价格从低到高")) {
-                            key = "3";
-                            order = "1";
-                        }
-                        keyword = "";
-//                        areaId = "";
-//                        priceFrom = "";
-//                        priceTo = "";
-//                        ci = "";
-//                        st = "";
-                        onRefresh();
                     }
                 });
 
@@ -146,7 +118,6 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
                             st = st.concat(s).concat("_");
                         }
                         keyword = "";
-//                        areaId="";
                         order = "";
                         key = "";
                         id = "";
@@ -183,38 +154,53 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel> {
             if (i == R.id.filter_tab0) {
                 if (null == customPopWindow) {
                     customPopWindow =
-                            new CustomPopWindow.Builder(ProductsActivity.this).setColumnCount(3)//设置列数，测试2.3.4.5没问题
+                            new CustomPopWindow.Builder(ProductsActivity.this)
                                     .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
+                                    .setListener(this)
                                     .setColorBg(R.color.color_f8f8f8).build().createPop();
                 }
                 customPopWindow.showAsDropDown(filterTab0);
-//                adapter = createAdapter();
-
             } else if (i == R.id.filter_tab1) {
                 key = "1";
                 order = "2";
                 keyword = "";
-//                areaId = "";
-//                priceFrom="";
-//                priceTo="";
-//                ci = "";
-//                st = "";
                 onRefresh();
             } else if (i == R.id.filter_tab3) {
                 if (null == screeningPopWindow) {
-                    screeningPopWindow = new ScreeningPopWindow.Builder(ProductsActivity.this)
-                            .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
+                    screeningPopWindow = new ScreeningPopWindow
+                            .Builder(ProductsActivity.this)
+                            .setEventKey(Constants.CUSTOMPOPWINDOW_KEY[1])
                             .setColorBg(R.color.color_f8f8f8).build().createPop();
                 }
                 screeningPopWindow.showAtLocation(filterTab0,
                         Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
-
             }
-
         }
-
     }
 
-    ScreeningPopWindow screeningPopWindow;
-    CustomPopWindow customPopWindow;
+    @Override
+    public void onClick(PopupWindow dialog, View itemView, int position, String content) {
+        dialog.dismiss();
+        filterTab0.setText(content);
+        switch (position) {
+            case 0:/*综合排序*/
+                key = "";
+                order = "";
+                break;
+            case 1:/*价格从高到低*/
+                key = "3";
+                order = "2";
+                break;
+            case 2:/*价格从低到高*/
+                key = "3";
+                order = "1";
+                break;
+            case 3:/*综合排序*/
+                key = "2";
+                order = "2";
+                break;
+        }
+        keyword = "";
+        onRefresh();
+    }
 }

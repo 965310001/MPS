@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 /**
- *  具体的bar
+ * 具体的bar
  */
 
 public class FilterBar extends LinearLayout implements FilterTab.OnTabSelectedChangeListener {
@@ -22,7 +22,6 @@ public class FilterBar extends LinearLayout implements FilterTab.OnTabSelectedCh
     public FilterBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setOrientation(HORIZONTAL);
-
     }
 
     @Override
@@ -32,14 +31,14 @@ public class FilterBar extends LinearLayout implements FilterTab.OnTabSelectedCh
     }
 
     private void syncFilterTabState() {
+        View child;
         for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
+            child = getChildAt(i);
             if (child instanceof FilterTab) {
                 ((FilterTab) child).addTabSelectedChangeListener(FilterBar.this);
             }
         }
     }
-
 
     private FilterTab lastSelectedTab;
 
@@ -50,7 +49,7 @@ public class FilterBar extends LinearLayout implements FilterTab.OnTabSelectedCh
                 lastSelectedTab.setFilterTabSelected(false);
             }
             lastSelectedTab = filterTab;
-        }else {
+        } else {
             lastSelectedTab = null;
         }
 

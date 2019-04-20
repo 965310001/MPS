@@ -31,6 +31,7 @@ import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.goldze.common.dmvvm.utils.Utils;
 import com.google.gson.Gson;
 import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.adapter.CustomDefaultFlowTagAdapter;
 import com.mingpinmall.classz.databinding.FragmentScreeningBinding;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
@@ -59,7 +60,6 @@ public class ScreeningPopWindow extends PopupWindow {
     }
 
     public ScreeningPopWindow(Context context, View view) {
-        //这里可以修改popupwindow的宽高
         super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setContentView(view);
         initViews();
@@ -73,38 +73,15 @@ public class ScreeningPopWindow extends PopupWindow {
 
     public static class Builder {
         private Context context;
-        private List<String> listData;
-        private int columnCount;
-        //        private GridLayout rootGridLayout;
         private LinearLayout contextll;
+        private Object eventKey;
         //背景颜色
         private int colorBg = Color.parseColor("#F8F8F8");
-        private int titleTextSize = 14;//SP
-        private int tabTextSize = 14;//SP
-        private int titleTextColor = Color.parseColor("#333333");//标题字体颜色
-        private int tabTextColor = R.color.fit_item_textcolor;//选项字体颜色
-        private int tabBgDrawable = R.drawable.item_lable_bg_shape;//选项背景颜色
-        //当前加载的行数
-        private int row = -1;
+
         private ScreeningPopWindow mScreeningPopWindow;
 
         public Builder(Context context) {
             this.context = context;
-        }
-
-        /**
-         * 设置数据源
-         *
-         * @return
-         */
-        public ScreeningPopWindow.Builder setDataSource(List<String> listData) {
-            this.listData = listData;
-            return this;
-        }
-
-        public ScreeningPopWindow.Builder setColumnCount(int columnCount) {
-            this.columnCount = columnCount;
-            return this;
         }
 
         public ScreeningPopWindow.Builder setColorBg(int color) {
@@ -112,33 +89,14 @@ public class ScreeningPopWindow extends PopupWindow {
             return this;
         }
 
-        public ScreeningPopWindow.Builder setTitleTextSize(int titleTextSize) {
-            this.titleTextSize = titleTextSize;
-            return this;
-        }
-
-        public ScreeningPopWindow.Builder setTabTextSize(int tabTextSize) {
-            this.tabTextSize = tabTextSize;
-            return this;
-        }
-
-        public ScreeningPopWindow.Builder setTitleTextColor(int titleTextColor) {
-            this.titleTextColor = titleTextColor;
-            return this;
-        }
-
-        public ScreeningPopWindow.Builder setTabTextColor(int tabTextColor) {
-            this.tabTextColor = tabTextColor;
-            return this;
-        }
-
-        public ScreeningPopWindow.Builder setTabBgDrawable(int tabBgDrawable) {
-            this.tabBgDrawable = tabBgDrawable;
-            return this;
-        }
 
         public ScreeningPopWindow.Builder build() {
             newItemLayout();
+            return this;
+        }
+
+        public ScreeningPopWindow.Builder setEventKey(Object eventKey) {
+            this.eventKey = eventKey;
             return this;
         }
 
@@ -160,10 +118,17 @@ public class ScreeningPopWindow extends PopupWindow {
             bind.contentLayout.setBackgroundColor(colorBg);
 //            bind.msAddressSelect.setItems(ResUtils.getStringArray(R.array.tags_values_type));
 //            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, ResUtils.getStringArray(R.array.tags_values_type));
-            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, AssetsData.getAreaListInfos());
 //            bind.spinnerSystem.getSelectedItem().toString();
 //            KLog.i(bind.spinnerSystem.getSelectedItem().toString());
+            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, AssetsData.getAreaListInfos());
             /*类型*/
+            CustomDefaultFlowTagAdapter adapter = new CustomDefaultFlowTagAdapter(context);
+            bind.ftlShopType.setAdapter(adapter);
+            adapter = new CustomDefaultFlowTagAdapter(context);
+            bind.ftlShopServer.setAdapter(adapter);
+            adapter = new CustomDefaultFlowTagAdapter(context);
+            bind.ftlGoodType.setAdapter(adapter);
+
             bind.ftlGoodType.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
             bind.ftlGoodType.setItems(context.getResources().getStringArray(R.array.tags_values_server));
             bind.ftlShopType.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
@@ -202,7 +167,11 @@ public class ScreeningPopWindow extends PopupWindow {
                         shoppingServer.add(String.valueOf(index));
                     }
                     screenInfo.areaId = AssetsData.getAreaByName(bind.spinnerSystem.getSelectedItem().toString());
-                    LiveBus.getDefault().postEvent(Constants.CUSTOMPOPWINDOW_KEY[1], screenInfo);
+                    if (null != eventKey) {
+                        LiveBus.getDefault().postEvent(eventKey, screenInfo);
+                    } else {
+                        new NullPointerException("请设置eventKey");
+                    }
                     mScreeningPopWindow.dismiss();
                 }
             });
@@ -223,17 +192,7 @@ public class ScreeningPopWindow extends PopupWindow {
             contextll.addView(contentView, lp);
         }
 
-
         public ScreeningPopWindow createPop() {
-            if (listData == null || listData.size() == 0) {
-                try {
-                    throw new Exception("没有筛选条件");
-                } catch (Exception e) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-                return null;
-            }
             mScreeningPopWindow = new ScreeningPopWindow(context, contextll);
             return mScreeningPopWindow;
         }

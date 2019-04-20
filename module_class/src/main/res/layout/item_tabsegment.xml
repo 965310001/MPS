@@ -21,6 +21,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="#fff"
+                android:gravity="center"
                 app:filterText="综合排序"
                 app:isSelect="true" />
 
@@ -30,6 +31,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="#fff"
+                android:gravity="center"
                 app:filterText="销量优先"
                 app:isImage="false"
                 app:isSelect="false" />
@@ -40,6 +42,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="#fff"
+                android:gravity="center"
                 android:visibility="gone"
                 app:filterText="产品色系"
                 app:isSelect="false" />
@@ -50,6 +53,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="#fff"
+                android:gravity="center"
                 app:filterText="筛选"
                 app:isSelect="false" />
         </com.mingpinmall.classz.widget.FilterBar>
