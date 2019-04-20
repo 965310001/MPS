@@ -119,12 +119,12 @@ public class DatabingUtils {
     }
 
     /*封装*/
-    @BindingAdapter(value = {"items", "adapter", "layout"}, requireAll = false)
+    @BindingAdapter(value = {"items", "adapter", "layout", "itemdecoration"}, requireAll = false)
     public static void setChild(TRecyclerView rv,
                                 List data,
                                 DelegateAdapter adapter,
-                                RecyclerView.LayoutManager layout) {
-//        adapter = (DelegateAdapter) rv.getAdapter();
+                                RecyclerView.LayoutManager layout,
+                                boolean isDecoration) {
         if (null == rv.getAdapter()) {
             Context context = rv.getContext();
             if (null == rv.getLayoutManager()) {
@@ -138,22 +138,6 @@ public class DatabingUtils {
                 case 0:
                     adapter = AdapterPool.newInstance().getRightAdapter(context).build();
                     layout = new GridLayoutManager(context, 3);
-                    break;
-                case 1:
-                    KLog.i("左边");
-                    /*左边*/
-//                    adapter = AdapterPool.newInstance().getLeftAdapter(context)
-//                            .build();
-//                    layout = new LinearLayoutManager(context);
-                    rv.addItemDecoration(new DividerItemDecoration(context,
-                            DividerItemDecoration.VERTICAL));
-                    break;
-                case 2:
-//                    adapter = AdapterPool.newInstance().getConfirmOrder(context)
-//                            .build();
-                    rv.addItemDecoration(new DividerItemDecoration(context,
-                            DividerItemDecoration.VERTICAL));
-//                    layout = new LinearLayoutManager(context);
                     break;
                 case 3:
                     final InvoiceListInfo.InvoiceListBean[] bean = {null};
@@ -181,6 +165,13 @@ public class DatabingUtils {
                 default:
                     KLog.i("必须个TRecyclerView 设置TAG");
                     break;
+            }
+            KLog.i(isDecoration + "==" + rv.getItemDecorationCount());
+            if (!isDecoration) {
+                rv.addItemDecoration(new DividerItemDecoration(context,
+                        DividerItemDecoration.VERTICAL));
+            } else {
+
             }
             rv.setLayoutManager(layout);
             rv.setAdapter(adapter);

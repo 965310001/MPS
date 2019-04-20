@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:tag="0"
+                itemdecoration="@{true}"
                 bind:items="@{data.child}" />
 
             <!--<include-->

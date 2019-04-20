@@ -3,9 +3,7 @@ package com.mingpinmall.classz.ui.activity.classify;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,13 +19,11 @@ import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
-import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 
 import java.util.List;
-
 
 /**
  * 分类
@@ -35,8 +31,6 @@ import java.util.List;
 public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel>
         implements OnItemClickListener, View.OnClickListener {
 
-    //    private TRecyclerView rvRightRecyclerView;
-    //    private LinearLayoutManager linearLayoutManager;
     private int leftPostion = 0;
     private DelegateAdapter rightAdapter;
     private ClassificationBean.DatasBean.ClassListBean data;
@@ -73,25 +67,9 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         //并且设置状态栏字体颜色为黑色
         setDarkMode(true);
 
-        rightAdapter = AdapterPool.newInstance().getRightAdapter(getActivity())
-                .build();
-        rightAdapter.setDatas(rightData);
-//        final TRecyclerView rvLeftRecyclerView = binding.trvLeft;
-//        TRecyclerView rvRightRecyclerView = binding.trvRight;
-
-//        rvLeftRecyclerView.setAdapter(AdapterPool.newInstance().getLeftAdapter(getActivity())
-//                .setOnItemClickListener(this)
-//                .build());
         binding.setLeftAdapter(AdapterPool.newInstance().getLeftAdapter(getActivity())
                 .setOnItemClickListener(this)
                 .build());
-//        rvRightRecyclerView.setAdapter(rightAdapter);
-
-//        rvLeftRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-//                DividerItemDecoration.VERTICAL));
-//        linearLayoutManager = new LinearLayoutManager(getActivity());
-//        rvLeftRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        linearLayoutManager = new LinearLayoutManager(getActivity());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -105,10 +83,11 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 }
             }
         });
+        rightAdapter = AdapterPool.newInstance()
+                .getRightAdapter(getActivity())
+                .build();
         binding.setRightLayout(gridLayoutManager);
         binding.setRightAdapter(rightAdapter);
-
-//        rvRightRecyclerView.setLayoutManager(gridLayoutManager);
     }
 
     @Override
@@ -175,9 +154,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.iv_search) {
-            ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
-        }
+        if (i == R.id.iv_search) ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
     }
 
     @Override
