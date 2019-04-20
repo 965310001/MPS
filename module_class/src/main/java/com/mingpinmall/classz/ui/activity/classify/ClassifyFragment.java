@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel>
         implements OnItemClickListener, View.OnClickListener {
-
+    
     private int leftPostion = 0;
     private DelegateAdapter rightAdapter;
     private ClassificationBean.DatasBean.ClassListBean data;

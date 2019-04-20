@@ -25,6 +25,7 @@ import com.mingpinmall.cart.ui.CartFragment;
 import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.home.ui.HomeFragment;
 import com.mingpinmall.me.ui.MeFragment;
+import com.mingpinmall.me.ui.api.UserViewModel;
 import com.mingpinmall.shopping.R;
 
 import java.util.ArrayList;

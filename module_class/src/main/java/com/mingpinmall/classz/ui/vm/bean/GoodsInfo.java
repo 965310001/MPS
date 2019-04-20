@@ -54,17 +54,19 @@ public class GoodsInfo extends BaseBean {
     private String goods_salenum;
     private String evaluation_good_star;
     private String evaluation_count;
-    private String is_virtual;
-    private String is_presell;
-    private String is_fcode;
-    private String have_gift;
+    private String is_virtual;/*是否是虚拟码*/
+    private String is_presell;/*预*/
+    private String is_fcode;/*F码*/
+    private String have_gift;/*赠*/
     private String store_name;/*商家名字*/
     @Transient
     private boolean isStoreName = false;
     private String is_own_mall;
     //            private boolean sole_flag;
-//            private boolean group_flag;
-//            private boolean xianshi_flag;
+    @Transient
+    private boolean group_flag;/*降*/
+    @Transient
+    private boolean xianshi_flag;/*降*/
     private String goods_image_url;
     @Transient
     private boolean is_favorate;/*是否已经收藏*/
@@ -111,7 +113,7 @@ public class GoodsInfo extends BaseBean {
 
     @Generated(hash = 1392708661)
     public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_promotion_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name,
-                     String is_own_mall, String goods_image_url, int num) {
+            String is_own_mall, String goods_image_url, int num) {
         this.goods_id = goods_id;
         this.store_id = store_id;
         this.goods_name = goods_name;
@@ -361,21 +363,21 @@ public class GoodsInfo extends BaseBean {
 //                this.sole_flag = sole_flag;
 //            }
 //
-//            public boolean isGroup_flag() {
-//                return group_flag;
-//            }
+            public boolean isGroup_flag() {
+                return group_flag;
+            }
 //
-//            public void setGroup_flag(boolean group_flag) {
-//                this.group_flag = group_flag;
-//            }
+            public void setGroup_flag(boolean group_flag) {
+                this.group_flag = group_flag;
+            }
 //
-//            public boolean isXianshi_flag() {
-//                return xianshi_flag;
-//            }
-//
-//            public void setXianshi_flag(boolean xianshi_flag) {
-//                this.xianshi_flag = xianshi_flag;
-//            }
+            public boolean isXianshi_flag() {
+                return xianshi_flag;
+            }
+
+            public void setXianshi_flag(boolean xianshi_flag) {
+                this.xianshi_flag = xianshi_flag;
+            }
 
     public String getGoods_image_url() {
         return goods_image_url;
@@ -397,6 +399,14 @@ public class GoodsInfo extends BaseBean {
 
     public void setIsStoreName(boolean isStoreName) {
         this.isStoreName = isStoreName;
+    }
+
+    public boolean getGroup_flag() {
+        return this.group_flag;
+    }
+
+    public boolean getXianshi_flag() {
+        return this.xianshi_flag;
     }
 
 //    public void onclick(View view, GoodsInfo data) {

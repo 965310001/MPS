@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
@@ -58,10 +60,88 @@
                     android:padding="10dp">
 
                     <!--商品名称-->
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/width_warp_height_warp"
+                            android:background="@drawable/bg_of_red_gradient_radius"
+                            android:paddingLeft="@dimen/dp_6"
+                            android:paddingTop="@dimen/dp_4"
+                            android:paddingRight="@dimen/dp_6"
+                            android:paddingBottom="@dimen/dp_4"
+                            android:text="虚拟"
+                            android:textColor="@color/white"
+                            android:tint="@color/shallow_red"
+                            android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
+
+                        <TextView
+                            style="@style/width_warp_height_warp"
+                            android:layout_marginLeft="@dimen/dp_6"
+                            android:layout_marginRight="@dimen/dp_6"
+                            android:background="@drawable/bg_of_red_gradient_radius"
+                            android:paddingLeft="@dimen/dp_6"
+                            android:paddingTop="@dimen/dp_4"
+                            android:paddingRight="@dimen/dp_6"
+                            android:paddingBottom="@dimen/dp_4"
+                            android:text="F码"
+                            android:textColor="@color/white"
+                            android:visibility="@{data.is_virtual.equals(`1`)?View.VISIBLE:View.GONE}" />
+
+                        <TextView
+                            style="@style/width_warp_height_warp"
+                            android:layout_marginLeft="@dimen/dp_6"
+                            android:layout_marginRight="@dimen/dp_6"
+                            android:background="@drawable/bg_of_red_gradient_radius"
+                            android:paddingLeft="@dimen/dp_6"
+                            android:paddingTop="@dimen/dp_4"
+                            android:paddingRight="@dimen/dp_6"
+                            android:paddingBottom="@dimen/dp_4"
+                            android:text="预"
+                            android:textColor="@color/white"
+                            android:visibility="@{data.is_presell.equals(`1`)?View.VISIBLE:View.GONE}" />
+
+                        <TextView
+                            style="@style/width_warp_height_warp"
+                            android:layout_marginLeft="@dimen/dp_6"
+                            android:layout_marginRight="@dimen/dp_6"
+                            android:background="@drawable/bg_of_red_gradient_radius"
+                            android:paddingLeft="@dimen/dp_6"
+                            android:paddingTop="@dimen/dp_4"
+                            android:paddingRight="@dimen/dp_6"
+                            android:paddingBottom="@dimen/dp_4"
+                            android:text="降"
+                            android:textColor="@color/white"
+                            android:visibility="@{data.group_flag||data.xianshi_flag?View.VISIBLE:View.GONE}" />
+
+                        <TextView
+                            style="@style/width_warp_height_warp"
+                            android:layout_marginLeft="@dimen/dp_6"
+                            android:layout_marginRight="@dimen/dp_6"
+                            android:background="@drawable/bg_of_red_gradient_radius"
+                            android:paddingLeft="@dimen/dp_6"
+                            android:paddingTop="@dimen/dp_4"
+                            android:paddingRight="@dimen/dp_6"
+                            android:paddingBottom="@dimen/dp_4"
+                            android:text="赠"
+                            android:textColor="@color/white"
+                            android:visibility="@{data.have_gift.equals(`1`)?View.VISIBLE:View.GONE}" />
+
+                        <TextView
+                            android:id="@+id/tv_goods_name"
+                            style="@style/TextStyle"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:gravity="left"
+                            android:maxLines="2"
+                            android:paddingRight="@dimen/dp_10"
+                            android:text="@{data.goods_name}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_16"
+                            tools:text="正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表" />
 
                         <ImageView
                             android:id="@+id/iv_like"
@@ -70,21 +150,9 @@
                             android:layout_alignParentRight="true"
                             android:onClick="favorites"
                             android:src="@{data.isfavorate?@drawable/ic_me_favorite:@drawable/ic_me_favorite_red}"
-                            android:tint="@color/shallow_red" />
-
-                        <TextView
-                            android:id="@+id/tv_goods_name"
-                            style="@style/TextStyle"
-                            android:layout_alignParentLeft="true"
-                            android:layout_toLeftOf="@id/iv_like"
-                            android:ellipsize="end"
-                            android:gravity="left"
-                            android:maxLines="2"
-                            android:paddingRight="@dimen/dp_10"
-                            android:text="@{data.goods_name}"
-                            tools:text="正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表" />
-
-                    </RelativeLayout>
+                            android:tint="@color/shallow_red"
+                            tools:src="@drawable/ic_me_favorite" />
+                    </LinearLayout>
 
                     <!--商品价格-->
                     <RelativeLayout
@@ -100,6 +168,21 @@
                             android:text="@{String.format(@string/price_holder,data.goods_price)}"
                             android:textColor="@color/shallow_red"
                             android:textSize="@dimen/dp_20"
+                            tools:text="￥599.00" />
+
+                        <TextView
+                            android:id="@+id/tv_old_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginBottom="2dp"
+                            android:layout_toEndOf="@+id/tv_goods_price"
+                            android:gravity="center_vertical"
+                            android:text="@{String.format(@string/price_holder,data.goods_marketprice)}"
+                            android:textColor="@color/gray"
+                            android:textSize="13sp"
+                            android:visibility="visible"
                             tools:text="￥599.00" />
 
                         <TextView
@@ -122,6 +205,11 @@
                             android:visibility="gone" />
                     </RelativeLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="促销"
+                        html="@{data.goods_name}"/>
                 </LinearLayout>
 
                 <com.leon.lib.settingview.LSettingItem

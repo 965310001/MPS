@@ -8,10 +8,12 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -116,6 +118,37 @@ public class DatabingUtils {
             KLog.i(e.toString() + "最好两个都设置");
         }
 
+    }
+
+    @BindingAdapter("html")
+    public static void setHtml(TextView textView, String content) {
+        textView.setText(Html.fromHtml(String.format("<html>\n" +
+                " <head></head> \n" + " <body> \n" + "  <div> \n" + "   <div style=\"color: gray\">\n" +
+                "     促销 \n" +
+                "   </div> \n" +
+                "   <div> \n" +
+                "    <dl> \n" +
+                "     <dt style=\"text-indent:2em;\"> \n" +
+                "      <span style=\"background: #ED5564;color:#fff;padding: 4px;border-radius: 4px;font-size: 12px\">团购</span> \n" +
+                "      <span style=\"color:gray;font-size: 10px\">最多限购0件 抢购抢购111</span> \n" +
+                "     </dt> \n" +
+                "     <dd> \n" +
+                "     </dd> \n" +
+                "    </dl> \n" +
+                "    <dl style=\"text-indent:2em;\"> \n" +
+                "    <span style=\"background: #ED5564;color:#fff;padding: 4px;border-radius: 4px;font-size: 12px\">满即送</span> \n" +
+                "     <dt>\n" +
+                "      <dl style=\"color:gray;font-size: 10px;\">\n" +
+                "        单笔订单满 \n" +
+                "       <em><font color=\\\"#00bbaa\\\">1000</font></em>元，立减 \n" +
+                "       <em>%s</em>元 \n" +
+                "      </dl> \n" +
+                "     </dt> \n" +
+                "    </dl> \n" +
+                "   </div> \n" +
+                "  </div>  \n" +
+                " </body>\n" +
+                "</html>", content)));
     }
 
     /*封装*/
