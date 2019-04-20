@@ -96,7 +96,9 @@ public class MainActivity extends BottomNavigationActivity {
         });
 
         // TODO: 2019/4/19 测试
-        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
+//        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
+
+        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
     }
 
     private void checkUpdate() {

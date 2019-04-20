@@ -123,6 +123,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
             textView = child.findViewById(R.id.tv_tag);
             textView.setText(entity);
             textView.setTextColor(ColorUtil.getRandomColor(random));
+            textView.setBackgroundColor(getResources().getColor(R.color.white));
             child.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
