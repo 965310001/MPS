@@ -171,6 +171,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
+                        KLog.i(msg);
                         showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 

@@ -17,10 +17,11 @@ public class CustomDefaultFlowTagAdapter extends DefaultFlowTagAdapter {
         super(context);
     }
 
+    TextView textView;
+
     @Override
     protected TextView newViewHolder(View convertView) {
-        KLog.i("+===");
-        TextView textView = super.newViewHolder(convertView);
+        textView = super.newViewHolder(convertView);
         textView.setBackgroundResource(R.drawable.default_flow_tag_bg_rect_round_red);
         textView.setTextColor(getContext().getResources().getColorStateList(R.color.fit_item_textcolor));
         return textView;

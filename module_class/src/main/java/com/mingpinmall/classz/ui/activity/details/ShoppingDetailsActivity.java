@@ -64,7 +64,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.GOODSDETAIL_EVENT_KEY[0];
+        return Constants.GOODSDETAIL_EVENT_KEY[1];
     }
 
     @Override

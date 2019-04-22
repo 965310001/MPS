@@ -4,18 +4,18 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
-import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.DateUtils;
 import com.mingpinmall.classz.BR;
 import com.socks.library.KLog;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
-
-
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Transient;
+
+import java.util.List;
 
 @Entity
 public class GoodsInfo extends BaseBean {
@@ -83,11 +83,25 @@ public class GoodsInfo extends BaseBean {
     private String goods_addtime_text;/*添加时间*/
 
     @Transient
-    private int cart;
+    public String virtual_indate;/*有效期*/
 
+    @Transient
+    private int cart;
 
     /*购买的数量*/
     private int num;//数量
+
+    /*属性*/
+    @Transient
+    public List<String> news_goods_spec;/*默认选中*/
+    @Transient
+    public List<String> news_goods_spec_name;
+    @Transient
+    public List<List<String>> news_goods_spec_value;
+    @Transient
+    public List<NewsSpecDataBean> news_spec_data;
+    @Transient
+    public List<NewsSpecListDataBean> news_spec_list_data;
 
     @Keep
     public GoodsInfo() {
@@ -142,6 +156,15 @@ public class GoodsInfo extends BaseBean {
 //    public int getCart() {
 //        return cart;
 //    }
+
+
+    public List<List<String>> getNews_goods_spec_value() {
+        return news_goods_spec_value;
+    }
+
+    public void setNews_goods_spec_value(List<List<String>> news_goods_spec_value) {
+        this.news_goods_spec_value = news_goods_spec_value;
+    }
 
     public void setCart(int cart) {
         this.cart = cart;
@@ -429,9 +452,129 @@ public class GoodsInfo extends BaseBean {
         return this.xianshi_flag;
     }
 
+    public String getVirtual_indate() {
+        return virtual_indate;
+    }
+
+    public void setVirtual_indate(String virtual_indate) {
+        this.virtual_indate = virtual_indate;
+    }
+
     /*有效期*/
     public String getValidity() {
-        return String.format("即日起 到 %s","2028-4-28 23:59:59");
+        return String.format("即日起 到 %s", DateUtils.getFormatDate(Long.parseLong(virtual_indate), "yyyy-MM-dd HH:mm:ss"));
+    }
+
+    public List<String> getNews_goods_spec_name() {
+        return news_goods_spec_name;
+    }
+
+    public void setNews_goods_spec_name(List<String> news_goods_spec_name) {
+        this.news_goods_spec_name = news_goods_spec_name;
+    }
+
+    public List<NewsSpecDataBean> getNews_spec_data() {
+        return news_spec_data;
+    }
+
+    public void setNews_spec_data(List<NewsSpecDataBean> news_spec_data) {
+        this.news_spec_data = news_spec_data;
+    }
+
+    public List<NewsSpecListDataBean> getNews_spec_list_data() {
+        return news_spec_list_data;
+    }
+
+    public void setNews_spec_list_data(List<NewsSpecListDataBean> news_spec_list_data) {
+        this.news_spec_list_data = news_spec_list_data;
+    }
+
+    public static class NewsSpecDataBean extends BaseBean {
+        /**
+         * spec_id : 1
+         * spec_name : 尺寸
+         * spec_value : [{"spe_id":496,"spe_value":"大"},{"spe_id":497,"spe_value":"中"}]
+         */
+
+        private int spec_id;
+        private String spec_name;
+        private List<SpecValueBean> spec_value;
+
+        public int getSpec_id() {
+            return spec_id;
+        }
+
+        public void setSpec_id(int spec_id) {
+            this.spec_id = spec_id;
+        }
+
+        public String getSpec_name() {
+            return spec_name;
+        }
+
+        public void setSpec_name(String spec_name) {
+            this.spec_name = spec_name;
+        }
+
+        public List<SpecValueBean> getSpec_value() {
+            return spec_value;
+        }
+
+        public void setSpec_value(List<SpecValueBean> spec_value) {
+            this.spec_value = spec_value;
+        }
+
+        public static class SpecValueBean extends BaseBean {
+            /**
+             * spe_id : 496
+             * spe_value : 大
+             */
+
+            private int spe_id;
+            private String spe_value;
+
+            public int getSpe_id() {
+                return spe_id;
+            }
+
+            public void setSpe_id(int spe_id) {
+                this.spe_id = spe_id;
+            }
+
+            public String getSpe_value() {
+                return spe_value;
+            }
+
+            public void setSpe_value(String spe_value) {
+                this.spe_value = spe_value;
+            }
+        }
+    }
+
+    public static class NewsSpecListDataBean {
+        /**
+         * key : 496|510|513
+         * val : 109964
+         */
+
+        private String key;
+        private String val;
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getVal() {
+            return val;
+        }
+
+        public void setVal(String val) {
+            this.val = val;
+        }
     }
 
 //    public void onclick(View view, GoodsInfo data) {

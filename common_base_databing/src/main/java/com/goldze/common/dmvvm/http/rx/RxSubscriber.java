@@ -59,7 +59,7 @@ public abstract class RxSubscriber<T> extends DisposableSubscriber<T> {
             message = "网络连接超时";
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException) {
-            message = "解析错误";
+            message = "解析错误"+e.toString();
         } else if (e instanceof ConnectException) {
             message = "连接失败";
         } else if (e instanceof ServerException) {

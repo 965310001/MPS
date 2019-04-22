@@ -45,15 +45,13 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         implements SlideLayout.OnSlideDetailsListener {
 
     //TextView tvGoodsName;TextView tvGoodsPrice;TextView tvGoodsNum;CountClickView ccvClick;TextView tvPraiseRate;SlideLayout svSwitch;ImageView ivIcon;TextView tvEnsure;tvEnsure = binding.tvEnsure;tvGoodsPrice = binding.tvGoodsPrice;tvGoodsName = binding.tvGoodsName;tvGoodsNum = binding.tvGoodsNum;tvOldPrice = binding.tvOldPrice;ccvClick = binding.ccvClick;ConvenientBanner<List<GoodsInfo>> vpRecommend = binding.vpRecommend;binding.ccvClick.setCurrCount(1);binding.ccvClick.setMinCount(1);
-
-    String id;
-    ConvenientBanner vpItemGoodsImg;
-    TextView tvCommentCount;/*用于点评*/
-    LinearLayout llComment;/*用于点评*/
-    TextView tvEmptyComment;
-    RecyclerView recyclerView;//评论
-
-    RecyclerView recyclerViewRecommend;
+//    String id;
+//    ConvenientBanner vpItemGoodsImg;
+//    TextView tvCommentCount;/*用于点评*/
+//    LinearLayout llComment;/*用于点评*/
+//    TextView tvEmptyComment;
+//    RecyclerView recyclerView;//评论
+//    RecyclerView recyclerViewRecommend;
 
     /**
      * 当前商品详情数据页的索引分别是图文详情、规格参数
@@ -61,6 +59,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     GoodsInfo goodsInfo;
     GoodsDetailInfo goodsDetailInfo;
     private ShoppingDetailsActivity shoppingDetailsActivity;
+    private GoodsSpecificationPop specificationPop;
 
     @Override
     public void onAttach(Context context) {
@@ -95,26 +94,20 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         super.initView(state);
         showSuccess();
 
-        vpItemGoodsImg = binding.vpItemGoodsImg;
-
-
-        tvCommentCount = binding.getRoot().findViewById(R.id.tv_comment_count);
-        llComment = binding.getRoot().findViewById(R.id.ll_comment);
-        recyclerView = binding.getRoot().findViewById(R.id.recycle_view);
-        recyclerViewRecommend = binding.recycleRecommendView.recyclerView;
-        tvEmptyComment = binding.getRoot().findViewById(R.id.tv_empty_comment);
-
-        binding.svSwitch.setOnSlideDetailsListener(this);
-
-        id = getArguments().getString("id");
-        goodsDetailInfo = (GoodsDetailInfo) getArguments().getSerializable("goodsInfo");
-        goodsInfo = goodsDetailInfo.getDatas().getGoods_info();
-        KLog.i(goodsInfo);
-
+//        vpItemGoodsImg = binding.vpItemGoodsImg;
+//        tvCommentCount = binding.getRoot().findViewById(R.id.tv_comment_count);
+//        llComment = binding.getRoot().findViewById(R.id.ll_comment);
+//       RecyclerView recyclerView = binding.getRoot().findViewById(R.id.recycle_view);
+//        RecyclerView    recyclerViewRecommend = binding.recycleRecommendView.recyclerView;
+//        tvEmptyComment = binding.getRoot().findViewById(R.id.tv_empty_comment);
+//        id = getArguments().getString("id");
 //        binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
+        binding.svSwitch.setOnSlideDetailsListener(this);
+        goodsDetailInfo = (GoodsDetailInfo) getArguments().getSerializable("goodsInfo");
+        goodsInfo = goodsDetailInfo.getDatas().getGoods_info();
+        KLog.i(goodsInfo+"=====");
         setGoodsInfo();
-
         binding.lsiGoodsSpecification.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
             @Override
             public void click(boolean isChecked) {
@@ -128,7 +121,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
-    GoodsSpecificationPop specificationPop;
 
     @Override
     protected void dataObserver() {
@@ -215,11 +207,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
      */
     private void setGoodsInfo() {
         if (goodsInfo != null) {
-//            tvGoodsName.setText(goodsInfo.getGoods_name());
-//            tvGoodsPrice.setText(String.format("¥%s", goodsInfo.getGoods_price()));
-//            tvGoodsNum.setText(String.format("销量 %s件", goodsInfo.getGoods_salenum()));
-//            ccvClick.setMaxCount(goodsInfo.getNum());/*设置最大*/
-
             setGoodsHeadImg();
             GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = goodsDetailInfo.getDatas().getStore_info();
             binding.lsiItem.setLeftText(storeInfo.getStore_name());
@@ -239,10 +226,10 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 binding.tvDesc.setText(content);
             }
             if (null != goodsDetailInfo.getDatas().getGoods_evaluate_info()) {
-                tvCommentCount.setText(String.format("用户点评(%s)", goodsDetailInfo.getDatas().getGoods_evaluate_info().getAll()));
+                ((TextView) binding.getRoot().findViewById(R.id.tv_comment_count)).setText(String.format("用户点评(%s)", goodsDetailInfo.getDatas().getGoods_evaluate_info().getAll()));
             }
             commentList(goodsDetailInfo.getDatas().getGoods_eval_list());
-            llComment.setOnClickListener(new View.OnClickListener() {
+            binding.getRoot().findViewById(R.id.ll_comment).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     shoppingDetailsActivity.setCurrentFragment(2);
@@ -250,6 +237,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             });
             /*店铺评价*/
             if (null != goodsDetailInfo.getDatas() && null != goodsDetailInfo.getDatas().getGoods_commend_list()) {
+                RecyclerView recyclerViewRecommend = binding.recycleRecommendView.recyclerView;
                 recyclerViewRecommend.addItemDecoration(new DividerItemDecoration(getContext(),
                         DividerItemDecoration.VERTICAL));
                 recyclerViewRecommend.setLayoutManager(new GridLayoutManager(getContext(), 4));
@@ -258,19 +246,18 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 
                 binding.setList(goodsDetailInfo.getDatas().getGoods_commend_list());
             }
-
             // TODO: 2019/4/1  全国 有货 免运费
             KLog.i(goodsDetailInfo.getDatas().getGoods_hair_info().content + " " +
                     goodsDetailInfo.getDatas().getGoods_hair_info().if_store_cn +
                     goodsDetailInfo.getDatas().getGoods_hair_info().area_name);
-
-
             binding.setData(goodsInfo);
         }
 
     }
 
     private void commentList(List<GoodsComment> commentList) {
+        TextView tvEmptyComment = binding.getRoot().findViewById(R.id.tv_empty_comment);
+        RecyclerView recyclerView = binding.getRoot().findViewById(R.id.recycle_view);
         if (null != commentList && commentList.size() > 0) {
             tvEmptyComment.setVisibility(View.GONE);
             recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),

@@ -218,13 +218,18 @@
                     style="@style/width_match_height_warp"
                     android:layout_height="@dimen/dp_40"
                     leon:LtextColor="@color/black"
-                    leon:LtextSize="12"
-                    leon:isShowRightText="false"
-                    leon:leftIconSize="@dimen/image_height_litter"
+                    leon:LtextSize="14"
+                    leon:isShowUnderLine="false"
                     leon:leftText="已选：默认"
                     leon:rightText="更多"
                     leon:rightTextColor="@color/gray"
-                    leon:rightTextSize="8" />
+                    leon:rightTextSize="8">
+
+                    <com.xuexiang.xui.widget.flowlayout.FlowLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </com.leon.lib.settingview.LSettingItem>
 
                 <!-- 商品保障图 -->
                 <View style="@style/HorizontalLine" />
@@ -242,24 +247,23 @@
                 <!--评论-->
                 <include layout="@layout/market_fragment_goods_comment" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#f0f"
-                    android:orientation="vertical">
-
-                    <com.leon.lib.settingview.LSettingItem
-                        android:id="@+id/lsi_item"
-                        style="@style/width_match_height_warp"
-                        android:layout_height="@dimen/dp_40"
-                        leon:LtextColor="@color/black"
-                        leon:LtextSize="12"
-                        leon:isShowRightText="false"
-                        leon:leftIconSize="@dimen/image_height_litter"
-                        leon:rightText="更多"
-                        leon:rightTextColor="@color/gray"
-                        leon:rightTextSize="8" />
-                </LinearLayout>
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="#f0f"-->
+                <!--android:orientation="vertical">-->
+                <!--</LinearLayout>-->
+                <com.leon.lib.settingview.LSettingItem
+                    android:id="@+id/lsi_item"
+                    style="@style/width_match_height_warp"
+                    android:layout_height="@dimen/dp_40"
+                    leon:LtextColor="@color/black"
+                    leon:LtextSize="12"
+                    leon:isShowRightText="false"
+                    leon:leftIconSize="@dimen/image_height_litter"
+                    leon:rightText="更多"
+                    leon:rightTextColor="@color/gray"
+                    leon:rightTextSize="8" />
 
                 <TextView
                     android:id="@+id/tv_desc"
