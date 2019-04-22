@@ -23,7 +23,7 @@
             android:layout_width="@dimen/image_height_big"
             android:layout_height="@dimen/image_height_big"
             android:padding="@dimen/dp_4"
-            bind:src="@{data.goods_image_url}"
+            image="@{data.goods_image_url}"
             tools:src="@color/gray" />
 
         <TextView

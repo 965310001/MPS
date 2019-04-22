@@ -21,7 +21,7 @@
         <ImageView
             android:layout_width="@dimen/image_height_large"
             android:layout_height="@dimen/image_height_large"
-            bind:src="@{data.brand_pic}"
+            image="@{data.brand_pic}"
             tools:src="@drawable/ic_launcher" />
 
         <TextView

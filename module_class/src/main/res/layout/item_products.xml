@@ -30,11 +30,11 @@
 
             <ImageView
                 android:id="@+id/iv_icon"
+                image="@{data.goods_image_url}"
                 android:layout_width="93dp"
                 android:layout_height="103dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                bind:src="@{data.goods_image_url}"
                 tools:srcCompat="@drawable/ic_launcher" />
 
             <TextView
@@ -85,11 +85,11 @@
                 tools:text="TextView" />
 
             <TextView
-                android:layout_marginRight="@dimen/dp_10"
                 android:id="@+id/tv_brand"
                 style="@style/TextStyle_12"
                 android:layout_alignTop="@+id/tv_evaluation"
                 android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/dp_10"
                 android:text="@{data.store_name}"
                 tools:text="TextView" />
 

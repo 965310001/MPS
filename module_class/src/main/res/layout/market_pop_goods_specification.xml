@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="data"
             type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#AF000000"
@@ -41,9 +43,9 @@
 
                     <ImageView
                         android:id="@+id/iv_goods_img"
+                        image="@{data.goods_image_url}"
                         android:layout_width="75dp"
                         android:layout_height="90dp"
-                        bind:src="@{data.goods_image_url}"
                         tools:src="@drawable/ic_launcher" />
 
                     <TextView
@@ -96,6 +98,40 @@
 
                 </RelativeLayout>
 
+                <!--提货方式-->
+                <TextView
+                    style="@style/TextStyle"
+                    android:text="提货方式:"
+                    android:textSize="12sp"
+                    android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
+
+                <TextView
+                    style="@style/width_warp_height_warp"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:layout_marginRight="@dimen/dp_6"
+                    android:background="@drawable/bg_of_red_gradient_radius"
+                    android:padding="@dimen/dp_10"
+                    android:text="电子兑换券"
+                    android:textColor="@color/white"
+                    android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
+
+                <!--有限期-->
+                <TextView
+                    style="@style/TextStyle"
+                    android:text="有效期:"
+                    android:textSize="12sp"
+                    android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
+
+                <TextView
+                    style="@style/width_warp_height_warp"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:layout_marginRight="@dimen/dp_6"
+                    android:background="@drawable/bg_of_red_gradient_radius"
+                    android:padding="@dimen/dp_10"
+                    android:text=""
+                    tools:text="即日起 到 2028-4-28 23:59:59"
+                    android:textColor="@color/white"
+                    android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -150,7 +186,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_50"
                 android:layout_alignParentBottom="true">
 
                 <TextView
@@ -174,7 +210,8 @@
                     android:gravity="center"
                     android:onClick="addCart"
                     android:text="@string/market_add_to_cart"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="@{data.cart?View.VISIBLE:View.GONE}" />
             </LinearLayout>
 
         </RelativeLayout>

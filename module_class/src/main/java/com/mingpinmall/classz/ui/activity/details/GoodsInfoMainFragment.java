@@ -2,6 +2,7 @@ package com.mingpinmall.classz.ui.activity.details;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -124,6 +125,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 specificationPop.show(binding.getRoot());
             }
         });
+        binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     GoodsSpecificationPop specificationPop;

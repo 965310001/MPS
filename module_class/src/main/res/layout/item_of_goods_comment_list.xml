@@ -34,7 +34,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:visibility="@{TextUtils.isEmpty(data.member_avatar)?View.GONE:View.VISIBLE}"
-            bind:src="@{data.member_avatar}"
+            image="@{data.member_avatar}"
             tools:background="@drawable/ic_launcher" />
 
         <LinearLayout

@@ -10,6 +10,10 @@
         <import type="android.view.View" />
 
         <import type="com.mingpinmall.classz.db.utils.ShoppingCartUtils" />
+
+        <variable
+            name="data"
+            type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
     </data>
 
     <RelativeLayout
@@ -85,7 +89,7 @@
         <RelativeLayout
             android:id="@+id/rl_bottom"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_60"
+            android:layout_height="@dimen/dp_50"
             android:layout_alignParentBottom="true">
 
             <RelativeLayout
@@ -177,7 +181,8 @@
                     android:gravity="center"
                     android:onClick="addCart"
                     android:text="@string/market_add_to_cart"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="@{data.cart?View.VISIBLE:View.GONE}" />
 
             </LinearLayout>
 

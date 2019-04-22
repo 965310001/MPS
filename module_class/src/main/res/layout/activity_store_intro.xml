@@ -29,7 +29,7 @@
                 android:padding="10dp">
 
                 <ImageView
-                    src="@{data.store_avatar}"
+                    image="@{data.store_avatar}"
                     android:layout_width="@dimen/image_height_big"
                     android:layout_height="@dimen/image_height_big"
                     android:src="@drawable/ic_launcher" />

@@ -128,7 +128,7 @@
                                 app:layout_scrollFlags="scroll|enterAlways|snap">
 
                                 <ImageView
-                                    src="@{data.store_avatar}"
+                                    image="@{data.store_avatar}"
                                     android:layout_width="@dimen/image_height_large"
                                     android:layout_height="@dimen/image_height_large"
                                     android:src="@drawable/ic_launcher" />

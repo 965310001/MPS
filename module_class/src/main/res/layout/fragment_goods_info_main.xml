@@ -149,7 +149,7 @@
                             android:layout_height="24dp"
                             android:layout_alignParentRight="true"
                             android:onClick="favorites"
-                            android:src="@{data.isfavorate?@drawable/ic_me_favorite:@drawable/ic_me_favorite_red}"
+                            android:src="@{!data.isfavorate?@drawable/ic_me_favorite:@drawable/ic_me_favorite_red}"
                             android:tint="@color/shallow_red"
                             tools:src="@drawable/ic_me_favorite" />
                     </LinearLayout>
@@ -179,6 +179,7 @@
                             android:layout_marginBottom="2dp"
                             android:layout_toEndOf="@+id/tv_goods_price"
                             android:gravity="center_vertical"
+
                             android:text="@{String.format(@string/price_holder,data.goods_marketprice)}"
                             android:textColor="@color/gray"
                             android:textSize="13sp"
@@ -206,10 +207,10 @@
                     </RelativeLayout>
 
                     <TextView
+                        html="@{data.goods_name}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="促销"
-                        html="@{data.goods_name}"/>
+                        tools:text="促销" />
                 </LinearLayout>
 
                 <com.leon.lib.settingview.LSettingItem

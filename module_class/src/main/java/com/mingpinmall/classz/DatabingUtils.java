@@ -2,6 +2,9 @@ package com.mingpinmall.classz;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.GlideCacheUtil;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.MultipleItemView;
@@ -35,7 +39,7 @@ import java.util.List;
 
 public class DatabingUtils {
 
-    @BindingAdapter({"src"})
+    @BindingAdapter({"image"})
     public static void imageLoader(ImageView imageView, String url) {
         if (!TextUtils.isEmpty(url)) {
             if (".gif".endsWith(url)) {
@@ -122,15 +126,18 @@ public class DatabingUtils {
 
     @BindingAdapter("html")
     public static void setHtml(TextView textView, String content) {
-        textView.setText(Html.fromHtml(String.format("<html>\n" +
-                " <head></head> \n" + " <body> \n" + "  <div> \n" + "   <div style=\"color: gray\">\n" +
+        textView.setText(Html.fromHtml("<html>\n" +
+                " <head></head> \n" +
+                " <body> \n" +
+                "  <div> \n" +
+                "   <div style=\"color: gray\">\n" +
                 "     促销 \n" +
                 "   </div> \n" +
                 "   <div> \n" +
                 "    <dl> \n" +
                 "     <dt style=\"text-indent:2em;\"> \n" +
                 "      <span style=\"background: #ED5564;color:#fff;padding: 4px;border-radius: 4px;font-size: 12px\">团购</span> \n" +
-                "      <span style=\"color:gray;font-size: 10px\">最多限购0件 抢购抢购111</span> \n" +
+                "      <span style=\"font-size: 10px\"><font color=\"gray\">最多限购0件 抢购抢购111</font></span> \n" +
                 "     </dt> \n" +
                 "     <dd> \n" +
                 "     </dd> \n" +
@@ -140,7 +147,7 @@ public class DatabingUtils {
                 "     <dt>\n" +
                 "      <dl style=\"color:gray;font-size: 10px;\">\n" +
                 "        单笔订单满 \n" +
-                "       <em><font color=\\\"#00bbaa\\\">1000</font></em>元，立减 \n" +
+                "       <em>1000</em>元，立减 \n" +
                 "       <em>%s</em>元 \n" +
                 "      </dl> \n" +
                 "     </dt> \n" +
@@ -148,7 +155,7 @@ public class DatabingUtils {
                 "   </div> \n" +
                 "  </div>  \n" +
                 " </body>\n" +
-                "</html>", content)));
+                "</html>"));
     }
 
     /*封装*/

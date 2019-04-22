@@ -82,6 +82,9 @@ public class GoodsInfo extends BaseBean {
     @Transient
     private String goods_addtime_text;/*添加时间*/
 
+    @Transient
+    private int cart;
+
 
     /*购买的数量*/
     private int num;//数量
@@ -113,7 +116,7 @@ public class GoodsInfo extends BaseBean {
 
     @Generated(hash = 1392708661)
     public GoodsInfo(String goods_id, String store_id, String goods_name, String goods_jingle, String goods_price, String goods_promotion_price, String goods_marketprice, String goods_image, String goods_salenum, String evaluation_good_star, String evaluation_count, String is_virtual, String is_presell, String is_fcode, String have_gift, String store_name,
-            String is_own_mall, String goods_image_url, int num) {
+                     String is_own_mall, String goods_image_url, int num) {
         this.goods_id = goods_id;
         this.store_id = store_id;
         this.goods_name = goods_name;
@@ -133,6 +136,21 @@ public class GoodsInfo extends BaseBean {
         this.is_own_mall = is_own_mall;
         this.goods_image_url = goods_image_url;
         this.num = num;
+    }
+
+//    @Bindable
+//    public int getCart() {
+//        return cart;
+//    }
+
+    public void setCart(int cart) {
+        this.cart = cart;
+        notifyPropertyChanged(BR.cart);
+    }
+
+    @Bindable
+    public boolean isCart() {
+        return cart == 1;
     }
 
     public String getGoods_addtime_text() {
@@ -355,7 +373,7 @@ public class GoodsInfo extends BaseBean {
     }
 
 
-//            public boolean isSole_flag() {
+    //            public boolean isSole_flag() {
 //                return sole_flag;
 //            }
 //
@@ -363,21 +381,23 @@ public class GoodsInfo extends BaseBean {
 //                this.sole_flag = sole_flag;
 //            }
 //
-            public boolean isGroup_flag() {
-                return group_flag;
-            }
-//
-            public void setGroup_flag(boolean group_flag) {
-                this.group_flag = group_flag;
-            }
-//
-            public boolean isXianshi_flag() {
-                return xianshi_flag;
-            }
+    public boolean isGroup_flag() {
+        return group_flag;
+    }
 
-            public void setXianshi_flag(boolean xianshi_flag) {
-                this.xianshi_flag = xianshi_flag;
-            }
+    //
+    public void setGroup_flag(boolean group_flag) {
+        this.group_flag = group_flag;
+    }
+
+    //
+    public boolean isXianshi_flag() {
+        return xianshi_flag;
+    }
+
+    public void setXianshi_flag(boolean xianshi_flag) {
+        this.xianshi_flag = xianshi_flag;
+    }
 
     public String getGoods_image_url() {
         return goods_image_url;
@@ -407,6 +427,11 @@ public class GoodsInfo extends BaseBean {
 
     public boolean getXianshi_flag() {
         return this.xianshi_flag;
+    }
+
+    /*有效期*/
+    public String getValidity() {
+        return String.format("即日起 到 2028-4-28 23:59:59",virtual_indate_str);
     }
 
 //    public void onclick(View view, GoodsInfo data) {

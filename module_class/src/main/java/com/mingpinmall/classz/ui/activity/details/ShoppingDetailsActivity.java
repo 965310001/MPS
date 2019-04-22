@@ -101,6 +101,8 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                             goodsInfo = response.getDatas().getGoods_info();
                             is_favorate = response.getDatas().isIs_favorate();
                             setCartNumber();
+
+                            binding.setData(goodsInfo);
                         } else {
                             showErrorState();
                         }
@@ -190,7 +192,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         String goodsNum = SharePreferenceUtil.getKeyValue("ccvclick_goods_num");
         ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, "cartId",
                 String.format("%s|%s", id, TextUtils.isEmpty(goodsNum) ? "1" : goodsNum));
-        SharePreferenceUtil.saveKeyValue("ccvclick_goods_num","");
+        SharePreferenceUtil.saveKeyValue("ccvclick_goods_num", "");
     }
 
     public void contactService(View view) {
@@ -201,10 +203,10 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     public void favorites(View view) {
         KLog.i("收藏" + goodsInfo.isfavorate());
         if (!SharePreferenceUtil.isLogin()) {
-//            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {
+            mViewModel.favorites(id, is_favorate, Constants.FAVORITES);
         }
-        mViewModel.favorites(id, is_favorate, Constants.FAVORITES);
     }
 
     /**

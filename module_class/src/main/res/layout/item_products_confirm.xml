@@ -61,7 +61,7 @@
                 android:layout_height="103dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                bind:src="@{data.goods_image_url}"
+                image="@{data.goods_image_url}"
                 tools:srcCompat="@drawable/ic_launcher" />
 
             <TextView
