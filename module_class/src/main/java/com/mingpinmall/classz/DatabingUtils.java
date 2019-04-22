@@ -3,6 +3,7 @@ package com.mingpinmall.classz;
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.design.widget.TabLayout;
@@ -49,6 +50,13 @@ public class DatabingUtils {
             }
         }
     }
+
+//    @BindingAdapter(value = {"leftText", "rightText", "color"}, requireAll = false)
+//    public static void setStoreText(TextView textView, String leftText, String rightText, @ColorRes int color) {
+//        if (!TextUtils.isEmpty(leftText)) {
+//        }
+//        textView.setText(Html.fromHtml("<font color=\\\"#00bbaa\\\">颜色2</p>"));
+//    }
 
     /*LSettingItem 的绑定*/
     @BindingAdapter({"lefttext"})
