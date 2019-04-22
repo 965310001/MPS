@@ -101,8 +101,9 @@
                 <!--提货方式-->
                 <TextView
                     style="@style/TextStyle"
+                    android:padding="@dimen/dp_4"
                     android:text="提货方式:"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/text_14"
                     android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
 
                 <TextView
@@ -118,8 +119,9 @@
                 <!--有限期-->
                 <TextView
                     style="@style/TextStyle"
+                    android:padding="@dimen/dp_4"
                     android:text="有效期:"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/text_14"
                     android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
 
                 <TextView
@@ -128,10 +130,10 @@
                     android:layout_marginRight="@dimen/dp_6"
                     android:background="@drawable/bg_of_red_gradient_radius"
                     android:padding="@dimen/dp_10"
-                    android:text=""
-                    tools:text="即日起 到 2028-4-28 23:59:59"
+                    android:text="@{data.validity}"
                     android:textColor="@color/white"
-                    android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
+                    android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}"
+                    tools:text="即日起 到 2028-4-28 23:59:59" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

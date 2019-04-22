@@ -431,7 +431,7 @@ public class GoodsInfo extends BaseBean {
 
     /*有效期*/
     public String getValidity() {
-        return String.format("即日起 到 2028-4-28 23:59:59",virtual_indate_str);
+        return String.format("即日起 到 %s","2028-4-28 23:59:59");
     }
 
 //    public void onclick(View view, GoodsInfo data) {
