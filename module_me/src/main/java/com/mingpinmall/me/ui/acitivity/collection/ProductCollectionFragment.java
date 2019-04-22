@@ -112,12 +112,12 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                         BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
                         pageIndex = 1;
                         binding.refreshLayout.finishRefresh();
-                        if (!data.isHasmore())
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
                         collectionAdapter.setNewData(data.getData().getFavorites_list());
                         if (data.getData().getFavorites_list().size() == 0) {
                             showSuccess();
                         }
+                        if (!data.isHasmore())
+                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
                     }
                 });
         registerObserver("PRODUCT_COLLECT_LIST", "loadmore")

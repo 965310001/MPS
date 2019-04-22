@@ -20,61 +20,92 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="我的退货申请"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_sn}"
-                app:title="申请单号" />
+                app:title="退款编号" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_amount}"
-                app:title="提现金额" />
+                app:title="退款原因" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_bank_name}"
-                app:title="收款银行" />
+                app:title="退款金额" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_bank_no}"
-                app:title="收款账号" />
+                app:title="退款说明" />
+
+            <com.mingpinmall.me.ui.widget.SettingItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                app:subTitle="@{data.info.pdc_bank_no}"
+                app:title="凭证上传" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="商家退款处理"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_payment_admin}"
-                app:title="开户人姓名" />
+                app:title="审核状态" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_add_time_text}"
-                app:title="创建时间" />
+                app:title="商家备注" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="商城退款审核"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_payment_state_text}"
-                app:title="提现状态" />
+                app:title="平台确认" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_payment_time_text}"
-                app:title="通过时间" />
+                app:title="平台备注" />
 
             <Space
                 android:layout_width="1px"

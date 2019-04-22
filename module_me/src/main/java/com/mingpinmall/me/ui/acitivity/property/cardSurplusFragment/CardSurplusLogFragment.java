@@ -82,9 +82,6 @@ public class CardSurplusLogFragment extends AbsLifecycleFragment<FragmentCardLog
             @Override
             public void onChanged(@Nullable Object result) {
                 BaseResponse<RCardLogBean> data = (BaseResponse<RCardLogBean>) result;
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
                 if (isLoadmore) {
                     binding.refreshLayout.finishLoadMore();
                     pageIndex++;
@@ -93,6 +90,9 @@ public class CardSurplusLogFragment extends AbsLifecycleFragment<FragmentCardLog
                     binding.refreshLayout.finishRefresh();
                     pageIndex = 1;
                     rCardLogAdapter.setNewData(data.getData().getLog_list());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
         });

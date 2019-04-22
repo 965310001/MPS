@@ -4,37 +4,45 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 功能描述：退款列表
+ * 功能描述：退货列表
  * 创建人：小斌
- * 创建时间: 2019/4/22
+ * 创建时间: 2019/4/18
  **/
-public class RefundBean implements Serializable {
+public class ReturnBean implements Serializable {
 
-    private List<RefundListBean> refund_list;
+    private List<ReturnListBean> return_list;
 
-    public List<RefundListBean> getRefund_list() {
-        return refund_list;
+    public List<ReturnListBean> getReturn_list() {
+        return return_list;
     }
 
-    public void setRefund_list(List<RefundListBean> refund_list) {
-        this.refund_list = refund_list;
+    public void setReturn_list(List<ReturnListBean> return_list) {
+        this.return_list = return_list;
     }
 
-    public static class RefundListBean {
+    public static class ReturnListBean {
 
         private String refund_id;
+        private String goods_id;
+        private String goods_name;
+        private String goods_spec;
+        private String goods_num;
+        private String goods_state_v;
+        private String ship_state;
+        private String delay_state;
         private String order_id;
         private String refund_amount;
         private String refund_sn;
+        private String return_type;
         private String order_sn;
         private String add_time;
+        private String goods_img_360;
         private String seller_state_v;
         private String seller_state;
         private String admin_state_v;
         private String admin_state;
         private String store_id;
         private String store_name;
-        private List<GoodsListBean> goods_list;
 
         public String getRefund_id() {
             return refund_id;
@@ -42,6 +50,62 @@ public class RefundBean implements Serializable {
 
         public void setRefund_id(String refund_id) {
             this.refund_id = refund_id;
+        }
+
+        public String getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(String goods_id) {
+            this.goods_id = goods_id;
+        }
+
+        public String getGoods_name() {
+            return goods_name;
+        }
+
+        public void setGoods_name(String goods_name) {
+            this.goods_name = goods_name;
+        }
+
+        public String getGoods_spec() {
+            return goods_spec;
+        }
+
+        public void setGoods_spec(String goods_spec) {
+            this.goods_spec = goods_spec;
+        }
+
+        public String getGoods_num() {
+            return goods_num;
+        }
+
+        public void setGoods_num(String goods_num) {
+            this.goods_num = goods_num;
+        }
+
+        public String getGoods_state_v() {
+            return goods_state_v;
+        }
+
+        public void setGoods_state_v(String goods_state_v) {
+            this.goods_state_v = goods_state_v;
+        }
+
+        public String getShip_state() {
+            return ship_state;
+        }
+
+        public void setShip_state(String ship_state) {
+            this.ship_state = ship_state;
+        }
+
+        public String getDelay_state() {
+            return delay_state;
+        }
+
+        public void setDelay_state(String delay_state) {
+            this.delay_state = delay_state;
         }
 
         public String getOrder_id() {
@@ -68,6 +132,14 @@ public class RefundBean implements Serializable {
             this.refund_sn = refund_sn;
         }
 
+        public String getReturn_type() {
+            return return_type;
+        }
+
+        public void setReturn_type(String return_type) {
+            this.return_type = return_type;
+        }
+
         public String getOrder_sn() {
             return order_sn;
         }
@@ -82,6 +154,14 @@ public class RefundBean implements Serializable {
 
         public void setAdd_time(String add_time) {
             this.add_time = add_time;
+        }
+
+        public String getGoods_img_360() {
+            return goods_img_360;
+        }
+
+        public void setGoods_img_360(String goods_img_360) {
+            this.goods_img_360 = goods_img_360;
         }
 
         public String getSeller_state_v() {
@@ -130,54 +210,6 @@ public class RefundBean implements Serializable {
 
         public void setStore_name(String store_name) {
             this.store_name = store_name;
-        }
-
-        public List<GoodsListBean> getGoods_list() {
-            return goods_list;
-        }
-
-        public void setGoods_list(List<GoodsListBean> goods_list) {
-            this.goods_list = goods_list;
-        }
-
-        public static class GoodsListBean {
-
-            private String goods_id;
-            private String goods_name;
-            private Object goods_spec;
-            private String goods_img_360;
-
-            public String getGoods_id() {
-                return goods_id;
-            }
-
-            public void setGoods_id(String goods_id) {
-                this.goods_id = goods_id;
-            }
-
-            public String getGoods_name() {
-                return goods_name;
-            }
-
-            public void setGoods_name(String goods_name) {
-                this.goods_name = goods_name;
-            }
-
-            public Object getGoods_spec() {
-                return goods_spec;
-            }
-
-            public void setGoods_spec(Object goods_spec) {
-                this.goods_spec = goods_spec;
-            }
-
-            public String getGoods_img_360() {
-                return goods_img_360;
-            }
-
-            public void setGoods_img_360(String goods_img_360) {
-                this.goods_img_360 = goods_img_360;
-            }
         }
     }
 }

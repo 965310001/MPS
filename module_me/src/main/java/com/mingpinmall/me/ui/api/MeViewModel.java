@@ -91,6 +91,11 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         mRepository.getRefundList(curPage);
     }
 
+    /*获取退货列表*/
+    public void getReturnList(int curPage) {
+        mRepository.getReturnList(curPage);
+    }
+
     /*获取虚拟订单详细内容 中的店铺地址*/
     public void getVitrualOrderStoreAddrs(String orderId) {
         mRepository.getVitrualOrderStoreAddrs(orderId);

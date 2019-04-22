@@ -126,10 +126,6 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
                     @Override
                     public void onChanged(@Nullable Object result) {
                         BaseResponse<ShopStreetBean> data = (BaseResponse<ShopStreetBean>) result;
-                        if (!data.isHasmore()) {
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                        }
-
                         if (!isLoadmore) {
                             pageIndex = 1;
                             binding.refreshLayout.finishRefresh();
@@ -138,6 +134,9 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
                             pageIndex++;
                             binding.refreshLayout.finishLoadMore();
                             shopsStreetAdapter.addData(data.getData().getStore_list());
+                        }
+                        if (!data.isHasmore()) {
+                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
                         }
                     }
                 });

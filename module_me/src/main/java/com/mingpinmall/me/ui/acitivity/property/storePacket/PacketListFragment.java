@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.BaseRecyclerviewBinding;
@@ -16,6 +20,9 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.PacketListBean;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 功能描述：已领取的店铺红包列表
@@ -52,6 +59,15 @@ public class PacketListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
                 lazyLoad();
             }
         });
+
+        listAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                //列表点击事件
+                PacketListBean.RedpacketListBean data = listAdapter.getItem(position);
+                ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
+            }
+        });
     }
 
     @Override
@@ -67,19 +83,46 @@ public class PacketListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
             @Override
             public void onChanged(@Nullable Object result) {
                 BaseResponse<PacketListBean> data = (BaseResponse<PacketListBean>) result;
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
                 if (isLoadmore) {
                     binding.refreshLayout.finishLoadMore();
                     pageIndex++;
-                    //TODO 需要对数据进行处理
-                    listAdapter.addData(data.getData().getList());
+                    int typeCount = 0;
+                    for (int i = 0; i < listAdapter.getItemCount(); i++) {
+                        if (!listAdapter.getItem(i).getRpacket_state().equals("1")) {
+                            typeCount = i - 1;
+                            break;
+                        }
+                    }
+                    for (PacketListBean.RedpacketListBean item : data.getData().getRedpacket_list()) {
+                        if (item.getRpacket_state().equals("1")) {
+                            listAdapter.addData(typeCount, item);
+                            typeCount++;
+                        } else {
+                            listAdapter.addData(item);
+                        }
+                    }
                 } else {
                     binding.refreshLayout.finishRefresh();
                     pageIndex = 1;
-                    //TODO 需要对数据进行处理
-                    listAdapter.setNewData(data.getData().getList());
+                    List<PacketListBean.RedpacketListBean> dataList = new ArrayList<>();
+                    for (PacketListBean.RedpacketListBean item : data.getData().getRedpacket_list()) {
+                        if (item.getRpacket_state().equals("1")) {
+                            dataList.add(item);
+                        }
+                    }
+                    PacketListBean.RedpacketListBean spaceBean = new PacketListBean.RedpacketListBean();
+                    spaceBean.setRpacket_state("0");
+                    spaceBean.setRpacket_state_text("已过期的红包");
+                    dataList.add(spaceBean);
+                    for (PacketListBean.RedpacketListBean item : data.getData().getRedpacket_list()) {
+                        if (!item.getRpacket_state().equals("1")) {
+                            dataList.add(item);
+                        }
+                    }
+                    listAdapter.setNewData(dataList);
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
         });

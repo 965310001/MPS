@@ -89,9 +89,6 @@ public class VipIntegralActivity extends AbsLifecycleActivity<ActivityVipintergr
             public void onChanged(@Nullable Object result) {
                 //获取到了会员积分记录
                 BaseResponse<VipPointListBean> data = (BaseResponse<VipPointListBean>) result;
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
                 if (isLoadmore) {
                     pageIndex++;
                     binding.refreshLayout.finishLoadMore();
@@ -100,6 +97,9 @@ public class VipIntegralActivity extends AbsLifecycleActivity<ActivityVipintergr
                     pageIndex = 1;
                     binding.refreshLayout.finishRefresh();
                     listAdapter.setNewData(data.getData().getLog_list());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
         });

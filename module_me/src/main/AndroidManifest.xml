@@ -22,13 +22,14 @@
         <activity android:name=".ui.acitivity.address.EditAddressActivity" />
         <activity android:name=".ui.acitivity.setting.ResetPasswordActivity" />
         <activity android:name=".ui.acitivity.setting.BindPhoneActivity" />
-        <activity android:name=".ui.acitivity.setting.ResetPayPwdActivity" />
         <activity android:name=".ui.acitivity.setting.FeedBackActivity" />
         <activity android:name=".ui.acitivity.setting.CheckAuthActivity" />
         <activity android:name=".ui.acitivity.address.SelectCityActivity" />
         <activity android:name=".ui.acitivity.order.PhysicalOrderInformationActivity" />
         <activity android:name=".ui.acitivity.order.VirtualOrderInformationActivity" />
         <activity android:name=".ui.acitivity.property.PdcashInformationActivity" />
+        <activity android:name=".ui.acitivity.order.ReturnOrderInformationActivity" />
+        <activity android:name=".ui.acitivity.order.RefundOrderInformationActivity" />
     </application>
 
 </manifest>

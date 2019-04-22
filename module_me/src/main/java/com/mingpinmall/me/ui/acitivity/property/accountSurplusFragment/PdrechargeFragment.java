@@ -73,9 +73,6 @@ public class PdrechargeFragment extends AbsLifecycleFragment<FragmentDefaultRecy
             @Override
             public void onChanged(@Nullable Object result) {
                 BaseResponse<PdrechargeBean> data = (BaseResponse<PdrechargeBean>) result;
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
                 if (isLoadmore) {
                     pageIndex++;
                     binding.refreshLayout.finishLoadMore();
@@ -95,6 +92,9 @@ public class PdrechargeFragment extends AbsLifecycleFragment<FragmentDefaultRecy
                     pageIndex = 1;
                     binding.refreshLayout.finishRefresh();
                     pdrechargeAdapter.setNewData(data.getData().getList());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
         });

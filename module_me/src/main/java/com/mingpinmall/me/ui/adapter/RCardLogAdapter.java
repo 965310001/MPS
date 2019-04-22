@@ -22,9 +22,12 @@ public class RCardLogAdapter extends BaseQuickAdapter<RCardLogBean.LogListBean, 
 
     @Override
     protected void convert(BaseViewHolder helper, RCardLogBean.LogListBean item) {
-        String[] strings = item.getDescription().split(": ");
-        String label = strings[0] + ": ";
-        String code = strings[1];
+        String label = item.getDescription();
+        String code = "";
+        if (item.getDescription().contains(":")) {
+            label = item.getDescription().split(":")[0] + ":";
+            code = item.getDescription().split(":")[1];
+        }
         helper.setText(R.id.tv_label, label)
                 .setText(R.id.tv_code, code)
                 .setText(R.id.tv_money,

@@ -342,13 +342,40 @@ public class MeRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<RefundBean>>() {
 
                     @Override
-                    public void onSuccess(BaseResponse<RefundBean> virtualStoreAddrsBeanBaseResponse) {
-
+                    public void onSuccess(BaseResponse<RefundBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("REFUND", "success", result);
+                        } else {
+                            sendData("REFUND", "err", result.getMessage());
+                        }
                     }
 
                     @Override
                     public void onFailure(String msg) {
+                        sendData("REFUND", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
 
+    /*获取退货列表*/
+    protected void getReturnList(int curPage) {
+        addDisposable(apiService.getRetrunList(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<ReturnBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ReturnBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<ReturnBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("RETURN", "success", result);
+                        } else {
+                            sendData("RETURN", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("RETURN", "err", msg == null ? "获取失败" : msg);
                     }
                 })
         );

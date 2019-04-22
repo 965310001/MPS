@@ -177,16 +177,29 @@ public interface MeApiService {
 
     /**
      * 描述：退款列表
-     * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_refund&wwi=get_refund_list
-     * curpage=1&page=10
+     * 请求地址
+     * https://www.mingpinmall.cn/mo_bile/index.php?app=member_refund&wwi=get_refund_list&key=&curpage=1&page=10
      * 请求方式：get
-     * 请求参数：
-     * 无
      */
     String REFUND_LIST = "/mo_bile/index.php?app=member_refund&wwi=get_refund_list";
 
     @GET(REFUND_LIST)
     Flowable<BaseResponse<RefundBean>> getRefundList(
+            @Query("key") String key,
+            @Query("page") int page,
+            @Query("curpage") int curpage
+    );
+
+    /**
+     * 描述：退货列表
+     * 请求地址
+     * https://www.mingpinmall.cn/mo_bile/index.php?app=member_return&wwi=get_return_list&key=&curpage=1&page=10
+     * 请求方式get
+     */
+    String RETURN_LIST = "/mo_bile/index.php?app=member_return&wwi=get_return_list";
+
+    @GET(RETURN_LIST)
+    Flowable<BaseResponse<ReturnBean>> getRetrunList(
             @Query("key") String key,
             @Query("page") int page,
             @Query("curpage") int curpage

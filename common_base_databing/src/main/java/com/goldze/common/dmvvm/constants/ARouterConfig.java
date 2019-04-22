@@ -126,6 +126,12 @@ public interface ARouterConfig {
         //退换货
         String REFUNDACTIVITY = "/me/RefundActivity";
 
+        //退款详情
+        String REFUNDORDERINFORMATION = "/me/RefundOrderInformationActivity";
+
+        //退货详情
+        String RETRUNORDERINFORMATION = "/me/RetrunOrderInformationActivity";
+
         //我的消息
         String MESSAGEACTIVITY = "/me/MessageActivity";
 

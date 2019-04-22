@@ -156,9 +156,6 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
             @Override
             public void onChanged(@Nullable Object result) {
                 BaseResponse<VirtualOrderBean> data = (BaseResponse<VirtualOrderBean>) result;
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
                 if (!isLoadmore) {
                     pageIndex = 1;
                     binding.refreshLayout.finishRefresh();
@@ -167,6 +164,9 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
                     pageIndex++;
                     binding.refreshLayout.finishLoadMore();
                     virtualOrderListAdapter.addData(data.getData().getOrder_list());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
         });

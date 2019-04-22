@@ -95,6 +95,8 @@
     <!-- RefundActivity -->
     <string name="tabs_text_refund">退货列表</string>
     <string name="tabs_text_refundMoney">退款列表</string>
+    <string name="text_refundInformation">退款详情</string>
+    <string name="text_returnInformation">退货详情</string>
     <!-- RefundActivity Over -->
 
     <!-- DistributionActivity -->

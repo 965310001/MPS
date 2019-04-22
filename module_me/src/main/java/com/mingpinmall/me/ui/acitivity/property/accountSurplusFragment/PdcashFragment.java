@@ -86,9 +86,6 @@ public class PdcashFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
             @Override
             public void onChanged(@Nullable Object result) {
                 BaseResponse<PdcashBean> data = (BaseResponse<PdcashBean>) result;
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
                 if (isLoadmore) {
                     pageIndex++;
                     binding.refreshLayout.finishLoadMore();
@@ -108,6 +105,9 @@ public class PdcashFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
                     pageIndex = 1;
                     binding.refreshLayout.finishRefresh();
                     pdcashAdapter.setNewData(data.getData().getList());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
         });

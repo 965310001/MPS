@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,16 +9,114 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="75dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="4dp">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+        <com.mingpinmall.me.ui.widget.CouponDisplayView
+            android:id="@+id/cdv_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cl_right"
+            app:layout_constraintHorizontal_weight="8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            />
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_image"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_storeName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/iv_image"
+                app:layout_constraintTop_toTopOf="@id/iv_image"
+                tools:text="名品网自营" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                app:layout_constraintStart_toStartOf="@id/tv_storeName"
+                tools:text="有效期至:2019-04-20" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintStart_toEndOf="@id/cl_left"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:alpha="0.3"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_me_store"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="¥200" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_use"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_money"
+                tools:text="满100.00使用" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_stateImage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
 
     </android.support.constraint.ConstraintLayout>
 </layout>

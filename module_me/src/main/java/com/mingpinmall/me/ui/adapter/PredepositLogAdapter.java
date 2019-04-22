@@ -21,8 +21,12 @@ public class PredepositLogAdapter extends BaseQuickAdapter<PredepoitLogBean.List
 
     @Override
     protected void convert(BaseViewHolder helper, PredepoitLogBean.ListBean item) {
-        String label = item.getLg_desc().split("订单号: ")[0] + "订单号: ";
-        String code = item.getLg_desc().split("订单号: ")[1];
+        String label = item.getLg_desc();
+        String code = "";
+        if (item.getLg_desc().contains(":")) {
+            label = item.getLg_desc().split(":")[0] + ":";
+            code = item.getLg_desc().split(":")[1];
+        }
         helper.setText(R.id.tv_label, label)
                 .setText(R.id.tv_code, code)
                 .setText(R.id.tv_money, Double.parseDouble(item.getLg_av_amount()) > 0 ? "+" + item.getLg_av_amount() : item.getLg_av_amount())

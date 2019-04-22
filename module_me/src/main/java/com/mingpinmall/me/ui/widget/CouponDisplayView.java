@@ -2,11 +2,16 @@ package com.mingpinmall.me.ui.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
+
+import com.mingpinmall.me.R;
 
 /**
  * Created by Jason_周 on 2019/4/20.
@@ -22,7 +27,7 @@ public class CouponDisplayView extends View {
     /**
      * 半径
      */
-    private float radius = 20;
+    private float radius = 14;
     /**
      * 圆数量
      */
@@ -32,20 +37,23 @@ public class CouponDisplayView extends View {
 
     int width, hight;
 
-    Bitmap bitmap1;
-    Bitmap bitmap2;
-
     public CouponDisplayView(Context context) {
         super(context);
+        initView();
     }
 
 
     public CouponDisplayView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initView();
     }
 
     public CouponDisplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initView();
+    }
+
+    private void initView() {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setDither(true);
         mPaint.setColor(Color.WHITE);
@@ -54,7 +62,7 @@ public class CouponDisplayView extends View {
 
         mPaint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint2.setDither(true);
-        mPaint2.setColor(Color.RED);
+        mPaint2.setColor(Color.parseColor("#ed5564"));
         mPaint2.setStyle(Paint.Style.FILL);
         mPaint2.setTextSize(30);
     }
@@ -70,31 +78,22 @@ public class CouponDisplayView extends View {
         this.hight = h;
     }
 
+    public void setState(boolean state) {
+        mPaint2.setColor(state ? Color.parseColor("#ed5564") : Color.parseColor("#aab2bd"));
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mPaint.setColor(Color.BLACK);
-        canvas.drawRect(0, 0, width / 2, hight, mPaint);
-        canvas.drawRect(width / 2, 0, width, hight, mPaint2);
+        canvas.drawRect(0, 0, width / 8 * 5, hight, mPaint);
+        canvas.drawRect(width / 8 * 5, 0, width - gap, hight, mPaint2);
 
-        mPaint.setColor(Color.WHITE);
-
+        mPaint.setColor(Color.parseColor("#FFF3F3F3"));
         for (int i = 0; i < circleNum; i++) {
             float y = gap + radius + remain / 2 + ((gap + radius * 2) * i);
             canvas.drawCircle(0, y, radius, mPaint);
             canvas.drawCircle(width, y, radius, mPaint);
         }
-
-        if (bitmap1 != null) {
-            canvas.drawBitmap(bitmap1, width / 2 - bitmap1.getWidth() / 2, hight / 2 - bitmap1.getHeight() / 2, mPaint);
-            canvas.drawText("我是蔡徐坤粉丝", width / 2, (hight / 2 + (bitmap1.getHeight() * 2)), mPaint);
-        }
-
-//        for (int i = 0; i < circleNum; i++) {
-//            float x = gap + radius + remain / 2 + ((gap + radius * 2) * i);
-//            canvas.drawCircle(x, 0, radius, mPaint);
-//            canvas.drawCircle(x, getHeight(), radius, mPaint);
-//        }
-
     }
 }

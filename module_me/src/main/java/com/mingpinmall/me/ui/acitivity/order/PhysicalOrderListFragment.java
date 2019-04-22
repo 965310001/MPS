@@ -167,9 +167,6 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                     public void onChanged(@Nullable Object result) {
                         Log.i("数据", "onChanged: 进入Success " + EVENT_KEY);
                         BaseResponse<PhysicalOrderBean> data = (BaseResponse<PhysicalOrderBean>) result;
-                        if (!data.isHasmore()) {
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                        }
                         if (!isLoadmore) {
                             pageIndex = 1;
                             binding.refreshLayout.finishRefresh();
@@ -178,6 +175,9 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                             pageIndex++;
                             binding.refreshLayout.finishLoadMore();
                             physicalOrderListAdapter.addData(data.getNewdata());
+                        }
+                        if (!data.isHasmore()) {
+                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
                         }
                     }
                 });

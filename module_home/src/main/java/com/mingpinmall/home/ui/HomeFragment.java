@@ -127,42 +127,13 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
          */
         setClickListener();
         //列表滑动监听
-//        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @SuppressLint("RestrictedApi")
-//            @Override
-//            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldX, int oldY) {
-//                Log.i(TAG, "onScrollChange: " + scrollY);
-//                if (scrollY <= 640) {
-//                    float alpha = scrollY / (float) 640;
-//                    if (alpha > 0) {
-//                        binding.clTitleBar.setVisibility(View.VISIBLE);
-//                        binding.fab2top.setVisibility(View.VISIBLE);
-//                        binding.clTitleBar.setAlpha(alpha);
-//                        darkMode = true;
-//                        setDarkMode(true);
-//                    } else {
-//                        binding.clTitleBar.setVisibility(View.GONE);
-//                        binding.fab2top.setVisibility(View.GONE);
-//                        darkMode = false;
-//                        setDarkMode(false);
-//                    }
-//                }
-//            }
-//        });
-
-        //列表滑动监听
-        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @SuppressLint("RestrictedApi")
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                //当前条目索引
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int position = layoutManager.findFirstVisibleItemPosition();
-                if (position == 0) {
-                    View firstView = layoutManager.findViewByPosition(position);
-                    float scrollY = Math.abs(firstView.getTop());
-                    float firstViewHeight = firstView.getHeight();
-                    float alpha = scrollY / firstViewHeight;
+            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldX, int oldY) {
+                Log.i(TAG, "onScrollChange: " + scrollY);
+                if (scrollY <= 640) {
+                    float alpha = scrollY / (float) 640;
                     if (alpha > 0) {
                         binding.clTitleBar.setVisibility(View.VISIBLE);
                         binding.fab2top.setVisibility(View.VISIBLE);
@@ -178,6 +149,35 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 }
             }
         });
+
+        //列表滑动监听
+//        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @SuppressLint("RestrictedApi")
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                //当前条目索引
+//                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//                int position = layoutManager.findFirstVisibleItemPosition();
+//                if (position == 0) {
+//                    View firstView = layoutManager.findViewByPosition(position);
+//                    float scrollY = Math.abs(firstView.getTop());
+//                    float firstViewHeight = firstView.getHeight();
+//                    float alpha = scrollY / firstViewHeight;
+//                    if (alpha > 0) {
+//                        binding.clTitleBar.setVisibility(View.VISIBLE);
+//                        binding.fab2top.setVisibility(View.VISIBLE);
+//                        binding.clTitleBar.setAlpha(alpha);
+//                        darkMode = true;
+//                        setDarkMode(true);
+//                    } else {
+//                        binding.clTitleBar.setVisibility(View.GONE);
+//                        binding.fab2top.setVisibility(View.GONE);
+//                        darkMode = false;
+//                        setDarkMode(false);
+//                    }
+//                }
+//            }
+//        });
     }
 
     /**
@@ -188,7 +188,8 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             @Override
             public void onClick(View v) {
                 //返回顶部
-                binding.recyclerView.smoothScrollToPosition(0);
+//                binding.recyclerView.smoothScrollToPosition(0);
+                binding.scrollView.smoothScrollTo(0, 0);
             }
         });
         binding.svSearch.setOnClickListener(new View.OnClickListener() {
@@ -400,12 +401,12 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                         if (data.getCode() == 200) {
                             binding.refreshLayout.finishRefresh();
                             homeListAdapter.setNewData(formatDatas(data.getDatas()));
-                            new Handler().postDelayed(new Runnable(){
+                            new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     homeListAdapter.setNewData(formatDatas(data.getDatas()));
                                 }
-                            },1000);
+                            }, 1000);
                         } else {
                             binding.refreshLayout.finishRefresh(false);
                         }

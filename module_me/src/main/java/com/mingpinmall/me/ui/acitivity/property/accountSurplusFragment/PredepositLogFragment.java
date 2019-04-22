@@ -73,9 +73,6 @@ public class PredepositLogFragment extends AbsLifecycleFragment<FragmentDefaultR
             @Override
             public void onChanged(@Nullable Object result) {
                 BaseResponse<PredepoitLogBean> data = (BaseResponse<PredepoitLogBean>) result;
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                }
                 if (isLoadmore) {
                     pageIndex++;
                     binding.refreshLayout.finishLoadMore();
@@ -95,6 +92,9 @@ public class PredepositLogFragment extends AbsLifecycleFragment<FragmentDefaultR
                     pageIndex = 1;
                     binding.refreshLayout.finishRefresh();
                     listAdapter.setNewData(data.getData().getList());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
         });
