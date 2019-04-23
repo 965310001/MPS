@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.widget.CountClickView;
 import com.mingpinmall.classz.R;
@@ -26,12 +27,15 @@ import java.util.List;
 /**
  * 商品规格Pop
  */
-public class GoodsSpecificationPop extends PopupWindow {
+public class GoodsSpecificationPop extends PopupWindow implements CountClickView.OnClickAfterListener {
 
     private Context context;
     @SuppressLint("StaticFieldLeak")
     private static GoodsSpecificationPop specificationPop;
     private GoodsInfo goodsInfo;
+
+    int[] ints = new int[3];
+    StringBuilder stringBuilder;
 
     public GoodsSpecificationPop(Context context) {
         this.context = context;
@@ -50,6 +54,7 @@ public class GoodsSpecificationPop extends PopupWindow {
         this.goodsInfo = goodsInfo;
         return this;
     }
+
 
     public void show(View parent) {
         View view = View.inflate(context, R.layout.market_pop_goods_specification, null);
@@ -113,15 +118,15 @@ public class GoodsSpecificationPop extends PopupWindow {
                 @Override
                 public void onItemSelect(FlowTagLayout parent, int position, List<Integer> selectedList) {
                     ints[finalIndex] = goodsInfo.news_spec_data.get(finalIndex).getSpec_value().get(position).getSpe_id();
-                    KLog.i(ints.toString());
                     stringBuilder = new StringBuilder();
                     for (int anInt : ints) {
                         stringBuilder.append(anInt).append("|");
                     }
-                    // TODO: 2019/4/22 待修改 
                     for (GoodsInfo.NewsSpecListDataBean newsSpecListDataBean : goodsInfo.news_spec_list_data) {
-                        if (newsSpecListDataBean.getKey().contains(stringBuilder.toString())) {
+                        if (stringBuilder.toString().contains(newsSpecListDataBean.getKey())) {
                             KLog.i(newsSpecListDataBean.getVal());
+                            LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL", newsSpecListDataBean.getVal());
+                            break;
                         }
                     }
 
@@ -130,26 +135,20 @@ public class GoodsSpecificationPop extends PopupWindow {
         }
     }
 
-    int[] ints = new int[3];
-    StringBuilder stringBuilder;
-
     private void loadData() {
-        bind.ccvClick.setMaxCount(Integer.parseInt(goodsInfo.getGoods_storage()));
-        bind.ccvClick.setMinCount(1);
-        bind.ccvClick.setAfterClickListener(new CountClickView.OnClickAfterListener() {
-            @Override
-            public void onAfter(int value) {
-                KLog.i(value + "");
-                SharePreferenceUtil.saveKeyValue("ccvclick_goods_num", String.valueOf(value));
-            }
-
-            @Override
-            public void onMin() {
-            }
-        });
-
         bind.setData(goodsInfo);
+        bind.setListener(this);
         bind.executePendingBindings();
     }
 
+    @Override
+    public void onAfter(int value) {
+        KLog.i(value + "");
+        SharePreferenceUtil.saveKeyValue("ccvclick_goods_num", String.valueOf(value));
+    }
+
+    @Override
+    public void onMin() {
+
+    }
 }

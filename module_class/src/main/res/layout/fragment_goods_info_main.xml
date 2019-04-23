@@ -197,9 +197,7 @@
 
                         <com.goldze.common.dmvvm.widget.CountClickView
                             android:id="@+id/ccv_click"
-                            currcount="@{String.valueOf(`1`)}"
                             maxcount="@{String.valueOf(data.num)}"
-                            mincount="@{String.valueOf(`1`)}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"

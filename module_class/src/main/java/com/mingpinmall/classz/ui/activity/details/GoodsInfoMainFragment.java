@@ -106,7 +106,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         binding.svSwitch.setOnSlideDetailsListener(this);
         goodsDetailInfo = (GoodsDetailInfo) getArguments().getSerializable("goodsInfo");
         goodsInfo = goodsDetailInfo.getDatas().getGoods_info();
-        KLog.i(goodsInfo+"=====");
+        KLog.i(goodsInfo + "=====");
         setGoodsInfo();
         binding.lsiGoodsSpecification.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
             @Override
@@ -119,6 +119,11 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             }
         });
         binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        /**/
+        if (null != specificationPop && specificationPop.isShowing()) {
+            specificationPop.setGoodsInfo(goodsInfo);
+            KLog.i("运行的数据");
+        }
     }
 
 

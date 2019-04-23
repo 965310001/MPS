@@ -29,14 +29,15 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
     LayoutCountClickViewBinding binding;
 
     TextView tvCount;
-    ImageView ivPlus;
-    ImageView ivMinus;
-    LinearLayout llMinus;
-    LinearLayout llPlus;
+    ImageView ivPlus, ivMinus;
+    LinearLayout llMinus, llPlus;
 
     private Context mContext;
-    private int maxCount = MAX_COUNT;
-    private int minCount = MIN_COUNT;
+    private int maxCount = MAX_COUNT, minCount = MIN_COUNT;
+
+    //    LinearLayout llPlus;
+//    ImageView ivMinus;
+//    private int minCount = MIN_COUNT;
 
     //控件资源
     private int minusCan = R.drawable.input_minus_default;
@@ -47,7 +48,6 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
 
     public CountClickView(Context context) {
         this(context, null);
-
     }
 
     public CountClickView(Context context, AttributeSet attrs) {
@@ -55,9 +55,7 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
         init(context);
     }
 
-
     private OnClickAfterListener afterClickListener = null;
-
 
     private void init(Context context) {
         this.mContext = context;
@@ -116,15 +114,13 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
     @Override
     public void onClick(View v) {
         int count = Integer.valueOf(tvCount.getText().toString().trim());
+        if (R.id.iv_plus == v.getId() && count < getMaxCount()) {
+            ++count;
+        } else if (R.id.iv_minus == v.getId() && count > getMinCount()) {
+            --count;
+        }
 
-        if (R.id.iv_plus == v.getId()) {
-            if (count < getMaxCount())
-                tvCount.setText(String.valueOf(++count));
-        }
-        if (R.id.iv_minus == v.getId()) {
-            if (count > getMinCount())
-                tvCount.setText(String.valueOf(--count));
-        }
+        tvCount.setText(String.valueOf(count));
 
         judgeTheViews(count);
 
@@ -139,13 +135,17 @@ public class CountClickView extends LinearLayout implements View.OnClickListener
     private void judgeTheViews(int count) {
         if (count <= getMinCount()) {
             ivMinus.setImageResource(minusNot);
+            ivMinus.setClickable(false);
         } else {
             ivMinus.setImageResource(minusCan);
+            ivMinus.setClickable(true);
         }
         if (count >= getMaxCount()) {
             ivPlus.setImageResource(addNot);
+            ivPlus.setClickable(false);
         } else {
             ivPlus.setImageResource(addCan);
+            ivPlus.setClickable(true);
         }
     }
 

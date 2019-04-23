@@ -39,6 +39,7 @@ public class GoodsDetailInfo extends BaseBean {
         private List<GoodsInfo> goods_commend_list;
         public List<GoodsComment> goods_eval_list;
         private boolean is_favorate;
+        private List<GoodsInfo.NewsSpecListDataBean> news_spec_list_data;
 
         public boolean isIs_favorate() {
             return is_favorate;
@@ -102,6 +103,14 @@ public class GoodsDetailInfo extends BaseBean {
 
         public void setGoods_eval_list(List<GoodsComment> goods_eval_list) {
             this.goods_eval_list = goods_eval_list;
+        }
+
+        public List<GoodsInfo.NewsSpecListDataBean> getNews_spec_list_data() {
+            return news_spec_list_data;
+        }
+
+        public void setNews_spec_list_data(List<GoodsInfo.NewsSpecListDataBean> news_spec_list_data) {
+            this.news_spec_list_data = news_spec_list_data;
         }
 
         public class StoreInfoBean extends BaseBean {

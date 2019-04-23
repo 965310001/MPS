@@ -90,6 +90,8 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                                 horizontalTabTitle = new HorizontalTabTitle(s);
                                 title.add(horizontalTabTitle);
                             }
+                            response.getDatas().getGoods_info().news_spec_list_data = response.getDatas().getNews_spec_list_data();
+
                             List<BaseFragment> fragmentList = new ArrayList<>();
                             response.getDatas().getGoods_info().setfavorate(response.getDatas().isIs_favorate());
                             fragmentList.add(GoodsInfoMainFragment.newInstance(id, response));
@@ -153,6 +155,16 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                     }
                 });
 
+        /*商品规格*/
+        registerObserver("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL")
+                .observe(this, new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object s) {
+                        id = s.toString();
+                        KLog.i(s.toString());
+                        initData();
+                    }
+                });
     }
 
     @Override

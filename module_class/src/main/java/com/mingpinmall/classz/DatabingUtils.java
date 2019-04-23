@@ -120,12 +120,25 @@ public class DatabingUtils {
         }
     }
 
-    @BindingAdapter(value = {"maxcount", "mincount", "currcount"}, requireAll = false)
-    public static void setMaxCount(CountClickView ccvClick, String max, String min, String currcount) {
+    @BindingAdapter(value = {"maxcount", "mincount", "currcount", "listener"}, requireAll = false)
+    public static void setMaxCount(CountClickView ccvClick, String max, String min, String currcount, CountClickView.OnClickAfterListener listener) {
         try {
+            if (TextUtils.isEmpty(min)) {
+                min = "1";
+            }
+            if (TextUtils.isEmpty(max)) {
+                max = "1";
+            }
+            if (TextUtils.isEmpty(currcount)) {
+                currcount = "1";
+            }
             ccvClick.setMinCount(Integer.valueOf(min));
             ccvClick.setMaxCount(Integer.valueOf(max));
             ccvClick.setCurrCount(Integer.valueOf(currcount));
+
+            if (null != listener) {
+                ccvClick.setAfterClickListener(listener);
+            }
         } catch (Exception e) {
             KLog.i(e.toString() + "最好两个都设置");
         }

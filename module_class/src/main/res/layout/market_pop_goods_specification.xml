@@ -7,6 +7,12 @@
 
         <import type="android.view.View" />
 
+        <import type="com.goldze.common.dmvvm.widget.CountClickView.OnClickAfterListener" />
+
+        <variable
+            name="listener"
+            type="OnClickAfterListener" />
+
         <variable
             name="data"
             type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
@@ -161,7 +167,9 @@
                         android:textSize="@dimen/text_14" />
 
                     <com.goldze.common.dmvvm.widget.CountClickView
+                        listener="@{listener}"
                         android:id="@+id/ccv_click"
+                        maxcount="@{String.valueOf(data.goods_storage)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
