@@ -152,20 +152,6 @@ public class GoodsInfo extends BaseBean {
         this.num = num;
     }
 
-//    @Bindable
-//    public int getCart() {
-//        return cart;
-//    }
-
-
-    public List<List<String>> getNews_goods_spec_value() {
-        return news_goods_spec_value;
-    }
-
-    public void setNews_goods_spec_value(List<List<String>> news_goods_spec_value) {
-        this.news_goods_spec_value = news_goods_spec_value;
-    }
-
     public void setCart(int cart) {
         this.cart = cart;
         notifyPropertyChanged(BR.cart);
@@ -395,20 +381,11 @@ public class GoodsInfo extends BaseBean {
         this.checked = checked;
     }
 
-
-    //            public boolean isSole_flag() {
-//                return sole_flag;
-//            }
-//
-//            public void setSole_flag(boolean sole_flag) {
-//                this.sole_flag = sole_flag;
-//            }
-//
     public boolean isGroup_flag() {
         return group_flag;
     }
 
-    //
+
     public void setGroup_flag(boolean group_flag) {
         this.group_flag = group_flag;
     }
@@ -431,8 +408,6 @@ public class GoodsInfo extends BaseBean {
     }
 
     public void click(View view) {
-        KLog.i("click");
-//        ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", goods_id);
         ActivityToActivity.goShoppingDetails(goods_id);
     }
 
@@ -490,11 +465,6 @@ public class GoodsInfo extends BaseBean {
     }
 
     public static class NewsSpecDataBean extends BaseBean {
-        /**
-         * spec_id : 1
-         * spec_name : 尺寸
-         * spec_value : [{"spe_id":496,"spe_value":"大"},{"spe_id":497,"spe_value":"中"}]
-         */
 
         private int spec_id;
         private String spec_name;
@@ -551,7 +521,7 @@ public class GoodsInfo extends BaseBean {
         }
     }
 
-    public static class NewsSpecListDataBean {
+    public static class NewsSpecListDataBean extends BaseBean {
         /**
          * key : 496|510|513
          * val : 109964
@@ -576,9 +546,4 @@ public class GoodsInfo extends BaseBean {
             this.val = val;
         }
     }
-
-//    public void onclick(View view, GoodsInfo data) {
-//        KLog.i("onclick");
-//        ToastUtils.showLong(view.getId() + " " + data.toString() + getGoods_id());
-//    }
 }

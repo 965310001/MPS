@@ -6,15 +6,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoDetailMainBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +30,7 @@ import java.util.List;
 public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoDetailMainBinding, ClassifyViewModel>
         implements View.OnClickListener {
 
-    /*private GoodsInfo data;*/
-
-    TextView tvGoodsDetail;
-    TextView tvGoodsConfig;
     View vTabCursor;
-    FrameLayout flContent;
-
     private int nowIndex;
     private float fromX;
     private List<TextView> tabTextList;
@@ -46,13 +44,6 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
 
     String url;
 
-    //    public static GoodsInfoDetailMainFragment newInstance(GoodsInfo goodsInfo) {
-//        GoodsInfoDetailMainFragment fragment = new GoodsInfoDetailMainFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("url", goodsInfo.getIntroUrl());
-//        fragment.setArguments(bundle);
-//        return fragment;
-//    }
     public static GoodsInfoDetailMainFragment newInstance(String url) {
         GoodsInfoDetailMainFragment fragment = new GoodsInfoDetailMainFragment();
         Bundle bundle = new Bundle();
@@ -66,6 +57,7 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
     public void setArguments(@Nullable Bundle args) {
         super.setArguments(args);
         url = getArguments().getString("url");
+        KLog.i("url=="+url);
     }
 
     @Override
@@ -81,10 +73,12 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
     @Override
     public void initView(Bundle state) {
 
-        tvGoodsDetail = binding.tvGoodsDetail;
-        tvGoodsConfig = binding.tvGoodsConfig;
+        TextView tvGoodsDetail = binding.tvGoodsDetail;
+        TextView tvGoodsConfig = binding.tvGoodsConfig;
         vTabCursor = binding.vTabCursor;
-        flContent = binding.flGoodsContent;
+
+
+//        vTabCursor.setLayoutParams(new RelativeLayout.LayoutParams(DisplayUtil.getScreenWidth(getContext())/2, RelativeLayout.LayoutParams.MATCH_PARENT));
 
         tvGoodsDetail.setOnClickListener(this);
         tvGoodsConfig.setOnClickListener(this);

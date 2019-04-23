@@ -14,9 +14,8 @@ import com.mingpinmall.classz.databinding.FragmentGoodsInfoWebBinding;
  * 商品详情 - 图文详情 Fragment
  */
 public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBinding> {
-//    private String url;
-    //    @BindView(R.id.hwv_detail)
-    public WebView webView;
+
+    private WebView webView;
     private WebSettings webSettings;
 
     public GoodsInfoWebFragment() {
@@ -30,7 +29,6 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
         return fragment;
     }
 
-
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_goods_info_web;
@@ -43,15 +41,11 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
 
     @Override
     public void initView(Bundle state) {
-        /*showSuccess();*/
         webView = binding.hwvDetail;
         initWebView();
     }
 
     private void initWebView() {
-//        url = getArguments().getString("url");
-//        KLog.i("initWebView:" + url);
-
         webView.setFocusable(false);
         webView.loadUrl(getArguments().getString("url"));
         webSettings = webView.getSettings();

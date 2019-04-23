@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -97,6 +98,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                             fragmentList.add(GoodsInfoMainFragment.newInstance(id, response));
                             fragmentList.add(GoodsInfoDetailMainFragment.newInstance(id));
                             fragmentList.add(GoodsCommentFragment.newInstance(id));
+
                             binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
                             binding.vpContent.setOffscreenPageLimit(3);
                             binding.pstsTabs.setViewPager(binding.vpContent);

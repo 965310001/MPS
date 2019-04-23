@@ -21,15 +21,7 @@ import android.support.annotation.Nullable;
  */
 public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
-//    TextView tvCommentCount;
-//    TextView tvPraiseRate;
-//    TextView tvEmptyComment;
-//    RecyclerView recycleView;
-//    ImageView ivRight;
-//    private final List<GoodsComment> commentList = new ArrayList<>();
-//    private GoodsCommentAdapter adapter;
-
-    String type="";
+    String type = "";
 
     public GoodsCommentFragment() {
     }
@@ -41,47 +33,6 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
         fragment.setArguments(bundle);
         return fragment;
     }
-
-//    public static GoodsCommentFragment newInstance(List<GoodsComment> data) {
-//        GoodsCommentFragment fragment = new GoodsCommentFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("data", (Serializable) data);
-//        fragment.setArguments(bundle);
-//        return fragment;
-//    }
-//    @Override
-//    protected int getLayoutResId() {
-//        return R.layout.fragment_goods_comment;
-//    }
-//
-//    @Override
-//    protected int getContentResId() {
-//        return R.id.content_layout;
-//    }
-//    @Override
-//    public void initView(Bundle state) {
-//        super.initView(state);
-//
-////        tvCommentCount = binding.tvCommentCount;
-////        tvPraiseRate = binding.tvPraiseRate;
-////        tvEmptyComment = binding.tvEmptyComment;
-////        recycleView = binding.recycleView;
-////        ivRight = binding.ivRight;
-////        showSuccess();
-////        adapter = new GoodsCommentAdapter(getContext(), commentList);
-////        recycleView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-////        recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-////        recycleView.setAdapter(adapter);
-////
-////        ivRight.setVisibility(View.GONE);
-////        tvEmptyComment.setVisibility(View.GONE);
-////        recycleView.setVisibility(View.VISIBLE);
-////        tvCommentCount.setText("用户点评");
-////        tvPraiseRate.setText("好评率97.8%");
-////        commentList(ApiData.getGoodsCommentList());
-////        commentList((List<GoodsComment>) getArguments().getSerializable("data"));
-//
-//    }
 
     @Override
     protected void getRemoteData() {

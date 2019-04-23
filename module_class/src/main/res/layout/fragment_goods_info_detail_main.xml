@@ -1,7 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_goods_detail"
+                style="@style/TextStyle"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:text="商品详情"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <TextView
+                android:id="@+id/tv_goods_config"
+                style="@style/TextStyle"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:text="商品规格"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <View
+                android:id="@+id/v_tab_cursor"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/red"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_goods_detail"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <FrameLayout
+                android:id="@+id/fl_goods_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/v_tab_cursor" />
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
+</layout>
+
+
+    <!--    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -55,4 +105,4 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-</layout>
+-->

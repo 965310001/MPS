@@ -43,16 +43,6 @@ import java.util.List;
 
 public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel>
         implements SlideLayout.OnSlideDetailsListener {
-
-    //TextView tvGoodsName;TextView tvGoodsPrice;TextView tvGoodsNum;CountClickView ccvClick;TextView tvPraiseRate;SlideLayout svSwitch;ImageView ivIcon;TextView tvEnsure;tvEnsure = binding.tvEnsure;tvGoodsPrice = binding.tvGoodsPrice;tvGoodsName = binding.tvGoodsName;tvGoodsNum = binding.tvGoodsNum;tvOldPrice = binding.tvOldPrice;ccvClick = binding.ccvClick;ConvenientBanner<List<GoodsInfo>> vpRecommend = binding.vpRecommend;binding.ccvClick.setCurrCount(1);binding.ccvClick.setMinCount(1);
-//    String id;
-//    ConvenientBanner vpItemGoodsImg;
-//    TextView tvCommentCount;/*用于点评*/
-//    LinearLayout llComment;/*用于点评*/
-//    TextView tvEmptyComment;
-//    RecyclerView recyclerView;//评论
-//    RecyclerView recyclerViewRecommend;
-
     /**
      * 当前商品详情数据页的索引分别是图文详情、规格参数
      */
@@ -92,16 +82,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        showSuccess();
-
-//        vpItemGoodsImg = binding.vpItemGoodsImg;
-//        tvCommentCount = binding.getRoot().findViewById(R.id.tv_comment_count);
-//        llComment = binding.getRoot().findViewById(R.id.ll_comment);
-//       RecyclerView recyclerView = binding.getRoot().findViewById(R.id.recycle_view);
-//        RecyclerView    recyclerViewRecommend = binding.recycleRecommendView.recyclerView;
-//        tvEmptyComment = binding.getRoot().findViewById(R.id.tv_empty_comment);
-//        id = getArguments().getString("id");
-//        binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         binding.svSwitch.setOnSlideDetailsListener(this);
         goodsDetailInfo = (GoodsDetailInfo) getArguments().getSerializable("goodsInfo");
