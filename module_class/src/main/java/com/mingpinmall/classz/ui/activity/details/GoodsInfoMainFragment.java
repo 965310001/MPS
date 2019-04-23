@@ -21,11 +21,11 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.SlideLayout;
 import com.leon.lib.settingview.LSettingItem;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
+import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
 import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.ui.constants.Constants;
@@ -220,16 +220,17 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     shoppingDetailsActivity.setCurrentFragment(2);
                 }
             });
-            /*店铺评价*/
+            /*店铺推荐*/
             if (null != goodsDetailInfo.getDatas() && null != goodsDetailInfo.getDatas().getGoods_commend_list()) {
-                RecyclerView recyclerViewRecommend = binding.recycleRecommendView.recyclerView;
-                recyclerViewRecommend.addItemDecoration(new DividerItemDecoration(getContext(),
-                        DividerItemDecoration.VERTICAL));
-                recyclerViewRecommend.setLayoutManager(new GridLayoutManager(getContext(), 4));
-                recyclerViewRecommend.setAdapter(new RecommendGoodsInfoAdapter(getContext(),
-                        goodsDetailInfo.getDatas().getGoods_commend_list()));
-
+//                RecyclerView recyclerViewRecommend = binding.recycleRecommendView.recyclerView;
+//                recyclerViewRecommend.addItemDecoration(new DividerItemDecoration(getContext(),
+//                        DividerItemDecoration.VERTICAL));
+//                recyclerViewRecommend.setLayoutManager(new GridLayoutManager(getContext(), 4));
+//                recyclerViewRecommend.setAdapter(new RecommendGoodsInfoAdapter(getContext(),
+//                        goodsDetailInfo.getDatas().getGoods_commend_list()));
                 binding.setList(goodsDetailInfo.getDatas().getGoods_commend_list());
+                binding.setAdapter(AdapterPool.newInstance().getRecommend(getContext()).build());
+                binding.setLayout(new GridLayoutManager(getContext(), 4));
             }
             // TODO: 2019/4/1  全国 有货 免运费
             KLog.i(goodsDetailInfo.getDatas().getGoods_hair_info().content + " " +

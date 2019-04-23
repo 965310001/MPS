@@ -1,9 +1,11 @@
 package com.mingpinmall.classz.widget;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,9 +111,9 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
             for (int i = 0; i < stringList.size(); i++) {
                 if (stringList.get(i).equals(goodsInfo.news_goods_spec.get(index))) {
                     flowLayout.setSelectedPositions(i);
+                    ints[index] = goodsInfo.news_spec_data.get(index).getSpec_value().get(i).getSpe_id();
                 }
             }
-            ints[index] = goodsInfo.news_spec_data.get(index).getSpec_value().get(0).getSpe_id();
             bind.llAttar.addView(flowLayout);
             final int finalIndex = index;
             flowLayout.setOnTagSelectListener(new FlowTagLayout.OnTagSelectListener() {
@@ -123,13 +125,13 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                         stringBuilder.append(anInt).append("|");
                     }
                     for (GoodsInfo.NewsSpecListDataBean newsSpecListDataBean : goodsInfo.news_spec_list_data) {
+                        KLog.i(newsSpecListDataBean.getKey() + "==" + stringBuilder.toString());
                         if (stringBuilder.toString().contains(newsSpecListDataBean.getKey())) {
                             KLog.i(newsSpecListDataBean.getVal());
                             LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL", newsSpecListDataBean.getVal());
                             break;
                         }
                     }
-
                 }
             });
         }

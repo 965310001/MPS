@@ -6,6 +6,10 @@
 
         <import type="java.util.List" />
 
+        <import type="com.trecyclerview.adapter.DelegateAdapter" />
+
+        <import type="android.support.v7.widget.RecyclerView.LayoutManager" />
+
         <variable
             name="tag"
             type="String" />
@@ -13,10 +17,25 @@
         <variable
             name="data"
             type="List" />
+
+        <variable
+            name="adapter"
+            type="DelegateAdapter" />
+
+        <variable
+            name="layout"
+            type="LayoutManager" />
+
+        <variable
+            name="itemdecoration"
+            type="Boolean" />
     </data>
 
     <com.trecyclerview.TRecyclerView
         android:id="@+id/recycler_view"
+        adapter="@{adapter}"
+        itemdecoration="@{itemdecoration}"
+        layout="@{layout}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"

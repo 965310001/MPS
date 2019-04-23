@@ -57,7 +57,7 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
     public void setArguments(@Nullable Bundle args) {
         super.setArguments(args);
         url = getArguments().getString("url");
-        KLog.i("url=="+url);
+//        KLog.i("url=="+url);
     }
 
     @Override

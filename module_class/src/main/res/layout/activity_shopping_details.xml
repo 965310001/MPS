@@ -16,7 +16,7 @@
             type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
     </data>
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -27,9 +27,10 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:background="@color/shallow_red"
-            android:orientation="vertical">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
@@ -37,51 +38,48 @@
                 android:paddingStart="10dp"
                 android:src="@drawable/ic_back" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- 商品、详情、评价切换的控件 -->
+            <com.goldze.common.dmvvm.widget.PagerSlidingTabStrip
+                android:id="@+id/psts_tabs"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center">
+                android:layout_centerHorizontal="true"
+                app:pstsDividerColor="@android:color/transparent"
+                app:pstsHasBottomLine="false"
+                app:pstsHasTopLine="false"
+                app:pstsIndicatorColor="@color/white"
+                app:pstsIndicatorHeight="2dp"
+                app:pstsScaleZoomMax="0.0"
+                app:pstsSmoothScrollWhenClickTab="false"
+                app:pstsTabPaddingLeftRight="12dp"
+                app:pstsTextDefaultColor="@color/white"
+                app:pstsTextSelectedColor="@color/white" />
 
-                <!-- 商品、详情、评价切换的控件 -->
-                <com.goldze.common.dmvvm.widget.PagerSlidingTabStrip
-                    android:id="@+id/psts_tabs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    app:pstsDividerColor="@android:color/transparent"
-                    app:pstsHasBottomLine="false"
-                    app:pstsHasTopLine="false"
-                    app:pstsIndicatorColor="@color/white"
-                    app:pstsIndicatorHeight="2dp"
-                    app:pstsScaleZoomMax="0.0"
-                    app:pstsSmoothScrollWhenClickTab="false"
-                    app:pstsTabPaddingLeftRight="12dp"
-                    app:pstsTextDefaultColor="@color/white"
-                    app:pstsTextSelectedColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="图文详情"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp"
-                    android:visibility="gone" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="图文详情"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <com.goldze.common.dmvvm.widget.NoScrollViewPager
             android:id="@+id/vp_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/rl_bottom"
-            android:layout_below="@+id/rl_top" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/rl_bottom"
+            app:layout_constraintTop_toBottomOf="@+id/rl_top" />
 
         <RelativeLayout
             android:id="@+id/rl_bottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <RelativeLayout
                 android:id="@+id/rl_cart"
@@ -179,5 +177,170 @@
 
             <View style="@style/HorizontalLine" />
         </RelativeLayout>
-    </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
 </layout>
+
+    <!--    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.activity.details.ShoppingDetailsActivity">
+
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/shallow_red"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:onClick="finish"
+                android:paddingStart="10dp"
+                android:src="@drawable/ic_back" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <com.goldze.common.dmvvm.widget.PagerSlidingTabStrip
+    android:id="@+id/psts_tabs"
+    android:layout_width="wrap_content"
+    android:layout_height="32dp"
+    android:layout_gravity="center"
+    app:pstsDividerColor="@android:color/transparent"
+    app:pstsHasBottomLine="false"
+    app:pstsHasTopLine="false"
+    app:pstsIndicatorColor="@color/white"
+    app:pstsIndicatorHeight="2dp"
+    app:pstsScaleZoomMax="0.0"
+    app:pstsSmoothScrollWhenClickTab="false"
+    app:pstsTabPaddingLeftRight="12dp"
+    app:pstsTextDefaultColor="@color/white"
+app:pstsTextSelectedColor="@color/white" />
+
+<TextView
+android:id="@+id/tv_title"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="图文详情"
+android:textColor="#ffffff"
+android:textSize="15sp"
+android:visibility="gone" />
+    </LinearLayout>
+    </RelativeLayout>
+
+<com.goldze.common.dmvvm.widget.NoScrollViewPager
+android:id="@+id/vp_content"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_above="@+id/rl_bottom"
+android:layout_below="@+id/rl_top" />
+
+<RelativeLayout
+android:id="@+id/rl_bottom"
+android:layout_width="match_parent"
+android:layout_height="@dimen/dp_50"
+android:layout_alignParentBottom="true">
+
+<RelativeLayout
+    android:id="@+id/rl_cart"
+    android:layout_width="70dp"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:onClick="contactService"
+    android:paddingTop="4dp">
+
+    <ImageView
+        android:id="@+id/iv_cart"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/market_icon_shopping_cart" />
+
+    <TextView
+        style="@style/TextStyle"
+        android:layout_below="@id/iv_cart"
+        android:layout_centerInParent="true"
+        android:text="客服" />
+
+</RelativeLayout>
+
+<RelativeLayout
+    android:id="@+id/rl_cart1"
+    android:layout_width="70dp"
+    android:layout_height="match_parent"
+    android:layout_toRightOf="@id/rl_cart"
+    android:background="@color/white"
+    android:onClick="goCart"
+    android:paddingTop="4dp">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/market_icon_shopping_cart" />
+
+    <TextView
+        android:id="@+id/tv_count"
+        style="@style/TextStyle"
+        android:layout_marginStart="35dp"
+        android:background="@drawable/market_shape_round_red"
+        android:gravity="center"
+        android:minWidth="15dp"
+        android:minHeight="15dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:text="@{String.valueOf(SharePreferenceUtil.login?ShoppingCartUtils.cartCount:0)}"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:visibility="@{SharePreferenceUtil.login?View.VISIBLE:View.GONE}"
+        tools:ignore="SmallSp" />
+
+    <TextView
+        style="@style/TextStyle"
+        android:layout_below="@id/iv_cart"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:text="购物车"
+        tools:ignore="NotSibling" />
+
+</RelativeLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_toEndOf="@+id/rl_cart1">
+
+    <TextView
+        android:id="@+id/tv_buy_now"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_of_red_gradient"
+        android:gravity="center"
+        android:onClick="buyNow"
+        android:text="@string/market_buy_now"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_add_cart"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_of_orange_gradient"
+        android:gravity="center"
+        android:onClick="addCart"
+        android:text="@string/market_add_to_cart"
+        android:textColor="@color/white"
+        android:visibility="@{data.cart?View.VISIBLE:View.GONE}" />
+
+</LinearLayout>
+
+<View style="@style/HorizontalLine" />
+</RelativeLayout>
+    </RelativeLayout>-->

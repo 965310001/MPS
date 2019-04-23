@@ -18,6 +18,7 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityConfirmOrderBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
@@ -98,6 +99,8 @@ public class ConfirmOrderActivity extends
                                         }
                                     }
                                     binding.setData(goods_list);
+                                    binding.setAdapter(AdapterPool.newInstance().getConfirmOrder(activity)
+                                            .build());
                                     binding.setPayment("在线付款");
                                     binding.setInvoice(data.getData().getInv_info().getContent());
                                     binding.executePendingBindings();

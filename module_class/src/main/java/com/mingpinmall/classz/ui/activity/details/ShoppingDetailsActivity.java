@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -31,9 +30,6 @@ import com.socks.library.KLog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 /**
  * 商品详情
@@ -95,6 +91,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
                             List<BaseFragment> fragmentList = new ArrayList<>();
                             response.getDatas().getGoods_info().setfavorate(response.getDatas().isIs_favorate());
+
                             fragmentList.add(GoodsInfoMainFragment.newInstance(id, response));
                             fragmentList.add(GoodsInfoDetailMainFragment.newInstance(id));
                             fragmentList.add(GoodsCommentFragment.newInstance(id));
@@ -141,7 +138,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 //                        KLog.i(response);
 //                    }
 //                });
-
         /*收藏*/
         registerObserver(Constants.FAVORITES, ResultBean.class)
                 .observeForever(new Observer<ResultBean>() {
@@ -181,8 +177,8 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     public void setViewContent(boolean scrollToBottom) {
         // true:图文详情  false:商品详情
         binding.vpContent.setNoScroll(scrollToBottom);
-        binding.tvTitle.setVisibility(scrollToBottom ? VISIBLE : GONE);
-        binding.pstsTabs.setVisibility(scrollToBottom ? GONE : VISIBLE);
+        binding.tvTitle.setVisibility(scrollToBottom ? View.VISIBLE :  View.GONE);
+        binding.pstsTabs.setVisibility(scrollToBottom ?  View.GONE :  View.VISIBLE);
     }
 
     public void finish(View view) {

@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="com.trecyclerview.adapter.DelegateAdapter" />
+
         <!--总金额-->
         <variable
             name="total"
@@ -38,9 +40,175 @@
         <variable
             name="content"
             type="String" />
+
+        <variable
+            name="adapter"
+            type="DelegateAdapter" />
     </data>
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.activity.order.ConfirmOrderActivity">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            bind:layout_constraintBottom_toTopOf="@id/sublimit"
+            bind:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@color/white"
+                    android:onClick="selectAddress"
+                    android:padding="@dimen/dp_10">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_height"
+                        android:layout_height="@dimen/image_height"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:src="@drawable/ic_launcher" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='@{address.userName}'
+                            tools:text="收货人" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{address.area_info}"
+                            tools:text="北京	北京市	东城区114645" />
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:layout_width="@dimen/image_height_litter"
+                        android:layout_height="@dimen/image_height_litter"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more" />
+                </RelativeLayout>
+
+                <com.goldze.common.dmvvm.widget.MultipleItemView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:onClick="paymentMethod"
+                    leon:leftText="支付方式"
+                    leon:prightText="@{payment}"
+                    leon:ptleftIcon="@drawable/ic_launcher"
+                    leon:showBottomLine="false"
+                    leon:showLeftIcon="false"
+                    leon:showRightIcon="true"
+                    leon:showTopLine="false" />
+
+                <com.goldze.common.dmvvm.widget.MultipleItemView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:onClick="invoiceInfo"
+                    leon:leftText="发票信息"
+                    leon:prightText="@{invoice}"
+                    leon:ptleftIcon="@drawable/ic_launcher"
+                    leon:showBottomLine="false"
+                    leon:showLeftIcon="false"
+                    leon:showRightIcon="true"
+                    leon:showTopLine="false" />
+
+                <!--<com.trecyclerview.TRecyclerView-->
+                <!--adapter="@{adapter}"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@color/white"-->
+                <!--android:tag="2"-->
+                <!--bind:items="@{data}" />-->
+
+                <include layout="@layout/trecyclerview_base"
+                    bind:data="@{data}"  itemdecoration="@{true}"
+                    bind:tag="@{`2`}"
+                    bind:adapter="@{adapter}"/>
+
+                <com.goldze.common.dmvvm.widget.MultipleItemView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    leon:leftText="物流配送"
+                    leon:ptleftIcon="@drawable/ic_launcher"
+                    leon:rightText="运费0.00元"
+                    leon:showBottomLine="false"
+                    leon:showLeftIcon="false"
+                    leon:showRightIcon="false"
+                    leon:showTopLine="false" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:hint="店铺订单留言"
+                    android:padding="@dimen/dp_10"
+                    android:text="@={content}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="right"
+                    android:padding="@dimen/dp_10"
+                    android:text="@{total}"
+                    tools:text="本地合计333.0元" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+
+        <TextView
+            android:id="@+id/sublimit"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:layout_alignParentRight="true"
+            android:background="@color/shallow_red"
+            android:gravity="center"
+            android:onClick="sublimit"
+            android:padding="@dimen/dp_15"
+            android:text="提交订单"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/dp_10"
+            android:text="@{total}"
+            bind:layout_constraintBaseline_toBaselineOf="@id/sublimit"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintRight_toLeftOf="@id/sublimit"
+            tools:text="合计总金额:￥500" />
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
+
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
@@ -91,11 +259,11 @@
 
 
                     <ImageView
-                        android:layout_width="@dimen/image_height"
-                        android:layout_height="@dimen/image_height"
+                        android:layout_width="@dimen/image_height_litter"
+                        android:layout_height="@dimen/image_height_litter"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_launcher" />
+                        android:src="@drawable/icon_more" />
                 </RelativeLayout>
 
                 <com.goldze.common.dmvvm.widget.MultipleItemView
@@ -127,6 +295,7 @@
                     leon:showTopLine="false" />
 
                 <com.trecyclerview.TRecyclerView
+                    adapter="@{adapter}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -194,5 +363,4 @@
                 android:text="@{total}"
                 tools:text="合计总金额:￥500" />
         </RelativeLayout>
-    </RelativeLayout>
-</layout>
+    </RelativeLayout>-->

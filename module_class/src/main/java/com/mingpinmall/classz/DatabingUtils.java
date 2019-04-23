@@ -185,7 +185,7 @@ public class DatabingUtils {
                                 List data,
                                 DelegateAdapter adapter,
                                 RecyclerView.LayoutManager layout,
-                                boolean isDecoration) {
+                                boolean isDecoration) {/*默认是显示 true:不显示*/
         if (null == rv.getAdapter()) {
             Context context = rv.getContext();
             if (null == rv.getLayoutManager()) {
@@ -218,28 +218,25 @@ public class DatabingUtils {
                     layout = new LinearLayoutManager(context);
                     break;
                 case 4:
-                    adapter = AdapterPool.newInstance().getRecommend(context).build();
-                    rv.addItemDecoration(new DividerItemDecoration(context,
-                            DividerItemDecoration.VERTICAL));
-                    layout = new GridLayoutManager(context, 4);
+////                    adapter = AdapterPool.newInstance().getRecommend(context).build();
+////                    rv.addItemDecoration(new DividerItemDecoration(context,
+////                            DividerItemDecoration.VERTICAL));
+////                    layout = new GridLayoutManager(context, 4);
                     break;
                 default:
                     KLog.i("必须个TRecyclerView 设置TAG");
                     break;
             }
-            KLog.i(isDecoration + "==" + rv.getItemDecorationCount());
             if (!isDecoration) {
                 rv.addItemDecoration(new DividerItemDecoration(context,
                         DividerItemDecoration.VERTICAL));
-            } else {
-
             }
             rv.setLayoutManager(layout);
-            rv.setAdapter(adapter);
         } else {
             adapter = (DelegateAdapter) rv.getAdapter();
         }
         if (null != adapter) {
+            rv.setAdapter(adapter);
             if (null != data && data.size() > 0) {
                 adapter.setDatas(data);
             }
