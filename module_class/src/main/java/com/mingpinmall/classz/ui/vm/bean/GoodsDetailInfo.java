@@ -1,11 +1,13 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class GoodsDetailInfo extends BaseBean {
 
+    @SerializedName("newdata")
     private DatasBean datas;
     private int code;
 
@@ -40,6 +42,12 @@ public class GoodsDetailInfo extends BaseBean {
         public List<GoodsComment> goods_eval_list;
         private boolean is_favorate;
         private List<GoodsInfo.NewsSpecListDataBean> news_spec_list_data;
+        /**
+         * mansong_info : {"list":{"mansong_id":"6","mansong_name":"满减大促销","quota_id":"0","start_time":"1555918680","end_time":"1651248000","member_id":"16","store_id":"10","member_name":"15013070796","store_name":"qqqqqq","state":"1","remark":"满减大促销","mansong_state_text":"正常","editable":true,"rules":[{"rule_id":"7","mansong_id":"6","price":"500","discount":"10","mansong_goods_name":"","goods_id":"0","goods_image":"10_06089974189764454.png","goods_image_url":"http://192.168.0.44/data/upload/mall/store/goods/10/10_06089974189764454_240.png","goods_storage":"2988","goods_url":"http://192.168.0.44/pinpai/index.php?app=goods&wwi=index&goods_id=109973"},{"rule_id":"8","mansong_id":"6","price":"1000","discount":"30","mansong_goods_name":"好看的电影001","goods_id":109973,"goods_image":"10_06089974189764454.png","goods_image_url":"http://192.168.0.44/data/upload/mall/store/goods/10/10_06089974189764454_240.png","goods_storage":"2988","goods_url":"http://192.168.0.44/pinpai/index.php?app=goods&wwi=index&goods_id=109973"}]}}
+         */
+
+        private MansongInfoBean mansong_info;
+        private List<GiftArrayBean> gift_array;
 
         public boolean isIs_favorate() {
             return is_favorate;
@@ -111,6 +119,336 @@ public class GoodsDetailInfo extends BaseBean {
 
         public void setNews_spec_list_data(List<GoodsInfo.NewsSpecListDataBean> news_spec_list_data) {
             this.news_spec_list_data = news_spec_list_data;
+        }
+
+        public MansongInfoBean getMansong_info() {
+            return mansong_info;
+        }
+
+        public void setMansong_info(MansongInfoBean mansong_info) {
+            this.mansong_info = mansong_info;
+        }
+
+        public List<GiftArrayBean> getGift_array() {
+            return gift_array;
+        }
+
+        public void setGift_array(List<GiftArrayBean> gift_array) {
+            this.gift_array = gift_array;
+        }
+
+        public class GiftArrayBean {
+            /**
+             * gift_id : 2
+             * goods_id : 109964
+             * goods_commonid : 108823
+             * gift_goodsid : 109973
+             * gift_goodsname : 好看的电影001
+             * gift_goodsimage : 10_06089974189764454.png
+             * gift_amount : 1
+             */
+
+            private String gift_id;
+            private String goods_id;
+            private String goods_commonid;
+            private String gift_goodsid;
+            private String gift_goodsname;
+            private String gift_goodsimage;
+            private String gift_amount;
+
+            public String getGift_id() {
+                return gift_id;
+            }
+
+            public void setGift_id(String gift_id) {
+                this.gift_id = gift_id;
+            }
+
+            public String getGoods_id() {
+                return goods_id;
+            }
+
+            public void setGoods_id(String goods_id) {
+                this.goods_id = goods_id;
+            }
+
+            public String getGoods_commonid() {
+                return goods_commonid;
+            }
+
+            public void setGoods_commonid(String goods_commonid) {
+                this.goods_commonid = goods_commonid;
+            }
+
+            public String getGift_goodsid() {
+                return gift_goodsid;
+            }
+
+            public void setGift_goodsid(String gift_goodsid) {
+                this.gift_goodsid = gift_goodsid;
+            }
+
+            public String getGift_goodsname() {
+                return gift_goodsname;
+            }
+
+            public void setGift_goodsname(String gift_goodsname) {
+                this.gift_goodsname = gift_goodsname;
+            }
+
+            public String getGift_goodsimage() {
+                return gift_goodsimage;
+            }
+
+            public void setGift_goodsimage(String gift_goodsimage) {
+                this.gift_goodsimage = gift_goodsimage;
+            }
+
+            public String getGift_amount() {
+                return gift_amount;
+            }
+
+            public void setGift_amount(String gift_amount) {
+                this.gift_amount = gift_amount;
+            }
+        }
+
+        public class MansongInfoBean extends BaseBean {
+
+            private String mansong_id;
+            private String mansong_name;
+            private String quota_id;
+            private String start_time;
+            private String end_time;
+            private String member_id;
+            private String store_id;
+            private String member_name;
+            private String store_name;
+            private String state;
+            private String remark;
+            private String mansong_state_text;
+            private boolean editable;
+            private List<RulesBean> rules;
+
+
+            public String getMansong_id() {
+                return mansong_id;
+            }
+
+            public void setMansong_id(String mansong_id) {
+                this.mansong_id = mansong_id;
+            }
+
+            public String getMansong_name() {
+                return mansong_name;
+            }
+
+            public void setMansong_name(String mansong_name) {
+                this.mansong_name = mansong_name;
+            }
+
+            public String getQuota_id() {
+                return quota_id;
+            }
+
+            public void setQuota_id(String quota_id) {
+                this.quota_id = quota_id;
+            }
+
+            public String getStart_time() {
+                return start_time;
+            }
+
+            public void setStart_time(String start_time) {
+                this.start_time = start_time;
+            }
+
+            public String getEnd_time() {
+                return end_time;
+            }
+
+            public void setEnd_time(String end_time) {
+                this.end_time = end_time;
+            }
+
+            public String getMember_id() {
+                return member_id;
+            }
+
+            public void setMember_id(String member_id) {
+                this.member_id = member_id;
+            }
+
+            public String getStore_id() {
+                return store_id;
+            }
+
+            public void setStore_id(String store_id) {
+                this.store_id = store_id;
+            }
+
+            public String getMember_name() {
+                return member_name;
+            }
+
+            public void setMember_name(String member_name) {
+                this.member_name = member_name;
+            }
+
+            public String getStore_name() {
+                return store_name;
+            }
+
+            public void setStore_name(String store_name) {
+                this.store_name = store_name;
+            }
+
+            public String getState() {
+                return state;
+            }
+
+            public void setState(String state) {
+                this.state = state;
+            }
+
+            public String getRemark() {
+                return remark;
+            }
+
+            public void setRemark(String remark) {
+                this.remark = remark;
+            }
+
+            public String getMansong_state_text() {
+                return mansong_state_text;
+            }
+
+            public void setMansong_state_text(String mansong_state_text) {
+                this.mansong_state_text = mansong_state_text;
+            }
+
+            public boolean isEditable() {
+                return editable;
+            }
+
+            public void setEditable(boolean editable) {
+                this.editable = editable;
+            }
+
+            public List<RulesBean> getRules() {
+                return rules;
+            }
+
+            public void setRules(List<RulesBean> rules) {
+                this.rules = rules;
+            }
+
+            public class RulesBean extends BaseBean {
+                /**
+                 * rule_id : 7
+                 * mansong_id : 6
+                 * price : 500
+                 * discount : 10
+                 * mansong_goods_name :
+                 * goods_id : 0
+                 * goods_image : 10_06089974189764454.png
+                 * goods_image_url : http://192.168.0.44/data/upload/mall/store/goods/10/10_06089974189764454_240.png
+                 * goods_storage : 2988
+                 * goods_url : http://192.168.0.44/pinpai/index.php?app=goods&wwi=index&goods_id=109973
+                 */
+
+                private String rule_id;
+                private String mansong_id;
+                private String price;
+                private String discount;
+                private String mansong_goods_name;
+                private String goods_id;
+                @SerializedName("goods_image")
+                private String goods_imageX;
+                private String goods_image_url;
+                private String goods_storage;
+                private String goods_url;
+
+                public String getRule_id() {
+                    return rule_id;
+                }
+
+                public void setRule_id(String rule_id) {
+                    this.rule_id = rule_id;
+                }
+
+                public String getMansong_id() {
+                    return mansong_id;
+                }
+
+                public void setMansong_id(String mansong_id) {
+                    this.mansong_id = mansong_id;
+                }
+
+                public String getPrice() {
+                    return price;
+                }
+
+                public void setPrice(String price) {
+                    this.price = price;
+                }
+
+                public String getDiscount() {
+                    return discount;
+                }
+
+                public void setDiscount(String discount) {
+                    this.discount = discount;
+                }
+
+                public String getMansong_goods_name() {
+                    return mansong_goods_name;
+                }
+
+                public void setMansong_goods_name(String mansong_goods_name) {
+                    this.mansong_goods_name = mansong_goods_name;
+                }
+
+                public String getGoods_id() {
+                    return goods_id;
+                }
+
+                public void setGoods_id(String goods_id) {
+                    this.goods_id = goods_id;
+                }
+
+                public String getGoods_imageX() {
+                    return goods_imageX;
+                }
+
+                public void setGoods_imageX(String goods_imageX) {
+                    this.goods_imageX = goods_imageX;
+                }
+
+                public String getGoods_image_url() {
+                    return goods_image_url;
+                }
+
+                public void setGoods_image_url(String goods_image_url) {
+                    this.goods_image_url = goods_image_url;
+                }
+
+                public String getGoods_storage() {
+                    return goods_storage;
+                }
+
+                public void setGoods_storage(String goods_storage) {
+                    this.goods_storage = goods_storage;
+                }
+
+                public String getGoods_url() {
+                    return goods_url;
+                }
+
+                public void setGoods_url(String goods_url) {
+                    this.goods_url = goods_url;
+                }
+            }
         }
 
         public class StoreInfoBean extends BaseBean {

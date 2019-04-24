@@ -1,11 +1,8 @@
 package com.mingpinmall.classz.widget;
 
-import android.annotation.SuppressLint;
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +17,13 @@ import com.mingpinmall.classz.adapter.CustomDefaultFlowTagAdapter;
 import com.mingpinmall.classz.databinding.MarketPopGoodsSpecificationBinding;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.socks.library.KLog;
-import com.xuexiang.xui.widget.flowlayout.FlowLayout;
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
-import java.util.Arrays;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 
 /**
  * 商品规格Pop
@@ -122,20 +121,33 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                     for (int anInt : ints) {
                         stringBuilder.append(anInt).append("|");
                     }
-                    for (GoodsInfo.NewsSpecListDataBean newsSpecListDataBean : goodsInfo.news_spec_list_data) {
-                        KLog.i(newsSpecListDataBean.getKey() + "==" + stringBuilder.toString());
-                        if (stringBuilder.toString().contains(newsSpecListDataBean.getKey())) {
+                    Observable.fromIterable(goodsInfo.news_spec_list_data)
+                            .filter(new Predicate<GoodsInfo.NewsSpecListDataBean>() {
+                                @Override
+                                public boolean test(GoodsInfo.NewsSpecListDataBean newsSpecListDataBean) throws Exception {
+                                    return stringBuilder.toString().contains(newsSpecListDataBean.getKey());
+                                }
+                            }).subscribe(new Consumer<GoodsInfo.NewsSpecListDataBean>() {
+                        @Override
+                        public void accept(GoodsInfo.NewsSpecListDataBean newsSpecListDataBean) throws Exception {
                             KLog.i(newsSpecListDataBean.getVal());
-                            LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL", newsSpecListDataBean.getVal());
-                            break;
+                            LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
+                                    newsSpecListDataBean.getVal());
                         }
-                    }
+                    });
+
                 }
             });
         }
     }
 
-    private void loadData() {
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        SharePreferenceUtil.saveKeyValue("SPECIFICATIONPOP", null);
+    }
+
+    public void loadData() {
         bind.setData(goodsInfo);
         bind.setListener(this);
         bind.executePendingBindings();

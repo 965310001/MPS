@@ -167,8 +167,8 @@
                         android:textSize="@dimen/text_14" />
 
                     <com.goldze.common.dmvvm.widget.CountClickView
-                        listener="@{listener}"
                         android:id="@+id/ccv_click"
+                        listener="@{listener}"
                         maxcount="@{String.valueOf(data.goods_storage)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -184,6 +184,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_50"
             android:background="@drawable/bg_of_red_gradient"
+            android:clickable="@{data.shop?false:true}"
             android:gravity="center"
             android:onClick="buyNow"
             android:text="@string/market_buy_now"
@@ -199,6 +200,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_50"
             android:background="@drawable/bg_of_orange_gradient"
+            android:clickable="@{data.shop?false:true}"
             android:gravity="center"
             android:onClick="addCart"
             android:text="@string/market_add_to_cart"

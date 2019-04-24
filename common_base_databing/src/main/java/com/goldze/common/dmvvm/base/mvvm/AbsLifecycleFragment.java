@@ -162,16 +162,21 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDetach() {
+        super.onDetach();
         if (eventKeys != null && eventKeys.size() > 0) {
             for (int i = 0; i < eventKeys.size(); i++) {
                 LiveBus.getDefault().clear(eventKeys.get(i));
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 }

@@ -26,14 +26,6 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     public GoodsCommentFragment() {
     }
 
-//    public static GoodsCommentFragment newInstance(String id) {
-//        GoodsCommentFragment fragment = new GoodsCommentFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("id", id);
-//        fragment.setArguments(bundle);
-//        return fragment;
-//    }
-
     public static GoodsCommentFragment newInstance() {
         GoodsCommentFragment fragment = new GoodsCommentFragment();
         return fragment;

@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:leon="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.activity.details.GoodsInfoMainFragment">
 
     <data>
 
@@ -34,8 +35,7 @@
         android:id="@+id/sv_switch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.activity.details.GoodsInfoMainFragment">
+        android:orientation="vertical">
 
         <!--嵌套使用了RecycleView 解决加载不全问题 使用NestedScrollView-->
         <android.support.v4.widget.NestedScrollView
@@ -163,6 +163,7 @@
                             android:onClick="favorites"
                             android:src="@{!data.isfavorate?@drawable/ic_me_favorite:@drawable/ic_me_favorite_red}"
                             android:tint="@color/shallow_red"
+                            android:visibility="@{data.shop?View.GONE:View.VISIBLE}"
                             tools:src="@drawable/ic_me_favorite" />
                     </LinearLayout>
 
@@ -216,10 +217,40 @@
                     </RelativeLayout>
 
                     <TextView
-                        html="@{data.goods_name}"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="促销" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/ll_manjisong"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_of_red_gradient_radius"
+                            android:padding="@dimen/dp_1"
+                            android:text="满级送"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+
+                        android:id="@+id/ll_zengping"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_of_red_gradient_radius"
+                            android:padding="@dimen/dp_1"
+                            android:text="赠品"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <com.leon.lib.settingview.LSettingItem

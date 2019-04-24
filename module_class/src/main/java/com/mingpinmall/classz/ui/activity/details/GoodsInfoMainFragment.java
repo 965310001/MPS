@@ -4,11 +4,19 @@ import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,6 +28,7 @@ import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.SlideLayout;
 import com.leon.lib.settingview.LSettingItem;
@@ -74,12 +83,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     @Override
-    protected void onInVisible() {
-        super.onInVisible();
-        KLog.i("onInVisible");
-    }
-
-    @Override
     public void initView(Bundle state) {
         super.initView(state);
 
@@ -92,21 +95,84 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             @Override
             public void click(boolean isChecked) {
                 if (null == specificationPop) {
-                    KLog.i("specificationPop is null'");
                     specificationPop = GoodsSpecificationPop.getInstance(getContext());
-                    specificationPop.setGoodsInfo(goodsInfo);
                 }
+                specificationPop.setGoodsInfo(goodsInfo);
                 specificationPop.show(binding.getRoot());
+                SharePreferenceUtil.saveKeyValue("SPECIFICATIONPOP", "SPECIFICATIONPOP");
             }
         });
         binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        /**/
-        if (null != specificationPop && specificationPop.isShowing()) {
-            specificationPop.setGoodsInfo(goodsInfo);
+
+        /*满级送*/
+        GoodsDetailInfo.DatasBean.MansongInfoBean mansong_info = goodsDetailInfo.getDatas().getMansong_info();
+        try {
+            TextView textView;
+            if (mansong_info != null) {
+                for (GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansong_info.getRules()) {
+                    textView = new TextView(activity);
+                    textView.setText(String.format("单笔订单满%s元,立减%s元", rule.getPrice(), rule.getDiscount()));
+                    if (!TextUtils.isEmpty(rule.getGoods_image_url())) {
+                        textView.setText(String.format("单笔订单满%s元,立减%s元," +
+                                "送礼品：%s", rule.getPrice(), rule.getDiscount(), rule.getGoods_image_url()));
+                    }
+                    binding.llManjisong.addView(textView);
+                }
+            }
+            /*赠品*/
+            if (goodsDetailInfo.getDatas().getGift_array() != null) {
+                for (GoodsDetailInfo.DatasBean.GiftArrayBean giftArrayBean : goodsDetailInfo.getDatas().getGift_array()) {
+                    textView = new TextView(activity);
+                    String text = String.format("%s x %s", giftArrayBean.getGift_goodsname(),
+                            giftArrayBean.getGift_amount());
+//                    SpannableString span3 = new SpannableString(text);
+//                    span3.setSpan(text,0,giftArrayBean.getGift_goodsname().length(),
+//                            Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    textView.setText(Html.fromHtml(text));
+                    ((Spannable) textView.getText()).setSpan(new NoUnderLineSpan(), 0, giftArrayBean.getGift_goodsname()
+                            .length(), Spanned.SPAN_MARK_MARK);
+
+                    binding.llZengping.addView(textView);
+                }
+            }
+        } catch (Exception e) {
+            KLog.i(e.toString());
         }
-        KLog.i("运行的数据");
+
+
     }
 
+    class NoUnderLineSpan extends UnderlineSpan {
+        public NoUnderLineSpan() {
+        }
+
+        public NoUnderLineSpan(Parcel src) {
+            super(src);
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+        }
+    }
+
+    protected void update() {
+        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
+        goodsInfo = goodsDetailInfo.getDatas().getGoods_info();
+        KLog.i(goodsInfo + "=====");
+        setGoodsInfo();
+    }
+
+    protected void updateSpecificationPop() {
+        specificationPop.setGoodsInfo(goodsInfo);
+        specificationPop.loadData();
+    }
+
+    protected void favorites() {
+        mViewModel.favorites(((ShoppingDetailsActivity) activity).getId(), goodsInfo.isfavorate(),
+                Constants.FAVORITES);
+    }
 
     @Override
     protected void dataObserver() {
@@ -119,7 +185,10 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     public void onChanged(@Nullable ResultBean response) {
                         KLog.i(response.isSuccess() + " " + response.getError());
                         if (response.isSuccess()) {
+                            ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏成功" : "添加收藏成功");
                             goodsInfo.setfavorate(!goodsInfo.isfavorate());
+                        } else {
+                            ToastUtils.showLong(response.getError());
                         }
                     }
                 });

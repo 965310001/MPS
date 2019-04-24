@@ -15,9 +15,7 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
-import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.adapter.FragmentPagerAdapter;
 import com.mingpinmall.classz.ui.constants.Constants;
@@ -43,9 +41,9 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     private GoodsInfo goodsInfo;
     private GoodsDetailInfo goodsDetailInfo;
 
-    GoodsInfoMainFragment goodsInfoMainFragment;
-    GoodsInfoDetailMainFragment goodsInfoDetailMainFragment;
-    GoodsCommentFragment goodsCommentFragment;
+    private GoodsInfoMainFragment goodsInfoMainFragment;
+    private GoodsInfoDetailMainFragment goodsInfoDetailMainFragment;
+    private GoodsCommentFragment goodsCommentFragment;
 
     @Override
     protected boolean isActionBar() {
@@ -76,11 +74,10 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         mViewModel.getGoodsDetail(id);
     }
 
-    boolean is_favorate;
-
     @Override
     protected void dataObserver() {
         super.dataObserver();
+
         registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0], GoodsDetailInfo.class)
                 .observeForever(new Observer<GoodsDetailInfo>() {
                     @Override
@@ -90,24 +87,31 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                             goodsInfo = response.getDatas().getGoods_info();
                             goodsInfo.news_spec_list_data = response.getDatas().getNews_spec_list_data();
                             goodsInfo.setfavorate(response.getDatas().isIs_favorate());
-                            is_favorate = response.getDatas().isIs_favorate();
 
+                            goodsInfo.setMember_id(goodsDetailInfo.getDatas().getStore_info().getMember_id());
 
-                            List<HorizontalTabTitle> title = new ArrayList<>();
-                            HorizontalTabTitle horizontalTabTitle;
-                            for (String s : Arrays.asList("商品", "详情", "评价")) {
-                                horizontalTabTitle = new HorizontalTabTitle(s);
-                                title.add(horizontalTabTitle);
-                            }
-                            List<BaseFragment> fragmentList = new ArrayList<>();
-                            fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
-                            fragmentList.add(goodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
-                            fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
-                            binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
-                            binding.vpContent.setOffscreenPageLimit(3);
-                            binding.pstsTabs.setViewPager(binding.vpContent);
-                            if (goodsCommentFragment == null) {
+                            if (goodsInfoMainFragment == null) {
+                                List<HorizontalTabTitle> title = new ArrayList<>();
+                                HorizontalTabTitle horizontalTabTitle;
+                                for (String s : Arrays.asList("商品", "详情", "评价")) {
+                                    horizontalTabTitle = new HorizontalTabTitle(s);
+                                    title.add(horizontalTabTitle);
+                                }
+                                List<BaseFragment> fragmentList = new ArrayList<>();
+                                fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
+                                fragmentList.add(goodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
+                                fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
+                                binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
+                                binding.vpContent.setOffscreenPageLimit(3);
+                                binding.pstsTabs.setViewPager(binding.vpContent);
                             } else {
+                                goodsInfoMainFragment.update();
+                                goodsInfoDetailMainFragment.setData();
+                                goodsCommentFragment.onRefresh();
+
+                                if (!TextUtils.isEmpty(SharePreferenceUtil.getKeyValue("SPECIFICATIONPOP"))) {
+                                    goodsInfoMainFragment.updateSpecificationPop();
+                                }
                             }
 
                             setCartNumber();
@@ -146,20 +150,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 //                        KLog.i(response);
 //                    }
 //                });
-        /*收藏*/
-        registerObserver(Constants.FAVORITES, ResultBean.class)
-                .observeForever(new Observer<ResultBean>() {
-                    @Override
-                    public void onChanged(@Nullable ResultBean response) {
-                        KLog.i(response.isSuccess() + " " + response.getError());
-                        if (response.isSuccess()) {
-                            ToastUtils.showLong(is_favorate ? "取消收藏成功" : "添加收藏成功");
-                            is_favorate = !is_favorate;
-                        } else {
-                            ToastUtils.showLong(response.getError());
-                        }
-                    }
-                });
 
         /*商品规格*/
         registerObserver("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL")
@@ -190,7 +180,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     }
 
     public void finish(View view) {
-        finish();
+        onClick(view);
     }
 
     public void goCart(View view) {
@@ -219,11 +209,10 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     // TODO: 2019/4/2 收藏
     public void favorites(View view) {
-        KLog.i("收藏" + goodsInfo.isfavorate());
         if (!SharePreferenceUtil.isLogin()) {
             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {
-            mViewModel.favorites(id, is_favorate, Constants.FAVORITES);
+            goodsInfoMainFragment.favorites();
         }
     }
 

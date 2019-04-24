@@ -4,8 +4,11 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.base.bean.UserBean;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.DateUtils;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.mingpinmall.classz.BR;
 import com.socks.library.KLog;
 
@@ -19,28 +22,6 @@ import java.util.List;
 
 @Entity
 public class GoodsInfo extends BaseBean {
-    /**
-     * goods_id : 109928
-     * store_id : 7
-     * goods_name : 正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表
-     * goods_jingle : 型号BD7108G    100米防水 终身保修 全国包邮 邦顿正品  专柜同款
-     * goods_price : 599.00
-     * goods_marketprice : 599.00
-     * goods_image : 7_05175802468129745.jpg
-     * goods_salenum : 0
-     * evaluation_good_star : 5
-     * evaluation_count : 0
-     * is_virtual : 0
-     * is_presell : 0
-     * is_fcode : 0
-     * have_gift : 0
-     * store_name : 瑞士邦顿（bestdon）手表旗舰店
-     * is_own_mall : 0
-     * sole_flag : false
-     * group_flag : false
-     * xianshi_flag : false
-     * goods_image_url : http://39.108.254.185/data/upload/mall/common/default_goods_image_360.gif
-     */
 
     @Id
     private String goods_id;
@@ -88,8 +69,7 @@ public class GoodsInfo extends BaseBean {
     @Transient
     private int cart;
 
-    /*购买的数量*/
-    private int num;//数量
+    private int num;//购买的数量
 
     /*属性*/
     @Transient
@@ -102,6 +82,22 @@ public class GoodsInfo extends BaseBean {
     public List<NewsSpecDataBean> news_spec_data;
     @Transient
     public List<NewsSpecListDataBean> news_spec_list_data;
+
+    @Transient
+    public String member_id;/*是否是自己*/
+
+    public boolean isShop() {
+        UserBean userBean = (UserBean) SharePreferenceUtil.getUser(UserBean.class);
+        return userBean.getUserid().equals(member_id);
+    }
+
+    public String getMember_id() {
+        return member_id;
+    }
+
+    public void setMember_id(String member_id) {
+        this.member_id = member_id;
+    }
 
     @Keep
     public GoodsInfo() {
@@ -231,7 +227,6 @@ public class GoodsInfo extends BaseBean {
         notifyPropertyChanged(BR.num);
     }
 
-
     @Bindable
     public boolean isfavorate() {
         return is_favorate;
@@ -241,7 +236,6 @@ public class GoodsInfo extends BaseBean {
         this.is_favorate = is_favorate;
         notifyPropertyChanged(BR.is_favorate);
     }
-
 
     @Bindable
     public String getGoods_name() {
@@ -381,23 +375,21 @@ public class GoodsInfo extends BaseBean {
         this.checked = checked;
     }
 
-    public boolean isGroup_flag() {
-        return group_flag;
-    }
+//    public boolean isGroup_flag() {
+//        return group_flag;
+//    }
 
+//    public void setGroup_flag(boolean group_flag) {
+//        this.group_flag = group_flag;
+//    }
 
-    public void setGroup_flag(boolean group_flag) {
-        this.group_flag = group_flag;
-    }
-
-    //
-    public boolean isXianshi_flag() {
-        return xianshi_flag;
-    }
-
-    public void setXianshi_flag(boolean xianshi_flag) {
-        this.xianshi_flag = xianshi_flag;
-    }
+//    public boolean isXianshi_flag() {
+//        return xianshi_flag;
+//    }
+//
+//    public void setXianshi_flag(boolean xianshi_flag) {
+//        this.xianshi_flag = xianshi_flag;
+//    }
 
     public String getGoods_image_url() {
         return goods_image_url;
@@ -408,16 +400,47 @@ public class GoodsInfo extends BaseBean {
     }
 
     public void click(View view) {
+        LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
+                goods_id);
         ActivityToActivity.goShoppingDetails(goods_id);
     }
 
-    public boolean getIsStoreName() {
-        return this.isStoreName;
-    }
-
-    public void setIsStoreName(boolean isStoreName) {
-        this.isStoreName = isStoreName;
-    }
+    //    public boolean getIsStoreName() {
+//        return this.isStoreName;
+//    }
+//    public void setIsStoreName(boolean isStoreName) {
+//        this.isStoreName = isStoreName;
+//    }
+//    public String getVirtual_indate() {
+//        return virtual_indate;
+//    }
+//
+//    public void setVirtual_indate(String virtual_indate) {
+//        this.virtual_indate = virtual_indate;
+//    }
+//    public List<String> getNews_goods_spec_name() {
+//        return news_goods_spec_name;
+//    }
+//
+//    public void setNews_goods_spec_name(List<String> news_goods_spec_name) {
+//        this.news_goods_spec_name = news_goods_spec_name;
+//    }
+//
+//    public List<NewsSpecDataBean> getNews_spec_data() {
+//        return news_spec_data;
+//    }
+//
+//    public void setNews_spec_data(List<NewsSpecDataBean> news_spec_data) {
+//        this.news_spec_data = news_spec_data;
+//    }
+//
+//    public List<NewsSpecListDataBean> getNews_spec_list_data() {
+//        return news_spec_list_data;
+//    }
+//
+//    public void setNews_spec_list_data(List<NewsSpecListDataBean> news_spec_list_data) {
+//        this.news_spec_list_data = news_spec_list_data;
+//    }
 
     public boolean getGroup_flag() {
         return this.group_flag;
@@ -427,42 +450,12 @@ public class GoodsInfo extends BaseBean {
         return this.xianshi_flag;
     }
 
-    public String getVirtual_indate() {
-        return virtual_indate;
-    }
-
-    public void setVirtual_indate(String virtual_indate) {
-        this.virtual_indate = virtual_indate;
-    }
 
     /*有效期*/
     public String getValidity() {
         return String.format("即日起 到 %s", DateUtils.getFormatDate(Long.parseLong(virtual_indate), "yyyy-MM-dd HH:mm:ss"));
     }
 
-    public List<String> getNews_goods_spec_name() {
-        return news_goods_spec_name;
-    }
-
-    public void setNews_goods_spec_name(List<String> news_goods_spec_name) {
-        this.news_goods_spec_name = news_goods_spec_name;
-    }
-
-    public List<NewsSpecDataBean> getNews_spec_data() {
-        return news_spec_data;
-    }
-
-    public void setNews_spec_data(List<NewsSpecDataBean> news_spec_data) {
-        this.news_spec_data = news_spec_data;
-    }
-
-    public List<NewsSpecListDataBean> getNews_spec_list_data() {
-        return news_spec_list_data;
-    }
-
-    public void setNews_spec_list_data(List<NewsSpecListDataBean> news_spec_list_data) {
-        this.news_spec_list_data = news_spec_list_data;
-    }
 
     public static class NewsSpecDataBean extends BaseBean {
 

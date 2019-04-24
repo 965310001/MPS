@@ -25,12 +25,14 @@ import com.trecyclerview.listener.OnItemClickListener;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+
 /**
  * 分类
  */
 public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel>
         implements OnItemClickListener, View.OnClickListener {
-    
+
     private int leftPostion = 0;
     private DelegateAdapter rightAdapter;
     private ClassificationBean.DatasBean.ClassListBean data;

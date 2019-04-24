@@ -75,6 +75,7 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
         setData();
     }
 
+
     @Override
     protected Object getStateEventKey() {
         return "";

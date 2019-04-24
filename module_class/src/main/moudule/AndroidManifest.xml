@@ -23,29 +23,29 @@
         </activity>
         <activity
             android:name=".ui.activity.classiflist.ProductsActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.details.ShoppingDetailsActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.vm.SearchActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <!--<activity-->
         <!--android:name=".ui.activity.classiflist.ProductsActivity2"-->
-        <!--android:launchMode="singleTask" />-->
+        <!--android:launchMode="singleTop" />-->
 
         <activity
             android:name=".ui.activity.order.ConfirmOrderActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.invoice.InvoiceActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.store.StoreActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.store.StoreIntroActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>
