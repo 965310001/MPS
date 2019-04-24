@@ -41,6 +41,11 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     String id;
 
     private GoodsInfo goodsInfo;
+    private GoodsDetailInfo goodsDetailInfo;
+
+    GoodsInfoMainFragment goodsInfoMainFragment;
+    GoodsInfoDetailMainFragment goodsInfoDetailMainFragment;
+    GoodsCommentFragment goodsCommentFragment;
 
     @Override
     protected boolean isActionBar() {
@@ -81,28 +86,31 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                     @Override
                     public void onChanged(@Nullable GoodsDetailInfo response) {
                         if (response.isSuccess()) {
+                            goodsDetailInfo = response;
+                            goodsInfo = response.getDatas().getGoods_info();
+                            goodsInfo.news_spec_list_data = response.getDatas().getNews_spec_list_data();
+                            goodsInfo.setfavorate(response.getDatas().isIs_favorate());
+                            is_favorate = response.getDatas().isIs_favorate();
+
+
                             List<HorizontalTabTitle> title = new ArrayList<>();
                             HorizontalTabTitle horizontalTabTitle;
                             for (String s : Arrays.asList("商品", "详情", "评价")) {
                                 horizontalTabTitle = new HorizontalTabTitle(s);
                                 title.add(horizontalTabTitle);
                             }
-                            response.getDatas().getGoods_info().news_spec_list_data = response.getDatas().getNews_spec_list_data();
-
                             List<BaseFragment> fragmentList = new ArrayList<>();
-                            response.getDatas().getGoods_info().setfavorate(response.getDatas().isIs_favorate());
-
-                            fragmentList.add(GoodsInfoMainFragment.newInstance(id, response));
-                            fragmentList.add(GoodsInfoDetailMainFragment.newInstance(id));
-                            fragmentList.add(GoodsCommentFragment.newInstance(id));
-
+                            fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
+                            fragmentList.add(goodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
+                            fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
                             binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
                             binding.vpContent.setOffscreenPageLimit(3);
                             binding.pstsTabs.setViewPager(binding.vpContent);
-                            goodsInfo = response.getDatas().getGoods_info();
-                            is_favorate = response.getDatas().isIs_favorate();
-                            setCartNumber();
+                            if (goodsCommentFragment == null) {
+                            } else {
+                            }
 
+                            setCartNumber();
                             binding.setData(goodsInfo);
                         } else {
                             showErrorState();
@@ -177,8 +185,8 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     public void setViewContent(boolean scrollToBottom) {
         // true:图文详情  false:商品详情
         binding.vpContent.setNoScroll(scrollToBottom);
-        binding.tvTitle.setVisibility(scrollToBottom ? View.VISIBLE :  View.GONE);
-        binding.pstsTabs.setVisibility(scrollToBottom ?  View.GONE :  View.VISIBLE);
+        binding.tvTitle.setVisibility(scrollToBottom ? View.VISIBLE : View.GONE);
+        binding.pstsTabs.setVisibility(scrollToBottom ? View.GONE : View.VISIBLE);
     }
 
     public void finish(View view) {
@@ -233,6 +241,14 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         } else {
             binding.tvCount.setVisibility(View.GONE);
         }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public GoodsDetailInfo getGoodsDetailInfo() {
+        return goodsDetailInfo;
     }
 
     /**

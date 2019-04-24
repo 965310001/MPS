@@ -42,22 +42,9 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
     public GoodsInfoDetailMainFragment() {
     }
 
-    String url;
-
-    public static GoodsInfoDetailMainFragment newInstance(String url) {
+    public static GoodsInfoDetailMainFragment newInstance() {
         GoodsInfoDetailMainFragment fragment = new GoodsInfoDetailMainFragment();
-        Bundle bundle = new Bundle();
-        url = BuildConfig.APP_URL + "/mo_bile/index.php?app=goods&wwi=goods_body&goods_id=" + url;
-        bundle.putString("url", url);
-        fragment.setArguments(bundle);
         return fragment;
-    }
-
-    @Override
-    public void setArguments(@Nullable Bundle args) {
-        super.setArguments(args);
-        url = getArguments().getString("url");
-//        KLog.i("url=="+url);
     }
 
     @Override
@@ -76,9 +63,6 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
         TextView tvGoodsDetail = binding.tvGoodsDetail;
         TextView tvGoodsConfig = binding.tvGoodsConfig;
         vTabCursor = binding.vTabCursor;
-
-
-//        vTabCursor.setLayoutParams(new RelativeLayout.LayoutParams(DisplayUtil.getScreenWidth(getContext())/2, RelativeLayout.LayoutParams.MATCH_PARENT));
 
         tvGoodsDetail.setOnClickListener(this);
         tvGoodsConfig.setOnClickListener(this);
@@ -100,7 +84,7 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
      * 商品信息Fragment页获取完数据执行
      */
     public void setData() {
-        goodsDetailWebFragment = GoodsInfoWebFragment.newInstance(url);
+        goodsDetailWebFragment = GoodsInfoWebFragment.newInstance(getUrl());
         currentFragment = goodsDetailWebFragment;
         goodsConfigFragment = new GoodsConfigFragment();
         fragmentManager = getChildFragmentManager();
@@ -108,7 +92,10 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
         fragmentManager.beginTransaction().replace(R.id.fl_goods_content, currentFragment).commitAllowingStateLoss();
     }
 
-    //    @OnClick({R.id.tv_goods_detail, R.id.tv_goods_config})
+    private String getUrl() {
+        return BuildConfig.APP_URL + "/mo_bile/index.php?app=goods&wwi=goods_body&goods_id=" + ((ShoppingDetailsActivity) activity).getId();
+    }
+
     @Override
     public void onClick(View v) {
         int i = v.getId();

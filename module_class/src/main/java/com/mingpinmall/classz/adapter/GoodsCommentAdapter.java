@@ -19,7 +19,6 @@ public class GoodsCommentAdapter extends BaseRecyclerAdapter<GoodsComment> {
 
     @Override
     protected void convert(BaseViewHolder holder, GoodsComment data, int position, List<Object> payloads) {
-//        ImageUtils.loadImageCircle((ImageView) holder.getView(R.id.iv_head), data.getUserHead());
         holder.setText(R.id.tv_name, data.getGeval_frommembername());
         holder.setText(R.id.tv_comment, data.getGeval_content());
         holder.setText(R.id.tv_time, data.getGeval_addtime_date());

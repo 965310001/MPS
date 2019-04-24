@@ -10,41 +10,22 @@ import java.util.Objects;
  */
 public class GoodsComment extends BaseBean {
 
-    /**
-     * geval_scores : 5
-     * geval_content : 好评，发货快，东西适合！
-     * geval_addtime : 1433494597
-     * geval_frommemberid : 156
-     * geval_frommembername : z***7
-     * geval_explain : null
-     * geval_content_again :
-     * geval_addtime_again : 0
-     * geval_explain_again :
-     * member_avatar : http://www.mingpinmall.cn/data/upload/mall/common/05234670838512007.gif
-     * geval_addtime_date : 2015-06-05
-     * geval_image_240 : []
-     * geval_image_1024 : []
-     * geval_addtime_again_date : 1970-01-01
-     * geval_image_again_240 : []
-     * geval_image_again_1024 : []
-     */
-
     private String geval_scores;
     private String geval_content;
     private String geval_addtime;
     private String geval_frommemberid;
     private String geval_frommembername;
-    private Object geval_explain;
+    private String geval_explain;
     private String geval_content_again;
     private String geval_addtime_again;
     private String geval_explain_again;
     private String member_avatar;
     private String geval_addtime_date;
     private String geval_addtime_again_date;
-//    private List<?> geval_image_240;
-//    private List<?> geval_image_1024;
-//    private List<?> geval_image_again_240;
-//    private List<?> geval_image_again_1024;
+    private List<String> geval_image_240;
+    private List<String> geval_image_1024;
+    private List<String> geval_image_again_240;
+    private List<String> geval_image_again_1024;
 
     public String getGeval_scores() {
         return geval_scores;
@@ -86,11 +67,11 @@ public class GoodsComment extends BaseBean {
         this.geval_frommembername = geval_frommembername;
     }
 
-    public Object getGeval_explain() {
+    public String getGeval_explain() {
         return geval_explain;
     }
 
-    public void setGeval_explain(Object geval_explain) {
+    public void setGeval_explain(String geval_explain) {
         this.geval_explain = geval_explain;
     }
 
@@ -140,5 +121,37 @@ public class GoodsComment extends BaseBean {
 
     public void setGeval_addtime_again_date(String geval_addtime_again_date) {
         this.geval_addtime_again_date = geval_addtime_again_date;
+    }
+
+    public List<String> getGeval_image_240() {
+        return geval_image_240;
+    }
+
+    public void setGeval_image_240(List<String> geval_image_240) {
+        this.geval_image_240 = geval_image_240;
+    }
+
+    public List<String> getGeval_image_1024() {
+        return geval_image_1024;
+    }
+
+    public void setGeval_image_1024(List<String> geval_image_1024) {
+        this.geval_image_1024 = geval_image_1024;
+    }
+
+    public List<String> getGeval_image_again_240() {
+        return geval_image_again_240;
+    }
+
+    public void setGeval_image_again_240(List<String> geval_image_again_240) {
+        this.geval_image_again_240 = geval_image_again_240;
+    }
+
+    public List<String> getGeval_image_again_1024() {
+        return geval_image_again_1024;
+    }
+
+    public void setGeval_image_again_1024(List<String> geval_image_again_1024) {
+        this.geval_image_again_1024 = geval_image_again_1024;
     }
 }

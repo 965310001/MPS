@@ -31,7 +31,6 @@ import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoMainBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
-import com.mingpinmall.classz.ui.vm.adapter.RecommendGoodsInfoAdapter;
 import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
@@ -41,8 +40,7 @@ import com.socks.library.KLog;
 import java.util.Arrays;
 import java.util.List;
 
-public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel>
-        implements SlideLayout.OnSlideDetailsListener {
+public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel> implements SlideLayout.OnSlideDetailsListener {
     /**
      * 当前商品详情数据页的索引分别是图文详情、规格参数
      */
@@ -60,12 +58,8 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     public GoodsInfoMainFragment() {
     }
 
-    public static GoodsInfoMainFragment newInstance(String id, GoodsDetailInfo goodsDetailInfo) {
+    public static GoodsInfoMainFragment newInstance() {
         GoodsInfoMainFragment fragment = new GoodsInfoMainFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("id", id);
-        bundle.putSerializable("goodsInfo", goodsDetailInfo);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -80,11 +74,17 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     @Override
+    protected void onInVisible() {
+        super.onInVisible();
+        KLog.i("onInVisible");
+    }
+
+    @Override
     public void initView(Bundle state) {
         super.initView(state);
 
         binding.svSwitch.setOnSlideDetailsListener(this);
-        goodsDetailInfo = (GoodsDetailInfo) getArguments().getSerializable("goodsInfo");
+        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
         goodsInfo = goodsDetailInfo.getDatas().getGoods_info();
         KLog.i(goodsInfo + "=====");
         setGoodsInfo();
@@ -92,6 +92,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             @Override
             public void click(boolean isChecked) {
                 if (null == specificationPop) {
+                    KLog.i("specificationPop is null'");
                     specificationPop = GoodsSpecificationPop.getInstance(getContext());
                     specificationPop.setGoodsInfo(goodsInfo);
                 }
@@ -102,8 +103,8 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         /**/
         if (null != specificationPop && specificationPop.isShowing()) {
             specificationPop.setGoodsInfo(goodsInfo);
-            KLog.i("运行的数据");
         }
+        KLog.i("运行的数据");
     }
 
 
@@ -158,9 +159,8 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     public void onStateChanged(SlideLayout.Status status) {
         if (shoppingDetailsActivity != null) {
             shoppingDetailsActivity.setViewContent(status == SlideLayout.Status.OPEN);
-//            KLog.i("上拉查看图文详情");
             getChildFragmentManager().beginTransaction().replace(R.id.fl_fragment,
-                    GoodsInfoDetailMainFragment.newInstance(goodsInfo.getGoods_id())).commitAllowingStateLoss();
+                    GoodsInfoDetailMainFragment.newInstance()).commitAllowingStateLoss();
         }
     }
 

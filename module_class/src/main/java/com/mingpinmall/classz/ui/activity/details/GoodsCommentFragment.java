@@ -26,11 +26,16 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     public GoodsCommentFragment() {
     }
 
-    public static GoodsCommentFragment newInstance(String id) {
+//    public static GoodsCommentFragment newInstance(String id) {
+//        GoodsCommentFragment fragment = new GoodsCommentFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("id", id);
+//        fragment.setArguments(bundle);
+//        return fragment;
+//    }
+
+    public static GoodsCommentFragment newInstance() {
         GoodsCommentFragment fragment = new GoodsCommentFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("id", id);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -38,7 +43,7 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     protected void getRemoteData() {
         super.getRemoteData();
         KLog.i("EVALUATE_EVENT_KEY");
-        mViewModel.getEvaluate(getArguments().getString("id"), type, String.valueOf(page));
+        mViewModel.getEvaluate(((ShoppingDetailsActivity) activity).getId(), type, String.valueOf(page));
     }
 
     @Override

@@ -32,7 +32,6 @@ import java.util.List;
 public class GoodsSpecificationPop extends PopupWindow implements CountClickView.OnClickAfterListener {
 
     private Context context;
-    @SuppressLint("StaticFieldLeak")
     private static GoodsSpecificationPop specificationPop;
     private GoodsInfo goodsInfo;
 
@@ -56,7 +55,6 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         this.goodsInfo = goodsInfo;
         return this;
     }
-
 
     public void show(View parent) {
         View view = View.inflate(context, R.layout.market_pop_goods_specification, null);
