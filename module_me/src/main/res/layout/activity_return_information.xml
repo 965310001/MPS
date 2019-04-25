@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.mingpinmall.me.ui.bean.PdcashInfoBean" />
+            type="com.mingpinmall.me.ui.bean.ReturnInformation" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -32,35 +32,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.info.pdc_sn}"
+                app:subTitle="@{data.return_info.refund_sn}"
                 app:title="退款编号" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.info.pdc_amount}"
+                app:subTitle="@{data.return_info.reason_info}"
                 app:title="退款原因" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.info.pdc_bank_name}"
+                app:subTitle="@{data.return_info.refund_amount}"
                 app:title="退款金额" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.info.pdc_bank_no}"
+                app:subTitle="@{data.return_info.buyer_message}"
                 app:title="退款说明" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.info.pdc_bank_no}"
+                app:subTitle=""
                 app:title="凭证上传" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -75,14 +75,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.info.pdc_payment_admin}"
+                app:subTitle="@{data.return_info.admin_state}"
                 app:title="审核状态" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.info.pdc_add_time_text}"
+                app:subTitle="@{data.return_info.seller_message}"
                 app:title="商家备注" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -97,14 +97,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.info.pdc_payment_state_text}"
+                app:subTitle="@{data.return_info.admin_state}"
                 app:title="平台确认" />
 
             <com.mingpinmall.me.ui.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.info.pdc_payment_time_text}"
+                app:subTitle="@{data.return_info.admin_message}"
                 app:title="平台备注" />
 
             <Space

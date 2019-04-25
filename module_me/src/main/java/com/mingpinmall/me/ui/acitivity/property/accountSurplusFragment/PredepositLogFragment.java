@@ -94,7 +94,7 @@ public class PredepositLogFragment extends AbsLifecycleFragment<FragmentDefaultR
                     listAdapter.setNewData(data.getData().getList());
                 }
                 if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

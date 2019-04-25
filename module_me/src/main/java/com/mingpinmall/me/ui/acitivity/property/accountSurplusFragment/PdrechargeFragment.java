@@ -94,7 +94,7 @@ public class PdrechargeFragment extends AbsLifecycleFragment<FragmentDefaultRecy
                     pdrechargeAdapter.setNewData(data.getData().getList());
                 }
                 if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

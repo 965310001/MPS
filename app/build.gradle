@@ -46,11 +46,11 @@ android {
         multiDexEnabled true
     }
     signingConfigs {
-        config {
-            storeFile file(keystoreProperties['KEY_STOREFILE'])
-            storePassword keystoreProperties['KEY_PASSWORD']
-            keyPassword keystoreProperties['KEY_PASSWORD']
+        release {
             keyAlias keystoreProperties['KEY_ALIAS']
+            keyPassword keystoreProperties['KEY_PASSWORD']
+            storePassword keystoreProperties['PASSWORD']
+            storeFile file(keystoreProperties['KEY_STOREFILE'])
         }
     }
     dataBinding {
@@ -59,9 +59,8 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            signingConfig signingConfigs.config
 //            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
         }
         debug {

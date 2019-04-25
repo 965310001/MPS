@@ -270,9 +270,32 @@ public interface MeApiService {
     );
 
     /**
-     * 店铺红包
+     * 描述：退款详情
+     * 请求地址
+     * https://www.mingpinmall.cn/mo_bile/index.php?app=member_refund&wwi=get_refund_info&key=&refund_id=1
+     * 请求方式：get
      */
-    String redPacket = "/mo_bile/index.php?app=member_redpacket&wwi=redpacket_list&key=9d818aeef03b5778b2a3d1b3eb0de5bb&curpage=1&page=10";
+    String REFUND_INFORMATION = "/mo_bile/index.php?app=member_refund&wwi=get_refund_info";
+
+    @GET(REFUND_INFORMATION)
+    Flowable<BaseResponse<RefundInformation>> getRefundInformation(
+            @Query("key") String key,
+            @Query("refund_id") String refundId
+    );
+
+    /**
+     * 描述：退货详情
+     * 请求地址
+     * https://www.mingpinmall.cn/mo_bile/index.php?app=member_return&wwi=get_return_info&key=&return_id=1
+     * 请求方式：get
+     */
+    String RETURN_INFORMATION = "/mo_bile/index.php?app=member_return&wwi=get_return_info";
+
+    @GET(RETURN_INFORMATION)
+    Flowable<BaseResponse<ReturnInformation>> getReturnInformation(
+            @Query("key") String key,
+            @Query("return_id") String returnId
+    );
 
     /**
      * 描述：账户余额
@@ -569,15 +592,16 @@ public interface MeApiService {
 
     /**
      * 描述：清空浏览记录
-     * 请求地址:http://www.mingpinmall.cn/mo_bile/index.php?app=member_ goodsbrowse&wwi=browse_clearall
+     * 请求地址:https://www.mingpinmall.cn/mo_bile/index.php?app=member_goodsbrowse&wwi=browse_clearall
      * 请求方式：get
      * 请求参数：无
      */
-    String ClearnFootprint = "/mo_bile/index.php?app=member_ goodsbrowse&wwi=browse_clearall";
+    String ClearnFootprint = "/mo_bile/index.php?app=member_goodsbrowse&wwi=browse_clearall";
 
     @GET(ClearnFootprint)
-    Flowable<BaseResponse<FootprintBean>> clearnFootprint(
-            @Query("key") String key
+    Flowable<BaseNothingBean> clearnFootprint(
+            @Query("key") String key,
+            @Query("_client") String client
     );
 
     /**

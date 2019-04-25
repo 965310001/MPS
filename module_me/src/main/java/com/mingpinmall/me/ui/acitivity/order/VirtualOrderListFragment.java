@@ -166,7 +166,7 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
                     virtualOrderListAdapter.addData(data.getData().getOrder_list());
                 }
                 if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

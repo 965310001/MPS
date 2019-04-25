@@ -25,6 +25,7 @@ import com.mingpinmall.me.ui.adapter.PhysicalOrderInformationListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.bean.PdcashInfoBean;
+import com.mingpinmall.me.ui.bean.RefundInformation;
 
 /**
  * 功能描述：退款单详情
@@ -35,20 +36,26 @@ import com.mingpinmall.me.ui.bean.PdcashInfoBean;
 public class RefundOrderInformationActivity extends AbsLifecycleActivity<ActivityRefundInformationBinding, MeViewModel> {
 
     @Autowired
-    String pdcId;
+    String refundId;
+
+    @Override
+    protected void initViews(Bundle savedInstanceState) {
+        super.initViews(savedInstanceState);
+        ARouter.getInstance().inject(this);
+        setTitle(R.string.text_refundInformation);
+    }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("PDCASH_INFORMATION", "success", PdcashInfoBean.class)
-                .observeForever(new Observer<PdcashInfoBean>() {
+        registerObserver("REFUND_INFORMATION", "success", RefundInformation.class)
+                .observeForever(new Observer<RefundInformation>() {
                     @Override
-                    public void onChanged(@Nullable PdcashInfoBean result) {
-                        Log.i("哇哇哇", "onChanged: 进来了？");
+                    public void onChanged(@Nullable RefundInformation result) {
                         binding.setData(result);
                     }
                 });
-        registerObserver("PDCASH_INFORMATION", "err", String.class)
+        registerObserver("REFUND_INFORMATION", "err", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String msg) {
@@ -59,9 +66,7 @@ public class RefundOrderInformationActivity extends AbsLifecycleActivity<Activit
 
     @Override
     protected void initData() {
-        ARouter.getInstance().inject(this);
-        setTitle(R.string.title_PdcashInformationActivity);
-        mViewModel.getPdcashList(pdcId);
+        mViewModel.getRefundInformation(refundId);
     }
 
     @Override

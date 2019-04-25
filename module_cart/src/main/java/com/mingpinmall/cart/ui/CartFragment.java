@@ -1,28 +1,329 @@
 package com.mingpinmall.cart.ui;
 
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
+import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.cart.R;
 import com.mingpinmall.cart.databinding.FragmentCartBinding;
+import com.mingpinmall.cart.ui.adapter.ShopCartAdapter;
+import com.mingpinmall.cart.ui.api.CartViewModel;
+import com.mingpinmall.cart.ui.bean.AvailableCartBean;
+import com.mingpinmall.cart.ui.bean.CartQuantityState;
+import com.mingpinmall.cart.ui.bean.ShopCartBean;
+import com.mingpinmall.cart.ui.utils.SmoothCheckBox;
+import com.mingpinmall.cart.ui.utils.UpdateView;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 /**
  * 购物车
  */
-public class CartFragment extends BaseFragment<FragmentCartBinding> {
+public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, CartViewModel> {
 
-    TextView tvCart;
+    private ShopCartAdapter shopCartAdapter;
+    private int checkedSize = 0;
+    private int goodsSize = 0;
+    private ProgressDialog progressDialog;
 
     public CartFragment() {
     }
 
     public static CartFragment newInstance() {
         return new CartFragment();
+    }
+
+    @Override
+    public void initView(Bundle state) {
+        super.initView(state);
+        getViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
+        ((TextView) getViewById(R.id.tv_title)).setText("购物车");
+        //在这里设置沉浸式状态栏
+        setTitlePadding(getViewById(R.id.rl_title_content));
+        //并且设置状态栏字体颜色为黑色
+        setDarkMode(true);
+        progressDialog = ProgressDialog.initNewDialog(getChildFragmentManager());
+
+        shopCartAdapter = new ShopCartAdapter();
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+        binding.recyclerView.setAdapter(shopCartAdapter);
+
+        binding.refreshLayout.setEnableLoadMore(false);
+        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                lazyLoad();
+            }
+        });
+
+        binding.cbSelectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*全选购物车或者全反选购物车*/
+                binding.cbSelectAll.toggle();
+                boolean isCheck = binding.cbSelectAll.isChecked();
+                checkedSize = isCheck ? goodsSize : 0;
+                double money = 0.0;
+                for (AvailableCartBean item : shopCartAdapter.getData()) {
+                    item.setCheck(isCheck);
+                    if (item.getItemType() == 1 && isCheck) {
+                        double price = Double.parseDouble(item.getGoods().getGoods_price());
+                        int count = Integer.parseInt(item.getGoods().getGoods_num());
+                        price = price * count;
+                        money += isCheck ? price : -price;
+                    }
+                }
+                binding.tvMoney.setText(money + "");
+                shopCartAdapter.notifyDataSetChanged();
+            }
+        });
+
+        shopCartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
+                final AvailableCartBean data = shopCartAdapter.getItem(position);
+                if (view.getId() == R.id.iv_delete) {
+                    //移除商品
+                    Log.i("购物车", "onItemChildClick: 移除商品");
+                    TextDialog.showBaseDialog(activity, "移除商品", "确定移除这个商品吗？", new TextDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick() {
+                            progressDialog.onLoading("");
+                            mViewModel.deleteGoods(position, data.getGoods().getCart_id());
+                        }
+                    }).show();
+                } else if (view.getId() == R.id.cb_single) {
+                    //勾选反勾选
+                    ((SmoothCheckBox) view).setChecked(!((SmoothCheckBox) view).isChecked(), true);
+                    checkStateChange(data, position);
+                } else if (view.getId() == R.id.iv_jian) {
+                    //商品减一
+                    int goodsNum = Integer.parseInt(data.getGoods().getGoods_num());
+                    mViewModel.editCartQuantity(position, data.getGoods().getCart_id(), goodsNum - 1);
+                    view.setEnabled(false);
+                } else if (view.getId() == R.id.iv_jia) {
+                    //商品加一
+                    int goodsNum = Integer.parseInt(data.getGoods().getGoods_num());
+                    mViewModel.editCartQuantity(position, data.getGoods().getCart_id(), goodsNum + 1);
+                    view.setEnabled(false);
+                } else if (view.getId() == R.id.ll_listContent || view.getId() == R.id.iv_arrow) {
+                    //满即送展开与收起
+                    data.setExpanded(!data.isExpanded());
+                    shopCartAdapter.notifyItemChanged(position);
+                } else if (view.getId() == R.id.tv_coupon) {
+                    //领券
+                    Log.i("购物车", "onItemChildClick: 领取优惠券");
+                }
+            }
+        });
+    }
+
+    /**
+     * 增加或者减少单个商品数量
+     *
+     * @param position
+     * @param quantity
+     */
+    private void changeGoodsCount(int position, int quantity) {
+        AvailableCartBean data = shopCartAdapter.getItem(position);
+        int count = Integer.parseInt(data.getGoods().getGoods_num());
+        boolean isAdd = quantity > count;
+        count += quantity - count;
+        if (count < 1) {
+            count = 1;
+        }
+        data.getGoods().setGoods_num(String.valueOf(count));
+        shopCartAdapter.setData(position, data);
+        if (data.isCheck()) {
+            //获得当前总价
+            double money = Double.parseDouble(binding.tvMoney.getText().toString());
+            //获得单价
+            double price = Double.parseDouble(data.getGoods().getGoods_price());
+            //总价 加上 这次的单价
+            money = money + (isAdd ? price : -price);
+            binding.tvMoney.setText(String.valueOf(money));
+        }
+    }
+
+    /**
+     * 切换选中状态，非全选按钮
+     *
+     * @param data
+     */
+    private void checkStateChange(AvailableCartBean data, int position) {
+        boolean isCheck = !data.isCheck();
+        data.setCheck(isCheck);
+        double money = 0.0;
+        if (!binding.tvMoney.getText().toString().isEmpty()) {
+            money = Double.parseDouble(binding.tvMoney.getText().toString());
+        }
+        if (data.getItemType() == 0) {
+            //group
+            for (int i = position; i < shopCartAdapter.getData().size(); i++) {
+                AvailableCartBean itemData = shopCartAdapter.getData().get(i);
+                if (itemData.getStore_id().equals(data.getStore_id())) {
+                    if (itemData.getItemType() == 1 && itemData.isCheck() != isCheck) {
+                        checkedSize = isCheck ? checkedSize + 1 : checkedSize - 1;
+                        double price = Double.parseDouble(itemData.getGoods().getGoods_price());
+                        int count = Integer.parseInt(itemData.getGoods().getGoods_num());
+                        price = price * count;
+                        money += isCheck ? price : -price;
+                    }
+                    itemData.setCheck(isCheck);
+                    continue;
+                }
+                break;
+            }
+            shopCartAdapter.notifyDataSetChanged();
+        } else {
+            //child
+            String storeId = data.getStore_id();
+            checkedSize = isCheck ? checkedSize + 1 : checkedSize - 1;
+            for (int i = 0; i < shopCartAdapter.getData().size(); i++) {
+                AvailableCartBean itemBean = shopCartAdapter.getData().get(i);
+                if (itemBean.getStore_id() == storeId && itemBean.getItemType() == 0) {
+                    itemBean.changeCheckedCount(isCheck);
+                    shopCartAdapter.notifyItemChanged(i);
+                    break;
+                }
+            }
+            double price = Double.parseDouble(data.getGoods().getGoods_price());
+            int count = Integer.parseInt(data.getGoods().getGoods_num());
+            price = price * count;
+            money += data.isCheck() ? price : -price;
+        }
+        binding.cbSelectAll.setChecked(goodsSize != 0 && checkedSize == goodsSize, false);
+        binding.tvMoney.setText(money + "");
+    }
+
+    @Override
+    protected void lazyLoad() {
+        mViewModel.getCartList();
+    }
+
+    /**
+     * 处理数据内容
+     *
+     * @param data
+     */
+    private void formatData(ShopCartBean data) {
+        double money = 0.00;
+        binding.cbSelectAll.toggle();
+        List<AvailableCartBean> dataList = new ArrayList<>();
+        goodsSize = 0;
+        checkedSize = 0;
+        for (ShopCartBean.CartListBean cartListBean : data.getCart_list()) {
+            AvailableCartBean item = new AvailableCartBean();
+            item.setItemType(0);
+            item.setCheck(true);
+            item.setChildCount(cartListBean.getGoods().size());
+            item.setCheckedCount(cartListBean.getGoods().size());
+            item.setStore_id(cartListBean.getStore_id());
+            item.setStore_name(cartListBean.getStore_name());
+            item.setFree_freight(cartListBean.getFree_freight());
+            item.setVoucher(cartListBean.getVoucher());
+            item.setMansong(cartListBean.getMansong());
+            dataList.add(item);
+            for (ShopCartBean.CartListBean.GoodsBean goodsBean : cartListBean.getGoods()) {
+                goodsSize++;
+                checkedSize++;
+                money += Double.parseDouble(goodsBean.getGoods_price());
+                AvailableCartBean childItem = new AvailableCartBean();
+                childItem.setItemType(1);
+                childItem.setCheck(true);
+                childItem.setStore_id(cartListBean.getStore_id());
+                childItem.setStore_name(cartListBean.getStore_name());
+                childItem.setGoods(goodsBean);
+                dataList.add(childItem);
+            }
+            AvailableCartBean itemSpace = new AvailableCartBean();
+            itemSpace.setItemType(11);
+            itemSpace.setStore_id(cartListBean.getStore_id());
+            itemSpace.setStore_name(cartListBean.getStore_name());
+            dataList.add(itemSpace);
+        }
+        shopCartAdapter.setNewData(dataList);
+        binding.cbSelectAll.setChecked(checkedSize == goodsSize, false);
+        binding.tvMoney.setText(money + "");
+    }
+
+    @Override
+    protected void dataObserver() {
+        super.dataObserver();
+        registerObserver("SHOP_CART_LIST", "success", ShopCartBean.class).observeForever(new Observer<ShopCartBean>() {
+            @Override
+            public void onChanged(@Nullable ShopCartBean result) {
+                formatData(result);
+                binding.refreshLayout.finishRefresh();
+            }
+        });
+        registerObserver("SHOP_CART_LIST", "err", String.class).observeForever(new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String msg) {
+                ToastUtils.showShort(msg);
+                binding.refreshLayout.finishRefresh(false);
+            }
+        });
+        registerObserver("CART_QUANTITY", CartQuantityState.class).observeForever(new Observer<CartQuantityState>() {
+            @Override
+            public void onChanged(@Nullable CartQuantityState result) {
+                if (result.isSuccess()) {
+                    changeGoodsCount(result.getPosition(), result.getQuantity());
+                } else {
+                    shopCartAdapter.notifyItemChanged(result.getPosition());
+                }
+            }
+        });
+        registerObserver("CART_DELETE", CartQuantityState.class).observeForever(new Observer<CartQuantityState>() {
+            @Override
+            public void onChanged(@Nullable CartQuantityState result) {
+                if (result.isSuccess()) {
+                    lazyLoad();
+                    progressDialog.dismiss();
+                } else {
+                    progressDialog.onFail(result.getMsg());
+                }
+            }
+        });
+    }
+
+    @Override
+    protected Object getStateEventKey() {
+        return "CartFragment";
+    }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        setDarkMode(true);
+    }
+
+    @Override
+    protected void onInVisible() {
+        super.onInVisible();
+
     }
 
     @Override
@@ -35,19 +336,5 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         return R.id.content_layout;
     }
 
-    @Override
-    public void initView(Bundle state) {
-        showSuccess();
-        tvCart = binding.tvCart;
-        tvCart.setText("cart");
-    }
 
-
-    //    @OnClick(R2.id.tv_cart)
-    public void onViewClicked(View view) {
-        int id = view.getId();
-        if (id == R.id.tv_cart) {
-            ToastUtils.showLong("tv_cart");
-        }
-    }
 }

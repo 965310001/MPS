@@ -136,7 +136,7 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
                             shopsStreetAdapter.addData(data.getData().getStore_list());
                         }
                         if (!data.isHasmore()) {
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                            binding.refreshLayout.setNoMoreData(true);
                         }
                     }
                 });

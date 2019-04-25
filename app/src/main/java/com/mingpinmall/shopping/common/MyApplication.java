@@ -26,6 +26,7 @@ public class MyApplication extends BaseApplication {
             @Override
             public void initialize(@NonNull Context context, @NonNull RefreshLayout layout) {
                 layout.setEnableLoadMoreWhenContentNotFull(true)
+                        .setEnableAutoLoadMore(true)
                         .setEnableOverScrollDrag(true)
                         .setEnableOverScrollBounce(true);
             }

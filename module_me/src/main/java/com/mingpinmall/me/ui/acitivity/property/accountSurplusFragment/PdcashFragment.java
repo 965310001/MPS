@@ -107,7 +107,7 @@ public class PdcashFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
                     pdcashAdapter.setNewData(data.getData().getList());
                 }
                 if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

@@ -51,10 +51,6 @@ public class CouponListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                if (!isHasmore) {
-                    refreshLayout.finishLoadMoreWithNoMoreData();
-                    return;
-                }
                 isLoadmore = true;
                 mViewModel.getCouponList(pageIndex + 1);
             }
@@ -131,7 +127,7 @@ public class CouponListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
                     listAdapter.setNewData(dataList);
                 }
                 if (!isHasmore) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

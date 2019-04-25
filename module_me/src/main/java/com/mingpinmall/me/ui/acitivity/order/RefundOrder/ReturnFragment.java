@@ -4,18 +4,18 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
+import com.mingpinmall.me.ui.adapter.ReturnOrderListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
-import com.mingpinmall.me.ui.bean.RefundBean;
 import com.mingpinmall.me.ui.bean.ReturnBean;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -29,10 +29,15 @@ public class ReturnFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
 
     private int pageIndex = 1;
     private boolean isLoadmore = false;
+    private ReturnOrderListAdapter listAdapter;
 
     @Override
     public void initView(Bundle state) {
         super.initView(state);
+        listAdapter = new ReturnOrderListAdapter();
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        binding.recyclerView.setAdapter(listAdapter);
+
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -46,28 +51,28 @@ public class ReturnFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
                 lazyLoad();
             }
         });
-//        listAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                //item点击
-//                RefundBean.RefundListBean data = listAdapter.getItem(position);
-//
-//            }
-//        });
-//        listAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-//            @Override
-//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//                //item子控件点击
-//                RefundBean.RefundListBean data = listAdapter.getItem(position);
-//                if (view.getId() == R.id.ll_shopContent) {
-//                    //店铺
-//                    ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", data.getStore_id());
-//                } else if (view.getId() == R.id.bt_refundInformation){
-//                    //查看详情 TODO 查看详情页面
-//
-//                }
-//            }
-//        });
+        listAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                //item点击
+                ReturnBean.ReturnListBean data = listAdapter.getItem(position);
+
+            }
+        });
+        listAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                //item子控件点击
+                ReturnBean.ReturnListBean data = listAdapter.getItem(position);
+                if (view.getId() == R.id.ll_shopContent) {
+                    //店铺
+                    ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", data.getStore_id());
+                } else if (view.getId() == R.id.bt_refundInformation){
+                    //查看详情
+                    ActivityToActivity.toActivity(ARouterConfig.Me.RETRUNORDERINFORMATION, "returnId", data.getRefund_id());
+                }
+            }
+        });
     }
 
     @Override
@@ -86,12 +91,14 @@ public class ReturnFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
                         if (isLoadmore) {
                             pageIndex++;
                             binding.refreshLayout.finishLoadMore();
+                            listAdapter.addData(refundBean.getData().getReturn_list());
                         } else {
                             pageIndex = 1;
                             binding.refreshLayout.finishRefresh();
+                            listAdapter.setNewData(refundBean.getData().getReturn_list());
                         }
                         if (!refundBean.isHasmore()) {
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                            binding.refreshLayout.setNoMoreData(true);
                         }
                     }
                 });

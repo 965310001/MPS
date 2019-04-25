@@ -69,8 +69,8 @@ public class RefundFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
                     //店铺
                     ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", data.getStore_id());
                 } else if (view.getId() == R.id.bt_refundInformation){
-                    //查看详情 TODO 查看详情页面
-
+                    //查看详情
+                    ActivityToActivity.toActivity(ARouterConfig.Me.REFUNDORDERINFORMATION, "refundId", data.getRefund_id());
                 }
             }
         });
@@ -99,7 +99,7 @@ public class RefundFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
                             listAdapter.setNewData(refundBean.getData().getRefund_list());
                         }
                         if (!refundBean.isHasmore()) {
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                            binding.refreshLayout.setNoMoreData(true);
                         }
                     }
                 });

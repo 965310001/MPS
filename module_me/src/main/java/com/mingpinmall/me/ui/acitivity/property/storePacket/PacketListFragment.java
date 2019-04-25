@@ -122,7 +122,7 @@ public class PacketListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
                     listAdapter.setNewData(dataList);
                 }
                 if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

@@ -15,6 +15,7 @@ import com.mingpinmall.me.databinding.ActivityPhysicalOrderInformationBinding;
 import com.mingpinmall.me.databinding.ActivityReturnInformationBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.PdcashInfoBean;
+import com.mingpinmall.me.ui.bean.ReturnInformation;
 
 /**
  * 功能描述：退货单详情
@@ -25,20 +26,19 @@ import com.mingpinmall.me.ui.bean.PdcashInfoBean;
 public class ReturnOrderInformationActivity extends AbsLifecycleActivity<ActivityReturnInformationBinding, MeViewModel> {
 
     @Autowired
-    String pdcId;
+    String returnId;
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("PDCASH_INFORMATION", "success", PdcashInfoBean.class)
-                .observeForever(new Observer<PdcashInfoBean>() {
+        registerObserver("RETURN_INFORMATION", "success", ReturnInformation.class)
+                .observeForever(new Observer<ReturnInformation>() {
                     @Override
-                    public void onChanged(@Nullable PdcashInfoBean result) {
-                        Log.i("哇哇哇", "onChanged: 进来了？");
+                    public void onChanged(@Nullable ReturnInformation result) {
                         binding.setData(result);
                     }
                 });
-        registerObserver("PDCASH_INFORMATION", "err", String.class)
+        registerObserver("RETURN_INFORMATION", "err", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String msg) {
@@ -50,8 +50,8 @@ public class ReturnOrderInformationActivity extends AbsLifecycleActivity<Activit
     @Override
     protected void initData() {
         ARouter.getInstance().inject(this);
-        setTitle(R.string.title_PdcashInformationActivity);
-        mViewModel.getPdcashList(pdcId);
+        setTitle(R.string.text_returnInformation);
+        mViewModel.getReturnInformation(returnId);
     }
 
     @Override

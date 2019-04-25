@@ -99,7 +99,7 @@ public class VipIntegralActivity extends AbsLifecycleActivity<ActivityVipintergr
                     listAdapter.setNewData(data.getData().getLog_list());
                 }
                 if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

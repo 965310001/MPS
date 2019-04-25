@@ -22,6 +22,52 @@ public class MeRepository extends BaseRepository {
 
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
 
+    /*退货详情*/
+    protected void getReturnInformation(String returnId) {
+        addDisposable(apiService.getReturnInformation(getUserKey(), returnId)
+                .compose(RxSchedulers.<BaseResponse<ReturnInformation>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ReturnInformation>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<ReturnInformation> result) {
+                        if (result.isSuccess()) {
+                            sendData("RETURN_INFORMATION", "success", result.getData());
+                        } else {
+                            sendData("RETURN_INFORMATION", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("RETURN_INFORMATION", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*退款详情*/
+    protected void getRefundInformation(String refundId) {
+        addDisposable(apiService.getRefundInformation(getUserKey(), refundId)
+                .compose(RxSchedulers.<BaseResponse<RefundInformation>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<RefundInformation>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<RefundInformation> result) {
+                        if (result.isSuccess()) {
+                            sendData("REFUND_INFORMATION", "success", result.getData());
+                        } else {
+                            sendData("REFUND_INFORMATION", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("REFUND_INFORMATION", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
     /*会员积分*/
     protected void getVipPoint() {
         addDisposable(apiService.getVipPoint(getUserKey())
@@ -715,13 +761,13 @@ public class MeRepository extends BaseRepository {
      * 我的商城页面 清空我的足迹
      **/
     protected void clearnMyFootprint() {
-        addDisposable(apiService.clearnFootprint(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<FootprintBean>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<FootprintBean>>() {
+        addDisposable(apiService.clearnFootprint(getUserKey(), "android")
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                                    @Override
-                                   public void onSuccess(BaseResponse<FootprintBean> result) {
+                                   public void onSuccess(BaseNothingBean result) {
                                        if (result.isSuccess())
-                                           sendData("CLEAR_FOOTPRINT", "success loadmore", "");
+                                           sendData("CLEAR_FOOTPRINT", "success", "");
                                        else
                                            sendData("CLEAR_FOOTPRINT", "err", result.getMessage());
                                    }
@@ -739,18 +785,14 @@ public class MeRepository extends BaseRepository {
     /**
      * 我的商城页面 获取我的足迹
      **/
-    protected void getMyFootprint(final int curPage) {
+    protected void getMyFootprint(int curPage) {
         addDisposable(apiService.getFootprint(getUserKey(), 10, curPage)
                 .compose(RxSchedulers.<BaseResponse<FootprintBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<FootprintBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<FootprintBean> result) {
                                        if (result.isSuccess())
-                                           if (curPage > 1) {
-                                               sendData("GET_FOOTPRINT", "success loadmore", result);
-                                           } else {
-                                               sendData("GET_FOOTPRINT", "success refresh", result);
-                                           }
+                                           sendData("GET_FOOTPRINT", "success", result);
                                        else
                                            sendData("GET_FOOTPRINT", "err", result.getMessage());
                                    }
@@ -949,23 +991,23 @@ public class MeRepository extends BaseRepository {
      *
      * @param
      */
-    protected void getProductCollectList(final int curpage) {
+    protected void getProductCollectList(int curpage) {
         addDisposable(apiService.getProductCollectList(getUserKey(), curpage, 10)
                 .compose(RxSchedulers.<BaseResponse<ProductCollectionBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ProductCollectionBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<ProductCollectionBean> result) {
-                                       if (curpage > 1) {
-                                           sendData("PRODUCT_COLLECT_LIST", "loadmore", result);
-                                       } else {
+                                       if (result.isSuccess()) {
                                            sendData("PRODUCT_COLLECT_LIST", "success", result);
+                                       } else {
+                                           sendData("PRODUCT_COLLECT_LIST", "err", result.getMessage());
                                        }
                                    }
 
                                    @Override
                                    public void onFailure(String msg) {
                                        KLog.i(msg);
-                                       sendData("PRODUCT_COLLECT_LIST", "err", msg);
+                                       sendData("PRODUCT_COLLECT_LIST", "err", msg == null ? "获取失败" : msg);
                                    }
                                }
                 )

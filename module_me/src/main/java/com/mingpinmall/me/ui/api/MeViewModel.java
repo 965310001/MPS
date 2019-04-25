@@ -16,6 +16,16 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         super(application);
     }
 
+    /*退货详情*/
+    public void getReturnInformation(String returnId) {
+        mRepository.getReturnInformation(returnId);
+    }
+
+    /*退款详情*/
+    public void getRefundInformation(String refundId) {
+        mRepository.getRefundInformation(refundId);
+    }
+
     /*确认领取红包*/
     public void packetCharge(String pwd_code) {
         mRepository.packetCharge(pwd_code);

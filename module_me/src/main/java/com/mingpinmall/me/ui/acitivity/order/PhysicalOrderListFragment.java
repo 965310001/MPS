@@ -177,7 +177,7 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                             physicalOrderListAdapter.addData(data.getNewdata());
                         }
                         if (!data.isHasmore()) {
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                            binding.refreshLayout.setNoMoreData(true);
                         }
                     }
                 });
@@ -185,13 +185,12 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
             @Override
             public void onChanged(@Nullable String o) {
                 Log.i("数据", "onChanged: 进入Err " + EVENT_KEY);
-                if (binding.refreshLayout.getState() == RefreshState.Refreshing) {
-                    binding.refreshLayout.finishRefresh(false);
-                } else if (binding.refreshLayout.getState() == RefreshState.Loading) {
+                if (isLoadmore) {
                     binding.refreshLayout.finishLoadMore(false);
                 } else {
-                    ToastUtils.showShort(o);
+                    binding.refreshLayout.finishRefresh(false);
                 }
+                ToastUtils.showShort(o);
             }
         });
     }

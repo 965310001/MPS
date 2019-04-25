@@ -92,7 +92,7 @@ public class CardSurplusLogFragment extends AbsLifecycleFragment<FragmentCardLog
                     rCardLogAdapter.setNewData(data.getData().getLog_list());
                 }
                 if (!data.isHasmore()) {
-                    binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

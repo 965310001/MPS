@@ -110,27 +110,17 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                     @Override
                     public void onChanged(@Nullable Object result) {
                         BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
-                        pageIndex = 1;
-                        binding.refreshLayout.finishRefresh();
-                        collectionAdapter.setNewData(data.getData().getFavorites_list());
-                        if (data.getData().getFavorites_list().size() == 0) {
-                            showSuccess();
+                        if (isLoadmore) {
+                            pageIndex++;
+                            binding.refreshLayout.finishLoadMore();
+                            collectionAdapter.addData(data.getData().getFavorites_list());
+                        } else {
+                            pageIndex = 1;
+                            binding.refreshLayout.finishRefresh();
+                            collectionAdapter.setNewData(data.getData().getFavorites_list());
                         }
                         if (!data.isHasmore())
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                    }
-                });
-        registerObserver("PRODUCT_COLLECT_LIST", "loadmore")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
-                        pageIndex++;
-                        if (data.isHasmore())
-                            binding.refreshLayout.finishLoadMore();
-                        else
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                        collectionAdapter.addData(data.getData().getFavorites_list());
+                            binding.refreshLayout.setNoMoreData(true);
                     }
                 });
         registerObserver("PRODUCT_COLLECT_LIST", "err")
@@ -138,8 +128,11 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                     @Override
                     public void onChanged(@Nullable Object result) {
                         ToastUtils.showShort(result.toString());
-                        binding.refreshLayout.finishRefresh(false);
-                        binding.refreshLayout.finishLoadMore(false);
+                        if (isLoadmore) {
+                            binding.refreshLayout.finishLoadMore(false);
+                        } else {
+                            binding.refreshLayout.finishRefresh(false);
+                        }
                     }
                 });
     }
