@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="data"
-            type="com.mingpinmall.classz.ui.vm.bean.ClassificationBean.DatasBean.ClassListBean" />
+            type="com.mingpinmall.classz.ui.vm.bean.ClassificationBean.ClassListBean" />
     </data>
 
     <LinearLayout

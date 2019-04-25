@@ -40,10 +40,10 @@ public class ClassifyRepository extends BaseRepository {
     /*获取左边的数据*/
     public void getLeft() {
         addDisposable(apiService.getLeft("goods_class", "index")
-                .compose(RxSchedulers.<ClassificationBean>io_main())
-                .subscribeWith(new RxSubscriber<ClassificationBean>() {
+                .compose(RxSchedulers.<BaseResponse<ClassificationBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ClassificationBean>>() {
                     @Override
-                    public void onSuccess(ClassificationBean result) {
+                    public void onSuccess(BaseResponse<ClassificationBean> result) {
                         sendData(Constants.EVENT_KEY_CLASSIFY_MORE[0], result);
                         showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.SUCCESS_STATE);
                     }
@@ -249,7 +249,7 @@ public class ClassifyRepository extends BaseRepository {
         if (!TextUtils.isEmpty(addressId)) {
             map.put("address_id", ifcart);
         }
-        if (!TextUtils.isEmpty(addressId)) {
+        if (!TextUtils.isEmpty(ifcart)) {
             map.put("ifcart", ifcart);
         }
         map.put("key", getUserKey());
@@ -264,6 +264,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
+                        KLog.i(msg);
                         showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.ERROR_STATE);
                     }
 

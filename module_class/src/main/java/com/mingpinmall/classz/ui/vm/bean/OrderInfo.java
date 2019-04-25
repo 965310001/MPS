@@ -11,20 +11,20 @@ import java.util.List;
  */
 public class OrderInfo extends BaseBean {
 
-    private StoreCartListBean store_cart_list;
+    @SerializedName("store_cart_list_news")
+    private List<StoreCartListBean> store_cart_list;
     private AddressDataBean.AddressListBean address_info;
-    private Object ifshow_offpay;
-    private String vat_hash;
     private InvInfoBean inv_info;
     private String order_amount;
     private AddressApiBean address_api;
-    private StoreFinalTotalListBean store_final_total_list;
+    @SerializedName("new_store_final_total_list")
+    private List<ContentBean> store_final_total_list;
 
-    public StoreCartListBean getStore_cart_list() {
+    public List<StoreCartListBean> getStore_cart_list() {
         return store_cart_list;
     }
 
-    public void setStore_cart_list(StoreCartListBean store_cart_list) {
+    public void setStore_cart_list(List<StoreCartListBean> store_cart_list) {
         this.store_cart_list = store_cart_list;
     }
 
@@ -34,22 +34,6 @@ public class OrderInfo extends BaseBean {
 
     public void setAddress_info(AddressDataBean.AddressListBean address_info) {
         this.address_info = address_info;
-    }
-
-    public Object getIfshow_offpay() {
-        return ifshow_offpay;
-    }
-
-    public void setIfshow_offpay(Object ifshow_offpay) {
-        this.ifshow_offpay = ifshow_offpay;
-    }
-
-    public String getVat_hash() {
-        return vat_hash;
-    }
-
-    public void setVat_hash(String vat_hash) {
-        this.vat_hash = vat_hash;
     }
 
     public InvInfoBean getInv_info() {
@@ -76,11 +60,11 @@ public class OrderInfo extends BaseBean {
         this.address_api = address_api;
     }
 
-    public StoreFinalTotalListBean getStore_final_total_list() {
+    public List<ContentBean> getStore_final_total_list() {
         return store_final_total_list;
     }
 
-    public void setStore_final_total_list(StoreFinalTotalListBean store_final_total_list) {
+    public void setStore_final_total_list(List<ContentBean> store_final_total_list) {
         this.store_final_total_list = store_final_total_list;
     }
 
@@ -89,92 +73,50 @@ public class OrderInfo extends BaseBean {
          * 10 : {"goods_list":[{"goods_num":1,"goods_id":109938,"goods_commonid":"108808","gc_id":"12","store_id":"10","goods_name":"3333333333333","goods_price":"333.00","store_name":"qqqqqq","goods_image":"10_06082251459466849.png","transport_id":"0","goods_freight":"0.00","goods_vat":"0","goods_storage":"332","goods_storage_alarm":"0","is_fcode":"0","have_gift":"0","state":true,"storage_state":true,"groupbuy_info":null,"xianshi_info":null,"is_chain":"0","is_book":"0","book_down_payment":"0.00","book_final_payment":"0.00","book_down_time":"0","cart_id":109938,"bl_id":0,"sole_info":[],"contractlist":[],"goods_total":"333.00","goods_image_url":"http://192.168.0.44/data/upload/mall/store/goods/10/10_06082251459466849_240.png"}],"store_goods_total":"333.00","store_mansong_rule_list":null,"store_voucher_info":[],"store_voucher_list":[],"freight":"1","store_name":"qqqqqq"}
          */
 
-        @SerializedName("10")
-        private _$10Bean _$10;
+        private String store_goods_total;
+        private Object store_mansong_rule_list;
+        private String freight;
+        private String store_name;
+        private List<GoodsInfo> goods_list;
 
-        public _$10Bean get_$10() {
-            return _$10;
+        public String getStore_goods_total() {
+            return store_goods_total;
         }
 
-        public void set_$10(_$10Bean _$10) {
-            this._$10 = _$10;
+        public void setStore_goods_total(String store_goods_total) {
+            this.store_goods_total = store_goods_total;
         }
 
-        public static class _$10Bean {
-            /**
-             * goods_list : [{"goods_num":1,"goods_id":109938,"goods_commonid":"108808","gc_id":"12","store_id":"10","goods_name":"3333333333333","goods_price":"333.00","store_name":"qqqqqq","goods_image":"10_06082251459466849.png","transport_id":"0","goods_freight":"0.00","goods_vat":"0","goods_storage":"332","goods_storage_alarm":"0","is_fcode":"0","have_gift":"0","state":true,"storage_state":true,"groupbuy_info":null,"xianshi_info":null,"is_chain":"0","is_book":"0","book_down_payment":"0.00","book_final_payment":"0.00","book_down_time":"0","cart_id":109938,"bl_id":0,"sole_info":[],"contractlist":[],"goods_total":"333.00","goods_image_url":"http://192.168.0.44/data/upload/mall/store/goods/10/10_06082251459466849_240.png"}]
-             * store_goods_total : 333.00
-             * store_mansong_rule_list : null
-             * store_voucher_info : []
-             * store_voucher_list : []
-             * freight : 1
-             * store_name : qqqqqq
-             */
+        public Object getStore_mansong_rule_list() {
+            return store_mansong_rule_list;
+        }
 
-            private String store_goods_total;
-            private Object store_mansong_rule_list;
-            private String freight;
-            private String store_name;
-            private List<GoodsInfo> goods_list;
-//            private List<?> store_voucher_info;
-//            private List<?> store_voucher_list;
+        public void setStore_mansong_rule_list(Object store_mansong_rule_list) {
+            this.store_mansong_rule_list = store_mansong_rule_list;
+        }
 
-            public String getStore_goods_total() {
-                return store_goods_total;
-            }
+        public String getFreight() {
+            return freight;
+        }
 
-            public void setStore_goods_total(String store_goods_total) {
-                this.store_goods_total = store_goods_total;
-            }
+        public void setFreight(String freight) {
+            this.freight = freight;
+        }
 
-            public Object getStore_mansong_rule_list() {
-                return store_mansong_rule_list;
-            }
+        public String getStore_name() {
+            return store_name;
+        }
 
-            public void setStore_mansong_rule_list(Object store_mansong_rule_list) {
-                this.store_mansong_rule_list = store_mansong_rule_list;
-            }
+        public void setStore_name(String store_name) {
+            this.store_name = store_name;
+        }
 
-            public String getFreight() {
-                return freight;
-            }
+        public List<GoodsInfo> getGoods_list() {
+            return goods_list;
+        }
 
-            public void setFreight(String freight) {
-                this.freight = freight;
-            }
-
-            public String getStore_name() {
-                return store_name;
-            }
-
-            public void setStore_name(String store_name) {
-                this.store_name = store_name;
-            }
-
-            public List<GoodsInfo> getGoods_list() {
-                return goods_list;
-            }
-
-            public void setGoods_list(List<GoodsInfo> goods_list) {
-                this.goods_list = goods_list;
-            }
-
-//            public List<?> getStore_voucher_info() {
-//                return store_voucher_info;
-//            }
-//
-//            public void setStore_voucher_info(List<?> store_voucher_info) {
-//                this.store_voucher_info = store_voucher_info;
-//            }
-//
-//            public List<?> getStore_voucher_list() {
-//                return store_voucher_list;
-//            }
-//
-//            public void setStore_voucher_list(List<?> store_voucher_list) {
-//                this.store_voucher_list = store_voucher_list;
-//            }
-
+        public void setGoods_list(List<GoodsInfo> goods_list) {
+            this.goods_list = goods_list;
         }
     }
 
@@ -206,12 +148,11 @@ public class OrderInfo extends BaseBean {
          */
 
         private String state;
-        private ContentBean content;
+        @SerializedName("new_content")
+        private List<ContentBean> content;
         private String allow_offpay;
         private String offpay_hash;
         private String offpay_hash_batch;
-//        private List<?> no_send_tpl_ids;
-//        private List<?> allow_offpay_batch;
 
         public String getState() {
             return state;
@@ -221,11 +162,11 @@ public class OrderInfo extends BaseBean {
             this.state = state;
         }
 
-        public ContentBean getContent() {
+        public  List<ContentBean> getContent() {
             return content;
         }
 
-        public void setContent(ContentBean content) {
+        public void setContent( List<ContentBean> content) {
             this.content = content;
         }
 
@@ -253,38 +194,31 @@ public class OrderInfo extends BaseBean {
             this.offpay_hash_batch = offpay_hash_batch;
         }
 
-        public static class ContentBean {
-            /**
-             * 10 : 0.00
-             */
-
-            @SerializedName("10")
-            private String _$10;
-
-            public String get_$10() {
-                return _$10;
-            }
-
-            public void set_$10(String _$10) {
-                this._$10 = _$10;
-            }
-        }
     }
+    public static class ContentBean {
 
-    public static class StoreFinalTotalListBean {
         /**
-         * 10 : 333.00
+         * key : 7
+         * value : 0.00
          */
 
-        @SerializedName("10")
-        private String _$10;
+        private int key;
+        private String value;
 
-        public String get_$10() {
-            return _$10;
+        public int getKey() {
+            return key;
         }
 
-        public void set_$10(String _$10) {
-            this._$10 = _$10;
+        public void setKey(int key) {
+            this.key = key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
         }
     }
 
@@ -293,11 +227,8 @@ public class OrderInfo extends BaseBean {
         return "OrderInfo{" +
                 "store_cart_list=" + store_cart_list +
                 ", address_info=" + address_info +
-                ", ifshow_offpay=" + ifshow_offpay +
-                ", vat_hash='" + vat_hash + '\'' +
                 ", inv_info=" + inv_info +
                 ", order_amount='" + order_amount + '\'' +
-                ", address_api=" + address_api +
                 ", store_final_total_list=" + store_final_total_list +
                 '}';
     }

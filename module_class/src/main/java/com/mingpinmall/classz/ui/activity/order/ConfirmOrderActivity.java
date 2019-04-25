@@ -26,6 +26,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.socks.library.KLog;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,6 +72,8 @@ public class ConfirmOrderActivity extends
         super.initData();
         KLog.i(cartId);
 
+//        ifcart = "1";
+//        cartId = "62|1,63|1";
         mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 
@@ -89,13 +92,15 @@ public class ConfirmOrderActivity extends
                                 try {
                                     binding.setAddress(data.getData().getAddress_info());
                                     binding.setTotal(data.getData().getOrder_amount());
-                                    List<GoodsInfo> goods_list = data.getData().getStore_cart_list().get_$10().getGoods_list();
+                                    List<GoodsInfo> goods_list = new ArrayList<>();
                                     String name = "";
-                                    for (GoodsInfo goodsInfo : goods_list) {
-                                        if (!name.equals(goodsInfo.getStore_name())) {
-//                                        name = goodsInfo.getStore_name();
-                                            goodsInfo.setStoreName(true);
-                                            break;
+                                    for (OrderInfo.StoreCartListBean storeCartListBean : data.getData().getStore_cart_list()) {
+                                        for (GoodsInfo goodsInfo : storeCartListBean.getGoods_list()) {
+                                            if (!name.equals(storeCartListBean.getStore_name())) {
+                                                name = storeCartListBean.getStore_name();
+                                                goodsInfo.setStoreName(true);
+                                            }
+                                            goods_list.add(goodsInfo);
                                         }
                                     }
                                     binding.setData(goods_list);

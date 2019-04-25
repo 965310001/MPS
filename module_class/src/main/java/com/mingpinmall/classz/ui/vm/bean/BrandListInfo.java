@@ -78,7 +78,6 @@ public class BrandListInfo extends BaseBean {
                 map.put("type", 1);
                 map.put("id", brand_id);
                 ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, map);
-//                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", brand_id);
             }
         }
     }

@@ -47,7 +47,7 @@ public class AdapterPool {
     /*获取左边数据*/
     public DelegateAdapter.Builder getLeftAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(ClassificationBean.DatasBean.ClassListBean.class, new DataBindItemViewHolderManager(context, R.layout.classify_item_of_list, BR.data)),
+                        .bind(ClassificationBean.ClassListBean.class, new DataBindItemViewHolderManager(context, R.layout.classify_item_of_list, BR.data)),
                 context, ProgressStyle.Pacman);
     }
 

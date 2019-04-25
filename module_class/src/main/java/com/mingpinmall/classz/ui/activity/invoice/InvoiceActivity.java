@@ -39,9 +39,7 @@ import io.reactivex.annotations.Nullable;
  * 管理发票信息
  */
 @Route(path = ARouterConfig.classify.INVOICEACTIVITY)
-public class InvoiceActivity extends
-        AbsLifecycleActivity<ActivityInvoiceBinding, ClassifyViewModel>
-        implements RadioGroup.OnCheckedChangeListener {
+public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding, ClassifyViewModel> implements RadioGroup.OnCheckedChangeListener {
 
     List<InvoiceListInfo.InvoiceListBean> invoiceList;
 

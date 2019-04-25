@@ -1,7 +1,6 @@
 package com.mingpinmall.classz.ui.activity.store;
 
 import android.arch.lifecycle.Observer;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.View;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.mingpinmall.classz.BuildConfig;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
@@ -28,12 +26,9 @@ import io.reactivex.annotations.Nullable;
  */
 public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
-    public StoreHomeFragment() {
-    }
 
     public static StoreHomeFragment newInstance() {
-        StoreHomeFragment fragment = new StoreHomeFragment();
-        return fragment;
+        return new StoreHomeFragment();
     }
 
     @Override

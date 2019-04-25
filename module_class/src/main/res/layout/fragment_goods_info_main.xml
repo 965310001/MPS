@@ -217,15 +217,17 @@
                     </RelativeLayout>
 
                     <TextView
+                        android:paddingTop="@dimen/dp_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="促销" />
+                        android:text="促销" />
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:id="@+id/ll_manjisong"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_25"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -237,11 +239,11 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="vertical"
-
                         android:id="@+id/ll_zengping"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_25"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"

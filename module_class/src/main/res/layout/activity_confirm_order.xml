@@ -49,6 +49,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
         tools:context=".ui.activity.order.ConfirmOrderActivity">
@@ -61,7 +62,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -134,18 +135,12 @@
                     leon:showRightIcon="true"
                     leon:showTopLine="false" />
 
-                <!--<com.trecyclerview.TRecyclerView-->
-                <!--adapter="@{adapter}"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@color/white"-->
-                <!--android:tag="2"-->
-                <!--bind:items="@{data}" />-->
-
-                <include layout="@layout/trecyclerview_base"
-                    bind:data="@{data}"  itemdecoration="@{true}"
-                    bind:tag="@{`2`}"
-                    bind:adapter="@{adapter}"/>
+                <include
+                    itemdecoration="@{true}"
+                    layout="@layout/trecyclerview_base"
+                    bind:adapter="@{adapter}"
+                    bind:data="@{data}"
+                    bind:tag="@{`2`}" />
 
                 <com.goldze.common.dmvvm.widget.MultipleItemView
                     android:layout_width="match_parent"
@@ -196,12 +191,14 @@
             bind:layout_constraintRight_toRightOf="parent" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_50"
+            android:background="@color/white"
+            android:gravity="right|center"
             android:paddingRight="@dimen/dp_10"
             android:text="@{total}"
-            bind:layout_constraintBaseline_toBaselineOf="@id/sublimit"
             bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintLeft_toLeftOf="parent"
             bind:layout_constraintRight_toLeftOf="@id/sublimit"
             tools:text="合计总金额:￥500" />
     </android.support.constraint.ConstraintLayout>

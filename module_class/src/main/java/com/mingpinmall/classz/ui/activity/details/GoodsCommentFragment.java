@@ -1,8 +1,6 @@
 package com.mingpinmall.classz.ui.activity.details;
 
-
 import android.arch.lifecycle.Observer;
-import android.os.Bundle;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
@@ -23,12 +21,8 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
 
     String type = "";
 
-    public GoodsCommentFragment() {
-    }
-
     public static GoodsCommentFragment newInstance() {
-        GoodsCommentFragment fragment = new GoodsCommentFragment();
-        return fragment;
+        return new GoodsCommentFragment();
     }
 
     @Override

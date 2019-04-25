@@ -80,8 +80,4 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:support-v4:28.0.0'
     annotationProcessor rootProject.ext.dependencies["arouter_compiler"]
-
-    /*GLide*/
-    implementation rootProject.ext.dependencies['glide']
-    implementation rootProject.ext.dependencies['glide_compiler']
 }

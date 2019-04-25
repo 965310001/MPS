@@ -35,7 +35,6 @@ public interface ClassifyService {
 
     String BASEURL = "/mo_bile/index.php";
 
-    //    String CLASSIFYLEFT = "/mobile/index.php";
     String SHAPPINGLIST = "/mo_bile/index.php?app=goods&wwi=goods_list";
 
     /*品牌*/
@@ -61,7 +60,7 @@ public interface ClassifyService {
 
     /*左边*/
     @GET(BASEURL)
-    Flowable<ClassificationBean> getLeft(@Query("app") String app,
+    Flowable<BaseResponse<ClassificationBean>> getLeft(@Query("app") String app,
                                          @Query("wwi") String wwi);
 
     /*右边*/

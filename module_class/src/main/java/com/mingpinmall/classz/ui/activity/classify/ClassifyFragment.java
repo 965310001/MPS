@@ -1,5 +1,6 @@
 package com.mingpinmall.classz.ui.activity.classify;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,9 +9,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.BuildConfig;
+import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.FragmentClassifyBinding;
@@ -19,6 +23,7 @@ import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
@@ -35,7 +40,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
 
     private int leftPostion = 0;
     private DelegateAdapter rightAdapter;
-    private ClassificationBean.DatasBean.ClassListBean data;
+    private ClassificationBean.ClassListBean data;
     private final ItemData rightData = new ItemData();
 
     public ClassifyFragment() {
@@ -101,16 +106,27 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver(Constants.EVENT_KEY_CLASSIFY_MORE[0], ClassificationBean.class)
-                .observeForever(new Observer<ClassificationBean>() {
+        registerObserver(Constants.EVENT_KEY_CLASSIFY_MORE[0], BaseResponse.class)
+                .observeForever(new Observer<BaseResponse>() {
                     @Override
-                    public void onChanged(@Nullable ClassificationBean response) {
-                        List<ClassificationBean.DatasBean.ClassListBean> class_list = response.getDatas().getClass_list();
-                        data = new ClassificationBean.DatasBean.ClassListBean("-1",
-                                "品牌推荐", BuildConfig.APP_URL + "/wap/images/degault.png", true);
-                        class_list.add(0, data);
-                        binding.setData(class_list);
-                        mViewModel.getRightByBrand();
+                    public void onChanged(@Nullable BaseResponse response) {
+                        BaseResponse<ClassificationBean> baseResponse = response;
+                        if (baseResponse.isSuccess()) {
+                            try {
+                                List<ClassificationBean.ClassListBean> class_list = baseResponse.getData().getClass_list();
+                                data = new ClassificationBean.ClassListBean("-1",
+                                        "品牌推荐", BuildConfig.APP_URL + "/wap/images/degault.png", true);
+                                class_list.add(0, data);
+                                binding.setData(class_list);
+                                mViewModel.getRightByBrand();
+                            } catch (Exception e) {
+                                KLog.i(e.toString());
+                                ToastUtils.showLong("服务器出现问题，请稍后再试");
+                            }
+                        } else {
+                            ToastUtils.showLong(baseResponse.getMessage());
+                        }
+
                     }
                 });
 
@@ -138,10 +154,10 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
 
     @Override
     public void onItemClick(View view, int postion, Object object) {
-        if (object instanceof ClassificationBean.DatasBean.ClassListBean) {
+        if (object instanceof ClassificationBean.ClassListBean) {
             if (leftPostion != postion) {
                 data.setSelect(false);
-                data = (ClassificationBean.DatasBean.ClassListBean) object;
+                data = (ClassificationBean.ClassListBean) object;
                 data.setSelect(true);
                 if (data.getGc_id().equals("-1")) {
                     mViewModel.getRightByBrand();

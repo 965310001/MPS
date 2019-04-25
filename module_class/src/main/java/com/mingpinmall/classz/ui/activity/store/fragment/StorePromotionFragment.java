@@ -24,10 +24,7 @@ import com.trecyclerview.listener.OnItemClickListener;
 public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
     public static StorePromotionFragment newInstance() {
-        StorePromotionFragment fragment = new StorePromotionFragment();
-        Bundle bundle = new Bundle();
-        fragment.setArguments(bundle);
-        return fragment;
+        return new StorePromotionFragment();
     }
 
     /*获取更多数据*/

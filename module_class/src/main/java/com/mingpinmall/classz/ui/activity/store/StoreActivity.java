@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -14,7 +13,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
@@ -34,10 +32,8 @@ import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
-import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheet;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -211,7 +207,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
     }
 
     public String getStoreId() {
-        storeId = "10";
+//        storeId = "10";
         return storeId;
     }
 }

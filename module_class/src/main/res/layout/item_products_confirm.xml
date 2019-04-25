@@ -8,22 +8,14 @@
 
         <import type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
 
+        <import type="android.text.TextUtils" />
+
         <import type="android.view.View" />
 
         <variable
             name="data"
             type="GoodsInfo" />
     </data>
-
-    <!--<android.support.v7.widget.CardView-->
-    <!--style="@style/width_match_height_warp"-->
-    <!--android:layout_marginLeft="@dimen/dp_6"-->
-    <!--android:layout_marginTop="@dimen/dp_6"-->
-    <!--android:layout_marginRight="@dimen/dp_6"-->
-    <!--android:background="@color/gray"-->
-    <!--app:cardBackgroundColor="@color/white"-->
-    <!--app:cardCornerRadius="@dimen/dp_4"-->
-    <!--app:contentPadding="@dimen/dp_5">-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +29,7 @@
             android:visibility="@{data.storeName?View.VISIBLE:View.GONE}"
             bind:pleftText="@{data.store_name}"
             leon:leftIconSize="@dimen/image_height_litter"
-            leon:ptleftIcon="@drawable/ic_launcher"
+            leon:ptleftIcon="@drawable/ic_store_b"
             leon:showBottomLine="false"
             leon:showLeftIcon="true"
             leon:showRightIcon="false"
@@ -57,11 +49,11 @@
 
             <ImageView
                 android:id="@+id/iv_icon"
+                image="@{data.goods_image_url}"
                 android:layout_width="93dp"
                 android:layout_height="103dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                image="@{data.goods_image_url}"
                 tools:srcCompat="@drawable/ic_launcher" />
 
             <TextView
@@ -95,6 +87,16 @@
                 android:textSize="@dimen/text_16"
                 tools:text="text" />
 
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/tv_name"-->
+                <!--android:layout_marginLeft="@dimen/dp_10"-->
+                <!--android:layout_toEndOf="@+id/iv_icon"-->
+                <!--android:maxLines="1"-->
+                <!--android:text="@{!TextUtils.isEmpty(data.goods_spec)?data.goods_spec:``}"-->
+                <!--tools:text="text" />-->
+
             <TextView
                 android:id="@+id/tv_num"
                 style="@style/TextStyle_12"
@@ -102,9 +104,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:text="@{data.goods_num}"
+                android:text="@{data.goods_num+`件`}"
                 tools:text="1件" />
         </RelativeLayout>
     </LinearLayout>
-    <!--</android.support.v7.widget.CardView>-->
 </layout>

@@ -375,22 +375,6 @@ public class GoodsInfo extends BaseBean {
         this.checked = checked;
     }
 
-//    public boolean isGroup_flag() {
-//        return group_flag;
-//    }
-
-//    public void setGroup_flag(boolean group_flag) {
-//        this.group_flag = group_flag;
-//    }
-
-//    public boolean isXianshi_flag() {
-//        return xianshi_flag;
-//    }
-//
-//    public void setXianshi_flag(boolean xianshi_flag) {
-//        this.xianshi_flag = xianshi_flag;
-//    }
-
     public String getGoods_image_url() {
         return goods_image_url;
     }
@@ -404,43 +388,6 @@ public class GoodsInfo extends BaseBean {
                 goods_id);
         ActivityToActivity.goShoppingDetails(goods_id);
     }
-
-    //    public boolean getIsStoreName() {
-//        return this.isStoreName;
-//    }
-//    public void setIsStoreName(boolean isStoreName) {
-//        this.isStoreName = isStoreName;
-//    }
-//    public String getVirtual_indate() {
-//        return virtual_indate;
-//    }
-//
-//    public void setVirtual_indate(String virtual_indate) {
-//        this.virtual_indate = virtual_indate;
-//    }
-//    public List<String> getNews_goods_spec_name() {
-//        return news_goods_spec_name;
-//    }
-//
-//    public void setNews_goods_spec_name(List<String> news_goods_spec_name) {
-//        this.news_goods_spec_name = news_goods_spec_name;
-//    }
-//
-//    public List<NewsSpecDataBean> getNews_spec_data() {
-//        return news_spec_data;
-//    }
-//
-//    public void setNews_spec_data(List<NewsSpecDataBean> news_spec_data) {
-//        this.news_spec_data = news_spec_data;
-//    }
-//
-//    public List<NewsSpecListDataBean> getNews_spec_list_data() {
-//        return news_spec_list_data;
-//    }
-//
-//    public void setNews_spec_list_data(List<NewsSpecListDataBean> news_spec_list_data) {
-//        this.news_spec_list_data = news_spec_list_data;
-//    }
 
     public boolean getGroup_flag() {
         return this.group_flag;

@@ -2,7 +2,6 @@ package com.mingpinmall.classz.ui.activity.details;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,12 +17,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -31,13 +29,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -54,12 +50,17 @@ import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
+import com.mingpinmall.classz.utils.HtmlFromUtils;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
 import com.socks.library.KLog;
-import com.xuexiang.xui.widget.banner.widget.banner.base.ImageLoader;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 
 public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel> implements SlideLayout.OnSlideDetailsListener {
     /**
@@ -122,38 +123,28 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         try {
 
             if (mansong_info != null) {
-                for (GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansong_info.getRules()) {
+                for (final GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansong_info.getRules()) {
                     textView = new TextView(activity);
                     textView.setText(Html.fromHtml(String.format("单笔订单满<font color='#000000'>%s</font>元,立减<font color='#000000'>%s</font>元",
                             rule.getPrice(), rule.getDiscount())));
                     if (!TextUtils.isEmpty(rule.getGoods_image_url())) {
-                        /*网络图片*/
-                        Html.ImageGetter imgGetter = new Html.ImageGetter() {
+                        getActivity().runOnUiThread(new Runnable() {
                             @Override
-                            public Drawable getDrawable(String source) {
-                                KLog.i(source);
-                                final LevelListDrawable drawable = new LevelListDrawable();
-//                                Glide.with(getContext()).load(source).into(new SimpleTarget<Bitmap>() {
-//                                    @Override
-//                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                                        if (resource != null) {
-//                                            BitmapDrawable bitmapDrawable = new BitmapDrawable(resource);
-//                                            drawable.addLevel(1, 1, bitmapDrawable);
-//                                            drawable.setBounds(0, 0, resource.getWidth(), resource.getHeight());
-//                                            drawable.setLevel(1);
-//                                            textView.invalidate();
-////                                            finalTextView.setText(textView.getText());
-//                                            textView.setText(textView.getText());
-//                                        }
-//                                    }
-//                                });
-                                return drawable;
+                            public void run() {
+                                textView.append(Html.fromHtml(String.format(" 送礼品：<img src='%s'/>", rule.getGoods_image_url()), new Html.ImageGetter() {
+                                    @Override
+                                    public Drawable getDrawable(final String source) {
+                                        Drawable d = HtmlFromUtils.getImageFromNetwork(source);
+                                        return d;
+                                    }
+                                }, null));
                             }
-                        };
-                        textView.append(Html.fromHtml(String.format(" 送礼品：<img src='%s'/>", rule.getGoods_image_url()), imgGetter, null));
+                        });
                     }
                     binding.llManjisong.addView(textView);
                 }
+            }else{
+                binding.llManjisong.setVisibility(View.GONE);
             }
             /*赠品*/
             SpannableString spannableString;
@@ -162,10 +153,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     textView = new TextView(activity);
                     spannableString = new SpannableString(String.format("%s x %s", giftArrayBean.getGift_goodsname(),
                             giftArrayBean.getGift_amount()));
-//                    underlineSpan = new UnderlineSpan();
-//                    spannableString.setSpan(underlineSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLACK);
-//                    spannableString.setSpan(foregroundColorSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     ClickableSpan clickableSpan = new ClickableSpan() {
                         @Override
                         public void onClick(@NonNull View widget) {
@@ -181,11 +168,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                         }
                     };
                     spannableString.setSpan(clickableSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-
                     textView.setText(spannableString);
                     textView.setMovementMethod(LinkMovementMethod.getInstance());
                     binding.llZengping.addView(textView);
                 }
+            } else {
+                binding.llZengping.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             KLog.i(e.toString());

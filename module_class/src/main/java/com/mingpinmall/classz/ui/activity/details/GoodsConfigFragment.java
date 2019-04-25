@@ -1,6 +1,5 @@
 package com.mingpinmall.classz.ui.activity.details;
 
-
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
@@ -13,7 +12,7 @@ import com.mingpinmall.classz.databinding.FragmentGoodsConfigBinding;
  */
 public class GoodsConfigFragment extends BaseFragment<FragmentGoodsConfigBinding> {
 
-    RecyclerView listView;
+//    RecyclerView listView;
 
     public static GoodsConfigFragment newInstance() {
         return new GoodsConfigFragment();
@@ -32,9 +31,9 @@ public class GoodsConfigFragment extends BaseFragment<FragmentGoodsConfigBinding
     @Override
     public void initView(Bundle state) {
 
-        listView=binding.hlvConfig;
-//        showSuccess();
-        listView.setFocusable(false);
+//        RecyclerView  listView=binding.hlvConfig;
+////        showSuccess();
+//        listView.setFocusable(false);
 
 //        List<GoodsConfigBean> data = new ArrayList<>();
 //        data.add(new GoodsConfigBean("品牌", "小米Mix 3"));
