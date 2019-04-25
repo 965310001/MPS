@@ -2,9 +2,14 @@ package com.mingpinmall.classz.ui.activity.details;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
-import android.os.Parcel;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,9 +18,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +31,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -45,6 +56,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
 import com.socks.library.KLog;
+import com.xuexiang.xui.widget.banner.widget.banner.base.ImageLoader;
 
 import java.util.Arrays;
 import java.util.List;
@@ -68,8 +80,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     public static GoodsInfoMainFragment newInstance() {
-        GoodsInfoMainFragment fragment = new GoodsInfoMainFragment();
-        return fragment;
+        return new GoodsInfoMainFragment();
     }
 
     @Override
@@ -81,6 +92,8 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     protected int getContentResId() {
         return R.id.content_layout;
     }
+
+    TextView textView;
 
     @Override
     public void initView(Bundle state) {
@@ -107,31 +120,70 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         /*满级送*/
         GoodsDetailInfo.DatasBean.MansongInfoBean mansong_info = goodsDetailInfo.getDatas().getMansong_info();
         try {
-            TextView textView;
+
             if (mansong_info != null) {
                 for (GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansong_info.getRules()) {
                     textView = new TextView(activity);
-                    textView.setText(String.format("单笔订单满%s元,立减%s元", rule.getPrice(), rule.getDiscount()));
+                    textView.setText(Html.fromHtml(String.format("单笔订单满<font color='#000000'>%s</font>元,立减<font color='#000000'>%s</font>元",
+                            rule.getPrice(), rule.getDiscount())));
                     if (!TextUtils.isEmpty(rule.getGoods_image_url())) {
-                        textView.setText(String.format("单笔订单满%s元,立减%s元," +
-                                "送礼品：%s", rule.getPrice(), rule.getDiscount(), rule.getGoods_image_url()));
+                        /*网络图片*/
+                        Html.ImageGetter imgGetter = new Html.ImageGetter() {
+                            @Override
+                            public Drawable getDrawable(String source) {
+                                KLog.i(source);
+                                final LevelListDrawable drawable = new LevelListDrawable();
+//                                Glide.with(getContext()).load(source).into(new SimpleTarget<Bitmap>() {
+//                                    @Override
+//                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                                        if (resource != null) {
+//                                            BitmapDrawable bitmapDrawable = new BitmapDrawable(resource);
+//                                            drawable.addLevel(1, 1, bitmapDrawable);
+//                                            drawable.setBounds(0, 0, resource.getWidth(), resource.getHeight());
+//                                            drawable.setLevel(1);
+//                                            textView.invalidate();
+////                                            finalTextView.setText(textView.getText());
+//                                            textView.setText(textView.getText());
+//                                        }
+//                                    }
+//                                });
+                                return drawable;
+                            }
+                        };
+                        textView.append(Html.fromHtml(String.format(" 送礼品：<img src='%s'/>", rule.getGoods_image_url()), imgGetter, null));
                     }
                     binding.llManjisong.addView(textView);
                 }
             }
             /*赠品*/
+            SpannableString spannableString;
             if (goodsDetailInfo.getDatas().getGift_array() != null) {
-                for (GoodsDetailInfo.DatasBean.GiftArrayBean giftArrayBean : goodsDetailInfo.getDatas().getGift_array()) {
+                for (final GoodsDetailInfo.DatasBean.GiftArrayBean giftArrayBean : goodsDetailInfo.getDatas().getGift_array()) {
                     textView = new TextView(activity);
-                    String text = String.format("%s x %s", giftArrayBean.getGift_goodsname(),
-                            giftArrayBean.getGift_amount());
-//                    SpannableString span3 = new SpannableString(text);
-//                    span3.setSpan(text,0,giftArrayBean.getGift_goodsname().length(),
-//                            Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                    textView.setText(Html.fromHtml(text));
-                    ((Spannable) textView.getText()).setSpan(new NoUnderLineSpan(), 0, giftArrayBean.getGift_goodsname()
-                            .length(), Spanned.SPAN_MARK_MARK);
+                    spannableString = new SpannableString(String.format("%s x %s", giftArrayBean.getGift_goodsname(),
+                            giftArrayBean.getGift_amount()));
+//                    underlineSpan = new UnderlineSpan();
+//                    spannableString.setSpan(underlineSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLACK);
+//                    spannableString.setSpan(foregroundColorSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ClickableSpan clickableSpan = new ClickableSpan() {
+                        @Override
+                        public void onClick(@NonNull View widget) {
+                            LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
+                                    giftArrayBean.getGift_goodsid());
+                        }
 
+                        @Override
+                        public void updateDrawState(@NonNull TextPaint ds) {
+                            super.updateDrawState(ds);
+                            ds.setColor(Color.GRAY);
+                            ds.setUnderlineText(true);      //设置下划线
+                        }
+                    };
+                    spannableString.setSpan(clickableSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+                    textView.setText(spannableString);
+                    textView.setMovementMethod(LinkMovementMethod.getInstance());
                     binding.llZengping.addView(textView);
                 }
             }
@@ -140,21 +192,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         }
 
 
-    }
-
-    class NoUnderLineSpan extends UnderlineSpan {
-        public NoUnderLineSpan() {
-        }
-
-        public NoUnderLineSpan(Parcel src) {
-            super(src);
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setUnderlineText(false);
-        }
     }
 
     protected void update() {
