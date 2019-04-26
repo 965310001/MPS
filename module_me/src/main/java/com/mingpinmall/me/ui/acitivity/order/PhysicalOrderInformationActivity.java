@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -24,6 +26,7 @@ import com.mingpinmall.me.databinding.ActivityPhysicalOrderInformationBinding;
 import com.mingpinmall.me.ui.adapter.PhysicalOrderInformationListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
+import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 
 /**
  * 功能描述：订单详情
@@ -118,6 +121,26 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         /*店铺，店铺商品列表*/
         binding.tvStoreName.setText(data.getStore_name());
         listAdapter.setNewData(data.getGoods_list());
+
+        /*赠品*/
+        if (data.getZengpin_list() != null) {
+            binding.llGifts.setVisibility(View.VISIBLE);
+            binding.llGifts.removeAllViews();
+            for (int i = 0; i < data.getZengpin_list().size(); i++) {
+                OrderInformationBean.OrderInfoBean.ZengpinListBean giftListBean = data.getZengpin_list().get(i);
+                View view = View.inflate(activity, R.layout.item_tips_textview_14sp, null);
+                TextView textView = view.findViewById(R.id.tv_label);
+                textView.setText(giftListBean.getGoods_name() + "    x" + giftListBean.getGoods_num());
+                binding.llGifts.addView(view);
+                if (i < data.getZengpin_list().size() - 1) {
+                    View line = new View(activity);
+                    line.setBackgroundResource(R.color.line_color);
+                    binding.llGifts.addView(line, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                }
+            }
+        } else {
+            binding.llGifts.setVisibility(View.GONE);
+        }
 
         /*优惠，运费，实付款*/
         binding.tvYouhui.setText(data.getPromotion().size() > 0 ? data.getPromotion().get(0).get(1) : "");

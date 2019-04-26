@@ -25,7 +25,9 @@ public class PhysicalOrderChildListAdapter extends BaseQuickAdapter<PhysicalOrde
     protected void convert(BaseViewHolder helper, PhysicalOrderBean.ExtendOrderGoodsBean item) {
         helper.setText(R.id.tv_label, item.getGoods_name())
                 .setText(R.id.tv_payMoney, "¥" + item.getGoods_price())
-                .setText(R.id.tv_count, "x" + item.getGoods_num());
+                .setText(R.id.tv_count, "x" + item.getGoods_num())
+                .setText(R.id.tv_spec, item.getGoods_spec());
         ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), item.getGoods_image_url());
+
     }
 }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -55,6 +56,15 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         super.initView(state);
         getViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
         ((TextView) getViewById(R.id.tv_title)).setText("购物车");
+        ((ImageView) getViewById(R.id.iv_search)).setImageResource(R.drawable.ic_message_black);
+        getViewById(R.id.iv_search).setVisibility(View.VISIBLE);
+        getViewById(R.id.iv_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转消息页面，未登录则跳转登陆页面
+                ActivityToActivity.toActivity(SharePreferenceUtil.isLogin() ? ARouterConfig.Me.MESSAGEACTIVITY : ARouterConfig.LOGINACTIVITY);
+            }
+        });
         //在这里设置沉浸式状态栏
         setTitlePadding(getViewById(R.id.rl_title_content));
         //并且设置状态栏字体颜色为黑色

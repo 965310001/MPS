@@ -91,6 +91,29 @@
                 app:layout_constraintStart_toStartOf="@id/recyclerView"
                 app:layout_constraintTop_toBottomOf="@id/recyclerView" />
 
+            <LinearLayout
+                android:id="@+id/ll_gifts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/shape_dashgap_gray"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/line1"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="12dp"
+                    android:gravity="center"
+                    android:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
+
+            </LinearLayout>
+
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_removeOrder"
                 android:layout_width="wrap_content"
@@ -105,8 +128,8 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/line1"
-                app:layout_constraintTop_toBottomOf="@id/line1"
+                app:layout_constraintStart_toStartOf="@id/ll_gifts"
+                app:layout_constraintTop_toBottomOf="@id/ll_gifts"
                 tools:visibility="visible" />
 
             <LinearLayout
@@ -116,9 +139,9 @@
                 android:gravity="end|center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/line1"
+                app:layout_constraintEnd_toEndOf="@id/ll_gifts"
                 app:layout_constraintStart_toEndOf="@id/tv_removeOrder"
-                app:layout_constraintTop_toBottomOf="@id/line1">
+                app:layout_constraintTop_toBottomOf="@id/ll_gifts">
 
                 <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                     android:id="@+id/bt_appraiseOrder"
