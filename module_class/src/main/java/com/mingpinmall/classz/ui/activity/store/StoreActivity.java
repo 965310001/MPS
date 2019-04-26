@@ -23,7 +23,7 @@ import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityStoreBinding;
-import com.mingpinmall.classz.ui.activity.store.fragment.ProductsFragment;
+import com.mingpinmall.classz.ui.activity.store.fragment.StoreProductsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StoreNewGoodsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StorePromotionFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
@@ -65,7 +65,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
 
         List<TabViewChild> tabViewChildList = new ArrayList<>();
         BaseFragment[] fragmentList = {StoreHomeFragment.newInstance(),
-                ProductsFragment.newInstance(storeId),
+                StoreProductsFragment.newInstance(storeId),
                 StoreNewGoodsFragment.newInstance(),
                 StorePromotionFragment.newInstance()
         };

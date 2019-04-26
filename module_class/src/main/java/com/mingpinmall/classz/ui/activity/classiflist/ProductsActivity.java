@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.activity.classiflist;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.PopupWindow;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 
@@ -21,7 +23,9 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
+import com.mingpinmall.classz.databinding.ActivityProductsBinding;
 import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
+import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
@@ -43,10 +47,50 @@ import java.util.Arrays;
 /**
  * 商品分类list
  */
-@Route(path = ARouterConfig.classify.PRODUCTSACTIVITY)
-public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
-        implements CustomPopWindow.Builder.OnCustomPopWindowClickListener {
 
+//@Route(path = ARouterConfig.classify.PRODUCTSACTIVITY)
+//public class ProductsActivity extends AbsLifecycleActivity<ActivityProductsBinding, ClassifyViewModel> {
+//
+//    @Autowired
+//    String id;
+//
+//    @Autowired
+//    int type;
+//
+//    @Autowired
+//    String keyword;
+//
+//    @Override
+//    protected int getLayoutId() {
+//        return R.layout.activity_products;
+//    }
+//
+//    @Override
+//    protected void initViews(Bundle savedInstanceState) {
+//        ARouter.getInstance().inject(this);
+//        super.initViews(savedInstanceState);
+//
+//        edSearch.setVisibility(View.VISIBLE);
+//        edSearch.setFocusable(false);
+//        edSearch.setFocusableInTouchMode(false);
+//        edSearch.setOnClickListener(this);
+//        edSearch.setText(keyword);
+//        ivSearch.setVisibility(View.GONE);
+//        tvTitle.setVisibility(View.GONE);
+//
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.fl_content,
+//                        ProductsFragment.newInstance(id, type, keyword)).commitAllowingStateLoss();
+//    }
+//
+//    @Override
+//    protected Object getStateEventKey() {
+//        return "";
+//    }
+
+    @Route(path = ARouterConfig.classify.PRODUCTSACTIVITY)
+    public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
+            implements CustomPopWindow.Builder.OnCustomPopWindowClickListener {
     @Autowired
     String id;
 

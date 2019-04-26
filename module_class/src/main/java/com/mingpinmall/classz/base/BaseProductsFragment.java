@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.ui.activity.store.fragment;
+package com.mingpinmall.classz.base;
 
 import android.arch.lifecycle.Observer;
 import android.databinding.DataBindingUtil;
@@ -17,7 +17,6 @@ import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
-import com.mingpinmall.classz.ui.activity.store.StoreActivity;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
@@ -32,45 +31,46 @@ import com.trecyclerview.adapter.DelegateAdapter;
 import java.util.Arrays;
 
 /**
- * 商品分类list
+ * 封装分类
  */
-public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implements View.OnClickListener, CustomPopWindow.Builder.OnCustomPopWindowClickListener {
+public abstract class BaseProductsFragment<T extends ClassifyViewModel> extends BaseListFragment<T>
+        implements View.OnClickListener,
+        CustomPopWindow.Builder.OnCustomPopWindowClickListener {
 
     @Autowired
     String id;
 
     @Autowired
-    int type;
+    protected int type;
 
     @Autowired
-    String keyword;
+    protected String keyword;
 
     View curressView;
 
     /*店铺服务*/
-    String ci = "", st = "";
+    protected String ci = "", st = "";
 
-    private String areaId = "", priceFrom = "", priceTo = "";//地区 价格区间最低范围 价格区间最高范围
+    protected String areaId = "", priceFrom = "", priceTo = "";//地区 价格区间最低范围 价格区间最高范围
 
-    private String key, order;/*排序条件*/
+    protected String key, order;/*排序条件*/
 
     private FilterTab filterTab0;
 
-    ImageView imageView;
+    protected ImageView imageView;
 
-    public static ProductsFragment newInstance(String id) {
-        ProductsFragment fragment = new ProductsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("id", id);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+    GridLayoutManager gridLayoutManager;
+    DelegateAdapter gridAdapter;
+    boolean isGrid;
+    ScreeningPopWindow screeningPopWindow;
+    CustomPopWindow customPopWindow;
 
 
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        ItemTabsegmentBinding itemTabsegmentBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_tabsegment, null, false);
+        ItemTabsegmentBinding itemTabsegmentBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
+                R.layout.item_tabsegment, null, false);
         binding.llRecyclerview.addView(itemTabsegmentBinding.getRoot(), 0);
         filterTab0 = itemTabsegmentBinding.filterTab0;
         filterTab0.setFilterTabSelected(true);
@@ -80,37 +80,28 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
         imageView.setOnClickListener(this);
 
         for (FilterTab tab :
-                Arrays.asList(itemTabsegmentBinding.filterTab0, itemTabsegmentBinding.filterTab1, itemTabsegmentBinding.filterTab2, itemTabsegmentBinding.filterTab3)) {
+                Arrays.asList(itemTabsegmentBinding.filterTab0,
+                        itemTabsegmentBinding.filterTab1, itemTabsegmentBinding.filterTab2, itemTabsegmentBinding.filterTab3)) {
             tab.setOnClickListener(this);
         }
-    }
-
-
-    /*获取更多数据*/
-    @Override
-    protected void getRemoteData() {
-        super.getRemoteData();
-        id = ((StoreActivity) activity).getStoreId();
-        KLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
-        mViewModel.getStoreGoods(id, page, key, areaId, priceFrom, priceTo, order, ci, st, Constants.STORE_GOODS_RANK_KEY[2]);
     }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
 
-        registerObserver(Constants.STORE_GOODS_RANK_KEY[2], GoodsListInfo.class)
+        registerObserver(getStoreGoodsRankKey(), GoodsListInfo.class)
                 .observe(this, new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
-                        KLog.i("" + type);
+                        KLog.i("77777" + type);
                         setData(response.getDatas().getGoods_list());
                     }
                 });
 
         // TODO: 2019/4/9 待测试
         /*筛选*/
-        registerObserver(Constants.CUSTOMPOPWINDOW_KEY[1], ScreenInfo.class)
+        registerObserver(getCustompopWindowKey(), ScreenInfo.class)
                 .observe(this, new Observer<ScreenInfo>() {
                     @Override
                     public void onChanged(@Nullable ScreenInfo reponse) {
@@ -131,6 +122,16 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                         onRefresh();
                     }
                 });
+    }
+
+    /*筛选*/
+    protected Object getStoreGoodsRankKey() {
+        return Constants.STORE_GOODS_RANK_KEY[2];
+    }
+
+    /*筛选*/
+    protected Object getCustompopWindowKey() {
+        return Constants.CUSTOMPOPWINDOW_KEY[1];
     }
 
     @Override
@@ -162,17 +163,8 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                                     .setColorBg(R.color.color_f8f8f8).build().createPop();
                 }
                 customPopWindow.showAsDropDown(filterTab0);
-//                adapter = createAdapter();
-
             } else if (i == R.id.filter_tab1) {
-                key = "3";
-                order = "2";
-                keyword = "";
-//                areaId = "";
-//                priceFrom="";
-//                priceTo="";
-//                ci = "";
-//                st = "";
+                changFilterTab1();
                 onRefresh();
             } else if (i == R.id.filter_tab3) {
                 if (null == screeningPopWindow) {
@@ -222,35 +214,23 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
         return false;
     }
 
-    GridLayoutManager gridLayoutManager;
-    DelegateAdapter gridAdapter;
-    boolean isGrid;
-    ScreeningPopWindow screeningPopWindow;
-    CustomPopWindow customPopWindow;
-
     @Override
     public void onClick(PopupWindow dialog, View itemView, int position, String content) {
         filterTab0.setText(content);
-        switch (position) {
-            case 0:/*综合排序*/
-                key = "";
-                order = "";
-                break;
-            case 1:/*价格从高到低*/
-                key = "2";
-                order = "2";
-                break;
-            case 2:/*价格从低到高*/
-                key = "2";
-                order = "1";
-                break;
-            case 3:/*综合排序*/
-                key = "5";
-                order = "2";
-                break;
-        }
-        keyword = "";
+        changeKeyAndOrder(position);
         onRefresh();
         dialog.dismiss();
     }
+
+    /*获取更多数据*/
+//    @Override
+//    protected void getRemoteData() {
+//        super.getRemoteData();
+//        KLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
+//        mViewModel.getStoreGoods(getArguments().getString("id"), page, key, areaId, priceFrom, priceTo, order, ci, st, Constants.STORE_GOODS_RANK_KEY[2]);
+//    }
+
+    protected abstract void changFilterTab1();
+
+    protected abstract void changeKeyAndOrder(int position);
 }
