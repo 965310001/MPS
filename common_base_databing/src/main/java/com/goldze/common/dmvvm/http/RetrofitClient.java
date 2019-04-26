@@ -94,6 +94,7 @@ public class RetrofitClient {
         } catch (Exception e) {
 //            Log.e("Could not create http cache", e);
         }
+
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(mContext)))
@@ -105,13 +106,14 @@ public class RetrofitClient {
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(true) //是否开启日志打印 BuildConfig.DEBUG
-                        .setLevel(Level.BASIC) //打印的等级
+                        .setLevel(Level.BODY) //打印的等级
                         .log(Platform.INFO) // 打印类型
                         .request("Request") // request的Tag
                         .response("Response")// Response的Tag
                         .addHeader("log-header", "I am the log request header.") // 添加打印头, 注意 key 和 value 都不能是中文
                         .build()
-                ).connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                )
+                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
                 // 这里你可以根据自己的机型设置同时连接的个数和时间，我这里8个，和每个保持时间为10s

@@ -38,12 +38,15 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_height"
+                android:layout_height="@dimen/line_hight"
                 android:background="@color/line_color" />
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_payContent"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:background="@color/white">
 
                 <com.mingpinmall.cart.ui.utils.SmoothCheckBox
@@ -101,6 +104,27 @@
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_noLogin"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请先登录"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
 

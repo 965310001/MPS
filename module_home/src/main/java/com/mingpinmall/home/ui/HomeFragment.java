@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -110,29 +111,6 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
          * 除列表外，其他按钮点击事件
          */
         setClickListener();
-        //列表滑动监听
-//        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @SuppressLint("RestrictedApi")
-//            @Override
-//            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldX, int oldY) {
-//                Log.i(TAG, "onScrollChange: " + scrollY);
-//                if (scrollY <= 640) {
-//                    float alpha = scrollY / (float) 640;
-//                    if (alpha > 0) {
-//                        binding.clTitleBar.setVisibility(View.VISIBLE);
-//                        binding.fab2top.setVisibility(View.VISIBLE);
-//                        binding.clTitleBar.setAlpha(alpha);
-//                        darkMode = true;
-//                        setDarkMode(true);
-//                    } else {
-//                        binding.clTitleBar.setVisibility(View.GONE);
-//                        binding.fab2top.setVisibility(View.GONE);
-//                        darkMode = false;
-//                        setDarkMode(false);
-//                    }
-//                }
-//            }
-//        });
         //列表滑动监听
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

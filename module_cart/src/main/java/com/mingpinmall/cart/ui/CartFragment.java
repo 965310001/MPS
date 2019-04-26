@@ -5,18 +5,19 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.cart.R;
 import com.mingpinmall.cart.databinding.FragmentCartBinding;
 import com.mingpinmall.cart.ui.adapter.ShopCartAdapter;
@@ -25,15 +26,12 @@ import com.mingpinmall.cart.ui.bean.AvailableCartBean;
 import com.mingpinmall.cart.ui.bean.CartQuantityState;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
 import com.mingpinmall.cart.ui.utils.SmoothCheckBox;
-import com.mingpinmall.cart.ui.utils.UpdateView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 
 /**
@@ -44,7 +42,6 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     private ShopCartAdapter shopCartAdapter;
     private int checkedSize = 0;
     private int goodsSize = 0;
-    private ProgressDialog progressDialog;
 
     public CartFragment() {
     }
@@ -62,18 +59,42 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         setTitlePadding(getViewById(R.id.rl_title_content));
         //并且设置状态栏字体颜色为黑色
         setDarkMode(true);
-        progressDialog = ProgressDialog.initNewDialog(getChildFragmentManager());
 
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        emptyView.findViewById(R.id.btn_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //切换到首页
+                LiveBus.getDefault().postEvent("Main", "tab", 0);
+            }
+        });
         shopCartAdapter = new ShopCartAdapter();
+        shopCartAdapter.setEmptyView(emptyView);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
         binding.recyclerView.setAdapter(shopCartAdapter);
 
         binding.refreshLayout.setEnableLoadMore(false);
+        setListener();
+    }
+
+    /**
+     * 设置监听
+     */
+    private void setListener() {
+        binding.clNoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转去登陆
+                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+            }
+        });
         binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if (!SharePreferenceUtil.isLogin()) {
+                    binding.refreshLayout.finishRefresh(false);
+                    return;
+                }
                 lazyLoad();
             }
         });
@@ -99,18 +120,31 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 shopCartAdapter.notifyDataSetChanged();
             }
         });
+        /*列表item的点击事件*/
+        shopCartAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                AvailableCartBean data = shopCartAdapter.getItem(position);
+                if (data.getItemType() == 1) {
+                    ActivityToActivity.toActivity(
+                            ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
+                            "id",
+                            data.getGoods().getGoods_id()
+                    );
+                }
 
+            }
+        });
+        /*列表上子控件的点击事件*/
         shopCartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
                 final AvailableCartBean data = shopCartAdapter.getItem(position);
                 if (view.getId() == R.id.iv_delete) {
                     //移除商品
-                    Log.i("购物车", "onItemChildClick: 移除商品");
                     TextDialog.showBaseDialog(activity, "移除商品", "确定移除这个商品吗？", new TextDialog.SingleButtonCallback() {
                         @Override
                         public void onClick() {
-                            progressDialog.onLoading("");
                             mViewModel.deleteGoods(position, data.getGoods().getCart_id());
                         }
                     }).show();
@@ -135,6 +169,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 } else if (view.getId() == R.id.tv_coupon) {
                     //领券
                     Log.i("购物车", "onItemChildClick: 领取优惠券");
+
                 }
             }
         });
@@ -220,6 +255,10 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
 
     @Override
     protected void lazyLoad() {
+        if (!SharePreferenceUtil.isLogin()) {
+            return;
+        }
+        binding.clPayContent.setVisibility(View.VISIBLE);
         mViewModel.getCartList();
     }
 
@@ -230,7 +269,6 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
      */
     private void formatData(ShopCartBean data) {
         double money = 0.00;
-        binding.cbSelectAll.toggle();
         List<AvailableCartBean> dataList = new ArrayList<>();
         goodsSize = 0;
         checkedSize = 0;
@@ -249,7 +287,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             for (ShopCartBean.CartListBean.GoodsBean goodsBean : cartListBean.getGoods()) {
                 goodsSize++;
                 checkedSize++;
-                money += Double.parseDouble(goodsBean.getGoods_price());
+                money += Double.parseDouble(goodsBean.getGoods_price()) * Integer.parseInt(goodsBean.getGoods_num());
                 AvailableCartBean childItem = new AvailableCartBean();
                 childItem.setItemType(1);
                 childItem.setCheck(true);
@@ -272,6 +310,32 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     @Override
     protected void dataObserver() {
         super.dataObserver();
+        LiveBus.getDefault().subscribe("LoginSuccess").observeForever(new Observer<Object>() {
+            @Override
+            public void onChanged(@Nullable Object isLogin) {
+                KLog.i("登陆成功，刷新数据");
+                reGetData();
+            }
+        });
+
+        LiveBus.getDefault().subscribe("LOGIN_OUT").observeForever(new Observer<Object>() {
+            @Override
+            public void onChanged(@Nullable Object isLogin) {
+                KLog.i("退出登录，清除数据");
+                shopCartAdapter.setNewData(new ArrayList<AvailableCartBean>());
+            }
+        });
+        /* 如需要刷新购物车列表，调用
+         * LiveBus.getDefault().postEvent("SHOP_CART_REFRESH", true);
+         */
+        registerObserver("SHOP_CART_REFRESH", Boolean.class).observeForever(new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean o) {
+                Log.i("购物车", "onChanged: 重获数据");
+                if (o)
+                    reGetData();
+            }
+        });
         registerObserver("SHOP_CART_LIST", "success", ShopCartBean.class).observeForever(new Observer<ShopCartBean>() {
             @Override
             public void onChanged(@Nullable ShopCartBean result) {
@@ -292,7 +356,10 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 if (result.isSuccess()) {
                     changeGoodsCount(result.getPosition(), result.getQuantity());
                 } else {
-                    shopCartAdapter.notifyItemChanged(result.getPosition());
+                    if (result.getMsg().equals("参数错误")) {
+                        lazyLoad();
+                    }
+                    ToastUtils.showShort(result.getMsg());
                 }
             }
         });
@@ -300,11 +367,10 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             @Override
             public void onChanged(@Nullable CartQuantityState result) {
                 if (result.isSuccess()) {
-                    lazyLoad();
-                    progressDialog.dismiss();
                 } else {
-                    progressDialog.onFail(result.getMsg());
+                    ToastUtils.showShort(result.getMsg());
                 }
+                lazyLoad();
             }
         });
     }
@@ -318,6 +384,11 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     protected void onVisible() {
         super.onVisible();
         setDarkMode(true);
+        binding.clNoLogin.setVisibility(!SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
+        binding.clPayContent.setVisibility(SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
+        if (!SharePreferenceUtil.isLogin() && shopCartAdapter.getItemCount() > 0) {
+            shopCartAdapter.setNewData(new ArrayList<AvailableCartBean>());
+        }
     }
 
     @Override

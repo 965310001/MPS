@@ -124,12 +124,10 @@ dependencies {
     api 'org.greenrobot:greendao:3.2.2' // add library
     api 'org.greenrobot:greendao-generator:3.2.2'
 
-    /*RecyclerView适配器 和 圆形ImageView*/
+    /*RecyclerView适配器*/
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
-
-    api 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
 
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'

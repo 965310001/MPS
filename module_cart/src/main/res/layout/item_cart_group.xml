@@ -41,7 +41,7 @@
                 android:textSize="16sp" />
 
             <View
-                android:layout_width="@dimen/line_height"
+                android:layout_width="@dimen/line_hight"
                 android:layout_height="match_parent"
                 android:background="@color/line_color" />
 
@@ -71,7 +71,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_height"
+                android:layout_height="@dimen/line_hight"
                 android:background="@color/line_color"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,7 +118,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_height"
+                android:layout_height="@dimen/line_hight"
                 android:background="@color/line_color"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -179,6 +179,12 @@
                 app:layout_constraintTop_toTopOf="@id/tv_tips1" />
 
         </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 </layout>

@@ -78,7 +78,7 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                 final ProductCollectionBean.FavoritesListBean itemData = collectionAdapter.getItem(position);
                 if (view.getId() == R.id.iv_delete) {
                     //删除这条收藏
-                    TextDialog.showBaseDialog(activity, "取消店铺收藏", "确定取消收藏吗？", new TextDialog.SingleButtonCallback() {
+                    TextDialog.showBaseDialog(activity, "取消收藏", "确定取消收藏吗？", new TextDialog.SingleButtonCallback() {
                         @Override
                         public void onClick() {
                             mViewModel.deleGoodsCollect(itemData.getGoods_id());

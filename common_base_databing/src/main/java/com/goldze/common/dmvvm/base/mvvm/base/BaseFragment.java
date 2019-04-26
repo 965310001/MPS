@@ -270,4 +270,16 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
             onInVisible();
         }
     }
+
+    protected void reGetData() {
+        if (mIsFirstVisible) {
+            return;
+        }
+        //重设为需要获取数据，在fg恢复可见或本来就处于可见状态时的时候会触发lazyLoad()。
+        this.mIsFirstVisible = true;
+        if (mIsFirstVisible && isResumed()) {
+            lazyLoad();
+            mIsFirstVisible = false;
+        }
+    }
 }
