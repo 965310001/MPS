@@ -31,11 +31,11 @@
             tools:background="@drawable/market_icon_checkbox_checked" />
 
         <TextView
-            android:paddingLeft="@dimen/dp_4"
             android:id="@+id/tv_num"
             style="@style/TextStyle_12"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/image_height"
+            android:layout_marginLeft="@dimen/image_height_litter"
+            android:paddingLeft="@dimen/dp_4"
             android:text="@{data.inv_title+data.inv_content}"
             tools:text="1件" />
 

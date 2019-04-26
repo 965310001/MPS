@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.mingpinmall.classz.R;
 
 import java.util.List;
 
@@ -127,7 +128,7 @@ public class VoucherInfo extends BaseBean {
         }
 
         public String getVoucher_t_price() {
-            return String.format("面额%s元", voucher_t_price);
+            return String.format("面额<font size=\"10\">%s</font>元",voucher_t_price);
         }
 
         public void setVoucher_t_price(String voucher_t_price) {

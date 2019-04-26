@@ -147,33 +147,6 @@ public class DatabingUtils {
 
     @BindingAdapter("html")
     public static void setHtml(TextView textView, String content) {
-      content="\n" +
-              "  <div> \n" +
-              "   <dt>\n" +
-              "    <font color=\"gray\">促销 </font>\n" +
-              "   </dt> \n" +
-              "   <div> \n" +
-              "    <dl> \n" +
-              "     <dt style=\"text-indent:2em;\"> \n" +
-              "      <span style=\"background: #ED5564;color:#fff;padding: 4px;border-radius: 4px;font-size: 12px\">团购</span> \n" +
-              "      <span style=\"font-size: 10px\"><font color=\"gray\">最多限购0件 抢购抢购111</font></span> \n" +
-              "     </dt> \n" +
-              "     <dd> \n" +
-              "     </dd> \n" +
-              "    </dl> \n" +
-              "    <br/>\n" +
-              "    <dl style=\"text-indent:2em;\"> \n" +
-              "    <span style=\"background: #ED5564;padding: 4px;border-radius: 4px;font-size: 12px\"> <font color=\"white\">满即送</font></span> \n" +
-              "     <dt>\n" +
-              "      <dl style=\"color:gray;font-size: 10px;\">\n" +
-              "        单笔订单满 \n" +
-              "       <em>1000</em>元，立减 \n" +
-              "       <em>10</em>元 \n" +
-              "      </dl> \n" +
-              "     </dt> \n" +
-              "    </dl> \n" +
-              "   </div> \n" +
-              " </div>\n";
         textView.setText(Html.fromHtml(content));
     }
 

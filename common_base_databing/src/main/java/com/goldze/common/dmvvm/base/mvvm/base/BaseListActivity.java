@@ -96,7 +96,7 @@ public abstract class BaseListActivity<T extends AbsViewModel> extends AbsLifecy
                         lastItemPosition = findMax(lastPositions);
                     }
                     /*KLog.i((lastItemPosition + 5) + " =" + adapter.getItemCount() + "=" + isLoadMore);*/
-                    if (lastItemPosition + 5 == adapter.getItemCount()
+                    if (lastItemPosition + 5 == mRecyclerView.getAdapter().getItemCount()
                             && isLoadMore) {
                         /*加载更多数据*/
                         KLog.i("加载更多数据");

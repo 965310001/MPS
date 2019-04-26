@@ -4,9 +4,11 @@ import android.arch.lifecycle.Observer;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -18,6 +20,7 @@ import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
 import com.mingpinmall.classz.ui.activity.store.StoreActivity;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
@@ -53,6 +56,8 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
 
     private FilterTab filterTab0;
 
+    ImageView imageView;
+
     public static ProductsFragment newInstance(String id) {
         ProductsFragment fragment = new ProductsFragment();
         Bundle bundle = new Bundle();
@@ -70,6 +75,9 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
         filterTab0 = itemTabsegmentBinding.filterTab0;
         filterTab0.setFilterTabSelected(true);
         curressView = filterTab0;
+
+        imageView = itemTabsegmentBinding.filterTab4;
+        imageView.setOnClickListener(this);
 
         for (FilterTab tab :
                 Arrays.asList(itemTabsegmentBinding.filterTab0, itemTabsegmentBinding.filterTab1, itemTabsegmentBinding.filterTab2, itemTabsegmentBinding.filterTab3)) {
@@ -139,12 +147,12 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
 
     @Override
     public void onClick(View v) {
+        int i = v.getId();
         if (v instanceof FilterTab) {
             if (v != curressView) {
                 ((FilterTab) v).setFilterTabSelected(!v.isSelected());
                 curressView = v;
             }
-            int i = v.getId();
             if (i == R.id.filter_tab0) {
                 if (null == customPopWindow) {
                     customPopWindow =
@@ -175,10 +183,48 @@ public class ProductsFragment extends BaseListFragment<ClassifyViewModel> implem
                 screeningPopWindow.showAtLocation(filterTab0,
                         Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(getActivity()));
             }
+        } else if (i == R.id.filter_tab4) {
+            if (!isGrid) {
+                if (null == gridLayoutManager) {
+                    gridLayoutManager = new GridLayoutManager(getContext(), 2);
+                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        @Override
+                        public int getSpanSize(int i) {
+                            if (adapter.getItems().get(i) instanceof GoodsInfo) {
+                                return 1;
+                            }
+                            return 2;
+                        }
+                    });
+                    gridAdapter = AdapterPool.newInstance()
+                            .getProductsGridAdapter(getContext())
+                            .build();
+                }
+                mRecyclerView.setLayoutManager(gridLayoutManager);
+                isGrid = !isGrid;
+                imageView.setImageResource(R.drawable.icon_grid_32);
+                gridAdapter.setDatas(adapter.getItems());
+                mRecyclerView.setAdapter(gridAdapter);
+            } else {
+                isGrid = !isGrid;
+                mRecyclerView.setLayoutManager(layoutManager);
+                imageView.setImageResource(R.drawable.icon_list_32);
+                adapter.setDatas(gridAdapter.getItems());
+                mRecyclerView.setAdapter(adapter);
+            }
+            adapter.notifyDataSetChanged();
         }
 
     }
 
+    @Override
+    protected boolean isItemDecoration() {
+        return false;
+    }
+
+    GridLayoutManager gridLayoutManager;
+    DelegateAdapter gridAdapter;
+    boolean isGrid;
     ScreeningPopWindow screeningPopWindow;
     CustomPopWindow customPopWindow;
 

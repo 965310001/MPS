@@ -44,10 +44,6 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
 
     DelegateAdapter adapter;
 
-    String content = "";
-
-    boolean selectInvoiceType = true;
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_invoice;
@@ -62,9 +58,9 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
 
         binding.setListerer(this);
         binding.setSelectInvoice(true);
-        binding.setSelectInvoiceType(selectInvoiceType);
-
-        binding.setContent(content);
+        binding.setSelectInvoiceType(true);
+        binding.setContent("");
+        binding.executePendingBindings();
     }
 
     /*RadioGroup的点击*/
@@ -86,14 +82,11 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
         mViewModel.getInvoiceList(Constants.INVOICECONTENT_KEY[3]);
     }
 
-
-    /*确定*/
-    // TODO: 2019/4/12  获取发票内容
     public void certain(View view) {
         if (!binding.getSelectInvoice()) {/*需要发票提交*/
             Map<String, Object> map = new HashMap<>();
-            map.put("inv_title_select", selectInvoiceType ? "person" : "company");/*person*/
-            map.put("inv_title", content);
+            map.put("inv_title_select", binding.getSelectInvoiceType() ? "person" : "company");/*person*/
+            map.put("inv_title", binding.getContent());
             map.put("inv_content", binding.spinnerSystem.getSelectedItem().toString());
             mViewModel.addInvoice(map, Constants.INVOICECONTENT_KEY[2]);
         } else {
@@ -114,12 +107,12 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                             KLog.i(data.getData());
                             try {
                                 binding.spinnerSystem.setSelection(0);
-                                WidgetUtils.initSpinnerStyle(binding.spinnerSystem, data.getData().getInvoice_content_list().toArray(new String[data.getData().getInvoice_content_list().size()]));
+                                WidgetUtils.initSpinnerStyle(binding.spinnerSystem, data.getData().getInvoice_content_list().toArray(
+                                        new String[data.getData().getInvoice_content_list().size()]));
                             } catch (Exception e) {
 
                             }
                         } else {
-//                            showErrorState();
                         }
                     }
                 });

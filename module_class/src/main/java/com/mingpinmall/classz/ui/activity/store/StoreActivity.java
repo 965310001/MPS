@@ -129,6 +129,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                                 if (null == xBottomSheet) {
                                     xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
                                             .setItemData(voucher_list)
+                                            .setItemData(voucher_list)
                                             .setAdapter(AdapterPool.newInstance()
                                                     .getVoucherInfoAdapter(activity)
                                                     .build())

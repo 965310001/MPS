@@ -24,15 +24,14 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.databinding.FragmentScreeningBinding;
 import com.mingpinmall.classz.databinding.TrecyclerviewBaseBinding;
-import com.socks.library.KLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
@@ -386,12 +385,8 @@ public class XBottomSheet extends Dialog {
                     DividerItemDecoration.VERTICAL));
             mRecyclerView.setLayoutManager(layoutManager);
             if (needToScrollByTr()) {
-//                ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getListMaxHeight());
-//                mRecyclerView.setLayoutParams(lp);
                 ViewGroup.LayoutParams layoutParams = mRecyclerView.getLayoutParams();
-                if (layoutParams != null) {
-                    layoutParams.height = getListMaxHeight();
-                }
+                layoutParams.height = getListMaxHeight();
                 mDialog.setOnBottomSheetShowListener(new XBottomSheet.OnBottomSheetShowListener() {
                     @Override
                     public void onShow() {

@@ -56,6 +56,15 @@
                 android:gravity="center"
                 app:filterText="筛选"
                 app:isSelect="false" />
+
+            <ImageView
+                android:id="@+id/filter_tab4"
+                android:layout_margin="@dimen/dp_12"
+                android:layout_width="@dimen/image_height"
+                android:layout_height="@dimen/image_height"
+                android:tint="@color/black"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_list_32" />
         </com.mingpinmall.classz.widget.FilterBar>
     </LinearLayout>
 </layout>

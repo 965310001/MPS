@@ -4,9 +4,11 @@ import android.arch.lifecycle.Observer;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -15,12 +17,14 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
@@ -31,6 +35,8 @@ import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
+import com.trecyclerview.pojo.FootVo;
+import com.trecyclerview.pojo.HeaderVo;
 
 import java.util.Arrays;
 
@@ -63,14 +69,25 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
 
     private PopupWindow screeningPopWindow, customPopWindow;
 
+    ImageView imageView;
+
     @Override
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
+        edSearch.setVisibility(View.VISIBLE);
+        edSearch.setFocusable(false);
+        edSearch.setFocusableInTouchMode(false);
+        edSearch.setOnClickListener(this);
+        edSearch.setText(keyword);
+        ivSearch.setVisibility(View.GONE);
+        tvTitle.setVisibility(View.GONE);
 
         ItemTabsegmentBinding itemTabsegmentBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.item_tabsegment, null, false);
         binding.llRecyclerview.addView(itemTabsegmentBinding.getRoot(), 0);
         filterTab0 = itemTabsegmentBinding.filterTab0;
+        imageView = itemTabsegmentBinding.filterTab4;
+        imageView.setOnClickListener(this);
         filterTab0.setFilterTabSelected(true);
         curressView = filterTab0;
 
@@ -117,7 +134,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                         for (String s : reponse.goodsType) {
                             st = st.concat(s).concat("_");
                         }
-                        keyword = "";
+//                        keyword = "";
                         order = "";
                         key = "";
                         id = "";
@@ -145,12 +162,12 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
 
     @Override
     public void onClick(View v) {
+        int i = v.getId();
         if (v instanceof FilterTab) {
             if (v != curressView) {
                 ((FilterTab) v).setFilterTabSelected(!v.isSelected());
                 curressView = v;
             }
-            int i = v.getId();
             if (i == R.id.filter_tab0) {
                 if (null == customPopWindow) {
                     customPopWindow =
@@ -163,7 +180,6 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
             } else if (i == R.id.filter_tab1) {
                 key = "1";
                 order = "2";
-                keyword = "";
                 onRefresh();
             } else if (i == R.id.filter_tab3) {
                 if (null == screeningPopWindow) {
@@ -175,8 +191,44 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                 screeningPopWindow.showAtLocation(filterTab0,
                         Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
             }
+        } else if (i == R.id.ed_search) {
+            ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
+        } else if (i == R.id.filter_tab4) {
+            if (!isGrid) {
+                if (null == gridLayoutManager) {
+                    gridLayoutManager = new GridLayoutManager(this, 2);
+                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        @Override
+                        public int getSpanSize(int i) {
+                            if (adapter.getItems().get(i) instanceof GoodsInfo) {
+                                return 1;
+                            }
+                            return 2;
+                        }
+                    });
+                    gridAdapter = AdapterPool.newInstance()
+                            .getProductsGridAdapter(this)
+                            .build();
+                }
+                mRecyclerView.setLayoutManager(gridLayoutManager);
+                isGrid = !isGrid;
+                imageView.setImageResource(R.drawable.icon_grid_32);
+                gridAdapter.setDatas(adapter.getItems());
+                mRecyclerView.setAdapter(gridAdapter);
+            } else {
+                isGrid = !isGrid;
+                mRecyclerView.setLayoutManager(layoutManager);
+                imageView.setImageResource(R.drawable.icon_list_32);
+                adapter.setDatas(gridAdapter.getItems());
+                mRecyclerView.setAdapter(adapter);
+            }
+            adapter.notifyDataSetChanged();
         }
     }
+
+    GridLayoutManager gridLayoutManager;
+    DelegateAdapter gridAdapter;
+    boolean isGrid;
 
     @Override
     public void onClick(PopupWindow dialog, View itemView, int position, String content) {
@@ -200,7 +252,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                 order = "2";
                 break;
         }
-        keyword = "";
+//        keyword = "";
         onRefresh();
     }
 }

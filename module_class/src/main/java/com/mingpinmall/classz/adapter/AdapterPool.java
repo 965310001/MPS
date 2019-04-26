@@ -67,6 +67,12 @@ public class AdapterPool {
                 context, ProgressStyle.Pacman);
     }
 
+    public DelegateAdapter.Builder getProductsGridAdapter(Context context) {
+        return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_products_grid, BR.data)),
+                context, ProgressStyle.Pacman);
+    }
+
     /*评价列表*/
     public DelegateAdapter.Builder getEvaluate(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
