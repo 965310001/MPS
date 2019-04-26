@@ -111,6 +111,7 @@ public interface ClassifyService {
     Flowable<BaseResponse<InvoiceListInfo>> getInvoiceContentList(@FieldMap Map<String, Object> map);
 
 
+
     /*店铺信息*/
     @FormUrlEncoded
     @POST(BASEURL)

@@ -21,21 +21,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="@dimen/dp_8"
+        android:padding="@dimen/dp_10"
         tools:context=".ui.activity.invoice.InvoiceActivity">
 
         <ImageView
-            android:layout_width="@dimen/image_height"
-            android:layout_height="@dimen/image_height"
+            android:layout_width="@dimen/image_height_litter"
+            android:layout_height="@dimen/image_height_litter"
             android:background="@{data.checked?@drawable/market_icon_checkbox_checked:@drawable/market_icon_checkbox_default}"
-            tools:background="@drawable/ic_launcher" />
+            tools:background="@drawable/market_icon_checkbox_checked" />
 
         <TextView
+            android:paddingLeft="@dimen/dp_4"
             android:id="@+id/tv_num"
             style="@style/TextStyle_12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/image_height"
-            android:layout_marginBottom="@dimen/dp_10"
             android:text="@{data.inv_title+data.inv_content}"
             tools:text="1件" />
 

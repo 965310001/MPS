@@ -125,27 +125,27 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                         BaseResponse<VoucherInfo> data = response;
                         if (data.isSuccess()) {
                             List<VoucherInfo.VoucherListBean> voucher_list = data.getData().getVoucher_list();
-//                            KLog.i(voucher_list);
-                            if (null == xBottomSheet) {
-                                xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
-                                        .setItemData(voucher_list)
-//                                        .setItemData(voucher_list)
-//                                        .setItemData(voucher_list)
-//                                        .addItem("1")
-                                        .setAdapter(AdapterPool.newInstance()
-                                                .getVoucherInfoAdapter(activity)
-                                                .build())
-                                        .setLayoutManager(new LinearLayoutManager(activity))
-                                        .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
-                                            @Override
-                                            public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
-                                                dialog.dismiss();
-                                                ToastUtils.showLong("Item " + (position + 1));
-                                            }
-                                        })
-                                        .build();
+                            if (null != voucher_list || voucher_list.size() > 0) {
+                                if (null == xBottomSheet) {
+                                    xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
+                                            .setItemData(voucher_list)
+                                            .setAdapter(AdapterPool.newInstance()
+                                                    .getVoucherInfoAdapter(activity)
+                                                    .build())
+                                            .setLayoutManager(new LinearLayoutManager(activity))
+                                            .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
+                                                @Override
+                                                public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
+                                                    dialog.dismiss();
+                                                    ToastUtils.showLong("Item " + (position + 1));
+                                                }
+                                            })
+                                            .build();
+                                }
+                                xBottomSheet.show();
+                            } else {
+                                ToastUtils.showLong("暂时没有代金券");
                             }
-                            xBottomSheet.show();
                         } else {
                             ToastUtils.showLong(data.getMessage());
                         }

@@ -108,7 +108,7 @@ public class MultipleItemView extends LinearLayout {
         showEditText = a.getBoolean(R.styleable.MultipleItemView_showEdtText, showEditText);
 
 
-        int mLeftIconSzie = (int) a.getDimension(R.styleable.MultipleItemView_leftIconSize, 16);
+        int mLeftIconSzie = a.getDimensionPixelSize(R.styleable.MultipleItemView_leftIconSize, 16);
 
         ViewGroup.LayoutParams layoutParams = ivLeft.getLayoutParams();
         layoutParams.width = mLeftIconSzie;
@@ -233,8 +233,9 @@ public class MultipleItemView extends LinearLayout {
      * @return MultifunctionalItemView
      */
     public MultipleItemView setRightTextColorResource(int color) {
-        tvRight.setTextColor(getResources().getColor(color));
-        edtText.setTextColor(getResources().getColor(color));
+        color = getResources().getColor(color);
+        tvRight.setTextColor(color);
+        edtText.setTextColor(color);
         return this;
     }
 

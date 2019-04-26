@@ -227,6 +227,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                             ShoppingCartUtils.addCartGoods(goodsInfo);
                             shoppingDetailsActivity.setCartNumber();
                             ToastUtils.showLong("添加购物车成功");
+                            LiveBus.getDefault().postEvent("SHOP_CART_REFRESH", true);
                             if (null != specificationPop && specificationPop.isShowing()) {
                                 specificationPop.dismiss();
                             }

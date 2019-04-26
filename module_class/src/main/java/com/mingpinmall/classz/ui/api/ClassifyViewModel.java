@@ -94,8 +94,8 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /*确定发票内容*/
-    public void addInvoice(final Object eventKey, Map<String, Object> map) {
-        mRepository.addInvoice(eventKey, map);
+    public void addInvoice(Map<String, Object> map, final Object eventKey) {
+        mRepository.addInvoice(map, eventKey);
     }
 
     /*删除发票列表*/

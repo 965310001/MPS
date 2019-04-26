@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.trecyclerview.adapter.DelegateAdapter" />
+
         <variable
             name="listerer"
             type="android.widget.RadioGroup.OnCheckedChangeListener" />
@@ -16,15 +18,22 @@
             name="selectInvoice"
             type="Boolean" />
 
+        <!--发票类型-->
         <variable
             name="selectInvoiceType"
             type="Boolean" />
 
-        <import type="com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo.InvoiceListBean" />
+        <variable
+            name="content"
+            type="String" />
 
         <variable
             name="list"
-            type="java.util.List&lt;InvoiceListBean>" />
+            type="java.util.List" />
+
+        <variable
+            name="adapter"
+            type="DelegateAdapter" />
 
     </data>
 
@@ -82,12 +91,22 @@
                 android:orientation="vertical"
                 android:visibility="@{selectInvoice?View.GONE:View.VISIBLE}">
 
-                <com.trecyclerview.TRecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:tag="3"
-                    bind:items="@{list}" />
+                <!--<com.trecyclerview.TRecyclerView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:scrollbars="none"-->
+                <!--android:tag="3"-->
+                <!--bind:items="@{list}" />-->
+
+                <!--<include  layout="@layout/trecyclerview_base"-->
+                <!--bind:items="@{list}"-->
+                <!--bind:tag="3"/>-->
+
+                <include
+                    layout="@layout/trecyclerview_base"
+                    bind:adapter="@{adapter}"
+                    bind:data="@{list}"
+                    bind:tag="@{`3`}" />
 
                 <TextView
                     style="@style/width_warp_height_warp"
@@ -129,7 +148,7 @@
                             android:background="@drawable/default_flow_tag_bg_rect_round_red"
                             android:button="@null"
                             android:padding="@dimen/dp_6"
-                            android:text="不需要发票"
+                            android:text="个人"
                             android:textColor="@drawable/default_flow_tag_text_rect_round_red"
                             android:textSize="@dimen/text_12" />
 
@@ -139,7 +158,7 @@
                             android:background="@drawable/default_flow_tag_bg_rect_round_red"
                             android:button="@null"
                             android:padding="@dimen/dp_6"
-                            android:text="需要并填写发票信息"
+                            android:text="单位"
                             android:textColor="@drawable/default_flow_tag_text_rect_round_red" />
                     </RadioGroup>
 
@@ -173,7 +192,8 @@
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="输入个人或企业名称" />
+                            android:hint="输入个人或企业名称"
+                            android:text="@{content}" />
                     </RadioGroup>
 
                 </LinearLayout>
@@ -208,9 +228,8 @@
 
             <Button
                 style="@style/width_match_height_warp"
-                android:layout_margin="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_20"
-                android:background="@color/shallow_red"
+                android:background="@drawable/bg_of_red_gradient_radius"
                 android:gravity="center"
                 android:onClick="certain"
                 android:text="确定"

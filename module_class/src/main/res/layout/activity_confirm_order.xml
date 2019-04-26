@@ -7,6 +7,8 @@
     <data>
 
         <import type="com.trecyclerview.adapter.DelegateAdapter" />
+        <!--商品列表-->
+        <import type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
 
         <!--总金额-->
         <variable
@@ -17,14 +19,9 @@
             name="address"
             type="com.goldze.common.dmvvm.base.bean.AddressDataBean.AddressListBean" />
 
-        <!--商品列表-->
-        <import type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
-
         <variable
             name="data"
             type="java.util.List" />
-
-        <import type="android.text.TextUtils" />
 
         <!--支付方式-->
         <variable
@@ -73,10 +70,10 @@
                     android:padding="@dimen/dp_10">
 
                     <ImageView
-                        android:layout_width="@dimen/image_height"
-                        android:layout_height="@dimen/image_height"
+                        android:layout_width="@dimen/image_height_litter"
+                        android:layout_height="@dimen/image_height_litter"
                         android:layout_marginTop="@dimen/dp_1"
-                        android:src="@drawable/ic_launcher" />
+                        android:src="@drawable/icon_add" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -109,29 +106,33 @@
 
                 <com.goldze.common.dmvvm.widget.MultipleItemView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
+                    android:minHeight="@dimen/dp_50"
                     android:onClick="paymentMethod"
+                    leon:leftIconSize="@dimen/image_height_small"
                     leon:leftText="支付方式"
                     leon:prightText="@{payment}"
-                    leon:ptleftIcon="@drawable/ic_launcher"
+                    leon:ptleftIcon="@drawable/mcc_01"
                     leon:showBottomLine="false"
-                    leon:showLeftIcon="false"
+                    leon:showLeftIcon="true"
                     leon:showRightIcon="true"
                     leon:showTopLine="false" />
 
                 <com.goldze.common.dmvvm.widget.MultipleItemView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
+                    android:minHeight="@dimen/dp_50"
                     android:onClick="invoiceInfo"
+                    leon:leftIconSize="@dimen/image_height_small"
                     leon:leftText="发票信息"
                     leon:prightText="@{invoice}"
-                    leon:ptleftIcon="@drawable/ic_launcher"
+                    leon:ptleftIcon="@drawable/mcc_08_b"
                     leon:showBottomLine="false"
-                    leon:showLeftIcon="false"
+                    leon:showLeftIcon="true"
                     leon:showRightIcon="true"
                     leon:showTopLine="false" />
 
@@ -161,7 +162,8 @@
                     android:background="@color/white"
                     android:hint="店铺订单留言"
                     android:padding="@dimen/dp_10"
-                    android:text="@={content}" />
+                    android:text="@={content}"
+                    android:textSize="@dimen/text_14" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -180,10 +182,11 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_50"
             android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
             android:background="@color/shallow_red"
             android:gravity="center"
             android:onClick="sublimit"
-            android:padding="@dimen/dp_15"
             android:text="提交订单"
             android:textColor="@color/white"
             android:textSize="@dimen/text_18"

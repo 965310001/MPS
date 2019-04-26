@@ -330,7 +330,7 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*获取发票列表*/
-    public void addInvoice(final Object eventKey, Map<String, Object> map) {
+    public void addInvoice(Map<String, Object> map,final Object eventKey) {
         map = parames(map, "member_invoice",
                 "invoice_add");
         map.put("key", getUserKey());

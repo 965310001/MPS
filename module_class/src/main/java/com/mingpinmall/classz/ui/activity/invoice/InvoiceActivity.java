@@ -18,17 +18,16 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
+import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityInvoiceBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
-import com.mingpinmall.classz.utils.AssetsData;
 import com.socks.library.KLog;
+import com.trecyclerview.adapter.DelegateAdapter;
+import com.trecyclerview.listener.OnItemClickListener;
 import com.xuexiang.xui.utils.WidgetUtils;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +38,15 @@ import io.reactivex.annotations.Nullable;
  * 管理发票信息
  */
 @Route(path = ARouterConfig.classify.INVOICEACTIVITY)
-public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding, ClassifyViewModel> implements RadioGroup.OnCheckedChangeListener {
+public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding, ClassifyViewModel> implements RadioGroup.OnCheckedChangeListener, OnItemClickListener {
 
     List<InvoiceListInfo.InvoiceListBean> invoiceList;
+
+    DelegateAdapter adapter;
+
+    String content = "";
+
+    boolean selectInvoiceType = true;
 
     @Override
     protected int getLayoutId() {
@@ -57,7 +62,9 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
 
         binding.setListerer(this);
         binding.setSelectInvoice(true);
-        binding.setSelectInvoiceType(true);
+        binding.setSelectInvoiceType(selectInvoiceType);
+
+        binding.setContent(content);
     }
 
     /*RadioGroup的点击*/
@@ -85,9 +92,13 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
     public void certain(View view) {
         if (!binding.getSelectInvoice()) {/*需要发票提交*/
             Map<String, Object> map = new HashMap<>();
-            mViewModel.addInvoice(Constants.INVOICECONTENT_KEY[2], map);
+            map.put("inv_title_select", selectInvoiceType ? "person" : "company");/*person*/
+            map.put("inv_title", content);
+            map.put("inv_content", binding.spinnerSystem.getSelectedItem().toString());
+            mViewModel.addInvoice(map, Constants.INVOICECONTENT_KEY[2]);
         } else {
             KLog.i("不需要发票提交");
+            ToastUtils.showLong("请选择发票类型");
         }
     }
 
@@ -102,6 +113,7 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                             BaseResponse<InvoiceListInfo> data = response;
                             KLog.i(data.getData());
                             try {
+                                binding.spinnerSystem.setSelection(0);
                                 WidgetUtils.initSpinnerStyle(binding.spinnerSystem, data.getData().getInvoice_content_list().toArray(new String[data.getData().getInvoice_content_list().size()]));
                             } catch (Exception e) {
 
@@ -121,6 +133,10 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                             KLog.i(data.getData());
                             try {
                                 invoiceList = data.getData().getInvoice_list();
+                                adapter = AdapterPool.newInstance()
+                                        .getInvoiceList(activity)
+                                        .setOnItemClickListener(InvoiceActivity.this).build();
+                                binding.setAdapter(adapter);
                                 binding.setList(invoiceList);
                             } catch (Exception e) {
                                 KLog.i(e.toString());
@@ -130,18 +146,18 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                         }
                     }
                 });
-        /*获取发票内容*/
+        /*添加发票内容*/
         registerObserver(Constants.INVOICECONTENT_KEY[2], BaseResponse.class)
                 .observeForever(new Observer<BaseResponse>() {
                     @Override
                     public void onChanged(@Nullable BaseResponse response) {
-                        if (response.isSuccess()) {
-                            BaseResponse<InvoiceListInfo> data = response;
+                        BaseResponse<InvoiceListInfo> data = response;
+                        if (data.isSuccess()) {
+                            ToastUtils.showLong("添加成功");
                             KLog.i(data.getData().getInv_id());
-
                             mViewModel.getInvoiceList(Constants.INVOICECONTENT_KEY[3]);
                         } else {
-                            showErrorState();
+                            ToastUtils.showLong(data.getMessage());
                         }
                     }
                 });
@@ -153,8 +169,10 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                         if (response.isSuccess()) {
                             if (!TextUtils.isEmpty(tag)) {
                                 if (null != invoiceList && invoiceList.size() > 0) {
+                                    String invIdX;
                                     for (InvoiceListInfo.InvoiceListBean data : invoiceList) {
-                                        if (tag.equals(data.getInv_idX())) {
+                                        invIdX = data.getInv_idX();
+                                        if (tag.equals(invIdX)) {
                                             if (invoiceList.remove(data)) {
                                                 binding.setList(invoiceList);
                                             }
@@ -181,5 +199,18 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                         mViewModel.invoiceDel(Constants.INVOICECONTENT_KEY[4], tag);
                     }
                 }).show();
+    }
+
+    InvoiceListInfo.InvoiceListBean bean;
+    int index = 0;
+
+    @Override
+    public void onItemClick(View view, int index, Object object) {
+        if (null != bean) {
+            bean.setChecked(false);
+        }
+        this.index = index;
+        bean = (InvoiceListInfo.InvoiceListBean) object;
+        bean.setChecked(true);
     }
 }
