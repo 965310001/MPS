@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.ProductCollectionAdapter;
@@ -19,8 +21,6 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.ProductCollectionBean;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
-
-import java.util.ArrayList;
 
 /**
  * 功能描述：商品收藏页面
@@ -66,44 +66,61 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
         collectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                //点击事件，跳转商品详情
+                ProductCollectionBean.FavoritesListBean data = collectionAdapter.getItem(position);
+                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data.getGoods_id());
             }
         });
-        collectionAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+        collectionAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-
-                return true;
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                //子控件点击事件
+                final ProductCollectionBean.FavoritesListBean itemData = collectionAdapter.getItem(position);
+                if (view.getId() == R.id.iv_delete) {
+                    //删除这条收藏
+                    TextDialog.showBaseDialog(activity, "取消店铺收藏", "确定取消收藏吗？", new TextDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick() {
+                            mViewModel.deleGoodsCollect(itemData.getGoods_id());
+                        }
+                    }).show();
+                }
             }
         });
     }
 
     @Override
     protected void dataObserver() {
+        registerObserver("DEL_GOODS_COLLECT", "success")
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        lazyLoad();
+                    }
+                });
+        registerObserver("DEL_GOODS_COLLECT", "err", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String msg) {
+                        ToastUtils.showShort(msg);
+                    }
+                });
         registerObserver("PRODUCT_COLLECT_LIST", "success")
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
-                        pageIndex = 1;
-                        binding.refreshLayout.finishRefresh();
                         BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
-                        collectionAdapter.setNewData(data.getData().getFavorites_list());
-                        if (data.getData().getFavorites_list().size() == 0) {
-                            showSuccess();
-                        }
-                    }
-                });
-        registerObserver("PRODUCT_COLLECT_LIST", "loadmore")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
-                        pageIndex++;
-                        if (data.isHasmore())
+                        if (isLoadmore) {
+                            pageIndex++;
                             binding.refreshLayout.finishLoadMore();
-                        else
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                        collectionAdapter.addData(data.getData().getFavorites_list());
+                            collectionAdapter.addData(data.getData().getFavorites_list());
+                        } else {
+                            pageIndex = 1;
+                            binding.refreshLayout.finishRefresh();
+                            collectionAdapter.setNewData(data.getData().getFavorites_list());
+                        }
+                        if (!data.isHasmore())
+                            binding.refreshLayout.setNoMoreData(true);
                     }
                 });
         registerObserver("PRODUCT_COLLECT_LIST", "err")
@@ -111,8 +128,11 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                     @Override
                     public void onChanged(@Nullable Object result) {
                         ToastUtils.showShort(result.toString());
-                        binding.refreshLayout.finishRefresh(false);
-                        binding.refreshLayout.finishLoadMore(false);
+                        if (isLoadmore) {
+                            binding.refreshLayout.finishLoadMore(false);
+                        } else {
+                            binding.refreshLayout.finishRefresh(false);
+                        }
                     }
                 });
     }

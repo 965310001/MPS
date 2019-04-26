@@ -9,8 +9,8 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityCollectionBinding;
-import com.mingpinmall.me.ui.acitivity.order.RefundOrder.RefunMoneyFragment;
 import com.mingpinmall.me.ui.acitivity.order.RefundOrder.RefundFragment;
+import com.mingpinmall.me.ui.acitivity.order.RefundOrder.ReturnFragment;
 import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 import com.xuexiang.xui.widget.tabbar.TabControlView;
 
@@ -25,8 +25,8 @@ public class RefundActivity extends BaseActivity<ActivityCollectionBinding> {
     @Autowired
     int pageIndex = 0;
 
+    private ReturnFragment returnFragment;
     private RefundFragment refundFragment;
-    private RefunMoneyFragment refunMoneyFragment;
 
     private BasePagerAdapter pagerAdapter;
 
@@ -44,11 +44,11 @@ public class RefundActivity extends BaseActivity<ActivityCollectionBinding> {
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
 
+        returnFragment = new ReturnFragment();
         refundFragment = new RefundFragment();
-        refunMoneyFragment = new RefunMoneyFragment();
         pagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), this);
-        pagerAdapter.addFragment(refunMoneyFragment, getString(R.string.tabs_text_refundMoney));
-        pagerAdapter.addFragment(refundFragment, getString(R.string.tabs_text_refund));
+        pagerAdapter.addFragment(refundFragment, getString(R.string.tabs_text_refundMoney));
+        pagerAdapter.addFragment(returnFragment, getString(R.string.tabs_text_refund));
         binding.viewPager.setAdapter(pagerAdapter);
         binding.viewPager.setNoScroll(true);
         tabControlView.setOnTabSelectionChangedListener(new TabControlView.OnTabSelectionChangedListener() {

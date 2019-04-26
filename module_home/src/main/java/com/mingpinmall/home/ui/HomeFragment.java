@@ -1,33 +1,24 @@
 package com.mingpinmall.home.ui;
 
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
-import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.goldze.common.dmvvm.activity.BottomNavigationActivity;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
-import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.mingpinmall.home.HomeActivity;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentHomeBinding;
 import com.mingpinmall.home.ui.activity.qrCode.ScanQRCodeActivity;
@@ -37,9 +28,6 @@ import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +65,6 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
         super.initView(state);
         setTitlePadding(binding.clTitleBar);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 4);
-
         binding.recyclerView.setLayoutManager(gridLayoutManager);
         homeListAdapter = new HomeListAdapter();
         homeListAdapter.bindToRecyclerView(binding.recyclerView);
@@ -123,14 +110,35 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
          * 除列表外，其他按钮点击事件
          */
         setClickListener();
-
+        //列表滑动监听
+//        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @SuppressLint("RestrictedApi")
+//            @Override
+//            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldX, int oldY) {
+//                Log.i(TAG, "onScrollChange: " + scrollY);
+//                if (scrollY <= 640) {
+//                    float alpha = scrollY / (float) 640;
+//                    if (alpha > 0) {
+//                        binding.clTitleBar.setVisibility(View.VISIBLE);
+//                        binding.fab2top.setVisibility(View.VISIBLE);
+//                        binding.clTitleBar.setAlpha(alpha);
+//                        darkMode = true;
+//                        setDarkMode(true);
+//                    } else {
+//                        binding.clTitleBar.setVisibility(View.GONE);
+//                        binding.fab2top.setVisibility(View.GONE);
+//                        darkMode = false;
+//                        setDarkMode(false);
+//                    }
+//                }
+//            }
+//        });
         //列表滑动监听
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @SuppressLint("RestrictedApi")
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 //当前条目索引
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
                 int position = layoutManager.findFirstVisibleItemPosition();
                 if (position == 0) {
                     View firstView = layoutManager.findViewByPosition(position);
@@ -139,13 +147,13 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                     float alpha = scrollY / firstViewHeight;
                     if (alpha > 0) {
                         binding.clTitleBar.setVisibility(View.VISIBLE);
-                        binding.fab2top.setVisibility(View.VISIBLE);
                         binding.clTitleBar.setAlpha(alpha);
+                        binding.fab2top.show();
                         darkMode = true;
                         setDarkMode(true);
                     } else {
                         binding.clTitleBar.setVisibility(View.GONE);
-                        binding.fab2top.setVisibility(View.GONE);
+                        binding.fab2top.hide();
                         darkMode = false;
                         setDarkMode(false);
                     }
@@ -205,7 +213,11 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 } else {
                     //其他轮播图
                     HomeItemBean.DatasBean.Goods1Bean goods1Bean = bannerDatas.getGoods1();
-                    ToastUtils.showShort("事件: " + goods1Bean.getItem().get(index).getGoods_name());
+                    ActivityToActivity.toActivity(
+                            ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
+                            "id",
+                            goods1Bean.getItem().get(index).getGoods_id()
+                    );
                 }
             }
         });
@@ -299,12 +311,20 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                     case 10:
                         //商品列表
                         HomeItemBean.DatasBean.GoodsBean.ItemBean goodsBean = datasBean.getGoodsItemBean();
-                        ToastUtils.showShort("事件: " + goodsBean.getGoods_name());
+                        ActivityToActivity.toActivity(
+                                ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
+                                "id",
+                                goodsBean.getGoods_id()
+                        );
                         break;
                     case 12:
                         //团购
                         HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem goods2Bean = datasBean.getGoods2ItemBean();
-                        ToastUtils.showShort("事件: " + goods2Bean.getGoods_name());
+                        ActivityToActivity.toActivity(
+                                ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
+                                "id",
+                                goods2Bean.getGoods_id()
+                        );
                         break;
                 }
             }
@@ -370,7 +390,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
         registerObserver("HOME_DATA_JSON", HomeItemBean.class)
                 .observeForever(new Observer<HomeItemBean>() {
                     @Override
-                    public void onChanged(@Nullable HomeItemBean data) {
+                    public void onChanged(@Nullable final HomeItemBean data) {
                         if (data.getCode() == 200) {
                             binding.refreshLayout.finishRefresh();
                             homeListAdapter.setNewData(formatDatas(data.getDatas()));
@@ -416,7 +436,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 //团购
                 //添加一个标题
                 datasBean.setItemType(22);
-                datasBean.setLabel("团购商品");
+                datasBean.setLabel(datasBean.getGoods2().getTitle().equals("") ? "团购商品" : datasBean.getGoods2().getTitle());
                 datasBean.setSubLabel("精品抢购 有你所选");
                 listData.add(datasBean);
                 //添加内容

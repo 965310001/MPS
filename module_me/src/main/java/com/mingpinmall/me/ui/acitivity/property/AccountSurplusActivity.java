@@ -1,16 +1,21 @@
 package com.mingpinmall.me.ui.acitivity.property;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
+import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityAccountSurplusBinding;
-import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.SurplusFragment1;
-import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.SurplusFragment2;
-import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.SurplusFragment3;
+import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PredepositLogFragment;
+import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PdrechargeFragment;
+import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PdcashFragment;
 import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
+import com.mingpinmall.me.ui.api.MeViewModel;
+import com.mingpinmall.me.ui.bean.Predepoit;
 
 /**
  * 功能描述：我的财产-账户余额
@@ -18,11 +23,11 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
  * 创建时间: 2019/3/28
  **/
 @Route(path = ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY)
-public class AccountSurplusActivity extends BaseActivity<ActivityAccountSurplusBinding> {
+public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccountSurplusBinding, MeViewModel> {
 
-    private SurplusFragment1 surplusFragment1;
-    private SurplusFragment2 surplusFragment2;
-    private SurplusFragment3 surplusFragment3;
+    private PredepositLogFragment predepositLogFragment;
+    private PdrechargeFragment pdrechargeFragment;
+    private PdcashFragment pdcashFragment;
 
     private BasePagerAdapter pagerAdapter;
 
@@ -33,18 +38,57 @@ public class AccountSurplusActivity extends BaseActivity<ActivityAccountSurplusB
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        super.initViews(savedInstanceState);
         setTitle(R.string.title_accountSurplusActivity);
         pagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), this);
 
-        surplusFragment1 = new SurplusFragment1();
-        surplusFragment2 = new SurplusFragment2();
-        surplusFragment3 = new SurplusFragment3();
+        predepositLogFragment = new PredepositLogFragment();
+        pdrechargeFragment = new PdrechargeFragment();
+        pdcashFragment = new PdcashFragment();
 
-        pagerAdapter.addFragment(surplusFragment1, R.string.tabs_text_surplus1);
-        pagerAdapter.addFragment(surplusFragment2, R.string.tabs_text_surplus2);
-        pagerAdapter.addFragment(surplusFragment3, R.string.tabs_text_surplus3);
+        pagerAdapter.addFragment(predepositLogFragment, R.string.tabs_text_surplus1);
+        pagerAdapter.addFragment(pdrechargeFragment, R.string.tabs_text_surplus2);
+        pagerAdapter.addFragment(pdcashFragment, R.string.tabs_text_surplus3);
 
         binding.viewPager.setAdapter(pagerAdapter);
         binding.tabs.setupWithViewPager(binding.viewPager);
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        mViewModel.getPredepoit();
+    }
+
+    @Override
+    protected void dataObserver() {
+        super.dataObserver();
+        registerObserver("REFRESH_PDC", String.class).observeForever(new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                //需要更新数据
+                initData();
+            }
+        });
+        registerObserver("PREDEPOIT", "success", Predepoit.class)
+                .observeForever(new Observer<Predepoit>() {
+                    @Override
+                    public void onChanged(@Nullable Predepoit predepoit) {
+                        //获取到账户余额
+                        binding.tvSurplus.setText(predepoit.getPredepoit());
+                    }
+                });
+        registerObserver("PREDEPOIT", "err", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String msg) {
+                        ToastUtils.showShort(msg);
+                    }
+                });
+    }
+
+    @Override
+    protected Object getStateEventKey() {
+        return "AccountSurplusActivity";
     }
 }

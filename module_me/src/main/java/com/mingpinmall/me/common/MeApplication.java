@@ -65,4 +65,9 @@ public class MeApplication extends BaseApplication {
         XUI.init(this);
 
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
 }

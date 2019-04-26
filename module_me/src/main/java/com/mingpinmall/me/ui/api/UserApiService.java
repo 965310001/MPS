@@ -4,7 +4,7 @@ import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.bean.CheckSmsCodeBean;
-import com.mingpinmall.me.ui.bean.CodeKeyMode;
+import com.mingpinmall.me.ui.bean.CodeKeyBean;
 import com.mingpinmall.me.ui.bean.DefaultCheckBean;
 import com.mingpinmall.me.ui.bean.SmsBean;
 import com.goldze.common.dmvvm.base.bean.UserBean;
@@ -149,6 +149,6 @@ public interface UserApiService {
 
     /*获取和生成图形验证码钥匙*/
     @GET(MAKECODEKEY)
-    Flowable<BaseResponse<CodeKeyMode>> makeCodeKey();
+    Flowable<BaseResponse<CodeKeyBean>> makeCodeKey();
 
 }

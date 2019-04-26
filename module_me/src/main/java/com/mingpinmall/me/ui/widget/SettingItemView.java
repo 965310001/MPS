@@ -2,6 +2,9 @@ package com.mingpinmall.me.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.databinding.BindingAdapter;
+import android.databinding.InverseBindingMethod;
+import android.databinding.InverseBindingMethods;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -127,6 +130,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置主题样式
+     *
      * @param themeMode
      * @return
      */
@@ -232,8 +236,14 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 是否使用小图标，小图标模式将会将图标和标题栏对齐。 默认模式下是item上下居中
+     *
      * @param isSmall
      */
+    @BindingAdapter("smallIcon")
+    public static void setSmallIconMode(SettingItemView settingItemView, boolean isSmall) {
+        settingItemView.setSmallIconMode(isSmall);
+    }
+
     public void setSmallIconMode(boolean isSmall) {
         this.isSmallIcon = isSmall;
         ConstraintSet set = new ConstraintSet();
@@ -268,7 +278,8 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置标题TextView四周图标
-     * @param drawable 图标，建议不超过  20dp * 20dp  尺寸大小
+     *
+     * @param drawable    图标，建议不超过  20dp * 20dp  尺寸大小
      * @param orientation 方向 0 左   1 上   2 右   3 下
      * @return 返回这个标题TextView
      */
@@ -278,7 +289,8 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置标题TextView四周图标
-     * @param drawable 图标，建议不超过  20dp * 20dp  尺寸大小
+     *
+     * @param drawable    图标，建议不超过  20dp * 20dp  尺寸大小
      * @param orientation 方向 0 左   1 上   2 右   3 下
      * @return 返回这个标题TextView
      */
@@ -294,6 +306,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 获得左边图标ImageView
+     *
      * @return 左边图标ImageView
      */
     public AppCompatImageView getIconImageView() {
@@ -302,6 +315,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 是否显示左边图标ImageView
+     *
      * @param show
      * @return
      */
@@ -312,6 +326,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 是否显示标题下方的描述TextView
+     *
      * @param show
      * @return
      */
@@ -322,9 +337,15 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 是否显示右边的箭头ImageView
+     *
      * @param show
      * @return
      */
+    @BindingAdapter("showMoreIcon")
+    public static SettingItemView showMoreIcon(SettingItemView settingItemView, boolean show) {
+        return settingItemView.showMoreIcon(show);
+    }
+
     public SettingItemView showMoreIcon(boolean show) {
         iv_more.setVisibility(show ? View.VISIBLE : View.GONE);
         return this;
@@ -332,6 +353,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置左边图标ImageView的图片
+     *
      * @param drawable 图片
      * @return
      */
@@ -342,6 +364,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置左边图标ImageView的图片
+     *
      * @param drawable 图片
      * @return
      */
@@ -352,6 +375,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置标题文字内容
+     *
      * @param titleId 内容资源id
      * @return
      */
@@ -362,9 +386,15 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置标题文字内容
+     *
      * @param title 内容字符串
      * @return
      */
+    @BindingAdapter("title")
+    public static SettingItemView setTitle(SettingItemView settingItemView, String title) {
+        return settingItemView.setTitle(title);
+    }
+
     public SettingItemView setTitle(String title) {
         tv_label.setText(title);
         return this;
@@ -372,6 +402,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置标题下方描述文字内容
+     *
      * @param titleId 内容资源id
      * @return
      */
@@ -382,9 +413,15 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置标题下方描述文字内容
+     *
      * @param title 内容字符串
      * @return
      */
+    @BindingAdapter("description")
+    public static SettingItemView setDescription(SettingItemView settingItemView, String title) {
+        return settingItemView.setDescription(title);
+    }
+
     public SettingItemView setDescription(String title) {
         tv_description.setText(title);
         return this;
@@ -392,6 +429,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置右边箭头左侧 副标题 文字内容
+     *
      * @param titleId
      * @return
      */
@@ -402,9 +440,15 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 设置右边箭头左侧 副标题 文字内容
+     *
      * @param title
      * @return
      */
+    @BindingAdapter("subTitle")
+    public static void setSubTitle(SettingItemView settingItemView, String title) {
+        settingItemView.setSubTitle(title);
+    }
+
     public SettingItemView setSubTitle(String title) {
         tv_label2.setText(title);
         return this;
@@ -412,6 +456,7 @@ public class SettingItemView extends FrameLayout {
 
     /**
      * 显示右边 红点数值，为0则不显示，超过99则显示为 99+
+     *
      * @param count 数值
      */
     public void showRedPoint(int count) {

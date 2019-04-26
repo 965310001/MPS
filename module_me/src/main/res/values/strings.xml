@@ -42,6 +42,31 @@
     <!-- AccountSurplusActivity Over -->
 
     <!-- CardSurplusActivity -->
+    <string name="label_text_card1">充值卡余额</string>
+    <string name="label_text_card2">请输入已知平台充值卡号码</string>
+    <string name="label_text_card3">充值后可以在购物车结算时选取使用充值卡余额进行支付</string>
+    <string name="label_text_card4">充值卡号</string>
+    <string name="hint_text_card4">请输入平台充值卡号</string>
+    <!-- CardSurplusActivity Over -->
+
+    <!-- CouponActivity -->
+    <string name="label_text_coupon1">请输入已获得的代金券卡密领取代金券</string>
+    <string name="label_text_coupon2">领取代金券后可以在购买商品下单时选择符合使用条件的代金券抵扣订单金额</string>
+    <string name="label_text_coupon3">已失效的券</string>
+    <string name="label_text_coupon4">代金券卡密</string>
+    <string name="hint_text_coupon4">请输入20位店铺代金券卡密号</string>
+    <string name="label_text_packet1">请输入已知平台红包卡密号码</string>
+    <string name="label_text_packet2">确认生效后可在购物车使用抵扣订单金额</string>
+    <string name="label_text_packet3">已失效红包</string>
+    <string name="label_text_packet4">红包卡密</string>
+    <string name="hint_text_packet4">请输入平台红包卡密号</string>
+    <!-- CouponActivity Over -->
+
+    <!-- PdcashInformationActivity -->
+    <string name="title_PdcashInformationActivity">提现详情</string>
+    <!-- PdcashInformationActivity Over -->
+
+    <!-- CardSurplusActivity -->
     <string name="title_cardSurplusActivity">预存款账户</string>
     <string name="tabs_text_cardsurplus1">充值卡余额</string>
     <string name="tabs_text_cardsurplus2">充值卡充值</string>
@@ -70,6 +95,8 @@
     <!-- RefundActivity -->
     <string name="tabs_text_refund">退货列表</string>
     <string name="tabs_text_refundMoney">退款列表</string>
+    <string name="text_refundInformation">退款详情</string>
+    <string name="text_returnInformation">退货详情</string>
     <!-- RefundActivity Over -->
 
     <!-- DistributionActivity -->

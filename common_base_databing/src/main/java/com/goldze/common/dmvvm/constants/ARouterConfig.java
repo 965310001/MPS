@@ -128,6 +128,12 @@ public interface ARouterConfig {
         //退换货
         String REFUNDACTIVITY = "/me/RefundActivity";
 
+        //退款详情
+        String REFUNDORDERINFORMATION = "/me/RefundOrderInformationActivity";
+
+        //退货详情
+        String RETRUNORDERINFORMATION = "/me/RetrunOrderInformationActivity";
+
         //我的消息
         String MESSAGEACTIVITY = "/me/MessageActivity";
 
@@ -139,6 +145,9 @@ public interface ARouterConfig {
 
         //账户余额
         String ACCOUNTSURPLUSACTIVITY = "/me/AccountSurplusActivity";
+
+        //账户余额提现详情
+        String PDCASHINFORMATIONACTIVITY = "/me/PdcashInformationActivity";
 
         //店铺代金券
         String COUPONACTIVITY = "/me/CouponActivity";

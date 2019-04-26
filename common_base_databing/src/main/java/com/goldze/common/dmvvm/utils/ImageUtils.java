@@ -6,8 +6,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -16,7 +18,10 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
 import com.goldze.common.dmvvm.manage.BlurTransformation;
@@ -78,23 +83,22 @@ public class ImageUtils {
     }
 
     /**
-     * 加载网络图片 拉伸
+     * 加载网络图片
      *
      * @param url       url
      * @param imageView imageView
      * @param imageView transformation 转换器
      */
-    public static void loadImageCenterCrop(ImageView imageView, String url) {
+    public static void loadImageNoPlaceholder(ImageView imageView, String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
         Glide.with(imageView.getContext())
                 .load(url)
                 .apply(new RequestOptions()
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_loading_image)
-                        .error(new ColorDrawable(Color.WHITE))
-                        .fallback(new ColorDrawable(Color.RED)))
+                        .fitCenter()
+                        .override(1440, 720)
+                        .error(new ColorDrawable(Color.WHITE)))
                 .into(imageView);
     }
 
@@ -207,6 +211,20 @@ public class ImageUtils {
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
                 .setOnItemClickListener(listener)
                 .startTurning();
+    }
+
+    /**
+     * 加载只有一张图的Banner，解决在列表中更新列表时，重复调用startTurning()，导致错误的翻页
+     *
+     * @param banner   banner
+     * @param imgUrl   imgUrl
+     * @param listener listener
+     */
+    public static void loadBanners(ConvenientBanner banner, List<String> imgUrl, OnItemClickListener listener) {
+        banner.setPages(new BannerImgAdapter(), imgUrl)
+                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
+                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+                .setOnItemClickListener(listener);
     }
 
     /**

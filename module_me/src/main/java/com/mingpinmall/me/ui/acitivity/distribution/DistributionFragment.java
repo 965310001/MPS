@@ -30,7 +30,6 @@ public class DistributionFragment extends AbsLifecycleFragment<BaseRecyclerviewB
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        binding.tvLabel.setText("我的推广 - X级下线");
     }
 
     @Override

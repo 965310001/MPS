@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 功能描述：
+ * 功能描述：退款列表
  * 创建人：小斌
- * 创建时间: 2019/4/18
+ * 创建时间: 2019/4/22
  **/
 public class RefundBean implements Serializable {
 

@@ -14,18 +14,34 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/red"
-            android:orientation="vertical"
-            android:padding="12dp">
+            android:background="#ED5564">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="35dp"
+                android:rotation="25"
+                android:alpha="0.3"
+                android:src="@drawable/ic_mcc_06_w"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
                 android:text="@string/label_text_surplus"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@id/tv_surplus"
+                app:layout_constraintBottom_toTopOf="@id/centerLine"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:id="@+id/centerLine"
+                android:layout_width="1dp"
+                android:layout_height="1px"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,33 +55,36 @@
                 android:textColor="@color/white"
                 app:layout_constraintBaseline_toBaselineOf="@id/tv_surplus"
                 app:layout_constraintBottom_toBottomOf="@id/tv_surplus"
-                app:layout_constraintEnd_toStartOf="@id/tv_surplus"
-
-                />
+                app:layout_constraintEnd_toStartOf="@id/tv_surplus" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_surplus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginEnd="12dp"
                 android:text="0.00"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_surplus_unit" />
+                app:layout_constraintTop_toBottomOf="@id/centerLine"
+                app:layout_constraintVertical_bias="0" />
 
         </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:tabBackground="@color/white"
+            app:tabIndicatorColor="@color/app_theme_d61619"
+            app:tabSelectedTextColor="@color/app_theme_d61619"
+            app:tabTextColor="@color/black" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 </layout>

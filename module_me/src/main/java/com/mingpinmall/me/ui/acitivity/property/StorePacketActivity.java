@@ -8,6 +8,9 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityBaseTabsViewpagerBinding;
+import com.mingpinmall.me.ui.acitivity.property.storePacket.PacketGetFragment;
+import com.mingpinmall.me.ui.acitivity.property.storePacket.PacketListFragment;
+import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 import com.xuexiang.xui.widget.tabbar.TabControlView;
 
 /**
@@ -17,6 +20,9 @@ import com.xuexiang.xui.widget.tabbar.TabControlView;
  **/
 @Route(path = ARouterConfig.Me.STOREPACKETACTIVITY)
 public class StorePacketActivity extends BaseActivity<ActivityBaseTabsViewpagerBinding> {
+
+    private BasePagerAdapter pagerAdapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_base_tabs_viewpager;
@@ -24,6 +30,13 @@ public class StorePacketActivity extends BaseActivity<ActivityBaseTabsViewpagerB
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        pagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), activity);
+        pagerAdapter.addFragment(PacketListFragment.newFragment(), getString(R.string.tabs_text_storePacket1));
+        pagerAdapter.addFragment(PacketGetFragment.newFragment(), getString(R.string.tabs_text_storePacket2));
+
+        binding.viewPager.setNoScroll(true);
+        binding.viewPager.setAdapter(pagerAdapter);
+
         try {
             tabControlView.setItems(new String[]{getString(R.string.tabs_text_storePacket1), getString(R.string.tabs_text_storePacket2)}, new String[]{"1", "2"});
         } catch (Exception e) {
@@ -32,6 +45,14 @@ public class StorePacketActivity extends BaseActivity<ActivityBaseTabsViewpagerB
         tabControlView.setOnTabSelectionChangedListener(new TabControlView.OnTabSelectionChangedListener() {
             @Override
             public void newSelection(String title, String value) {
+                switch (value) {
+                    case "1":
+                        binding.viewPager.setCurrentItem(0, false);
+                        break;
+                    case "2":
+                        binding.viewPager.setCurrentItem(1, false);
+                        break;
+                }
             }
         });
     }

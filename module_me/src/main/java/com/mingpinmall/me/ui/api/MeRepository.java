@@ -10,20 +10,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
-import com.mingpinmall.me.ui.bean.BaseCheckBean;
-import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
-import com.mingpinmall.me.ui.bean.CityBean;
-import com.mingpinmall.me.ui.bean.FootprintBean;
-import com.mingpinmall.me.ui.bean.MyInfoBean;
-import com.mingpinmall.me.ui.bean.OrderInformationBean;
-import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
-import com.mingpinmall.me.ui.bean.ProductCollectionBean;
-import com.mingpinmall.me.ui.bean.PropertyBean;
-import com.mingpinmall.me.ui.bean.RefundBean;
-import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
-import com.mingpinmall.me.ui.bean.VirtualInformationBean;
-import com.mingpinmall.me.ui.bean.VirtualOrderBean;
-import com.mingpinmall.me.ui.bean.VirtualStoreAddrsBean;
+import com.mingpinmall.me.ui.bean.*;
 import com.socks.library.KLog;
 
 /**
@@ -35,6 +22,365 @@ public class MeRepository extends BaseRepository {
 
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
 
+    /*退货详情*/
+    protected void getReturnInformation(String returnId) {
+        addDisposable(apiService.getReturnInformation(getUserKey(), returnId)
+                .compose(RxSchedulers.<BaseResponse<ReturnInformation>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ReturnInformation>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<ReturnInformation> result) {
+                        if (result.isSuccess()) {
+                            sendData("RETURN_INFORMATION", "success", result.getData());
+                        } else {
+                            sendData("RETURN_INFORMATION", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("RETURN_INFORMATION", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*退款详情*/
+    protected void getRefundInformation(String refundId) {
+        addDisposable(apiService.getRefundInformation(getUserKey(), refundId)
+                .compose(RxSchedulers.<BaseResponse<RefundInformation>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<RefundInformation>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<RefundInformation> result) {
+                        if (result.isSuccess()) {
+                            sendData("REFUND_INFORMATION", "success", result.getData());
+                        } else {
+                            sendData("REFUND_INFORMATION", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("REFUND_INFORMATION", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*会员积分*/
+    protected void getVipPoint() {
+        addDisposable(apiService.getVipPoint(getUserKey())
+                .compose(RxSchedulers.<BaseResponse<VipPointBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<VipPointBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<VipPointBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("VIP_POINT", "success", result.getData());
+                        } else {
+                            sendData("VIP_POINT", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("VIP_POINT", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取我的红包记录*/
+    protected void getPacketList(int curPage) {
+        addDisposable(apiService.getPacketList(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<PacketListBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<PacketListBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<PacketListBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("PACKET_LIST", "success", result);
+                        } else {
+                            sendData("PACKET_LIST", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("PACKET_LIST", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*会员积分历史记录*/
+    protected void getVipPointLog(int curPage) {
+        addDisposable(apiService.getVipPointLog(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<VipPointListBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<VipPointListBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<VipPointListBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("VIP_POINT_LOG", "success", result);
+                        } else {
+                            sendData("VIP_POINT_LOG", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("VIP_POINT_LOG", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*代金券确认领取*/
+    protected void cpCharge(String rc_sn) {
+        addDisposable(apiService.cpCharge(getUserKey(), rc_sn, "android")
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData("COUPON_CHARGE", "success", result);
+                        } else {
+                            sendData("COUPON_CHARGE", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("COUPON_CHARGE", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*充值卡确认充值*/
+    protected void rcCharge(String rc_sn) {
+        addDisposable(apiService.rcCharge(getUserKey(), rc_sn, "android")
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData("RCARD_CHARGE", "success", result);
+                        } else {
+                            sendData("RCARD_CHARGE", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("RCARD_CHARGE", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*确认领取红包*/
+    protected void packetCharge(String pwd_code) {
+        addDisposable(apiService.packetCharge(getUserKey(), pwd_code, "android")
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData("PACKET_CHARGE", "success", result);
+                        } else {
+                            sendData("PACKET_CHARGE", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("PACKET_CHARGE", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*充值卡充值记录*/
+    protected void getRCBLog(int curPage) {
+        addDisposable(apiService.getRCBLog(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<RCardLogBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<RCardLogBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<RCardLogBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("RCCHARGE_LIST", "success", result);
+                        } else {
+                            sendData("RCCHARGE_LIST", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("RCCHARGE_LIST", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*代金券列表*/
+    protected void getCouponList(int curPage) {
+        addDisposable(apiService.getCouponList(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<CouponListBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<CouponListBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<CouponListBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("COUPONLISTBEAN", "success", result);
+                        } else {
+                            sendData("COUPONLISTBEAN", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("COUPONLISTBEAN", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取充值卡余额*/
+    protected void getRCBalance() {
+        addDisposable(apiService.getRCBalance(getUserKey(), "available_rc_balance")
+                .compose(RxSchedulers.<BaseResponse<RCardBalanceBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<RCardBalanceBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<RCardBalanceBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("RCBALANCE", "success", result.getData());
+                        } else {
+                            sendData("RCBALANCE", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("RCBALANCE", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取账户余额*/
+    protected void getPredepoit() {
+        addDisposable(apiService.getPredepoit(getUserKey(), "predepoit")
+                .compose(RxSchedulers.<BaseResponse<Predepoit>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<Predepoit>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<Predepoit> result) {
+                        if (result.isSuccess()) {
+                            sendData("PREDEPOIT", "success", result.getData());
+                        } else {
+                            sendData("PREDEPOIT", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("PREDEPOIT", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取账户余额列表*/
+    protected void getPredepoitLog(int curPage) {
+        addDisposable(apiService.getPredepoitLog(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<PredepoitLogBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<PredepoitLogBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<PredepoitLogBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("PREDPOSITLOG", "success", result);
+                        } else {
+                            sendData("PREDPOSITLOG", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("PREDPOSITLOG", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取账户充值明细*/
+    protected void getPdreChargeList(int curPage) {
+        addDisposable(apiService.getPdreChargeList(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<PdrechargeBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<PdrechargeBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<PdrechargeBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("PDRECHARGE", "success", result);
+                        } else {
+                            sendData("PDRECHARGE", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("PDRECHARGE", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取账户余额提现列表*/
+    protected void getPdcashList(int curPage) {
+        addDisposable(apiService.getPdcashList(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<PdcashBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<PdcashBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<PdcashBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("PDCASH", "success", result);
+                        } else {
+                            sendData("PDCASH", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("PDCASH", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取账户提现详情*/
+    protected void getPdcashList(String pdcId) {
+        addDisposable(apiService.getPdCashInfo(getUserKey(), pdcId)
+                .compose(RxSchedulers.<BaseResponse<PdcashInfoBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<PdcashInfoBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<PdcashInfoBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("PDCASH_INFORMATION", "success", result.getData());
+                        } else {
+                            sendData("PDCASH_INFORMATION", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("PDCASH_INFORMATION", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
     /*获取退款列表*/
     protected void getRefundList(int curPage) {
         addDisposable(apiService.getRefundList(getUserKey(), 10, curPage)
@@ -42,13 +388,40 @@ public class MeRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<RefundBean>>() {
 
                     @Override
-                    public void onSuccess(BaseResponse<RefundBean> virtualStoreAddrsBeanBaseResponse) {
-
+                    public void onSuccess(BaseResponse<RefundBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("REFUND", "success", result);
+                        } else {
+                            sendData("REFUND", "err", result.getMessage());
+                        }
                     }
 
                     @Override
                     public void onFailure(String msg) {
+                        sendData("REFUND", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
 
+    /*获取退货列表*/
+    protected void getReturnList(int curPage) {
+        addDisposable(apiService.getRetrunList(getUserKey(), 10, curPage)
+                .compose(RxSchedulers.<BaseResponse<ReturnBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ReturnBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<ReturnBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("RETURN", "success", result);
+                        } else {
+                            sendData("RETURN", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("RETURN", "err", msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -56,6 +429,7 @@ public class MeRepository extends BaseRepository {
 
     /**
      * 获取虚拟订单详细内容
+     *
      * @param orderId
      */
     protected void getVitrualOrderInformation(String orderId) {
@@ -83,6 +457,7 @@ public class MeRepository extends BaseRepository {
 
     /**
      * 获取虚拟订单详细内容 中的店铺地址
+     *
      * @param orderId
      */
     protected void getVitrualOrderStoreAddrs(String orderId) {
@@ -115,11 +490,11 @@ public class MeRepository extends BaseRepository {
      */
     protected void cancelOrder(final String eventKey, String orderId) {
         addDisposable(apiService.cancelOrder(getUserKey(), orderId)
-                .compose(RxSchedulers.<BaseResponse<BaseNothingBean>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<BaseNothingBean>>() {
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
-                    public void onSuccess(BaseResponse<BaseNothingBean> result) {
+                    public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess())
                             sendData(eventKey, "REFRESH_ORDER_LIST", "");
                         else
@@ -142,11 +517,11 @@ public class MeRepository extends BaseRepository {
      */
     protected void cancelVirtualOrder(final String eventKey, String orderId) {
         addDisposable(apiService.cancelVirtualOrder(getUserKey(), orderId)
-                .compose(RxSchedulers.<BaseResponse<BaseNothingBean>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<BaseNothingBean>>() {
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
-                    public void onSuccess(BaseResponse<BaseNothingBean> result) {
+                    public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess())
                             sendData(eventKey, "REFRESH_ORDER_LIST", "");
                         else
@@ -170,11 +545,11 @@ public class MeRepository extends BaseRepository {
      */
     protected void getInviteList(String wwi, int curpage) {
         addDisposable(apiService.getInviteList(getUserKey(), wwi, 10, curpage)
-                .compose(RxSchedulers.<BaseResponse<BaseNothingBean>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<BaseNothingBean>>() {
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
-                    public void onSuccess(BaseResponse<BaseNothingBean> baseNothingBeanBaseResponse) {
+                    public void onSuccess(BaseNothingBean baseNothingBeanBaseResponse) {
 
                     }
 
@@ -386,13 +761,13 @@ public class MeRepository extends BaseRepository {
      * 我的商城页面 清空我的足迹
      **/
     protected void clearnMyFootprint() {
-        addDisposable(apiService.clearnFootprint(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<FootprintBean>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<FootprintBean>>() {
+        addDisposable(apiService.clearnFootprint(getUserKey(), "android")
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                                    @Override
-                                   public void onSuccess(BaseResponse<FootprintBean> result) {
+                                   public void onSuccess(BaseNothingBean result) {
                                        if (result.isSuccess())
-                                           sendData("CLEAR_FOOTPRINT", "success loadmore", "");
+                                           sendData("CLEAR_FOOTPRINT", "success", "");
                                        else
                                            sendData("CLEAR_FOOTPRINT", "err", result.getMessage());
                                    }
@@ -410,18 +785,14 @@ public class MeRepository extends BaseRepository {
     /**
      * 我的商城页面 获取我的足迹
      **/
-    protected void getMyFootprint(final int curPage) {
+    protected void getMyFootprint(int curPage) {
         addDisposable(apiService.getFootprint(getUserKey(), 10, curPage)
                 .compose(RxSchedulers.<BaseResponse<FootprintBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<FootprintBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<FootprintBean> result) {
                                        if (result.isSuccess())
-                                           if (curPage > 1) {
-                                               sendData("GET_FOOTPRINT", "success loadmore", result);
-                                           } else {
-                                               sendData("GET_FOOTPRINT", "success refresh", result);
-                                           }
+                                           sendData("GET_FOOTPRINT", "success", result);
                                        else
                                            sendData("GET_FOOTPRINT", "err", result.getMessage());
                                    }
@@ -551,22 +922,67 @@ public class MeRepository extends BaseRepository {
         addDisposable(apiService.getShopsCollectList(getUserKey(), curpage, 10)
                 .compose(RxSchedulers.<BaseResponse<ShopsCollectionBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ShopsCollectionBean>>() {
-                                   @Override
-                                   public void onSuccess(BaseResponse<ShopsCollectionBean> result) {
-                                       if (curpage > 1) {
-                                           sendData("SHOPS_COLLECT_LIST", "loadmore", result);
-                                       } else {
-                                           sendData("SHOPS_COLLECT_LIST", "success", result);
-                                       }
-                                   }
+                    @Override
+                    public void onSuccess(BaseResponse<ShopsCollectionBean> result) {
+                        if (curpage > 1) {
+                            sendData("SHOPS_COLLECT_LIST", "loadmore", result);
+                        } else {
+                            sendData("SHOPS_COLLECT_LIST", "success", result);
+                        }
+                    }
 
-                                   @Override
-                                   public void onFailure(String msg) {
-                                       KLog.i(msg);
-                                       sendData("SHOPS_COLLECT_LIST", "err", msg);
-                                   }
-                               }
-                )
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("SHOPS_COLLECT_LIST", "err", msg);
+                    }
+                })
+        );
+    }
+
+    /*店铺删除收藏动作*/
+    protected void deleShopsCollect(String storeId) {
+        addDisposable(apiService.deleShopsCollect(getUserKey(), "android", storeId)
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData("DEL_SHOP_COLLECT", "success", result);
+                        } else {
+                            sendData("DEL_SHOP_COLLECT", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("DEL_SHOP_COLLECT", "err", msg == null ? "删除失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*商品删除收藏动作*/
+    protected void deleGoodsCollect(String favId) {
+        addDisposable(apiService.deleGoodsCollect(getUserKey(), "android", favId)
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData("DEL_GOODS_COLLECT", "success", result);
+                        } else {
+                            sendData("DEL_GOODS_COLLECT", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("DEL_GOODS_COLLECT", "err", msg == null ? "删除失败" : msg);
+                    }
+                })
         );
     }
 
@@ -575,23 +991,23 @@ public class MeRepository extends BaseRepository {
      *
      * @param
      */
-    protected void getProductCollectList(final int curpage) {
+    protected void getProductCollectList(int curpage) {
         addDisposable(apiService.getProductCollectList(getUserKey(), curpage, 10)
                 .compose(RxSchedulers.<BaseResponse<ProductCollectionBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ProductCollectionBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<ProductCollectionBean> result) {
-                                       if (curpage > 1) {
-                                           sendData("PRODUCT_COLLECT_LIST", "loadmore", result);
-                                       } else {
+                                       if (result.isSuccess()) {
                                            sendData("PRODUCT_COLLECT_LIST", "success", result);
+                                       } else {
+                                           sendData("PRODUCT_COLLECT_LIST", "err", result.getMessage());
                                        }
                                    }
 
                                    @Override
                                    public void onFailure(String msg) {
                                        KLog.i(msg);
-                                       sendData("PRODUCT_COLLECT_LIST", "err", msg);
+                                       sendData("PRODUCT_COLLECT_LIST", "err", msg == null ? "获取失败" : msg);
                                    }
                                }
                 )

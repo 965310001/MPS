@@ -25,7 +25,8 @@ public class MyApplication extends BaseApplication {
         SmartRefreshLayout.setDefaultRefreshInitializer(new DefaultRefreshInitializer() {
             @Override
             public void initialize(@NonNull Context context, @NonNull RefreshLayout layout) {
-                layout.setEnableLoadMoreWhenContentNotFull(false)
+                layout.setEnableLoadMoreWhenContentNotFull(true)
+                        .setEnableAutoLoadMore(true)
                         .setEnableOverScrollDrag(true)
                         .setEnableOverScrollBounce(true);
             }

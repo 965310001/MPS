@@ -15,6 +15,7 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityFootprintBinding;
 import com.mingpinmall.me.ui.adapter.FootprintListAdapter;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 @Route(path = ARouterConfig.Me.FOOTPRINTACTIVITY)
 public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBinding, MeViewModel> {
 
+    private boolean isLoadmore;
     private int pageIndex = 1;
     private FootprintListAdapter footprintListAdapter;
 
@@ -49,7 +51,6 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
         tvRight.setVisibility(View.VISIBLE);
         tvRight.setOnClickListener(this);
 
-
         footprintListAdapter = new FootprintListAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(footprintListAdapter);
@@ -57,11 +58,13 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                isLoadmore = true;
                 mViewModel.getMyFootprint(pageIndex + 1);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                isLoadmore = false;
                 mViewModel.getMyFootprint(1);
             }
         });
@@ -70,46 +73,44 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //item点击事件
+                FootprintBean.GoodsbrowseListBean bean = footprintListAdapter.getItem(position);
+                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", bean.getGoods_id());
             }
         });
+    }
 
+    @Override
+    protected void initData() {
+        super.initData();
         mViewModel.getMyFootprint(1);
     }
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_FOOTPRINT", "success refresh")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        pageIndex = 1;
-                        binding.refreshLayout.finishRefresh();
-                        BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
-                        if (!data.isHasmore()) {
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                        }
-                        footprintListAdapter.setNewData(data.getData().getGoodsbrowse_list());
-
-                    }
-                });
-        registerObserver("GET_FOOTPRINT", "success loadmore")
+        registerObserver("GET_FOOTPRINT", "success")
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
                         BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
-                        if (data.isHasmore()) {
+                        if (isLoadmore) {
+                            pageIndex++;
                             binding.refreshLayout.finishLoadMore();
+                            footprintListAdapter.addData(data.getData().getGoodsbrowse_list());
                         } else {
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                            pageIndex = 1;
+                            binding.refreshLayout.finishRefresh();
+                            footprintListAdapter.setNewData(data.getData().getGoodsbrowse_list());
                         }
-                        footprintListAdapter.addData(data.getData().getGoodsbrowse_list());
-                        pageIndex++;
+                        if (!data.isHasmore()) {
+                            binding.refreshLayout.setNoMoreData(true);
+                        }
                     }
                 });
-        registerObserver("GET_FOOTPRINT", "err")
-                .observeForever(new Observer<Object>() {
+        registerObserver("GET_FOOTPRINT", "err", String.class)
+                .observeForever(new Observer<String>() {
                     @Override
-                    public void onChanged(@Nullable Object o) {
+                    public void onChanged(@Nullable String msg) {
+                        ToastUtils.showShort(msg);
                         //获取失败
                         binding.refreshLayout.finishRefresh(false);
                         binding.refreshLayout.finishLoadMore(false);
@@ -123,12 +124,12 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
                         footprintListAdapter.setNewData(new ArrayList<FootprintBean.GoodsbrowseListBean>());
                     }
                 });
-        registerObserver("CLEAR_FOOTPRINT", "err")
-                .observeForever(new Observer<Object>() {
+        registerObserver("CLEAR_FOOTPRINT", "err", String.class)
+                .observeForever(new Observer<String>() {
                     @Override
-                    public void onChanged(@Nullable Object o) {
+                    public void onChanged(@Nullable String msg) {
                         //清空失败
-                        ToastUtils.showShort(o.toString());
+                        ToastUtils.showShort(msg);
                     }
                 });
     }
@@ -142,7 +143,12 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
     public void onViewClicked(int viewId) {
         if (viewId == R.id.tv_right) {
             //清空记录
-            mViewModel.clearnMyFootprint();
+            TextDialog.showBaseDialog(activity, "提示", "确定清空足迹？", new TextDialog.SingleButtonCallback() {
+                @Override
+                public void onClick() {
+                    mViewModel.clearnMyFootprint();
+                }
+            }).show();
         }
     }
 }

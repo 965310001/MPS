@@ -29,15 +29,25 @@ import java.util.Properties;
  **/
 public class StatusBarUtils {
 
-    public static int DEFAULT_COLOR = 0;
-    public static float DEFAULT_ALPHA = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? 0.3f : 0;
-    public static final int MIN_API = 19;
+    private static final int DEFAULT_COLOR = 0;
+    private static final float DEFAULT_ALPHA = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? 0.3f : 0;
+    private static final int MIN_API = 19;
 
     /**
-     * 设置状态栏透明
+     * 设置状态栏透明，自适应
+     * 原生6.0以上全透明，以下半透明（MIUI和Flyme始终全透明）
+     * 作用：防止6.0以下使用白色状态栏时看不清状态栏图标和文字
      */
     public static void immersive(Activity activity) {
         immersive(activity, DEFAULT_COLOR, DEFAULT_ALPHA, false);
+    }
+
+    /**
+     * 设置状态栏透明，全透明
+     * 作用：适用于6.0以下，始终适用全透明状态栏
+     */
+    public static void immersive(Window window) {
+        immersive(window, DEFAULT_COLOR, 0);
     }
 
     /**
@@ -55,8 +65,10 @@ public class StatusBarUtils {
             darkModeForM(activity.getWindow(), dark);
         } else if (isMiUIV6OrAbove()) {
             darkModeForMIUI6(activity.getWindow(), dark);
+            alpha = 0;
         } else if (isFlyme()) {
-            setStatusBarDarkIcon(activity, true, true);
+            setStatusBarDarkIcon(activity, dark, true);
+            alpha = 0;
         }
         immersive(activity.getWindow(), color, alpha);
     }

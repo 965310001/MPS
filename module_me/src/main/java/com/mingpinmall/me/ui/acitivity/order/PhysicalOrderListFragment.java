@@ -15,6 +15,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
@@ -122,6 +124,9 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                                 }
                             })
                             .show();
+                } else if (view.getId() == R.id.ll_shopContent) {
+                    //查看店铺
+                    ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", orderBean.getStore_id());
                 }
             }
         });
@@ -162,9 +167,6 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                     public void onChanged(@Nullable Object result) {
                         Log.i("数据", "onChanged: 进入Success " + EVENT_KEY);
                         BaseResponse<PhysicalOrderBean> data = (BaseResponse<PhysicalOrderBean>) result;
-                        if (!data.isHasmore()) {
-                            binding.refreshLayout.finishLoadMoreWithNoMoreData();
-                        }
                         if (!isLoadmore) {
                             pageIndex = 1;
                             binding.refreshLayout.finishRefresh();
@@ -174,19 +176,21 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                             binding.refreshLayout.finishLoadMore();
                             physicalOrderListAdapter.addData(data.getNewdata());
                         }
+                        if (!data.isHasmore()) {
+                            binding.refreshLayout.setNoMoreData(true);
+                        }
                     }
                 });
         registerObserver(EVENT_KEY, EVENT_KEY + "err", String.class).observeForever(new Observer<String>() {
             @Override
             public void onChanged(@Nullable String o) {
                 Log.i("数据", "onChanged: 进入Err " + EVENT_KEY);
-                if (binding.refreshLayout.getState() == RefreshState.Refreshing) {
-                    binding.refreshLayout.finishRefresh(false);
-                } else if (binding.refreshLayout.getState() == RefreshState.Loading) {
+                if (isLoadmore) {
                     binding.refreshLayout.finishLoadMore(false);
                 } else {
-                    ToastUtils.showShort(o);
+                    binding.refreshLayout.finishRefresh(false);
                 }
+                ToastUtils.showShort(o);
             }
         });
     }

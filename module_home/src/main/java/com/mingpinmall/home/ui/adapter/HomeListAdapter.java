@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintSet;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
@@ -16,6 +17,7 @@ import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
         //Homes系列
         addItemType(1, R.layout.view_home_item_1);
         addItemType(2, R.layout.view_home_item_2);
-        addItemType(3, R.layout.view_home_item_3);
+        addItemType(3, R.layout.item_base_image);
         addItemType(33, R.layout.view_home_item_33);
         addItemType(4, R.layout.view_home_item_4);
         addItemType(5, R.layout.view_home_item_5);
@@ -81,7 +83,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                     urls.add(itemBean.getImage());
                 }
                 ConvenientBanner banner = helper.getView(R.id.view_banner);
-                ImageUtils.loadBanner(banner, urls, new com.bigkoo.convenientbanner.listener.OnItemClickListener() {
+                ImageUtils.loadBanners(banner, urls, new com.bigkoo.convenientbanner.listener.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         if (bannerClickListener != null) {
@@ -89,15 +91,16 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         }
                     }
                 });
-                banner.startTurning(3000);
+                if (!banner.isTurning())
+                    banner.startTurning(3000);
                 break;
             case 1:
                 //板块A
                 HomeItemBean.DatasBean.Home1Bean datasBean1 = item.getHome1();
                 helper.setText(R.id.tv_label, datasBean1.getTitle())
-                        .setGone(R.id.tv_label, datasBean1.getTitle().equals(""))
-                        .setGone(R.id.v_0, datasBean1.getTitle().equals(""));
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_0), datasBean1.getImage());
+                        .setGone(R.id.tv_label, !datasBean1.getTitle().equals(""))
+                        .setGone(R.id.v_0, !datasBean1.getTitle().equals(""));
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_0), datasBean1.getImage());
                 break;
             case 2:
                 //超值购  品牌街  有利可图
@@ -106,33 +109,24 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         .addOnClickListener(R.id.iv_square)
                         .addOnClickListener(R.id.iv_rectangle1)
                         .addOnClickListener(R.id.iv_rectangle2)
-                        .setGone(R.id.tv_label, datasBean2.getTitle().equals(""))
-                        .setGone(R.id.v_0, datasBean2.getTitle().equals(""));
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_square), datasBean2.getSquare_image());
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean2.getRectangle1_image());
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean2.getRectangle2_image());
+                        .setGone(R.id.tv_label, !datasBean2.getTitle().equals(""))
+                        .setGone(R.id.v_0, !datasBean2.getTitle().equals(""));
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_square), datasBean2.getSquare_image());
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean2.getRectangle1_image());
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean2.getRectangle2_image());
                 break;
             case 33:
                 //布局c 标题
                 HomeItemBean.DatasBean.Home3Bean datasBean3 = item.getHome3();
                 helper.setText(R.id.tv_label, datasBean3.getTitle())
-                        .setGone(R.id.tv_label, datasBean3.getTitle().equals(""))
-                        .setGone(R.id.v_0, datasBean3.getTitle().equals(""));
+                        .setGone(R.id.tv_label, !datasBean3.getTitle().equals(""))
+                        .setGone(R.id.v_0, !datasBean3.getTitle().equals(""));
                 break;
             case 3:
                 //布局c ITEM
-                final AppCompatImageView imageView = helper.getView(R.id.iv_0);
-                final ConstraintLayout constraintLayout = ((ConstraintLayout) helper.itemView);
-
-                ImageUtils.loadImage(imageView, item.getImage());
-                imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        constraintLayout.setMaxHeight(imageView.getHeight());
-                        imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                });
-
+                AppCompatImageView imageView = helper.getView(R.id.image);
+//                Picasso.get().load(item.getImage()).into(imageView);
+                ImageUtils.loadImageNoPlaceholder(imageView, item.getImage());
                 break;
             case 4:
                 //热门活动  特色市场
@@ -141,11 +135,11 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         .addOnClickListener(R.id.iv_square)
                         .addOnClickListener(R.id.iv_rectangle1)
                         .addOnClickListener(R.id.iv_rectangle2)
-                        .setGone(R.id.tv_label, datasBean4.getTitle().equals(""))
-                        .setGone(R.id.v_0, datasBean4.getTitle().equals(""));
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean4.getRectangle1_image());
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean4.getRectangle2_image());
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_square), datasBean4.getSquare_image());
+                        .setGone(R.id.tv_label, !datasBean4.getTitle().equals(""))
+                        .setGone(R.id.v_0, !datasBean4.getTitle().equals(""));
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean4.getRectangle1_image());
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean4.getRectangle2_image());
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_square), datasBean4.getSquare_image());
                 break;
             case 5:
                 //手机通讯  自营超市
@@ -156,16 +150,17 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         .addOnClickListener(R.id.iv_rectangle1)
                         .addOnClickListener(R.id.iv_rectangle2)
                         .addOnClickListener(R.id.iv_rectangle3)
-                        .setGone(R.id.tv_label, datasBean5.getTitle().equals(""))
-                        .setGone(R.id.tv_sub_label, datasBean5.getStitle().equals(""));
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_square), datasBean5.getSquare_image());
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean5.getRectangle1_image());
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean5.getRectangle2_image());
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_rectangle3), datasBean5.getRectangle3_image());
+                        .setGone(R.id.tv_label, !datasBean5.getTitle().equals(""))
+                        .setGone(R.id.tv_sub_label, !datasBean5.getStitle().equals(""));
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_square), datasBean5.getSquare_image());
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean5.getRectangle1_image());
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean5.getRectangle2_image());
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle3), datasBean5.getRectangle3_image());
                 break;
             case 6:
                 //导航
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.image), item.getImage());
+                final AppCompatImageView imageView6 = helper.getView(R.id.image);
+                ImageUtils.loadImageNoPlaceholder(imageView6, item.getImage());
                 break;
             case 10:
                 //商品列表
@@ -173,7 +168,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 helper.setText(R.id.tv_label, goodsBean.getGoods_name())
                         .setText(R.id.tv_money, goodsBean.getGoods_promotion_price())
                         .setVisible(R.id.tv_tips, false);
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), goodsBean.getGoods_image());
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_image), goodsBean.getGoods_image());
                 break;
             case 11:
                 //限购
@@ -187,7 +182,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         }
                     }
                 });
-                subBanner.startTurning(3000);
+                subBanner.startTurning(5000);
                 break;
             case 12:
                 //团购
@@ -195,8 +190,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 helper.setText(R.id.tv_label, goods2Bean.getGoods_name())
                         .setText(R.id.tv_money, goods2Bean.getGoods_promotion_price())
                         .setVisible(R.id.tv_tips, true);
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), goods2Bean.getGoods_image());
-
+                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_image), goods2Bean.getGoods_image());
                 break;
             case 22:
                 //团购

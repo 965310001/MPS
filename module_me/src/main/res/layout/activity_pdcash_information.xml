@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mingpinmall.me.ui.bean.PdcashInfoBean" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.mingpinmall.me.ui.widget.SettingItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                app:subTitle="@{data.info.pdc_sn}"
+                app:title="申请单号" />
+
+            <com.mingpinmall.me.ui.widget.SettingItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                app:subTitle="@{data.info.pdc_amount}"
+                app:title="提现金额" />
+
+            <com.mingpinmall.me.ui.widget.SettingItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                app:subTitle="@{data.info.pdc_bank_name}"
+                app:title="收款银行" />
+
+            <com.mingpinmall.me.ui.widget.SettingItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                app:subTitle="@{data.info.pdc_bank_no}"
+                app:title="收款账号" />
+
+            <com.mingpinmall.me.ui.widget.SettingItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                app:subTitle="@{data.info.pdc_payment_admin}"
+                app:title="开户人姓名" />
+
+            <com.mingpinmall.me.ui.widget.SettingItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                app:subTitle="@{data.info.pdc_add_time_text}"
+                app:title="创建时间" />
+
+            <com.mingpinmall.me.ui.widget.SettingItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                app:subTitle="@{data.info.pdc_payment_state_text}"
+                app:title="提现状态" />
+
+            <com.mingpinmall.me.ui.widget.SettingItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                app:subTitle="@{data.info.pdc_payment_time_text}"
+                app:title="通过时间" />
+
+            <Space
+                android:layout_width="1px"
+                android:layout_height="20dp" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</layout>
