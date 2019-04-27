@@ -5,9 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -344,11 +342,11 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 break;
             case "tmpl/cart_list.html":
                 //购物车 跳转底部导航
-                LiveBus.getDefault().postEvent("Main", "tab", 2);
+                LiveBus.getDefault().postEvent("Main", "tab", 3);
                 break;
             case "tmpl/member/member.html":
                 //我的 跳转底部导航
-                LiveBus.getDefault().postEvent("Main", "tab", 3);
+                LiveBus.getDefault().postEvent("Main", "tab", 4);
                 break;
             case "tmpl/member/signin.html":
                 //签到

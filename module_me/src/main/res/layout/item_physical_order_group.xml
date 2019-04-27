@@ -67,7 +67,7 @@
                 android:id="@+id/line"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_hight"
-                android:background="@color/dark"
+                android:background="@color/line_color"
                 app:layout_constraintBottom_toTopOf="@id/recyclerView"
                 app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                 app:layout_constraintStart_toStartOf="@id/ll_shopContent"
@@ -86,7 +86,7 @@
                 android:id="@+id/line1"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_hight"
-                android:background="@color/dark"
+                android:background="@color/line_color"
                 app:layout_constraintEnd_toEndOf="@id/recyclerView"
                 app:layout_constraintStart_toStartOf="@id/recyclerView"
                 app:layout_constraintTop_toBottomOf="@id/recyclerView" />
@@ -97,11 +97,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/shape_dashgap_gray"
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/line1"
+                app:layout_constraintBottom_toTopOf="@id/ll_orderInfo"
                 tools:visibility="visible">
 
                 <TextView
@@ -114,23 +116,105 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_removeOrder"
+            <LinearLayout
+                android:id="@+id/ll_orderInfo"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:orientation="horizontal"
+                android:gravity="end|center_vertical"
+                app:layout_constraintTop_toBottomOf="@id/line2"
+                app:layout_constraintStart_toStartOf="@id/ll_gifts"
+                app:layout_constraintEnd_toEndOf="@id/ll_gifts"
+                >
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_tips0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark"
+                    android:textSize="14sp"
+                    tools:text="共 1 件商品，合计"
+                    />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_tips1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/app_theme_d61619"
+                    android:textSize="14sp"
+                    tools:text="¥0.01"
+                    />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_tips2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#999"
+                    android:textSize="12sp"
+                    tools:text="(含运费¥0.00)"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintTop_toTopOf="@id/ll_orderInfo"
+                app:layout_constraintStart_toStartOf="@id/ll_gifts"
+                app:layout_constraintEnd_toEndOf="@id/ll_gifts"
+                />
+
+            <View
+                android:id="@+id/line3"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintTop_toBottomOf="@id/ll_orderInfo"
+                app:layout_constraintStart_toStartOf="@id/ll_orderInfo"
+                app:layout_constraintEnd_toEndOf="@id/ll_orderInfo"
+                />
+
+            <LinearLayout
+                android:id="@+id/ll_leftBtnContent"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:drawableLeft="@drawable/ic_del"
-                android:drawablePadding="8dp"
-                android:gravity="center"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="移除"
-                android:textColor="@color/dark"
-                android:textSize="14sp"
-                android:visibility="gone"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/ll_gifts"
-                app:layout_constraintTop_toBottomOf="@id/ll_gifts"
-                tools:visibility="visible" />
+                app:layout_constraintStart_toStartOf="@id/ll_orderInfo"
+                app:layout_constraintTop_toBottomOf="@id/ll_orderInfo"
+                >
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_removeOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:drawableLeft="@drawable/ic_del"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="移除"
+                    android:textColor="@color/dark"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="退款/退货中..."
+                    android:textColor="#ed5564"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_buttonContent"
@@ -139,69 +223,15 @@
                 android:gravity="end|center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/ll_gifts"
-                app:layout_constraintStart_toEndOf="@id/tv_removeOrder"
-                app:layout_constraintTop_toBottomOf="@id/ll_gifts">
+                app:layout_constraintEnd_toEndOf="@id/ll_orderInfo"
+                app:layout_constraintStart_toEndOf="@id/ll_leftBtnContent"
+                app:layout_constraintTop_toBottomOf="@id/ll_orderInfo">
 
-                <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                    android:id="@+id/bt_appraiseOrder"
-                    style="@style/RoundButton.Auto"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/btn_text_appraiseOrder"
-                    android:textColor="@color/app_theme_d61619"
-                    android:textSize="14sp"
-                    android:visibility="gone"
-                    app:rb_backgroundColor="@color/transparent"
-                    app:rb_borderColor="@color/app_theme_d61619"
-                    app:rb_borderWidth="1dp"
-                    app:rb_radius="5dp"
-                    tools:visibility="visible" />
-
-                <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                    android:id="@+id/bt_harvestOrder"
-                    style="@style/RoundButton.Auto"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/btn_text_harvestOrder"
-                    android:textColor="@color/dark"
-                    android:textSize="14sp"
-                    android:visibility="gone"
-                    app:rb_backgroundColor="@color/transparent"
-                    app:rb_borderColor="@color/dark"
-                    app:rb_borderWidth="1dp"
-                    app:rb_radius="5dp"
-                    tools:visibility="visible" />
-
-                <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                    android:id="@+id/bt_cancelOrder"
-                    style="@style/RoundButton.Auto"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/btn_text_cancelOrder"
-                    android:textColor="@color/dark"
-                    android:textSize="14sp"
-                    android:visibility="gone"
-                    app:rb_backgroundColor="@color/transparent"
-                    app:rb_borderColor="@color/dark"
-                    app:rb_borderWidth="1dp"
-                    app:rb_radius="5dp"
-                    tools:visibility="visible" />
-
-                <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                    android:id="@+id/bt_payOrder"
-                    style="@style/RoundButton.Auto"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/btn_text_payOrder"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:visibility="gone"
-                    app:rb_backgroundColor="@color/app_theme_d61619"
-                    app:rb_borderColor="@color/app_theme_d61619"
-                    app:rb_borderWidth="1dp"
-                    app:rb_radius="5dp"
-                    tools:visibility="visible" />
+                    android:text="这里是功能按钮布局，动态addView。"
+                    />
 
             </LinearLayout>
 

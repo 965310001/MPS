@@ -49,11 +49,20 @@ public class OrderInformationBean {
         private boolean if_refund_cancel;
         private boolean if_receive;
         private boolean if_evaluation;
+        private boolean if_evaluation_again;
         private boolean if_lock;
         private boolean ownmall;
         private List<List<String>> promotion;
         private List<GoodsListBean> goods_list;
         private List<ZengpinListBean> zengpin_list;
+
+        public boolean isIf_evaluation_again() {
+            return if_evaluation_again;
+        }
+
+        public void setIf_evaluation_again(boolean if_evaluation_again) {
+            this.if_evaluation_again = if_evaluation_again;
+        }
 
         public String getOrder_id() {
             return order_id == null ? "" : order_id;

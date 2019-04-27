@@ -8,6 +8,14 @@
     <string name="text_isLoginOut">是否退出该账号？</string>
     <string name="text_submit">提交</string>
 
+    <!-- OrderDeliveryActivity -->
+    <string name="title_OrderDeliveryActivity">物流信息</string>
+    <string name="text_deliveryInfo">物流公司：</string>
+    <string name="text_deliveryNum">运单号码：</string>
+    <string name="text_tips1">以上部分信息来自于第三方，仅供参考</string>
+    <string name="text_tips2">如需准确信息可联系卖家或物流公司</string>
+    <!-- OrderDeliveryActivity Over -->
+
     <!-- OrderActivity -->
     <string name="tabs_text_physical">实物订单</string>
     <string name="tabs_text_virtual">虚拟订单</string>
@@ -22,6 +30,8 @@
     <string name="btn_text_harvestOrder">确认收货</string>
     <string name="btn_text_payOrder">订单支付</string>
     <string name="btn_text_cancelOrder">取消订单</string>
+    <string name="text_title_order_empty">您还没有相关的订单</string>
+    <string name="text_sub_title_order_empty">可以去看看那些想要买的</string>
     <!-- OrderActivity Over -->
 
     <!-- PhysicalOrderInformationActivity -->

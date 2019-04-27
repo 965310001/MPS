@@ -189,6 +189,9 @@ public interface ARouterConfig {
         //管理收货地址
         String ADDRESSLISTACTIVITY = "/me/AddressListActivity";
 
+        //物流信息
+        String ORDERDELIVERYACTIVITY = "/me/OrderDeliveryActivity";
+
 //        //个人信息
 //        String PERSONINFOACTIVITY = "/me/PersonInfoActivity";
 //

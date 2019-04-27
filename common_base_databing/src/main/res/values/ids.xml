@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 我的订单中的item上按钮的自定义id -->
+    <!--立即支付-->
+    <item name="order_pay" type="id"/>
+    <!--取消订单-->
+    <item name="order_cancel" type="id"/>
+    <!--查看物流-->
+    <item name="order_deliver" type="id"/>
+    <!--确认收货-->
+    <item name="order_sure" type="id"/>
+    <!--评价订单-->
+    <item name="order_evaluation" type="id"/>
+    <!--追加评价-->
+    <item name="order_evaluation_again" type="id"/>
+    <!--退款/退货中...-->
+    <item name="order_lock" type="id"/>
+    <!-- 我的订单中的item上按钮的自定义id Over -->
+
+</resources>

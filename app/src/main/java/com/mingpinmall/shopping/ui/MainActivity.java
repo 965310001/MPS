@@ -20,6 +20,7 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.cart.ui.CartFragment;
 import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.home.ui.HomeFragment;
+import com.mingpinmall.home.ui.TeacherFragment;
 import com.mingpinmall.me.ui.MeFragment;
 import com.mingpinmall.shopping.R;
 
@@ -38,6 +39,24 @@ import com.mingpinmall.shopping.R;
 public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 
     private long mExitTime;
+    /*标识是否处于活动状态*/
+    private boolean isResume = false;
+    /*小于0则不作操作，大于等于0则切换fragment*/
+    private int index = -1;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isResume = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isResume = true;
+        if (index >= 0)
+            binding.bottomBar.setCurrentItem(index);
+    }
 
     @Override
     protected boolean isActionBar() {
@@ -47,8 +66,13 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         setDarkMode(false);
-        Fragment[] fragmentList = {HomeFragment.newInstance(), ClassifyFragment.newInstance(),
-                CartFragment.newInstance(), MeFragment.newInstance()};
+        Fragment[] fragmentList = {
+                HomeFragment.newInstance(),
+                ClassifyFragment.newInstance(),
+                TeacherFragment.newInstance(),
+                CartFragment.newInstance(),
+                MeFragment.newInstance()
+        };
         TypedArray tabIcon = ResourcesUtils.getInstance().obtainTypedArray(R.array.tab_icon);
         TypedArray tabIconDef = ResourcesUtils.getInstance().obtainTypedArray(R.array.tab_icon_def);
         String[] tabName = ResourcesUtils.getInstance().getStringArray(R.array.tab_name);
@@ -77,7 +101,12 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
         LiveBus.getDefault().subscribe("Main", "tab", Integer.class).observeForever(new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer position) {
-                binding.bottomBar.setCurrentItem(position == null ? 0 : position);
+                //处于活动状态则直接切换fragment，否则记录要切换到的fragment，然后等待生命周期onresume调用
+                if (isResume) {
+                    binding.bottomBar.setCurrentItem(position == null ? 0 : position);
+                } else {
+                    index = position == null ? -1 : position;
+                }
             }
         });
     }

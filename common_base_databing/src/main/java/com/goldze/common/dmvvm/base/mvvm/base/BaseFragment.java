@@ -25,7 +25,7 @@ import com.tqzhang.stateview.stateview.BaseStateControl;
  * @author GuoFeng
  * @date :2019/1/17 14:57
  * @description: 基类Fragment
- *
+ * <p>
  * 修订：徐小斌
  * 最后修订时间：2019/4/18
  * 全部修订内容：
@@ -276,10 +276,6 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
             return;
         }
         //重设为需要获取数据，在fg恢复可见或本来就处于可见状态时的时候会触发lazyLoad()。
-        this.mIsFirstVisible = true;
-        if (mIsFirstVisible && isResumed()) {
-            lazyLoad();
-            mIsFirstVisible = false;
-        }
+        lazyLoad();
     }
 }

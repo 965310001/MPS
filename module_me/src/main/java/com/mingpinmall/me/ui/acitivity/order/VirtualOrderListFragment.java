@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
@@ -76,6 +79,19 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
         super.initView(state);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         virtualOrderListAdapter = new VirtualOrderListAdapter();
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_order_empty_white);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_order_empty);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_order_empty);
+        emptyView.findViewById(R.id.btn_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //切换到首页
+                LiveBus.getDefault().postEvent("Main", "tab", 0);
+                activity.onBackPressed();
+            }
+        });
+        virtualOrderListAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(virtualOrderListAdapter);
 
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_information"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_point"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_information"
+            app:layout_constraintStart_toStartOf="@id/tv_information" />
+
+        <View
+            android:id="@+id/line_top"
+            android:layout_width="1.5dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_green_stroke_1dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/iv_point2"
+            app:layout_constraintEnd_toEndOf="@id/iv_point"
+            app:layout_constraintStart_toStartOf="@id/iv_point"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/line_bottom"
+            android:layout_width="1.5dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_green_stroke_1dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/iv_point"
+            app:layout_constraintStart_toStartOf="@id/iv_point"
+            app:layout_constraintTop_toBottomOf="@id/iv_point2"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/iv_point"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/shape_green_point_coners_10dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@id/tv_information"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_information"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/iv_point2"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/shape_gray_point_coners_10dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/iv_point"
+            app:layout_constraintEnd_toEndOf="@id/iv_point"
+            app:layout_constraintStart_toStartOf="@id/iv_point"
+            app:layout_constraintTop_toTopOf="@id/iv_point"
+            tools:visibility="visible" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

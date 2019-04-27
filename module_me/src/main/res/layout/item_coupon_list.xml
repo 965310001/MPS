@@ -9,7 +9,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="85dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="12dp"
@@ -55,9 +55,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                app:layout_constraintTop_toBottomOf="@id/tv_storeName"
                 app:layout_constraintStart_toStartOf="@id/tv_storeName"
-                tools:text="有效期至:2019-04-20" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="有效期至:2019-04-20 18:26" />
 
         </android.support.constraint.ConstraintLayout>
 

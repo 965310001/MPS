@@ -484,6 +484,56 @@ public class MeRepository extends BaseRepository {
     }
 
     /**
+     * 确认收货
+     *
+     * @param orderId
+     */
+    protected void recevieOrder(final String eventKey, String orderId) {
+        addDisposable(apiService.recevieOrder(getUserKey(), orderId)
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess())
+                            sendData(eventKey, "REFRESH_ORDER_LIST", "");
+                        else
+                            sendData(eventKey, "DO_SOMETHING_ERR", result.getMessage());
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(eventKey, "DO_SOMETHING_ERR", msg == null ? "确认收货失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*删除订单*/
+    protected void removeOrder(final String eventKey, String orderId) {
+        addDisposable(apiService.removeOrder(getUserKey(), orderId)
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess())
+                            sendData(eventKey, "REFRESH_ORDER_LIST", "");
+                        else
+                            sendData(eventKey, "DO_SOMETHING_ERR", result.getMessage());
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(eventKey, "DO_SOMETHING_ERR", msg == null ? "删除订单失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /**
      * 取消订单
      *
      * @param orderId
@@ -1078,7 +1128,54 @@ public class MeRepository extends BaseRepository {
                     }
                 })
         );
+    }
 
+    /*获取订单最新物流信息*/
+    protected void getOrderDeliverInformation(String order_id) {
+        addDisposable(apiService.getOrderDeliverInformation(getUserKey(), order_id)
+                .compose(RxSchedulers.<BaseResponse<OrderDeliverBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<OrderDeliverBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<OrderDeliverBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("ORDER_DELIVER_INFORMATION", "success", result.getData());
+                        } else {
+                            sendData("ORDER_DELIVER_INFORMATION", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("ORDER_DELIVER_INFORMATION", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取订单物流详情*/
+    protected void getOrderDeliverList(String order_id) {
+        addDisposable(apiService.getOrderDeliverList(getUserKey(), order_id)
+                .compose(RxSchedulers.<BaseResponse<OrderDeliverListBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<OrderDeliverListBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<OrderDeliverListBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("ORDER_DELIVER_LIST", "success", result.getData());
+                        } else {
+                            sendData("ORDER_DELIVER_LIST", "err", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData("ORDER_DELIVER_LIST", "err", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
     }
 
     /**
