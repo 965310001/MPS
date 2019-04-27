@@ -24,17 +24,21 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.SlideLayout;
@@ -143,7 +147,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     }
                     binding.llManjisong.addView(textView);
                 }
-            }else{
+            } else {
                 binding.llManjisong.setVisibility(View.GONE);
             }
             /*赠品*/
@@ -263,22 +267,42 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
      * 设置商品头图 轮播
      */
     private void setGoodsHeadImg() {
-        if (goodsInfo != null) {
-            binding.vpItemGoodsImg.setPages(new BannerImgAdapter() {
-                @Override
-                public ImageView getImageView() {
-                    ImageView imageView = new ImageView(getContext());
-                    imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT));
-                    return imageView;
-                }
-            }, Arrays.asList(goodsDetailInfo.getDatas().getGoods_image().split(",")))
-//                    .setPageIndicator(new int[]{R.drawable.market_banner_index_white, R.drawable.market_shape_round_red})
-                    .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
-                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
+        if (goodsDetailInfo != null) {
+//            binding.vpItemGoodsImg.setPages(new BannerImgAdapter() {
+//                @Override
+//                public ImageView getImageView() {
+//                    ImageView imageView = new ImageView(getContext());
+//                    imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                            ViewGroup.LayoutParams.MATCH_PARENT));
+//                    return imageView;
+//                }
+//            }, Arrays.asList(goodsDetailInfo.getDatas().getGoods_image().split(",")))
+////                    .setPageIndicator(new int[]{R.drawable.market_banner_index_white, R.drawable.market_shape_round_red})
+//                    .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
+//                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
+//
+//            goodsInfo.setGoods_image_url(goodsDetailInfo.getDatas().getGoods_image().split(",").length > 0
+//                    ? goodsDetailInfo.getDatas().getGoods_image().split(",")[0] : "");
 
-            goodsInfo.setGoods_image_url(goodsDetailInfo.getDatas().getGoods_image().split(",").length > 0
-                    ? goodsDetailInfo.getDatas().getGoods_image().split(",")[0] : "");
+            String goods_image = goodsDetailInfo.getDatas().getGoods_image();
+            if (goods_image.contains(",")) {
+                ImageUtils.loadBanner(binding.vpItemGoodsImg,
+                        Arrays.asList(goods_image.split(",")),
+                        new OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+
+                            }
+                        });
+            } else {
+                ImageUtils.loadBanner(binding.vpItemGoodsImg,
+                        Arrays.asList(goods_image),
+                        new OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                            }
+                        });
+            }
         }
     }
 
@@ -286,8 +310,8 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
      * 设置商品信息
      */
     private void setGoodsInfo() {
+        setGoodsHeadImg();
         if (goodsInfo != null) {
-            setGoodsHeadImg();
             GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = goodsDetailInfo.getDatas().getStore_info();
             binding.lsiItem.setLeftText(storeInfo.getStore_name());
             binding.lsiItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
@@ -323,6 +347,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 //                recyclerViewRecommend.setLayoutManager(new GridLayoutManager(getContext(), 4));
 //                recyclerViewRecommend.setAdapter(new RecommendGoodsInfoAdapter(getContext(),
 //                        goodsDetailInfo.getDatas().getGoods_commend_list()));
+
                 binding.setList(goodsDetailInfo.getDatas().getGoods_commend_list());
                 binding.setAdapter(AdapterPool.newInstance().getRecommend(getContext()).build());
                 binding.setLayout(new GridLayoutManager(getContext(), 4));

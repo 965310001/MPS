@@ -115,6 +115,12 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getStoreShappingList(bId, curpage, keyword, typeId, areaId, priceFrom, priceTo, key, order, ci, st);
     }
 
+
+    /*提交订单*/
+    public void getBuyStep2(Map<String, Object> map, Object eventKey) {
+        mRepository.getBuyStep2(map, eventKey);
+    }
+
     /************************************* 店铺 ******************************/
     /*店铺信息*/
     public void getStoreInfo(String storeId, String key, Object eventKey) {

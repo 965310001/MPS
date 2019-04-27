@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,16 +11,16 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:onClick="@{(view)->data.click(view)}"
         android:background="@color/white"
+        android:gravity="center"
+        android:onClick="@{(view)->data.click(view)}"
+        android:orientation="vertical"
         android:padding="@dimen/dp_10">
 
         <ImageView
+            image="@{data.brand_pic}"
             android:layout_width="@dimen/image_height_large"
             android:layout_height="@dimen/image_height_large"
-            image="@{data.brand_pic}"
             tools:src="@drawable/ic_launcher" />
 
         <TextView

@@ -4,6 +4,7 @@ import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
+import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
@@ -61,7 +62,7 @@ public interface ClassifyService {
     /*左边*/
     @GET(BASEURL)
     Flowable<BaseResponse<ClassificationBean>> getLeft(@Query("app") String app,
-                                         @Query("wwi") String wwi);
+                                                       @Query("wwi") String wwi);
 
     /*右边*/
     @GET(BASEURL)
@@ -111,7 +112,6 @@ public interface ClassifyService {
     Flowable<BaseResponse<InvoiceListInfo>> getInvoiceContentList(@FieldMap Map<String, Object> map);
 
 
-
     /*店铺信息*/
     @FormUrlEncoded
     @POST(BASEURL)
@@ -148,6 +148,11 @@ public interface ClassifyService {
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<BaseResponse<VoucherInfo>> getVoucherTplList(@FieldMap Map<String, Object> map);
+
+    /*提交订单*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<BaseResponse<BuyStepInfo>> getBuyStep2(@FieldMap Map<String, Object> map);
 
     /***************************************封装通用******************************/
     /*封装通用*/

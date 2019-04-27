@@ -34,25 +34,26 @@
     <com.goldze.common.dmvvm.widget.SlideLayout
         android:id="@+id/sv_switch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <!--嵌套使用了RecycleView 解决加载不全问题 使用NestedScrollView-->
         <android.support.v4.widget.NestedScrollView
+            android:focusableInTouchMode="false"
+            android:focusable="false"
             android:id="@+id/sv_goods_info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical">
+            android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/content_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/content_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <!--<FrameLayout-->
+                <!--android:id="@+id/content_layout"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
 
                 <!--商品图片 轮播-->
                 <com.bigkoo.convenientbanner.ConvenientBanner
@@ -60,6 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="260dp"
                     android:background="@color/white"
+                    android:minHeight="260dp"
                     leon:canLoop="true" />
 
                 <View style="@style/HorizontalLine" />
@@ -217,9 +219,9 @@
                     </RelativeLayout>
 
                     <TextView
-                        android:paddingTop="@dimen/dp_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/dp_4"
                         android:text="促销" />
 
                     <LinearLayout
@@ -278,7 +280,7 @@
 
                 <TextView
                     android:id="@+id/tv_ensure"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:background="@color/white"

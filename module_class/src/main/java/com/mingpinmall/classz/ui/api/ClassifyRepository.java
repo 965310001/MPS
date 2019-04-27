@@ -12,6 +12,7 @@ import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
+import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
@@ -330,7 +331,7 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*获取发票列表*/
-    public void addInvoice(Map<String, Object> map,final Object eventKey) {
+    public void addInvoice(Map<String, Object> map, final Object eventKey) {
         map = parames(map, "member_invoice",
                 "invoice_add");
         map.put("key", getUserKey());
@@ -682,6 +683,32 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<ResultBean>() {
                     @Override
                     public void onSuccess(ResultBean result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
+    }
+
+    /*提交订单*/
+    public void getBuyStep2(Map<String, Object> map, final Object eventKey) {
+        map = parames(map, "member_buy", "buy_step2");
+        map.put("key", getUserKey());
+        addDisposable(apiService.getBuyStep2(map)
+                .compose(RxSchedulers.<BaseResponse<BuyStepInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
                         sendData(eventKey, result);
                     }
 

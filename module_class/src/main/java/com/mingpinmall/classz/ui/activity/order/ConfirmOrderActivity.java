@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -20,15 +22,21 @@ import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityConfirmOrderBinding;
+import com.mingpinmall.classz.ui.activity.classiflist.ProductsActivity;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
+import com.mingpinmall.classz.widget.CustomPopWindow;
+import com.mingpinmall.classz.widget.PayFragment;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 提交订单
@@ -48,6 +56,8 @@ public class ConfirmOrderActivity extends
 
     @Autowired
     String ifcart;/*是否是购物车*/
+
+    private String mVatHash, mOffpayHash, mOffpayHashBatch;
 
     @Override
     protected int getLayoutId() {
@@ -72,8 +82,9 @@ public class ConfirmOrderActivity extends
         super.initData();
         KLog.i(cartId);
 
-//        ifcart = "1";
-//        cartId = "62|1,63|1";
+        /*测试购物车*/
+//        ifcart="1";
+//        cartId="80|1";
         mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 
@@ -103,6 +114,12 @@ public class ConfirmOrderActivity extends
                                             goods_list.add(goodsInfo);
                                         }
                                     }
+                                    addressId = data.getData().getAddress_info()
+                                            .getAddress_id();
+                                    OrderInfo.AddressApiBean addressApi = data.getData().getAddress_api();
+                                    mVatHash = "X9eeBM0WGaBRx2g48WiFjzrgjDYks2ilgy9";
+                                    mOffpayHash = addressApi.getOffpay_hash();
+                                    mOffpayHashBatch = addressApi.getOffpay_hash_batch();
                                     binding.setData(goods_list);
                                     binding.setAdapter(AdapterPool.newInstance().getConfirmOrder(activity)
                                             .build());
@@ -115,6 +132,21 @@ public class ConfirmOrderActivity extends
                             } else {
                                 ToastUtils.showLong(data.getMessage());
                             }
+                        }
+                    }
+                });
+
+        /*支付sn的返回*/
+        registerObserver(Constants.CONFIRMORDER_KEY[2], BaseResponse.class)
+                .observe(this, new Observer<BaseResponse>() {
+                    @Override
+                    public void onChanged(@Nullable BaseResponse response) {
+                        BaseResponse<BuyStepInfo> data = response;
+                        if (data.isSuccess()) {
+                            KLog.i(data.getData().getPay_sn() + " " + data.getData().getPayment_code());
+
+                        } else {
+                            ToastUtils.showLong(data.getMessage());
                         }
                     }
                 });
@@ -134,6 +166,17 @@ public class ConfirmOrderActivity extends
         paymentDialog.show();
     }
 
+
+    /*阿里*/
+    public void aLiPay(View view) {
+        KLog.i("阿里支付");
+    }
+
+    /*微信*/
+    public void weixinPay(View view) {
+        KLog.i("微信支付");
+    }
+
     public void invoiceInfo(View view) {
         KLog.i("发票信息");
         // TODO: 2019/4/11 发票信息
@@ -142,12 +185,48 @@ public class ConfirmOrderActivity extends
 
     public void sublimit(View view) {
         // TODO: 2019/4/11 提交订单
-        KLog.i("提交订单" + binding.getContent() + binding.getPayment());
+        String payment = binding.getPayment();
+        KLog.i("提交订单" + binding.getContent() + payment);
+        Map<String, Object> map = new HashMap<>();
+
+//        ifcart:
+//        cart_id:109928|1
+//        address_id:57
+//        vat_hash:D7Fa4RsS8Boz3DJM-bVpN9eMK_NPpuebIpz
+//        offpay_hash:eRjFMuKHYDQ9fY6WhgDEl_pnWItk0roztp2iY_6
+//        offpay_hash_batch:4x_fbpW7f4kce54vJDxrpBiXf4sbEzv
+//        pay_name:online
+//        invoice_id:187
+//        voucher:undefined|7|undefined
+//        pd_pay:0
+//        password:
+//        fcode:
+//        rcb_pay:0
+//        rpt:
+//        pay_message:7|15013070796,
+
+        if (!TextUtils.isEmpty(ifcart)) {
+            map.put("ifcart", ifcart);
+        }
+        map.put("cart_id", cartId);
+        map.put("address_id", addressId);
+        map.put("vat_hash", mVatHash);
+        map.put("offpay_hash", mOffpayHash);
+        map.put("offpay_hash_batch", mOffpayHashBatch);
+        map.put("pay_name", "online");
+        map.put("invoice_id", "online");
+        map.put("rpt", "");
+        map.put("pay_message", " binding.getContent()");
+//        mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
+
+        new PayFragment.Builder(activity)
+                .build().createPop().showAsDropDown(binding.getRoot(), Gravity.BOTTOM, 0, 0);
+
+
     }
 
+
     public void selectAddress(View view) {
-        // TODO: 2019/4/11 选择收获地址
-        KLog.i("选择收获地址");
         ARouter.getInstance().build(ARouterConfig.Me.ADDRESSMANAGERACTIVITY)
                 .withBoolean("isGetAddress", true).navigation(this,
                 100);

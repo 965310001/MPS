@@ -1,6 +1,7 @@
 package com.goldze.common.dmvvm.adapter;
 
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        tools:context=".ui.activity.order.ConfirmOrderActivity">
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:padding="@dimen/dp_20"
+            android:text="本次交易需在线支付599.00元"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            style="@style/HorizontalLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+        <TextView
+            android:id="@+id/tv_pay_fun"
+            style="@style/width_warp_height_warp"
+            android:layout_marginTop="1dp"
+            android:text="支付方式"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+        <ImageView
+            android:id="@+id/iv_pay_weixin"
+            android:layout_width="@dimen/image_height_large"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="92dp"
+            android:layout_marginTop="@dimen/dp_20"
+            android:adjustViewBounds="true"
+            android:onClick="aLiPay"
+            android:src="@drawable/icon_alipay_72"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_pay_fun" />
+
+        <ImageView
+            android:layout_width="@dimen/image_height_large"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginRight="92dp"
+            android:adjustViewBounds="true"
+            android:onClick="weixinPay"
+            android:src="@drawable/weixin"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_pay_fun" />
+
+        <Button
+            android:id="@+id/btn_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="@dimen/dp_20"
+            android:background="@drawable/bg_of_red_gradient_radius"
+            android:text="确认支付"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/iv_pay_weixin" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:background="@color/gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_pay" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

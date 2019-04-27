@@ -65,7 +65,7 @@ public abstract class RxSubscriber<T> extends DisposableSubscriber<T> {
         } else if (e instanceof ServerException) {
             message = ((ServerException) e).message;
         }
-        onFailure(message);
+        onFailure(message+e.toString());
     }
 
     @Override
