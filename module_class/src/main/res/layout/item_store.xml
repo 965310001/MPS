@@ -34,8 +34,6 @@
                 android:id="@+id/iv_icon"
                 android:layout_width="93dp"
                 android:layout_height="103dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_gravity="center"
                 image="@{data.goods_image_url}"
                 tools:srcCompat="@drawable/ic_launcher" />
@@ -44,10 +42,8 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_alignParentTop="true"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/iv_icon"
                 android:maxLines="2"
                 android:text="@{data.goods_name}"
                 android:textColor="@color/black"
@@ -58,7 +54,6 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_name"
                 android:text="@{@string/price_holder(data.goods_price)}"
                 android:textColor="@color/shallow_red"
                 android:textSize="@dimen/text_16"
@@ -79,8 +74,6 @@
             <TextView
                 android:id="@+id/tv_num"
                 style="@style/TextStyle_12"
-                android:layout_alignTop="@+id/tv_evaluation"
-                android:layout_alignParentEnd="true"
                 android:layout_marginEnd="93dp"
                 android:visibility="gone"
                 tools:text="TextView" />

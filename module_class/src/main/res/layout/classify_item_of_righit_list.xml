@@ -42,8 +42,9 @@
 
             <!--<include-->
                 <!--layout="@layout/trecyclerview_base"-->
-                <!--bind:items="@{data.child}"-->
-                <!--bind:tag="0" />-->
+                <!--bind:data="@{data.child}"-->
+                <!--bind:itemdecoration="@{true}"-->
+                <!--bind:tag="@{`0`}" />-->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>

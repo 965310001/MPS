@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp_30"
+                        android:layout_marginStart="@dimen/dp_30"
                         android:orientation="vertical">
 
                         <TextView
@@ -99,7 +99,7 @@
                     <ImageView
                         android:layout_width="@dimen/image_height_litter"
                         android:layout_height="@dimen/image_height_litter"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/icon_more" />
                 </RelativeLayout>
@@ -163,13 +163,14 @@
                     android:hint="店铺订单留言"
                     android:padding="@dimen/dp_10"
                     android:text="@={content}"
+                    android:inputType="text"
                     android:textSize="@dimen/text_14" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:padding="@dimen/dp_10"
                     android:text="@{total}"
                     tools:text="本地合计333.0元" />
@@ -181,12 +182,12 @@
             android:id="@+id/sublimit"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_50"
-            android:layout_alignParentRight="true"
-            android:paddingLeft="@dimen/dp_20"
-            android:paddingRight="@dimen/dp_20"
+            android:layout_alignParentEnd="true"
             android:background="@color/shallow_red"
             android:gravity="center"
             android:onClick="sublimit"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
             android:text="提交订单"
             android:textColor="@color/white"
             android:textSize="@dimen/text_18"
@@ -197,8 +198,8 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_50"
             android:background="@color/white"
-            android:gravity="right|center"
-            android:paddingRight="@dimen/dp_10"
+            android:gravity="end|center"
+            android:paddingEnd="@dimen/dp_10"
             android:text="@{total}"
             bind:layout_constraintBottom_toBottomOf="parent"
             bind:layout_constraintLeft_toLeftOf="parent"

@@ -26,10 +26,12 @@
 
             <TextView
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:background="@color/shallow_red"
-                android:padding="10dp"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_4"
+                android:paddingEnd="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_4"
                 android:text="@{data.xianshi_name}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_16"
@@ -38,27 +40,32 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="@dimen/dp_4"
+                android:paddingBottom="@dimen/dp_4"
                 android:text="@{data.time}"
                 android:textSize="@dimen/text_14"
                 tools:text="活动时间：2019-04-15 至 2019-11-16" />
-
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#D870AD"
-                android:padding="10dp"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_4"
+                android:paddingEnd="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_4"
                 android:text="@{data.discount}"
                 android:textColor="@color/white"
-
                 android:textSize="@dimen/text_16"
                 tools:text="满1000元送10元" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="@dimen/dp_4"
+                android:paddingBottom="@dimen/dp_4"
                 android:text="@{`活动说明`+data.xianshi_explain}"
                 android:textSize="@dimen/text_14"
                 tools:text="活动说明：111" />

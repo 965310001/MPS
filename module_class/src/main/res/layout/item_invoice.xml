@@ -34,15 +34,15 @@
             android:id="@+id/tv_num"
             style="@style/TextStyle_12"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/image_height_litter"
-            android:paddingLeft="@dimen/dp_4"
+            android:layout_marginStart="@dimen/image_height_litter"
+            android:paddingStart="@dimen/dp_4"
             android:text="@{data.inv_title+data.inv_content}"
             tools:text="1件" />
 
         <ImageView
             android:layout_width="@dimen/image_height_small"
             android:layout_height="@dimen/image_height_small"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:onClick="del"
             android:src="@drawable/ic_del"

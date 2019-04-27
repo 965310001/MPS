@@ -10,7 +10,7 @@
         <import type="com.trecyclerview.adapter.DelegateAdapter" />
 
         <variable
-            name="listerer"
+            name="listener"
             type="android.widget.RadioGroup.OnCheckedChangeListener" />
 
         <!--是否选择发票-->
@@ -61,7 +61,7 @@
                 android:layout_height="50dp"
                 android:checkedButton="@id/checkbox"
                 android:gravity="center_vertical"
-                android:onCheckedChanged="@{listerer}"
+                android:onCheckedChanged="@{listener}"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -76,7 +76,7 @@
 
                 <RadioButton
                     style="@style/width_warp_height_warp"
-                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_10"
                     android:background="@drawable/default_flow_tag_bg_rect_round_red"
                     android:button="@null"
                     android:padding="@dimen/dp_6"
@@ -109,7 +109,7 @@
                 <View
                     style="@style/HorizontalLine"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="@dimen/dp_1" />
 
                 <LinearLayout
                     style="@style/width_match_height_warp"
@@ -128,7 +128,7 @@
                         android:layout_height="50dp"
                         android:checkedButton="@id/checkbox_invoice"
                         android:gravity="center_vertical"
-                        android:onCheckedChanged="@{listerer}"
+                        android:onCheckedChanged="@{listener}"
                         android:orientation="horizontal">
                         <!--需要并填写发票信息-->
                         <RadioButton
@@ -143,7 +143,7 @@
 
                         <RadioButton
                             style="@style/width_warp_height_warp"
-                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_10"
                             android:background="@drawable/default_flow_tag_bg_rect_round_red"
                             android:button="@null"
                             android:padding="@dimen/dp_6"
@@ -204,7 +204,7 @@
                         android:id="@+id/spinner_system"
                         style="@style/SpinnerStyle"
                         android:layout_width="match_parent"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
                         android:spinnerMode="dialog" />
 

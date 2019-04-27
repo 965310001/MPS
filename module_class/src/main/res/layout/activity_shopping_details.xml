@@ -108,7 +108,7 @@
                 android:id="@+id/rl_cart1"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
-                android:layout_toRightOf="@id/rl_cart"
+                android:layout_toEndOf="@id/rl_cart"
                 android:background="@color/white"
                 android:onClick="goCart"
                 android:paddingTop="4dp">

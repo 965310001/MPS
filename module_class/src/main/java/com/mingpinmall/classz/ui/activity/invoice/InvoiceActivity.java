@@ -56,7 +56,7 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
         setTitle("管理发票信息");
         setTitlePadding(baseBinding.rlTitleContent);
 
-        binding.setListerer(this);
+        binding.setListener(this);
         binding.setSelectInvoice(true);
         binding.setSelectInvoiceType(true);
         binding.setContent("");

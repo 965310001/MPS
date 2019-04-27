@@ -147,9 +147,9 @@
                             style="@style/TextStyle"
                             android:layout_weight="1"
                             android:ellipsize="end"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:maxLines="2"
-                            android:paddingRight="@dimen/dp_10"
+                            android:paddingEnd="@dimen/dp_10"
                             android:text="@{data.goods_name}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_16"
@@ -159,7 +159,7 @@
                             android:id="@+id/iv_like"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:onClick="favorites"
                             android:src="@{!data.isfavorate?@drawable/ic_me_favorite:@drawable/ic_me_favorite_red}"
                             android:tint="@color/shallow_red"
@@ -180,7 +180,7 @@
                             android:layout_alignParentBottom="true"
                             android:text="@{String.format(@string/price_holder,data.goods_price)}"
                             android:textColor="@color/shallow_red"
-                            android:textSize="@dimen/dp_20"
+                            android:textSize="@dimen/text_16"
                             tools:text="￥599.00" />
 
                         <TextView
@@ -201,7 +201,7 @@
                         <TextView
                             android:id="@+id/tv_goods_num"
                             style="@style/TextStyle"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:text="@{String.format(@string/salenum_holder,data.goods_salenum)}"
                             android:textSize="@dimen/text_14"
@@ -226,7 +226,7 @@
                         android:id="@+id/ll_manjisong"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_25"
+                        android:layout_marginStart="@dimen/dp_25"
                         android:orientation="vertical">
 
                         <TextView
@@ -242,7 +242,7 @@
                         android:id="@+id/ll_zengping"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_25"
+                        android:layout_marginStart="@dimen/dp_25"
                         android:orientation="vertical">
 
                         <TextView

@@ -23,6 +23,7 @@
         android:textColor="@color/gray"
         android:textSize="@dimen/text_14"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/img_delete" />
+        app:layout_constraintRight_toLeftOf="@+id/img_delete"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

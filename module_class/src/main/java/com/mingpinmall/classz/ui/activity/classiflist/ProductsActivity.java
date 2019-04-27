@@ -47,50 +47,9 @@ import java.util.Arrays;
 /**
  * 商品分类list
  */
-
-//@Route(path = ARouterConfig.classify.PRODUCTSACTIVITY)
-//public class ProductsActivity extends AbsLifecycleActivity<ActivityProductsBinding, ClassifyViewModel> {
-//
-//    @Autowired
-//    String id;
-//
-//    @Autowired
-//    int type;
-//
-//    @Autowired
-//    String keyword;
-//
-//    @Override
-//    protected int getLayoutId() {
-//        return R.layout.activity_products;
-//    }
-//
-//    @Override
-//    protected void initViews(Bundle savedInstanceState) {
-//        ARouter.getInstance().inject(this);
-//        super.initViews(savedInstanceState);
-//
-//        edSearch.setVisibility(View.VISIBLE);
-//        edSearch.setFocusable(false);
-//        edSearch.setFocusableInTouchMode(false);
-//        edSearch.setOnClickListener(this);
-//        edSearch.setText(keyword);
-//        ivSearch.setVisibility(View.GONE);
-//        tvTitle.setVisibility(View.GONE);
-//
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.fl_content,
-//                        ProductsFragment.newInstance(id, type, keyword)).commitAllowingStateLoss();
-//    }
-//
-//    @Override
-//    protected Object getStateEventKey() {
-//        return "";
-//    }
-
-    @Route(path = ARouterConfig.classify.PRODUCTSACTIVITY)
-    public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
-            implements CustomPopWindow.Builder.OnCustomPopWindowClickListener {
+@Route(path = ARouterConfig.classify.PRODUCTSACTIVITY)
+public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
+        implements CustomPopWindow.Builder.OnCustomPopWindowClickListener {
     @Autowired
     String id;
 

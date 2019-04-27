@@ -75,6 +75,19 @@ public class ScreeningPopWindow extends PopupWindow {
         private Context context;
         private LinearLayout contextll;
         private Object eventKey;
+
+        private ScreeningPopWindowClickListener listener;
+
+        public interface ScreeningPopWindowClickListener {
+            void onClick(PopupWindow dialog, ScreenInfo screenInfo);
+        }
+
+        public ScreeningPopWindow.Builder setListener(ScreeningPopWindowClickListener listener) {
+            this.listener = listener;
+            return this;
+        }
+
+
         //背景颜色
         private int colorBg = Color.parseColor("#F8F8F8");
 
@@ -169,6 +182,8 @@ public class ScreeningPopWindow extends PopupWindow {
                     screenInfo.areaId = AssetsData.getAreaByName(bind.spinnerSystem.getSelectedItem().toString());
                     if (null != eventKey) {
                         LiveBus.getDefault().postEvent(eventKey, screenInfo);
+                    } else if (null != listener) {
+                        listener.onClick(mScreeningPopWindow, screenInfo);
                     } else {
                         new NullPointerException("请设置eventKey");
                     }

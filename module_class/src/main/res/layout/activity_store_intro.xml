@@ -32,9 +32,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/image_height_big"
+                android:layout_marginStart="@dimen/image_height_big"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/dp_10">
+                android:paddingStart="@dimen/dp_10">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -141,7 +141,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
                 android:text="@{data.store_credit_new.get(0).context}"
                 android:textColor="@color/shallow_red"
                 tools:text="公司名称" />
@@ -164,7 +164,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
                 android:text="@{data.store_credit_new.get(1).context}"
                 android:textColor="@color/shallow_red"
                 tools:text="公司名称" />
@@ -187,7 +187,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
                 android:text="@{data.store_credit_new.get(2).context}"
                 android:textColor="@color/shallow_red"
                 tools:text="公司名称" />
@@ -216,7 +216,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
                 android:text="@{data.store_company_name}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />
@@ -245,7 +245,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
                 android:text="@{data.area_info}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />
@@ -274,7 +274,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
                 android:text="@{data.store_time_text}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />
@@ -305,7 +305,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
                 android:text="@{data.store_zy}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />
@@ -336,7 +336,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
                 android:text="@{data.store_workingtime}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />
