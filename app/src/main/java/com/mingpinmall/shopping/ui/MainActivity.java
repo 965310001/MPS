@@ -54,8 +54,10 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
     protected void onResume() {
         super.onResume();
         isResume = true;
-        if (index >= 0)
+        if (index >= 0) {
             binding.bottomBar.setCurrentItem(index);
+            index = -1;
+        }
     }
 
     @Override
