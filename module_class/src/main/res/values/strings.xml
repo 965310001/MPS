@@ -102,4 +102,10 @@
         <item>普通店铺</item>
         <item>平台自营</item>
     </string-array>
+
+
+    <!--支付方式-->
+    <string name="weixin">微信</string>
+    <string name="alipay">支付宝</string>
+
 </resources>

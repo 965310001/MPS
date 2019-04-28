@@ -3,35 +3,21 @@ package com.mingpinmall.classz.widget;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
+import com.mingpinmall.classz.BR;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentPayBinding;
+import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.socks.library.KLog;
-import com.xuexiang.xui.widget.popupwindow.PopWindow;
-
-import java.util.List;
 
 import static com.xuexiang.xui.utils.ResUtils.getResources;
 
@@ -40,13 +26,11 @@ import static com.xuexiang.xui.utils.ResUtils.getResources;
  * @date :2019/4/4 16:11
  * @description: 提交订单PopWindow
  */
-public class PayFragment extends PopupWindow {
+public class PayPopupWindow extends PopupWindow {
 
-    public PayFragment(Context context, View view) {
-        //这里可以修改popupwindow的宽高
+    public PayPopupWindow(Context context, View view) {
         super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
-
         setContentView(view);
         initViews();
     }
@@ -58,46 +42,42 @@ public class PayFragment extends PopupWindow {
     }
 
     public static class Builder {
-
-        private PayFragment payFragment;
+        private PayPopupWindow payFragment;
         private Context context;
 
         private FrameLayout frameLayout;
         //背景颜色
-        private int colorBg = Color.parseColor("#F8F8F8");
-        private int titleTextColor = Color.parseColor("#333333");//标题字体颜色
-        private int tabBgDrawable = R.drawable.item_lable_bg_shape;//选项背景颜色
+        private int colorBg = R.color.color_33000000;
+
+        private BuyStepInfo mData;
 
         public Builder(Context context) {
             this.context = context;
         }
 
         public Builder setColorBg(int color) {
-            colorBg = context.getResources().getColor(color);
+            colorBg = color;
             return this;
         }
 
-        public Builder setTitleTextColor(int titleTextColor) {
-            this.titleTextColor = titleTextColor;
-            return this;
-        }
-
-        public Builder setTabBgDrawable(int tabBgDrawable) {
-            this.tabBgDrawable = tabBgDrawable;
+        public Builder setData(BuyStepInfo data) {
+            mData = data;
             return this;
         }
 
         public Builder build() {
             frameLayout = new FrameLayout(context);
-            View view = LayoutInflater.from(context).inflate(R.layout.fragment_pay, null);
-            view.setBackgroundColor(colorBg);
-            FragmentPayBinding binding = DataBindingUtil.bind(view);
+            RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.fragment_pay, null);
+            relativeLayout.setBackgroundColor(context.getResources().getColor(colorBg));
+            FragmentPayBinding binding = DataBindingUtil.bind(relativeLayout);
+            binding.setData(mData);
             frameLayout.addView(binding.getRoot());
             return this;
         }
 
-        public PayFragment createPop() {
-            payFragment = new PayFragment(context, frameLayout);
+        public PayPopupWindow createPop() {
+            payFragment = new PayPopupWindow(context, frameLayout);
+            payFragment.showAsDropDown(frameLayout.getRootView(), Gravity.BOTTOM, 0, 0);
             return payFragment;
         }
     }

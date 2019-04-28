@@ -19,6 +19,15 @@ public class OrderInfo extends BaseBean {
     private AddressApiBean address_api;
     @SerializedName("new_store_final_total_list")
     private List<ContentBean> store_final_total_list;
+    private String vat_hash;
+
+    public String getVat_hash() {
+        return vat_hash;
+    }
+
+    public void setVat_hash(String vat_hash) {
+        this.vat_hash = vat_hash;
+    }
 
     public List<StoreCartListBean> getStore_cart_list() {
         return store_cart_list;
