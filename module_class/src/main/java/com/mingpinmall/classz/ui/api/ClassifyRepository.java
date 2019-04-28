@@ -161,7 +161,7 @@ public class ClassifyRepository extends BaseRepository {
 
     /*商品详情*/
     public void getGoodsDetail(String goodsId) {
-        addDisposable(apiService.getGoodsDetail(goodsId)
+        addDisposable(apiService.getGoodsDetail(goodsId, getUserKey())
                 .compose(RxSchedulers.<GoodsDetailInfo>io_main())
                 .subscribeWith(new RxSubscriber<GoodsDetailInfo>() {
                     @Override
@@ -557,7 +557,7 @@ public class ClassifyRepository extends BaseRepository {
                 isDel ? "favorites_del" : "favorites_add");
         map.put("store_id", storeId);
         map.put("_client", "android");
-//        map.put("key", getUserKey());
+        map.put("key", getUserKey());
         addDisposable(apiService.getStoreFavorites(map)
                 .compose(RxSchedulers.<ResultBean>io_main())
                 .subscribeWith(new RxSubscriber<ResultBean>() {
@@ -763,6 +763,7 @@ public class ClassifyRepository extends BaseRepository {
 
     /*通用*/
     public void execute(String app, String wwi, final Object eventKey, Map<String, Object> map) {
+        map.put("key", getUserKey());
         addDisposable(apiService.execute(app, wwi, map)
                         .compose(RxSchedulers.<ResultBean>io_main())
                         .subscribeWith(new RxSubscriber<ResultBean>() {

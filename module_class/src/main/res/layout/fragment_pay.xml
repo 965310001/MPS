@@ -19,12 +19,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/red"
-            android:text="@{data.pay_sn}" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,6 +96,7 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginRight="@dimen/dp_20"
                 android:background="@drawable/bg_of_red_gradient_radius"
+                android:onClick="btnOkClick"
                 android:text="确认支付"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/iv_pay_weixin" />

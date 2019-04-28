@@ -147,7 +147,9 @@ public class DatabingUtils {
 
     @BindingAdapter("html")
     public static void setHtml(TextView textView, String content) {
-        textView.setText(Html.fromHtml(content));
+        if (!TextUtils.isEmpty(content)) {
+            textView.setText(Html.fromHtml(content));
+        }
     }
 
     /*封装*/

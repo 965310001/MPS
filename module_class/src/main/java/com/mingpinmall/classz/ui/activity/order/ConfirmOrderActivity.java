@@ -36,6 +36,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 购物车传
+ * ifcart="1";
+ * cartId="80|1";
+ */
+
+/**
  * 提交订单
  */
 @Route(path = ARouterConfig.classify.CONFIRMORDERACTIVITY, extras = ARouterConfig.LOGIN_NEEDED)
@@ -83,10 +89,6 @@ public class ConfirmOrderActivity extends
     protected void initData() {
         super.initData();
         KLog.i(cartId);
-
-        /*测试购物车*/
-//        ifcart="1";
-//        cartId="80|1";
         mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 
@@ -145,10 +147,10 @@ public class ConfirmOrderActivity extends
                     public void onChanged(@Nullable BaseResponse response) {
                         BaseResponse<BuyStepInfo> data = response;
                         if (data.isSuccess()) {
-                            KLog.i(data.getData().getPay_sn() + " " + data.getData().getPayment_code());
                             if (null == mPayPopupWindow) {
                                 mPayPopupWindow = new PayPopupWindow.Builder(activity)
-                                        .build().setData(data.getData()).createPop();
+                                        .setData(data.getData())
+                                        .build().createPop();
                             }
                             mPayPopupWindow.showAsDropDown(baseBinding.rlTitleContent);
                         } else {
@@ -158,32 +160,58 @@ public class ConfirmOrderActivity extends
                 });
     }
 
-
     public void merchant(View view) {
         // TODO: 2019/4/11 商家界面
     }
 
     public void paymentMethod(View view) {
         KLog.i("支付方式");
-        paymentDialog = MaterialDialogUtils.showSingleListDialog(this, "支付方式",
-                Arrays.asList("在线支付", "支付宝", "微信"), this);
+        if (null == paymentDialog) {
+            paymentDialog = MaterialDialogUtils.showSingleListDialog(this, "支付方式",
+                    Arrays.asList("在线支付", "支付宝", "微信"), this);
+        }
         paymentDialog.show();
     }
 
+    int mPayFun = -1;
 
     /*阿里*/
     public void aLiPay(View view) {
-        KLog.i("阿里支付");
+        mPayFun = 0;
     }
 
     /*微信*/
     public void weixinPay(View view) {
-        KLog.i("微信支付");
+        mPayFun = 1;
+    }
+
+    /*确认订单*/
+    public void btnOkClick(View view) {
+        switch (mPayFun) {
+            case 0:
+                aLiPay();
+                mPayPopupWindow.dismiss();
+                break;
+            case 1:
+                weixinPay();
+                mPayPopupWindow.dismiss();
+                break;
+            default:
+                ToastUtils.showLong("请选择支付方式");
+                break;
+        }
+    }
+
+    private void aLiPay() {
+        // TODO: 2019/4/28 阿里支付
+    }
+
+    private void weixinPay() {
+        // TODO: 2019/4/28 微信支付
     }
 
     public void invoiceInfo(View view) {
         KLog.i("发票信息");
-        // TODO: 2019/4/11 发票信息
         ActivityToActivity.toActivity(ARouterConfig.classify.INVOICEACTIVITY);
     }
 
@@ -203,7 +231,7 @@ public class ConfirmOrderActivity extends
         map.put("pay_name", "online");
         map.put("invoice_id", "online");
         map.put("rpt", "");
-        map.put("pay_message", binding.getContent());
+        map.put("pay_message", binding.getContent());//store_id+binding.getContent()|store_id+binding.getContent()
         mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
     }
 

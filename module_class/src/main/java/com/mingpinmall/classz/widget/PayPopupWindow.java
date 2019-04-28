@@ -71,6 +71,7 @@ public class PayPopupWindow extends PopupWindow {
             relativeLayout.setBackgroundColor(context.getResources().getColor(colorBg));
             FragmentPayBinding binding = DataBindingUtil.bind(relativeLayout);
             binding.setData(mData);
+            binding.executePendingBindings();
             frameLayout.addView(binding.getRoot());
             return this;
         }

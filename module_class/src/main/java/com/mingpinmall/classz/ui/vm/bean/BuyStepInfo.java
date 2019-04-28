@@ -65,7 +65,7 @@ public class BuyStepInfo extends BaseBean {
 
         @Bindable
         public String getPayAmout() {
-            return String.format("本次交易需在线支付<font size='18px' color='#ED5564'>%s</font>元", pay_amount);
+            return String.format("本次交易需在线支付<font size='3' color='#ED5564'><b>%s</b></font>元", pay_amount);
         }
 
         public String getPay_amount() {

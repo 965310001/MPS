@@ -3,6 +3,7 @@ package com.mingpinmall.classz.ui.vm.bean;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GoodsDetailInfo extends BaseBean {
@@ -459,6 +460,9 @@ public class GoodsDetailInfo extends BaseBean {
             private String goods_count;
             private List<NewStoreCreditBean> new_storeCredit;
 
+            private StoreCreditBean store_credit;
+
+
             public String getStore_id() {
                 return store_id;
             }
@@ -514,6 +518,67 @@ public class GoodsDetailInfo extends BaseBean {
 
             public void setNew_storeCredit(List<NewStoreCreditBean> new_storeCredit) {
                 this.new_storeCredit = new_storeCredit;
+            }
+
+            public StoreCreditBean getStore_credit() {
+                return store_credit;
+            }
+
+            public void setStore_credit(StoreCreditBean store_credit) {
+                this.store_credit = store_credit;
+            }
+
+            public class StoreCreditBean extends BaseBean {
+                /**
+                 * store_desccredit : {"text":"描述","credit":"5.0","percent":"----","percent_class":"equal","percent_text":"平"}
+                 * store_servicecredit : {"text":"服务","credit":"5.0","percent":"----","percent_class":"equal","percent_text":"平"}
+                 * store_deliverycredit : {"text":"物流","credit":"5.0","percent":"----","percent_class":"equal","percent_text":"平"}
+                 */
+
+                private NewStoreCreditBean store_desccredit;
+                private NewStoreCreditBean store_servicecredit;
+                private NewStoreCreditBean store_deliverycredit;
+
+                private List<NewStoreCreditBean> list;
+
+                public List<NewStoreCreditBean> getList() {
+                    list = new ArrayList<>();
+                    if (null != store_desccredit) {
+                        store_desccredit.setText("描述相符");
+                    }
+                    list.add(store_desccredit);
+                    list.add(store_servicecredit);
+                    list.add(store_deliverycredit);
+                    return list;
+                }
+
+                public void setList(List<NewStoreCreditBean> list) {
+                    this.list = list;
+                }
+
+                public NewStoreCreditBean getStore_desccredit() {
+                    return store_desccredit;
+                }
+
+                public void setStore_desccredit(NewStoreCreditBean store_desccredit) {
+                    this.store_desccredit = store_desccredit;
+                }
+
+                public NewStoreCreditBean getStore_servicecredit() {
+                    return store_servicecredit;
+                }
+
+                public void setStore_servicecredit(NewStoreCreditBean store_servicecredit) {
+                    this.store_servicecredit = store_servicecredit;
+                }
+
+                public NewStoreCreditBean getStore_deliverycredit() {
+                    return store_deliverycredit;
+                }
+
+                public void setStore_deliverycredit(NewStoreCreditBean store_deliverycredit) {
+                    this.store_deliverycredit = store_deliverycredit;
+                }
             }
 
             public class NewStoreCreditBean extends BaseBean {

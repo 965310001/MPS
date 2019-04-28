@@ -91,6 +91,9 @@ public interface ClassifyService {
     @GET(GOODSDETAIL)
     Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId);
 
+    @GET(GOODSDETAIL)
+    Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId, @Query("key") String key);
+
     /*商品列表*/
     @GET(BASEURL)
     Flowable<BaseResponse<HotKeyInfo>> getHotKeys(@QueryMap Map<String, Object> map);
