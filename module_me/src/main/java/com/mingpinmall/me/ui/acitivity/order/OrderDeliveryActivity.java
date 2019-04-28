@@ -59,21 +59,20 @@ public class OrderDeliveryActivity extends AbsLifecycleActivity<ActivityOrderDel
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("ORDER_DELIVER_LIST", "success", OrderDeliverListBean.class).observeForever(new Observer<OrderDeliverListBean>() {
+        registerObserver("ORDER_DELIVER_LIST", Object.class).observeForever(new Observer<Object>() {
             @Override
-            public void onChanged(@Nullable OrderDeliverListBean result) {
-                binding.refreshLayout.finishRefresh();
-                binding.setData(result);
-                List<String> dataList = result.getDeliver_info();
-                Collections.reverse(dataList);
-                listAdapter.setNewData(dataList);
-            }
-        });
-        registerObserver("ORDER_DELIVER_LIST", "err", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                ToastUtils.showShort(msg);
-                binding.refreshLayout.finishRefresh(false);
+            public void onChanged(@Nullable Object result) {
+                if (result instanceof OrderDeliverListBean) {
+                    OrderDeliverListBean data = (OrderDeliverListBean) result;
+                    binding.refreshLayout.finishRefresh();
+                    binding.setData(data);
+                    List<String> dataList = data.getDeliver_info();
+                    Collections.reverse(dataList);
+                    listAdapter.setNewData(dataList);
+                } else {
+                    ToastUtils.showShort(result.toString());
+                    binding.refreshLayout.finishRefresh(false);
+                }
             }
         });
     }

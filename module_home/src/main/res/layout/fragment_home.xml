@@ -108,7 +108,7 @@
             android:src="@drawable/ic_to_top"
             android:visibility="gone"
             app:backgroundTint="@color/white"
-            app:fabSize="normal" />
+            app:fabSize="mini" />
 
         <RelativeLayout
             android:id="@+id/content_layout"

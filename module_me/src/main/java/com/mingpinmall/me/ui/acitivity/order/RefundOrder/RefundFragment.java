@@ -4,14 +4,18 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.RefundOrderListAdapter;
@@ -37,6 +41,12 @@ public class RefundFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
         super.initView(state);
         listAdapter = new RefundOrderListAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_refund);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_refund_empty);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_refund_empty);
+        emptyView.findViewById(R.id.btn_action).setVisibility(View.GONE);
+        listAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(listAdapter);
 
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -84,30 +94,27 @@ public class RefundFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("REFUND", "success")
+        registerObserver("REFUND", Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
-                        BaseResponse<RefundBean> refundBean = (BaseResponse<RefundBean>) result;
-                        if (isLoadmore) {
-                            pageIndex++;
-                            binding.refreshLayout.finishLoadMore();
-                            listAdapter.addData(refundBean.getData().getRefund_list());
+                        if (result instanceof String) {
+                            ToastUtils.showShort(result.toString());
                         } else {
-                            pageIndex = 1;
-                            binding.refreshLayout.finishRefresh();
-                            listAdapter.setNewData(refundBean.getData().getRefund_list());
+                            BaseResponse<RefundBean> refundBean = (BaseResponse<RefundBean>) result;
+                            if (isLoadmore) {
+                                pageIndex++;
+                                binding.refreshLayout.finishLoadMore();
+                                listAdapter.addData(refundBean.getData().getRefund_list());
+                            } else {
+                                pageIndex = 1;
+                                binding.refreshLayout.finishRefresh();
+                                listAdapter.setNewData(refundBean.getData().getRefund_list());
+                            }
+                            if (!refundBean.isHasmore()) {
+                                binding.refreshLayout.setNoMoreData(true);
+                            }
                         }
-                        if (!refundBean.isHasmore()) {
-                            binding.refreshLayout.setNoMoreData(true);
-                        }
-                    }
-                });
-        registerObserver("REFUND", "err", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-
                     }
                 });
     }

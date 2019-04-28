@@ -34,12 +34,12 @@ public class PacketListAdapter extends BaseMultiItemQuickAdapter<PacketListBean.
             case 1:
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), item.getRpacket_customimg_url());
                 helper.setText(R.id.tv_storeName, item.getRpacket_owner_name())
-                        .setText(R.id.tv_time, item.getDates())
+                        .setText(R.id.tv_time, "有效期至:\n" + item.getDates())
                         .setText(R.id.tv_money, item.getRpacket_price())
                         .setText(R.id.tv_use, "满" + item.getRpacket_limit() + "可用")
+                        .setImageResource(R.id.iv_subImage, R.drawable.ic_mcc_09_w)
                         .setGone(R.id.iv_stateImage, !item.getRpacket_state().equals("1"))
                         .setImageResource(R.id.iv_stateImage, item.getRpacket_state().equals("2") ? R.drawable.ticket_ysy : R.drawable.ticket_ysx);
-
                 CouponDisplayView displayView = helper.getView(R.id.cdv_view);
                 displayView.setState(item.getRpacket_state().equals("1"));
                 break;

@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -33,7 +35,6 @@ import java.util.List;
 public class CouponListFragment extends AbsLifecycleFragment<BaseRecyclerviewBinding, MeViewModel> {
 
     private int pageIndex = 1;
-    private boolean isHasmore = true;
     private boolean isLoadmore = false;
     private CouponListAdapter listAdapter;
 
@@ -46,6 +47,12 @@ public class CouponListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
         super.initView(state);
         listAdapter = new CouponListAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_mcc_08_w);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_coupon_empty);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_coupon_empty);
+        emptyView.findViewById(R.id.btn_action).setVisibility(View.GONE);
+        listAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(listAdapter);
 
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -83,65 +90,69 @@ public class CouponListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
                 lazyLoad();
             }
         });
-        registerObserver("COUPONLISTBEAN", "success").observeForever(new Observer<Object>() {
+        registerObserver("COUPONLISTBEAN", Object.class).observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object result) {
-                BaseResponse<CouponListBean> data = (BaseResponse<CouponListBean>) result;
-                isHasmore = data.isHasmore();
-                if (isLoadmore) {
-                    binding.refreshLayout.finishLoadMore();
-                    pageIndex++;
-                    int typeCount = 0;
-                    for (int i = 0; i < listAdapter.getItemCount(); i++) {
-                        if (listAdapter.getItem(i).getType() != 1) {
-                            typeCount = i - 1;
-                            break;
-                        }
+                if (result instanceof String) {
+                    ToastUtils.showShort(result.toString());
+                    if (isLoadmore) {
+                        binding.refreshLayout.finishLoadMore(false);
+                    } else {
+                        binding.refreshLayout.finishRefresh(false);
                     }
-                    for (CouponListBean.VoucherListBean item : data.getData().getVoucher_list()) {
-                        if (item.getType() == 1) {
-                            listAdapter.addData(typeCount, item);
-                            typeCount++;
-                        } else {
-                            listAdapter.addData(item);
-                        }
-                    }
-                } else {
-                    binding.refreshLayout.finishRefresh();
-                    pageIndex = 1;
-                    List<CouponListBean.VoucherListBean> dataList = new ArrayList<>();
-                    for (CouponListBean.VoucherListBean item : data.getData().getVoucher_list()) {
-                        if (item.getType() == 1) {
-                            dataList.add(item);
-                        }
-                    }
-                    CouponListBean.VoucherListBean spaceBean = new CouponListBean.VoucherListBean();
-                    spaceBean.setType(0);
-                    spaceBean.setVoucher_state_text("已过期的券");
-                    dataList.add(spaceBean);
-                    for (CouponListBean.VoucherListBean item : data.getData().getVoucher_list()) {
-                        if (item.getType() != 1) {
-                            dataList.add(item);
-                        }
-                    }
-                    listAdapter.setNewData(dataList);
-                }
-                if (!isHasmore) {
-                    binding.refreshLayout.setNoMoreData(true);
+                }else {
+                    formatData((BaseResponse<CouponListBean>) result);
                 }
             }
         });
-        registerObserver("COUPONLISTBEAN", "err", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                ToastUtils.showShort(msg);
-                if (isLoadmore) {
-                    binding.refreshLayout.finishLoadMore(false);
-                } else {
-                    binding.refreshLayout.finishRefresh(false);
+    }
+
+    private void formatData(BaseResponse<CouponListBean> data) {
+        if (isLoadmore) {
+            binding.refreshLayout.finishLoadMore();
+            pageIndex++;
+            int typeCount = 0;
+            for (int i = 0; i < listAdapter.getItemCount(); i++) {
+                if (listAdapter.getItem(i).getType() != 1) {
+                    typeCount = i - 1;
+                    break;
                 }
             }
-        });
+            for (CouponListBean.VoucherListBean item : data.getData().getVoucher_list()) {
+                if (item.getType() == 1) {
+                    listAdapter.addData(typeCount, item);
+                    typeCount++;
+                } else {
+                    listAdapter.addData(item);
+                }
+            }
+        } else {
+            binding.refreshLayout.finishRefresh();
+            pageIndex = 1;
+            if (data.getData().getVoucher_list().isEmpty() || data.getData().getVoucher_list() == null) {
+                listAdapter.setNewData(new ArrayList<CouponListBean.VoucherListBean>());
+            } else {
+                List<CouponListBean.VoucherListBean> dataList = new ArrayList<>();
+                for (CouponListBean.VoucherListBean item : data.getData().getVoucher_list()) {
+                    if (item.getType() == 1) {
+                        dataList.add(item);
+                    }
+                }
+                CouponListBean.VoucherListBean spaceBean = new CouponListBean.VoucherListBean();
+                spaceBean.setType(0);
+                spaceBean.setVoucher_state_text("已过期的券");
+                dataList.add(spaceBean);
+                for (CouponListBean.VoucherListBean item : data.getData().getVoucher_list()) {
+                    if (item.getType() != 1) {
+                        dataList.add(item);
+                    }
+                }
+                listAdapter.setNewData(dataList);
+            }
+        }
+        if (!data.isHasmore()) {
+            binding.refreshLayout.setNoMoreData(true);
+        }
     }
 
     @Override

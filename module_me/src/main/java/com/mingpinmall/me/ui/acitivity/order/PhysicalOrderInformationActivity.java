@@ -68,48 +68,52 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
 
     @Override
     protected void dataObserver() {
-        registerObserver("ORDER_INFORMATION", "success", OrderInformationBean.class)
-                .observeForever(new Observer<OrderInformationBean>() {
+        registerObserver("PHYSICAL_ORDER_INFORMATION", Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable OrderInformationBean orderInformationBean) {
-                        data = orderInformationBean.getOrder_info();
-                        showDataInfo();
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof OrderInformationBean) {
+                            OrderInformationBean resultData = (OrderInformationBean) result;
+                            data = resultData.getOrder_info();
+                            showDataInfo();
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
-        registerObserver("ORDER_INFORMATION", "err", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String s) {
-                        ToastUtils.showShort(s);
-                    }
-                });
-        registerObserver("PL_INFORMATION", "REFRESH_ORDER_LIST", OrderInformationBean.class)
-                .observeForever(new Observer<OrderInformationBean>() {
-                    @Override
-                    public void onChanged(@Nullable OrderInformationBean orderInformationBean) {
-                        setResult(100);
-                        finish();
-                    }
-                });
-        registerObserver("PL_INFORMATION", "DO_SOMETHING_ERR", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String s) {
-                        ToastUtils.showShort(s);
-                    }
-                });
-        registerObserver("ORDER_DELIVER_INFORMATION", "success", OrderDeliverBean.class)
-                .observeForever(new Observer<OrderDeliverBean>() {
-                    @Override
-                    public void onChanged(@Nullable OrderDeliverBean result) {
-                        binding.setDeliverData(result);
-                    }
-                });
-        registerObserver("ORDER_DELIVER_INFORMATION", "err", String.class)
+        registerObserver("INFORMATION_CANCEL_ORDER", "REMOVE_ORDER", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String msg) {
-                        ToastUtils.showShort(msg);
+                        if (msg.equals("success")) {
+                            setResult(100);
+                            finish();
+                        } else {
+                            ToastUtils.showShort(msg);
+                        }
+                    }
+                });
+        registerObserver("INFORMATION_RECEVIE_ORDER", "RECEVIE_ORDER", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String msg) {
+                        if (msg.equals("success")) {
+                            initData();
+                        } else {
+                            ToastUtils.showShort(msg);
+                        }
+                    }
+                });
+        registerObserver("ORDER_DELIVER_INFORMATION", Object.class)
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof OrderDeliverBean) {
+                            OrderDeliverBean data = (OrderDeliverBean) result;
+                            binding.setDeliverData(data);
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
     }
@@ -238,7 +242,7 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
                     new TextDialog.SingleButtonCallback() {
                         @Override
                         public void onClick() {
-                            mViewModel.cancelOrder("INFORMATION", data.getOrder_id());
+                            mViewModel.cancelOrder("INFORMATION_CANCEL_ORDER", data.getOrder_id());
                         }
                     })
                     .show();
@@ -252,7 +256,7 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
                     new TextDialog.SingleButtonCallback() {
                         @Override
                         public void onClick() {
-                            mViewModel.recevieOrder("INFORMATION", data.getOrder_id());
+                            mViewModel.recevieOrder("INFORMATION_RECEVIE_ORDER", data.getOrder_id());
                         }
                     })
                     .show();

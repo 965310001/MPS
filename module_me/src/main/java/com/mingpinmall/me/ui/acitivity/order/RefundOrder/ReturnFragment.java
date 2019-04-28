@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -12,6 +14,7 @@ import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.ReturnOrderListAdapter;
@@ -36,6 +39,12 @@ public class ReturnFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
         super.initView(state);
         listAdapter = new ReturnOrderListAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_refund);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_return_empty);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_return_empty);
+        emptyView.findViewById(R.id.btn_action).setVisibility(View.GONE);
+        listAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(listAdapter);
 
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -83,30 +92,27 @@ public class ReturnFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("RETURN", "success")
+        registerObserver("RETURN", Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
-                        BaseResponse<ReturnBean> refundBean = (BaseResponse<ReturnBean>) result;
-                        if (isLoadmore) {
-                            pageIndex++;
-                            binding.refreshLayout.finishLoadMore();
-                            listAdapter.addData(refundBean.getData().getReturn_list());
+                        if (result instanceof String) {
+                            ToastUtils.showShort(result.toString());
                         } else {
-                            pageIndex = 1;
-                            binding.refreshLayout.finishRefresh();
-                            listAdapter.setNewData(refundBean.getData().getReturn_list());
+                            BaseResponse<ReturnBean> refundBean = (BaseResponse<ReturnBean>) result;
+                            if (isLoadmore) {
+                                pageIndex++;
+                                binding.refreshLayout.finishLoadMore();
+                                listAdapter.addData(refundBean.getData().getReturn_list());
+                            } else {
+                                pageIndex = 1;
+                                binding.refreshLayout.finishRefresh();
+                                listAdapter.setNewData(refundBean.getData().getReturn_list());
+                            }
+                            if (!refundBean.isHasmore()) {
+                                binding.refreshLayout.setNoMoreData(true);
+                            }
                         }
-                        if (!refundBean.isHasmore()) {
-                            binding.refreshLayout.setNoMoreData(true);
-                        }
-                    }
-                });
-        registerObserver("RETURN", "err", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-
                     }
                 });
     }

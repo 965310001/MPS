@@ -152,47 +152,43 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
 
     @Override
     protected void dataObserver() {
-        registerObserver(EVENT_KEY, "REFRESH_ORDER_LIST")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        //操作成功后刷新列表
-                        lazyLoad();
-                    }
-                });
-        registerObserver(EVENT_KEY, "DO_SOMETHING_ERR", String.class)
+        registerObserver(EVENT_KEY, "REMOVE_ORDER", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
-                    public void onChanged(@Nullable String o) {
-                        //操作失败
-                        ToastUtils.showShort(o);
+                    public void onChanged(@Nullable String msg) {
+                        if (msg.equals("success")) {
+                            //操作成功后刷新列表
+                            lazyLoad();
+                        } else {
+                            //操作失败
+                            ToastUtils.showShort(msg);
+                        }
                     }
                 });
-        registerObserver(EVENT_KEY, EVENT_KEY + "success").observeForever(new Observer<Object>() {
+        registerObserver(EVENT_KEY, Object.class).observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object result) {
-                BaseResponse<VirtualOrderBean> data = (BaseResponse<VirtualOrderBean>) result;
-                if (!isLoadmore) {
-                    pageIndex = 1;
-                    binding.refreshLayout.finishRefresh();
-                    virtualOrderListAdapter.setNewData(data.getData().getOrder_list());
+                if (result instanceof String) {
+                    ToastUtils.showShort(result.toString());
+                    if (!isLoadmore) {
+                        binding.refreshLayout.finishRefresh(false);
+                    } else {
+                        binding.refreshLayout.finishLoadMore(false);
+                    }
                 } else {
-                    pageIndex++;
-                    binding.refreshLayout.finishLoadMore();
-                    virtualOrderListAdapter.addData(data.getData().getOrder_list());
-                }
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.setNoMoreData(true);
-                }
-            }
-        });
-        registerObserver(EVENT_KEY, EVENT_KEY + "err").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object o) {
-                if (binding.refreshLayout.getState() == RefreshState.Refreshing) {
-                    binding.refreshLayout.finishRefresh(false);
-                } else if (binding.refreshLayout.getState() == RefreshState.Loading) {
-                    binding.refreshLayout.finishLoadMore(false);
+                    BaseResponse<VirtualOrderBean> data = (BaseResponse<VirtualOrderBean>) result;
+                    if (!isLoadmore) {
+                        pageIndex = 1;
+                        binding.refreshLayout.finishRefresh();
+                        virtualOrderListAdapter.setNewData(data.getData().getOrder_list());
+                    } else {
+                        pageIndex++;
+                        binding.refreshLayout.finishLoadMore();
+                        virtualOrderListAdapter.addData(data.getData().getOrder_list());
+                    }
+                    if (!data.isHasmore()) {
+                        binding.refreshLayout.setNoMoreData(true);
+                    }
                 }
             }
         });
@@ -201,6 +197,12 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
     @Override
     protected void lazyLoad() {
         mViewModel.getVirtualOrderList(EVENT_KEY, TYPE, getOrderKey(), 1);
+    }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        lazyLoad();
     }
 
     private String getOrderKey() {

@@ -110,11 +110,9 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
 
     @Override
     protected void dataObserver() {
-        KLog.i("绑定事件监听");
         LiveBus.getDefault().subscribe("LoginSuccess").observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object isLogin) {
-                KLog.i("登陆成功，刷新数据");
                 mViewModel.getUserInfo();
             }
         });
@@ -122,40 +120,21 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         LiveBus.getDefault().subscribe("LOGIN_OUT").observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object isLogin) {
-                KLog.i("退出登录，清除数据");
                 clearnDatas();
             }
         });
 
-        registerObserver("GET_USER_INFO", "success").observeForever(new Observer<Object>() {
+        registerObserver("GET_USER_INFO", Object.class).observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object result) {
-                KLog.i("获取成功，刷新展示内容。");
-                binding.refreshLayout.finishRefresh();
-                MyInfoBean myInfoBean = (MyInfoBean) result;
-                setNewData(myInfoBean);
-                SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
-            }
-        });
-
-        registerObserver("GET_USER_INFO", "fail").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                KLog.i("获取失败，刷新展示内容。");
-                binding.refreshLayout.finishRefresh(false);
-                BaseResponse<MyInfoBean> myInfoBean = (BaseResponse<MyInfoBean>) result;
-                if (!myInfoBean.getLogin().isEmpty() && myInfoBean.getLogin().equals("0")) {
-                    SharePreferenceUtil.saveLogin(false);
+                if (result instanceof String) {
+                    binding.refreshLayout.finishRefresh(false);
+                } else {
+                    binding.refreshLayout.finishRefresh();
+                    MyInfoBean myInfoBean = (MyInfoBean) result;
+                    setNewData(myInfoBean);
+                    SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
                 }
-            }
-        });
-
-        registerObserver("GET_USER_INFO", "err").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                KLog.i("获取个人信息失败。");
-                binding.refreshLayout.finishRefresh(false);
-                SharePreferenceUtil.saveBooleanKeyValue("needRefresh", true);
             }
         });
     }

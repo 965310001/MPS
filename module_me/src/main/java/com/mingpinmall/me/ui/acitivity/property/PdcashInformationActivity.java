@@ -30,19 +30,16 @@ public class PdcashInformationActivity extends AbsLifecycleActivity<ActivityPdca
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("PDCASH_INFORMATION", "success", PdcashInfoBean.class)
-                .observeForever(new Observer<PdcashInfoBean>() {
+        registerObserver("PDCASH_INFORMATION", Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable PdcashInfoBean result) {
-                        Log.i("哇哇哇", "onChanged: 进来了？");
-                        binding.setData(result);
-                    }
-                });
-        registerObserver("PDCASH_INFORMATION", "err", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        ToastUtils.showShort(msg);
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof PdcashInfoBean) {
+                            PdcashInfoBean data = (PdcashInfoBean) result;
+                            binding.setData(data);
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
     }

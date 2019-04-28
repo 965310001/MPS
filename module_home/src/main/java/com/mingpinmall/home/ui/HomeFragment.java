@@ -363,24 +363,22 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     @Override
     protected void dataObserver() {
-        registerObserver("HOME_DATA_JSON", HomeItemBean.class)
-                .observeForever(new Observer<HomeItemBean>() {
+        registerObserver("HOME_DATA_JSON", Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable final HomeItemBean data) {
-                        if (data.getCode() == 200) {
-                            binding.refreshLayout.finishRefresh();
-                            homeListAdapter.setNewData(formatDatas(data.getDatas()));
+                    public void onChanged(@Nullable final Object result) {
+                        if (result instanceof HomeItemBean) {
+                            HomeItemBean data = (HomeItemBean) result;
+                            if (data.getCode() == 200) {
+                                binding.refreshLayout.finishRefresh();
+                                homeListAdapter.setNewData(formatDatas(data.getDatas()));
+                            } else {
+                                binding.refreshLayout.finishRefresh(false);
+                            }
                         } else {
                             binding.refreshLayout.finishRefresh(false);
+                            ToastUtils.showShort(result.toString());
                         }
-                    }
-                });
-        registerObserver("Err_HOME_DATA_JSON", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        binding.refreshLayout.finishRefresh(false);
-                        ToastUtils.showShort(msg);
                     }
                 });
     }

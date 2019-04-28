@@ -86,8 +86,9 @@ public class CouponDisplayView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        mPaint.setColor(Color.parseColor("#FFFFFFFF"));
         canvas.drawRect(0, 0, width / 8 * 5, hight, mPaint);
-        canvas.drawRect(width / 8 * 5, 0, width - gap, hight, mPaint2);
+        canvas.drawRect(width / 8 * 5, 0, width, hight, mPaint2);
 
         mPaint.setColor(Color.parseColor("#FFF3F3F3"));
         for (int i = 0; i < circleNum; i++) {

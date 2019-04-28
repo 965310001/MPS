@@ -4,7 +4,10 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
@@ -44,6 +47,12 @@ public class PdrechargeFragment extends AbsLifecycleFragment<FragmentDefaultRecy
         super.initView(state);
         pdrechargeAdapter = new PdrechargeAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_mcc_06_w);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_charge_empty);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_log_empty);
+        emptyView.findViewById(R.id.btn_action).setVisibility(View.GONE);
+        pdrechargeAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(pdrechargeAdapter);
 
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -69,43 +78,41 @@ public class PdrechargeFragment extends AbsLifecycleFragment<FragmentDefaultRecy
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("PDRECHARGE", "success").observeForever(new Observer<Object>() {
+        registerObserver("PDRECHARGE", Object.class).observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object result) {
-                BaseResponse<PdrechargeBean> data = (BaseResponse<PdrechargeBean>) result;
-                if (isLoadmore) {
-                    pageIndex++;
-                    binding.refreshLayout.finishLoadMore();
-                    pdrechargeAdapter.addData(data.getData().getList());
+                if (result instanceof String) {
+                    ToastUtils.showShort(result.toString());
+                    if (isLoadmore) {
+                        binding.refreshLayout.finishLoadMore(false);
+                    } else {
+                        binding.refreshLayout.finishRefresh(false);
+                    }
                 } else {
-                    //如果数据有变，则更新预存款余额
-                    if (pdrechargeAdapter.getItemCount() > 0) {
-                        if (data.getData().getList().size() > 0) {
-                            if (!pdrechargeAdapter.getItem(0).getPdr_id()
-                                    .equals(data.getData().getList().get(0).getPdr_id())) {
+                    BaseResponse<PdrechargeBean> data = (BaseResponse<PdrechargeBean>) result;
+                    if (isLoadmore) {
+                        pageIndex++;
+                        binding.refreshLayout.finishLoadMore();
+                        pdrechargeAdapter.addData(data.getData().getList());
+                    } else {
+                        //如果数据有变，则更新预存款余额
+                        if (pdrechargeAdapter.getData().size() > 0) {
+                            if (data.getData().getList().size() > 0) {
+                                if (!pdrechargeAdapter.getItem(0).getPdr_id()
+                                        .equals(data.getData().getList().get(0).getPdr_id())) {
+                                    LiveBus.getDefault().postEvent("REFRESH_PDC", "true");
+                                }
+                            } else {
                                 LiveBus.getDefault().postEvent("REFRESH_PDC", "true");
                             }
-                        } else {
-                            LiveBus.getDefault().postEvent("REFRESH_PDC", "true");
                         }
+                        pageIndex = 1;
+                        binding.refreshLayout.finishRefresh();
+                        pdrechargeAdapter.setNewData(data.getData().getList());
                     }
-                    pageIndex = 1;
-                    binding.refreshLayout.finishRefresh();
-                    pdrechargeAdapter.setNewData(data.getData().getList());
-                }
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.setNoMoreData(true);
-                }
-            }
-        });
-        registerObserver("PDRECHARGE", "err", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                ToastUtils.showShort(msg);
-                if (isLoadmore) {
-                    binding.refreshLayout.finishLoadMore(false);
-                } else {
-                    binding.refreshLayout.finishRefresh(false);
+                    if (!data.isHasmore()) {
+                        binding.refreshLayout.setNoMoreData(true);
+                    }
                 }
             }
         });

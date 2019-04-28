@@ -13,6 +13,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityPropertyBinding;
 import com.mingpinmall.me.ui.adapter.PropertyItemAdapter;
@@ -59,11 +60,15 @@ public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBindi
 
     @Override
     protected void dataObserver() {
-        registerObserver("MY_ASSET", PropertyBean.class)
-                .observeForever(new Observer<PropertyBean>() {
+        registerObserver("MY_ASSET", Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable PropertyBean propertyBean) {
-                        setData(propertyBean);
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof PropertyBean) {
+                            setData((PropertyBean) result);
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
     }

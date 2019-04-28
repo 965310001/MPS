@@ -20,6 +20,39 @@ import retrofit2.http.Query;
 public interface MeApiService {
 
     /**
+     * 描述：消息记录
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_chat&wwi=get_user_list
+     * 请求方式：POST
+     * 参数
+     * recent: 1
+     */
+    String MESSAGE = "/mo_bile/index.php?app=member_chat&wwi=get_user_list";
+
+    @FormUrlEncoded
+    @POST(MESSAGE)
+    Flowable<BaseResponse<MessageListBean>> getMsgList(
+            @Field("key") String key,
+            @Field("recent") int recent
+    );
+
+
+    /**
+     * 描述：删除一条消息记录
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_chat&wwi=del_msg
+     * 请求方式：POST
+     * 参数
+     * t_id: 30407
+     */
+    String DEL_MESSAGE = "/mo_bile/index.php?app=member_chat&wwi=del_msg";
+
+    @FormUrlEncoded
+    @POST(DEL_MESSAGE)
+    Flowable<BaseNothingBean> delMsg(
+            @Field("key") String key,
+            @Field("t_id") String t_id
+    );
+
+    /**
      * 描述：会员积分记录
      * 请求地址
      * https://www.mingpinmall.cn/mo_bile/index.php?app=member_points&wwi=pointslog&key=&curpage=1&page=10

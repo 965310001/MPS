@@ -16,6 +16,16 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         super(application);
     }
 
+    /*消息列表*/
+    public void delMsg(String id) {
+        mRepository.delMsg(id);
+    }
+
+    /*消息列表*/
+    public void getMsgList() {
+        mRepository.getMsgList();
+    }
+
     /*退货详情*/
     public void getReturnInformation(String returnId) {
         mRepository.getReturnInformation(returnId);

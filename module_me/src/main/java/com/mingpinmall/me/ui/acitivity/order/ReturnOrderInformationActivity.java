@@ -2,7 +2,6 @@ package com.mingpinmall.me.ui.acitivity.order;
 
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -11,10 +10,8 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.databinding.ActivityPhysicalOrderInformationBinding;
 import com.mingpinmall.me.databinding.ActivityReturnInformationBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
-import com.mingpinmall.me.ui.bean.PdcashInfoBean;
 import com.mingpinmall.me.ui.bean.ReturnInformation;
 
 /**
@@ -31,18 +28,16 @@ public class ReturnOrderInformationActivity extends AbsLifecycleActivity<Activit
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("RETURN_INFORMATION", "success", ReturnInformation.class)
-                .observeForever(new Observer<ReturnInformation>() {
+        registerObserver("RETURN_INFORMATION", Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable ReturnInformation result) {
-                        binding.setData(result);
-                    }
-                });
-        registerObserver("RETURN_INFORMATION", "err", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        ToastUtils.showShort(msg);
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof ReturnInformation) {
+                            ReturnInformation data = (ReturnInformation) result;
+                            binding.setData(data);
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
     }

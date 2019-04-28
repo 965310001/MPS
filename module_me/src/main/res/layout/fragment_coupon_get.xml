@@ -27,7 +27,7 @@
                     android:layout_marginStart="35dp"
                     android:alpha="0.3"
                     android:rotation="25"
-                    android:src="@drawable/ic_mcc_07_w"
+                    android:src="@drawable/ic_mcc_08_w"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

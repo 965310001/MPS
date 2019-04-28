@@ -72,45 +72,42 @@ public class VipIntegralActivity extends AbsLifecycleActivity<ActivityVipintergr
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("VIP_POINT", "success", VipPointBean.class).observeForever(new Observer<VipPointBean>() {
-            @Override
-            public void onChanged(@Nullable VipPointBean vipPointBean) {
-                binding.tvSurplus.setText(vipPointBean.getPoint());
-            }
-        });
-        registerObserver("VIP_POINT", "err", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                ToastUtils.showShort(msg);
-            }
-        });
-        registerObserver("VIP_POINT_LOG", "success").observeForever(new Observer<Object>() {
+        registerObserver("VIP_POINT", Object.class).observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object result) {
-                //获取到了会员积分记录
-                BaseResponse<VipPointListBean> data = (BaseResponse<VipPointListBean>) result;
-                if (isLoadmore) {
-                    pageIndex++;
-                    binding.refreshLayout.finishLoadMore();
-                    listAdapter.addData(data.getData().getLog_list());
+                if (result instanceof VipPointBean) {
+                    VipPointBean vipPointBean = (VipPointBean) result;
+                    binding.tvSurplus.setText(vipPointBean.getPoint());
                 } else {
-                    pageIndex = 1;
-                    binding.refreshLayout.finishRefresh();
-                    listAdapter.setNewData(data.getData().getLog_list());
-                }
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.setNoMoreData(true);
+                    ToastUtils.showShort(result.toString());
                 }
             }
         });
-        registerObserver("VIP_POINT_LOG", "err", String.class).observeForever(new Observer<String>() {
+        registerObserver("VIP_POINT_LOG", Object.class).observeForever(new Observer<Object>() {
             @Override
-            public void onChanged(@Nullable String msg) {
-                ToastUtils.showShort(msg);
-                if (isLoadmore) {
-                    binding.refreshLayout.finishLoadMore(false);
+            public void onChanged(@Nullable Object result) {
+                if (result instanceof String) {
+                    ToastUtils.showShort(result.toString());
+                    if (isLoadmore) {
+                        binding.refreshLayout.finishLoadMore(false);
+                    } else {
+                        binding.refreshLayout.finishRefresh(false);
+                    }
                 } else {
-                    binding.refreshLayout.finishRefresh(false);
+                    //获取到了会员积分记录
+                    BaseResponse<VipPointListBean> data = (BaseResponse<VipPointListBean>) result;
+                    if (isLoadmore) {
+                        pageIndex++;
+                        binding.refreshLayout.finishLoadMore();
+                        listAdapter.addData(data.getData().getLog_list());
+                    } else {
+                        pageIndex = 1;
+                        binding.refreshLayout.finishRefresh();
+                        listAdapter.setNewData(data.getData().getLog_list());
+                    }
+                    if (!data.isHasmore()) {
+                        binding.refreshLayout.setNoMoreData(true);
+                    }
                 }
             }
         });

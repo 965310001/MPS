@@ -43,22 +43,20 @@ public class CouponGetFragment extends AbsLifecycleFragment<FragmentCouponGetBin
 
     @Override
     protected void dataObserver() {
-        registerObserver("COUPON_CHARGE", "success").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        binding.edCardNum.setText("");
-                        LiveBus.getDefault().postEvent("REFRESH_COUPON", "true");
-                    }
-                });
-            }
-        });
-        registerObserver("COUPON_CHARGE", "err", String.class).observeForever(new Observer<String>() {
+        registerObserver("COUPON_CHARGE", String.class).observeForever(new Observer<String>() {
             @Override
             public void onChanged(@Nullable String msg) {
-                progressDialog.onFail(msg);
+                if (msg.equals("success")) {
+                    progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            binding.edCardNum.setText("");
+                            LiveBus.getDefault().postEvent("REFRESH_COUPON", "true");
+                        }
+                    });
+                } else {
+                    progressDialog.onFail(msg);
+                }
             }
         });
     }

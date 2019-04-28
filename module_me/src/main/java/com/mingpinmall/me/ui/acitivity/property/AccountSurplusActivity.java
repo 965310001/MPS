@@ -70,19 +70,17 @@ public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccount
                 initData();
             }
         });
-        registerObserver("PREDEPOIT", "success", Predepoit.class)
-                .observeForever(new Observer<Predepoit>() {
+        registerObserver("PREDEPOIT", Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable Predepoit predepoit) {
-                        //获取到账户余额
-                        binding.tvSurplus.setText(predepoit.getPredepoit());
-                    }
-                });
-        registerObserver("PREDEPOIT", "err", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        ToastUtils.showShort(msg);
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof Predepoit) {
+                            Predepoit predepoit = (Predepoit) result;
+                            //获取到账户余额
+                            binding.tvSurplus.setText(predepoit.getPredepoit());
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
     }
