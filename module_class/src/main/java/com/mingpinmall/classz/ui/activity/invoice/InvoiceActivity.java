@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.activity.invoice;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -212,5 +213,11 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
         this.index = index;
         bean = (InvoiceListInfo.InvoiceListBean) object;
         bean.setChecked(true);
+
+
+        Intent intent = new Intent();
+        intent.putExtra("invoicelistbean", bean);
+        setResult(400, intent);
+        finish();
     }
 }

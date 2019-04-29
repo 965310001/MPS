@@ -25,6 +25,7 @@ import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
+import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.widget.PayPopupWindow;
 import com.socks.library.KLog;
@@ -56,6 +57,10 @@ public class ConfirmOrderActivity extends
 
     /*地址id*/
     String addressId;
+
+    private String invoice_id = "";/*是否选择发票*/
+
+    private int mPayFun = -1;
 
     @Autowired
     String ifcart;/*是否是购物车*/
@@ -173,7 +178,6 @@ public class ConfirmOrderActivity extends
         paymentDialog.show();
     }
 
-    int mPayFun = -1;
 
     /*阿里*/
     public void aLiPay(View view) {
@@ -212,7 +216,12 @@ public class ConfirmOrderActivity extends
 
     public void invoiceInfo(View view) {
         KLog.i("发票信息");
-        ActivityToActivity.toActivity(ARouterConfig.classify.INVOICEACTIVITY);
+//        ActivityToActivity.toActivity(ARouterConfig.classify.INVOICEACTIVITY);
+
+        ARouter.getInstance().build(ARouterConfig.classify.INVOICEACTIVITY)
+                .navigation(this,
+                        400);
+
     }
 
     public void sublimit(View view) {
@@ -229,11 +238,12 @@ public class ConfirmOrderActivity extends
         map.put("offpay_hash", mOffpayHash);
         map.put("offpay_hash_batch", mOffpayHashBatch);
         map.put("pay_name", "online");
-        map.put("invoice_id", "online");
+        map.put("invoice_id", invoice_id);
         map.put("rpt", "");
         map.put("pay_message", binding.getContent());//store_id+binding.getContent()|store_id+binding.getContent()
         mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
     }
+
 
     public void onFinishClick(View view) {
         if (mPayPopupWindow.isShowing()) {
@@ -257,10 +267,14 @@ public class ConfirmOrderActivity extends
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (resultCode == requestCode && requestCode == 100) {
+        if (resultCode == requestCode && requestCode == 100) {/*选择地址*/
             AddressDataBean.AddressListBean data = (AddressDataBean.AddressListBean) intent.getSerializableExtra("addressData");
             binding.setAddress(data);
             addressId = data.getAddress_id();
+        } else if (requestCode == 400) {/*选择发票*/
+            InvoiceListInfo.InvoiceListBean bean = (InvoiceListInfo.InvoiceListBean) intent.getSerializableExtra("invoicelistbean");
+            invoice_id = bean.getInv_idX();
+            binding.setInvoice(bean.getInv_content());
         }
 
     }

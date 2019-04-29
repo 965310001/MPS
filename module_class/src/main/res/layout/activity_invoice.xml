@@ -171,12 +171,71 @@
                     style="@style/HorizontalLine"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:visibility="@{selectInvoiceType?View.GONE:View.VISIBLE}" />
+                    android:visibility="@{selectInvoiceType?View.VISIBLE:View.GONE}" />
 
+                <!--姓名-->
+                <LinearLayout
+                    style="@style/width_warp_height_warp"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/dp_50"
+                    android:orientation="horizontal"
+                    android:visibility="@{selectInvoiceType?View.VISIBLE:View.GONE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp_4"
+                        android:paddingRight="@dimen/dp_4"
+                        android:text="姓        名" />
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="请输入姓名"
+                        android:text="@={name}"
+                        android:textSize="@dimen/text_14" />
+                </LinearLayout>
+
+                <View
+                    style="@style/HorizontalLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:visibility="@{selectInvoiceType?View.VISIBLE:View.GONE}" />
+
+                <!--身份证-->
+                <LinearLayout
+                    style="@style/width_match_height_warp"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/dp_50"
+                    android:orientation="horizontal"
+                    android:visibility="@{selectInvoiceType?View.VISIBLE:View.GONE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp_4"
+                        android:paddingRight="@dimen/dp_4"
+                        android:text="身  份  证" />
+
+                    <AutoCompleteTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="请输入身份证"
+                        android:text="@={idcard}"
+                        android:textSize="@dimen/text_14" />
+                </LinearLayout>
+
+                <View
+                    style="@style/HorizontalLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:visibility="@{selectInvoiceType?View.VISIBLE:View.GONE}" />
 
                 <LinearLayout
                     style="@style/width_match_height_warp"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:minHeight="@dimen/dp_50"
                     android:orientation="horizontal"
                     android:visibility="@{selectInvoiceType?View.GONE:View.VISIBLE}">
@@ -189,7 +248,7 @@
                         android:text="发票抬头" />
 
                     <AutoCompleteTextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:hint="输入个人或企业名称"
@@ -198,13 +257,45 @@
 
                 </LinearLayout>
 
+                <!--机构代码-->
                 <View
                     style="@style/HorizontalLine"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:visibility="@{selectInvoiceType?View.GONE:View.VISIBLE}" />
 
                 <LinearLayout
                     style="@style/width_match_height_warp"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/dp_50"
+                    android:orientation="horizontal"
+                    android:visibility="@{selectInvoiceType?View.GONE:View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp_4"
+                        android:paddingRight="@dimen/dp_4"
+                        android:text="机构代码" />
+
+                    <AutoCompleteTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="输入组织机构代码"
+                        android:text="@={number}"
+                        android:textSize="@dimen/text_14" />
+                </LinearLayout>
+
+                <View
+                    style="@style/HorizontalLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:visibility="@{selectInvoiceType?View.VISIBLE:View.GONE}" />
+
+                <LinearLayout
+                    style="@style/width_match_height_warp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
