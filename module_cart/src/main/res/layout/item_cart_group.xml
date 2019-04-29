@@ -29,7 +29,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="12dp"
-                android:src="@drawable/ic_store_b" />
+                app:srcCompat="@drawable/ic_store_b" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_storeName"
@@ -45,19 +45,30 @@
                 android:layout_height="match_parent"
                 android:background="@color/line_color" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <LinearLayout
                 android:id="@+id/tv_coupon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/ic_cart_coupon_small"
-                android:drawablePadding="6dp"
-                android:gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:text="领券"
-                android:textColor="@color/black"
                 android:visibility="gone"
-                tools:visibility="visible" />
+                tools:visibility="visible">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    app:srcCompat="@drawable/ic_cart_coupon_small" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="领券"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -153,8 +164,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_arrow"
                 app:layout_constraintStart_toEndOf="@id/tv_tips1"
-                app:layout_constraintTop_toTopOf="parent"
-                >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:layout_width="200dp"
@@ -162,8 +172,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="12dp"
                     android:gravity="center"
-                    android:text="这是满即送列表，有内容时显示。这个textview会被remove"
-                    />
+                    android:text="这是满即送列表，有内容时显示。这个textview会被remove" />
 
             </LinearLayout>
 
@@ -173,10 +182,10 @@
                 android:layout_height="24dp"
                 android:layout_marginEnd="12dp"
                 android:padding="4dp"
-                android:src="@drawable/ic_expanded"
                 app:layout_constraintBottom_toBottomOf="@id/tv_tips1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_tips1" />
+                app:layout_constraintTop_toTopOf="@id/tv_tips1"
+                app:srcCompat="@drawable/ic_expanded" />
 
         </android.support.constraint.ConstraintLayout>
 

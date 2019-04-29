@@ -18,22 +18,22 @@ public class CartRepository extends BaseRepository {
     private CartApiService apiService = RetrofitClient.getInstance().create(CartApiService.class);
 
     /*购物车列表*/
-    protected void getCartList() {
+    protected void getCartList(final String event_key) {
         addDisposable(apiService.getCartList(getUserKey())
                 .compose(RxSchedulers.<BaseResponse<ShopCartBean>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ShopCartBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<ShopCartBean> result) {
                         if (result.isSuccess()) {
-                            sendData("SHOP_CART_LIST", "success", result.getData());
+                            sendData(event_key + "SHOP_CART_LIST", result.getData());
                         } else {
-                            sendData("SHOP_CART_LIST", "err", result.getMessage());
+                            sendData(event_key + "SHOP_CART_LIST", result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("SHOP_CART_LIST", "err", msg == null ? "获取失败" : msg);
+                        sendData(event_key + "SHOP_CART_LIST", msg == null ? "获取失败" : msg);
                     }
                 })
         );

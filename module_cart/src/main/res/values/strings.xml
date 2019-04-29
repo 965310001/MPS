@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">购物车</string>
+
+    <!-- ShopCartActivity -->
+    <string name="title_ShopCartActivity">购物车</string>
+    <!-- ShopCartActivity Over -->
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MPS</string>
+    <string name="app_name">名品网</string>
 
     <string-array name="tab_name">
         <item>"首页"</item>

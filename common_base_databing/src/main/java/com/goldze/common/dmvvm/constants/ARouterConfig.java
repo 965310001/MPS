@@ -40,6 +40,10 @@ public interface ARouterConfig {
 
 
     /***************************************************************************首页***********************************************************************/
+    interface cart {
+        /*购物车*/
+        String SHOPCARTACTIVITY = "/cart/ShopCartActivity";
+    }
     interface home {
         /*店铺街*/
         String SHOPSTREETACTIVITY = "/home1/ShopStreetActivity";

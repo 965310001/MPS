@@ -140,11 +140,11 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        boolean isVis = isHidden() || getUserVisibleHint();
-        if (isVis && mIsFirstVisible) {
-            lazyLoad();
-            mIsFirstVisible = false;
-        }
+//        boolean isVis = isHidden() || getUserVisibleHint();
+//        if (isVis && mIsFirstVisible) {
+//            lazyLoad();
+//            mIsFirstVisible = false;
+//        }
     }
 
     protected abstract int getLayoutResId();
@@ -159,12 +159,7 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            onVisible();
-        } else {
-            onInVisible();
-        }
+        userVisibleController.onHiddenChanged(hidden);
     }
 
     @Override
@@ -180,7 +175,6 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
 
     @Override
@@ -237,7 +231,18 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
 
     @Override
     public void onVisibleToUserChanged(boolean isVisibleToUser, boolean invokeInResumeOrPause) {
-        handleOnVisibilityChangedToUser(isVisibleToUser);
+        Log.i("我的", "onVisibleToUserChanged: " + isVisibleToUser + this.getClass().getSimpleName());
+        if (isVisibleToUser) {
+            // 对用户可见
+            if (mIsFirstVisible && isResumed()) {
+                lazyLoad();
+                mIsFirstVisible = false;
+            }
+            onVisible();
+        } else {
+            // 对用户不可见
+            onInVisible();
+        }
     }
 
     /**
@@ -252,23 +257,16 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     protected void onInVisible() {
     }
 
-    /**
-     * 处理对用户是否可见
-     *
-     * @param isVisibleToUser
-     */
-    private void handleOnVisibilityChangedToUser(boolean isVisibleToUser) {
-        if (isVisibleToUser) {
-            // 对用户可见
-            if (mIsFirstVisible && isResumed()) {
-                lazyLoad();
-                mIsFirstVisible = false;
-            }
-            onVisible();
-        } else {
-            // 对用户不可见
-            onInVisible();
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        userVisibleController.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        userVisibleController.pause();
     }
 
     protected void reGetData() {

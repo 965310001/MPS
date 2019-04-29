@@ -34,7 +34,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_store_b" />
+                    app:srcCompat="@drawable/ic_store_b" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_storeName"
@@ -47,7 +47,7 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:layout_width="18dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_svg_more" />
+                    app:srcCompat="@drawable/ic_svg_more" />
 
             </LinearLayout>
 

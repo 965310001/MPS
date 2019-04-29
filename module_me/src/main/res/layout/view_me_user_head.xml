@@ -40,7 +40,7 @@
             android:layout_height="38dp"
             android:layout_margin="8dp"
             android:padding="4dp"
-            android:src="@drawable/ic_setting_white"
+            app:srcCompat="@drawable/ic_setting_white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +50,7 @@
             android:layout_height="38dp"
             android:layout_margin="8dp"
             android:padding="4dp"
-            android:src="@drawable/ic_message_white"
+            app:srcCompat="@drawable/ic_message_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
 import android.databinding.InverseBindingMethod;
 import android.databinding.InverseBindingMethods;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -78,7 +81,7 @@ public class SettingItemView extends FrameLayout {
     /**
      * 左边图标资源
      */
-    private Drawable drawable;
+    private @DrawableRes int drawable;
 
     /**
      * 样式，各种控件的隐藏和显示
@@ -108,7 +111,7 @@ public class SettingItemView extends FrameLayout {
         isSmallIcon = a.getBoolean(R.styleable.SettingItemView_smallIcon, false);
         title = a.getString(R.styleable.SettingItemView_title);
         subTitle = a.getString(R.styleable.SettingItemView_subTitle);
-        drawable = a.getDrawable(R.styleable.SettingItemView_image);
+        drawable = a.getResourceId(R.styleable.SettingItemView_image, 0);
         description = a.getString(R.styleable.SettingItemView_description);
         theme = a.getInt(R.styleable.SettingItemView_mode, -1);
         a.recycle();
@@ -359,6 +362,17 @@ public class SettingItemView extends FrameLayout {
      */
     public SettingItemView setImageIcon(Drawable drawable) {
         iv_icon.setImageDrawable(drawable);
+        return this;
+    }
+
+    /**
+     * 设置左边图标ImageView的图片
+     *
+     * @param bitmap 图片
+     * @return
+     */
+    public SettingItemView setImageIcon(Bitmap bitmap) {
+        iv_icon.setImageBitmap(bitmap);
         return this;
     }
 

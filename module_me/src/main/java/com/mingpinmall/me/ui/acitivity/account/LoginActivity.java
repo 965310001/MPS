@@ -58,6 +58,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
 
         binding.tvProtocol.setOnClickListener(this);
         binding.tvGetPsdCode.setOnClickListener(this);
+        binding.btnSublimt.setOnClickListener(this);
 
         binding.cbAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

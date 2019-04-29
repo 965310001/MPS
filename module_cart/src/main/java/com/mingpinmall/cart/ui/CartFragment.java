@@ -39,6 +39,7 @@ import java.util.List;
  */
 public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, CartViewModel> {
 
+    private String EVENT_KEY = "";
     private ShopCartAdapter shopCartAdapter;
     private int checkedSize = 0;
     private int goodsSize = 0;
@@ -50,22 +51,38 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         return new CartFragment();
     }
 
+    public static CartFragment newInstance(String key) {
+        CartFragment cartFragment = new CartFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("key", key);
+        cartFragment.setArguments(bundle);
+        return cartFragment;
+    }
+
+    @Override
+    public void setArguments(@Nullable Bundle args) {
+        super.setArguments(args);
+        EVENT_KEY = args.getString("key");
+    }
+
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        getViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
-        ((TextView) getViewById(R.id.tv_title)).setText("购物车");
-        ((ImageView) getViewById(R.id.iv_search)).setImageResource(R.drawable.ic_message_black);
-        getViewById(R.id.iv_search).setVisibility(View.VISIBLE);
-        getViewById(R.id.iv_search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转消息页面，未登录则跳转登陆页面
-                ActivityToActivity.toActivity(SharePreferenceUtil.isLogin() ? ARouterConfig.Me.MESSAGEACTIVITY : ARouterConfig.LOGINACTIVITY);
-            }
-        });
-        //在这里设置沉浸式状态栏
-        setTitlePadding(getViewById(R.id.rl_title_content));
+        if (EVENT_KEY.equals("")) {
+            getViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
+            ((TextView) getViewById(R.id.tv_title)).setText("购物车");
+            ((ImageView) getViewById(R.id.iv_search)).setImageResource(R.drawable.ic_message_black);
+            getViewById(R.id.iv_search).setVisibility(View.VISIBLE);
+            getViewById(R.id.iv_search).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //跳转消息页面，未登录则跳转登陆页面
+                    ActivityToActivity.toActivity(SharePreferenceUtil.isLogin() ? ARouterConfig.Me.MESSAGEACTIVITY : ARouterConfig.LOGINACTIVITY);
+                }
+            });
+            //在这里设置沉浸式状态栏
+            setTitlePadding(getViewById(R.id.rl_title_content));
+        }
         //并且设置状态栏字体颜色为黑色
         setDarkMode(true);
 
@@ -108,6 +125,13 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             }
         });
 
+        binding.tvPayNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //立即支付
+//                ActivityToActivity.toActivity(ARouterConfig.cart.SHOPCARTACTIVITY);这个是其他地方需要跳转到购物车，又不想返回首页的时候，跳转这个activity
+            }
+        });
         binding.cbSelectAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,7 +292,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             return;
         }
         binding.clPayContent.setVisibility(View.VISIBLE);
-        mViewModel.getCartList();
+        mViewModel.getCartList(EVENT_KEY);
     }
 
     /**
@@ -345,23 +369,24 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                     reGetData();
             }
         });
-        registerObserver("SHOP_CART_LIST", "success", ShopCartBean.class).observeForever(new Observer<ShopCartBean>() {
-            @Override
-            public void onChanged(@Nullable ShopCartBean result) {
-                formatData(result);
-                binding.refreshLayout.finishRefresh();
-            }
-        });
-        registerObserver("SHOP_CART_LIST", "err", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                ToastUtils.showShort(msg);
-                binding.refreshLayout.finishRefresh(false);
-            }
-        });
+        registerObserver(EVENT_KEY + "SHOP_CART_LIST", Object.class).
+                observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        //获取购物车数据并处理
+                        if (result instanceof ShopCartBean) {
+                            formatData((ShopCartBean) result);
+                            binding.refreshLayout.finishRefresh();
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                            binding.refreshLayout.finishRefresh(false);
+                        }
+                    }
+                });
         registerObserver("CART_QUANTITY", CartQuantityState.class).observeForever(new Observer<CartQuantityState>() {
             @Override
             public void onChanged(@Nullable CartQuantityState result) {
+                //购物车商品数量增加和减少
                 if (result.isSuccess()) {
                     changeGoodsCount(result.getPosition(), result.getQuantity());
                 } else {
@@ -375,6 +400,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         registerObserver("CART_DELETE", CartQuantityState.class).observeForever(new Observer<CartQuantityState>() {
             @Override
             public void onChanged(@Nullable CartQuantityState result) {
+                //购物车商品删除
                 if (result.isSuccess()) {
                 } else {
                     ToastUtils.showShort(result.getMsg());

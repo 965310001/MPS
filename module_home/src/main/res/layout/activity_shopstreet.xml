@@ -29,11 +29,16 @@
                 android:textColor="@color/dark"
                 android:textSize="16sp" />
 
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/ic_gps"
+                />
+
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_selectAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_gps"
                 android:layout_weight="1"
                 android:drawablePadding="2dp"
                 android:gravity="left|center_vertical"

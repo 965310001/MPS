@@ -30,6 +30,11 @@ public final class ResourcesUtils {
         return Utils.getApplication().getResources().getStringArray(id);
     }
 
+    /*获取int数组*/
+    public int[] getIntArray(int id) {
+        return Utils.getApplication().getResources().getIntArray(id);
+    }
+
     /*获取图片数组*/
     public TypedArray obtainTypedArray(int id) {
         return Utils.getApplication().getResources().obtainTypedArray(id);

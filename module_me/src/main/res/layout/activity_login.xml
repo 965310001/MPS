@@ -223,7 +223,6 @@
             android:background="@drawable/xui_config_bg_blue_btn"
             android:enabled="false"
             android:gravity="center"
-            android:onClick="onClick"
             android:text="@string/text_login"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"

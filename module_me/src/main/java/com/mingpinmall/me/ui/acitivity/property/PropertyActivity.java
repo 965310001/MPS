@@ -1,6 +1,7 @@
 package com.mingpinmall.me.ui.acitivity.property;
 
 import android.arch.lifecycle.Observer;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityPropertyBinding;
@@ -113,6 +115,7 @@ public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBindi
     private void initItemData() {
         String[] titles = getResources().getStringArray(R.array.titles_property);
         String[] desc = getResources().getStringArray(R.array.desc_property);
+        TypedArray subImage1 = ResourcesUtils.getInstance().obtainTypedArray(R.array.home_me_estates_image);
         List<BaseItemBean> itemBeanList = new ArrayList<>();
         for (int i = 0; i < titles.length; i++) {
             BaseItemBean itemBean = new BaseItemBean();
@@ -121,7 +124,7 @@ public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBindi
             itemBean.setTitle(titles[i]);
             itemBean.setSubTitle("");
             itemBean.setDescription(desc[i]);
-            itemBean.setDrawable(R.drawable.icon_cartfill_press);
+            itemBean.setDrawable(subImage1.getResourceId(i, 0));
             itemBeanList.add(itemBean);
         }
         itemAdapter.setNewData(itemBeanList);
