@@ -1,7 +1,6 @@
 package com.mingpinmall.classz.ui.activity.classiflist;
 
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,32 +14,23 @@ import android.widget.PopupWindow;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
-import com.mingpinmall.classz.databinding.ActivityProductsBinding;
 import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
-import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
-
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
-
 import com.mingpinmall.classz.widget.FilterTab;
-
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
-import com.trecyclerview.pojo.FootVo;
-import com.trecyclerview.pojo.HeaderVo;
 
 import java.util.Arrays;
 

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_image"
@@ -14,37 +12,33 @@
         android:layout_height="80dp"
         android:background="@drawable/shape_background_round_40dp"
         android:padding="16dp"
-        app:srcCompat="@drawable/ic_cart_empty_white"
-        />
+        app:srcCompat="@drawable/ic_cart_empty_white" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="您的购物车还是空的"
-        android:textSize="20sp"
         android:layout_marginTop="16dp"
+        android:text="您的购物车还是空的"
         android:textColor="@color/black"
-        />
+        android:textSize="20sp" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_sub_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="去挑一些中意的商品吧"
-        android:textSize="14sp"
         android:layout_marginTop="8dp"
+        android:text="去挑一些中意的商品吧"
         android:textColor="#999"
-        />
+        android:textSize="14sp" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="随便逛逛"
         android:layout_marginTop="18dp"
         android:background="@drawable/bg_grid_white_corners_05dp"
         android:padding="6dp"
-        />
+        android:text="随便逛逛" />
 
 </LinearLayout>

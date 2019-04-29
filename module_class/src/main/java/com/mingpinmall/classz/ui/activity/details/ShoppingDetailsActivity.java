@@ -102,7 +102,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                                 fragmentList.add(goodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
                                 fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
                                 binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
-                                binding.vpContent.setOffscreenPageLimit(3);
+                                /*binding.vpContent.setOffscreenPageLimit(3);*/
                                 binding.pstsTabs.setViewPager(binding.vpContent);
                             } else {
                                 goodsInfoMainFragment.update();

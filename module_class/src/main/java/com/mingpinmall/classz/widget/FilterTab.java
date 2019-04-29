@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.Observable;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,7 +26,7 @@ public class FilterTab extends RelativeLayout {
     //旋转动画执行时间
     private static final long DURATION_ROTATE = 200;
     private TextView textFilter;
-    private ImageView imgArrow;
+    private AppCompatImageView imgArrow;
 
     private TabSelectedObervable tabSelectedObervable = new TabSelectedObervable();
 
@@ -54,9 +56,9 @@ public class FilterTab extends RelativeLayout {
 
     public FilterTab(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        LayoutInflater.from(context).inflate(R.layout.filter_tab, this);
-        textFilter = findViewById(R.id.filter_text);
-        imgArrow = findViewById(R.id.filter_img);
+        RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.filter_tab, this);
+        textFilter = relativeLayout.findViewById(R.id.filter_text);
+        imgArrow = relativeLayout.findViewById(R.id.filter_img);
 
         //设置筛选条件
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FilterTab);

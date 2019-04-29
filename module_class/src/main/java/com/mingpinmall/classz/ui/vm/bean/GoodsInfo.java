@@ -88,6 +88,9 @@ public class GoodsInfo extends BaseBean {
 
     public boolean isShop() {
         UserBean userBean = (UserBean) SharePreferenceUtil.getUser(UserBean.class);
+        if (userBean == null) {
+            return false;
+        }
         return userBean.getUserid().equals(member_id);
     }
 
