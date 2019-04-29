@@ -20,6 +20,55 @@ import retrofit2.http.Query;
 public interface MeApiService {
 
     /**
+     * 描述：我的推广码子功能2:提现申请
+     * 请求 URL: https://www.mingpinmall.cn/member/index.php?app=predeposit&wwi=pd_cash_add&inajax=1
+     * 请求方式：POST
+     * 参数
+     * <p>
+     * type: phone
+     * pdc_bank_user: 44
+     * pdc_bank_no: 33
+     * pdc_bank_name: 22
+     * pdc_amount: 11
+     * password: 55
+     * form_submit: ok
+     */
+    String PD_CASH_ADD = "/mo_bile/index.php?app=predeposit&wwi=pd_cash_add";
+
+    @FormUrlEncoded
+    @POST(PD_CASH_ADD)
+    Flowable<BaseNothingBean> addPdCash(
+            @Field("key") String key,
+            @Field("type") String type,
+            @Field("pdc_bank_user") String pdc_bank_user,
+            @Field("pdc_bank_no") String pdc_bank_no,
+            @Field("pdc_bank_name") String pdc_bank_name,
+            @Field("pdc_amount") String pdc_amount,
+            @Field("password") String password,
+            @Field("form_submit") String form_submit,
+            @Field("inajax") int inajax
+    );
+
+    /**
+     * 描述：我的推广码子功能1:绑定邀请码
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_buy&wwi=BindUserCode
+     * 请求方式：POST
+     * 参数
+     * <p>
+     * parent_id: 1111
+     * type: 1
+     */
+    String BindUserCode = "/mo_bile/index.php?app=member_buy&wwi=BindUserCode";
+
+    @FormUrlEncoded
+    @POST(BindUserCode)
+    Flowable<BaseNothingBean> bindUserCode(
+            @Field("key") String key,
+            @Field("parent_id") String parent_id,
+            @Field("type") int type
+    );
+
+    /**
      * 描述：消息记录
      * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_chat&wwi=get_user_list
      * 请求方式：POST
@@ -35,6 +84,20 @@ public interface MeApiService {
             @Field("recent") int recent
     );
 
+    /**
+     * 描述：我的推广码
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_buy&wwi=reduceCash
+     * 请求方式：POST
+     * 参数
+     * recent: 1
+     */
+    String REDUCECASH = "/mo_bile/index.php?app=member_buy&wwi=reduceCash";
+
+    @FormUrlEncoded
+    @POST(REDUCECASH)
+    Flowable<BaseResponse<ReduceCashBean>> getReduceCash(
+            @Field("key") String key
+    );
 
     /**
      * 描述：删除一条消息记录

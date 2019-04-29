@@ -342,7 +342,8 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
                             ActivityToActivity.toActivity(ARouterConfig.Me.DISRTIBUTIONACTIVITY);
                             break;
                         case 3:
-                            ToastUtils.showShort("我的推广码");
+//                            ToastUtils.showShort("我的推广码");
+                            ActivityToActivity.toActivity(ARouterConfig.Me.REDUCECASHACTIVITY);
                             break;
                         case 4:
 //                            ToastUtils.showShort("收货地址管理");

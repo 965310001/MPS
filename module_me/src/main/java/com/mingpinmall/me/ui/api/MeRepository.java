@@ -29,6 +29,7 @@ import com.mingpinmall.me.ui.bean.ProductCollectionBean;
 import com.mingpinmall.me.ui.bean.PropertyBean;
 import com.mingpinmall.me.ui.bean.RCardBalanceBean;
 import com.mingpinmall.me.ui.bean.RCardLogBean;
+import com.mingpinmall.me.ui.bean.ReduceCashBean;
 import com.mingpinmall.me.ui.bean.RefundBean;
 import com.mingpinmall.me.ui.bean.RefundInformation;
 import com.mingpinmall.me.ui.bean.ReturnBean;
@@ -49,6 +50,74 @@ import com.socks.library.KLog;
 public class MeRepository extends BaseRepository {
 
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
+
+    /*我的推广码子功能2:提现申请*/
+    protected void addPdCash(String pdc_bank_user, String pdc_bank_no,
+                             String pdc_bank_name, String pdc_amount, String password) {
+        addDisposable(apiService.addPdCash(getUserKey(), "phone", pdc_bank_user, pdc_bank_no,
+                pdc_bank_name, pdc_amount, password, "ok", 1)
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData("addPdCash", "success");
+                        } else {
+                            sendData("addPdCash", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("addPdCash", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*我的推广码子功能1:绑定邀请码*/
+    protected void bindUserCode(String parent_id) {
+        addDisposable(apiService.bindUserCode(getUserKey(), parent_id, 1)
+                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData("bindUserCode", "success");
+                        } else {
+                            sendData("bindUserCode", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("bindUserCode", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*我的推广码*/
+    protected void getReduceCash() {
+        addDisposable(apiService.getReduceCash(getUserKey())
+                .compose(RxSchedulers.<BaseResponse<ReduceCashBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ReduceCashBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ReduceCashBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("REDUCE_CASH", result.getData());
+                        } else {
+                            sendData("REDUCE_CASH", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("REDUCE_CASH", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
 
     /*消息列表*/
     protected void getMsgList() {

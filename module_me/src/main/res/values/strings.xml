@@ -8,6 +8,21 @@
     <string name="text_isLoginOut">是否退出该账号？</string>
     <string name="text_submit">提交</string>
 
+    <!-- ReduceCashActivity -->
+    <string name="title_ReduceCashActivity">余额提现</string>
+    <string name="label_text_reduce">提现余额</string>
+    <string name="tabs_text_reduce1">邀请码</string>
+    <string name="button_text_reduce1">立即绑定</string>
+    <string name="tabs_text_reduce2">提现申请</string>
+    <string name="button_text_reduce2">提交申请</string>
+    <string name="hint_text_reduce1_ed1">朋友邀请码</string>
+    <string name="hint_text_reduce2_ed1">提现金额</string>
+    <string name="hint_text_reduce2_ed2">收款方</string>
+    <string name="hint_text_reduce2_ed3">收款账号</string>
+    <string name="hint_text_reduce2_ed4">用户名</string>
+    <string name="hint_text_reduce2_ed5">支付密码</string>
+    <!-- ReduceCashActivity Over -->
+
     <!-- OrderDeliveryActivity -->
     <string name="title_OrderDeliveryActivity">物流信息</string>
     <string name="text_deliveryInfo">物流公司：</string>

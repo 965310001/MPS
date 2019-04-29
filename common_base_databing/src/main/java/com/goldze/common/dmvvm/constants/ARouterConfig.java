@@ -169,6 +169,9 @@ public interface ARouterConfig {
         //我的分销管理
         String DISRTIBUTIONACTIVITY = "/me/DistributionActivity";
 
+        //我的分销管理
+        String REDUCECASHACTIVITY = "/me/ReduceCashActivity";
+
         //收货地址管理
         String ADDRESSMANAGERACTIVITY = "/me/AddressManagerActivity";
 

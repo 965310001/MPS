@@ -231,7 +231,7 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
 
     @Override
     public void onVisibleToUserChanged(boolean isVisibleToUser, boolean invokeInResumeOrPause) {
-        Log.i("我的", "onVisibleToUserChanged: " + isVisibleToUser + this.getClass().getSimpleName());
+        Log.i(this.getClass().getSimpleName(), "This Fragment is visible to user --->> " + isVisibleToUser);
         if (isVisibleToUser) {
             // 对用户可见
             if (mIsFirstVisible && isResumed()) {
