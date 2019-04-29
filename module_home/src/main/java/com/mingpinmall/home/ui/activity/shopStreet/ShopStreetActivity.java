@@ -121,32 +121,31 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_STORE_LIST", "success")
+        registerObserver("GET_STORE_LIST", Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
-                        BaseResponse<ShopStreetBean> data = (BaseResponse<ShopStreetBean>) result;
-                        if (!isLoadmore) {
-                            pageIndex = 1;
-                            binding.refreshLayout.finishRefresh();
-                            shopsStreetAdapter.setNewData(data.getData().getStore_list());
+                        if (result instanceof String) {
+                            ToastUtils.showShort(result.toString());
+                            if (!isLoadmore)
+                                binding.refreshLayout.finishRefresh(false);
+                            else
+                                binding.refreshLayout.finishLoadMore(false);
                         } else {
-                            pageIndex++;
-                            binding.refreshLayout.finishLoadMore();
-                            shopsStreetAdapter.addData(data.getData().getStore_list());
+                            BaseResponse<ShopStreetBean> data = (BaseResponse<ShopStreetBean>) result;
+                            if (!isLoadmore) {
+                                pageIndex = 1;
+                                binding.refreshLayout.finishRefresh();
+                                shopsStreetAdapter.setNewData(data.getData().getStore_list());
+                            } else {
+                                pageIndex++;
+                                binding.refreshLayout.finishLoadMore();
+                                shopsStreetAdapter.addData(data.getData().getStore_list());
+                            }
+                            if (!data.isHasmore()) {
+                                binding.refreshLayout.setNoMoreData(true);
+                            }
                         }
-                        if (!data.isHasmore()) {
-                            binding.refreshLayout.setNoMoreData(true);
-                        }
-                    }
-                });
-        registerObserver("GET_STORE_LIST", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        ToastUtils.showShort(o.toString());
-                        binding.refreshLayout.finishRefresh(false);
-                        binding.refreshLayout.finishLoadMore(false);
                     }
                 });
     }

@@ -10,34 +10,46 @@ import java.util.List;
  * * 创建人：小斌
  * * 创建时间: 2019/4/8
  * Fragment的mUserVisibleHint属性控制器，用于准确的监听Fragment是否对用户可见
- * <p>
- * mUserVisibleHint属性有什么用？
+ *
+ * -->mUserVisibleHint属性有什么用？
  * * 使用ViewPager时我们可以通过Fragment的getUserVisibleHint()&&isResume()方法来判断用户是否能够看见某个Fragment
  * * 利用这个特性我们可以更精确的统计页面的显示事件和标准化页面初始化流程（真正对用户可见的时候才去请求数据）
- * <p>
- * 解决BUG
- * * FragmentUserVisibleController还专门解决了在Fragment或ViewPager嵌套ViewPager时子Fragment的mUserVisibleHint属性与父Fragment的mUserVisibleHint属性不同步的问题
- * * 例如外面的Fragment的mUserVisibleHint属性变化时，其包含的ViewPager中的Fragment的mUserVisibleHint属性并不会随着改变，这是ViewPager的BUG
- * <p>
- * 使用方式（假设你的基类Fragment是MyFragment）：
+ *
+ * -->解决BUG
+ * * FragmentUserVisibleController还专门解决了在Fragment或ViewPager嵌套ViewPager时子Fragment的mUserVisibleHint
+ *      属性与父Fragment的mUserVisibleHint属性不同步的问题
+ * * 例如外面的Fragment的mUserVisibleHint属性变化时，其包含的ViewPager中的Fragment的mUserVisibleHint属性并不会随着改变，
+ *      这是ViewPager的BUG
+ *
+ * -->使用方式（假设你的基类Fragment是MyFragment）：
  * 1. 在你的MyFragment的构造函数中New一个FragmentUserVisibleController（一定要在构造函数中new）
- * 2. 重写Fragment的onActivityCreated()、onResume()、onPause()、setUserVisibleHint(boolean)方法，分别调用FragmentUserVisibleController的activityCreated()、resume()、pause()、setUserVisibleHint(boolean)方法
+ * 2. 重写Fragment的onActivityCreated()、onResume()、onPause()、setUserVisibleHint(boolean)、onHiddenChanged(boolean)方法，
+ *      分别调用FragmentUserVisibleController的activityCreated()、resume()、pause()、setUserVisibleHint(boolean)、onHiddenChanged(boolean)方法
  * 3. 实现FragmentUserVisibleController.UserVisibleCallback接口并实现以下方法
- * void setWaitingShowToUser(boolean)：直接调用FragmentUserVisibleController的setWaitingShowToUser(boolean)即可
- * void isWaitingShowToUser()：直接调用FragmentUserVisibleController的isWaitingShowToUser()即可
- * void callSuperSetUserVisibleHint(boolean)：调用父Fragment的setUserVisibleHint(boolean)方法即可
- * void onVisibleToUserChanged(boolean, boolean)：当Fragment对用户可见或不可见的就会回调此方法，你可以在这个方法里记录页面显示日志或初始化页面
- * boolean isVisibleToUser()：判断当前Fragment是否对用户可见，直接调用FragmentUserVisibleController的isVisibleToUser()即可
+ *      void setWaitingShowToUser(boolean)：
+ *          直接调用FragmentUserVisibleController的setWaitingShowToUser(boolean)即可
+ *      void isWaitingShowToUser()：
+ *          直接调用FragmentUserVisibleController的isWaitingShowToUser()即可
+ *      void callSuperSetUserVisibleHint(boolean)：
+ *          调用父Fragment的setUserVisibleHint(boolean)方法即可
+ *      void onVisibleToUserChanged(boolean, boolean)：
+ *          当Fragment对用户可见或不可见的就会回调此方法，你可以在这个方法里记录页面显示日志或初始化页面
+ *      boolean isVisibleToUser()：
+ *          判断当前Fragment是否对用户可见，直接调用FragmentUserVisibleController的isVisibleToUser()即可
  */
 public class FragmentUserVisibleController {
-    private static final String TAG = "FragmentController";
-    public static boolean DEBUG = false;
+    private final String TAG = "FragmentController";
+    public boolean DEBUG = false;
     @SuppressWarnings("FieldCanBeLocal")
     private String fragmentName;
     private boolean waitingShowToUser;
     private Fragment fragment;
     private UserVisibleCallback userVisibleCallback;
     private List<OnUserVisibleListener> userVisibleListenerList;
+
+    public void setDebugMode(boolean debug) {
+        this.DEBUG = debug;
+    }
 
     public FragmentUserVisibleController(Fragment fragment, UserVisibleCallback userVisibleCallback) {
         this.fragment = fragment;
@@ -67,6 +79,9 @@ public class FragmentUserVisibleController {
             Log.d(TAG, fragmentName + ": resume, userVisibleHint=" + fragment.getUserVisibleHint());
         }
         if (fragment.getUserVisibleHint()) {
+            if (fragment.isHidden()) {
+                return;
+            }
             userVisibleCallback.onVisibleToUserChanged(true, true);
             callbackListener(true, true);
             if (DEBUG) {
@@ -80,12 +95,19 @@ public class FragmentUserVisibleController {
             Log.d(TAG, fragmentName + ": pause, userVisibleHint=" + fragment.getUserVisibleHint());
         }
         if (fragment.getUserVisibleHint()) {
+            if (fragment.isHidden()) {
+                return;
+            }
             userVisibleCallback.onVisibleToUserChanged(false, true);
             callbackListener(false, true);
             if (DEBUG) {
                 Log.w(TAG, fragmentName + ": hiddenToUser on pause");
             }
         }
+    }
+
+    public void onHiddenChanged(boolean onHiddenChange) {
+        setUserVisibleHint(!onHiddenChange);
     }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -116,7 +138,7 @@ public class FragmentUserVisibleController {
             userVisibleCallback.onVisibleToUserChanged(isVisibleToUser, false);
             callbackListener(isVisibleToUser, false);
             if (DEBUG) {
-                if (isVisibleToUser) {
+                if (fragment.isHidden() && fragment.isVisible()) {
                     Log.i(TAG, fragmentName + ": visibleToUser on setUserVisibleHint");
                 } else {
                     Log.w(TAG, fragmentName + ": hiddenToUser on setUserVisibleHint");
@@ -175,7 +197,7 @@ public class FragmentUserVisibleController {
      */
     @SuppressWarnings("unused")
     public boolean isVisibleToUser() {
-        return fragment.isResumed() && fragment.getUserVisibleHint();
+        return fragment.isResumed() && fragment.getUserVisibleHint() && !fragment.isHidden();
     }
 
     public boolean isWaitingShowToUser() {

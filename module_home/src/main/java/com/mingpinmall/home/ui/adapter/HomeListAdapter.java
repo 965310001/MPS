@@ -49,7 +49,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
         //Homes系列
         addItemType(1, R.layout.view_home_item_1);
         addItemType(2, R.layout.view_home_item_2);
-        addItemType(3, R.layout.item_base_image);
+        addItemType(3, R.layout.view_home_item_3);
         addItemType(33, R.layout.view_home_item_33);
         addItemType(4, R.layout.view_home_item_4);
         addItemType(5, R.layout.view_home_item_5);
@@ -124,8 +124,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 break;
             case 3:
                 //布局c ITEM
-                AppCompatImageView imageView = helper.getView(R.id.image);
-//                Picasso.get().load(item.getImage()).into(imageView);
+                AppCompatImageView imageView = helper.getView(R.id.iv_0);
                 ImageUtils.loadImageNoPlaceholder(imageView, item.getImage());
                 break;
             case 4:

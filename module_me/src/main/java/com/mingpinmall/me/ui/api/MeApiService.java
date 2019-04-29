@@ -20,6 +20,39 @@ import retrofit2.http.Query;
 public interface MeApiService {
 
     /**
+     * 描述：消息记录
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_chat&wwi=get_user_list
+     * 请求方式：POST
+     * 参数
+     * recent: 1
+     */
+    String MESSAGE = "/mo_bile/index.php?app=member_chat&wwi=get_user_list";
+
+    @FormUrlEncoded
+    @POST(MESSAGE)
+    Flowable<BaseResponse<MessageListBean>> getMsgList(
+            @Field("key") String key,
+            @Field("recent") int recent
+    );
+
+
+    /**
+     * 描述：删除一条消息记录
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_chat&wwi=del_msg
+     * 请求方式：POST
+     * 参数
+     * t_id: 30407
+     */
+    String DEL_MESSAGE = "/mo_bile/index.php?app=member_chat&wwi=del_msg";
+
+    @FormUrlEncoded
+    @POST(DEL_MESSAGE)
+    Flowable<BaseNothingBean> delMsg(
+            @Field("key") String key,
+            @Field("t_id") String t_id
+    );
+
+    /**
      * 描述：会员积分记录
      * 请求地址
      * https://www.mingpinmall.cn/mo_bile/index.php?app=member_points&wwi=pointslog&key=&curpage=1&page=10
@@ -206,7 +239,39 @@ public interface MeApiService {
     );
 
     /**
-     * 描述：取消订单
+     * 描述：实物订单确认收货
+     * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=member_order&wwi=order_receive
+     * 请求方式：post
+     * 请求参数：
+     * order_id:订单id
+     */
+    String RECEIVE_ORDER = "/mo_bile/index.php?app=member_order&wwi=order_cancel";
+
+    @POST(RECEIVE_ORDER)
+    @FormUrlEncoded
+    Flowable<BaseNothingBean> recevieOrder(
+            @Field("key") String key,
+            @Field("order_id") String order_id
+    );
+
+    /**
+     * 描述：实物订单确认收货
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_delete
+     * 请求方式：post
+     * 请求参数：
+     * order_id:订单id
+     */
+    String REMOVE_ORDER = "/mo_bile/index.php?app=member_order&wwi=order_delete";
+
+    @POST(REMOVE_ORDER)
+    @FormUrlEncoded
+    Flowable<BaseNothingBean> removeOrder(
+            @Field("key") String key,
+            @Field("order_id") String order_id
+    );
+
+    /**
+     * 描述：取消实物订单
      * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=order_cancel
      * 请求方式：post
      * 请求参数：
@@ -222,7 +287,7 @@ public interface MeApiService {
     );
 
     /**
-     * 描述：取消订单
+     * 描述：取消虚拟订单
      * 请求地址：
      * https://www.mingpinmall.cn/mo_bile/index.php?app=member_vr_order&wwi=order_cancel
      * 请求方式：post
@@ -240,7 +305,7 @@ public interface MeApiService {
     );
 
     /**
-     * 描述：虚拟订单详情
+     * 描述：虚拟订单详情 店铺地点
      * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=goods&wwi=store_o2o_addr
      * 请求方式：get
      * 请求参数：
@@ -464,7 +529,7 @@ public interface MeApiService {
      * 请求方式：post
      * 请求参数：
      * key:用户key
-     * 	store_id:产品id
+     * store_id:产品id
      */
     String DELSHOPSCOLLECT = "/mo_bile/index.php?app=member_favorites_store&wwi=favorites_del";
 
@@ -482,7 +547,7 @@ public interface MeApiService {
      * 请求地址：https://www.mingpinmall.cn/mo_bile/index.php?app=member_favorites&wwi=favorites_del
      * 请求方式：post
      * 请求参数：
-     * 	fav_id:产品id
+     * fav_id:产品id
      */
     String DELGOODSCOLLECT = "/mo_bile/index.php?app=member_favorites&wwi=favorites_del";
 
@@ -509,6 +574,38 @@ public interface MeApiService {
             @Query("key") String key,
             @Query("curpage") int curpage,
             @Query("page") int page
+    );
+
+    /**
+     * 描述：获取订单最新物流信息
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=get_current_deliver
+     * 请求方式：post
+     * 请求参数：
+     * order_id:订单id
+     */
+    String ORDERDELIVERINFORMATION = "/mo_bile/index.php?app=member_order&wwi=get_current_deliver";
+
+    @FormUrlEncoded
+    @POST(ORDERDELIVERINFORMATION)
+    Flowable<BaseResponse<OrderDeliverBean>> getOrderDeliverInformation(
+            @Field("key") String key,
+            @Field("order_id") String order_id
+    );
+
+    /**
+     * 描述：查看订单物流详情
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_order&wwi=search_deliver
+     * 请求方式：get
+     * 请求参数：
+     * order_id:订单id
+     */
+    String ORDERDELIVERYLIST = "/mo_bile/index.php?app=member_order&wwi=search_deliver";
+
+    @FormUrlEncoded
+    @POST(ORDERDELIVERYLIST)
+    Flowable<BaseResponse<OrderDeliverListBean>> getOrderDeliverList(
+            @Field("key") String key,
+            @Field("order_id") String order_id
     );
 
     /**

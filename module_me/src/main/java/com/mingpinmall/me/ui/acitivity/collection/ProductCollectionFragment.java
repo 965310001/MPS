@@ -4,11 +4,14 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -49,6 +52,20 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
         super.initView(state);
         collectionAdapter = new ProductCollectionAdapter();
         binding.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_me_favorite);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_collectgoods_empty);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_collectgoods_empty);
+        emptyView.findViewById(R.id.btn_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //切换到首页
+                LiveBus.getDefault().postEvent("Main", "tab", 0);
+                activity.onBackPressed();
+            }
+        });
+        collectionAdapter.setEmptyView(emptyView);
+
         binding.recyclerView.setAdapter(collectionAdapter);
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
@@ -78,7 +95,7 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                 final ProductCollectionBean.FavoritesListBean itemData = collectionAdapter.getItem(position);
                 if (view.getId() == R.id.iv_delete) {
                     //删除这条收藏
-                    TextDialog.showBaseDialog(activity, "取消店铺收藏", "确定取消收藏吗？", new TextDialog.SingleButtonCallback() {
+                    TextDialog.showBaseDialog(activity, "取消收藏", "确定取消收藏吗？", new TextDialog.SingleButtonCallback() {
                         @Override
                         public void onClick() {
                             mViewModel.deleGoodsCollect(itemData.getGoods_id());
@@ -91,47 +108,40 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
 
     @Override
     protected void dataObserver() {
-        registerObserver("DEL_GOODS_COLLECT", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        lazyLoad();
-                    }
-                });
-        registerObserver("DEL_GOODS_COLLECT", "err", String.class)
+        registerObserver("DEL_GOODS_COLLECT", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String msg) {
-                        ToastUtils.showShort(msg);
+                        if (msg.equals("success"))
+                            lazyLoad();
+                        else
+                            ToastUtils.showShort(msg);
                     }
                 });
-        registerObserver("PRODUCT_COLLECT_LIST", "success")
+        registerObserver("PRODUCT_COLLECT_LIST", Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
-                        BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
-                        if (isLoadmore) {
-                            pageIndex++;
-                            binding.refreshLayout.finishLoadMore();
-                            collectionAdapter.addData(data.getData().getFavorites_list());
+                        if (result instanceof String) {
+                            ToastUtils.showShort(result.toString());
+                            if (isLoadmore) {
+                                binding.refreshLayout.finishLoadMore(false);
+                            } else {
+                                binding.refreshLayout.finishRefresh(false);
+                            }
                         } else {
-                            pageIndex = 1;
-                            binding.refreshLayout.finishRefresh();
-                            collectionAdapter.setNewData(data.getData().getFavorites_list());
-                        }
-                        if (!data.isHasmore())
-                            binding.refreshLayout.setNoMoreData(true);
-                    }
-                });
-        registerObserver("PRODUCT_COLLECT_LIST", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        ToastUtils.showShort(result.toString());
-                        if (isLoadmore) {
-                            binding.refreshLayout.finishLoadMore(false);
-                        } else {
-                            binding.refreshLayout.finishRefresh(false);
+                            BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
+                            if (isLoadmore) {
+                                pageIndex++;
+                                binding.refreshLayout.finishLoadMore();
+                                collectionAdapter.addData(data.getData().getFavorites_list());
+                            } else {
+                                pageIndex = 1;
+                                binding.refreshLayout.finishRefresh();
+                                collectionAdapter.setNewData(data.getData().getFavorites_list());
+                            }
+                            if (!data.isHasmore())
+                                binding.refreshLayout.setNoMoreData(true);
                         }
                     }
                 });

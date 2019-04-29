@@ -1,6 +1,7 @@
 package com.mingpinmall.me.ui.acitivity.setting;
 
 import android.arch.lifecycle.Observer;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -97,6 +98,18 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                         checkPhoneState = result;
                         settingAdapter.getData().get(1).setSubTitle(result.isState() ? result.getMobile() : "未绑定");
                         settingAdapter.notifyDataSetChanged();
+                    }
+                });
+        registerObserver("Err_USER_INFO", String.class)
+                .observeForever(new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String result) {
+                        TextDialog.showBaseDialog(activity, "获取内容失败", result, new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                onBackPressed();
+                            }
+                        });
                     }
                 });
         registerObserver("Refresh_Data", "SettingActivity")

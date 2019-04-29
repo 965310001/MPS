@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -110,29 +109,6 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
          * 除列表外，其他按钮点击事件
          */
         setClickListener();
-        //列表滑动监听
-//        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @SuppressLint("RestrictedApi")
-//            @Override
-//            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldX, int oldY) {
-//                Log.i(TAG, "onScrollChange: " + scrollY);
-//                if (scrollY <= 640) {
-//                    float alpha = scrollY / (float) 640;
-//                    if (alpha > 0) {
-//                        binding.clTitleBar.setVisibility(View.VISIBLE);
-//                        binding.fab2top.setVisibility(View.VISIBLE);
-//                        binding.clTitleBar.setAlpha(alpha);
-//                        darkMode = true;
-//                        setDarkMode(true);
-//                    } else {
-//                        binding.clTitleBar.setVisibility(View.GONE);
-//                        binding.fab2top.setVisibility(View.GONE);
-//                        darkMode = false;
-//                        setDarkMode(false);
-//                    }
-//                }
-//            }
-//        });
         //列表滑动监听
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -366,11 +342,11 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 break;
             case "tmpl/cart_list.html":
                 //购物车 跳转底部导航
-                LiveBus.getDefault().postEvent("Main", "tab", 2);
+                LiveBus.getDefault().postEvent("Main", "tab", 3);
                 break;
             case "tmpl/member/member.html":
                 //我的 跳转底部导航
-                LiveBus.getDefault().postEvent("Main", "tab", 3);
+                LiveBus.getDefault().postEvent("Main", "tab", 4);
                 break;
             case "tmpl/member/signin.html":
                 //签到
@@ -387,24 +363,22 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     @Override
     protected void dataObserver() {
-        registerObserver("HOME_DATA_JSON", HomeItemBean.class)
-                .observeForever(new Observer<HomeItemBean>() {
+        registerObserver("HOME_DATA_JSON", Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable final HomeItemBean data) {
-                        if (data.getCode() == 200) {
-                            binding.refreshLayout.finishRefresh();
-                            homeListAdapter.setNewData(formatDatas(data.getDatas()));
+                    public void onChanged(@Nullable final Object result) {
+                        if (result instanceof HomeItemBean) {
+                            HomeItemBean data = (HomeItemBean) result;
+                            if (data.getCode() == 200) {
+                                binding.refreshLayout.finishRefresh();
+                                homeListAdapter.setNewData(formatDatas(data.getDatas()));
+                            } else {
+                                binding.refreshLayout.finishRefresh(false);
+                            }
                         } else {
                             binding.refreshLayout.finishRefresh(false);
+                            ToastUtils.showShort(result.toString());
                         }
-                    }
-                });
-        registerObserver("Err_HOME_DATA_JSON", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        binding.refreshLayout.finishRefresh(false);
-                        ToastUtils.showShort(msg);
                     }
                 });
     }

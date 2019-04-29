@@ -8,6 +8,14 @@
     <string name="text_isLoginOut">是否退出该账号？</string>
     <string name="text_submit">提交</string>
 
+    <!-- OrderDeliveryActivity -->
+    <string name="title_OrderDeliveryActivity">物流信息</string>
+    <string name="text_deliveryInfo">物流公司：</string>
+    <string name="text_deliveryNum">运单号码：</string>
+    <string name="text_tips1">以上部分信息来自于第三方，仅供参考</string>
+    <string name="text_tips2">如需准确信息可联系卖家或物流公司</string>
+    <!-- OrderDeliveryActivity Over -->
+
     <!-- OrderActivity -->
     <string name="tabs_text_physical">实物订单</string>
     <string name="tabs_text_virtual">虚拟订单</string>
@@ -22,6 +30,8 @@
     <string name="btn_text_harvestOrder">确认收货</string>
     <string name="btn_text_payOrder">订单支付</string>
     <string name="btn_text_cancelOrder">取消订单</string>
+    <string name="text_title_order_empty">您还没有相关的订单</string>
+    <string name="text_sub_title_order_empty">可以去看看哪些想要买的</string>
     <!-- OrderActivity Over -->
 
     <!-- PhysicalOrderInformationActivity -->
@@ -31,6 +41,10 @@
     <!-- CollectionActivity -->
     <string name="tabs_text_product">商品收藏</string>
     <string name="tabs_text_shops">店铺收藏</string>
+    <string name="text_title_collect_empty">您还没有关注任何店铺</string>
+    <string name="text_sub_title_collect_empty">可以去看看哪些店铺值得收藏</string>
+    <string name="text_title_collectgoods_empty">您还没有关注任何商品</string>
+    <string name="text_sub_title_collectgoods_empty">可以去看看哪些商品值得收藏</string>
     <!-- CollectionActivity Over -->
 
     <!-- AccountSurplusActivity -->
@@ -39,6 +53,10 @@
     <string name="tabs_text_surplus1">账户余额</string>
     <string name="tabs_text_surplus2">充值明细</string>
     <string name="tabs_text_surplus3">余额提现</string>
+    <string name="text_title_log_empty">您尚无预存款收支信息</string>
+    <string name="text_sub_title_log_empty">使用商城预存款结算更方便</string>
+    <string name="text_title_charge_empty">您尚未充值过预存款</string>
+    <string name="text_title_pdcash_empty">您尚未提现过预存款</string>
     <!-- AccountSurplusActivity Over -->
 
     <!-- CardSurplusActivity -->
@@ -47,9 +65,13 @@
     <string name="label_text_card3">充值后可以在购物车结算时选取使用充值卡余额进行支付</string>
     <string name="label_text_card4">充值卡号</string>
     <string name="hint_text_card4">请输入平台充值卡号</string>
+    <string name="text_title_card_empty">您尚无充值卡使用信息</string>
+    <string name="text_sub_title_card_empty">使用充值卡充值余额结算更方便</string>
     <!-- CardSurplusActivity Over -->
 
     <!-- CouponActivity -->
+    <string name="tabs_text_coupon1">我的代金券</string>
+    <string name="tabs_text_coupon2">领取代金券</string>
     <string name="label_text_coupon1">请输入已获得的代金券卡密领取代金券</string>
     <string name="label_text_coupon2">领取代金券后可以在购买商品下单时选择符合使用条件的代金券抵扣订单金额</string>
     <string name="label_text_coupon3">已失效的券</string>
@@ -60,6 +82,8 @@
     <string name="label_text_packet3">已失效红包</string>
     <string name="label_text_packet4">红包卡密</string>
     <string name="hint_text_packet4">请输入平台红包卡密号</string>
+    <string name="text_title_coupon_empty">您还没有相关的代金券</string>
+    <string name="text_sub_title_coupon_empty">店铺代金券可享受商品折扣</string>
     <!-- CouponActivity Over -->
 
     <!-- PdcashInformationActivity -->
@@ -72,14 +96,11 @@
     <string name="tabs_text_cardsurplus2">充值卡充值</string>
     <!-- CardSurplusActivity Over -->
 
-    <!-- CouponActivity -->
-    <string name="tabs_text_coupon1">我的代金券</string>
-    <string name="tabs_text_coupon2">领取代金券</string>
-    <!-- CouponActivity Over -->
-
     <!-- StorePacketActivity -->
     <string name="tabs_text_storePacket1">我的红包</string>
     <string name="tabs_text_storePacket2">领取红包</string>
+    <string name="text_title_packet_empty">您还没有相关的红包</string>
+    <string name="text_sub_title_packet_empty">平台红包可抵扣现金结算</string>
     <!-- StorePacketActivity Over -->
 
     <!-- VipIntegralActivity -->
@@ -90,6 +111,8 @@
     <!-- FootprintActivity -->
     <string name="title_footprintActivity">我的足迹</string>
     <string name="text_clearn">清空</string>
+    <string name="text_title_footprint_empty">暂无您的浏览记录</string>
+    <string name="text_sub_title_footprint_empty">可以去看看哪些想要买的</string>
     <!-- CollectionActivity Over -->
 
     <!-- RefundActivity -->
@@ -97,6 +120,10 @@
     <string name="tabs_text_refundMoney">退款列表</string>
     <string name="text_refundInformation">退款详情</string>
     <string name="text_returnInformation">退货详情</string>
+    <string name="text_title_refund_empty">您还没有退款信息</string>
+    <string name="text_sub_title_refund_empty">已购订单详情可申请退款</string>
+    <string name="text_title_return_empty">您还没有退货信息</string>
+    <string name="text_sub_title_return_empty">已购订单详情可申请退货</string>
     <!-- RefundActivity Over -->
 
     <!-- DistributionActivity -->
@@ -160,6 +187,8 @@
 
     <!-- MessageActivity -->
     <string name="title_messageActivity">消息列表</string>
+    <string name="text_title_msg_empty">您还没有和任何人联系过</string>
+    <string name="text_sub_title_msg_empty">对话可在此找到最近联系的客服</string>
     <!-- MessageActivity Over -->
 
     <!-- PropertyActivity -->

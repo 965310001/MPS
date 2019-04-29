@@ -3,49 +3,64 @@ package com.mingpinmall.shopping.ui;
 import android.Manifest;
 import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.goldze.common.dmvvm.activity.BottomNavigationActivity;
 import com.goldze.common.dmvvm.base.event.LiveBus;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
+import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.databinding.ActivityHomeNavigationBinding;
 import com.goldze.common.dmvvm.manage.AppManager;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.heima.tabview.library.TabView;
-import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.cart.ui.CartFragment;
 import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.home.ui.HomeFragment;
+import com.mingpinmall.home.ui.TeacherFragment;
 import com.mingpinmall.me.ui.MeFragment;
 import com.mingpinmall.me.ui.api.UserViewModel;
 import com.mingpinmall.shopping.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * @Author: guofeng
  * @CreateDate:
  * @Description: 主界面
+ * <p>
+ * 修改：小斌
+ * 最后修改日期：2019/4/26
+ * 修改内容：
+ * 1.更换拓展性更好，性能更佳的BottomBar
+ * 2.添加监听，切换首页Fragment
  */
 @Route(path = ARouterConfig.MAINACTIVITY)
-public class MainActivity extends BottomNavigationActivity {
+public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 
     private long mExitTime;
+    /*标识是否处于活动状态*/
+    private boolean isResume = false;
+    /*小于0则不作操作，大于等于0则切换fragment*/
+    private int index = -1;
 
-//    @Override
-//    protected void initViews(Bundle savedInstanceState) {
-//        showSuccess();
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isResume = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isResume = true;
+        if (index >= 0) {
+            binding.bottomBar.setCurrentItem(index);
+            index = -1;
+        }
+    }
 
     @Override
     protected boolean isActionBar() {
@@ -53,46 +68,49 @@ public class MainActivity extends BottomNavigationActivity {
     }
 
     @Override
-    protected void initData() {
-        super.initData();
-
-        List<TabViewChild> tabViewChildList = new ArrayList<>();
-
-        BaseFragment[] fragmentList = {HomeFragment.newInstance(), ClassifyFragment.newInstance(),
-                CartFragment.newInstance(), MeFragment.newInstance()};
-
+    protected void initViews(Bundle savedInstanceState) {
+        setDarkMode(false);
+        Fragment[] fragmentList = {
+                HomeFragment.newInstance(),
+                ClassifyFragment.newInstance(),
+                TeacherFragment.newInstance(),
+                CartFragment.newInstance(),
+                MeFragment.newInstance()
+        };
         TypedArray tabIcon = ResourcesUtils.getInstance().obtainTypedArray(R.array.tab_icon);
         TypedArray tabIconDef = ResourcesUtils.getInstance().obtainTypedArray(R.array.tab_icon_def);
         String[] tabName = ResourcesUtils.getInstance().getStringArray(R.array.tab_name);
 
-        TabViewChild tabViewChild;
-        for (int i = 0; i < tabIcon.length(); i++) {
-            tabViewChild = new TabViewChild(tabIcon.getResourceId(i, 0),
-                    tabIconDef.getResourceId(i, 0),
-                    tabName[i],
-                    fragmentList[i]);
-            tabViewChildList.add(tabViewChild);
-        }
+        binding.bottomBar.setContainer(R.id.home_content)
+                //params[0]：UnSelectTextColor  params[1]：OnSelectTextColor
+                .setTitleBeforeAndAfterColor(R.color.dark, R.color.app_theme_d61619);
 
-        initNavBar(tabViewChildList, getSupportFragmentManager(), new TabView.OnTabChildClickListener() {
-            @Override
-            public void onTabChildClick(int i, ImageView imageView, TextView textView) {
-            }
-        });
+        for (int i = 0; i < tabIcon.length(); i++) {
+            binding.bottomBar.addItem(
+                    fragmentList[i].getClass(),//Fragment
+                    tabName[i],//FragmentTitle
+                    tabIconDef.getResourceId(i, 0),//UnSelectTabIcon
+                    tabIcon.getResourceId(i, 0)//OnSelectTabIcon
+            );
+        }
+        binding.bottomBar.build();
 
         //检查文件权限
         if (PermissionsUtils.checkPermissions(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             checkUpdate();
         }
-//        ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
 
-        LiveBus.getDefault().subscribe("Main", "tab").observeForever(new Observer<Object>() {
+        /*监听切换Fragment*/
+        LiveBus.getDefault().subscribe("Main", "tab", Integer.class).observeForever(new Observer<Integer>() {
             @Override
-            public void onChanged(@Nullable Object o) {
-                int index = (int) o;
-                LinearLayout linearLayout = (LinearLayout) binding.tabView.getChildAt(0);
-                linearLayout.getChildAt(index).callOnClick();
+            public void onChanged(@Nullable Integer position) {
+                //处于活动状态则直接切换fragment，否则记录要切换到的fragment，然后等待生命周期onresume调用
+                if (isResume) {
+                    binding.bottomBar.setCurrentItem(position == null ? 0 : position);
+                } else {
+                    index = position == null ? -1 : position;
+                }
             }
         });
 
@@ -100,6 +118,11 @@ public class MainActivity extends BottomNavigationActivity {
 //        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
 
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_home_navigation;
     }
 
     private void checkUpdate() {

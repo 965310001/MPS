@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 功能描述：
+ * 功能描述：首页数据
  * 创建人：小斌
  * 创建时间: 2019/4/3
  **/

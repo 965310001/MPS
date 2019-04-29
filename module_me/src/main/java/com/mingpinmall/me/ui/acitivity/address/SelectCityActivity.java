@@ -67,7 +67,7 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
                     cityId = bean.getArea_id();
                 } else if (level >= 3) {
                     Intent intent = new Intent();
-                    intent.putExtra("address", addressOne + " " +  addressTwo + " " +  bean.getArea_name());
+                    intent.putExtra("address", addressOne + " " + addressTwo + " " + bean.getArea_name());
                     intent.putExtra("cityId", cityId);
                     intent.putExtra("areaId", bean.getArea_id());
                     setResult(100, intent);
@@ -132,36 +132,34 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_CITY_LIST", "success", CityBean.class)
-                .observeForever(new Observer<CityBean>() {
-                    @Override
-                    public void onChanged(CityBean cityBean) {
-                        //获取成功
-                        if (cityBean.getArea_list().size() == 0) {
-                            Intent intent = new Intent();
-                            intent.putExtra("address", addressOne + addressTwo);
-                            intent.putExtra("cityId", cityId);
-                            intent.putExtra("areaId", cityId);
-                            setResult(100, intent);
-                            finish();
-                        } else {
-                            setLevelButton(level);
-                            selectCityAdapter.setNewData(cityBean.getArea_list());
-                            if (level == 1 && dataOneList == null) {
-                                dataOneList = cityBean.getArea_list();
-                            } else if (level == 2 && dataTwoList == null) {
-                                dataTwoList = cityBean.getArea_list();
-                            }
-                        }
-                    }
-                });
-        registerObserver("GET_CITY_LIST", "err")
+        registerObserver("GET_CITY_LIST", Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(Object msg) {
-                        //获取失败
-                        progressDialog.onFail(msg.toString());
-                        level--;
+                    public void onChanged(Object result) {
+                        if (result instanceof CityBean) {
+                            CityBean cityBean = (CityBean) result;
+                            //获取成功
+                            if (cityBean.getArea_list().size() == 0) {
+                                Intent intent = new Intent();
+                                intent.putExtra("address", addressOne + addressTwo);
+                                intent.putExtra("cityId", cityId);
+                                intent.putExtra("areaId", cityId);
+                                setResult(100, intent);
+                                finish();
+                            } else {
+                                setLevelButton(level);
+                                selectCityAdapter.setNewData(cityBean.getArea_list());
+                                if (level == 1 && dataOneList == null) {
+                                    dataOneList = cityBean.getArea_list();
+                                } else if (level == 2 && dataTwoList == null) {
+                                    dataTwoList = cityBean.getArea_list();
+                                }
+                            }
+                        } else {
+                            //获取失败
+                            progressDialog.onFail(result.toString());
+                            level--;
+                        }
                     }
                 });
     }

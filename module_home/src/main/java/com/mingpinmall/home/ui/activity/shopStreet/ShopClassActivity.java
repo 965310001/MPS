@@ -49,24 +49,21 @@ public class ShopClassActivity extends AbsLifecycleActivity<ActivityShopclassBin
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_STORE_CLASS", "success", ShopClassBean.class)
-                .observeForever(new Observer<ShopClassBean>() {
-                    @Override
-                    public void onChanged(@Nullable ShopClassBean result) {
-                        shopClassBean = result;
-                        stringList.clear();
-                        stringList.add("全部");
-                        for (ShopClassBean.ClassListBean classListBean : result.getClass_list()) {
-                            stringList.add(classListBean.getSc_name());
-                        }
-                        binding.stackLabelView.setLabels(stringList);
-                    }
-                });
-        registerObserver("GET_STORE_CLASS", "err")
+        registerObserver("GET_STORE_CLASS", "success", Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable Object o) {
-                        ToastUtils.showShort(o.toString());
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof ShopClassBean) {
+                            shopClassBean = (ShopClassBean) result;
+                            stringList.clear();
+                            stringList.add("全部");
+                            for (ShopClassBean.ClassListBean classListBean : shopClassBean.getClass_list()) {
+                                stringList.add(classListBean.getSc_name());
+                            }
+                            binding.stackLabelView.setLabels(stringList);
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
     }

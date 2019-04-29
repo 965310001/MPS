@@ -110,11 +110,9 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
 
     @Override
     protected void dataObserver() {
-        KLog.i("绑定事件监听");
         LiveBus.getDefault().subscribe("LoginSuccess").observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object isLogin) {
-                KLog.i("登陆成功，刷新数据");
                 mViewModel.getUserInfo();
             }
         });
@@ -122,40 +120,21 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         LiveBus.getDefault().subscribe("LOGIN_OUT").observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object isLogin) {
-                KLog.i("退出登录，清除数据");
                 clearnDatas();
             }
         });
 
-        registerObserver("GET_USER_INFO", "success").observeForever(new Observer<Object>() {
+        registerObserver("GET_USER_INFO", Object.class).observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object result) {
-                KLog.i("获取成功，刷新展示内容。");
-                binding.refreshLayout.finishRefresh();
-                MyInfoBean myInfoBean = (MyInfoBean) result;
-                setNewData(myInfoBean);
-                SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
-            }
-        });
-
-        registerObserver("GET_USER_INFO", "fail").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                KLog.i("获取失败，刷新展示内容。");
-                binding.refreshLayout.finishRefresh(false);
-                BaseResponse<MyInfoBean> myInfoBean = (BaseResponse<MyInfoBean>) result;
-                if (!myInfoBean.getLogin().isEmpty() && myInfoBean.getLogin().equals("0")) {
-                    SharePreferenceUtil.saveLogin(false);
+                if (result instanceof String) {
+                    binding.refreshLayout.finishRefresh(false);
+                } else {
+                    binding.refreshLayout.finishRefresh();
+                    MyInfoBean myInfoBean = (MyInfoBean) result;
+                    setNewData(myInfoBean);
+                    SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
                 }
-            }
-        });
-
-        registerObserver("GET_USER_INFO", "err").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                KLog.i("获取个人信息失败。");
-                binding.refreshLayout.finishRefresh(false);
-                SharePreferenceUtil.saveBooleanKeyValue("needRefresh", true);
             }
         });
     }
@@ -394,9 +373,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         //列表item图标
         TypedArray titleImgs = ResourcesUtils.getInstance().obtainTypedArray(R.array.home_me_items_image);
         //列表item功能码
-        int[] funCodes = new int[]{0, 1,
-//                2, 3,
-                4, 5};
+        int[] funCodes = ResourcesUtils.getInstance().getIntArray(R.array.home_me_item_funcode);
         //我的订单下方导航文字
         String[] subOrder = ResourcesUtils.getInstance().getStringArray(R.array.home_me_order_items);
         //我的订单下方导航图标
@@ -419,7 +396,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             itemBean.setTitle2(titles2[i]);
             itemBean.setPoint(0);
             data.add(itemBean);
-            if (i == 0 || i == 1 || i == 3 || i == 5) {
+            if (i == 0 || i == 1 || i == 2 || i == 4) {
                 /**
                  * 添加空白行，分隔行
                  */
@@ -454,7 +431,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     protected void onVisible() {
         setDarkMode(darkMode);
         if (meItemAdapter != null && meItemAdapter.getData().size() > 0) {
-            Log.d("我的", "onResume: 更新");
+            Log.d("我的", "开始播放");
             autoColorView.start();
         }
         if (SharePreferenceUtil.getBooleanKeyValue("needRefresh")) {
@@ -469,6 +446,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     @Override
     protected void onInVisible() {
         if (meItemAdapter != null && meItemAdapter.getData().size() > 0) {
+            Log.d("我的", "暂停播放");
             autoColorView.pause();
         }
     }
@@ -481,22 +459,22 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             return;
         }
         if (i == R.id.iv_setting) {
-//                    ToastUtils.showShort("点击了 左上角设置");
+            //ToastUtils.showShort("点击了 左上角设置");
             ActivityToActivity.toActivity(ARouterConfig.Me.SETTINGACTIVITY);
         } else if (i == R.id.iv_message) {
-//                    ToastUtils.showShort("点击了 右上角消息");
+            //ToastUtils.showShort("点击了 右上角消息");
             ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
         } else if (i == R.id.ll_headItem1) {
-//                    ToastUtils.showShort("点击了 商品收藏");
+            //ToastUtils.showShort("点击了 商品收藏");
             ActivityToActivity.toActivity(ARouterConfig.Me.COLLECTIONACTIVITY, "pageIndex", 0);
         } else if (i == R.id.ll_headItem2) {
-//                    ToastUtils.showShort("点击了 店铺收藏");
+            //ToastUtils.showShort("点击了 店铺收藏");
             ActivityToActivity.toActivity(ARouterConfig.Me.COLLECTIONACTIVITY, "pageIndex", 1);
         } else if (i == R.id.ll_headItem3) {
-//                    ToastUtils.showShort("点击了 我的足迹");
+            //ToastUtils.showShort("点击了 我的足迹");
             ActivityToActivity.toActivity(ARouterConfig.Me.FOOTPRINTACTIVITY);
         } else if (i == R.id.iv_headImage) {
-//                    ToastUtils.showShort("点击了 头像");
+            //ToastUtils.showShort("点击了 头像");
         }
     }
 }

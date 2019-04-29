@@ -16,6 +16,16 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         super(application);
     }
 
+    /*消息列表*/
+    public void delMsg(String id) {
+        mRepository.delMsg(id);
+    }
+
+    /*消息列表*/
+    public void getMsgList() {
+        mRepository.getMsgList();
+    }
+
     /*退货详情*/
     public void getReturnInformation(String returnId) {
         mRepository.getReturnInformation(returnId);
@@ -126,6 +136,16 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         mRepository.cancelOrder(eventKey, orderId);
     }
 
+    /*确认收货*/
+    public void recevieOrder(final String eventKey, String orderId) {
+        mRepository.recevieOrder(eventKey, orderId);
+    }
+
+    /*删除订单*/
+    public void removeOrder(final String eventKey, String orderId) {
+        mRepository.removeOrder(eventKey, orderId);
+    }
+
     /*分销管理*/
     public void getInviteList(String wwi, int curpage){
         mRepository.getInviteList(wwi, curpage);
@@ -220,6 +240,16 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     /*获取订单详情*/
     public void getOrderInformation(String order_id) {
         mRepository.getOrderInformation(order_id);
+    }
+
+    /*获取订单最新物流信息*/
+    public void getOrderDeliverInformation(String order_id) {
+        mRepository.getOrderDeliverInformation(order_id);
+    }
+
+    /*获取订单物流详情*/
+    public void getOrderDeliverList(String order_id) {
+        mRepository.getOrderDeliverList(order_id);
     }
 
     /*获取订单列表*/

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mingpinmall.me.ui.bean.OrderDeliverListBean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_image"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:src="@drawable/mcc_03"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_label_name"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_label_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_label_number"
+                        app:layout_constraintEnd_toStartOf="@id/tv_name"
+                        app:layout_constraintStart_toEndOf="@id/iv_image"
+                        app:layout_constraintTop_toTopOf="@id/iv_image"
+                        tools:text="物流公司：" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:singleLine="true"
+                        android:text="@{data.express_name}"
+                        android:textColor="#333"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_label_name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_label_name"
+                        app:layout_constraintTop_toTopOf="@id/tv_label_name"
+                        tools:text="顺丰快递" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_label_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#888"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                        app:layout_constraintStart_toStartOf="@id/tv_label_name"
+                        app:layout_constraintTop_toBottomOf="@id/tv_label_name"
+                        tools:text="运单号码：" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:singleLine="true"
+                        android:text="@{data.shipping_code}"
+                        android:textColor="#888"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_label_number"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_label_number"
+                        app:layout_constraintTop_toTopOf="@id/tv_label_number"
+                        tools:text="3243243243524" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_hight"
+                        android:background="@color/line_color"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    style="@style/VerticalScrollBarRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/text_tips1" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/text_tips2" />
+
+            </LinearLayout>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+
+</layout>

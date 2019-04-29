@@ -82,49 +82,42 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
 
     @Override
     protected void dataObserver() {
-        registerObserver("VIRTUAL_ORDER_INFORMATION", "success", VirtualInformationBean.class)
-                .observeForever(new Observer<VirtualInformationBean>() {
+        registerObserver("VIRTUAL_ORDER_INFORMATION", Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable VirtualInformationBean result) {
-                        data = result.getOrder_info();
-                        mViewModel.getVitrualOrderStoreAddrs(data.getStore_id());
-                        showDataInfo();
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof VirtualInformationBean) {
+                            VirtualInformationBean resultData = (VirtualInformationBean) result;
+                            data = resultData.getOrder_info();
+                            mViewModel.getVitrualOrderStoreAddrs(data.getStore_id());
+                            showDataInfo();
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
-        registerObserver("VIRTUAL_ORDER_INFORMATION", "err", String.class)
+        registerObserver("VIRTUAL_ORDER_ADDRS", Object.class)
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof VirtualStoreAddrsBean) {
+                            VirtualStoreAddrsBean resultData = (VirtualStoreAddrsBean) result;
+                            addrsAdapter.setNewData(resultData.getAddr_list());
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
+                    }
+                });
+        registerObserver(EVENT_KEY_CANCEL, "RECEVIE_ORDER", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
-                    public void onChanged(@Nullable String s) {
-                        ToastUtils.showShort(s);
-                    }
-                });
-        registerObserver("VIRTUAL_ORDER_ADDRS", "success", VirtualStoreAddrsBean.class)
-                .observeForever(new Observer<VirtualStoreAddrsBean>() {
-                    @Override
-                    public void onChanged(@Nullable VirtualStoreAddrsBean result) {
-                        addrsAdapter.setNewData(result.getAddr_list());
-                    }
-                });
-        registerObserver("VIRTUAL_ORDER_ADDRS", "err", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String s) {
-                        ToastUtils.showShort(s);
-                    }
-                });
-        registerObserver(EVENT_KEY_CANCEL, "REFRESH_ORDER_LIST", OrderInformationBean.class)
-                .observeForever(new Observer<OrderInformationBean>() {
-                    @Override
-                    public void onChanged(@Nullable OrderInformationBean orderInformationBean) {
-                        setResult(100);
-                        finish();
-                    }
-                });
-        registerObserver(EVENT_KEY_CANCEL, "DO_SOMETHING_ERR", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String s) {
-                        ToastUtils.showShort(s);
+                    public void onChanged(@Nullable String msg) {
+                        if (msg.equals("success")) {
+                            setResult(100);
+                            finish();
+                        } else {
+                            ToastUtils.showShort(msg);
+                        }
                     }
                 });
     }

@@ -132,26 +132,23 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
 
     @Override
     protected void dataObserver() {
-        registerObserver("EDIT_ADDRESS", "success")
-                .observeForever(new Observer<Object>() {
+        registerObserver("EDIT_ADDRESS", String.class)
+                .observeForever(new Observer<String>() {
                     @Override
-                    public void onChanged(@Nullable Object o) {
-                        //保存成功
-                        progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                setResult(100);
-                                finish();
-                            }
-                        });
-                    }
-                });
-        registerObserver("EDIT_ADDRESS", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        //保存失败
-                        progressDialog.onFail(o.toString());
+                    public void onChanged(@Nullable String msg) {
+                        if (msg.equals("success")) {
+                            //保存成功
+                            progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
+                                @Override
+                                public void onDismiss() {
+                                    setResult(100);
+                                    finish();
+                                }
+                            });
+                        } else {
+                            //保存失败
+                            progressDialog.onFail(msg);
+                        }
                     }
                 });
     }

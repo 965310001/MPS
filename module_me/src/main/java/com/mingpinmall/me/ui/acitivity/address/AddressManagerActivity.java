@@ -15,6 +15,7 @@ import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
@@ -35,7 +36,6 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
 
     private AddressListAdapter addressListAdapter;
 
-    private ProgressDialog progressDialog;
     private boolean isGetAddress = false;
 
     @Override
@@ -48,7 +48,6 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
         super.initViews(savedInstanceState);
         isGetAddress = getIntent().getBooleanExtra("isGetAddress", false);
         setTitle(R.string.title_addressManagerActivity);
-        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         addressListAdapter = new AddressListAdapter();
         binding.setAdapter(addressListAdapter);
         binding.btnSubmit.setOnClickListener(this);
@@ -98,7 +97,6 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
                 new TextDialog.SingleButtonCallback() {
                     @Override
                     public void onClick() {
-                        progressDialog.onLoading("");
                         mViewModel.delAddress(addressId);
                     }
                 })
@@ -124,39 +122,32 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_ADDRESS_LIST", "success", AddressDataBean.class)
-                .observeForever(new Observer<AddressDataBean>() {
-                    @Override
-                    public void onChanged(@Nullable AddressDataBean result) {
-                        //获取成功
-                        binding.refreshLayout.finishRefresh();
-                        addressListAdapter.setNewData(result.getAddress_list());
-                    }
-                });
-        registerObserver("GET_ADDRESS_LIST", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        //获取失败
-                        binding.refreshLayout.finishRefresh(false);
-                    }
-                });
-        registerObserver("DEL_ADDRESS", "success")
+        registerObserver("GET_ADDRESS_LIST", Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
-                        //删成功
-                        progressDialog.onComplete("");
-                        initData();
+                        if (result instanceof AddressDataBean) {
+                            AddressDataBean data = (AddressDataBean) result;
+                            //获取成功
+                            binding.refreshLayout.finishRefresh();
+                            addressListAdapter.setNewData(data.getAddress_list());
+                        } else {
+                            //获取失败
+                            binding.refreshLayout.finishRefresh(false);
+                        }
                     }
                 });
-        registerObserver("DEL_ADDRESS", "err")
-                .observeForever(new Observer<Object>() {
+        registerObserver("DEL_ADDRESS", String.class)
+                .observeForever(new Observer<String>() {
                     @Override
-                    public void onChanged(@Nullable Object o) {
-                        //删失败
-                        progressDialog.onFail(o.toString());
-                        initData();
+                    public void onChanged(@Nullable String msg) {
+                        if (msg.equals("success")) {
+                            //删成功
+                            initData();
+                        } else {
+                            //删失败
+                            ToastUtils.showShort(msg);
+                        }
                     }
                 });
     }

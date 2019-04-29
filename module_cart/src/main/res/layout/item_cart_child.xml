@@ -11,12 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:foreground="@drawable/button_foreground"
         android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line_height"
-            android:background="@color/line_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,15 +122,15 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:padding="2dp"
-                        android:src="@drawable/ic_jian" />
+                        android:src="@drawable/ic_jian_enable" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minWidth="24dp"
-                        android:gravity="center"
                         android:background="#E6E6E6"
+                        android:gravity="center"
+                        android:minWidth="24dp"
                         android:text="1"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -144,7 +140,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:padding="2dp"
-                        android:src="@drawable/ic_jia" />
+                        android:src="@drawable/ic_jia_enable" />
 
                 </LinearLayout>
 
@@ -173,6 +169,12 @@
                 android:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 

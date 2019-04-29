@@ -59,7 +59,6 @@ public class BannerAdapter implements CBViewHolderCreator {
                 tvOldPay.setText(data.getGoods_price());
 
                 long currt = System.currentTimeMillis();
-                Log.i("时间戳", "updateUI: " + System.currentTimeMillis());
 
                 if (countDownTimer != null) {
                     countDownTimer.cancel();
@@ -68,7 +67,6 @@ public class BannerAdapter implements CBViewHolderCreator {
                         new CountDownTimer(Long.parseLong(data.getEnd_time()) * 1000 - currt, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
-                                Log.i("剩余多少秒", "onTick: " + millisUntilFinished);
                                 tvTime.setText("剩余时间:" + formatDuring(millisUntilFinished / 1000));
                             }
 

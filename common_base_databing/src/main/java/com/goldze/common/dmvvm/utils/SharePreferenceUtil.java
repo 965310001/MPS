@@ -70,8 +70,8 @@ public class SharePreferenceUtil {
         getPreferences().edit().putString(KEY_USER, new Gson().toJson(object)).apply();
     }
 
-    public static void saveLogin(boolean isChecked) {
-        saveBooleanKeyValue(KEY_SETTING_LOGIN, isChecked);
+    public static void saveLogin(boolean isLogin) {
+        saveBooleanKeyValue(KEY_SETTING_LOGIN, isLogin);
     }
 
     public static boolean isLogin() {

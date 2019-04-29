@@ -34,7 +34,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_store_b" />
+                    app:srcCompat="@drawable/ic_store_b" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_storeName"
@@ -47,7 +47,7 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:layout_width="18dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_svg_more" />
+                    app:srcCompat="@drawable/ic_svg_more" />
 
             </LinearLayout>
 
@@ -67,7 +67,7 @@
                 android:id="@+id/line"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_hight"
-                android:background="@color/dark"
+                android:background="@color/line_color"
                 app:layout_constraintBottom_toTopOf="@id/cl_shopsContent"
                 app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                 app:layout_constraintStart_toStartOf="@id/ll_shopContent"
@@ -101,8 +101,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="18dp"
-                    android:textColor="@color/black"
+                    android:textColor="#333"
                     android:textSize="14sp"
+                    android:maxLines="2"
                     app:layout_constraintEnd_toStartOf="@id/tv_payMoney"
                     app:layout_constraintStart_toEndOf="@id/iv_image"
                     app:layout_constraintTop_toTopOf="@id/iv_image"
@@ -136,7 +137,7 @@
                 android:id="@+id/line1"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_hight"
-                android:background="@color/dark"
+                android:background="@color/line_color"
                 app:layout_constraintEnd_toEndOf="@id/cl_shopsContent"
                 app:layout_constraintStart_toStartOf="@id/cl_shopsContent"
                 app:layout_constraintTop_toBottomOf="@id/cl_shopsContent" />

@@ -17,7 +17,7 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="@dimen/line_height"
+        android:layout_height="1dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="@color/line_color"
@@ -28,7 +28,7 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="@dimen/line_height"
+        android:layout_height="1dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="@color/line_color"

@@ -28,14 +28,14 @@ public class HomeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<ShopClassBean> homeItemBean) {
                         if (homeItemBean.isSuccess())
-                            sendData("GET_STORE_CLASS", "success", homeItemBean.getData());
+                            sendData("GET_STORE_CLASS", homeItemBean.getData());
                         else
-                            sendData("GET_STORE_CLASS", "err", homeItemBean.getMessage());
+                            sendData("GET_STORE_CLASS", homeItemBean.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("GET_STORE_CLASS", "err", msg == null ? "获取失败" : msg);
+                        sendData("GET_STORE_CLASS", msg == null ? "获取失败" : msg);
                     }
 
                     @Override
@@ -57,14 +57,14 @@ public class HomeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<ShopStreetBean> homeItemBean) {
                         if (homeItemBean.isSuccess())
-                            sendData("GET_STORE_LIST", "success", homeItemBean);
+                            sendData("GET_STORE_LIST", homeItemBean);
                         else
-                            sendData("GET_STORE_LIST", "err", homeItemBean.getMessage());
+                            sendData("GET_STORE_LIST", homeItemBean.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("GET_STORE_LIST", "err", msg == null ? "获取失败" : msg);
+                        sendData("GET_STORE_LIST", msg == null ? "获取失败" : msg);
                     }
 
                     @Override
@@ -86,20 +86,12 @@ public class HomeRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<HomeItemBean>() {
                                    @Override
                                    public void onSuccess(HomeItemBean data) {
-                                       KLog.i(data);
                                        sendData("HOME_DATA_JSON", data);
                                    }
 
                                    @Override
-                                   public void onError(Throwable e) {
-                                       super.onError(e);
-                                       KLog.i(e.toString());
-                                   }
-
-                                   @Override
                                    public void onFailure(String msg) {
-                                       KLog.i(msg);
-                                       sendData("Err_HOME_DATA_JSON", msg);
+                                       sendData("HOME_DATA_JSON", msg == null ? "获取失败" : msg);
                                    }
                                }
                 )

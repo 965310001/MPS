@@ -4,12 +4,15 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -53,6 +56,19 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
 
         footprintListAdapter = new FootprintListAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_me_goods_browse);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_footprint_empty);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_footprint_empty);
+        emptyView.findViewById(R.id.btn_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //前往首页
+                LiveBus.getDefault().postEvent("Main", "tab", 0);
+                activity.onBackPressed();
+            }
+        });
+        footprintListAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(footprintListAdapter);
 
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -87,49 +103,43 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_FOOTPRINT", "success")
+        registerObserver("GET_FOOTPRINT", Object.class)
                 .observeForever(new Observer<Object>() {
                     @Override
                     public void onChanged(@Nullable Object result) {
-                        BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
-                        if (isLoadmore) {
-                            pageIndex++;
-                            binding.refreshLayout.finishLoadMore();
-                            footprintListAdapter.addData(data.getData().getGoodsbrowse_list());
+                        if (result instanceof String) {
+                            ToastUtils.showShort(result.toString());
+                            //获取失败
+                            binding.refreshLayout.finishRefresh(false);
+                            binding.refreshLayout.finishLoadMore(false);
                         } else {
-                            pageIndex = 1;
-                            binding.refreshLayout.finishRefresh();
-                            footprintListAdapter.setNewData(data.getData().getGoodsbrowse_list());
-                        }
-                        if (!data.isHasmore()) {
-                            binding.refreshLayout.setNoMoreData(true);
+                            BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
+                            if (isLoadmore) {
+                                pageIndex++;
+                                binding.refreshLayout.finishLoadMore();
+                                footprintListAdapter.addData(data.getData().getGoodsbrowse_list());
+                            } else {
+                                pageIndex = 1;
+                                binding.refreshLayout.finishRefresh();
+                                footprintListAdapter.setNewData(data.getData().getGoodsbrowse_list());
+                            }
+                            if (!data.isHasmore()) {
+                                binding.refreshLayout.setNoMoreData(true);
+                            }
                         }
                     }
                 });
-        registerObserver("GET_FOOTPRINT", "err", String.class)
+        registerObserver("CLEAR_FOOTPRINT", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String msg) {
-                        ToastUtils.showShort(msg);
-                        //获取失败
-                        binding.refreshLayout.finishRefresh(false);
-                        binding.refreshLayout.finishLoadMore(false);
-                    }
-                });
-        registerObserver("CLEAR_FOOTPRINT", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //清空成功
-                        footprintListAdapter.setNewData(new ArrayList<FootprintBean.GoodsbrowseListBean>());
-                    }
-                });
-        registerObserver("CLEAR_FOOTPRINT", "err", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        //清空失败
-                        ToastUtils.showShort(msg);
+                        if (msg.equals("success")) {
+                            //清空成功
+                            initData();
+                        } else {
+                            //清空失败
+                            ToastUtils.showShort(msg);
+                        }
                     }
                 });
     }
@@ -143,7 +153,7 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
     public void onViewClicked(int viewId) {
         if (viewId == R.id.tv_right) {
             //清空记录
-            TextDialog.showBaseDialog(activity, "提示", "确定清空足迹？", new TextDialog.SingleButtonCallback() {
+            TextDialog.showBaseDialog(activity, "清空足迹", "将会清空最近浏览记录", new TextDialog.SingleButtonCallback() {
                 @Override
                 public void onClick() {
                     mViewModel.clearnMyFootprint();

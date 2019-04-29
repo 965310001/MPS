@@ -32,7 +32,7 @@ public class CouponListAdapter extends BaseMultiItemQuickAdapter<CouponListBean.
             default:
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), item.getVoucher_t_customimg());
                 helper.setText(R.id.tv_storeName, item.getStore_name())
-                        .setText(R.id.tv_time, item.getVoucher_end_date_text())
+                        .setText(R.id.tv_time, "有效期至:\n" + item.getVoucher_end_date_text())
                         .setText(R.id.tv_money, "¥" + item.getVoucher_price())
                         .setText(R.id.tv_use, "满" + item.getVoucher_limit() + "可用")
                         .setGone(R.id.iv_stateImage, item.getType() > 1)

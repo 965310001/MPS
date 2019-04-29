@@ -55,28 +55,20 @@ public class FeedBackActivity extends AbsLifecycleActivity<ActivityFeedbackBindi
 
     @Override
     protected void dataObserver() {
-        registerObserver("SEND_FEEDBACK", BaseIntDatasBean.class)
-                .observeForever(new Observer<BaseIntDatasBean>() {
-                    @Override
-                    public void onChanged(@Nullable BaseIntDatasBean result) {
-                        progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                finish();
-                            }
-                        });
-                    }
-                });
-        registerObserver("Err_SEND_FEEDBACK", String.class)
+        registerObserver("SEND_FEEDBACK", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
-                    public void onChanged(@Nullable String result) {
-                        progressDialog.onFail(result, new ProgressDialog.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                finish();
-                            }
-                        });
+                    public void onChanged(@Nullable String msg) {
+                        if (msg.equals("success")) {
+                            progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
+                                @Override
+                                public void onDismiss() {
+                                    finish();
+                                }
+                            });
+                        } else{
+                            progressDialog.onFail(msg);
+                        }
                     }
                 });
     }

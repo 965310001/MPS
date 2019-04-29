@@ -8,6 +8,10 @@
         <variable
             name="data"
             type="com.mingpinmall.me.ui.bean.OrderInformationBean" />
+
+        <variable
+            name="deliverData"
+            type="com.mingpinmall.me.ui.bean.OrderDeliverBean" />
     </data>
 
     <LinearLayout
@@ -39,7 +43,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginEnd="6dp"
-                        android:src="@drawable/ic_order"
+                        app:srcCompat="@drawable/ic_order"
                         app:layout_constraintBottom_toBottomOf="@id/tv_label"
                         app:layout_constraintEnd_toStartOf="@id/tv_label"
                         app:layout_constraintStart_toStartOf="parent"
@@ -85,17 +89,99 @@
 
                 </android.support.constraint.ConstraintLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cl_expressInformation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fafafa"
+                    android:foreground="@drawable/button_foreground"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_point"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="12dp"
+                        android:src="@drawable/shape_green_point_coners_10dp"
+                        app:layout_constraintEnd_toStartOf="@id/tv_information"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/shape_green_stroke_1dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/iv_point"
+                        app:layout_constraintStart_toStartOf="@id/iv_point"
+                        app:layout_constraintTop_toBottomOf="@id/iv_point" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_information"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="@{deliverData.deliver_info.context}"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@id/iv_more"
+                        app:layout_constraintStart_toEndOf="@id/iv_point"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="这里是物流信息展示，将显示最新的一条物流信息。" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="@{deliverData.deliver_info.time}"
+                        android:textColor="#777"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/tv_information"
+                        app:layout_constraintStart_toStartOf="@id/tv_information"
+                        app:layout_constraintTop_toBottomOf="@id/tv_information"
+                        tools:text="2019-04-27 14:24" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_more"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_margin="12dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_information"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_information"
+                        app:layout_constraintTop_toTopOf="@id/tv_information"
+                        app:srcCompat="@drawable/ic_svg_more" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_hight"
+                        android:background="@color/line_color"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
                 <com.mingpinmall.me.ui.widget.SettingItemView
                     android:id="@+id/siv_item2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:description="收货地址：广州市天河区体育中心啦啦啦啦啦卡的看法是开放"
+                    app:description="收货地址："
                     app:image="@drawable/ic_gps"
                     app:layout_constraintTop_toTopOf="parent"
                     app:mode="NoMoreIcon"
                     app:smallIcon="true"
-                    app:title="收货人：小斌" />
+                    app:title="收货人：" />
 
                 <com.mingpinmall.me.ui.widget.SettingItemView
                     android:id="@+id/siv_item3"
@@ -112,7 +198,7 @@
                     android:id="@+id/siv_item4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:description="类型：普通发票  抬头：个人  内容：明细"
+                    app:description="类型：  抬头：  内容："
                     app:image="@drawable/ic_invoice"
                     app:layout_constraintTop_toTopOf="parent"
                     app:mode="NoMoreIcon"
@@ -134,13 +220,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <android.support.constraint.ConstraintLayout
                         android:id="@+id/cl_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:foreground="@drawable/button_foreground">
 
                         <LinearLayout
@@ -158,7 +244,7 @@
                                 android:layout_width="22dp"
                                 android:layout_height="22dp"
                                 android:layout_marginEnd="12dp"
-                                android:src="@drawable/ic_store_b" />
+                                app:srcCompat="@drawable/ic_store_b" />
 
                             <android.support.v7.widget.AppCompatTextView
                                 android:id="@+id/tv_storeName"
@@ -171,7 +257,7 @@
                             <android.support.v7.widget.AppCompatImageView
                                 android:layout_width="18dp"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_svg_more" />
+                                app:srcCompat="@drawable/ic_svg_more" />
 
                         </LinearLayout>
 
@@ -199,32 +285,45 @@
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recyclerView"
+                            style="@style/VerticalScrollBarRecyclerView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toTopOf="@id/line1"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                             app:layout_constraintStart_toStartOf="@id/ll_shopContent"
                             app:layout_constraintTop_toBottomOf="@id/line" />
 
                         <View
-                            android:id="@+id/line1"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/line_hight"
-                            android:background="@color/dark"
-                            app:layout_constraintEnd_toEndOf="@id/recyclerView"
-                            app:layout_constraintStart_toStartOf="@id/recyclerView"
-                            app:layout_constraintTop_toBottomOf="@id/recyclerView" />
-
-
-                        <View
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/line_hight"
                             android:background="@color/line_color"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            app:layout_constraintBottom_toBottomOf="parent" />
 
                     </android.support.constraint.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_gifts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/shape_dashgap_gray"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/line1"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="12dp"
+                            android:gravity="center"
+                            android:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -343,23 +442,26 @@
                     android:background="@color/white"
                     android:orientation="horizontal">
 
-                    <FrameLayout
+                    <LinearLayout
                         android:id="@+id/fl_service"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:foreground="@drawable/button_foreground">
+                        android:foreground="@drawable/button_foreground"
+                        android:gravity="center">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            app:srcCompat="@drawable/ic_service" />
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:drawableLeft="@drawable/ic_service"
-                            android:gravity="center_vertical"
                             android:text="联系客服"
                             android:textSize="16sp" />
 
-                    </FrameLayout>
+                    </LinearLayout>
 
                     <View
                         android:layout_width="@dimen/line_hight"
@@ -367,23 +469,26 @@
                         android:layout_gravity="center_vertical"
                         android:background="@color/line_color" />
 
-                    <FrameLayout
+                    <LinearLayout
                         android:id="@+id/fl_call"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:foreground="@drawable/button_foreground">
+                        android:foreground="@drawable/button_foreground"
+                        android:gravity="center">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            app:srcCompat="@drawable/ic_call_phone" />
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:drawableLeft="@drawable/ic_call_phone"
-                            android:gravity="center_vertical"
                             android:text="拨打电话"
                             android:textSize="16sp" />
 
-                    </FrameLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -425,21 +530,37 @@
                 android:background="@color/line_color"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                android:id="@+id/bt_cancelOrder"
-                style="@style/RoundButton.Auto"
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_tips"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:text="@string/btn_text_cancelOrder"
-                android:textColor="@color/dark"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="退款/退货中..."
+                android:textColor="#ed5564"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ll_buttonContent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:rb_backgroundColor="@color/transparent"
-                app:rb_borderColor="@color/dark"
-                app:rb_borderWidth="1dp"
-                app:rb_radius="5dp" />
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/ll_buttonContent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="这里是功能按钮布局，动态addView。" />
+
+            </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>
 

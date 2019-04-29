@@ -6,12 +6,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -23,7 +28,9 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityPhysicalOrderInformationBinding;
 import com.mingpinmall.me.ui.adapter.PhysicalOrderInformationListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
+import com.mingpinmall.me.ui.bean.OrderDeliverBean;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
+import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 
 /**
  * 功能描述：订单详情
@@ -46,7 +53,6 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(listAdapter);
 
-        binding.btCancelOrder.setOnClickListener(this);
         binding.llShopContent.setOnClickListener(this);
         binding.flCall.setOnClickListener(this);
         binding.flService.setOnClickListener(this);
@@ -62,34 +68,52 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
 
     @Override
     protected void dataObserver() {
-        registerObserver("ORDER_INFORMATION", "success", OrderInformationBean.class)
-                .observeForever(new Observer<OrderInformationBean>() {
+        registerObserver("PHYSICAL_ORDER_INFORMATION", Object.class)
+                .observeForever(new Observer<Object>() {
                     @Override
-                    public void onChanged(@Nullable OrderInformationBean orderInformationBean) {
-                        data = orderInformationBean.getOrder_info();
-                        showDataInfo();
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof OrderInformationBean) {
+                            OrderInformationBean resultData = (OrderInformationBean) result;
+                            data = resultData.getOrder_info();
+                            showDataInfo();
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
-        registerObserver("ORDER_INFORMATION", "err", String.class)
+        registerObserver("INFORMATION_CANCEL_ORDER", "REMOVE_ORDER", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
-                    public void onChanged(@Nullable String s) {
-                        ToastUtils.showShort(s);
+                    public void onChanged(@Nullable String msg) {
+                        if (msg.equals("success")) {
+                            setResult(100);
+                            finish();
+                        } else {
+                            ToastUtils.showShort(msg);
+                        }
                     }
                 });
-        registerObserver("PL_INFORMATION", "REFRESH_ORDER_LIST", OrderInformationBean.class)
-                .observeForever(new Observer<OrderInformationBean>() {
-                    @Override
-                    public void onChanged(@Nullable OrderInformationBean orderInformationBean) {
-                        setResult(100);
-                        finish();
-                    }
-                });
-        registerObserver("PL_INFORMATION", "DO_SOMETHING_ERR", String.class)
+        registerObserver("INFORMATION_RECEVIE_ORDER", "RECEVIE_ORDER", String.class)
                 .observeForever(new Observer<String>() {
                     @Override
-                    public void onChanged(@Nullable String s) {
-                        ToastUtils.showShort(s);
+                    public void onChanged(@Nullable String msg) {
+                        if (msg.equals("success")) {
+                            initData();
+                        } else {
+                            ToastUtils.showShort(msg);
+                        }
+                    }
+                });
+        registerObserver("ORDER_DELIVER_INFORMATION", Object.class)
+                .observeForever(new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object result) {
+                        if (result instanceof OrderDeliverBean) {
+                            OrderDeliverBean data = (OrderDeliverBean) result;
+                            binding.setDeliverData(data);
+                        } else {
+                            ToastUtils.showShort(result.toString());
+                        }
                     }
                 });
     }
@@ -119,6 +143,26 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         binding.tvStoreName.setText(data.getStore_name());
         listAdapter.setNewData(data.getGoods_list());
 
+        /*赠品*/
+        if (data.getZengpin_list() != null) {
+            binding.llGifts.setVisibility(View.VISIBLE);
+            binding.llGifts.removeAllViews();
+            for (int i = 0; i < data.getZengpin_list().size(); i++) {
+                OrderInformationBean.OrderInfoBean.ZengpinListBean giftListBean = data.getZengpin_list().get(i);
+                View view = View.inflate(activity, R.layout.item_tips_textview_14sp, null);
+                TextView textView = view.findViewById(R.id.tv_label);
+                textView.setText(giftListBean.getGoods_name() + "    x" + giftListBean.getGoods_num());
+                binding.llGifts.addView(view);
+                if (i < data.getZengpin_list().size() - 1) {
+                    View line = new View(activity);
+                    line.setBackgroundResource(R.color.line_color);
+                    binding.llGifts.addView(line, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                }
+            }
+        } else {
+            binding.llGifts.setVisibility(View.GONE);
+        }
+
         /*优惠，运费，实付款*/
         binding.tvYouhui.setText(data.getPromotion().size() > 0 ? data.getPromotion().get(0).get(1) : "");
         binding.tvYunfei.setText(data.getShipping_fee());
@@ -129,6 +173,56 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         /*创建时间*/
         binding.tvOrderCreateTime.setText("创建时间：" + data.getAdd_time());
 
+        /*最下面的按钮*/
+        LinearLayout buttonContent = binding.llButtonContent;
+        buttonContent.removeAllViews();
+        AppCompatTextView tvBtn = null;
+        if (data.isIf_evaluation_again()) {
+            //追加评价
+            tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_border_red, null);
+            tvBtn.setId(R.id.order_evaluation_again);
+            tvBtn.setText("追加评价");
+        }
+        if (data.isIf_evaluation()) {
+            //评价订单
+            tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_border_red, null);
+            tvBtn.setId(R.id.order_evaluation);
+            tvBtn.setText("评价订单");
+        }
+        if (data.isIf_receive()) {
+            //确认收货
+            tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_border_red, null);
+            tvBtn.setId(R.id.order_sure);
+            tvBtn.setText("确认收货");
+        }
+        if (data.isIf_buyer_cancel()) {
+            //取消订单
+            tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_default, null);
+            tvBtn.setId(R.id.order_cancel);
+            tvBtn.setText("取消订单");
+        }
+        if (data.isIf_refund_cancel()) {
+            //订单退款
+            tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_default, null);
+            tvBtn.setId(R.id.order_lock);
+            tvBtn.setText("订单退款");
+        }
+
+        if (tvBtn != null) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.leftMargin = ScreenUtil.dip2px(activity, 6);
+            buttonContent.addView(tvBtn);
+            tvBtn.setLayoutParams(params);
+            tvBtn.setOnClickListener(this);
+        }
+        binding.tvTips.setVisibility(data.isIf_lock() ? View.VISIBLE : View.GONE);
+
+        //物流信息是否存在
+        if (data.isIf_deliver()) {
+            mViewModel.getOrderDeliverInformation(data.getOrder_id());
+            binding.clExpressInformation.setOnClickListener(this);
+        }
+        binding.clExpressInformation.setVisibility(data.isIf_deliver() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -148,11 +242,31 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
                     new TextDialog.SingleButtonCallback() {
                         @Override
                         public void onClick() {
-
-                            mViewModel.cancelOrder("INFORMATION", data.getOrder_id());
+                            mViewModel.cancelOrder("INFORMATION_CANCEL_ORDER", data.getOrder_id());
                         }
                     })
                     .show();
+        } else if (viewId == R.id.order_pay) {
+            //立即支付
+        } else if (viewId == R.id.order_lock) {
+            //订单退款
+        } else if (viewId == R.id.order_sure) {
+            //确认收货
+            TextDialog.showBaseDialog(activity, "确认收货", "确认已收到订单中商品？",
+                    new TextDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick() {
+                            mViewModel.recevieOrder("INFORMATION_RECEVIE_ORDER", data.getOrder_id());
+                        }
+                    })
+                    .show();
+        } else if (viewId == R.id.order_evaluation) {
+            //订单评价
+        } else if (viewId == R.id.order_evaluation_again) {
+            //追加评价
+        } else if (viewId == R.id.cl_expressInformation) {
+            //查看物流
+            ActivityToActivity.toActivity(ARouterConfig.Me.ORDERDELIVERYACTIVITY, "order_id", data.getOrder_id());
         } else if (viewId == R.id.ll_shopContent) {
             //点击店铺
             if (data != null) {

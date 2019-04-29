@@ -79,14 +79,14 @@
             android:layout_width="18dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:src="@drawable/ic_svg_more"
+            app:srcCompat="@drawable/ic_svg_more"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_height"
+            android:layout_height="@dimen/line_hight"
             android:background="@color/line_color"
             app:layout_constraintBottom_toBottomOf="parent" />
 

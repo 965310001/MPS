@@ -33,6 +33,7 @@ public class PropertyItemAdapter extends BaseMultiItemQuickAdapter<BaseItemBean,
                 SettingItemView settingItemView = (SettingItemView) helper.itemView;
                 settingItemView.setThemeMode(item.getItemMode());
                 settingItemView.setTitle(item.getTitle());
+                settingItemView.setSmallIconMode(true);
                 settingItemView.setSubTitle(item.getSubTitle() == null ? "" : item.getSubTitle());
                 settingItemView.setDescription(item.getDescription() == null ? "" : item.getDescription());
                 settingItemView.setImageIcon(item.getDrawable());

@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -44,6 +46,12 @@ public class PacketListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
         super.initView(state);
         listAdapter = new PacketListAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_mcc_09_w);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_packet_empty);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_packet_empty);
+        emptyView.findViewById(R.id.btn_action).setVisibility(View.GONE);
+        listAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(listAdapter);
 
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -79,64 +87,69 @@ public class PacketListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
                 lazyLoad();
             }
         });
-        registerObserver("PACKET_LIST", "success").observeForever(new Observer<Object>() {
+        registerObserver("PACKET_LIST", Object.class).observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object result) {
-                BaseResponse<PacketListBean> data = (BaseResponse<PacketListBean>) result;
-                if (isLoadmore) {
-                    binding.refreshLayout.finishLoadMore();
-                    pageIndex++;
-                    int typeCount = 0;
-                    for (int i = 0; i < listAdapter.getItemCount(); i++) {
-                        if (!listAdapter.getItem(i).getRpacket_state().equals("1")) {
-                            typeCount = i - 1;
-                            break;
-                        }
-                    }
-                    for (PacketListBean.RedpacketListBean item : data.getData().getRedpacket_list()) {
-                        if (item.getRpacket_state().equals("1")) {
-                            listAdapter.addData(typeCount, item);
-                            typeCount++;
-                        } else {
-                            listAdapter.addData(item);
-                        }
+                if (result instanceof String) {
+                    ToastUtils.showShort(result.toString());
+                    if (isLoadmore) {
+                        binding.refreshLayout.finishLoadMore(false);
+                    } else {
+                        binding.refreshLayout.finishRefresh(false);
                     }
                 } else {
-                    binding.refreshLayout.finishRefresh();
-                    pageIndex = 1;
-                    List<PacketListBean.RedpacketListBean> dataList = new ArrayList<>();
-                    for (PacketListBean.RedpacketListBean item : data.getData().getRedpacket_list()) {
-                        if (item.getRpacket_state().equals("1")) {
-                            dataList.add(item);
-                        }
-                    }
-                    PacketListBean.RedpacketListBean spaceBean = new PacketListBean.RedpacketListBean();
-                    spaceBean.setRpacket_state("0");
-                    spaceBean.setRpacket_state_text("已过期的红包");
-                    dataList.add(spaceBean);
-                    for (PacketListBean.RedpacketListBean item : data.getData().getRedpacket_list()) {
-                        if (!item.getRpacket_state().equals("1")) {
-                            dataList.add(item);
-                        }
-                    }
-                    listAdapter.setNewData(dataList);
-                }
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.setNoMoreData(true);
+                    formatData((BaseResponse<PacketListBean>) result);
                 }
             }
         });
-        registerObserver("PACKET_LIST", "err", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                ToastUtils.showShort(msg);
-                if (isLoadmore) {
-                    binding.refreshLayout.finishLoadMore(false);
-                } else {
-                    binding.refreshLayout.finishRefresh(false);
+    }
+
+    private void formatData(BaseResponse<PacketListBean> data) {
+        if (isLoadmore) {
+            binding.refreshLayout.finishLoadMore();
+            pageIndex++;
+            int typeCount = 0;
+            for (int i = 0; i < listAdapter.getItemCount(); i++) {
+                if (!listAdapter.getItem(i).getRpacket_state().equals("1")) {
+                    typeCount = i - 1;
+                    break;
                 }
             }
-        });
+            for (PacketListBean.RedpacketListBean item : data.getData().getRedpacket_list()) {
+                if (item.getRpacket_state().equals("1")) {
+                    listAdapter.addData(typeCount, item);
+                    typeCount++;
+                } else {
+                    listAdapter.addData(item);
+                }
+            }
+        } else {
+            binding.refreshLayout.finishRefresh();
+            pageIndex = 1;
+            if (data.getData().getRedpacket_list() == null || data.getData().getRedpacket_list().isEmpty()) {
+                listAdapter.setNewData(new ArrayList<PacketListBean.RedpacketListBean>());
+            } else {
+                List<PacketListBean.RedpacketListBean> dataList = new ArrayList<>();
+                for (PacketListBean.RedpacketListBean item : data.getData().getRedpacket_list()) {
+                    if (item.getRpacket_state().equals("1")) {
+                        dataList.add(item);
+                    }
+                }
+                PacketListBean.RedpacketListBean spaceBean = new PacketListBean.RedpacketListBean();
+                spaceBean.setRpacket_state("0");
+                spaceBean.setRpacket_state_text("已过期的红包");
+                dataList.add(spaceBean);
+                for (PacketListBean.RedpacketListBean item : data.getData().getRedpacket_list()) {
+                    if (!item.getRpacket_state().equals("1")) {
+                        dataList.add(item);
+                    }
+                }
+                listAdapter.setNewData(dataList);
+            }
+        }
+        if (!data.isHasmore()) {
+            binding.refreshLayout.setNoMoreData(true);
+        }
     }
 
     @Override

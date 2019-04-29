@@ -18,8 +18,8 @@ public class CartViewModel extends AbsViewModel<CartRepository> {
     }
 
     /*购物车列表*/
-    public void getCartList() {
-        mRepository.getCartList();
+    public void getCartList(String event_key) {
+        mRepository.getCartList(event_key);
     }
 
     /*购物车商品数量更改*/

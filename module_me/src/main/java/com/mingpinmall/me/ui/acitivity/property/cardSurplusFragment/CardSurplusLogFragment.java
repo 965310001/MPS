@@ -4,7 +4,10 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
@@ -40,6 +43,12 @@ public class CardSurplusLogFragment extends AbsLifecycleFragment<FragmentCardLog
         super.initView(state);
         rCardLogAdapter = new RCardLogAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
+        ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_mcc_07_w);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_card_empty);
+        ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_card_empty);
+        emptyView.findViewById(R.id.btn_action).setVisibility(View.GONE);
+        rCardLogAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(rCardLogAdapter);
 
         binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -66,44 +75,41 @@ public class CardSurplusLogFragment extends AbsLifecycleFragment<FragmentCardLog
                 lazyLoad();
             }
         });
-        registerObserver("RCBALANCE", "success", RCardBalanceBean.class).observeForever(new Observer<RCardBalanceBean>() {
-            @Override
-            public void onChanged(@Nullable RCardBalanceBean result) {
-                binding.tvSurplus.setText(result.getAvailable_rc_balance());
-            }
-        });
-        registerObserver("RCBALANCE", "err", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                ToastUtils.showShort(msg);
-            }
-        });
-        registerObserver("RCCHARGE_LIST", "success").observeForever(new Observer<Object>() {
+        registerObserver("RCBALANCE", Object.class).observeForever(new Observer<Object>() {
             @Override
             public void onChanged(@Nullable Object result) {
-                BaseResponse<RCardLogBean> data = (BaseResponse<RCardLogBean>) result;
-                if (isLoadmore) {
-                    binding.refreshLayout.finishLoadMore();
-                    pageIndex++;
-                    rCardLogAdapter.addData(data.getData().getLog_list());
+                if (result instanceof RCardBalanceBean) {
+                    RCardBalanceBean data = (RCardBalanceBean) result;
+                    binding.tvSurplus.setText(data.getAvailable_rc_balance());
                 } else {
-                    binding.refreshLayout.finishRefresh();
-                    pageIndex = 1;
-                    rCardLogAdapter.setNewData(data.getData().getLog_list());
-                }
-                if (!data.isHasmore()) {
-                    binding.refreshLayout.setNoMoreData(true);
+                    ToastUtils.showShort(result.toString());
                 }
             }
         });
-        registerObserver("RCCHARGE_LIST", "err", String.class).observeForever(new Observer<String>() {
+        registerObserver("RCCHARGE_LIST", Object.class).observeForever(new Observer<Object>() {
             @Override
-            public void onChanged(@Nullable String msg) {
-                ToastUtils.showShort(msg);
-                if (isLoadmore) {
-                    binding.refreshLayout.finishLoadMore(false);
+            public void onChanged(@Nullable Object result) {
+                if (result instanceof String) {
+                    ToastUtils.showShort(result.toString());
+                    if (isLoadmore) {
+                        binding.refreshLayout.finishLoadMore(false);
+                    } else {
+                        binding.refreshLayout.finishRefresh(false);
+                    }
                 } else {
-                    binding.refreshLayout.finishRefresh(false);
+                    BaseResponse<RCardLogBean> data = (BaseResponse<RCardLogBean>) result;
+                    if (isLoadmore) {
+                        binding.refreshLayout.finishLoadMore();
+                        pageIndex++;
+                        rCardLogAdapter.addData(data.getData().getLog_list());
+                    } else {
+                        binding.refreshLayout.finishRefresh();
+                        pageIndex = 1;
+                        rCardLogAdapter.setNewData(data.getData().getLog_list());
+                    }
+                    if (!data.isHasmore()) {
+                        binding.refreshLayout.setNoMoreData(true);
+                    }
                 }
             }
         });
