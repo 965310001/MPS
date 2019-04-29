@@ -15,7 +15,6 @@ import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.mingpinmall.classz.R;
@@ -215,9 +214,6 @@ public class ConfirmOrderActivity extends
     }
 
     public void invoiceInfo(View view) {
-        KLog.i("发票信息");
-//        ActivityToActivity.toActivity(ARouterConfig.classify.INVOICEACTIVITY);
-
         ARouter.getInstance().build(ARouterConfig.classify.INVOICEACTIVITY)
                 .navigation(this,
                         400);
@@ -244,11 +240,8 @@ public class ConfirmOrderActivity extends
         mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
     }
 
-
     public void onFinishClick(View view) {
-        if (mPayPopupWindow.isShowing()) {
-            mPayPopupWindow.dismiss();
-        }
+        if (mPayPopupWindow.isShowing()) mPayPopupWindow.dismiss();
     }
 
     public void selectAddress(View view) {
@@ -271,10 +264,10 @@ public class ConfirmOrderActivity extends
             AddressDataBean.AddressListBean data = (AddressDataBean.AddressListBean) intent.getSerializableExtra("addressData");
             binding.setAddress(data);
             addressId = data.getAddress_id();
-        } else if (requestCode == 400) {/*选择发票*/
+        } else if (resultCode == requestCode && requestCode == 400) {/*选择发票*/
             InvoiceListInfo.InvoiceListBean bean = (InvoiceListInfo.InvoiceListBean) intent.getSerializableExtra("invoicelistbean");
             invoice_id = bean.getInv_idX();
-            binding.setInvoice(bean.getInv_content());
+            binding.setInvoice(String.format("%s %s", bean.getInv_title(), bean.getInv_content()));
         }
 
     }

@@ -24,13 +24,12 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.databinding.DialogBottomSelectVoucherBinding;
 import com.mingpinmall.classz.databinding.TrecyclerviewBaseBinding;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
@@ -152,9 +151,6 @@ public class XBottomSheet extends Dialog {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mIsAnimating = false;
-                /**
-                 * Bugfix： Attempting to destroy the window while drawing!
-                 */
                 mContentView.post(new Runnable() {
                     @Override
                     public void run() {
@@ -373,7 +369,7 @@ public class XBottomSheet extends Dialog {
         }
 
         private View buildTViews() {
-            TrecyclerviewBaseBinding bind = DataBindingUtil
+         /*   TrecyclerviewBaseBinding bind = DataBindingUtil
                     .bind(LayoutInflater.from(mContext)
                             .inflate(R.layout.trecyclerview_base, null));
             View wrapperView = bind.getRoot().getRootView();
@@ -397,15 +393,49 @@ public class XBottomSheet extends Dialog {
             mRecyclerView.setAdapter(adapter);
             mRecyclerView.refreshComplete(itemData, true);
             mRecyclerView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            bind.executePendingBindings();*/
+
+            /************** start ***********/
+            DialogBottomSelectVoucherBinding bind = DataBindingUtil
+                    .bind(LayoutInflater.from(mContext)
+                            .inflate(R.layout.dialog_bottom_select_voucher, null));
+            View wrapperView = bind.getRoot().getRootView();
+            if (null != itemData && itemData.size() > 0) {
+                mRecyclerView = wrapperView.findViewById(R.id.recycler_view);// bind.recyclerView;
+                if (layoutManager == null) {
+                    layoutManager = new LinearLayoutManager(mContext);
+                }
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext,
+                        DividerItemDecoration.VERTICAL));
+                mRecyclerView.setLayoutManager(layoutManager);
+                if (needToScrollByTr()) {
+                    ViewGroup.LayoutParams layoutParams = mRecyclerView.getLayoutParams();
+                    layoutParams.height = getListMaxHeight();
+                    mDialog.setOnBottomSheetShowListener(new XBottomSheet.OnBottomSheetShowListener() {
+                        @Override
+                        public void onShow() {
+                        }
+                    });
+                }
+                mRecyclerView.setAdapter(adapter);
+                mRecyclerView.refreshComplete(itemData, true);
+                mRecyclerView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            } else {
+                bind.setIsShowIcon(true);
+            }
+
             bind.executePendingBindings();
+            /**************** end *********/
+
+
             return wrapperView;
         }
 
         /*ListView*/
         private View buildViews() {
             View wrapperView = View.inflate(mContext, getContentViewLayoutId(), null);
-            mTitleTv = (TextView) wrapperView.findViewById(R.id.title);
-            mContainerView = (ListView) wrapperView.findViewById(R.id.listview);
+            mTitleTv = wrapperView.findViewById(R.id.title);
+            mContainerView = wrapperView.findViewById(R.id.listview);
             if (mTitle != null && mTitle.length() != 0) {
                 mTitleTv.setVisibility(View.VISIBLE);
                 mTitleTv.setText(mTitle);
@@ -497,7 +527,7 @@ public class XBottomSheet extends Dialog {
 
             Drawable image = null;
             String text;
-            String tag = "";
+            String tag;
             boolean hasRedPoint = false;
             boolean isDisabled = false;
 
@@ -625,9 +655,7 @@ public class XBottomSheet extends Dialog {
 
     }
 
-    /**
-     * 生成宫格类型的 {@link BottomSheet} 对话框。
-     */
+    /*生成宫格类型的 {@link BottomSheet} 对话框。*/
 //    public static class BottomGridSheetBuilder {
 //
 //        /**

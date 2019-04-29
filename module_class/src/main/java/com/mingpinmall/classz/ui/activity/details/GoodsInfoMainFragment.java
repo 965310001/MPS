@@ -275,6 +275,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 //                    ? goodsDetailInfo.getDatas().getGoods_image().split(",")[0] : "");
             String goods_image = goodsDetailInfo.getDatas().getGoods_image();
             if (goods_image.contains(",")) {
+                goodsInfo.setGoods_image_url(goods_image.split(",")[0]);
                 ImageUtils.loadBanner(binding.vpItemGoodsImg,
                         Arrays.asList(goods_image.split(",")),
                         new OnItemClickListener() {
@@ -284,6 +285,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                             }
                         });
             } else {
+                goodsInfo.setGoods_image_url(goods_image);
                 ImageUtils.loadBanner(binding.vpItemGoodsImg,
                         Arrays.asList(goods_image),
                         new OnItemClickListener() {

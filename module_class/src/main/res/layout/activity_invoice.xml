@@ -295,7 +295,6 @@
 
                 <LinearLayout
                     style="@style/width_match_height_warp"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView

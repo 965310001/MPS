@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
@@ -28,23 +29,21 @@ import io.reactivex.functions.Predicate;
 /**
  * 商品规格Pop
  */
-public class GoodsSpecificationPop extends PopupWindow implements CountClickView.OnClickAfterListener {
+public class GoodsSpecificationPop extends PopupWindow implements CountClickView.OnClickAfterListener, View.OnClickListener {
 
     private Context context;
     private static GoodsSpecificationPop specificationPop;
     private GoodsInfo goodsInfo;
 
-    int[] ints = new int[3];
-    StringBuilder stringBuilder;
+    private int[] ints = new int[3];
+    private StringBuilder stringBuilder;
 
     public GoodsSpecificationPop(Context context) {
         this.context = context;
     }
 
     public static synchronized GoodsSpecificationPop getInstance(Context context) {
-        if (specificationPop == null) {
-            specificationPop = new GoodsSpecificationPop(context);
-        }
+        if (specificationPop == null) specificationPop = new GoodsSpecificationPop(context);
         return specificationPop;
     }
 
@@ -56,8 +55,10 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
     }
 
     public void show(View parent) {
-        View view = View.inflate(context, R.layout.market_pop_goods_specification, null);
-        bind = DataBindingUtil.bind(view);
+//        View view = View.inflate(context, R.layout.market_pop_goods_specification, null);
+//        bind.getRoot().setBackgroundColor(context.getResources().getColor(R.color.color_33000000));
+
+        bind = DataBindingUtil.bind(LayoutInflater.from(context).inflate(R.layout.market_pop_goods_specification, null));
         setAnimationStyle(R.style.AnimSheetBottom);
         setBackgroundDrawable(new ColorDrawable(0));
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -69,30 +70,29 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         loadData();
         update();
 
-        bind.viewClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-        bind.ivClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+//        bind.viewClose.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dismiss();
+//            }
+//        });
+//        bind.ivClose.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dismiss();
+//            }
+//        });
+
         /*添加属性*/
         TextView textView;
         List<String> stringList;
         FlowTagLayout flowLayout;
         CustomDefaultFlowTagAdapter adapter;
         View chieView;
+        int dimensionPixelSize = context.getResources().getDimensionPixelSize(R.dimen.dp_4);
         for (int index = 0; index < goodsInfo.news_goods_spec_name.size(); index++) {
             chieView = View.inflate(context, R.layout.item_text, null);
-            chieView.setPadding(context.getResources().getDimensionPixelSize(R.dimen.dp_4),
-                    context.getResources().getDimensionPixelSize(R.dimen.dp_4),
-                    0,
-                    context.getResources().getDimensionPixelSize(R.dimen.dp_4));
+            chieView.setPadding(dimensionPixelSize, dimensionPixelSize, 0, dimensionPixelSize);
             textView = chieView.findViewById(R.id.text);
             textView.setTextColor(context.getResources().getColor(R.color.gray));
             textView.setTextSize(context.getResources().getDimensionPixelSize(R.dimen.text_8));
@@ -150,6 +150,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
     public void loadData() {
         bind.setData(goodsInfo);
         bind.setListener(this);
+        bind.setDismissListener(this);
         bind.executePendingBindings();
     }
 
@@ -161,6 +162,10 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
 
     @Override
     public void onMin() {
+    }
 
+    @Override
+    public void onClick(View v) {
+        dismiss();
     }
 }

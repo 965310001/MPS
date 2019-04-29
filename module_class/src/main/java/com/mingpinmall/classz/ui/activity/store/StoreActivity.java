@@ -45,7 +45,10 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
     @Autowired
     String storeId;
 
-    XBottomSheet xBottomSheet;
+    private XBottomSheet xBottomSheet;
+
+    private StoreInfo.StoreInfoBean storeInfo;
+
 
     @Override
     protected int getLayoutId() {
@@ -75,7 +78,8 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
         String[] tabName = ResourcesUtils.getInstance().getStringArray(R.array.store_tab_name);
 
         TabViewChild tabViewChild;
-        for (int i = 0; i < tabIcon.length(); i++) {
+        int length = tabIcon.length();
+        for (int i = 0; i < length; i++) {
             tabViewChild = new TabViewChild(tabIcon.getResourceId(i, 0),
                     tabIconDef.getResourceId(i, 0),
                     tabName[i],
@@ -91,7 +95,6 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
         return Constants.STORE_GOODS_RANK_KEY[1];
     }
 
-    StoreInfo.StoreInfoBean storeInfo;
 
     public void setStoreInfo(StoreInfo.StoreInfoBean storeInfo) {
         this.storeInfo = storeInfo;
@@ -106,7 +109,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                 .observeForever(new Observer<ResultBean>() {
                     @Override
                     public void onChanged(@android.support.annotation.Nullable ResultBean response) {
-                        KLog.i(response.isSuccess() + " " + response.getError());
+                        /*KLog.i(response.isSuccess() + " " + response.getError());*/
                         if (response.isSuccess()) {
                             int store_collect = storeInfo.getStore_collect();
                             storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);
@@ -121,15 +124,15 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                 .observeForever(new Observer<BaseResponse>() {
                     @Override
                     public void onChanged(@Nullable BaseResponse response) {
-                        KLog.i("======接收数据");
                         BaseResponse<VoucherInfo> data = response;
                         if (data.isSuccess()) {
                             List<VoucherInfo.VoucherListBean> voucher_list = data.getData().getVoucher_list();
-                            if (null != voucher_list || voucher_list.size() > 0) {
+
+                            // TODO: 2019/4/29 测试
+                            if (null != voucher_list) {
                                 if (null == xBottomSheet) {
                                     xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
                                             .setItemData(voucher_list)
-//                                            .setItemData(voucher_list)
                                             .setAdapter(AdapterPool.newInstance()
                                                     .getVoucherInfoAdapter(activity)
                                                     .build())
@@ -147,6 +150,28 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                             } else {
                                 ToastUtils.showLong("暂时没有代金券");
                             }
+                            // TODO: 2019/4/29 测试end
+                           /* if (null != voucher_list && voucher_list.size() > 0) {
+                                if (null == xBottomSheet) {
+                                    xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
+                                            .setItemData(voucher_list)
+                                            .setAdapter(AdapterPool.newInstance()
+                                                    .getVoucherInfoAdapter(activity)
+                                                    .build())
+                                            .setLayoutManager(new LinearLayoutManager(activity))
+                                            .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
+                                                @Override
+                                                public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
+                                                    dialog.dismiss();
+                                                    ToastUtils.showLong("Item " + (position + 1));
+                                                }
+                                            })
+                                            .build();
+                                }
+                                xBottomSheet.show();
+                            } else {
+                                ToastUtils.showLong("暂时没有代金券");
+                            }*/
                         } else {
                             ToastUtils.showLong(data.getMessage());
                         }
@@ -191,8 +216,8 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
 
     /*领取代金券*/
     public void getReceive(View view) {
-        String tId = (String) view.getTag();
-        mViewModel.getVoucherFreeex(tId, Constants.VOUCHER[2]);
+        /*String tId = (String) view.getTag();*/
+        mViewModel.getVoucherFreeex((String) view.getTag(), Constants.VOUCHER[2]);
     }
 
     /*联系客服*/
@@ -208,6 +233,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
     }
 
     public String getStoreId() {
+        /*storeId="10";*/
         return storeId;
     }
 }

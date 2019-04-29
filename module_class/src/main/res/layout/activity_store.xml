@@ -71,7 +71,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/ll_msg"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -79,6 +78,7 @@
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="4dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/sv_search"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -146,12 +146,10 @@
                             </LinearLayout>
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
+                                style="@style/width_warp_height_warp"
                                 android:layout_centerVertical="true"
                                 android:layout_gravity="end"
-                                android:layout_marginEnd="60dp"
+                                android:layout_toLeftOf="@id/tv_store_collect"
                                 android:background="@{data.is_favorate?@color/gray:@color/shallow_red}"
                                 android:gravity="center"
                                 android:onClick="favorites"
@@ -163,8 +161,8 @@
                                 android:textColor="@color/white" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:id="@+id/tv_store_collect"
+                                style="@style/width_warp_height_warp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:layout_gravity="end"
@@ -200,10 +198,11 @@
             <!--底部-->
             <LinearLayout
                 android:id="@+id/ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/width_match_height_warp"
                 android:layout_alignParentBottom="true"
+                android:divider="@drawable/ll_store_divider"
                 android:orientation="horizontal"
+                android:showDividers="middle"
                 android:visibility="visible">
 
                 <TextView
