@@ -60,6 +60,9 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
         binding.setSelectInvoice(true);
         binding.setSelectInvoiceType(true);
         binding.setContent("");
+        binding.setName("");
+        binding.setIdcard("");
+        binding.setNumber("");
         binding.executePendingBindings();
     }
 
@@ -67,7 +70,8 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         binding.setSelectInvoice(checkedId == R.id.checkbox);
-        binding.setSelectInvoiceType(checkedId == R.id.checkbox_invoice);
+        binding.setSelectInvoiceType(binding.rgSelectType.getCheckedRadioButtonId() == R.id.checkbox_invoice
+                || checkedId == R.id.checkbox_invoice);
     }
 
     @Override
@@ -88,6 +92,9 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
             map.put("inv_title_select", binding.getSelectInvoiceType() ? "person" : "company");/*person*/
             map.put("inv_title", binding.getContent());
             map.put("inv_content", binding.spinnerSystem.getSelectedItem().toString());
+            map.put("inv_username", binding.getName());
+            map.put("inv_idcode", binding.getIdcard());
+            map.put("inv_jgcode", binding.getNumber());
             mViewModel.addInvoice(map, Constants.INVOICECONTENT_KEY[2]);
         } else {
             KLog.i("不需要发票提交");

@@ -166,7 +166,7 @@
                             android:layout_height="24dp"
                             android:layout_alignParentEnd="true"
                             android:onClick="favorites"
-                            android:src="@{!data.isfavorate?@drawable/ic_me_favorite:@drawable/ic_me_favorite_red}"
+                            android:src="@{@drawable/ic_me_favorite}"
                             android:tint="@color/shallow_red"
                             android:visibility="@{data.shop?View.GONE:View.VISIBLE}"
                             tools:src="@drawable/ic_me_favorite" />

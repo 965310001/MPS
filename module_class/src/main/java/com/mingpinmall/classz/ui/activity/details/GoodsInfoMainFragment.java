@@ -202,7 +202,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     public void onChanged(@Nullable ResultBean response) {
                         KLog.i(response.isSuccess() + " " + response.getError());
                         if (response.isSuccess()) {
-                            ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏成功" : "添加收藏成功");
+                            /*ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏成功" : "添加收藏成功");*/
                             binding.ivLike.setBackgroundResource(goodsInfo.isfavorate() ? R.drawable.ic_me_favorite : R.drawable.ic_me_favorite_red);
                             goodsInfo.setfavorate(!goodsInfo.isfavorate());
                             binding.executePendingBindings();
