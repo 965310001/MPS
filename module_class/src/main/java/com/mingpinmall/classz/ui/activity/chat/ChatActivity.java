@@ -38,6 +38,8 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
     ItemData itemData = new ItemData();
 
+    String meIcon, otherIcon;
+
     @Override
     protected boolean isActionBar() {
         return false;
@@ -90,6 +92,9 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         MsgListInfo.MemberInfoBean memberInfo = response.getMember_info();
                         tName = memberInfo.getMember_name();
                         tId = memberInfo.getMember_id();
+                        MsgListInfo.UserInfoBean userInfo = response.getUser_info();
+                        meIcon = userInfo.getMember_avatar();
+                        otherIcon = userInfo.getStore_avatar();
                         binding.tvTitle.setText(memberInfo.getStore_name());
                         itemData.add(response.getChat_goods());
                         binding.setList(itemData);
@@ -115,10 +120,11 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     public void onChanged(@Nullable MsgInfo response) {
                         KLog.i(response.toString());
                         binding.etMsg.setText("");
-
-                        // TODO: 2019/4/30 消息的判断 
-//                        itemData.add()
-
+                        if (Long.parseLong(response.getMsg().getF_id()) != (response.getMsg().getT_id())) {/*是自己*/
+//                            meIcon;
+                        } else {
+//                            otherIcon;
+                        }
                         binding.setList(itemData);
                     }
                 });
