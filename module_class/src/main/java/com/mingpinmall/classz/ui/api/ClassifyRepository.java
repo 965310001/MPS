@@ -1,7 +1,5 @@
 package com.mingpinmall.classz.ui.api;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.text.TextUtils;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
@@ -22,6 +20,8 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
+import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
+import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
@@ -31,8 +31,6 @@ import com.socks.library.KLog;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -377,13 +375,6 @@ public class ClassifyRepository extends BaseRepository {
         map.put("key", key);
         map.put("return_full", "1");
         map.put("num", "3");
-
-        /************店铺首页信息***********/
-//        addDisposable(Flowable.concat(apiService.getStoreGoodsRank(storeId, "", "", ""))
-//                .compose(RxSchedulers.io_main()));
-        /**************店铺首页end*********/
-
-
         addDisposable(apiService.getStoreInfo(map)
                 .compose(RxSchedulers.<BaseResponse<StoreInfo>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<StoreInfo>>() {
@@ -728,40 +719,138 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
+    /*获取聊天历史列表*/
+    public void getChatLog(String goodsId, String tId, final Object eventKey) {
+        Map<String, Object> map = parames("member_chat", "get_node_info");
+        map.put("key", getUserKey());
+        map.put("chat_goods_id", goodsId);
+        map.put("u_id", tId);
+        // TODO: 2019/4/30 待修改 
+        addDisposable(apiService.getNodeInfo(map)
+                .compose(RxSchedulers.<BaseResponse<MsgListInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<MsgListInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<MsgListInfo> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey + "Success", result.getData());
+                        } else {
+                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
+    }
+
+    /*获取聊天列表*/
+    public void getNodeInfo(String goodsId, String tId, final Object eventKey) {
+        Map<String, Object> map = parames("member_chat", "get_node_info");
+        map.put("key", getUserKey());
+        map.put("chat_goods_id", goodsId);
+        map.put("u_id", tId);
+        addDisposable(apiService.getNodeInfo(map)
+                .compose(RxSchedulers.<BaseResponse<MsgListInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<MsgListInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<MsgListInfo> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey + "Success", result.getData());
+                        } else {
+                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
+    }
+
+    /*发送聊天信息*/
+    public void sendMsg(String goodsId, String tId, String tName, String msg, final Object eventKey) {
+        Map<String, Object> map = parames("member_chat", "send_msg");
+        map.put("key", getUserKey());
+        map.put("chat_goods_id", goodsId);
+        map.put("t_id", tId);
+        map.put("t_name", tName);
+        map.put("t_msg", msg);
+        addDisposable(apiService.sendMsg(map)
+                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<MsgInfo> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey + "Success", result.getData());
+                        } else {
+                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
+    }
+
 
     /************************************* 店铺 end ******************************/
 
 
     /**************************************/
     /*省 市 区*/
-    public void getArea(String areaId) {
-        Map<String, Object> map = parames("area_list", "area_list");
-        map.put("area_id", areaId);
-        addDisposable(apiService.getArea(map)
-                        .compose(RxSchedulers.<BaseResponse<AreaListInfo>>io_main())
-                        .subscribeWith(new RxSubscriber<BaseResponse<AreaListInfo>>() {
-                            @Override
-                            public void onSuccess(BaseResponse<AreaListInfo> result) {
-                                sendData(Constants.AREA_LIST_EVENT_KEY, result);
-//                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.SUCCESS_STATE);
-                            }
-
-                            @Override
-                            public void onFailure(String msg) {
-                                KLog.i(msg);
-//                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
-                            }
-
-                            @Override
-                            protected void onNoNetWork() {
-                                super.onNoNetWork();
-//                                showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
-                            }
-                        })
-        );
-
-    }
-
+//    public void getArea(String areaId) {
+//        Map<String, Object> map = parames("area_list", "area_list");
+//        map.put("area_id", areaId);
+//        addDisposable(apiService.getArea(map)
+//                        .compose(RxSchedulers.<BaseResponse<AreaListInfo>>io_main())
+//                        .subscribeWith(new RxSubscriber<BaseResponse<AreaListInfo>>() {
+//                            @Override
+//                            public void onSuccess(BaseResponse<AreaListInfo> result) {
+//                                sendData(Constants.AREA_LIST_EVENT_KEY, result);
+////                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.SUCCESS_STATE);
+//                            }
+//
+//                            @Override
+//                            public void onFailure(String msg) {
+//                                KLog.i(msg);
+////                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
+//                            }
+//
+//                            @Override
+//                            protected void onNoNetWork() {
+//                                super.onNoNetWork();
+////                                showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
+//                            }
+//                        })
+//        );
+//
+//    }
 
     /*通用*/
     public void execute(String app, String wwi, final Object eventKey, Map<String, Object> map) {

@@ -134,6 +134,12 @@ public class AdapterPool {
                 .bind(VoucherInfo.VoucherListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_voucherinfo, BR.data));
     }
 
+    /*聊天*/
+    public DelegateAdapter.Builder getChatAdapter(Context context) {
+        return new DelegateAdapter.Builder<>()
+                .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_goods_chat, BR.data));
+    }
+
 
     /*-------------------------------------------------------------------首页---------------------------------------------------*/
 //    public DelegateAdapter.Builder getRightAdapter1(Context context) {

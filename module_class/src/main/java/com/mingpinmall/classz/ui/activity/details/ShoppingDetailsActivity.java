@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.activity.details;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -27,7 +28,9 @@ import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品详情
@@ -48,6 +51,13 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     @Override
     protected boolean isActionBar() {
         return false;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        id = intent.getStringExtra("id");
+        initData();
     }
 
     @Override
@@ -189,8 +199,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     }
 
     public void goCart(View view) {
-//        ActivityToActivity.toActivity(ARouterConfig.Shopping.SHOPPINGACTIVITY);
-        KLog.i("去购物车");
+        ActivityToActivity.toActivity(ARouterConfig.cart.SHOPCARTACTIVITY);
     }
 
     public void addCart(View view) {
@@ -209,7 +218,12 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     }
 
     public void contactService(View view) {
-        KLog.i("联系客服");
+        Map<String, Object> map = new HashMap<>();
+        map.put("goodsId", getId());
+        GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = goodsDetailInfo.getDatas().getStore_info();
+        map.put("tId", storeInfo.getMember_id());
+//        map.put("tName", storeInfo.getMember_name());
+        ActivityToActivity.toActivity(ARouterConfig.classify.CHATACTIVITY, map);
     }
 
     // TODO: 2019/4/2 收藏

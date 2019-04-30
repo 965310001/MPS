@@ -49,7 +49,7 @@ public class ImageUtils {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(imageView.getContext())
+        Glide.with(Utils.getApplication())
                 .asGif()
                 .load(url)
                 .apply(new RequestOptions()
@@ -71,7 +71,7 @@ public class ImageUtils {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(imageView.getContext())
+        Glide.with(Utils.getApplication())
                 .asGif()
                 .load(url)
                 .apply(RequestOptions.circleCropTransform()
@@ -93,7 +93,7 @@ public class ImageUtils {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(imageView.getContext())
+        Glide.with(Utils.getApplication())
                 .load(url)
                 .apply(new RequestOptions()
                         .fitCenter()
@@ -114,7 +114,7 @@ public class ImageUtils {
             return;
         }
         try {
-            Glide.with(imageView.getContext())
+            Glide.with(Utils.getApplication())
                     .load(url)
                     .apply(new RequestOptions()
                             .placeholder(R.drawable.ic_loading_image)
@@ -140,7 +140,7 @@ public class ImageUtils {
      * @param resId
      */
     public static void loadImage(ImageView imageView, int resId) {
-        Glide.with(imageView.getContext())
+        Glide.with(Utils.getApplication())
                 .load(resId)
                 .apply(new RequestOptions()
                         .placeholder(R.drawable.ic_loading_image)
@@ -159,7 +159,7 @@ public class ImageUtils {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(imageView.getContext())
+        Glide.with(Utils.getApplication())
                 .load(url)
                 .apply(new RequestOptions().circleCrop()
                         .placeholder(R.drawable.ic_loading_image)
@@ -175,7 +175,7 @@ public class ImageUtils {
      * @param imageView imageView
      */
     public static void loadImageCircle(ImageView imageView, @DrawableRes int drawable) {
-        Glide.with(imageView.getContext())
+        Glide.with(Utils.getApplication())
                 .load(drawable)
                 .apply(RequestOptions.circleCropTransform()
                         .placeholder(R.drawable.ic_loading_image)
@@ -194,7 +194,7 @@ public class ImageUtils {
         Glide.with(imageView)
                 .load(url)
                 .apply(RequestOptions.bitmapTransform(
-                        new BlurTransformation(imageView.getContext())))
+                        new BlurTransformation(Utils.getApplication())))
                 .into(imageView);
     }
 

@@ -168,5 +168,20 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getVoucherFreeex(storeId, eventKey);
     }
 
+    /*聊天历史纪录*/
+    public void getChatLog(String tId, String t, final Object eventKey) {
+        mRepository.getChatLog(tId, t, eventKey);
+    }
+
+    /*获取聊天列表*/
+    public void getNodeInfo(String goodsId, String tId, Object eventKey) {
+        mRepository.getNodeInfo(goodsId, tId, eventKey);
+    }
+
+    /*发送聊天内容*/
+    public void sendMsg(String goodsId, String tId, String tName, String msg, Object eventKey) {
+        mRepository.sendMsg(goodsId, tId, tName, msg, eventKey);
+    }
+
     /************************************* end ******************************/
 }

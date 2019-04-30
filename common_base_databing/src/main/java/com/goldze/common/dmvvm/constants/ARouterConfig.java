@@ -93,6 +93,8 @@ public interface ARouterConfig {
         String STOREINTROACTIVITY = "/clasz/StoreIntroActivity";
         /*店铺分类列表*/
         String PRODUCTSACTIVITY2 = "/clasz/ProductsActivity2'";
+        /*聊天*/
+        String CHATACTIVITY = "/clasz/ChatActivity";
 
 //        String DISTRIBUTIONACTIVITY = "/clasz/DistributionActivity";
     }

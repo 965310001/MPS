@@ -1,6 +1,5 @@
 package com.mingpinmall.classz.ui.activity.classify;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 
 import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -29,8 +27,6 @@ import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 
 import java.util.List;
-
-import io.reactivex.Observable;
 
 /**
  * 分类

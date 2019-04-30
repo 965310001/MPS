@@ -387,8 +387,8 @@ public class GoodsInfo extends BaseBean {
     }
 
     public void click(View view) {
-        LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
-                goods_id);
+        /*LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
+                goods_id);*/
         ActivityToActivity.goShoppingDetails(goods_id);
     }
 

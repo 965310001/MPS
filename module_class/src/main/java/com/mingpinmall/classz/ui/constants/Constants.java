@@ -64,4 +64,7 @@ public interface Constants {
     /**/
     Object[] VOUCHER = {"VOUCHER_KEY", "VOUCHER_LIST_STATE",
             "VOUCHER_FREEEX_KEY"};/*代金券 2*/
+
+    /*聊天*/
+    Object[] CHAT = {"CHAT_KEY", "CHAT_LIST_STATE","NODEINFO_KEY","CHAT_LOG_KEY"};
 }

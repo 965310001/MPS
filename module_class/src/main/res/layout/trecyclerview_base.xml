@@ -31,6 +31,23 @@
             type="Boolean" />
     </data>
 
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<com.trecyclerview.TRecyclerView-->
+            <!--android:id="@+id/recycler_view"-->
+            <!--adapter="@{adapter}"-->
+            <!--itemdecoration="@{itemdecoration}"-->
+            <!--layout="@{layout}"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scrollbars="none"-->
+            <!--android:tag="@{tag}"-->
+            <!--bind:items="@{data}" />-->
+    <!--</FrameLayout>-->
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

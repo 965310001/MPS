@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.trecyclerview.adapter.DelegateAdapter" />
+
+        <import type="java.util.List" />
+
+        <variable
+            name="list"
+            type="List" />
+
+        <variable
+            name="adapter"
+            type="DelegateAdapter" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rl_title_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#F9F9F9"
+            android:gravity="center_vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/back_icon"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:onClick="getChatLog"
+                android:padding="4dp">
+
+                <ImageView
+                    android:layout_width="@dimen/image_height_litter"
+                    android:layout_height="@dimen/image_height_litter"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/image_height_litter"
+                    android:text="聊天记录"
+                    android:textSize="@dimen/text_12" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="bottom"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@id/ll_send_msg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rl_title_content">
+
+            <include
+                layout="@layout/trecyclerview_base"
+                android:background="@color/shallow_red"
+                bind:adapter="@{adapter}"
+                bind:data="@{list}"
+                bind:itemdecoration="true"
+                bind:tag="@{`-1`}" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_send_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/image_height_large"
+                android:layout_height="@dimen/image_height_large"
+                android:src="@drawable/ic_launcher" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/image_height_large"
+                android:layout_height="@dimen/image_height_large"
+                android:src="@drawable/ic_launcher" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_msg"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rect_round_gray"
+                android:paddingLeft="@dimen/dp_4" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@drawable/bg_rect_round_gray"
+                android:onClick="sendMsgClick"
+                android:text="发送" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>
