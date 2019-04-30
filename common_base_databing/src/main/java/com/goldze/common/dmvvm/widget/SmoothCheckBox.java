@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mingpinmall.cart.ui.utils;
+package com.goldze.common.dmvvm.widget;
 
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
@@ -34,7 +34,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Checkable;
 
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
-import com.mingpinmall.cart.R;
+import com.goldze.common.dmvvm.R;
 
 /**
  * Author : andy

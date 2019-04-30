@@ -199,6 +199,9 @@ public interface ARouterConfig {
         //物流信息
         String ORDERDELIVERYACTIVITY = "/me/OrderDeliveryActivity";
 
+        //物流信息
+        String ORDEREVALUATEACTIVITY = "/me/OrderEvaluateActivity";
+
 //        //个人信息
 //        String PERSONINFOACTIVITY = "/me/PersonInfoActivity";
 //

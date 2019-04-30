@@ -14,8 +14,6 @@ android {
         versionCode rootProject.ext.versions.versionCode
         versionName rootProject.ext.versions.versionName
 
-        vectorDrawables.useSupportLibrary = true
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -25,6 +23,9 @@ android {
             }
         }
         multiDexEnabled true
+
+        /*svg*/
+        vectorDrawables.useSupportLibrary = true
     }
     dataBinding {
         enabled = true

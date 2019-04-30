@@ -1,4 +1,4 @@
-package com.mingpinmall.me.ui.acitivity.order;
+package com.mingpinmall.me.ui.acitivity.order.virtualOrder;
 
 import android.arch.lifecycle.Observer;
 import android.content.Intent;

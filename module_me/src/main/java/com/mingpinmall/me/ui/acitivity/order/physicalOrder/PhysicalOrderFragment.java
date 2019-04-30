@@ -1,4 +1,4 @@
-package com.mingpinmall.me.ui.acitivity.order;
+package com.mingpinmall.me.ui.acitivity.order.physicalOrder;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

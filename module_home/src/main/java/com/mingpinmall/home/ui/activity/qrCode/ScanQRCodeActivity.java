@@ -1,28 +1,28 @@
 package com.mingpinmall.home.ui.activity.qrCode;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
-import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.CaptureManager;
-import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.ActivityQrcodeBinding;
 
 import java.util.List;
 
 /**
- * 功能描述：
+ * 功能描述：二维码扫描处理
  * 创建人：小斌
  * 创建时间: 2019/4/4
  **/
@@ -32,22 +32,41 @@ public class ScanQRCodeActivity extends BaseActivity<ActivityQrcodeBinding> {
 
     private BarcodeCallback barcodeCallback = new BarcodeCallback() {
         @Override
-        public void barcodeResult(BarcodeResult result) {
+        public void barcodeResult(final BarcodeResult result) {
             binding.bvBarcode.pause();
-            if (result != null){
+            if (result != null) {
                 Log.e(getClass().getName(), "获取到的扫描结果是：" + result.getText());
+                String content = result.getText();
+                if (content.contains("?")) {
+                    String[] strs = content.split("\\?");
+                    for (String str : strs) {
+                        if (str.contains("goods_id")) {
+                            String goods_id = str.replace("goods_id=", " ").trim();
+                            //跳转到商品详情
+                            if (str.contains("&")) {
+                                goods_id = goods_id.split("&")[0];
+                            }
+                            Log.i("二维码扫描", "商品ID: " + goods_id);
+                            ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", goods_id);
+                            return;
+                        }
+                    }
+                }
 
-                MaterialDialogUtils.showBasicDialog(ScanQRCodeActivity.this, "这是你要的结果吗？")
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                TextDialog.showBaseDialog(activity, "复制到剪切板", result.getText(),
+                        new TextDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                //已获取到需要的结果，进行相应的操作
+                            public void onClick() {
+                                ClipboardManager myClipboard;
+                                myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                                ClipData myClip;
+                                myClip = ClipData.newPlainText("text", result.getText());
+                                myClipboard.setPrimaryClip(myClip);
                             }
                         })
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        .setOnDismiss(new DialogInterface.OnDismissListener() {
                             @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                //不是想要的结果，继续扫描
+                            public void onDismiss(DialogInterface dialog) {
                                 binding.bvBarcode.resume();
                             }
                         })

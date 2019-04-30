@@ -49,7 +49,7 @@
                 tools:visibility="visible"
                 android:background="@color/white">
 
-                <com.mingpinmall.cart.ui.utils.SmoothCheckBox
+                <com.goldze.common.dmvvm.widget.SmoothCheckBox
                     android:id="@+id/cb_selectAll"
                     android:layout_width="24dp"
                     android:layout_height="24dp"

@@ -9,6 +9,8 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityOrderBinding;
+import com.mingpinmall.me.ui.acitivity.order.physicalOrder.PhysicalOrderFragment;
+import com.mingpinmall.me.ui.acitivity.order.virtualOrder.VirtualOrderFragment;
 import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 import com.xuexiang.xui.widget.tabbar.TabControlView;
 

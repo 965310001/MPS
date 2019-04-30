@@ -9,14 +9,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.cart.R;
 import com.mingpinmall.cart.ui.bean.AvailableCartBean;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
-import com.mingpinmall.cart.ui.utils.SmoothCheckBox;
+import com.goldze.common.dmvvm.widget.SmoothCheckBox;
 
 import java.util.ArrayList;
 
@@ -51,13 +50,11 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
                         .setText(R.id.tv_free_freight, item.getFree_freight())
                         .setGone(R.id.cl_free_freight, !item.getFree_freight().isEmpty())
                         .setGone(R.id.cl_gift_list, item.getMansong() != null)
-                        .setImageDrawable(R.id.iv_arrow, item.isExpanded()
-                                ? ContextCompat.getDrawable(context, R.drawable.ic_collapse)
-                                : ContextCompat.getDrawable(context, R.drawable.ic_expanded)
+                        .setImageResource(R.id.iv_arrow, item.isExpanded()
+                                ? R.drawable.ic_collapse
+                                : R.drawable.ic_expanded
                         )
-                        .addOnClickListener(R.id.tv_coupon)
-                        .addOnClickListener(R.id.ll_listContent)
-                        .addOnClickListener(R.id.iv_arrow);
+                        .addOnClickListener(R.id.tv_coupon, R.id.ll_listContent, R.id.iv_arrow);
                 if (item.getMansong() != null) {
                     LinearLayout ll_List = helper.getView(R.id.ll_listContent);
                     ll_List.removeAllViews();

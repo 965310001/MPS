@@ -1,29 +1,21 @@
 package com.mingpinmall.home.ui.adapter;
 
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 功能描述：
+ * 功能描述：首页列表
  * 创建人：小斌
  * 创建时间: 2019/4/3
  **/
@@ -181,7 +173,8 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                         }
                     }
                 });
-                subBanner.startTurning(5000);
+                if (!subBanner.isTurning())
+                    subBanner.startTurning(3000);
                 break;
             case 12:
                 //团购

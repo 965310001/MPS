@@ -16,6 +16,11 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         super(application);
     }
 
+    /*获取该订单下可评价商品列表*/
+    public void getOrderEvaluate(String order_id) {
+        mRepository.getOrderEvaluate(order_id);
+    }
+
     /*我的推广码*/
     public void getReduceCash() {
         mRepository.getReduceCash();
@@ -152,7 +157,7 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     }
 
     /*分销管理*/
-    public void getInviteList(String wwi, int curpage){
+    public void getInviteList(String wwi, int curpage) {
         mRepository.getInviteList(wwi, curpage);
     }
 
@@ -160,6 +165,7 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     public void getAddressList() {
         mRepository.getAddressList();
     }
+
     /*删除收货地址*/
     public void delAddress(String addressId) {
         mRepository.delAddress(addressId);

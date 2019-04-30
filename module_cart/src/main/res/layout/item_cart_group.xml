@@ -19,7 +19,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.mingpinmall.cart.ui.utils.SmoothCheckBox
+            <com.goldze.common.dmvvm.widget.SmoothCheckBox
                 android:id="@+id/cb_single"
                 android:layout_width="24dp"
                 android:layout_height="24dp"

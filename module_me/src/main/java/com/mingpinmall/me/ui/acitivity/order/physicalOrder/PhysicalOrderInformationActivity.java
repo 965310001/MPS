@@ -1,4 +1,4 @@
-package com.mingpinmall.me.ui.acitivity.order;
+package com.mingpinmall.me.ui.acitivity.order.physicalOrder;
 
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
@@ -262,6 +262,7 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
                     .show();
         } else if (viewId == R.id.order_evaluation) {
             //订单评价
+            ActivityToActivity.toActivity(ARouterConfig.Me.ORDEREVALUATEACTIVITY, "id", data.getOrder_id());
         } else if (viewId == R.id.order_evaluation_again) {
             //追加评价
         } else if (viewId == R.id.cl_expressInformation) {

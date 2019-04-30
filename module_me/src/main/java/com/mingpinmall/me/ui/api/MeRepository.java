@@ -17,6 +17,7 @@ import com.mingpinmall.me.ui.bean.MessageListBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.bean.OrderDeliverBean;
 import com.mingpinmall.me.ui.bean.OrderDeliverListBean;
+import com.mingpinmall.me.ui.bean.OrderEvaluateBean;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.bean.PacketListBean;
 import com.mingpinmall.me.ui.bean.PdcashBean;
@@ -50,6 +51,28 @@ import com.socks.library.KLog;
 public class MeRepository extends BaseRepository {
 
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
+
+    /*获取该订单下可评价商品列表*/
+    protected void getOrderEvaluate(String order_id) {
+        addDisposable(apiService.getOrderEvaluate(getUserKey(), order_id)
+                .compose(RxSchedulers.<BaseResponse<OrderEvaluateBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<OrderEvaluateBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<OrderEvaluateBean> result) {
+                        if (result.isSuccess()) {
+                            sendData("ORDER_EVALUATE_LIST", result.getData());
+                        } else {
+                            sendData("ORDER_EVALUATE_LIST", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("ORDER_EVALUATE_LIST", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
 
     /*我的推广码子功能2:提现申请*/
     protected void addPdCash(String pdc_bank_user, String pdc_bank_no,

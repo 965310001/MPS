@@ -25,13 +25,14 @@
         <activity android:name=".ui.acitivity.setting.FeedBackActivity" />
         <activity android:name=".ui.acitivity.setting.CheckAuthActivity" />
         <activity android:name=".ui.acitivity.address.SelectCityActivity" />
-        <activity android:name=".ui.acitivity.order.PhysicalOrderInformationActivity" />
-        <activity android:name=".ui.acitivity.order.VirtualOrderInformationActivity" />
+        <activity android:name=".ui.acitivity.order.physicalOrder.PhysicalOrderInformationActivity" />
+        <activity android:name=".ui.acitivity.order.virtualOrder.VirtualOrderInformationActivity" />
         <activity android:name=".ui.acitivity.property.PdcashInformationActivity" />
         <activity android:name=".ui.acitivity.order.ReturnOrderInformationActivity" />
         <activity android:name=".ui.acitivity.order.RefundOrderInformationActivity" />
         <activity android:name=".ui.acitivity.order.OrderDeliveryActivity" />
         <activity android:name=".ui.acitivity.distribution.ReduceCashActivity" />
+        <activity android:name=".ui.acitivity.order.OrderEvaluateActivity" />
     </application>
 
 </manifest>

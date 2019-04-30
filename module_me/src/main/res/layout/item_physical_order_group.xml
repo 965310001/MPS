@@ -68,28 +68,39 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_hight"
                 android:background="@color/line_color"
-                app:layout_constraintBottom_toTopOf="@id/recyclerView"
+                app:layout_constraintBottom_toTopOf="@id/ll_shopList"
                 app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                 app:layout_constraintStart_toStartOf="@id/ll_shopContent"
                 app:layout_constraintTop_toBottomOf="@id/ll_shopContent" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <LinearLayout
+                android:id="@+id/ll_shopList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@id/line1"
                 app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                 app:layout_constraintStart_toStartOf="@id/ll_shopContent"
-                app:layout_constraintTop_toBottomOf="@id/line" />
+                app:layout_constraintTop_toBottomOf="@id/line" >
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="12dp"
+                    android:gravity="center"
+                    tools:text="这是一个商品列表。这个textview会被remove" />
+
+            </LinearLayout>
 
             <View
                 android:id="@+id/line1"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_hight"
                 android:background="@color/line_color"
-                app:layout_constraintEnd_toEndOf="@id/recyclerView"
-                app:layout_constraintStart_toStartOf="@id/recyclerView"
-                app:layout_constraintTop_toBottomOf="@id/recyclerView" />
+                app:layout_constraintEnd_toEndOf="@id/ll_shopList"
+                app:layout_constraintStart_toStartOf="@id/ll_shopList"
+                app:layout_constraintTop_toBottomOf="@id/ll_shopList" />
 
             <LinearLayout
                 android:id="@+id/ll_gifts"
@@ -112,7 +123,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="12dp"
                     android:gravity="center"
-                    android:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
+                    tools:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
 
             </LinearLayout>
 
@@ -230,7 +241,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="这里是功能按钮布局，动态addView。"
+                    tools:text="这里是功能按钮布局，动态addView。"
                     />
 
             </LinearLayout>

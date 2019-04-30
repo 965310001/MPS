@@ -20,6 +20,21 @@ import retrofit2.http.Query;
 public interface MeApiService {
 
     /**
+     * 描述：获取该订单下可评价商品列表
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_evaluate&wwi=index
+     * 请求方式：GET
+     * 参数
+     * order_id
+     */
+    String ORDEREVALUATE = "/mo_bile/index.php?app=member_evaluate&wwi=index";
+
+    @GET(ORDEREVALUATE)
+    Flowable<BaseResponse<OrderEvaluateBean>> getOrderEvaluate(
+            @Query("key") String key,
+            @Query("order_id") String order_id
+    );
+
+    /**
      * 描述：我的推广码子功能2:提现申请
      * 请求 URL: https://www.mingpinmall.cn/member/index.php?app=predeposit&wwi=pd_cash_add&inajax=1
      * 请求方式：POST

@@ -26,7 +26,7 @@ import com.mingpinmall.cart.ui.api.CartViewModel;
 import com.mingpinmall.cart.ui.bean.AvailableCartBean;
 import com.mingpinmall.cart.ui.bean.CartQuantityState;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
-import com.mingpinmall.cart.ui.utils.SmoothCheckBox;
+import com.goldze.common.dmvvm.widget.SmoothCheckBox;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.socks.library.KLog;

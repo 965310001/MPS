@@ -22,6 +22,9 @@ android {
             }
         }
         multiDexEnabled true
+
+        /*svg*/
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {

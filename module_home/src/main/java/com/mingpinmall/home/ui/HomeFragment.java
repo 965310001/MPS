@@ -41,6 +41,12 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
     private boolean darkMode = false;
 
     private HomeListAdapter homeListAdapter;
+    private GridLayoutManager gridLayoutManager;
+    //列表滑动时用到的变量
+    private float scrollY;
+    private float firstViewHeight;
+    private float alpha;
+    private int position;
 
     public HomeFragment() {
     }
@@ -63,32 +69,25 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
     public void initView(Bundle state) {
         super.initView(state);
         setTitlePadding(binding.clTitleBar);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 4);
+        gridLayoutManager = new GridLayoutManager(activity, 4);
         binding.recyclerView.setLayoutManager(gridLayoutManager);
         homeListAdapter = new HomeListAdapter();
         homeListAdapter.bindToRecyclerView(binding.recyclerView);
         homeListAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
             @Override
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                int span;
                 switch (homeListAdapter.getData().get(position).getItemType()) {
                     case 3://布局c
-                        span = 2;
-                        break;
+                        return 2;
                     case 6://导航
-                        span = 1;
-                        break;
+                        return 1;
                     case 10://商品
-                        span = 2;
-                        break;
+                        return 2;
                     case 12://团购
-                        span = 2;
-                        break;
+                        return 2;
                     default:
-                        span = 4;
-                        break;
+                        return 4;
                 }
-                return span;
             }
         });
 
@@ -114,13 +113,12 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 //当前条目索引
-                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
-                int position = layoutManager.findFirstVisibleItemPosition();
+                position = gridLayoutManager.findFirstVisibleItemPosition();
                 if (position == 0) {
-                    View firstView = layoutManager.findViewByPosition(position);
-                    float scrollY = Math.abs(firstView.getTop());
-                    float firstViewHeight = firstView.getHeight();
-                    float alpha = scrollY / firstViewHeight;
+                    View firstView = gridLayoutManager.findViewByPosition(position);
+                    scrollY = Math.abs(firstView.getTop());
+                    firstViewHeight = firstView.getHeight();
+                    alpha = scrollY / firstViewHeight;
                     if (alpha > 0) {
                         binding.clTitleBar.setVisibility(View.VISIBLE);
                         binding.clTitleBar.setAlpha(alpha);
@@ -396,8 +394,9 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 datasBean.setLabel(datasBean.getGoods().getTitle());
                 datasBean.setSubLabel("小编向您推荐以下商品");
                 listData.add(datasBean);
+                HomeItemBean.DatasBean bean0;
                 for (HomeItemBean.DatasBean.GoodsBean.ItemBean goodsBean : datasBean.getGoods().getItem()) {
-                    HomeItemBean.DatasBean bean0 = new HomeItemBean.DatasBean();
+                    bean0 = new HomeItemBean.DatasBean();
                     bean0.setItemType(10);
                     bean0.setGoodsItemBean(goodsBean);
                     listData.add(bean0);
@@ -414,8 +413,9 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 datasBean.setSubLabel("精品抢购 有你所选");
                 listData.add(datasBean);
                 //添加内容
+                HomeItemBean.DatasBean bean2;
                 for (HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem good2Bean : datasBean.getGoods2().getItem()) {
-                    HomeItemBean.DatasBean bean2 = new HomeItemBean.DatasBean();
+                    bean2 = new HomeItemBean.DatasBean();
                     bean2.setItemType(12);
                     bean2.setGoods2ItemBean(good2Bean);
                     listData.add(bean2);
@@ -434,8 +434,9 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 datasBean.setItemType(33);
                 listData.add(datasBean);
                 //添加内容
+                HomeItemBean.DatasBean bean3;
                 for (HomeItemBean.DatasBean.Home3Bean.ItemBean home3Bean : datasBean.getHome3().getItem()) {
-                    HomeItemBean.DatasBean bean3 = new HomeItemBean.DatasBean();
+                    bean3 = new HomeItemBean.DatasBean();
                     bean3.setItemType(3);
                     bean3.setData(home3Bean.getData());
                     bean3.setType(home3Bean.getType());
@@ -452,8 +453,9 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 listData.add(datasBean);
             } else if (datasBean.getHome6() != null) {
                 //导航
+                HomeItemBean.DatasBean bean6;
                 for (HomeItemBean.DatasBean.Home6Bean.ItemBeanX home6Bean : datasBean.getHome6().getItem()) {
-                    HomeItemBean.DatasBean bean6 = new HomeItemBean.DatasBean();
+                    bean6 = new HomeItemBean.DatasBean();
                     bean6.setItemType(6);
                     bean6.setData(home6Bean.getData());
                     bean6.setType(home6Bean.getType());

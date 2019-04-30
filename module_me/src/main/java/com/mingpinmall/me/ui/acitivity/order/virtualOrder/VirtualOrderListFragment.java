@@ -1,4 +1,4 @@
-package com.mingpinmall.me.ui.acitivity.order;
+package com.mingpinmall.me.ui.acitivity.order.virtualOrder;
 
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
@@ -12,14 +12,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
@@ -27,7 +24,6 @@ import com.mingpinmall.me.ui.adapter.VirtualOrderListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.VirtualOrderBean;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 /**
