@@ -101,19 +101,24 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                                 fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
                                 fragmentList.add(goodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
                                 fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
+
                                 binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
-                                /*binding.vpContent.setOffscreenPageLimit(3);*/
+                                binding.vpContent.setOffscreenPageLimit(3);
                                 binding.pstsTabs.setViewPager(binding.vpContent);
                             } else {
-                                goodsInfoMainFragment.update();
-                                goodsInfoDetailMainFragment.setData();
-                                goodsCommentFragment.onRefresh();
-
+                                if (goodsInfoMainFragment.isVisible()) {
+                                    goodsInfoMainFragment.update();
+                                }
+                                if (goodsInfoDetailMainFragment.isVisible()) {
+                                    goodsInfoDetailMainFragment.setData();
+                                }
+                                if (goodsCommentFragment.isVisible()) {
+                                    goodsCommentFragment.onRefresh();
+                                }
                                 if (!TextUtils.isEmpty(SharePreferenceUtil.getKeyValue("SPECIFICATIONPOP"))) {
                                     goodsInfoMainFragment.updateSpecificationPop();
                                 }
                             }
-
                             setCartNumber();
                             binding.setData(goodsInfo);
                         } else {
@@ -233,7 +238,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     }
 
     public String getId() {
-        return id;
+        return TextUtils.isEmpty(id) ? "" : id;
     }
 
     public GoodsDetailInfo getGoodsDetailInfo() {

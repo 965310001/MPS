@@ -94,20 +94,23 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                 });
     }
 
-
     @Override
     protected Object getStateEventKey() {
         return Constants.STORE_GOODS_RANK_KEY[1];
     }
 
+    private Object object;
+
     @Override
     protected RecyclerView.LayoutManager createLayoutManager() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int i) {
-                if (adapter.getItems().get(i) instanceof TypeInfo ||
-                        adapter.getItems().get(i) instanceof GoodsListInfo) {
+                object = adapter.getItems().get(i);
+                if (object instanceof TypeInfo ||
+                        object instanceof GoodsListInfo) {
                     return 2;
                 }
                 return 1;

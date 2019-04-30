@@ -3,35 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <LinearLayout
-            android:id="@+id/ll_recyclerview"
+        <FrameLayout
+            android:id="@+id/content_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <include layout="@layout/trecyclerview_base" />
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/float_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:scaleType="center"
-            android:visibility="gone"
-            app:backgroundTint="@color/white"
-            app:borderWidth="0dp"
-            app:fabSize="mini"
-            app:rippleColor="@color/white"
-            app:srcCompat="@drawable/ic_back_to_top" />
+                <include layout="@layout/trecyclerview_base" />
+            </LinearLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/float_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:scaleType="center"
+                android:visibility="gone"
+                app:backgroundTint="@color/white"
+                app:borderWidth="0dp"
+                app:fabSize="mini"
+                app:rippleColor="@color/white"
+                app:srcCompat="@drawable/ic_back_to_top" />
+        </FrameLayout>
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>
