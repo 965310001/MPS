@@ -720,13 +720,13 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*获取聊天历史列表*/
-    public void getChatLog(String goodsId, String tId, final Object eventKey) {
-        Map<String, Object> map = parames("member_chat", "get_node_info");
+    public void getChatLog(String tId, String t, final Object eventKey) {
+        Map<String, Object> map = parames("member_chat", "get_chat_log");
         map.put("key", getUserKey());
-        map.put("chat_goods_id", goodsId);
-        map.put("u_id", tId);
-        // TODO: 2019/4/30 待修改 
-        addDisposable(apiService.getNodeInfo(map)
+        map.put("t_id", tId);
+        map.put("t", t);
+        map.put("page", "50");
+        addDisposable(apiService.getChatLog(map)
                 .compose(RxSchedulers.<BaseResponse<MsgListInfo>>io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<MsgListInfo>>() {
                     @Override

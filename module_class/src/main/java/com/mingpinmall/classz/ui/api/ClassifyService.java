@@ -163,6 +163,11 @@ public interface ClassifyService {
     @GET(BASEURL)
     Flowable<BaseResponse<MsgListInfo>> getNodeInfo(@QueryMap Map<String, Object> map);
 
+    /*历史消息列表*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<BaseResponse<MsgListInfo>> getChatLog(@FieldMap Map<String, Object> map);
+
     /*发送信息*/
     @FormUrlEncoded
     @POST(BASEURL)

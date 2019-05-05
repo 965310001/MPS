@@ -88,11 +88,11 @@
             app:layout_constraintTop_toBottomOf="@id/rl_title_content">
 
             <include
+                itemdecoration="@{true}"
                 layout="@layout/trecyclerview_base"
                 android:background="@color/shallow_red"
                 bind:adapter="@{adapter}"
                 bind:data="@{list}"
-                bind:itemdecoration="true"
                 bind:tag="@{`-1`}" />
         </RelativeLayout>
 

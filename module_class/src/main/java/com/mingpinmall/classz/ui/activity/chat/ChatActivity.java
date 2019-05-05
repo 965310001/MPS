@@ -17,10 +17,14 @@ import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityChatBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.ChatMessageInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.ItemData;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 商品分类list
@@ -38,7 +42,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
     ItemData itemData = new ItemData();
 
-    String meIcon, otherIcon;
+    String meIcon, mOtherIcon;
 
     @Override
     protected boolean isActionBar() {
@@ -89,16 +93,14 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 .observe(this, new Observer<MsgListInfo>() {
                     @Override
                     public void onChanged(@Nullable MsgListInfo response) {
-                        MsgListInfo.MemberInfoBean memberInfo = response.getMember_info();
-                        tName = memberInfo.getMember_name();
-                        tId = memberInfo.getMember_id();
                         MsgListInfo.UserInfoBean userInfo = response.getUser_info();
+                        tId = userInfo.getMember_id();
+                        tName = userInfo.getMember_name();
                         meIcon = userInfo.getMember_avatar();
-                        otherIcon = userInfo.getStore_avatar();
-                        binding.tvTitle.setText(memberInfo.getStore_name());
+                        mOtherIcon = userInfo.getStore_avatar();
+                        binding.tvTitle.setText(userInfo.getStore_name());
                         itemData.add(response.getChat_goods());
                         binding.setList(itemData);
-
                     }
                 });
         /*历史纪录*/
@@ -106,11 +108,16 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 .observe(this, new Observer<MsgListInfo>() {
                     @Override
                     public void onChanged(@Nullable MsgListInfo response) {
-                        MsgListInfo.MemberInfoBean memberInfo = response.getMember_info();
-                        tName = memberInfo.getMember_name();
-                        tId = memberInfo.getMember_id();
-                        binding.tvTitle.setText(memberInfo.getStore_name());
-
+                        List<MsgInfo.MsgBean> list = response.getList();
+                        ChatMessageInfo info;
+                        itemData.clear();
+                        Collections.reverse(list);
+                        for (MsgInfo.MsgBean msgBean : list) {
+                            info = resultMsg(new ChatMessageInfo(), msgBean);
+                            info.msg = msgBean.getT_msg();
+                            itemData.add(info);
+                        }
+                        binding.setList(itemData);
                     }
                 });
         /*发送聊天信息*/
@@ -120,11 +127,10 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     public void onChanged(@Nullable MsgInfo response) {
                         KLog.i(response.toString());
                         binding.etMsg.setText("");
-                        if (Long.parseLong(response.getMsg().getF_id()) != (response.getMsg().getT_id())) {/*是自己*/
-//                            meIcon;
-                        } else {
-//                            otherIcon;
-                        }
+                        MsgInfo.MsgBean msg = response.getMsg();
+                        ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msg);
+                        info.msg = msg.getT_msg();
+                        itemData.add(info);
                         binding.setList(itemData);
                     }
                 });
@@ -138,11 +144,19 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 });
     }
 
+    private ChatMessageInfo resultMsg(ChatMessageInfo info, MsgInfo.MsgBean msgBean) {
+        if (msgBean.isMe(tId)) {/*是自己*/
+            info.setIcon(meIcon);
+            info.setMe(true);
+        } else {
+            info.setIcon(mOtherIcon);
+        }
+        return info;
+    }
+
 
     @Override
     protected Object getStateEventKey() {
         return Constants.CHAT[1];
     }
-
-
 }

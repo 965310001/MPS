@@ -7,6 +7,7 @@ import com.mingpinmall.classz.BR;
 import com.mingpinmall.classz.DataBindItemViewHolderManager;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
+import com.mingpinmall.classz.ui.vm.bean.ChatMessageInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
@@ -87,7 +88,6 @@ public class AdapterPool {
                 context, ProgressStyle.Pacman);
     }
 
-
     /*确认订单*/
     public DelegateAdapter.Builder getConfirmOrder(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
@@ -137,6 +137,7 @@ public class AdapterPool {
     /*聊天*/
     public DelegateAdapter.Builder getChatAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
+                .bind(ChatMessageInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_chat_message_list, BR.data))
                 .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_goods_chat, BR.data));
     }
 
