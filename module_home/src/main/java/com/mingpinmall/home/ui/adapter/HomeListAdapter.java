@@ -1,15 +1,14 @@
 package com.mingpinmall.home.ui.adapter;
 
 import android.support.v7.widget.AppCompatImageView;
-import android.util.Log;
 
-import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.goldze.common.dmvvm.adapter.BaseBannerAdapter;
 import com.goldze.common.dmvvm.utils.ImageUtils;
-import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
+import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +20,14 @@ import java.util.List;
  **/
 public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.DatasBean, BaseViewHolder> {
 
-    private ListBannerItemClickListener bannerClickListener;
-
-    private boolean isFirstInit = true;
+    private RVBannerPagerClickListener bannerClickListener;
 
     /**
      * 轮播图 监听
      *
      * @param bannerClickListener
      */
-    public void setBannerClickListener(ListBannerItemClickListener bannerClickListener) {
+    public void setBannerClickListener(RVBannerPagerClickListener bannerClickListener) {
         this.bannerClickListener = bannerClickListener;
     }
 
@@ -62,29 +59,25 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
         switch (item.getItemType()) {
             case 0:
                 /*轮播图*/
-                if (isFirstInit) {
-                    StatusBarUtils.setPaddingSmart(helper.itemView.getContext(), helper.getView(R.id.cl_search_bar));
-                    isFirstInit = false;
-                }
-                helper.addOnClickListener(R.id.sv_banner_search)
-                        .addOnClickListener(R.id.ll_banner_msg);
                 HomeItemBean.DatasBean.AdvListBean advListBean = item.getAdv_list();
                 List<String> urls = new ArrayList<>();
                 for (HomeItemBean.DatasBean.AdvListBean.ItemBean itemBean : advListBean.getItem()) {
-                    Log.i(TAG, "convert: " + itemBean.getImage());
                     urls.add(itemBean.getImage());
                 }
-                ConvenientBanner banner = helper.getView(R.id.view_banner);
-                ImageUtils.loadBanners(banner, urls, new com.bigkoo.convenientbanner.listener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        if (bannerClickListener != null) {
+                UltraViewPager banner = helper.getView(R.id.view_banner);
+                if (banner.getAdapter() != null) {
+                    ((HomeTopBannerAdapter) banner.getAdapter()).setData(urls);
+                } else {
+                    HomeTopBannerAdapter homeTopBannerAdapter = new HomeTopBannerAdapter();
+                    homeTopBannerAdapter.setData(urls);
+                    homeTopBannerAdapter.setOnPagerClickListener(new BaseBannerAdapter.OnPagerClickListener() {
+                        @Override
+                        public void OnPagerClick(int position) {
                             bannerClickListener.onItemClick(helper.getAdapterPosition(), position);
                         }
-                    }
-                });
-                if (!banner.isTurning())
-                    banner.startTurning(3000);
+                    });
+                    ImageUtils.createBanner(banner, homeTopBannerAdapter);
+                }
                 break;
             case 1:
                 //板块A
@@ -164,17 +157,20 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
             case 11:
                 //限购
                 HomeItemBean.DatasBean.Goods1Bean goods1Bean = item.getGoods1();
-                ConvenientBanner subBanner = helper.getView(R.id.view_banner);
-                ImageUtils.loadBanner(subBanner, goods1Bean.getItem(), new BannerAdapter(), new com.bigkoo.convenientbanner.listener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        if (bannerClickListener != null) {
+                UltraViewPager banner2 = helper.getView(R.id.view_banner);
+                if (banner2.getAdapter() != null) {
+                    ((HomeSecondsBannerAdapter) banner2.getAdapter()).setData(goods1Bean.getItem());
+                } else {
+                    HomeSecondsBannerAdapter homeSecondsBannerAdapter = new HomeSecondsBannerAdapter();
+                    homeSecondsBannerAdapter.setData(goods1Bean.getItem());
+                    homeSecondsBannerAdapter.setOnPagerClickListener(new BaseBannerAdapter.OnPagerClickListener() {
+                        @Override
+                        public void OnPagerClick(int position) {
                             bannerClickListener.onItemClick(helper.getAdapterPosition(), position);
                         }
-                    }
-                });
-                if (!subBanner.isTurning())
-                    subBanner.startTurning(3000);
+                    });
+                    ImageUtils.createBanner(banner2, homeSecondsBannerAdapter);
+                }
                 break;
             case 12:
                 //团购

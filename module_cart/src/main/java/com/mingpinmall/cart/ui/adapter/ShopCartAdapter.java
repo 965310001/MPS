@@ -20,7 +20,7 @@ import com.goldze.common.dmvvm.widget.SmoothCheckBox;
 import java.util.ArrayList;
 
 /**
- * 功能描述：
+ * 功能描述：购物车列表适配器
  * 创建人：小斌
  * 创建时间: 2019/4/24
  **/
@@ -34,7 +34,7 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, final AvailableCartBean item) {
+    protected void convert(final BaseViewHolder helper, AvailableCartBean item) {
         if (item.getItemType() == 11) {
             return;
         }
@@ -61,7 +61,7 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
                     for (int i = 0; i < item.getMansong().size(); i++) {
                         View view = View.inflate(context, R.layout.item_img_textview_14sp, null);
                         TextView textView = view.findViewById(R.id.tv_label);
-                        textView.setText(item.getMansong().get(0).getDesc());
+                        textView.setText(item.getMansong().get(i).getDesc());
                         if (!item.getMansong().get(i).getUrl().isEmpty()) {
                             AppCompatImageView imageView = view.findViewById(R.id.iv_image);
                             ImageUtils.loadImage(imageView, item.getMansong().get(i).getUrl());
@@ -82,12 +82,11 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
                         .setText(R.id.tv_count, item.getGoods().getGoods_num())
                         .setEnabled(R.id.iv_jian, !item.getGoods().getGoods_num().equals("1"))
                         .setEnabled(R.id.iv_jia, true)
+                        .setImageResource(R.id.iv_jian, helper.getView(R.id.iv_jian).isEnabled() ? R.drawable.ic_jian : R.drawable.ic_jian_un)
+                        .setImageResource(R.id.iv_jia, helper.getView(R.id.iv_jia).isEnabled() ? R.drawable.ic_jia : R.drawable.ic_jia_un)
                         .setVisible(R.id.tv_state, true)
                         .setGone(R.id.ll_giftList, item.getGoods().getGift_list() != null)
-                        .addOnClickListener(R.id.iv_delete)
-                        .addOnClickListener(R.id.iv_jia)
-                        .addOnClickListener(R.id.iv_jian);
-                ((AppCompatTextView) helper.getView(R.id.tv_state)).setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                        .addOnClickListener(R.id.iv_delete, R.id.iv_jia, R.id.iv_jian);
 
                 if (item.getGoods().getGift_list() != null) {
                     LinearLayout ll_List = helper.getView(R.id.ll_giftList);
@@ -100,12 +99,13 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
                         ll_List.addView(view);
                         if (i < item.getGoods().getGift_list().size() - 1) {
                             View line = new View(context);
-                            line.setBackgroundResource(R.color.line_color);
+                            line.setBackgroundColor(ContextCompat.getColor(context, R.color.line_color));
                             ll_List.addView(line, LinearLayout.LayoutParams.MATCH_PARENT, 1);
                         }
                     }
                 }
-
+                helper.setVisible(R.id.ll_tips, true);
+                helper.setGone(R.id.iv_tips, false);
                 String state = "";
                 if (item.getGoods().isIfgroupbuy()) {
                     //团购
@@ -116,10 +116,10 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
                 } else if (item.getGoods().isIfsole()) {
                     //手机专享
                     state = "手机专享";
-                    Drawable phone = ContextCompat.getDrawable(context, R.drawable.ic_mobile_white);
-                    ((AppCompatTextView) helper.getView(R.id.tv_state)).setCompoundDrawablesWithIntrinsicBounds(phone, null, null, null);
+                    helper.setGone(R.id.iv_tips, true);
+                    helper.setImageResource(R.id.iv_tips, R.drawable.ic_mobile_white);
                 } else {
-                    helper.setVisible(R.id.tv_state, false);
+                    helper.setVisible(R.id.ll_tips, false);
                 }
                 helper.setText(R.id.tv_state, state);
                 ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), item.getGoods().getGoods_image_url());

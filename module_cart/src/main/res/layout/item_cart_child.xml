@@ -30,8 +30,7 @@
                 android:id="@+id/iv_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginStart="12dp"
-                android:foreground="@drawable/shape_transparent_grid" />
+                android:layout_marginStart="12dp" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -72,7 +71,7 @@
                     android:singleLine="true"
                     android:textColor="@color/dark"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@id/tv_state"
+                    app:layout_constraintBottom_toTopOf="@id/ll_tips"
                     app:layout_constraintEnd_toStartOf="@id/ll_countContent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -84,29 +83,45 @@
                     android:textColor="@color/app_theme_d61619"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_state"
+                    app:layout_constraintEnd_toStartOf="@id/ll_tips"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:text="¥1234.0" />
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_state"
+                <LinearLayout
+                    android:id="@+id/ll_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/shape_red_radius_4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingStart="4dp"
                     android:paddingTop="2dp"
                     android:paddingEnd="4dp"
                     android:paddingBottom="2dp"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="@id/tv_money"
                     app:layout_constraintEnd_toStartOf="@id/ll_countContent"
                     app:layout_constraintStart_toEndOf="@id/tv_money"
-                    app:layout_constraintTop_toTopOf="@id/tv_money"
-                    tools:text="团购" />
+                    app:layout_constraintTop_toTopOf="@id/tv_money">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_tips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="12dp"
+                        android:maxHeight="12dp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        tools:text="团购" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_countContent"
@@ -121,14 +136,12 @@
                         android:id="@+id/iv_jian"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:padding="2dp"
-                        android:src="@drawable/ic_jian_enable" />
+                        app:srcCompat="@drawable/ic_jian" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#E6E6E6"
                         android:gravity="center"
                         android:minWidth="24dp"
                         android:text="1"
@@ -139,8 +152,7 @@
                         android:id="@+id/iv_jia"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:padding="2dp"
-                        android:src="@drawable/ic_jia_enable" />
+                        app:srcCompat="@drawable/ic_jia" />
 
                 </LinearLayout>
 

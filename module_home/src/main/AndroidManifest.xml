@@ -7,5 +7,6 @@
             android:screenOrientation="fullSensor" />
         <activity android:name=".ui.activity.shopStreet.ShopStreetActivity" />
         <activity android:name=".ui.activity.shopStreet.ShopClassActivity" />
+        <activity android:name=".ui.activity.SpecialActivity" />
     </application>
 </manifest>

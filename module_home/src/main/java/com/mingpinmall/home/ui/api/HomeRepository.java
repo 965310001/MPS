@@ -8,7 +8,10 @@ import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.bean.ShopClassBean;
 import com.mingpinmall.home.ui.bean.ShopStreetBean;
+import com.mingpinmall.home.ui.bean.SpecialPageBean;
 import com.socks.library.KLog;
+
+import retrofit2.http.Query;
 
 /**
  * 功能描述：
@@ -92,6 +95,28 @@ public class HomeRepository extends BaseRepository {
                                    @Override
                                    public void onFailure(String msg) {
                                        sendData("HOME_DATA_JSON", msg == null ? "获取失败" : msg);
+                                   }
+                               }
+                )
+        );
+    }
+
+    /*获取专题页面*/
+    protected void getSpecialList(String specialId) {
+        addDisposable(apiService.getSpecialList(specialId)
+                .compose(RxSchedulers.<BaseResponse<SpecialPageBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<SpecialPageBean>>() {
+                                   @Override
+                                   public void onSuccess(BaseResponse<SpecialPageBean> data) {
+                                       if (data.isSuccess())
+                                           sendData("SPECIAL_LIST", data.getData());
+                                       else
+                                           sendData("SPECIAL_LIST", data.getMessage());
+                                   }
+
+                                   @Override
+                                   public void onFailure(String msg) {
+                                       sendData("SPECIAL_LIST", msg == null ? "获取失败" : msg);
                                    }
                                }
                 )

@@ -335,6 +335,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             itemSpace.setStore_name(cartListBean.getStore_name());
             dataList.add(itemSpace);
         }
+        binding.clPayContent.setVisibility(dataList.size() > 0 ? View.VISIBLE : View.GONE);
         shopCartAdapter.setNewData(dataList);
         binding.cbSelectAll.setChecked(checkedSize == goodsSize, false);
         binding.tvMoney.setText(money + "");

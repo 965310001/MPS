@@ -49,6 +49,8 @@ public interface ARouterConfig {
         String SHOPSTREETACTIVITY = "/home1/ShopStreetActivity";
         /*店铺分类*/
         String SHOPCLASSACTIVITY = "/home1/ShopClassActivity";
+        /*专题页面*/
+        String SPECIALACTIVITY = "/home1/SpecialActivity";
 
 
         /*搜索*/

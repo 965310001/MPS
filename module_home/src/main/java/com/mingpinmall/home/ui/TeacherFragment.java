@@ -1,5 +1,6 @@
 package com.mingpinmall.home.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -49,8 +50,6 @@ public class TeacherFragment extends BaseFragment<FragmentTeacherBinding> {
         ((TextView) getViewById(R.id.tv_title)).setText("名师预约");
         //在这里设置沉浸式状态栏
         setTitlePadding(getViewById(R.id.rl_title_content));
-        //并且设置状态栏字体颜色为黑色
-        setDarkMode(true);
         binding.refreshLayout.setEnableLoadMore(false);
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(binding.refreshLayout, new LinearLayout.LayoutParams(-1, -1))
@@ -60,6 +59,9 @@ public class TeacherFragment extends BaseFragment<FragmentTeacherBinding> {
                 .ready()
                 .go(URL);
         mAgentWeb.getWebCreator().getWebView().setOverScrollMode(View.OVER_SCROLL_NEVER);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
         binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {

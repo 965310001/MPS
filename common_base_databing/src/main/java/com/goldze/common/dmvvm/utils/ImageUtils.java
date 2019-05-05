@@ -6,30 +6,30 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
+import com.goldze.common.dmvvm.adapter.BaseBannerAdapter;
 import com.goldze.common.dmvvm.manage.BlurTransformation;
+import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+
+import static com.xuexiang.xui.utils.ResUtils.getResources;
 
 /**
  * @author GuoFeng
@@ -214,33 +214,31 @@ public class ImageUtils {
     }
 
     /**
-     * 加载只有一张图的Banner，解决在列表中更新列表时，重复调用startTurning()，导致错误的翻页
+     * 通用轮播图
      *
-     * @param banner   banner
-     * @param imgUrl   imgUrl
-     * @param listener listener
+     * @param ultraViewPager 必须是UltraViewPager
+     * @param adapter        适配器
      */
-    public static void loadBanners(ConvenientBanner banner, List<String> imgUrl, OnItemClickListener listener) {
-        banner.setPages(new BannerImgAdapter(), imgUrl)
-                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-                .setOnItemClickListener(listener);
-    }
-
-    /**
-     * 加载自定义的Banner
-     *
-     * @param holderCreator adapter
-     * @param banner        banner
-     * @param dataList      dataList
-     * @param listener      listener
-     */
-    public static void loadBanner(ConvenientBanner banner, List<?> dataList, CBViewHolderCreator holderCreator, OnItemClickListener listener) {
-        banner.setPages(holderCreator, dataList)
-                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-                .setOnItemClickListener(listener)
-                .startTurning();
+    public static void createBanner(UltraViewPager ultraViewPager, BaseBannerAdapter adapter) {
+        ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
+        ultraViewPager.setAdapter(adapter);
+        //内置indicator初始化
+        ultraViewPager.initIndicator();
+        //设置indicator样式
+        ultraViewPager.getIndicator()
+                .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
+                .setFocusColor(Color.GREEN)
+                .setNormalColor(Color.GRAY)
+                .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics()));
+        //设置indicator对齐方式
+        ultraViewPager.getIndicator().setGravity(Gravity.RIGHT | Gravity.BOTTOM);
+        ultraViewPager.getIndicator().setMargin(0, 0, 16, 16);
+        //构造indicator,绑定到UltraViewPager
+        ultraViewPager.getIndicator().build();
+        //设定页面循环播放
+        ultraViewPager.setInfiniteLoop(true);
+        //设定页面自动切换
+        ultraViewPager.setAutoScroll(3500);
     }
 
     /**

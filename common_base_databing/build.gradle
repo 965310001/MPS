@@ -128,6 +128,10 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
+    /*轮播图*/
+    api ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+        transitive = true
+    }
     /*WebView*/
     api 'com.just.agentweb:agentweb:4.0.3-alpha@aar'
 
