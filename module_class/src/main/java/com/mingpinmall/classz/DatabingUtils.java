@@ -24,6 +24,7 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.GlideCacheUtil;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.Utils;
 import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.MultipleItemView;
 import com.leon.lib.settingview.LSettingItem;
@@ -40,23 +41,35 @@ import java.util.List;
 
 public class DatabingUtils {
 
-    @BindingAdapter({"image"})
-    public static void imageLoader(ImageView imageView, String url) {
+    @BindingAdapter(value = {"image", "imageStyle"}, requireAll = false)
+    public static void imageLoader(ImageView imageView, String url, String imageStyle) {
         if (!TextUtils.isEmpty(url)) {
-            if (".gif".endsWith(url)) {
+            if (!TextUtils.isEmpty(imageStyle)) {
+                KLog.i(imageStyle + "==");
+                switch (imageStyle) {
+                    case "circle":
+                        if (".gif".endsWith(url)) {
+                            ImageUtils.loadImageCircleAsGif(imageView, url);
+                        } else {
+                            ImageUtils.loadImage(imageView, url);
+                        }
+                        break;
+                    case "local":
+                        ImageUtils.loadImage(imageView, Integer.parseInt(url));
+                        break;
+                    default:
+                        ImageUtils.loadImage(imageView, url);
+                        break;
+                }
+            } else if (".gif".endsWith(url)) {
                 ImageUtils.loadImageAsGIF(imageView, url);
             } else {
                 ImageUtils.loadImage(imageView, url);
             }
         }
+
     }
 
-//    @BindingAdapter(value = {"leftText", "rightText", "color"}, requireAll = false)
-//    public static void setStoreText(TextView textView, String leftText, String rightText, @ColorRes int color) {
-//        if (!TextUtils.isEmpty(leftText)) {
-//        }
-//        textView.setText(Html.fromHtml("<font color=\\\"#00bbaa\\\">颜色2</p>"));
-//    }
 
     /*LSettingItem 的绑定*/
     @BindingAdapter({"lefttext"})
@@ -145,9 +158,29 @@ public class DatabingUtils {
 
     }
 
-    @BindingAdapter("html")
-    public static void setHtml(TextView textView, String content) {
-        if (!TextUtils.isEmpty(content)) {
+    /**
+     * HTML的解析
+     *
+     * @param textView
+     * @param content
+     * @param image
+     */
+    @BindingAdapter(value = {"html", "imageHtml"}, requireAll = false)
+    public static void setHtml(TextView textView, String content, String image) {
+        if (!TextUtils.isEmpty(image)) {
+            Html.ImageGetter imgGetter = new Html.ImageGetter() {
+
+                @Override
+                public Drawable getDrawable(String source) {
+                    int id = Integer.parseInt(source);
+                    Drawable d = Utils.getApplication().getResources().getDrawable(id);
+                    d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+                    return d;
+                }
+            };
+            CharSequence charSequence = Html.fromHtml(content, imgGetter, null);
+            textView.setText(charSequence);
+        } else if (!TextUtils.isEmpty(content)) {
             textView.setText(Html.fromHtml(content));
         }
     }

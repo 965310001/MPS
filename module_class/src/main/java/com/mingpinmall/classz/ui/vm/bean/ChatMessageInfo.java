@@ -4,6 +4,7 @@ import android.databinding.Bindable;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.mingpinmall.classz.BR;
+import com.mingpinmall.classz.utils.FaceConversionUtil;
 
 /**
  * 聊天信息
@@ -26,7 +27,8 @@ public class ChatMessageInfo extends BaseBean {
 
     @Bindable
     public String getMsg() {
-        return msg;
+        return FaceConversionUtil.dealExpression(msg);
+//        return msg;
     }
 
     public void setMsg(String msg) {

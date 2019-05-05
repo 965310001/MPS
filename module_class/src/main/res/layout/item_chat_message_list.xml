@@ -21,6 +21,7 @@
         <ImageView
             android:id="@+id/iv_icon"
             image="@{data.icon}"
+            imageStyle="@{`circle`}"
             android:layout_width="@dimen/image_height_large"
             android:layout_height="@dimen/image_height_large"
             android:layout_gravity="center"
@@ -33,27 +34,25 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/image_height_large"
+            android:layout_marginLeft="@dimen/dp_60"
+            android:layout_marginRight="@dimen/dp_60"
             android:gravity="left"
-            android:paddingTop="@dimen/dp_4"
-            android:text="@{data.msg}"
+            imageHtml="@{data.msg}"
             android:textColor="@color/black"
             android:textSize="@dimen/text_14"
             android:visibility="@{data.isMe?View.GONE:View.VISIBLE}"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/iv_icon"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="textview" />
 
         <TextView
+            imageHtml="@{data.msg}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginRight="@dimen/image_height_large"
+            android:layout_marginLeft="@dimen/dp_60"
+            android:layout_marginRight="@dimen/dp_60"
             android:gravity="right"
-            android:paddingTop="@dimen/dp_4"
-            android:text="@{data.msg}"
             android:textColor="@color/black"
             android:textSize="@dimen/text_14"
             android:visibility="@{data.isMe?View.VISIBLE:View.GONE}"
@@ -64,6 +63,7 @@
 
         <ImageView
             image="@{data.icon}"
+            imageStyle="@{`circle`}"
             android:layout_width="@dimen/image_height_large"
             android:layout_height="@dimen/image_height_large"
             android:layout_gravity="center"

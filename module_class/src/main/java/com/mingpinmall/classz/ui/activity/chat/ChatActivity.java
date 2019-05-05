@@ -1,36 +1,57 @@
 package com.mingpinmall.classz.ui.activity.chat;
 
 import android.arch.lifecycle.Observer;
+import android.content.res.TypedArray;
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityChatBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.ChatEmojiInfo;
 import com.mingpinmall.classz.ui.vm.bean.ChatMessageInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
+import com.mingpinmall.classz.utils.FaceConversionUtil;
 import com.socks.library.KLog;
+import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.ItemData;
+import com.trecyclerview.listener.OnItemClickListener;
+import com.xuexiang.xui.utils.ResUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+
+import io.reactivex.internal.operators.observable.ObservableFilter;
 
 /**
  * 商品分类list
  */
 @Route(path = ARouterConfig.classify.CHATACTIVITY)
-public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, ClassifyViewModel> {
+public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, ClassifyViewModel> implements OnItemClickListener {
 
     @Autowired
     String goodsId;
@@ -38,11 +59,11 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     @Autowired
     String tId;
 
-    String tName, msg;
+    private ItemData itemData = new ItemData();
 
-    ItemData itemData = new ItemData();
+    private String meIcon, mOtherIcon, tName, msg;
 
-    String meIcon, mOtherIcon;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected boolean isActionBar() {
@@ -59,18 +80,42 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
 
+        mRecyclerView = binding.getRoot().findViewById(R.id.recycler_view);
+
         setTitlePadding(binding.rlTitleContent);
         setDarkMode(true);
         binding.ivBack.setOnClickListener(this);
 
         binding.setAdapter(AdapterPool.newInstance()
-                .getChatAdapter(this).build());
+                .getChatAdapter(this)
+                .build());
+
+        binding.setSmileImg(String.format("%s/wap/images/smile_b.png", BuildConfig.APP_URL));
+        binding.setAddImg(String.format("%s/wap/images/picture_add.png", BuildConfig.APP_URL));
+        binding.setMsgLogB(String.format("%s/wap/images/msg_log_b.png", BuildConfig.APP_URL));
     }
+
 
     @Override
     protected void initData() {
         super.initData();
         mViewModel.getNodeInfo(goodsId, tId, Constants.CHAT[2]);
+
+        binding.setEmojiAdapter(AdapterPool.newInstance()
+                .getEmojiAdapter(this)
+                .setOnItemClickListener(this)
+                .build());
+        List<ChatEmojiInfo> list = new ArrayList<>();
+        String[] stringArray = ResUtils.getStringArray(R.array.semoj);
+        ChatEmojiInfo emojiInfo;
+        TypedArray intArray = ResourcesUtils.getInstance().obtainTypedArray(R.array.iemoj);
+        int length = stringArray.length;
+        for (int i = 0; i < length; i++) {
+            emojiInfo = new ChatEmojiInfo(intArray.getResourceId(i, 0), stringArray[i]);
+            list.add(emojiInfo);
+        }
+        binding.setEmojiList(list);
+        binding.setLayout(new GridLayoutManager(this, 8));
     }
 
     public void sendMsgClick(View view) {
@@ -117,7 +162,8 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                             info.msg = msgBean.getT_msg();
                             itemData.add(info);
                         }
-                        binding.setList(itemData);
+                        binding.getAdapter().notifyDataSetChanged();
+                        mRecyclerView.scrollToPosition(itemData.size() - 1);
                     }
                 });
         /*发送聊天信息*/
@@ -125,13 +171,13 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 .observe(this, new Observer<MsgInfo>() {
                     @Override
                     public void onChanged(@Nullable MsgInfo response) {
-                        KLog.i(response.toString());
                         binding.etMsg.setText("");
                         MsgInfo.MsgBean msg = response.getMsg();
                         ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msg);
                         info.msg = msg.getT_msg();
                         itemData.add(info);
-                        binding.setList(itemData);
+                        binding.getAdapter().notifyItemInserted(itemData.size() - 1);
+                        mRecyclerView.scrollToPosition(itemData.size() - 1);
                     }
                 });
 
@@ -154,9 +200,30 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         return info;
     }
 
+    /*选择笑脸*/
+    public void smileImgClick(View view) {
+        /*添加图片*/
+        addEmiojToEdit();
+    }
+
+    /*Edittext 添加Emioj*/
+    private void addEmiojToEdit() {
+    }
+
+    /*选择图片*/
+    public void addImgClick(View view) {
+    }
 
     @Override
     protected Object getStateEventKey() {
         return Constants.CHAT[1];
+    }
+
+    @Override
+    public void onItemClick(View view, int i, Object object) {
+        if (object instanceof ChatEmojiInfo) {
+            ChatEmojiInfo chatEmojiInfo = (ChatEmojiInfo) object;
+            binding.etMsg.getText().append(FaceConversionUtil.addFace(this, chatEmojiInfo.getId(), chatEmojiInfo.getCharacter()));
+        }
     }
 }

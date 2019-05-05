@@ -169,6 +169,26 @@ public class ImageUtils {
     }
 
     /**
+     * 加载圆形Gif
+     *
+     * @param url       url
+     * @param imageView imageView
+     */
+    public static void loadImageCircleAsGif(ImageView imageView, String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(Utils.getApplication())
+                .asGif()
+                .load(url)
+                .apply(new RequestOptions().circleCrop()
+                        .placeholder(R.drawable.ic_loading_image)
+                        .error(new ColorDrawable(Color.TRANSPARENT))
+                        .fallback(new ColorDrawable(Color.RED)))
+                .into(imageView);
+    }
+
+    /**
      * 加载本地圆形
      *
      * @param drawable  drawableRes

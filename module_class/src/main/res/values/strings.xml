@@ -96,4 +96,59 @@
     <string name="weixin">微信</string>
     <string name="alipay">支付宝</string>
 
+    <string-array name="semoj">
+        <item>:biggrin:</item>
+        <item>:cry:</item>
+        <item>:curse:</item>
+        <item>:dizzy:</item>
+        <item>:funk:</item>
+        <item>:handshake:</item>
+        <item>:huffy:</item>
+        <item>:hug:</item>
+        <item>:kiss:</item>
+        <item>:lol:</item>
+        <item>:loveliness:</item>
+        <item>:mad:</item>
+        <item>:moon:</item>
+        <item>:sad:</item>
+        <item>:shocked:</item>
+        <item>:shutup:</item>
+        <item>:shy:</item>
+        <item>:sleepy:</item>
+        <item>:smile:</item>
+        <item>:sun:</item>
+        <item>:sweat:</item>
+        <item>:titter:</item>
+        <item>:tongue:</item>
+        <item>:victory:</item>
+    </string-array>
+
+    <integer-array name="iemoj">
+        <item>@drawable/biggrin</item>
+        <item>@drawable/cry</item>
+        <item>@drawable/curse</item>
+        <item>@drawable/dizzy</item>
+        <item>@drawable/funk</item>
+        <item>@drawable/handshake</item>
+        <item>@drawable/huffy</item>
+        <item>@drawable/hug</item>
+        <item>@drawable/kiss</item>
+        <item>@drawable/lol</item>
+        <item>@drawable/loveliness</item>
+        <item>@drawable/mad</item>
+        <item>@drawable/moon</item>
+        <item>@drawable/sad</item>
+        <item>@drawable/shocked</item>
+        <item>@drawable/shutup</item>
+        <item>@drawable/shy</item>
+        <item>@drawable/sleepy</item>
+        <item>@drawable/smile</item>
+        <item>@drawable/sun</item>
+        <item>@drawable/sweat</item>
+        <item>@drawable/titter</item>
+        <item>@drawable/tongue</item>
+        <item>@drawable/victory</item>
+    </integer-array>
+
+
 </resources>
