@@ -32,12 +32,12 @@
             tools:srcCompat="@color/gray" />
 
         <TextView
+            imageHtml="@{data.msg}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_60"
             android:layout_marginRight="@dimen/dp_60"
             android:gravity="left"
-            imageHtml="@{data.msg}"
             android:textColor="@color/black"
             android:textSize="@dimen/text_14"
             android:visibility="@{data.isMe?View.GONE:View.VISIBLE}"

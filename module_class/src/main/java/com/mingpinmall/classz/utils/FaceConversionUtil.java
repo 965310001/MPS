@@ -12,6 +12,7 @@ import android.text.style.ImageSpan;
 
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.mingpinmall.classz.R;
+import com.socks.library.KLog;
 import com.xuexiang.xui.utils.ResUtils;
 
 /**
@@ -49,9 +50,13 @@ public class FaceConversionUtil {
         String[] stringArray = ResUtils.getStringArray(R.array.semoj);
         int length = stringArray.length;
         TypedArray intArray = ResourcesUtils.getInstance().obtainTypedArray(R.array.iemoj);
+        msg = msg.trim();
         for (int i = 0; i < length; i++) {
-            msg.replace(stringArray[i], String.format("<img src='%d'/>", intArray.getResourceId(i, 0)));
+            if (msg.contains(stringArray[i])) {
+                msg = msg.replaceAll(stringArray[i], String.format("<img src='%d'/>", intArray.getResourceId(i, 0)));
+            }
         }
+        KLog.i(msg);
         return msg;
     }
 

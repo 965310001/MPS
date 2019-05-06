@@ -93,16 +93,15 @@
                     image="@{msgLogB}"
                     android:layout_width="@dimen/image_height_large"
                     android:layout_height="@dimen/image_height_large"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/ic_launcher" />
+                    android:layout_centerHorizontal="true" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/image_height_litter"
-                    android:text="聊天记录"
-                    android:textSize="@dimen/text_12"
-                    android:visibility="gone" />
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/image_height_litter"-->
+                <!--android:text="聊天记录"-->
+                <!--android:textSize="@dimen/text_12"-->
+                <!--android:visibility="gone" />-->
             </RelativeLayout>
         </RelativeLayout>
 
@@ -130,7 +129,7 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toTopOf="@+id/trv_boottom">
 
             <android.support.v7.widget.AppCompatImageView
                 image="@{smileImg}"
@@ -170,15 +169,18 @@
         </LinearLayout>
 
         <com.trecyclerview.TRecyclerView
+            android:padding="@dimen/dp_4"
+            android:id="@+id/trv_boottom"
             adapter="@{emojiAdapter}"
             itemdecoration="@{true}"
             layout="@{layout}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/shallow_red"
             android:scrollbars="none"
             android:tag="@{`11`}"
-            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             bind:items="@{emojiList}"
             bind:tag="@{`-1`}" />
     </android.support.constraint.ConstraintLayout>

@@ -31,6 +31,7 @@ import com.leon.lib.settingview.LSettingItem;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
+import com.mingpinmall.classz.utils.FaceConversionUtil;
 import com.socks.library.KLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
@@ -45,10 +46,9 @@ public class DatabingUtils {
     public static void imageLoader(ImageView imageView, String url, String imageStyle) {
         if (!TextUtils.isEmpty(url)) {
             if (!TextUtils.isEmpty(imageStyle)) {
-                KLog.i(imageStyle + "==");
                 switch (imageStyle) {
                     case "circle":
-                        if (".gif".endsWith(url)) {
+                        if (url.endsWith(".gif")) {
                             ImageUtils.loadImageCircleAsGif(imageView, url);
                         } else {
                             ImageUtils.loadImage(imageView, url);
@@ -61,7 +61,7 @@ public class DatabingUtils {
                         ImageUtils.loadImage(imageView, url);
                         break;
                 }
-            } else if (".gif".endsWith(url)) {
+            } else if (url.endsWith(".gif")) {
                 ImageUtils.loadImageAsGIF(imageView, url);
             } else {
                 ImageUtils.loadImage(imageView, url);
@@ -167,19 +167,20 @@ public class DatabingUtils {
      */
     @BindingAdapter(value = {"html", "imageHtml"}, requireAll = false)
     public static void setHtml(TextView textView, String content, String image) {
+        KLog.i(content + "=" + image);
         if (!TextUtils.isEmpty(image)) {
             Html.ImageGetter imgGetter = new Html.ImageGetter() {
-
                 @Override
                 public Drawable getDrawable(String source) {
-                    int id = Integer.parseInt(source);
-                    Drawable d = Utils.getApplication().getResources().getDrawable(id);
+                    Drawable d = Utils.getApplication().getResources().getDrawable(Integer.parseInt(source));
                     d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+
+                    // TODO: 2019/5/6 GIF图片的修改
                     return d;
                 }
             };
-            CharSequence charSequence = Html.fromHtml(content, imgGetter, null);
-            textView.setText(charSequence);
+            String source = FaceConversionUtil.dealExpression(image);
+            textView.setText(Html.fromHtml(source, imgGetter, null));
         } else if (!TextUtils.isEmpty(content)) {
             textView.setText(Html.fromHtml(content));
         }
@@ -206,29 +207,29 @@ public class DatabingUtils {
                     adapter = AdapterPool.newInstance().getRightAdapter(context).build();
                     layout = new GridLayoutManager(context, 3);
                     break;
-                case 3:
-//                    final InvoiceListInfo.InvoiceListBean[] bean = {null};
-//                    adapter = AdapterPool.newInstance().getInvoiceList(context)
-//                            .setOnItemClickListener(new OnItemClickListener() {
-//                                @Override
-//                                public void onItemClick(View view, int i, Object o) {
-//                                    if (null != bean[0]) {
-//                                        bean[0].setChecked(false);
-//                                    }
-//                                    bean[0] = (InvoiceListInfo.InvoiceListBean) o;
-//                                    bean[0].setChecked(true);
-//                                }
-//                            }).build();
-//                    rv.addItemDecoration(new DividerItemDecoration(context,
-//                            DividerItemDecoration.VERTICAL));
-//                    layout = new LinearLayoutManager(context);
-                    break;
-                case 4:
-////                    adapter = AdapterPool.newInstance().getRecommend(context).build();
+//                case 3:
+////                    final InvoiceListInfo.InvoiceListBean[] bean = {null};
+////                    adapter = AdapterPool.newInstance().getInvoiceList(context)
+////                            .setOnItemClickListener(new OnItemClickListener() {
+////                                @Override
+////                                public void onItemClick(View view, int i, Object o) {
+////                                    if (null != bean[0]) {
+////                                        bean[0].setChecked(false);
+////                                    }
+////                                    bean[0] = (InvoiceListInfo.InvoiceListBean) o;
+////                                    bean[0].setChecked(true);
+////                                }
+////                            }).build();
 ////                    rv.addItemDecoration(new DividerItemDecoration(context,
 ////                            DividerItemDecoration.VERTICAL));
-////                    layout = new GridLayoutManager(context, 4);
-                    break;
+////                    layout = new LinearLayoutManager(context);
+//                    break;
+//                case 4:
+//////                    adapter = AdapterPool.newInstance().getRecommend(context).build();
+//////                    rv.addItemDecoration(new DividerItemDecoration(context,
+//////                            DividerItemDecoration.VERTICAL));
+//////                    layout = new GridLayoutManager(context, 4);
+//                    break;
                 default:
                     KLog.i("必须个TRecyclerView 设置TAG");
                     break;

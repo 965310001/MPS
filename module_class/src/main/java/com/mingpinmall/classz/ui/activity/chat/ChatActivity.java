@@ -2,18 +2,12 @@ package com.mingpinmall.classz.ui.activity.chat;
 
 import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ImageSpan;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -35,7 +29,6 @@ import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.utils.FaceConversionUtil;
 import com.socks.library.KLog;
-import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 import com.xuexiang.xui.utils.ResUtils;
@@ -43,9 +36,6 @@ import com.xuexiang.xui.utils.ResUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-
-import io.reactivex.internal.operators.observable.ObservableFilter;
 
 /**
  * 商品分类list
@@ -93,6 +83,13 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         binding.setSmileImg(String.format("%s/wap/images/smile_b.png", BuildConfig.APP_URL));
         binding.setAddImg(String.format("%s/wap/images/picture_add.png", BuildConfig.APP_URL));
         binding.setMsgLogB(String.format("%s/wap/images/msg_log_b.png", BuildConfig.APP_URL));
+
+        binding.etMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                hideTrvBottom(true);
+            }
+        });
     }
 
 
@@ -127,9 +124,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         }
     }
 
-    public void getChatLog(View view) {
-        mViewModel.getChatLog(tId, "30", Constants.CHAT[3]);
-    }
 
     @Override
     protected void dataObserver() {
@@ -200,18 +194,28 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         return info;
     }
 
-    /*选择笑脸*/
-    public void smileImgClick(View view) {
-        /*添加图片*/
-        addEmiojToEdit();
+    /*历史纪录*/
+    public void getChatLog(View view) {
+        mViewModel.getChatLog(tId, "30", Constants.CHAT[3]);
+        hideTrvBottom(true);
     }
 
-    /*Edittext 添加Emioj*/
-    private void addEmiojToEdit() {
+    /*选择笑脸*/
+    public void smileImgClick(View view) {
+        hideTrvBottom(false);
     }
 
     /*选择图片*/
     public void addImgClick(View view) {
+        hideTrvBottom(true);
+    }
+
+    /**
+     * @param isHide true：一直隐藏   false:隐藏或显示
+     */
+    private void hideTrvBottom(boolean isHide) {
+        if (!isHide) isHide = binding.trvBoottom.getVisibility() != View.GONE;
+        binding.trvBoottom.setVisibility(isHide ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -225,5 +229,13 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
             ChatEmojiInfo chatEmojiInfo = (ChatEmojiInfo) object;
             binding.etMsg.getText().append(FaceConversionUtil.addFace(this, chatEmojiInfo.getId(), chatEmojiInfo.getCharacter()));
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (!super.dispatchTouchEvent(ev)) {
+            hideTrvBottom(true);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }
