@@ -43,6 +43,12 @@ import com.mingpinmall.me.ui.bean.VirtualOrderBean;
 import com.mingpinmall.me.ui.bean.VirtualStoreAddrsBean;
 import com.socks.library.KLog;
 
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 /**
  * 功能描述：
  * 创建人：小斌
@@ -51,6 +57,22 @@ import com.socks.library.KLog;
 public class MeRepository extends BaseRepository {
 
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
+
+    /*获取该订单下可评价商品列表*/
+    protected void sendEvaluate(String json, Map<String, RequestBody> files) {
+        addDisposable(apiService.sendEvaluate(json, files)
+                .compose(RxSchedulers.<BaseResponse<OrderEvaluateBean>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<OrderEvaluateBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<OrderEvaluateBean> result) {
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                    }
+                })
+        );
+    }
 
     /*获取该订单下可评价商品列表*/
     protected void getOrderEvaluate(String order_id) {

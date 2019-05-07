@@ -21,6 +21,10 @@ android {
         //MultiDex分包方法
         multiDexEnabled true
 
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
         //Arouter路由配置
         javaCompileOptions {
             annotationProcessorOptions {

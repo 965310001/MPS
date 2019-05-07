@@ -138,8 +138,14 @@ public class BottomBar extends View {
             iconRectList.add(rect);
 
             Class clx = fragmentClassList.get(i);
+            String cln = clx.getSimpleName();
+
             try {
-                Fragment fragment = (Fragment) clx.newInstance();
+                //这里为了防止activity被回收后重启activity出现fragment重叠的问题。
+                Fragment fragment = ((FragmentActivity)context).getSupportFragmentManager().findFragmentByTag(cln);
+                if (fragment == null) {
+                    fragment= (Fragment) clx.newInstance();
+                }
                 fragmentList.add(fragment);
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
@@ -336,10 +342,11 @@ public class BottomBar extends View {
                     transaction.show(fragment);
                 }
             } else {
+                //add fragment的时候，给加上tag，值为这个fragment的class name。
                 if (currentFragment != null) {
-                    transaction.hide(currentFragment).add(frameLayoutId, fragment);
+                    transaction.hide(currentFragment).add(frameLayoutId, fragment, fragment.getClass().getSimpleName());
                 } else {
-                    transaction.add(frameLayoutId, fragment);
+                    transaction.add(frameLayoutId, fragment, fragment.getClass().getSimpleName());
                 }
             }
             currentFragment = fragment;

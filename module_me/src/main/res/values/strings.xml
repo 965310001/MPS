@@ -60,6 +60,21 @@
 
     <!-- PhysicalOrderInformationActivity -->
     <string name="title_OrderInformation">订单详情</string>
+    <string name="text_phsi_0">交易状态</string>
+    <string name="text_phsi_1">买家留言</string>
+    <string name="text_phsi_2">发票信息</string>
+    <string name="text_phsi_3">付款方式</string>
+    <string name="text_phsi_4">联系客服</string>
+    <string name="text_phsi_5">拨打电话</string>
+    <string name="text_phsi_6">优惠</string>
+    <string name="text_phsi_7">运费</string>
+    <string name="text_phsi_8">实付款(含运费)</string>
+    <string name="text_phsi_9">退款/退货中…</string>
+    <string name="text_phsi_10">订单编号：</string>
+    <string name="text_phsi_11">创建时间：</string>
+    <string name="text_phsi_12">付款时间：</string>
+    <string name="text_phsi_13">发货时间：</string>
+    <string name="text_rmb">¥</string>
     <!-- PhysicalOrderInformationActivity Over -->
 
     <!-- CollectionActivity -->

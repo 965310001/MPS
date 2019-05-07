@@ -133,8 +133,10 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         binding.sivItem2.setTitle("收货人：" + data.getReciver_name() + "  " + data.getReciver_phone())
                 .setDescription("收货地址：" + data.getReciver_addr());
         /*买家留言*/
+        binding.sivItem3.setVisibility(!data.getOrder_message().isEmpty() ? View.VISIBLE : View.GONE);
         binding.sivItem3.setDescription(data.getOrder_message());
         /*发票信息*/
+        binding.sivItem4.setVisibility(!data.getInvoice().isEmpty() ? View.VISIBLE : View.GONE);
         binding.sivItem4.setDescription(data.getInvoice());
         /*付款方式*/
         binding.sivItem5.setDescription(data.getPayment_name());
@@ -164,14 +166,21 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         }
 
         /*优惠，运费，实付款*/
+        binding.llYouhui.setVisibility(!data.getPromotion().isEmpty() ? View.VISIBLE : View.GONE);
         binding.tvYouhui.setText(data.getPromotion().size() > 0 ? data.getPromotion().get(0).get(1) : "");
         binding.tvYunfei.setText(data.getShipping_fee());
         binding.tvPayMoney.setText(data.getReal_pay_amount());
 
         /*订单编号*/
-        binding.tvOrderNum.setText("订单编号：" + data.getOrder_sn());
+        binding.tvOrderNum.setText(String.format("%s%s", getString(R.string.text_phsi_10), data.getOrder_sn()));
         /*创建时间*/
-        binding.tvOrderCreateTime.setText("创建时间：" + data.getAdd_time());
+        binding.tvOrderCreateTime.setText(String.format("%s%s", getString(R.string.text_phsi_11), data.getAdd_time()));
+        /*付款时间*/
+        binding.tvOrderPayTime.setVisibility(!data.getPayment_time().isEmpty() ? View.VISIBLE : View.GONE);
+        binding.tvOrderPayTime.setText(String.format("%s%s", getString(R.string.text_phsi_12), data.getPayment_time()));
+        /*发货时间*/
+        binding.tvOrderSendTime.setVisibility(!data.getShipping_time().isEmpty() ? View.VISIBLE : View.GONE);
+        binding.tvOrderSendTime.setText(String.format("%s%s", getString(R.string.text_phsi_13), data.getShipping_time()));
 
         /*最下面的按钮*/
         LinearLayout buttonContent = binding.llButtonContent;

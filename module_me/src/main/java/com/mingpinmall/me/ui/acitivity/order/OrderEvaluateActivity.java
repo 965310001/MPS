@@ -1,21 +1,46 @@
 package com.mingpinmall.me.ui.acitivity.order;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityOrderevaluateBinding;
 import com.mingpinmall.me.ui.adapter.OrderEvaluateAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
+import com.mingpinmall.me.ui.bean.BaseSelectPhotos;
 import com.mingpinmall.me.ui.bean.OrderEvaluateBean;
+import com.mingpinmall.me.ui.utils.SelectPhotosTools;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.http.Multipart;
 
 /**
  * 功能描述：订单评价
@@ -29,6 +54,7 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
     String id;
 
     private OrderEvaluateAdapter evaluateAdapter;
+    private List<OrderEvaluateBean.OrderGoodsBean> data;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -38,6 +64,48 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
         evaluateAdapter = new OrderEvaluateAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recyclerView.setAdapter(evaluateAdapter);
+        binding.btnSubmit.setOnClickListener(this);
+    }
+
+    @Override
+    public void onViewClicked(int viewId) {
+        super.onViewClicked(viewId);
+        if (viewId == R.id.btn_submit) {
+            //提交评价
+            try {
+                JSONArray jsonArray = new JSONArray();
+                Map<String, RequestBody> pics = new HashMap<>();
+                for (int i = 0; i < evaluateAdapter.getItemCount(); i++) {
+                    String recId = data.get(i).getRec_id();
+                    String goodsId = data.get(i).getGoods_id();
+
+                    JSONObject jsonObject2 = new JSONObject();
+                    jsonObject2.put("goods_id", goodsId);
+                    jsonObject2.put("score", "5");
+                    jsonObject2.put("comment", "dfakdjfasdfjasdf");
+
+                    jsonArray.put(jsonObject2);
+
+                    List<BaseSelectPhotos> filesPath = evaluateAdapter.getTools().get(i).getImagePath();
+                    for (int j = 0; j < filesPath.size(); j++) {
+                        Log.i("图片路径", filesPath.get(j).getOriginalurl());
+                        File file = new File(filesPath.get(j).getOriginalurl());
+                        if (!file.exists()) {
+                            continue;
+                        }
+                        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+                        pics.put(recId + "_" + j + "\";filename=\"" + file.getName(), requestBody);
+                    }
+                }
+
+                String jsonDaTA = "{\"data\":" + jsonArray.toString()+ "}";
+                Log.i("aaaaa", "onViewClicked: " + jsonDaTA);
+                mViewModel.sendEvaluate(jsonDaTA, pics);
+            } catch (Exception e) {
+
+            }
+
+        }
     }
 
     @Override
@@ -55,13 +123,23 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
                 //可评价商品列表
                 if (result instanceof OrderEvaluateBean) {
                     //获取成功
-                    evaluateAdapter.setNewData(((OrderEvaluateBean) result).getOrder_goods());
+                    data = ((OrderEvaluateBean) result).getOrder_goods();
+                    evaluateAdapter.setNewData(data);
                 } else {
                     //获取失败
                     ToastUtils.showShort(result.toString());
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (evaluateAdapter.getCallTool() != null) {
+            evaluateAdapter.getCallTool().onResultCall(requestCode, resultCode, data, null);
+            evaluateAdapter.removeCallTool();
+        }
     }
 
     @Override
@@ -72,5 +150,29 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
     @Override
     protected int getLayoutId() {
         return R.layout.activity_orderevaluate;
+    }
+
+    /**
+     * 获得指定文件的byte数组
+     */
+    private byte[] getBytes(File file) {
+        byte[] buffer = null;
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
     }
 }

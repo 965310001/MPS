@@ -5,6 +5,12 @@ import android.support.annotation.NonNull;
 
 import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
 
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 /**
  * 功能描述：
  * 创建人：小斌
@@ -14,6 +20,11 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
 
     public MeViewModel(@NonNull Application application) {
         super(application);
+    }
+
+    /*获取该订单下可评价商品列表*/
+    public void sendEvaluate(String json, Map<String, RequestBody> files) {
+        mRepository.sendEvaluate(json, files);
     }
 
     /*获取该订单下可评价商品列表*/

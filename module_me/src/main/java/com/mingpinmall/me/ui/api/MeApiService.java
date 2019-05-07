@@ -5,12 +5,22 @@ import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.me.ui.bean.*;
 
+import java.util.List;
+import java.util.Map;
+
 import io.reactivex.Flowable;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * 功能描述：
@@ -18,6 +28,22 @@ import retrofit2.http.Query;
  * 创建时间: 2019/4/1
  **/
 public interface MeApiService {
+
+    /**
+     * 描述：提交商品评价
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_evaluate&wwi=save
+     * 请求方式：GET
+     * 参数
+     * order_id
+     */
+    String SENDEVALUATE = "/mo_bile/index.php?app=member_evaluate&wwi=save";
+
+    @Multipart
+    @POST(SENDEVALUATE)
+    Flowable<BaseResponse<OrderEvaluateBean>> sendEvaluate(
+            @Part("jsonData") String json,
+            @PartMap() Map<String, RequestBody> files
+    );
 
     /**
      * 描述：获取该订单下可评价商品列表

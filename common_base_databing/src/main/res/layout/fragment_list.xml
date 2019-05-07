@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
@@ -16,22 +14,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/float_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:clickable="true"
-                android:scaleType="center"
-                android:src="@drawable/ic_back_to_top"
-                android:visibility="visible"
-                app:backgroundTint="@color/white"
-                app:borderWidth="0dp"
-                app:fabSize="mini"
-                app:rippleColor="@color/white"
-                tools:ignore="VectorDrawableCompat" />
-
             <LinearLayout
                 android:id="@+id/ll_recyclerview"
                 android:layout_width="match_parent"
@@ -40,6 +22,22 @@
 
                 <include layout="@layout/trecyclerview_base" />
             </LinearLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/float_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:scaleType="center"
+                app:srcCompat="@drawable/ic_back_to_top"
+                android:visibility="visible"
+                app:backgroundTint="@color/white"
+                app:borderWidth="0dp"
+                app:fabSize="mini"
+                app:rippleColor="@color/white" />
+
         </FrameLayout>
     </LinearLayout>
 </layout>

@@ -46,7 +46,7 @@ public class TeacherFragment extends BaseFragment<FragmentTeacherBinding> {
 
     @Override
     public void initView(Bundle state) {
-        getViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
+        getViewById(R.id.rl_title_bar).setVisibility(View.GONE);
         ((TextView) getViewById(R.id.tv_title)).setText("名师预约");
         //在这里设置沉浸式状态栏
         setTitlePadding(getViewById(R.id.rl_title_content));

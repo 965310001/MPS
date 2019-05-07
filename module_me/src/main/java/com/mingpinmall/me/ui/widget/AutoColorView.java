@@ -4,17 +4,14 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
