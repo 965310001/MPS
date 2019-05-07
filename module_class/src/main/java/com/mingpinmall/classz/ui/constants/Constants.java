@@ -66,5 +66,9 @@ public interface Constants {
             "VOUCHER_FREEEX_KEY"};/*代金券 2*/
 
     /*聊天*/
-    Object[] CHAT = {"CHAT_KEY", "CHAT_LIST_STATE","NODEINFO_KEY","CHAT_LOG_KEY"};
+    Object[] CHAT = {"CHAT_KEY", "CHAT_LIST_STATE", "NODEINFO_KEY", "CHAT_LOG_KEY"};
+
+
+    /*Socker URL*/
+    String CHAT_SERVER_URL = "https://www.mingpinmall.cn:8091";
 }

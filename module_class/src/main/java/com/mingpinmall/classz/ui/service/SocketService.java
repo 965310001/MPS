@@ -8,6 +8,8 @@ import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.socks.library.KLog;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,8 +23,8 @@ import java.util.Arrays;
  */
 public class SocketService extends Service {
 
-    public static final String HOST = "192.168.0.102";// //
-    public static final int PORT = 51001;
+    public static final String HOST = "https://www.mingpinmall.cn";
+    public static final int PORT = 8091;
 
     private static final String TAG = "danxx";
     /**
@@ -74,7 +76,6 @@ public class SocketService extends Service {
      * aidl通讯回调
      */
     private IBackService.Stub iBackService = new IBackService.Stub() {
-
         /**
          * 收到内容发送消息
          * @param message 需要发送到服务器的消息
@@ -135,8 +136,10 @@ public class SocketService extends Service {
             mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//初始化成功后，就准备发送心跳包
         } catch (UnknownHostException e) {
             e.printStackTrace();
+            KLog.i(e.toString());
         } catch (IOException e) {
             e.printStackTrace();
+            KLog.i(e.toString());
         }
     }
 

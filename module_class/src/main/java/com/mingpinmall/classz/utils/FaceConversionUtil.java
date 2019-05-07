@@ -56,7 +56,7 @@ public class FaceConversionUtil {
                 msg = msg.replaceAll(stringArray[i], String.format("<img src='%d'/>", intArray.getResourceId(i, 0)));
             }
         }
-        KLog.i(msg);
+        /*KLog.i(msg);*/
         return msg;
     }
 

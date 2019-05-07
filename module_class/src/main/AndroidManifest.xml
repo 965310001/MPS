@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mingpinmall.classz">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application>
         <activity
             android:name=".ui.vm.SearchActivity"
@@ -30,6 +32,12 @@
         <activity
             android:name=".ui.activity.chat.ChatActivity"
             android:launchMode="singleTop" />
+
+        <service
+            android:name=".ui.service.SocketService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":aidl" />
     </application>
 
 </manifest>

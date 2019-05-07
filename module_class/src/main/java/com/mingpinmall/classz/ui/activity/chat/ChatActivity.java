@@ -7,22 +7,28 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.google.gson.Gson;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityChatBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.service.SSLSocket;
 import com.mingpinmall.classz.ui.vm.bean.ChatEmojiInfo;
 import com.mingpinmall.classz.ui.vm.bean.ChatMessageInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
@@ -33,6 +39,10 @@ import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 import com.xuexiang.xui.utils.ResUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,11 +59,17 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     @Autowired
     String tId;
 
-    private ItemData itemData = new ItemData();
+    private final ItemData itemData = new ItemData();
 
     private String meIcon, mOtherIcon, tName, msg;
 
     private RecyclerView mRecyclerView;
+
+    private String mServerUrl;
+
+    private MsgListInfo.MemberInfoBean memberInfo;
+
+    private Socket mSocket;
 
     @Override
     protected boolean isActionBar() {
@@ -90,8 +106,26 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 hideTrvBottom(true);
             }
         });
+
+
+//        Intent intent = new Intent(getApplicationContext(), SocketService.class);
+//        bindService(intent, mConnection, BIND_AUTO_CREATE);
+//        startService(intent);
     }
 
+//    IBackService mIBackService;
+//    ServiceConnection mConnection = new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            //连接后拿到 Binder，转换成 AIDL，在不同进程会返回个代理
+//            mIBackService = IBackService.Stub.asInterface(service);
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            mIBackService = null;
+//        }
+//    };
 
     @Override
     protected void initData() {
@@ -102,28 +136,23 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 .getEmojiAdapter(this)
                 .setOnItemClickListener(this)
                 .build());
+
+        initChatEmoji();
+    }
+
+    private void initChatEmoji() {
         List<ChatEmojiInfo> list = new ArrayList<>();
         String[] stringArray = ResUtils.getStringArray(R.array.semoj);
-        ChatEmojiInfo emojiInfo;
+        ChatEmojiInfo chatEmojiInfo;
         TypedArray intArray = ResourcesUtils.getInstance().obtainTypedArray(R.array.iemoj);
         int length = stringArray.length;
         for (int i = 0; i < length; i++) {
-            emojiInfo = new ChatEmojiInfo(intArray.getResourceId(i, 0), stringArray[i]);
-            list.add(emojiInfo);
+            chatEmojiInfo = new ChatEmojiInfo(intArray.getResourceId(i, 0), stringArray[i]);
+            list.add(chatEmojiInfo);
         }
         binding.setEmojiList(list);
         binding.setLayout(new GridLayoutManager(this, 8));
     }
-
-    public void sendMsgClick(View view) {
-        msg = binding.etMsg.getText().toString();
-        if (TextUtils.isEmpty(msg)) {
-            ToastUtils.showLong("请输入内容");
-        } else {
-            mViewModel.sendMsg(goodsId, tId, tName, msg, Constants.CHAT[0]);
-        }
-    }
-
 
     @Override
     protected void dataObserver() {
@@ -132,14 +161,22 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 .observe(this, new Observer<MsgListInfo>() {
                     @Override
                     public void onChanged(@Nullable MsgListInfo response) {
-                        MsgListInfo.UserInfoBean userInfo = response.getUser_info();
-                        tId = userInfo.getMember_id();
-                        tName = userInfo.getMember_name();
-                        meIcon = userInfo.getMember_avatar();
-                        mOtherIcon = userInfo.getStore_avatar();
-                        binding.tvTitle.setText(userInfo.getStore_name());
-                        itemData.add(response.getChat_goods());
-                        binding.setList(itemData);
+                        MsgListInfo.UserInfoBean mUserInfo = response.getUser_info();
+                        if (null != mUserInfo) {
+                            tId = mUserInfo.getMember_id();
+                            tName = mUserInfo.getMember_name();
+                            meIcon = mUserInfo.getMember_avatar();
+                            mOtherIcon = mUserInfo.getStore_avatar();
+                            binding.tvTitle.setText(mUserInfo.getStore_name());
+                            itemData.add(response.getChat_goods());
+                            binding.setList(itemData);
+                            memberInfo = response.getMember_info();
+                            mServerUrl = response.getNode_site_url();
+                            connectSocket();
+                        } else {
+                            showErrorState();
+                            KLog.i("服务员异常");
+                        }
                     }
                 });
         /*历史纪录*/
@@ -148,16 +185,20 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     @Override
                     public void onChanged(@Nullable MsgListInfo response) {
                         List<MsgInfo.MsgBean> list = response.getList();
-                        ChatMessageInfo info;
-                        itemData.clear();
-                        Collections.reverse(list);
-                        for (MsgInfo.MsgBean msgBean : list) {
-                            info = resultMsg(new ChatMessageInfo(), msgBean);
-                            info.msg = msgBean.getT_msg();
-                            itemData.add(info);
+                        if (null != list && list.size() > 0) {
+                            ChatMessageInfo info;
+                            itemData.clear();
+                            Collections.reverse(list);
+                            for (MsgInfo.MsgBean msgBean : list) {
+                                info = resultMsg(new ChatMessageInfo(), msgBean);
+                                info.msg = msgBean.getT_msg();
+                                itemData.add(info);
+                            }
+                            binding.getAdapter().notifyDataSetChanged();
+                            mRecyclerView.scrollToPosition(itemData.size() - 1);
+                        } else {
+                            KLog.i("服务器异常");
                         }
-                        binding.getAdapter().notifyDataSetChanged();
-                        mRecyclerView.scrollToPosition(itemData.size() - 1);
                     }
                 });
         /*发送聊天信息*/
@@ -167,11 +208,15 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     public void onChanged(@Nullable MsgInfo response) {
                         binding.etMsg.setText("");
                         MsgInfo.MsgBean msg = response.getMsg();
-                        ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msg);
-                        info.msg = msg.getT_msg();
-                        itemData.add(info);
-                        binding.getAdapter().notifyItemInserted(itemData.size() - 1);
-                        mRecyclerView.scrollToPosition(itemData.size() - 1);
+                        if (null != msg) {
+                            ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msg);
+                            info.msg = msg.getT_msg();
+                            itemData.add(info);
+                            binding.getAdapter().notifyItemInserted(itemData.size() - 1);
+                            mRecyclerView.scrollToPosition(itemData.size() - 1);
+                        } else {
+                            KLog.i("1111");
+                        }
                     }
                 });
 
@@ -184,6 +229,85 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 });
     }
 
+    private void connectSocket() {
+        IO.Options opts = new IO.Options();
+        opts.path = "/socket.io";
+        opts.reconnection = false;
+        opts.sslContext = SSLSocket.genSSLSocketFactory();
+        try {
+            KLog.i(mServerUrl + memberInfo);
+            mSocket = IO.socket(mServerUrl, opts);
+        } catch (URISyntaxException e) {
+            KLog.i(e.toString());
+        }
+        mSocket.on(Socket.EVENT_CONNECT, onConnect())
+                .on(Socket.EVENT_DISCONNECT, onDisconnect())
+                .on("get_msg", onGetMsg());
+        mSocket.connect();
+    }
+
+    private Emitter.Listener onGetMsg() {
+        return new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                for (Object arg : args) {
+                    Log.i("接受消息", arg.toString());
+                    String str = arg.toString();
+                    if (!TextUtils.isEmpty(str) && !"{}".equals(str)) {
+                        try {
+                            Gson gson = new Gson();
+                            gson.fromJson(arg.toString(), MsgInfo.MsgBean.class);
+                            MsgInfo.MsgBean msgBean = gson.fromJson(arg.toString(), MsgInfo.MsgBean.class);
+                            ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msgBean);
+                            info.msg = msgBean.getT_msg();
+                            itemData.add(info);
+                            binding.getAdapter().notifyDataSetChanged();
+                            mRecyclerView.scrollToPosition(itemData.size() - 1);
+                        } catch (Exception e) {
+                            KLog.i(e.toString());
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    private Emitter.Listener onDisconnect() {
+        return new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                KLog.i("重写连接");
+                mSocket.connect();
+            }
+        };
+    }
+
+    private Emitter.Listener onConnect() {
+        return new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject member = new JSONObject();
+                        try {
+                            member.put("u_id", memberInfo.getMember_id());
+                            member.put("u_name", memberInfo.getMember_name());
+                            member.put("avatar", memberInfo.getMember_avatar());
+                            member.put("s_id", memberInfo.getStore_id());
+                            member.put("s_name", memberInfo.getStore_name());
+                            member.put("s_avatar", memberInfo.getStore_avatar());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.i("isConnected", "JSON连接:" + e.toString());
+                        }
+                        mSocket.emit("update_user", member);
+                    }
+                });
+            }
+        };
+    }
+
     private ChatMessageInfo resultMsg(ChatMessageInfo info, MsgInfo.MsgBean msgBean) {
         if (msgBean.isMe(tId)) {/*是自己*/
             info.setIcon(meIcon);
@@ -192,6 +316,16 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
             info.setIcon(mOtherIcon);
         }
         return info;
+    }
+
+    /*发送信息*/
+    public void sendMsgClick(View view) {
+        msg = binding.etMsg.getText().toString();
+        if (TextUtils.isEmpty(msg)) {
+            ToastUtils.showLong("请输入内容");
+        } else {
+            mViewModel.sendMsg(goodsId, tId, tName, msg, Constants.CHAT[0]);
+        }
     }
 
     /*历史纪录*/
@@ -237,5 +371,11 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
             hideTrvBottom(true);
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSocket.disconnect();
     }
 }

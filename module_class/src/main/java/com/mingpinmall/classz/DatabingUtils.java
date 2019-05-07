@@ -167,7 +167,6 @@ public class DatabingUtils {
      */
     @BindingAdapter(value = {"html", "imageHtml"}, requireAll = false)
     public static void setHtml(TextView textView, String content, String image) {
-        KLog.i(content + "=" + image);
         if (!TextUtils.isEmpty(image)) {
             Html.ImageGetter imgGetter = new Html.ImageGetter() {
                 @Override
