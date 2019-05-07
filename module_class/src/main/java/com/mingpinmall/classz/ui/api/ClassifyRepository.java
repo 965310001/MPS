@@ -785,11 +785,12 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*发送聊天信息*/
-    public void sendMsg(String goodsId, String tId, String tName, String msg, final Object eventKey) {
+    public void sendMsg(String goodsId, String fId, String tId, String tName, String msg, final Object eventKey) {
         Map<String, Object> map = parames("member_chat", "send_msg");
         map.put("key", getUserKey());
         map.put("chat_goods_id", goodsId);
         map.put("t_id", tId);
+        map.put("f_id", fId);
         map.put("t_name", tName);
         map.put("t_msg", msg);
         addDisposable(apiService.sendMsg(map)

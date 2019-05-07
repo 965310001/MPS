@@ -20,7 +20,7 @@ public class MsgInfo extends BaseBean {
     public static class MsgBean {
         private String f_id;
         private String f_name;
-        private int t_id;
+        private String t_id;
         private String t_name;
         private String t_msg;
         private String f_ip;
@@ -38,11 +38,11 @@ public class MsgInfo extends BaseBean {
 
         /*是否是自己*/
         public boolean isMe() {
-            return Long.parseLong(getF_id()) != (getT_id());
+            return Long.parseLong(getF_id()) != Long.parseLong(getT_id());
         }
 
         public boolean isMe(String tId) {
-            return Long.parseLong(tId) == (getT_id());
+            return Long.parseLong(tId) == Long.parseLong(getT_id());
         }
 
         public void setF_id(String f_id) {
@@ -57,11 +57,11 @@ public class MsgInfo extends BaseBean {
             this.f_name = f_name;
         }
 
-        public int getT_id() {
+        public String getT_id() {
             return t_id;
         }
 
-        public void setT_id(int t_id) {
+        public void setT_id(String t_id) {
             this.t_id = t_id;
         }
 
@@ -152,55 +152,55 @@ public class MsgInfo extends BaseBean {
             private String gc_id_3;
             private String brand_id;
             private String goods_price;
-            private String goods_promotion_price;
-            private String goods_promotion_type;
-            private String goods_marketprice;
-            private String goods_serial;
-            private String goods_storage_alarm;
-            private String goods_barcode;
-            private String goods_click;
+//            private String goods_promotion_price;
+//            private String goods_promotion_type;
+//            private String goods_marketprice;
+//            private String goods_serial;
+//            private String goods_storage_alarm;
+//            private String goods_barcode;
+//            private String goods_click;
             private String goods_salenum;
             private String goods_collect;
             private String spec_name;
             private String goods_spec;
             private String goods_storage;
             private String goods_image;
-            private String goods_body;
-            private String mobile_body;
-            private String goods_state;
-            private String goods_verify;
-            private String goods_addtime;
-            private String goods_edittime;
-            private String areaid_1;
-            private String areaid_2;
-            private String color_id;
-            private String transport_id;
-            private String goods_freight;
-            private String goods_vat;
-            private String goods_commend;
-            private String goods_stcids;
-            private String evaluation_good_star;
-            private String evaluation_count;
-            private String is_virtual;
-            private String virtual_indate;
-            private String virtual_limit;
-            private String virtual_invalid_refund;
-            private String is_fcode;
-            private String is_presell;
-            private String presell_deliverdate;
-            private String is_book;
-            private String book_down_payment;
-            private String book_final_payment;
-            private String book_down_time;
-            private String book_buyers;
-            private String have_gift;
-            private String is_own_mall;
-            private String is_chain;
-            private String invite_rate;
-            private String url;
-            private String pic;
-            private String pic24;
-            private String pic36;
+//            private String goods_body;
+//            private String mobile_body;
+//            private String goods_state;
+//            private String goods_verify;
+//            private String goods_addtime;
+//            private String goods_edittime;
+//            private String areaid_1;
+//            private String areaid_2;
+//            private String color_id;
+//            private String transport_id;
+//            private String goods_freight;
+//            private String goods_vat;
+//            private String goods_commend;
+//            private String goods_stcids;
+//            private String evaluation_good_star;
+//            private String evaluation_count;
+//            private String is_virtual;
+//            private String virtual_indate;
+//            private String virtual_limit;
+//            private String virtual_invalid_refund;
+//            private String is_fcode;
+//            private String is_presell;
+//            private String presell_deliverdate;
+//            private String is_book;
+//            private String book_down_payment;
+//            private String book_final_payment;
+//            private String book_down_time;
+//            private String book_buyers;
+//            private String have_gift;
+//            private String is_own_mall;
+//            private String is_chain;
+//            private String invite_rate;
+//            private String url;
+//            private String pic;
+//            private String pic24;
+//            private String pic36;
 
             public String getGoods_id() {
                 return goods_id;
@@ -209,14 +209,14 @@ public class MsgInfo extends BaseBean {
             public void setGoods_id(String goods_id) {
                 this.goods_id = goods_id;
             }
-
-            public String getGoods_commonid() {
-                return goods_commonid;
-            }
-
-            public void setGoods_commonid(String goods_commonid) {
-                this.goods_commonid = goods_commonid;
-            }
+//
+//            public String getGoods_commonid() {
+//                return goods_commonid;
+//            }
+//
+//            public void setGoods_commonid(String goods_commonid) {
+//                this.goods_commonid = goods_commonid;
+//            }
 
             public String getGoods_name() {
                 return goods_name;
@@ -250,45 +250,45 @@ public class MsgInfo extends BaseBean {
                 this.store_name = store_name;
             }
 
-            public String getGc_id() {
-                return gc_id;
-            }
+//            public String getGc_id() {
+//                return gc_id;
+//            }
+//
+//            public void setGc_id(String gc_id) {
+//                this.gc_id = gc_id;
+//            }
+//
+//            public String getGc_id_1() {
+//                return gc_id_1;
+//            }
+//
+//            public void setGc_id_1(String gc_id_1) {
+//                this.gc_id_1 = gc_id_1;
+//            }
+//
+//            public String getGc_id_2() {
+//                return gc_id_2;
+//            }
+//
+//            public void setGc_id_2(String gc_id_2) {
+//                this.gc_id_2 = gc_id_2;
+//            }
+//
+//            public String getGc_id_3() {
+//                return gc_id_3;
+//            }
 
-            public void setGc_id(String gc_id) {
-                this.gc_id = gc_id;
-            }
-
-            public String getGc_id_1() {
-                return gc_id_1;
-            }
-
-            public void setGc_id_1(String gc_id_1) {
-                this.gc_id_1 = gc_id_1;
-            }
-
-            public String getGc_id_2() {
-                return gc_id_2;
-            }
-
-            public void setGc_id_2(String gc_id_2) {
-                this.gc_id_2 = gc_id_2;
-            }
-
-            public String getGc_id_3() {
-                return gc_id_3;
-            }
-
-            public void setGc_id_3(String gc_id_3) {
-                this.gc_id_3 = gc_id_3;
-            }
-
-            public String getBrand_id() {
-                return brand_id;
-            }
-
-            public void setBrand_id(String brand_id) {
-                this.brand_id = brand_id;
-            }
+//            public void setGc_id_3(String gc_id_3) {
+//                this.gc_id_3 = gc_id_3;
+//            }
+//
+//            public String getBrand_id() {
+//                return brand_id;
+//            }
+//
+//            public void setBrand_id(String brand_id) {
+//                this.brand_id = brand_id;
+//            }
 
             public String getGoods_price() {
                 return goods_price;
@@ -362,37 +362,37 @@ public class MsgInfo extends BaseBean {
                 this.goods_salenum = goods_salenum;
             }
 
-            public String getGoods_collect() {
-                return goods_collect;
-            }
-
-            public void setGoods_collect(String goods_collect) {
-                this.goods_collect = goods_collect;
-            }
-
-            public String getSpec_name() {
-                return spec_name;
-            }
-
-            public void setSpec_name(String spec_name) {
-                this.spec_name = spec_name;
-            }
-
-            public String getGoods_spec() {
-                return goods_spec;
-            }
-
-            public void setGoods_spec(String goods_spec) {
-                this.goods_spec = goods_spec;
-            }
-
-            public String getGoods_storage() {
-                return goods_storage;
-            }
-
-            public void setGoods_storage(String goods_storage) {
-                this.goods_storage = goods_storage;
-            }
+//            public String getGoods_collect() {
+//                return goods_collect;
+//            }
+//
+//            public void setGoods_collect(String goods_collect) {
+//                this.goods_collect = goods_collect;
+//            }
+//
+//            public String getSpec_name() {
+//                return spec_name;
+//            }
+//
+//            public void setSpec_name(String spec_name) {
+//                this.spec_name = spec_name;
+//            }
+//
+//            public String getGoods_spec() {
+//                return goods_spec;
+//            }
+//
+//            public void setGoods_spec(String goods_spec) {
+//                this.goods_spec = goods_spec;
+//            }
+//
+//            public String getGoods_storage() {
+//                return goods_storage;
+//            }
+//
+//            public void setGoods_storage(String goods_storage) {
+//                this.goods_storage = goods_storage;
+//            }
 
             public String getGoods_image() {
                 return goods_image;

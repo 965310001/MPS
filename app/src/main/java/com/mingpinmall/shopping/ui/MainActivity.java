@@ -23,7 +23,6 @@ import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.home.ui.HomeFragment;
 import com.mingpinmall.home.ui.TeacherFragment;
 import com.mingpinmall.me.ui.MeFragment;
-import com.mingpinmall.me.ui.api.UserViewModel;
 import com.mingpinmall.shopping.R;
 
 /**

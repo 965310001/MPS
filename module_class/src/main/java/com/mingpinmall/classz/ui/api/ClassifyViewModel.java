@@ -179,8 +179,8 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /*发送聊天内容*/
-    public void sendMsg(String goodsId, String tId, String tName, String msg, Object eventKey) {
-        mRepository.sendMsg(goodsId, tId, tName, msg, eventKey);
+    public void sendMsg(String goodsId, String fId, String tId, String tName, String msg, Object eventKey) {
+        mRepository.sendMsg(goodsId,fId, tId, tName, msg, eventKey);
     }
 
     /************************************* end ******************************/

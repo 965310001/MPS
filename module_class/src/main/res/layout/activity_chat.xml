@@ -93,7 +93,8 @@
                     image="@{msgLogB}"
                     android:layout_width="@dimen/image_height_large"
                     android:layout_height="@dimen/image_height_large"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    bind:src="@drawable/ic_launcher" />
 
                 <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
@@ -169,13 +170,13 @@
         </LinearLayout>
 
         <com.trecyclerview.TRecyclerView
-            android:padding="@dimen/dp_4"
             android:id="@+id/trv_boottom"
             adapter="@{emojiAdapter}"
             itemdecoration="@{true}"
             layout="@{layout}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/dp_4"
             android:scrollbars="none"
             android:tag="@{`11`}"
             android:visibility="gone"

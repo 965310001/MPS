@@ -31,7 +31,7 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.chat.ChatActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTask" />
 
         <service
             android:name=".ui.service.SocketService"

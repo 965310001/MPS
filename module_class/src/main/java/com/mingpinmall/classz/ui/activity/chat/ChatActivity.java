@@ -23,6 +23,7 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityChatBinding;
@@ -61,7 +62,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
     private final ItemData itemData = new ItemData();
 
-    private String meIcon, mOtherIcon, tName, msg;
+    private String meIcon, mOtherIcon, tName, msg, mFid;
 
     private RecyclerView mRecyclerView;
 
@@ -69,7 +70,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
     private MsgListInfo.MemberInfoBean memberInfo;
 
-    private Socket mSocket;
+    private static volatile Socket mSocket;
 
     @Override
     protected boolean isActionBar() {
@@ -107,25 +108,24 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
             }
         });
 
-
-//        Intent intent = new Intent(getApplicationContext(), SocketService.class);
-//        bindService(intent, mConnection, BIND_AUTO_CREATE);
-//        startService(intent);
+        /*Intent intent = new Intent(getApplicationContext(), SocketService.class);
+        bindService(intent, mConnection, BIND_AUTO_CREATE);
+        startService(intent);*/
     }
 
-//    IBackService mIBackService;
-//    ServiceConnection mConnection = new ServiceConnection() {
-//        @Override
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-//            //连接后拿到 Binder，转换成 AIDL，在不同进程会返回个代理
-//            mIBackService = IBackService.Stub.asInterface(service);
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName name) {
-//            mIBackService = null;
-//        }
-//    };
+    /*IBackService mIBackService;
+    ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            //连接后拿到 Binder，转换成 AIDL，在不同进程会返回个代理
+            mIBackService = IBackService.Stub.asInterface(service);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mIBackService = null;
+        }
+    };*/
 
     @Override
     protected void initData() {
@@ -162,6 +162,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     @Override
                     public void onChanged(@Nullable MsgListInfo response) {
                         MsgListInfo.UserInfoBean mUserInfo = response.getUser_info();
+                        mFid = response.getMember_info().getMember_id();
                         if (null != mUserInfo) {
                             tId = mUserInfo.getMember_id();
                             tName = mUserInfo.getMember_name();
@@ -172,6 +173,12 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                             binding.setList(itemData);
                             memberInfo = response.getMember_info();
                             mServerUrl = response.getNode_site_url();
+                            if (null == mSocket) {
+                                KLog.i("mSocket");
+                                connectSocket();
+                            } else {
+                                KLog.i("mSocket 不为null");
+                            }
                             connectSocket();
                         } else {
                             showErrorState();
@@ -229,84 +236,126 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 });
     }
 
-    private void connectSocket() {
-        IO.Options opts = new IO.Options();
-        opts.path = "/socket.io";
-        opts.reconnection = false;
-        opts.sslContext = SSLSocket.genSSLSocketFactory();
-        try {
-            KLog.i(mServerUrl + memberInfo);
-            mSocket = IO.socket(mServerUrl, opts);
-        } catch (URISyntaxException e) {
-            KLog.i(e.toString());
+    private synchronized void connectSocket() {
+        if (null == mSocket) {
+            IO.Options opts = new IO.Options();
+            opts.path = "/socket.io";
+            opts.reconnection = false;
+            opts.sslContext = SSLSocket.genSSLSocketFactory();
+            try {
+                /*KLog.i(mServerUrl + memberInfo);*/
+                mSocket = IO.socket(mServerUrl, opts);
+            } catch (URISyntaxException e) {
+                KLog.i(e.toString());
+            }
+            mSocket.on(Socket.EVENT_CONNECT, onConnect)
+                    .on(Socket.EVENT_DISCONNECT, onDisconnect)
+//                .on("del_msg", onDelMsg())
+                    .on("get_msg", onGetMsg);
         }
-        mSocket.on(Socket.EVENT_CONNECT, onConnect())
-                .on(Socket.EVENT_DISCONNECT, onDisconnect())
-                .on("get_msg", onGetMsg());
         mSocket.connect();
     }
 
-    private Emitter.Listener onGetMsg() {
+    /*设置消息已读*/
+    private Emitter.Listener onDelMsg(final String maxId, final String fId) {
         return new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                for (Object arg : args) {
-                    Log.i("接受消息", arg.toString());
-                    String str = arg.toString();
-                    if (!TextUtils.isEmpty(str) && !"{}".equals(str)) {
-                        try {
-                            Gson gson = new Gson();
-                            gson.fromJson(arg.toString(), MsgInfo.MsgBean.class);
-                            MsgInfo.MsgBean msgBean = gson.fromJson(arg.toString(), MsgInfo.MsgBean.class);
-                            ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msgBean);
-                            info.msg = msgBean.getT_msg();
-                            itemData.add(info);
-                            binding.getAdapter().notifyDataSetChanged();
-                            mRecyclerView.scrollToPosition(itemData.size() - 1);
-                        } catch (Exception e) {
-                            KLog.i(e.toString());
-                        }
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+                JSONObject member = new JSONObject();
+                try {
+                    member.put("max_id", maxId);
+                    member.put("f_id", fId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.i("isConnected", "JSON连接:" + e.toString());
+                }
+                Log.i("isConnected", "消息已读");
+                mSocket.emit("del_msg", member);
+//                    }
+//                });
+            }
+        };
+    }
+
+
+    private Emitter.Listener onGetMsg = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            for (final Object arg : args) {
+                Log.i("接受消息", arg.toString());
+                String str = arg.toString();
+                if (!TextUtils.isEmpty(str) && !"{}".equals(str)) {
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Gson gson = new Gson();
+                                List<MsgInfo.MsgBean> msgBeans = gson.fromJson(arg.toString(), new TypeToken<List<MsgInfo.MsgBean>>() {
+                                }.getType());
+                                ChatMessageInfo info;
+                                for (MsgInfo.MsgBean msgBean : msgBeans) {
+                                    info = resultMsg(new ChatMessageInfo(), msgBean);
+                                    info.msg = msgBean.getT_msg();
+                                    itemData.add(info);
+                                }
+                                binding.getAdapter().notifyDataSetChanged();
+                                mRecyclerView.scrollToPosition(itemData.size() - 1);
+                                KLog.i(msgBeans.size() + "条数" + msgBeans.get(0).getF_id());
+
+                                if (null != msgBeans) {
+                                    if (msgBeans.size() > 1) {
+                                        onDelMsg(String.valueOf(msgBeans.size() - 1), msgBeans.get(0).getF_id());
+                                    } else if (msgBeans.size() == 0 || msgBeans.size() == 1) {
+                                        onDelMsg("1", msgBeans.get(0).getF_id());
+                                    }
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                        KLog.i(e.toString());
                     }
                 }
             }
-        };
-    }
+        }
+    };
 
-    private Emitter.Listener onDisconnect() {
-        return new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                KLog.i("重写连接");
-                mSocket.connect();
-            }
-        };
-    }
+    private Emitter.Listener onDisconnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            KLog.i("断开连接");
 
-    private Emitter.Listener onConnect() {
-        return new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONObject member = new JSONObject();
-                        try {
-                            member.put("u_id", memberInfo.getMember_id());
-                            member.put("u_name", memberInfo.getMember_name());
-                            member.put("avatar", memberInfo.getMember_avatar());
-                            member.put("s_id", memberInfo.getStore_id());
-                            member.put("s_name", memberInfo.getStore_name());
-                            member.put("s_avatar", memberInfo.getStore_avatar());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.i("isConnected", "JSON连接:" + e.toString());
+            /*更新后台*/
+            /*mSocket.connect();*/
+        }
+    };
+
+    private Emitter.Listener onConnect =
+            new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            JSONObject member = new JSONObject();
+                            try {
+                                member.put("u_id", memberInfo.getMember_id());
+                                member.put("u_name", memberInfo.getMember_name());
+                                member.put("avatar", memberInfo.getMember_avatar());
+                                member.put("s_id", memberInfo.getStore_id());
+                                member.put("s_name", memberInfo.getStore_name());
+                                member.put("s_avatar", memberInfo.getStore_avatar());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.i("isConnected", "JSON连接:" + e.toString());
+                            }
+                            mSocket.emit("update_user", member);
                         }
-                        mSocket.emit("update_user", member);
-                    }
-                });
-            }
-        };
-    }
+                    });
+                }
+            };
 
     private ChatMessageInfo resultMsg(ChatMessageInfo info, MsgInfo.MsgBean msgBean) {
         if (msgBean.isMe(tId)) {/*是自己*/
@@ -315,6 +364,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         } else {
             info.setIcon(mOtherIcon);
         }
+        info.msg = msgBean.getT_msg();
         return info;
     }
 
@@ -324,7 +374,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         if (TextUtils.isEmpty(msg)) {
             ToastUtils.showLong("请输入内容");
         } else {
-            mViewModel.sendMsg(goodsId, tId, tName, msg, Constants.CHAT[0]);
+            mViewModel.sendMsg(goodsId, mFid, tId, tName, msg, Constants.CHAT[0]);
         }
     }
 
@@ -377,5 +427,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     public void onDestroy() {
         super.onDestroy();
         mSocket.disconnect();
+        mSocket = null;
     }
 }
