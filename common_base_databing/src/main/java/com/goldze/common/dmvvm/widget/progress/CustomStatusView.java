@@ -103,12 +103,9 @@ public class CustomStatusView extends View {
 
     private void initAnim() {
         circleAnimator = ValueAnimator.ofFloat(0, 1);
-        circleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                circleValue = (float) animation.getAnimatedValue();
-                invalidate();
-            }
+        circleAnimator.addUpdateListener(animation -> {
+            circleValue = (float) animation.getAnimatedValue();
+            invalidate();
         });
     }
 
@@ -124,7 +121,7 @@ public class CustomStatusView extends View {
             width = size;
         } else {
             //直径
-            width = (int) (2 * progressRadius + progressWidth + getPaddingLeft() + getPaddingRight());
+            width = (int) (2 * progressRadius + 2 * progressWidth + getPaddingLeft() + getPaddingRight());
         }
 
         mode = MeasureSpec.getMode(heightMeasureSpec);
@@ -132,7 +129,7 @@ public class CustomStatusView extends View {
         if (mode == MeasureSpec.EXACTLY) {
             height = size;
         } else {
-            height = (int) (2 * progressRadius + progressWidth + getPaddingTop() + getPaddingBottom());
+            height = (int) (2 * progressRadius + 2 * progressWidth + getPaddingTop() + getPaddingBottom());
         }
         setMeasuredDimension(width, height);
     }

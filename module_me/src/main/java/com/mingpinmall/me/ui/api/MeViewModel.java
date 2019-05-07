@@ -37,6 +37,17 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         mRepository.getReduceCash();
     }
 
+    /*我的推广码子功能2:提现申请*/
+    protected void addPdCash(String pdc_bank_user, String pdc_bank_no,
+                             String pdc_bank_name, String pdc_amount, String password) {
+        mRepository.addPdCash(pdc_bank_user, pdc_bank_no, pdc_bank_name, pdc_amount, password);
+    }
+
+    /*我的推广码子功能1:绑定邀请码*/
+    protected void bindUserCode(String parent_id) {
+        mRepository.bindUserCode(parent_id);
+    }
+
     /*消息列表*/
     public void delMsg(String id) {
         mRepository.delMsg(id);

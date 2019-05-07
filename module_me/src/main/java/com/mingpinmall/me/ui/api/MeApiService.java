@@ -40,7 +40,7 @@ public interface MeApiService {
 
     @Multipart
     @POST(SENDEVALUATE)
-    Flowable<BaseResponse<OrderEvaluateBean>> sendEvaluate(
+    Flowable<BaseNothingBean> sendEvaluate(
             @Part("jsonData") String json,
             @PartMap() Map<String, RequestBody> files
     );

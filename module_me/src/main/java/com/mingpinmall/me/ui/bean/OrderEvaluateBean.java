@@ -63,6 +63,16 @@ public class OrderEvaluateBean implements Serializable {
 
     public static class OrderGoodsBean {
 
+        private String score;
+
+        public String getScore() {
+            return score == null ? "" : score;
+        }
+
+        public void setScore(String score) {
+            this.score = score == null ? "" : score;
+        }
+
         private String rec_id;
         private String order_id;
         private String goods_id;

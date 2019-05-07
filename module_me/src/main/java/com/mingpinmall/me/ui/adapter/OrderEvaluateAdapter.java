@@ -59,6 +59,9 @@ public class OrderEvaluateAdapter extends BaseQuickAdapter<OrderEvaluateBean.Ord
         ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getGoods_image_url());
         MaterialRatingBar ratingBar = helper.getView(R.id.rb_evaluate);
         ratingBar.setNumStars(5);
+        ratingBar.setOnRatingChangeListener((ratingBar1, rating) -> {
+            item.setScore(String.valueOf((int) rating));
+        });
         helper.setText(R.id.tv_goodsName, item.getGoods_name());
     }
 

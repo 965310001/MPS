@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.R;
-import com.goldze.common.dmvvm.utils.StatusBarUtils;
 
 /**
  * 功能描述：快速提示    等待中Dialog
@@ -80,14 +79,11 @@ public class ProgressDialog extends BaseDialog {
         commads.type = Commad.CommadType.NONE;
     }
 
-    private Runnable runnableForLoading = new Runnable() {
-        @Override
-        public void run() {
-            if (onDismissListener != null) {
-                onDismissListener.onDismiss();
-            }
-            dismissAllowingStateLoss();
+    private Runnable runnableForLoading = () -> {
+        if (onDismissListener != null) {
+            onDismissListener.onDismiss();
         }
+        dismissAllowingStateLoss();
     };
 
     /**

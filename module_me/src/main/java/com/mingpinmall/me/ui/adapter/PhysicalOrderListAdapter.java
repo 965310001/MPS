@@ -28,7 +28,7 @@ import java.util.List;
 public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean, BaseViewHolder> {
 
     public PhysicalOrderListAdapter() {
-        super(R.layout.item_physical_order_group, new ArrayList<PhysicalOrderBean>());
+        super(R.layout.item_physical_order_group, new ArrayList<>());
     }
 
     @Override

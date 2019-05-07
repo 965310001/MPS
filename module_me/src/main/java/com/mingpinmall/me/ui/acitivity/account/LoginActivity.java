@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -20,8 +21,6 @@ import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityLoginBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
-import com.mingpinmall.me.ui.bean.SmsBean;
-import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.xuexiang.xui.utils.CountDownButtonHelper;
 
@@ -60,12 +59,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         binding.tvGetPsdCode.setOnClickListener(this);
         binding.btnSublimt.setOnClickListener(this);
 
-        binding.cbAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setEnabled();
-            }
-        });
+        binding.cbAgree.setOnCheckedChangeListener((buttonView, isChecked) -> setEnabled());
         binding.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -137,41 +131,22 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     @Override
     protected void dataObserver() {
         registerObserver(Constants.EVENT_KEY_USER_GETUSER, UserBean.class)
-                .observeForever(new Observer<UserBean>() {
-                    @Override
-                    public void onChanged(@Nullable UserBean userBean) {
-                        SharePreferenceUtil.saveUser(userBean);
-                        progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                LiveBus.getDefault().postEvent("LoginSuccess", true);
-                                finish();
-                            }
-                        });
-                    }
+                .observeForever(userBean -> {
+                    SharePreferenceUtil.saveUser(userBean);
+                    progressDialog.onComplete("", () -> {
+                        LiveBus.getDefault().postEvent("LoginSuccess", true);
+                        finish();
+                    });
                 });
         registerObserver(Constants.Err_EVENT_KEY_USER_GETUSER, String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        progressDialog.onFail(msg, 1500);
-                    }
-                });
+                .observeForever(msg -> progressDialog.onFail(msg, 1500));
         registerObserver("GET_SMS_CODE", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        ToastUtils.showShort("验证码已发送");
-                        buttonHelper.start();
-                    }
+                .observeForever(result -> {
+                    ToastUtils.showShort("验证码已发送");
+                    buttonHelper.start();
                 });
         registerObserver("GET_SMS_CODE", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object msg) {
-                        ToastUtils.showShort(msg.toString());
-                    }
-                });
+                .observeForever(msg -> ToastUtils.showShort(msg.toString()));
     }
 
     @Override

@@ -61,14 +61,20 @@ public class MeRepository extends BaseRepository {
     /*获取该订单下可评价商品列表*/
     protected void sendEvaluate(String json, Map<String, RequestBody> files) {
         addDisposable(apiService.sendEvaluate(json, files)
-                .compose(RxSchedulers.<BaseResponse<OrderEvaluateBean>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<OrderEvaluateBean>>() {
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
-                    public void onSuccess(BaseResponse<OrderEvaluateBean> result) {
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData("SEND_EVALUATE", "success");
+                        } else {
+                            sendData("SEND_EVALUATE", result.getMessage());
+                        }
                     }
 
                     @Override
                     public void onFailure(String msg) {
+                        sendData("SEND_EVALUATE", msg == null ? "评价失败" : msg);
                     }
                 })
         );
@@ -77,7 +83,7 @@ public class MeRepository extends BaseRepository {
     /*获取该订单下可评价商品列表*/
     protected void getOrderEvaluate(String order_id) {
         addDisposable(apiService.getOrderEvaluate(getUserKey(), order_id)
-                .compose(RxSchedulers.<BaseResponse<OrderEvaluateBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<OrderEvaluateBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<OrderEvaluateBean> result) {
@@ -101,7 +107,7 @@ public class MeRepository extends BaseRepository {
                              String pdc_bank_name, String pdc_amount, String password) {
         addDisposable(apiService.addPdCash(getUserKey(), "phone", pdc_bank_user, pdc_bank_no,
                 pdc_bank_name, pdc_amount, password, "ok", 1)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
@@ -123,7 +129,7 @@ public class MeRepository extends BaseRepository {
     /*我的推广码子功能1:绑定邀请码*/
     protected void bindUserCode(String parent_id) {
         addDisposable(apiService.bindUserCode(getUserKey(), parent_id, 1)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
@@ -145,7 +151,7 @@ public class MeRepository extends BaseRepository {
     /*我的推广码*/
     protected void getReduceCash() {
         addDisposable(apiService.getReduceCash(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<ReduceCashBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ReduceCashBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<ReduceCashBean> result) {
@@ -167,7 +173,7 @@ public class MeRepository extends BaseRepository {
     /*消息列表*/
     protected void getMsgList() {
         addDisposable(apiService.getMsgList(getUserKey(), 1)
-                .compose(RxSchedulers.<BaseResponse<MessageListBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<MessageListBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<MessageListBean> result) {
@@ -189,7 +195,7 @@ public class MeRepository extends BaseRepository {
     /*消息列表*/
     protected void delMsg(String id) {
         addDisposable(apiService.delMsg(getUserKey(), id)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
@@ -211,7 +217,7 @@ public class MeRepository extends BaseRepository {
     /*退货详情*/
     protected void getReturnInformation(String returnId) {
         addDisposable(apiService.getReturnInformation(getUserKey(), returnId)
-                .compose(RxSchedulers.<BaseResponse<ReturnInformation>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ReturnInformation>>() {
 
                     @Override
@@ -234,7 +240,7 @@ public class MeRepository extends BaseRepository {
     /*退款详情*/
     protected void getRefundInformation(String refundId) {
         addDisposable(apiService.getRefundInformation(getUserKey(), refundId)
-                .compose(RxSchedulers.<BaseResponse<RefundInformation>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<RefundInformation>>() {
 
                     @Override
@@ -257,7 +263,7 @@ public class MeRepository extends BaseRepository {
     /*会员积分*/
     protected void getVipPoint() {
         addDisposable(apiService.getVipPoint(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<VipPointBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<VipPointBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<VipPointBean> result) {
@@ -279,7 +285,7 @@ public class MeRepository extends BaseRepository {
     /*会员积分历史记录*/
     protected void getVipPointLog(int curPage) {
         addDisposable(apiService.getVipPointLog(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<VipPointListBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<VipPointListBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<VipPointListBean> result) {
@@ -301,7 +307,7 @@ public class MeRepository extends BaseRepository {
     /*获取我的红包记录*/
     protected void getPacketList(int curPage) {
         addDisposable(apiService.getPacketList(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<PacketListBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<PacketListBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<PacketListBean> result) {
@@ -323,7 +329,7 @@ public class MeRepository extends BaseRepository {
     /*代金券确认领取*/
     protected void cpCharge(String rc_sn) {
         addDisposable(apiService.cpCharge(getUserKey(), rc_sn, "android")
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
@@ -346,7 +352,7 @@ public class MeRepository extends BaseRepository {
     /*充值卡确认充值*/
     protected void rcCharge(String rc_sn) {
         addDisposable(apiService.rcCharge(getUserKey(), rc_sn, "android")
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
@@ -368,7 +374,7 @@ public class MeRepository extends BaseRepository {
     /*确认领取红包*/
     protected void packetCharge(String pwd_code) {
         addDisposable(apiService.packetCharge(getUserKey(), pwd_code, "android")
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
@@ -390,7 +396,7 @@ public class MeRepository extends BaseRepository {
     /*充值卡充值记录*/
     protected void getRCBLog(int curPage) {
         addDisposable(apiService.getRCBLog(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<RCardLogBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<RCardLogBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<RCardLogBean> result) {
@@ -412,7 +418,7 @@ public class MeRepository extends BaseRepository {
     /*获取充值卡余额*/
     protected void getRCBalance() {
         addDisposable(apiService.getRCBalance(getUserKey(), "available_rc_balance")
-                .compose(RxSchedulers.<BaseResponse<RCardBalanceBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<RCardBalanceBean>>() {
 
                     @Override
@@ -435,7 +441,7 @@ public class MeRepository extends BaseRepository {
     /*代金券列表*/
     protected void getCouponList(int curPage) {
         addDisposable(apiService.getCouponList(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<CouponListBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<CouponListBean>>() {
 
                     @Override
@@ -458,7 +464,7 @@ public class MeRepository extends BaseRepository {
     /*获取账户余额*/
     protected void getPredepoit() {
         addDisposable(apiService.getPredepoit(getUserKey(), "predepoit")
-                .compose(RxSchedulers.<BaseResponse<Predepoit>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<Predepoit>>() {
                     @Override
                     public void onSuccess(BaseResponse<Predepoit> result) {
@@ -480,7 +486,7 @@ public class MeRepository extends BaseRepository {
     /*获取账户余额列表*/
     protected void getPredepoitLog(int curPage) {
         addDisposable(apiService.getPredepoitLog(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<PredepoitLogBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<PredepoitLogBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<PredepoitLogBean> result) {
@@ -502,7 +508,7 @@ public class MeRepository extends BaseRepository {
     /*获取账户充值明细*/
     protected void getPdreChargeList(int curPage) {
         addDisposable(apiService.getPdreChargeList(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<PdrechargeBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<PdrechargeBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<PdrechargeBean> result) {
@@ -524,7 +530,7 @@ public class MeRepository extends BaseRepository {
     /*获取账户余额提现列表*/
     protected void getPdcashList(int curPage) {
         addDisposable(apiService.getPdcashList(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<PdcashBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<PdcashBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<PdcashBean> result) {
@@ -546,7 +552,7 @@ public class MeRepository extends BaseRepository {
     /*获取账户提现详情*/
     protected void getPdcashList(String pdcId) {
         addDisposable(apiService.getPdCashInfo(getUserKey(), pdcId)
-                .compose(RxSchedulers.<BaseResponse<PdcashInfoBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<PdcashInfoBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<PdcashInfoBean> result) {
@@ -568,7 +574,7 @@ public class MeRepository extends BaseRepository {
     /*获取退款列表*/
     protected void getRefundList(int curPage) {
         addDisposable(apiService.getRefundList(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<RefundBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<RefundBean>>() {
 
                     @Override
@@ -591,7 +597,7 @@ public class MeRepository extends BaseRepository {
     /*获取退货列表*/
     protected void getReturnList(int curPage) {
         addDisposable(apiService.getRetrunList(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<ReturnBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ReturnBean>>() {
 
                     @Override
@@ -614,7 +620,7 @@ public class MeRepository extends BaseRepository {
     /*获取虚拟订单详细内容*/
     protected void getVitrualOrderInformation(String orderId) {
         addDisposable(apiService.getVitrualOrderInformation(getUserKey(), orderId)
-                .compose(RxSchedulers.<BaseResponse<VirtualInformationBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<VirtualInformationBean>>() {
 
                     @Override
@@ -638,7 +644,7 @@ public class MeRepository extends BaseRepository {
     /*获取虚拟订单详细内容 中的店铺地址*/
     protected void getVitrualOrderStoreAddrs(String orderId) {
         addDisposable(apiService.getVitrualOrderStoreAddrs(getUserKey(), orderId)
-                .compose(RxSchedulers.<BaseResponse<VirtualStoreAddrsBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<VirtualStoreAddrsBean>>() {
 
                     @Override
@@ -662,7 +668,7 @@ public class MeRepository extends BaseRepository {
     /*确认收货*/
     protected void recevieOrder(final String eventKey, String orderId) {
         addDisposable(apiService.recevieOrder(getUserKey(), orderId)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
@@ -685,7 +691,7 @@ public class MeRepository extends BaseRepository {
     /*删除订单*/
     protected void removeOrder(final String eventKey, String orderId) {
         addDisposable(apiService.removeOrder(getUserKey(), orderId)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
@@ -708,7 +714,7 @@ public class MeRepository extends BaseRepository {
     /*取消订单*/
     protected void cancelOrder(final String eventKey, String orderId) {
         addDisposable(apiService.cancelOrder(getUserKey(), orderId)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
@@ -731,7 +737,7 @@ public class MeRepository extends BaseRepository {
     /*取消虚拟订单*/
     protected void cancelVirtualOrder(final String eventKey, String orderId) {
         addDisposable(apiService.cancelVirtualOrder(getUserKey(), orderId)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
@@ -754,7 +760,7 @@ public class MeRepository extends BaseRepository {
     /*分销管理*/
     protected void getInviteList(String wwi, int curpage) {
         addDisposable(apiService.getInviteList(getUserKey(), wwi, 10, curpage)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
@@ -773,7 +779,7 @@ public class MeRepository extends BaseRepository {
     /*获取收货地址详细内容*/
     protected void getAddress(String addressId) {
         addDisposable(apiService.getAddress(getUserKey(), addressId)
-                .compose(RxSchedulers.<BaseResponse<AddressDataBean.AddressListBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<AddressDataBean.AddressListBean>>() {
 
                     @Override
@@ -792,7 +798,7 @@ public class MeRepository extends BaseRepository {
     /*删除收货地址*/
     protected void delAddress(String addressId) {
         addDisposable(apiService.delAddress(getUserKey(), addressId)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
@@ -817,7 +823,7 @@ public class MeRepository extends BaseRepository {
     /*获取收货地址列表*/
     protected void getAddressList() {
         addDisposable(apiService.getAddressList(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<AddressDataBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<AddressDataBean>>() {
 
                     @Override
@@ -842,7 +848,7 @@ public class MeRepository extends BaseRepository {
     protected void addAddress(int id_default, String name, String city_id, String area_id, String area_info,
                               String address, String phone) {
         addDisposable(apiService.addAddress(getUserKey(), id_default, name, city_id, area_id, area_info, address, phone)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
@@ -872,7 +878,7 @@ public class MeRepository extends BaseRepository {
     protected void editAddress(String address_id, int id_default, String name, String city_id, String area_id, String area_info,
                                String address, String phone) {
         addDisposable(apiService.editAddress(getUserKey(), address_id, id_default, name, city_id, area_id, area_info, address, phone)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
@@ -901,7 +907,7 @@ public class MeRepository extends BaseRepository {
     /*获取城市列表*/
     protected void getCityList(String areaId) {
         addDisposable(apiService.getCityList(getUserKey(), areaId)
-                .compose(RxSchedulers.<BaseResponse<CityBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<CityBean>>() {
 
                     @Override
@@ -929,7 +935,7 @@ public class MeRepository extends BaseRepository {
     /*我的商城页面 清空我的足迹*/
     protected void clearnMyFootprint() {
         addDisposable(apiService.clearnFootprint(getUserKey(), "android")
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                                    @Override
                                    public void onSuccess(BaseNothingBean result) {
@@ -952,7 +958,7 @@ public class MeRepository extends BaseRepository {
     /*我的商城页面 获取我的足迹*/
     protected void getMyFootprint(int curPage) {
         addDisposable(apiService.getFootprint(getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<FootprintBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<FootprintBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<FootprintBean> result) {
@@ -978,7 +984,7 @@ public class MeRepository extends BaseRepository {
      **/
     protected void getUserInfo() {
         addDisposable(apiService.getUserInfo(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<MyInfoBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<MyInfoBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<MyInfoBean> result) {
@@ -1001,7 +1007,7 @@ public class MeRepository extends BaseRepository {
     /*获取支付密码信息*/
     public void getPayPwdInfo() {
         addDisposable(apiService.getPayPwdInfo(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<BaseCheckBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<BaseCheckBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<BaseCheckBean> result) {
@@ -1025,7 +1031,7 @@ public class MeRepository extends BaseRepository {
     /*获取绑定手机状态*/
     public void getPhoneInfo() {
         addDisposable(apiService.getPhoneInfo(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<BaseCheckBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<BaseCheckBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<BaseCheckBean> result) {
@@ -1048,7 +1054,7 @@ public class MeRepository extends BaseRepository {
     /*获取我的财产*/
     public void getProperty() {
         addDisposable(apiService.getMyAsset(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<PropertyBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<PropertyBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<PropertyBean> result) {
@@ -1073,7 +1079,7 @@ public class MeRepository extends BaseRepository {
     /*发送用户反馈*/
     protected void sendFeedBack(String feedBack) {
         addDisposable(apiService.sendFeedBack(getUserKey(), feedBack)
-                .compose(RxSchedulers.<BaseResponse<BaseIntDatasBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<BaseIntDatasBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<BaseIntDatasBean> result) {
@@ -1096,7 +1102,7 @@ public class MeRepository extends BaseRepository {
     /*获取店铺收藏列表*/
     protected void getShopsCollectList(int curpage) {
         addDisposable(apiService.getShopsCollectList(getUserKey(), curpage, 10)
-                .compose(RxSchedulers.<BaseResponse<ShopsCollectionBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ShopsCollectionBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<ShopsCollectionBean> result) {
@@ -1119,7 +1125,7 @@ public class MeRepository extends BaseRepository {
     /*店铺删除收藏动作*/
     protected void deleShopsCollect(String storeId) {
         addDisposable(apiService.deleShopsCollect(getUserKey(), "android", storeId)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
@@ -1142,7 +1148,7 @@ public class MeRepository extends BaseRepository {
     /*商品删除收藏动作*/
     protected void deleGoodsCollect(String favId) {
         addDisposable(apiService.deleGoodsCollect(getUserKey(), "android", favId)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
@@ -1165,7 +1171,7 @@ public class MeRepository extends BaseRepository {
     /*获取商品收藏列表*/
     protected void getProductCollectList(int curpage) {
         addDisposable(apiService.getProductCollectList(getUserKey(), curpage, 10)
-                .compose(RxSchedulers.<BaseResponse<ProductCollectionBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ProductCollectionBean>>() {
                                    @Override
                                    public void onSuccess(BaseResponse<ProductCollectionBean> result) {
@@ -1189,7 +1195,7 @@ public class MeRepository extends BaseRepository {
     /*获取实物订单列表（包括搜索）*/
     protected void getPhysicalOrderList(final String event_key, String state_type, String order_key, int page, final int curpage) {
         addDisposable(apiService.getPhysicalOrderList(getUserKey(), state_type, order_key, page, curpage)
-                .compose(RxSchedulers.<BaseResponse<PhysicalOrderBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<PhysicalOrderBean>>() {
 
                     @Override
@@ -1214,7 +1220,7 @@ public class MeRepository extends BaseRepository {
     /*获取实物订单详情*/
     protected void getOrderInformation(String order_id) {
         addDisposable(apiService.getOrderInformation(getUserKey(), order_id)
-                .compose(RxSchedulers.<BaseResponse<OrderInformationBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<OrderInformationBean>>() {
 
                     @Override
@@ -1237,7 +1243,7 @@ public class MeRepository extends BaseRepository {
     /*获取实物订单最新一条物流信息*/
     protected void getOrderDeliverInformation(String order_id) {
         addDisposable(apiService.getOrderDeliverInformation(getUserKey(), order_id)
-                .compose(RxSchedulers.<BaseResponse<OrderDeliverBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<OrderDeliverBean>>() {
 
                     @Override
@@ -1260,7 +1266,7 @@ public class MeRepository extends BaseRepository {
     /*获取实物订单物流详情*/
     protected void getOrderDeliverList(String order_id) {
         addDisposable(apiService.getOrderDeliverList(getUserKey(), order_id)
-                .compose(RxSchedulers.<BaseResponse<OrderDeliverListBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<OrderDeliverListBean>>() {
 
                     @Override
@@ -1284,7 +1290,7 @@ public class MeRepository extends BaseRepository {
     /*获取虚拟订单列表（包括搜索）*/
     protected void getVirtualOrderList(final String event_key, String state_type, String order_key, int page, final int curpage) {
         addDisposable(apiService.getVirtualOrderList(getUserKey(), state_type, order_key, page, curpage)
-                .compose(RxSchedulers.<BaseResponse<VirtualOrderBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<VirtualOrderBean>>() {
 
                     @Override

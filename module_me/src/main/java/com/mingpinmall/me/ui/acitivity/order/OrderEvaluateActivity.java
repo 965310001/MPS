@@ -1,15 +1,16 @@
 package com.mingpinmall.me.ui.acitivity.order;
 
-import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -21,26 +22,17 @@ import com.mingpinmall.me.ui.adapter.OrderEvaluateAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseSelectPhotos;
 import com.mingpinmall.me.ui.bean.OrderEvaluateBean;
-import com.mingpinmall.me.ui.utils.SelectPhotosTools;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.http.Multipart;
 
 /**
  * 功能描述：订单评价
@@ -72,20 +64,25 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
         super.onViewClicked(viewId);
         if (viewId == R.id.btn_submit) {
             //提交评价
+            Log.i("点击", "onViewClicked: ----------");
             try {
-                JSONArray jsonArray = new JSONArray();
+                String key = ((UserBean) SharePreferenceUtil.getUser(UserBean.class)).getKey();
+                JSONObject jsonObject = new JSONObject();
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject.put("key", key);
+                jsonObject.put("order_id", id);
+
                 Map<String, RequestBody> pics = new HashMap<>();
                 for (int i = 0; i < evaluateAdapter.getItemCount(); i++) {
                     String recId = data.get(i).getRec_id();
-                    String goodsId = data.get(i).getGoods_id();
+                    BaseViewHolder helper = (BaseViewHolder) binding.recyclerView.findViewHolderForLayoutPosition(i);
+                    String comment = ((AppCompatEditText) helper.getView(R.id.ed_content)).getText().toString();
 
                     JSONObject jsonObject2 = new JSONObject();
-                    jsonObject2.put("goods_id", goodsId);
-                    jsonObject2.put("score", "5");
-                    jsonObject2.put("comment", "dfakdjfasdfjasdf");
-
-                    jsonArray.put(jsonObject2);
-
+                    jsonObject2.put("goods_id", data.get(i).getGoods_id());
+                    jsonObject2.put("score", data.get(i).getScore());
+                    jsonObject2.put("comment", comment);
+                    JSONArray picArray = new JSONArray();
                     List<BaseSelectPhotos> filesPath = evaluateAdapter.getTools().get(i).getImagePath();
                     for (int j = 0; j < filesPath.size(); j++) {
                         Log.i("图片路径", filesPath.get(j).getOriginalurl());
@@ -93,16 +90,21 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
                         if (!file.exists()) {
                             continue;
                         }
+                        String fileHead = j + "_" + recId;
+                        String fileName = fileHead + "_" + file.getName();
+                        picArray.put(fileHead);
                         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-                        pics.put(recId + "_" + j + "\";filename=\"" + file.getName(), requestBody);
+                        pics.put(fileHead + "\";filename=\"" + fileName, requestBody);
                     }
+                    jsonObject2.put("images", picArray);
+                    jsonObject1.put(recId, jsonObject2);
                 }
-
-                String jsonDaTA = "{\"data\":" + jsonArray.toString()+ "}";
-                Log.i("aaaaa", "onViewClicked: " + jsonDaTA);
-                mViewModel.sendEvaluate(jsonDaTA, pics);
+                jsonObject.put("goods", jsonObject1);
+                String jsonData = jsonObject.toString();
+                Log.i("点击1", "JSON内容: " + jsonData);
+                mViewModel.sendEvaluate(jsonData, pics);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
         }
@@ -117,18 +119,15 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("ORDER_EVALUATE_LIST", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                //可评价商品列表
-                if (result instanceof OrderEvaluateBean) {
-                    //获取成功
-                    data = ((OrderEvaluateBean) result).getOrder_goods();
-                    evaluateAdapter.setNewData(data);
-                } else {
-                    //获取失败
-                    ToastUtils.showShort(result.toString());
-                }
+        registerObserver("ORDER_EVALUATE_LIST", Object.class).observeForever(result -> {
+            //可评价商品列表
+            if (result instanceof OrderEvaluateBean) {
+                //获取成功
+                data = ((OrderEvaluateBean) result).getOrder_goods();
+                evaluateAdapter.setNewData(data);
+            } else {
+                //获取失败
+                ToastUtils.showShort(result.toString());
             }
         });
     }
@@ -152,27 +151,4 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
         return R.layout.activity_orderevaluate;
     }
 
-    /**
-     * 获得指定文件的byte数组
-     */
-    private byte[] getBytes(File file) {
-        byte[] buffer = null;
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
-            byte[] b = new byte[1000];
-            int n;
-            while ((n = fis.read(b)) != -1) {
-                bos.write(b, 0, n);
-            }
-            fis.close();
-            bos.close();
-            buffer = bos.toByteArray();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return buffer;
-    }
 }

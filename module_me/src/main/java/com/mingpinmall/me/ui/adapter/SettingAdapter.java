@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class SettingAdapter extends BaseMultiItemQuickAdapter<BaseItemBean, BaseViewHolder> {
 
     public SettingAdapter() {
-        super(new ArrayList<BaseItemBean>());
+        super(new ArrayList<>());
         addItemType(0, R.layout.item_default_space);
         addItemType(1, R.layout.item_base_setting);
     }
