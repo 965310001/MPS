@@ -9,7 +9,6 @@ interface IBackService {
 
        void setMemberInfo(String uId,String uName,String avatar,String sId,String sName,String sAvatar);
 
-
        String getUid();
        String getUname();
        String getAvatar();
