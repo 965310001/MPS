@@ -72,7 +72,7 @@ public class MsgListInfo extends BaseBean {
         this.list = list;
     }
 
-    public static class MemberInfoBean {
+    public static class MemberInfoBean extends BaseBean{
         /**
          * member_id : 16
          * member_name : 15013070796

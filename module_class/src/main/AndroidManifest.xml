@@ -3,6 +3,7 @@
     package="com.mingpinmall.classz">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application>
         <activity
@@ -33,11 +34,17 @@
             android:name=".ui.activity.chat.ChatActivity"
             android:launchMode="singleTask" />
 
+        <!--<service-->
+        <!--android:name=".ui.service.SocketService"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="true"-->
+        <!--android:process=":aidl" />-->
         <service
-            android:name=".ui.service.SocketService"
+            android:name=".ui.service.SocketIoService"
             android:enabled="true"
             android:exported="true"
             android:process=":aidl" />
+
     </application>
 
 </manifest>

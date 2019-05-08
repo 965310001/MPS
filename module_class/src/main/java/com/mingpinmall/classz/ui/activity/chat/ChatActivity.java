@@ -1,8 +1,16 @@
 package com.mingpinmall.classz.ui.activity.chat;
 
 import android.arch.lifecycle.Observer;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +37,10 @@ import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityChatBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.service.IBackService;
 import com.mingpinmall.classz.ui.service.SSLSocket;
+import com.mingpinmall.classz.ui.service.SocketIoService;
+import com.mingpinmall.classz.ui.service.SocketService;
 import com.mingpinmall.classz.ui.vm.bean.ChatEmojiInfo;
 import com.mingpinmall.classz.ui.vm.bean.ChatMessageInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
@@ -43,6 +54,7 @@ import com.xuexiang.xui.utils.ResUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,25 +119,32 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 hideTrvBottom(true);
             }
         });
-
-        /*Intent intent = new Intent(getApplicationContext(), SocketService.class);
-        bindService(intent, mConnection, BIND_AUTO_CREATE);
-        startService(intent);*/
     }
 
-    /*IBackService mIBackService;
+    IBackService mIBackService;
     ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             //连接后拿到 Binder，转换成 AIDL，在不同进程会返回个代理
             mIBackService = IBackService.Stub.asInterface(service);
+            try {
+                mIBackService.setUrl(mServerUrl);
+                mIBackService.setMemberInfo(memberInfo.getMember_id(),
+                        memberInfo.getMember_name(),
+                        memberInfo.getMember_avatar(),
+                        memberInfo.getStore_id(),
+                        memberInfo.getStore_name(),
+                        memberInfo.getStore_avatar());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             mIBackService = null;
         }
-    };*/
+    };
 
     @Override
     protected void initData() {
@@ -173,13 +192,18 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                             binding.setList(itemData);
                             memberInfo = response.getMember_info();
                             mServerUrl = response.getNode_site_url();
-                            if (null == mSocket) {
+                           /* if (null == mSocket) {
                                 KLog.i("mSocket");
-                                connectSocket();
                             } else {
                                 KLog.i("mSocket 不为null");
-                            }
-                            connectSocket();
+                            }*/
+//                            connectSocket();
+
+                            Intent intent = new Intent(getApplicationContext(), SocketIoService.class);
+                            bindService(intent, mConnection, BIND_AUTO_CREATE);
+                            startService(intent);
+
+                            registerBoradcastReceiver();
                         } else {
                             showErrorState();
                             KLog.i("服务员异常");
@@ -236,6 +260,34 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 });
     }
 
+    private void registerBoradcastReceiver() {
+        IntentFilter myIntentFilter = new IntentFilter();//创建意图过滤器
+        myIntentFilter.addAction("com.broadcast.test");//设置过滤器action
+        //注册广播        广播接收者，广播过滤器
+        registerReceiver(mBroadcastReceiver, myIntentFilter);
+    }
+
+    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            KLog.i("=");
+            if (action.equals("com.broadcast.test")) {
+                /*int status = intent.getIntExtra(OneLeadPosConstants.SYNCHRONIZE_KITCHEN_PRINT_STATUS_ACTION, 80);
+                if (status == 80) {//后厨打印机没有启用
+                    Log.d("hainan", "hainan======后厨打印机没有启用");
+                } else if (status == 50) {//连接不上后厨打印机
+                    Log.d("hainan", "hainan======连接不上后厨打印机");
+                } else if (status == 100) {//连接成功
+                    Log.d("hainan", "hainan======连接成功");
+                }*/
+                List<MsgInfo.MsgBean> msgBeans = (List<MsgInfo.MsgBean>) intent.getSerializableExtra("msg");
+                KLog.i(msgBeans.toString());
+                KLog.i("接收广播");
+            }
+        }
+    };
+
     private synchronized void connectSocket() {
         if (null == mSocket) {
             IO.Options opts = new IO.Options();
@@ -243,45 +295,40 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
             opts.reconnection = false;
             opts.sslContext = SSLSocket.genSSLSocketFactory();
             try {
-                /*KLog.i(mServerUrl + memberInfo);*/
                 mSocket = IO.socket(mServerUrl, opts);
             } catch (URISyntaxException e) {
                 KLog.i(e.toString());
             }
             mSocket.on(Socket.EVENT_CONNECT, onConnect)
                     .on(Socket.EVENT_DISCONNECT, onDisconnect)
-//                .on("del_msg", onDelMsg())
+                    .on("del_msg", onDelMsg())
                     .on("get_msg", onGetMsg);
+            mSocket.connect();
         }
-        mSocket.connect();
     }
 
     /*设置消息已读*/
-    private Emitter.Listener onDelMsg(final String maxId, final String fId) {
+    private final Emitter.Listener onDelMsg() {
         return new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-                JSONObject member = new JSONObject();
-                try {
-                    member.put("max_id", maxId);
-                    member.put("f_id", fId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.i("isConnected", "JSON连接:" + e.toString());
+                if (args.length == 2) {
+                    JSONObject member = new JSONObject();
+                    try {
+                        member.put("max_id", args[0]);
+                        member.put("f_id", args[1]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.i("isConnected", "JSON连接:" + e.toString());
+                    }
+                    Log.i("isConnected", "消息已读");
+                    mSocket.emit("del_msg", member);
                 }
-                Log.i("isConnected", "消息已读");
-                mSocket.emit("del_msg", member);
-//                    }
-//                });
             }
         };
     }
 
-
-    private Emitter.Listener onGetMsg = new Emitter.Listener() {
+    private final Emitter.Listener onGetMsg = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             for (final Object arg : args) {
@@ -307,9 +354,9 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
                                 if (null != msgBeans) {
                                     if (msgBeans.size() > 1) {
-                                        onDelMsg(String.valueOf(msgBeans.size() - 1), msgBeans.get(0).getF_id());
-                                    } else if (msgBeans.size() == 0 || msgBeans.size() == 1) {
-                                        onDelMsg("1", msgBeans.get(0).getF_id());
+                                        mSocket.emit("del_msg", String.valueOf(msgBeans.size() - 1), msgBeans.get(0).getF_id());
+                                    } else if (msgBeans.size() == 1) {
+                                        mSocket.emit("del_msg", "1", msgBeans.get(0).getF_id());
                                     }
                                 }
                             }
@@ -322,7 +369,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         }
     };
 
-    private Emitter.Listener onDisconnect = new Emitter.Listener() {
+    private final Emitter.Listener onDisconnect = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             KLog.i("断开连接");
@@ -332,7 +379,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         }
     };
 
-    private Emitter.Listener onConnect =
+    private final Emitter.Listener onConnect =
             new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
@@ -426,7 +473,8 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mSocket.disconnect();
-        mSocket = null;
+//        mSocket.disconnect();
+//        mSocket.off("del_msg");
+//        mSocket.off("get_msg");
     }
 }

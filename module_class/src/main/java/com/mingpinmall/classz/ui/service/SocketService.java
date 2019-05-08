@@ -86,6 +86,51 @@ public class SocketService extends Service {
         public boolean sendMessage(String message) throws RemoteException {
             return sendMsg(message);
         }
+
+        @Override
+        public String getUrl() throws RemoteException {
+            return null;
+        }
+
+        @Override
+        public void setUrl(String url) throws RemoteException {
+
+        }
+
+        @Override
+        public void setMemberInfo(String uId, String uName, String avatar, String sId, String sName, String sAvatar) throws RemoteException {
+
+        }
+
+        @Override
+        public String getUid() throws RemoteException {
+            return null;
+        }
+
+        @Override
+        public String getUname() throws RemoteException {
+            return null;
+        }
+
+        @Override
+        public String getAvatar() throws RemoteException {
+            return null;
+        }
+
+        @Override
+        public String getSid() throws RemoteException {
+            return null;
+        }
+
+        @Override
+        public String getSname() throws RemoteException {
+            return null;
+        }
+
+        @Override
+        public String getsAvatar() throws RemoteException {
+            return null;
+        }
     };
 
     @Override
