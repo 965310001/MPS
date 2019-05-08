@@ -1,5 +1,6 @@
 package com.mingpinmall.classz.ui.activity.chat;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -7,19 +8,23 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.alipay.sdk.app.PayTask;
 import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -28,6 +33,9 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityChatBinding;
+import com.mingpinmall.classz.pay.ali.AuthResult;
+import com.mingpinmall.classz.pay.ali.OrderInfoUtil2_0;
+import com.mingpinmall.classz.pay.ali.PayResult;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.service.IBackService;
@@ -46,12 +54,126 @@ import com.xuexiang.xui.utils.ResUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品分类list
  */
 @Route(path = ARouterConfig.classify.CHATACTIVITY)
 public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, ClassifyViewModel> implements OnItemClickListener {
+
+    /*********************************************/
+    /**
+     * 用于支付宝支付业务的入参 app_id。
+     */
+    public static final String APPID = "2015052600090779";
+
+    /**
+     * 用于支付宝账户登录授权业务的入参 pid。
+     */
+    public static final String PID = "";
+
+    /**
+     * 用于支付宝账户登录授权业务的入参 target_id。
+     */
+    public static final String TARGET_ID = "";
+
+    public static final String RSA2_PRIVATE = "";
+    public static final String RSA_PRIVATE = "";
+
+    private static final int SDK_PAY_FLAG = 1;
+    private static final int SDK_AUTH_FLAG = 2;
+
+    /**
+     * 支付宝支付业务示例
+     */
+    public void payV2(View v) {
+        if (TextUtils.isEmpty(APPID) || (TextUtils.isEmpty(RSA2_PRIVATE) && TextUtils.isEmpty(RSA_PRIVATE))) {
+            return;
+        }
+
+        /*
+         * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
+         * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
+         * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
+         *
+         * orderInfo 的获取必须来自服务端；
+         */
+        boolean rsa2 = (RSA2_PRIVATE.length() > 0);
+//        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2);
+//        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+
+//        String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
+//        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
+//         String orderInfo = orderParam + "&" + sign;
+        final String orderInfo = "app_id=2015052600090779&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22seller_id%22%3A%22%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.02%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%22314VYGIAGG7ZOYY%22%7D&charset=utf-8&method=alipay.trade.app.pay&sign_type=RSA2&timestamp=2016-08-15%2012%3A12%3A15&version=1.0&sign=MsbylYkCzlfYLy9PeRwUUIg9nZPeN9SfXPNavUCroGKR5Kqvx0nEnd3eRmKxJuthNUx4ERCXe552EV9PfwexqW%2B1wbKOdYtDIb4%2B7PL3Pc94RZL0zKaWcaY3tSL89%2FuAVUsQuFqEJdhIukuKygrXucvejOUgTCfoUdwTi7z%2BZzQ%3D";
+
+        final Runnable payRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(null);
+//                Map<String, String> result = alipay.payV2(orderInfo, true);
+                Map<String, String> result = alipay.payV2(orderInfo, true);
+                Log.i("msp", result.toString());
+                Message msg = new Message();
+                msg.what = SDK_AUTH_FLAG;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+
+        // 必须异步调用
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            KLog.i(msg.toString());
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        KLog.i("该笔订单是否真实支付成功");
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+//                        showAlert(PayDemoActivity.this, getString(R.string.pay_success) + payResult);
+                    } else {
+                        KLog.i("该笔订单真实的支付结果");
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+//                        showAlert(PayDemoActivity.this, getString(R.string.pay_failed) + payResult);
+                    }
+                    break;
+                }
+                case SDK_AUTH_FLAG: {
+                    @SuppressWarnings("unchecked")
+                    AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
+                    String resultStatus = authResult.getResultStatus();
+                    // 判断resultStatus 为“9000”且result_code
+                    // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
+                    if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
+                        // 获取alipay_open_id，调支付时作为参数extern_token 的value
+                        // 传入，则支付账户为该授权账户
+//                        showAlert(PayDemoActivity.this, getString(R.string.auth_success) + authResult);
+                        KLog.i("授权成功");
+                    } else {
+                        // 其他状态值则为授权失败
+//                        showAlert(PayDemoActivity.this, getString(R.string.auth_failed) + authResult);
+                        KLog.i("授权失败");
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    };
+    /***********************************************************************************************/
 
     @Autowired
     String goodsId;
@@ -87,7 +209,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-
+        payV2(null);
         mRecyclerView = binding.getRoot().findViewById(R.id.recycler_view);
 
         setTitlePadding(binding.rlTitleContent);

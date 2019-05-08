@@ -89,4 +89,7 @@ dependencies {
 
     implementation 'com.github.nkzawa:socket.io-client:0.3.0'
 
+
+    implementation (name: 'alipaySdk-15.6.2-20190416165100', ext: 'aar')
+
 }
