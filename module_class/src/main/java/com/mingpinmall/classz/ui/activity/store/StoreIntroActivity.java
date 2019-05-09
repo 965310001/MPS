@@ -37,7 +37,6 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
         return R.layout.activity_store_intro;
     }
 
-
     @Override
     public void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
@@ -87,7 +86,7 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
                 .observeForever(new Observer<ResultBean>() {
                     @Override
                     public void onChanged(@android.support.annotation.Nullable ResultBean response) {
-                        KLog.i(response.isSuccess() + " " + response.getError());
+                        /*KLog.i(response.isSuccess() + " " + response.getError());*/
                         if (response.isSuccess()) {
                             int store_collect = storeInfo.getStore_collect();
                             storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);

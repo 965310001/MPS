@@ -28,13 +28,16 @@ import com.mingpinmall.classz.ui.activity.store.fragment.StoreNewGoodsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StorePromotionFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商家店铺
@@ -222,6 +225,12 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
 
     /*联系客服*/
     public void getContactService(View view) {
+        if (null!=storeInfo) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("goodsId", "");
+            map.put("tId", storeInfo.getMember_id());
+            ActivityToActivity.toActivity(ARouterConfig.classify.CHATACTIVITY, map);
+        }
     }
 
     /*商品分类*/

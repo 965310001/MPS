@@ -62,17 +62,19 @@
                         android:textSize="@dimen/text_14"
                         android:visibility="@{data.is_own_mall?View.INVISIBLE:View.VISIBLE}"
                         tools:text="商家" />
-
+                    <!-- android:background="@{data.is_favorate?@color/gray:@color/shallow_red}"
+                    -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@{data.is_favorate?@color/gray:@color/shallow_red}"
+                        android:background="@drawable/bg_rect_round_gray"
                         android:onClick="favorites"
                         android:paddingLeft="@dimen/dp_12"
                         android:paddingTop="@dimen/dp_5"
                         android:paddingRight="@dimen/dp_12"
                         android:paddingBottom="@dimen/dp_5"
-                        android:text="收藏" />
+                        android:text="@{data.is_favorate?`已收藏`:`收藏`}"
+                        tools:text="收藏" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -83,7 +85,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/shallow_red"
+                        android:background="@drawable/bg_of_red_gradient_radius"
                         android:padding="@dimen/dp_4"
                         android:text="@{!data.is_own_mall?@stringArray/store_type[0]:@stringArray/store_type[1]}"
                         android:textColor="@color/white"
@@ -114,15 +116,15 @@
             android:padding="10dp" />
 
         <!--<TextView-->
-            <!--lefttext="aaa"-->
-            <!--color="@color/shallow_red"-->
-            <!--rightText="aaa"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/white"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:padding="10dp"-->
-            <!--tools:text="描述相符 公司名称" />-->
+        <!--lefttext="aaa"-->
+        <!--color="@color/shallow_red"-->
+        <!--rightText="aaa"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="10dp"-->
+        <!--tools:text="描述相符 公司名称" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -141,7 +143,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
                 android:text="@{data.store_credit_new.get(0).context}"
                 android:textColor="@color/shallow_red"
                 tools:text="公司名称" />
@@ -164,7 +166,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
                 android:text="@{data.store_credit_new.get(1).context}"
                 android:textColor="@color/shallow_red"
                 tools:text="公司名称" />
@@ -187,7 +189,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
                 android:text="@{data.store_credit_new.get(2).context}"
                 android:textColor="@color/shallow_red"
                 tools:text="公司名称" />
@@ -216,7 +218,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
                 android:text="@{data.store_company_name}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />
@@ -245,7 +247,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
                 android:text="@{data.area_info}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />
@@ -274,7 +276,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
                 android:text="@{data.store_time_text}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />
@@ -289,7 +291,6 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
@@ -305,7 +306,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
                 android:text="@{data.store_zy}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />
@@ -336,7 +337,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
                 android:text="@{data.store_workingtime}"
                 android:textColor="@color/black"
                 tools:text="公司名称" />

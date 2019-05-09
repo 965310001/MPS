@@ -180,7 +180,18 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
 
     /*发送聊天内容*/
     public void sendMsg(String goodsId, String fId, String tId, String tName, String msg, Object eventKey) {
-        mRepository.sendMsg(goodsId,fId, tId, tName, msg, eventKey);
+        mRepository.sendMsg(goodsId, fId, tId, tName, msg, eventKey);
+    }
+
+
+    /*阿里支付*/
+    public void getAli(Map<String, Object> map, Object eventKey) {
+        mRepository.getAli(map, eventKey);
+    }
+
+    /*微信支付*/
+    public void getWeiXin(Map<String, Object> map, Object eventKey) {
+        mRepository.getWeiXin(map, eventKey);
     }
 
     /************************************* end ******************************/

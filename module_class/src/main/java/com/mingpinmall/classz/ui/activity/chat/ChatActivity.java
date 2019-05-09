@@ -43,10 +43,14 @@ import com.mingpinmall.classz.ui.service.SocketIoBroadcast;
 import com.mingpinmall.classz.ui.service.SocketIoService;
 import com.mingpinmall.classz.ui.vm.bean.ChatEmojiInfo;
 import com.mingpinmall.classz.ui.vm.bean.ChatMessageInfo;
+import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.utils.FaceConversionUtil;
 import com.socks.library.KLog;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 import com.xuexiang.xui.utils.ResUtils;
@@ -61,6 +65,27 @@ import java.util.Map;
  */
 @Route(path = ARouterConfig.classify.CHATACTIVITY)
 public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, ClassifyViewModel> implements OnItemClickListener {
+
+    /******************************************微信支付******************************************/
+    IWXAPI api;
+
+    void weixin() {
+        //商户APP工程中引入微信JAR包，调用API前，需要先向微信注册您的APPID，代码如下：
+        final IWXAPI msgApi = WXAPIFactory.createWXAPI(getApplicationContext(), null);
+        // 将该app注册到微信
+        msgApi.registerApp("wxc18a7a67aae81510");
+        PayReq request = new PayReq();
+        request.appId = "wxc18a7a67aae81510";
+        request.partnerId = "1900000109";
+        request.prepayId = "1101000000140415649af9fc314aa427";
+        request.packageValue = "Sign=WXPay";
+        request.nonceStr = "1101000000140429eb40476f8896f4c9";
+        request.timeStamp = "1398746574";
+        request.sign = "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
+        api.sendReq(request);
+    }
+    /******************************************微信支付******************************************/
+
 
     /*********************************************/
     /**
@@ -176,10 +201,10 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     /***********************************************************************************************/
 
     @Autowired
-    String goodsId;
+    String goodsId;/*商品Id*/
 
     @Autowired
-    String tId;
+    String tId;/*店铺Id*/
 
     private final ItemData itemData = new ItemData();
 
@@ -209,7 +234,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        payV2(null);
+        payV2(null);weixin();
         mRecyclerView = binding.getRoot().findViewById(R.id.recycler_view);
 
         setTitlePadding(binding.rlTitleContent);
@@ -297,7 +322,9 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //                            meIcon = mUserInfo.getMember_avatar();
 //                            mOtherIcon = mUserInfo.getStore_avatar();
                             binding.tvTitle.setText(mUserInfo.getStore_name());
-                            itemData.add(response.getChat_goods());
+                            if (null != response.getChat_goods()) {
+                                itemData.add(response.getChat_goods());
+                            }
                             binding.setList(itemData);
                             memberInfo = response.getMember_info();
                             mServerUrl = response.getNode_site_url();
@@ -323,6 +350,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                             itemData.clear();
                             binding.getAdapter().notifyDataSetChanged();
                             Collections.reverse(list);
+                            KLog.i(list);
 //                            for (MsgInfo.MsgBean msgBean : list) {
 //                            ChatMessageInfo info;
 ////                                info = resultMsg(new ChatMessageInfo(), msgBean);
@@ -334,6 +362,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //                            binding.getAdapter().notifyDataSetChanged();
 //                            mRecyclerView.scrollToPosition(itemData.size() - 1);
                             updateList(list);
+                            binding.setList(itemData);
                         } else {
                             KLog.i("服务器异常");
                         }
@@ -345,6 +374,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     @Override
                     public void onChanged(@Nullable MsgInfo response) {
                         binding.etMsg.setText("");
+                        KLog.i("发送聊天信息");
                         update(response.getMsg(), true);
 //                        MsgInfo.MsgBean msg = response.getMsg();
 //                        if (null != msg) {
@@ -374,6 +404,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     public void onChanged(@Nullable Object object) {
                         List<MsgInfo.MsgBean> msgBeans = (List<MsgInfo.MsgBean>) object;
                         updateList(msgBeans);
+                        binding.setList(itemData);
                         KLog.i("更新数据");
                         // TODO: 2019/5/8 已经阅读的信息
                         try {
@@ -412,8 +443,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
     private void update(MsgInfo.MsgBean msgBean, boolean isUpdate) {
         if (null != msgBean) {
-            ChatMessageInfo info;
-            info = resultMsg(new ChatMessageInfo(), msgBean);
+            ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msgBean);
             info.msg = msgBean.getT_msg();
             itemData.add(info);
             notifyItemInserted(isUpdate);
@@ -422,6 +452,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
     private void notifyItemInserted(boolean isUpdate) {
         if (isUpdate) {
+            /*binding.setList(itemData);*/
             binding.getAdapter().notifyItemInserted(itemData.size() - 1);
             mRecyclerView.scrollToPosition(itemData.size() - 1);
         }

@@ -171,11 +171,20 @@ public class DatabingUtils {
             Html.ImageGetter imgGetter = new Html.ImageGetter() {
                 @Override
                 public Drawable getDrawable(String source) {
-                    Drawable d = Utils.getApplication().getResources().getDrawable(Integer.parseInt(source));
-                    d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+                    if (source.endsWith(".jpg")) {
 
-                    // TODO: 2019/5/6 GIF图片的修改
-                    return d;
+                    } else {
+                        try {
+                            Drawable d = Utils.getApplication().getResources().getDrawable(Integer.parseInt(source));
+                            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());                        // TODO: 2019/5/6 GIF图片的修改
+                            return d;
+                        } catch (Exception e) {
+                            KLog.i(e.toString());
+                            return null;
+                        }
+
+                    }
+                    return null;
                 }
             };
             String source = FaceConversionUtil.dealExpression(image);

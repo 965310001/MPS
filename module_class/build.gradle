@@ -89,7 +89,11 @@ dependencies {
 
     implementation 'com.github.nkzawa:socket.io-client:0.3.0'
 
+    /*阿里支付*/
+    implementation(name: 'alipaySdk-15.6.2-20190416165100', ext: 'aar')
 
-    implementation (name: 'alipaySdk-15.6.2-20190416165100', ext: 'aar')
+    /*微信支付*/
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
 
 }

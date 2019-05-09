@@ -2,6 +2,7 @@ package com.mingpinmall.classz.ui.vm.bean;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.google.gson.annotations.SerializedName;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -42,7 +43,23 @@ public class MsgInfo extends BaseBean {
         }
 
         public boolean isMe(String tId) {
-            return Long.parseLong(tId) == Long.parseLong(getT_id());
+            try {
+                /*KLog.i(tId + "===" + getT_id());*/
+                return Long.parseLong(tId) == Long.parseLong(getT_id());
+            } catch (Exception e) {
+                KLog.i(e.toString());
+            }
+            return false;
+        }
+
+        public boolean isMe(String fId, String tId) {
+            try {
+                KLog.i(tId + "===" + fId);
+                return Long.parseLong(fId) == Long.parseLong(tId);
+            } catch (Exception e) {
+                KLog.i(e.toString());
+            }
+            return false;
         }
 
         public void setF_id(String f_id) {

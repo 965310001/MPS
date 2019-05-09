@@ -756,7 +756,9 @@ public class ClassifyRepository extends BaseRepository {
     public void getNodeInfo(String goodsId, String tId, final Object eventKey) {
         Map<String, Object> map = parames("member_chat", "get_node_info");
         map.put("key", getUserKey());
-        map.put("chat_goods_id", goodsId);
+        if (!TextUtils.isEmpty(goodsId)) {
+            map.put("chat_goods_id", goodsId);
+        }
         map.put("u_id", tId);
         addDisposable(apiService.getNodeInfo(map)
                 .compose(RxSchedulers.<BaseResponse<MsgListInfo>>io_main())
@@ -819,6 +821,44 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
+
+    /*支付宝*/
+    public void getAli(Map<String, Object> map, Object eventKey) {
+//        map = parames(map, "member_chat", "send_msg");
+//        map.put("key", getUserKey());
+//        map.put("chat_goods_id", goodsId);
+//        map.put("t_id", tId);
+//        map.put("f_id", fId);
+//        map.put("t_name", tName);
+//        map.put("t_msg", msg);
+//        addDisposable(apiService.sendMsg(map)
+//                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
+//                .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
+//                    @Override
+//                    public void onSuccess(BaseResponse<MsgInfo> result) {
+//                        if (result.isSuccess()) {
+//                            sendData(eventKey + "Success", result.getData());
+//                        } else {
+//                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(String msg) {
+//                        KLog.i(msg);
+//                    }
+//
+//                    @Override
+//                    protected void onNoNetWork() {
+//                        super.onNoNetWork();
+//                    }
+//                })
+//        );
+    }
+
+    /*微信*/
+    public void getWeiXin(Map<String, Object> map, Object eventKey) {
+    }
 
     /************************************* 店铺 end ******************************/
 
