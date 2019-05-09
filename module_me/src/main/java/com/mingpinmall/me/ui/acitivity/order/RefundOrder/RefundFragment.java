@@ -22,6 +22,7 @@ import com.mingpinmall.me.ui.adapter.RefundOrderListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.RefundBean;
 import com.mingpinmall.me.ui.bean.ReturnBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -94,29 +95,25 @@ public class RefundFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("REFUND", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof String) {
-                            ToastUtils.showShort(result.toString());
-                        } else {
-                            BaseResponse<RefundBean> refundBean = (BaseResponse<RefundBean>) result;
-                            if (isLoadmore) {
-                                pageIndex++;
-                                binding.refreshLayout.finishLoadMore();
-                                listAdapter.addData(refundBean.getData().getRefund_list());
-                            } else {
-                                pageIndex = 1;
-                                binding.refreshLayout.finishRefresh();
-                                listAdapter.setNewData(refundBean.getData().getRefund_list());
-                            }
-                            if (!refundBean.isHasmore()) {
-                                binding.refreshLayout.setNoMoreData(true);
-                            }
-                        }
-                    }
-                });
+        registerObserver(Constants.REFUND, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+            } else {
+                BaseResponse<RefundBean> refundBean = (BaseResponse<RefundBean>) result;
+                if (isLoadmore) {
+                    pageIndex++;
+                    binding.refreshLayout.finishLoadMore();
+                    listAdapter.addData(refundBean.getData().getRefund_list());
+                } else {
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    listAdapter.setNewData(refundBean.getData().getRefund_list());
+                }
+                if (!refundBean.isHasmore()) {
+                    binding.refreshLayout.setNoMoreData(true);
+                }
+            }
+        });
     }
 
     @Override

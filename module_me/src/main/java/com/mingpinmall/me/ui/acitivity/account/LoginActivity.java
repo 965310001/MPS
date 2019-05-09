@@ -1,13 +1,10 @@
 package com.mingpinmall.me.ui.acitivity.account;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.CompoundButton;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.base.bean.UserBean;
@@ -21,6 +18,7 @@ import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityLoginBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
+import com.mingpinmall.me.ui.bean.SmsBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.xuexiang.xui.utils.CountDownButtonHelper;
 
@@ -130,23 +128,26 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
 
     @Override
     protected void dataObserver() {
-        registerObserver(Constants.EVENT_KEY_USER_GETUSER, UserBean.class)
-                .observeForever(userBean -> {
-                    SharePreferenceUtil.saveUser(userBean);
-                    progressDialog.onComplete("", () -> {
-                        LiveBus.getDefault().postEvent("LoginSuccess", true);
-                        finish();
-                    });
+        registerObserver(Constants.LOGIN, Object.class).observeForever(result -> {
+            if (result instanceof UserBean) {
+                SharePreferenceUtil.saveUser(result);
+                progressDialog.onComplete("", () -> {
+                    LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_SUCCESS, true);
+                    finish();
                 });
-        registerObserver(Constants.Err_EVENT_KEY_USER_GETUSER, String.class)
-                .observeForever(msg -> progressDialog.onFail(msg, 1500));
-        registerObserver("GET_SMS_CODE", "success")
-                .observeForever(result -> {
-                    ToastUtils.showShort("验证码已发送");
-                    buttonHelper.start();
-                });
-        registerObserver("GET_SMS_CODE", "err")
-                .observeForever(msg -> ToastUtils.showShort(msg.toString()));
+            } else {
+                progressDialog.onFail(result.toString());
+            }
+        });
+        registerObserver(Constants.GET_SMS_CODE, Object.class).observeForever(result -> {
+            if (result instanceof SmsBean) {
+                ToastUtils.showShort("验证码已发送");
+                buttonHelper.start();
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+
+        });
     }
 
     @Override

@@ -24,6 +24,7 @@ import com.mingpinmall.me.databinding.ActivityFootprintBinding;
 import com.mingpinmall.me.ui.adapter.FootprintListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.FootprintBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -103,45 +104,37 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_FOOTPRINT", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof String) {
-                            ToastUtils.showShort(result.toString());
-                            //获取失败
-                            binding.refreshLayout.finishRefresh(false);
-                            binding.refreshLayout.finishLoadMore(false);
-                        } else {
-                            BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
-                            if (isLoadmore) {
-                                pageIndex++;
-                                binding.refreshLayout.finishLoadMore();
-                                footprintListAdapter.addData(data.getData().getGoodsbrowse_list());
-                            } else {
-                                pageIndex = 1;
-                                binding.refreshLayout.finishRefresh();
-                                footprintListAdapter.setNewData(data.getData().getGoodsbrowse_list());
-                            }
-                            if (!data.isHasmore()) {
-                                binding.refreshLayout.setNoMoreData(true);
-                            }
-                        }
-                    }
-                });
-        registerObserver("CLEAR_FOOTPRINT", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            //清空成功
-                            initData();
-                        } else {
-                            //清空失败
-                            ToastUtils.showShort(msg);
-                        }
-                    }
-                });
+        registerObserver(Constants.GET_FOOTPRINT, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                //获取失败
+                binding.refreshLayout.finishRefresh(false);
+                binding.refreshLayout.finishLoadMore(false);
+            } else {
+                BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
+                if (isLoadmore) {
+                    pageIndex++;
+                    binding.refreshLayout.finishLoadMore();
+                    footprintListAdapter.addData(data.getData().getGoodsbrowse_list());
+                } else {
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    footprintListAdapter.setNewData(data.getData().getGoodsbrowse_list());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.setNoMoreData(true);
+                }
+            }
+        });
+        registerObserver(Constants.CLEAR_FOOTPRINT, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                //清空成功
+                initData();
+            } else {
+                //清空失败
+                ToastUtils.showShort(msg);
+            }
+        });
     }
 
     @Override

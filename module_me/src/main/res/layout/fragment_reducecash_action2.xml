@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </RelativeLayout>
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -25,7 +32,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="20dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
                     android:background="@drawable/bg_edittext_default"
                     android:gravity="center_vertical"
                     android:hint="@string/hint_text_reduce2_ed1"
@@ -37,8 +46,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
                     android:background="@drawable/bg_edittext_default"
                     android:gravity="center_vertical"
                     android:hint="@string/hint_text_reduce2_ed2"
@@ -50,9 +60,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
                     android:background="@drawable/bg_edittext_default"
                     android:gravity="center_vertical"
                     android:hint="@string/hint_text_reduce2_ed3"
@@ -64,9 +74,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
                     android:background="@drawable/bg_edittext_default"
                     android:gravity="center_vertical"
                     android:hint="@string/hint_text_reduce2_ed4"
@@ -78,9 +88,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
                     android:background="@drawable/bg_edittext_default"
                     android:gravity="center_vertical"
                     android:hint="@string/hint_text_reduce2_ed5"
@@ -89,28 +99,25 @@
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_submit2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="46dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="40dp"
+                    android:layout_margin="40dp"
                     android:background="@drawable/button_shape_redcolor"
                     android:gravity="center"
                     android:paddingStart="40dp"
                     android:paddingEnd="40dp"
-                    android:text="@string/button_text_reduce1"
+                    android:text="@string/button_text_reduce2"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
+
+                <Space
+                    android:layout_width="1px"
+                    android:layout_height="12dp" />
 
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
-
-        <RelativeLayout
-            android:id="@+id/content_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </RelativeLayout>
 
     </FrameLayout>
 

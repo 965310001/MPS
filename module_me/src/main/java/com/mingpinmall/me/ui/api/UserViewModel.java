@@ -24,29 +24,17 @@ public class UserViewModel extends AbsViewModel<UserRepository> {
         mRepository.login(phone, password, login_type);
     }
 
-    public void makeCodeKey() {
-        mRepository.makeCodeKey();
-    }
-
-    /**
-     * 支付密码修改时验证短信验证码
-     * @param code
-     */
+    /*支付密码修改时验证短信验证码*/
     public void checkPayPsdSmsCode(String code) {
         mRepository.checkPayPsdSmsCode(code);
     }
 
-    /**
-     * 登陆密码修改时验证短信验证码
-     * @param code
-     */
+    /*登陆密码修改时验证短信验证码*/
     public void checkLoginPsdSmsCode(String code) {
         mRepository.checkLoginPsdSmsCode(code);
     }
 
-    /**
-     * 检查是否设置了支付密码
-     */
+    /*检查是否设置了支付密码*/
     public void checkPayPassword() {
         mRepository.checkPayPassword();
     }

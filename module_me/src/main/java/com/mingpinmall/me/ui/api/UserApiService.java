@@ -3,7 +3,6 @@ package com.mingpinmall.me.ui.api;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.goldze.common.dmvvm.base.bean.CheckSmsCodeBean;
 import com.mingpinmall.me.ui.bean.CodeKeyBean;
 import com.mingpinmall.me.ui.bean.DefaultCheckBean;
 import com.mingpinmall.me.ui.bean.SmsBean;
@@ -20,10 +19,7 @@ public interface UserApiService {
 
     /*登录*/
     String LOGIN = "/mo_bile/index.php?app=login";
-    /*获取和生成图形验证码钥匙*/
-    String MAKECODEKEY = "/mo_bile/index.php?app=seccode&wwi=makecodekey";
-    /*生成图形验证码*/
-    String MAKECODE = "http://39.108.254.185/mo_bile/index.php?app=seccode&wwi=makecode";
+
     /**
      * 短信验证码
      * 描述：获取手机短信
@@ -106,7 +102,7 @@ public interface UserApiService {
     /*验证 短信验证码 登陆密码修改 */
     @FormUrlEncoded
     @POST(CheckLoginPsdSMSCode)
-    Flowable<CheckSmsCodeBean> checkLoginPsdSmsCode(
+    Flowable<BaseNothingBean> checkLoginPsdSmsCode(
             @Field("auth_code") String code,
             @Field("key") String key,
             @Field("client") String client,
@@ -116,7 +112,7 @@ public interface UserApiService {
     /*验证 短信验证码 支付密码修改 */
     @FormUrlEncoded
     @POST(CheckPayPsdSMSCode)
-    Flowable<CheckSmsCodeBean> checkPayPsdSmsCode(
+    Flowable<BaseNothingBean> checkPayPsdSmsCode(
             @Field("auth_code") String code,
             @Field("key") String key,
             @Field("client") String client,
@@ -146,9 +142,5 @@ public interface UserApiService {
     Flowable<BaseResponse<DefaultCheckBean>> checkPayPassword(
             @Query("key") String key
     );
-
-    /*获取和生成图形验证码钥匙*/
-    @GET(MAKECODEKEY)
-    Flowable<BaseResponse<CodeKeyBean>> makeCodeKey();
 
 }

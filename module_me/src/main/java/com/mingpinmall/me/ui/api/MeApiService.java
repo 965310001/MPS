@@ -30,6 +30,22 @@ import retrofit2.http.QueryMap;
 public interface MeApiService {
 
     /**
+     * 描述：上传文件
+     * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=sns_album&wwi=file_upload
+     * 请求方式：GET
+     * 参数
+     * order_id
+     */
+    String UPLOAD_FILES = "/mo_bile/index.php?app=sns_album&wwi=file_upload";
+
+    @Multipart
+    @POST(UPLOAD_FILES)
+    Flowable<BaseResponse<UploadFilesBean>> uploadFiles(
+            @Part("key") String key,
+            @Part RequestBody file
+    );
+
+    /**
      * 描述：提交商品评价
      * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_evaluate&wwi=save
      * 请求方式：GET
@@ -43,6 +59,70 @@ public interface MeApiService {
     Flowable<BaseNothingBean> sendEvaluate(
             @Part("jsonData") String json,
             @PartMap() Map<String, RequestBody> files
+    );
+
+    /**
+     * 描述：提交 商品 退款&退货
+     * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=member_refund&wwi=refund_post
+     * 请求方式：POST
+     * 参数
+     * order_id
+     * order_goods_id
+     */
+    String SHOPS_REFUND_UPLOAD = "/mo_bile/index.php?app=member_refund&wwi=refund_post";
+
+    @Multipart
+    @POST(SHOPS_REFUND_UPLOAD)
+    Flowable<BaseNothingBean> postRefund(
+            @PartMap Map<String, RequestBody> images
+    );
+
+    /**
+     * 描述：提交 订单 退款
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_refund&wwi=refund_all_post
+     * 请求方式：POST
+     * 参数
+     * order_id
+     * order_goods_id
+     */
+    String ORDER_REFUND_UPLOAD = "/mo_bile/index.php?app=member_refund&wwi=refund_all_post";
+
+    @Multipart
+    @POST(ORDER_REFUND_UPLOAD)
+    Flowable<BaseNothingBean> postOrderRefund(
+            @PartMap Map<String, RequestBody> images
+    );
+
+    /**
+     * 描述：获取 商品退款&退货
+     * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=member_refund&wwi=refund_form&key=&order_id=&order_goods_id=
+     * 请求方式：GET
+     * 参数
+     * order_id
+     * order_goods_id
+     */
+    String SHOPS_REFUND_INFO = "/mo_bile/index.php?app=member_refund&wwi=refund_form";
+
+    @GET(SHOPS_REFUND_INFO)
+    Flowable<BaseResponse<ShopsApplyRefundBean>> getRefundShopsInfo(
+            @Query("key") String key,
+            @Query("order_id") String order_id,
+            @Query("order_goods_id") String order_goods_id
+    );
+
+    /**
+     * 描述：获取 订单退款
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_refund&wwi=refund_all_form&key=&order_id=
+     * 请求方式：GET
+     * 参数
+     * order_id
+     */
+    String ORDER_REFUND_INFO = "/mo_bile/index.php?app=member_refund&wwi=refund_all_form";
+
+    @GET(ORDER_REFUND_INFO)
+    Flowable<BaseResponse<OrderApplyRefundBean>> getRefundOrderInfo(
+            @Query("key") String key,
+            @Query("order_id") String order_id
     );
 
     /**
@@ -349,7 +429,7 @@ public interface MeApiService {
      * 请求参数：
      * order_id:订单id
      */
-    String RECEIVE_ORDER = "/mo_bile/index.php?app=member_order&wwi=order_cancel";
+    String RECEIVE_ORDER = "/mo_bile/index.php?app=member_order&wwi=order_receive";
 
     @POST(RECEIVE_ORDER)
     @FormUrlEncoded

@@ -15,6 +15,7 @@ import com.mingpinmall.me.ui.bean.CouponListBean;
 import com.mingpinmall.me.ui.bean.FootprintBean;
 import com.mingpinmall.me.ui.bean.MessageListBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
+import com.mingpinmall.me.ui.bean.OrderApplyRefundBean;
 import com.mingpinmall.me.ui.bean.OrderDeliverBean;
 import com.mingpinmall.me.ui.bean.OrderDeliverListBean;
 import com.mingpinmall.me.ui.bean.OrderEvaluateBean;
@@ -35,15 +36,17 @@ import com.mingpinmall.me.ui.bean.RefundBean;
 import com.mingpinmall.me.ui.bean.RefundInformation;
 import com.mingpinmall.me.ui.bean.ReturnBean;
 import com.mingpinmall.me.ui.bean.ReturnInformation;
+import com.mingpinmall.me.ui.bean.ShopsApplyRefundBean;
 import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
+import com.mingpinmall.me.ui.bean.UploadFilesBean;
 import com.mingpinmall.me.ui.bean.VipPointBean;
 import com.mingpinmall.me.ui.bean.VipPointListBean;
 import com.mingpinmall.me.ui.bean.VirtualInformationBean;
 import com.mingpinmall.me.ui.bean.VirtualOrderBean;
 import com.mingpinmall.me.ui.bean.VirtualStoreAddrsBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.socks.library.KLog;
 
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -58,6 +61,116 @@ public class MeRepository extends BaseRepository {
 
     private MeApiService apiService = RetrofitClient.getInstance().create(MeApiService.class);
 
+    /*上传文件*/
+    protected void uploadFiles(RequestBody file) {
+        addDisposable(apiService.uploadFiles(getUserKey(), file)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<UploadFilesBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<UploadFilesBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.UPLOAD_FILES, result.getData());
+                        } else {
+                            sendData(Constants.UPLOAD_FILES, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.UPLOAD_FILES, msg == null ? "上传失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*提交 订单 退款*/
+    protected void postOrderRefund(Map<String, RequestBody> params) {
+        addDisposable(apiService.postOrderRefund(params)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.POST_REFUND_ALL, "success");
+                        } else {
+                            sendData(Constants.POST_REFUND_ALL, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.POST_REFUND_ALL, msg == null ? "提交失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*提交 商品 退款    &退货*/
+    protected void postRefund(Map<String, RequestBody> params) {
+        addDisposable(apiService.postRefund(params)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.POST_REFUND, "success");
+                        } else {
+                            sendData(Constants.POST_REFUND, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.POST_REFUND, msg == null ? "提交失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取 商品退款&退货*/
+    protected void getRefundShopsInfo(String order_id, String order_goods_id) {
+        addDisposable(apiService.getRefundShopsInfo(getUserKey(), order_id, order_goods_id)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ShopsApplyRefundBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ShopsApplyRefundBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.REFUND_SHOPS_INFO, result.getData());
+                        } else {
+                            sendData(Constants.REFUND_SHOPS_INFO, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.REFUND_SHOPS_INFO, msg == null ? "评价失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取 订单退款*/
+    protected void getRefundOrderInfo(String order_id) {
+        addDisposable(apiService.getRefundOrderInfo(getUserKey(), order_id)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<OrderApplyRefundBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<OrderApplyRefundBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.REFUND_ORDER_INFO, result.getData());
+                        } else {
+                            sendData(Constants.REFUND_ORDER_INFO, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.REFUND_ORDER_INFO, msg == null ? "评价失败" : msg);
+                    }
+                })
+        );
+    }
+
     /*获取该订单下可评价商品列表*/
     protected void sendEvaluate(String json, Map<String, RequestBody> files) {
         addDisposable(apiService.sendEvaluate(json, files)
@@ -66,15 +179,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData("SEND_EVALUATE", "success");
+                            sendData(Constants.SEND_EVALUATE, "success");
                         } else {
-                            sendData("SEND_EVALUATE", result.getMessage());
+                            sendData(Constants.SEND_EVALUATE, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("SEND_EVALUATE", msg == null ? "评价失败" : msg);
+                        sendData(Constants.SEND_EVALUATE, msg == null ? "评价失败" : msg);
                     }
                 })
         );
@@ -88,15 +201,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<OrderEvaluateBean> result) {
                         if (result.isSuccess()) {
-                            sendData("ORDER_EVALUATE_LIST", result.getData());
+                            sendData(Constants.ORDER_EVALUATE_LIST, result.getData());
                         } else {
-                            sendData("ORDER_EVALUATE_LIST", result.getMessage());
+                            sendData(Constants.SEND_EVALUATE, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("ORDER_EVALUATE_LIST", msg == null ? "获取失败" : msg);
+                        sendData(Constants.SEND_EVALUATE, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -112,15 +225,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData("addPdCash", "success");
+                            sendData(Constants.ADD_PDCASH, "success");
                         } else {
-                            sendData("addPdCash", result.getMessage());
+                            sendData(Constants.ADD_PDCASH, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("addPdCash", msg == null ? "获取失败" : msg);
+                        sendData(Constants.ADD_PDCASH, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -134,15 +247,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData("bindUserCode", "success");
+                            sendData(Constants.BIND_USER_CODE, "success");
                         } else {
-                            sendData("bindUserCode", result.getMessage());
+                            sendData(Constants.BIND_USER_CODE, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("bindUserCode", msg == null ? "获取失败" : msg);
+                        sendData(Constants.BIND_USER_CODE, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -156,15 +269,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<ReduceCashBean> result) {
                         if (result.isSuccess()) {
-                            sendData("REDUCE_CASH", result.getData());
+                            sendData(Constants.REDUCE_CASH, result.getData());
                         } else {
-                            sendData("REDUCE_CASH", result.getMessage());
+                            sendData(Constants.REDUCE_CASH, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("REDUCE_CASH", msg == null ? "获取失败" : msg);
+                        sendData(Constants.REDUCE_CASH, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -178,15 +291,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<MessageListBean> result) {
                         if (result.isSuccess()) {
-                            sendData("MESSAGE_LIST", result.getData());
+                            sendData(Constants.MESSAGE_LIST, result.getData());
                         } else {
-                            sendData("MESSAGE_LIST", result.getMessage());
+                            sendData(Constants.MESSAGE_LIST, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("MESSAGE_LIST", msg == null ? "获取失败" : msg);
+                        sendData(Constants.MESSAGE_LIST, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -200,15 +313,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData("DELETE_MESSAGE", "success");
+                            sendData(Constants.DELETE_MESSAGE, "success");
                         } else {
-                            sendData("DELETE_MESSAGE", result.getMessage());
+                            sendData(Constants.DELETE_MESSAGE, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("DELETE_MESSAGE", msg == null ? "获取失败" : msg);
+                        sendData(Constants.DELETE_MESSAGE, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -223,15 +336,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<ReturnInformation> result) {
                         if (result.isSuccess()) {
-                            sendData("RETURN_INFORMATION", result.getData());
+                            sendData(Constants.RETURN_INFORMATION, result.getData());
                         } else {
-                            sendData("RETURN_INFORMATION", result.getMessage());
+                            sendData(Constants.RETURN_INFORMATION, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("RETURN_INFORMATION", msg == null ? "获取失败" : msg);
+                        sendData(Constants.RETURN_INFORMATION, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -246,15 +359,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<RefundInformation> result) {
                         if (result.isSuccess()) {
-                            sendData("REFUND_INFORMATION", result.getData());
+                            sendData(Constants.REFUND_INFORMATION, result.getData());
                         } else {
-                            sendData("REFUND_INFORMATION", result.getMessage());
+                            sendData(Constants.REFUND_INFORMATION, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("REFUND_INFORMATION", msg == null ? "获取失败" : msg);
+                        sendData(Constants.REFUND_INFORMATION, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -268,15 +381,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<VipPointBean> result) {
                         if (result.isSuccess()) {
-                            sendData("VIP_POINT", result.getData());
+                            sendData(Constants.VIP_POINT, result.getData());
                         } else {
-                            sendData("VIP_POINT", result.getMessage());
+                            sendData(Constants.VIP_POINT, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("VIP_POINT", msg == null ? "获取失败" : msg);
+                        sendData(Constants.VIP_POINT, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -290,15 +403,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<VipPointListBean> result) {
                         if (result.isSuccess()) {
-                            sendData("VIP_POINT_LOG", result);
+                            sendData(Constants.VIP_POINT_LOG, result);
                         } else {
-                            sendData("VIP_POINT_LOG", result.getMessage());
+                            sendData(Constants.VIP_POINT_LOG, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("VIP_POINT_LOG", msg == null ? "获取失败" : msg);
+                        sendData(Constants.VIP_POINT_LOG, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -312,15 +425,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<PacketListBean> result) {
                         if (result.isSuccess()) {
-                            sendData("PACKET_LIST", result);
+                            sendData(Constants.PACKET_LIST, result);
                         } else {
-                            sendData("PACKET_LIST", result.getMessage());
+                            sendData(Constants.PACKET_LIST, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("PACKET_LIST", msg == null ? "获取失败" : msg);
+                        sendData(Constants.PACKET_LIST, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -335,15 +448,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData("COUPON_CHARGE", "success");
+                            sendData(Constants.COUPON_CHARGE, "success");
                         } else {
-                            sendData("COUPON_CHARGE", result.getMessage());
+                            sendData(Constants.COUPON_CHARGE, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("COUPON_CHARGE", msg == null ? "获取失败" : msg);
+                        sendData(Constants.COUPON_CHARGE, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -357,15 +470,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData("RCARD_CHARGE", "success");
+                            sendData(Constants.RCARD_CHARGE, "success");
                         } else {
-                            sendData("RCARD_CHARGE", result.getMessage());
+                            sendData(Constants.RCARD_CHARGE, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("RCARD_CHARGE", msg == null ? "获取失败" : msg);
+                        sendData(Constants.RCARD_CHARGE, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -379,15 +492,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData("PACKET_CHARGE", "success");
+                            sendData(Constants.PACKET_CHARGE, "success");
                         } else {
-                            sendData("PACKET_CHARGE", result.getMessage());
+                            sendData(Constants.PACKET_CHARGE, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("PACKET_CHARGE", msg == null ? "获取失败" : msg);
+                        sendData(Constants.PACKET_CHARGE, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -401,15 +514,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<RCardLogBean> result) {
                         if (result.isSuccess()) {
-                            sendData("RCCHARGE_LIST", result);
+                            sendData(Constants.RCCHARGE_LIST, result);
                         } else {
-                            sendData("RCCHARGE_LIST", result.getMessage());
+                            sendData(Constants.RCCHARGE_LIST, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("RCCHARGE_LIST", msg == null ? "获取失败" : msg);
+                        sendData(Constants.RCCHARGE_LIST, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -424,15 +537,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<RCardBalanceBean> result) {
                         if (result.isSuccess()) {
-                            sendData("RCBALANCE", result.getData());
+                            sendData(Constants.RCBALANCE, result.getData());
                         } else {
-                            sendData("RCBALANCE", result.getMessage());
+                            sendData(Constants.RCBALANCE, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("RCBALANCE", msg == null ? "获取失败" : msg);
+                        sendData(Constants.RCBALANCE, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -447,15 +560,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<CouponListBean> result) {
                         if (result.isSuccess()) {
-                            sendData("COUPONLISTBEAN", result);
+                            sendData(Constants.COUPONLISTBEAN, result);
                         } else {
-                            sendData("COUPONLISTBEAN", result.getMessage());
+                            sendData(Constants.COUPONLISTBEAN, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("COUPONLISTBEAN", msg == null ? "获取失败" : msg);
+                        sendData(Constants.COUPONLISTBEAN, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -469,15 +582,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<Predepoit> result) {
                         if (result.isSuccess()) {
-                            sendData("PREDEPOIT", result.getData());
+                            sendData(Constants.PREDEPOIT, result.getData());
                         } else {
-                            sendData("PREDEPOIT", result.getMessage());
+                            sendData(Constants.PREDEPOIT, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("PREDEPOIT", msg == null ? "获取失败" : msg);
+                        sendData(Constants.PREDEPOIT, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -491,15 +604,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<PredepoitLogBean> result) {
                         if (result.isSuccess()) {
-                            sendData("PREDPOSITLOG", result);
+                            sendData(Constants.PREDPOSITLOG, result);
                         } else {
-                            sendData("PREDPOSITLOG", result.getMessage());
+                            sendData(Constants.PREDPOSITLOG, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("PREDPOSITLOG", msg == null ? "获取失败" : msg);
+                        sendData(Constants.PREDPOSITLOG, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -513,15 +626,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<PdrechargeBean> result) {
                         if (result.isSuccess()) {
-                            sendData("PDRECHARGE", result);
+                            sendData(Constants.PDRECHARGE, result);
                         } else {
-                            sendData("PDRECHARGE", result.getMessage());
+                            sendData(Constants.PDRECHARGE, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("PDRECHARGE", msg == null ? "获取失败" : msg);
+                        sendData(Constants.PDRECHARGE, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -535,15 +648,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<PdcashBean> result) {
                         if (result.isSuccess()) {
-                            sendData("PDCASH", result);
+                            sendData(Constants.PDCASH, result);
                         } else {
-                            sendData("PDCASH", result.getMessage());
+                            sendData(Constants.PDCASH, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("PDCASH", msg == null ? "获取失败" : msg);
+                        sendData(Constants.PDCASH, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -557,15 +670,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<PdcashInfoBean> result) {
                         if (result.isSuccess()) {
-                            sendData("PDCASH_INFORMATION", result.getData());
+                            sendData(Constants.PDCASH_INFORMATION, result.getData());
                         } else {
-                            sendData("PDCASH_INFORMATION", result.getMessage());
+                            sendData(Constants.PDCASH_INFORMATION, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("PDCASH_INFORMATION", msg == null ? "获取失败" : msg);
+                        sendData(Constants.PDCASH_INFORMATION, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -580,15 +693,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<RefundBean> result) {
                         if (result.isSuccess()) {
-                            sendData("REFUND", result);
+                            sendData(Constants.REFUND, result);
                         } else {
-                            sendData("REFUND", result.getMessage());
+                            sendData(Constants.REFUND, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("REFUND", msg == null ? "获取失败" : msg);
+                        sendData(Constants.REFUND, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -603,15 +716,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<ReturnBean> result) {
                         if (result.isSuccess()) {
-                            sendData("RETURN", result);
+                            sendData(Constants.RETURN, result);
                         } else {
-                            sendData("RETURN", result.getMessage());
+                            sendData(Constants.RETURN, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("RETURN", msg == null ? "获取失败" : msg);
+                        sendData(Constants.RETURN, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -626,16 +739,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<VirtualInformationBean> result) {
                         if (result.isSuccess()) {
-                            sendData("VIRTUAL_ORDER_INFORMATION", result.getData());
+                            sendData(Constants.VIRTUAL_ORDER_INFORMATION, result.getData());
                         } else {
-                            sendData("VIRTUAL_ORDER_INFORMATION", result.getMessage());
+                            sendData(Constants.VIRTUAL_ORDER_INFORMATION, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("VIRTUAL_ORDER_INFORMATION", msg == null ? "获取失败" : msg);
+                        sendData(Constants.VIRTUAL_ORDER_INFORMATION, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -650,16 +763,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<VirtualStoreAddrsBean> result) {
                         if (result.isSuccess()) {
-                            sendData("VIRTUAL_ORDER_ADDRS", result.getData());
+                            sendData(Constants.VIRTUAL_ORDER_ADDRS, result.getData());
                         } else {
-                            sendData("VIRTUAL_ORDER_ADDRS", result.getMessage());
+                            sendData(Constants.VIRTUAL_ORDER_ADDRS, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("VIRTUAL_ORDER_ADDRS", msg == null ? "获取失败" : msg);
+                        sendData(Constants.VIRTUAL_ORDER_ADDRS, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -674,15 +787,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess())
-                            sendData(eventKey, "RECEVIE_ORDER", "success");
+                            sendData(eventKey, Constants.RECEVIE_ORDER, "success");
                         else
-                            sendData(eventKey, "RECEVIE_ORDER", result.getMessage());
+                            sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData(eventKey, "RECEVIE_ORDER", msg == null ? "确认收货失败" : msg);
+                        sendData(eventKey, Constants.RECEVIE_ORDER, msg == null ? "确认收货失败" : msg);
                     }
                 })
         );
@@ -697,15 +810,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess())
-                            sendData(eventKey, "REMOVE_ORDER", "success");
+                            sendData(eventKey, Constants.REMOVE_ORDER, "success");
                         else
-                            sendData(eventKey, "REMOVE_ORDER", result.getMessage());
+                            sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData(eventKey, "REMOVE_ORDER", msg == null ? "删除订单失败" : msg);
+                        sendData(eventKey, Constants.RECEVIE_ORDER, msg == null ? "删除订单失败" : msg);
                     }
                 })
         );
@@ -720,15 +833,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess())
-                            sendData(eventKey, "REMOVE_ORDER", "success");
+                            sendData(eventKey, Constants.RECEVIE_ORDER, "success");
                         else
-                            sendData(eventKey, "REMOVE_ORDER", result.getMessage());
+                            sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData(eventKey, "REMOVE_ORDER", msg == null ? "取消订单失败" : msg);
+                        sendData(eventKey, Constants.RECEVIE_ORDER, msg == null ? "取消订单失败" : msg);
                     }
                 })
         );
@@ -743,15 +856,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess())
-                            sendData(eventKey, "REMOVE_ORDER", "success");
+                            sendData(eventKey, Constants.RECEVIE_ORDER, "success");
                         else
-                            sendData(eventKey, "REMOVE_ORDER", result.getMessage());
+                            sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData(eventKey, "REMOVE_ORDER", msg == null ? "取消订单失败" : msg);
+                        sendData(eventKey, Constants.RECEVIE_ORDER, msg == null ? "取消订单失败" : msg);
                     }
                 })
         );
@@ -804,16 +917,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.getCode() == 200) {
-                            sendData("DEL_ADDRESS", "success");
+                            sendData(Constants.DEL_ADDRESS, "success");
                         } else {
-                            sendData("DEL_ADDRESS", result.getMessage());
+                            sendData(Constants.DEL_ADDRESS, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("DEL_ADDRESS", msg == null ? "删除失败" : msg);
+                        sendData(Constants.DEL_ADDRESS, msg == null ? "删除失败" : msg);
                     }
                 })
 
@@ -829,16 +942,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<AddressDataBean> response) {
                         if (response.isSuccess()) {
-                            sendData("GET_ADDRESS_LIST", response.getData());
+                            sendData(Constants.ADDRESS_LIST, response.getData());
                         } else {
-                            sendData("GET_ADDRESS_LIST", response.getMessage());
+                            sendData(Constants.ADDRESS_LIST, response.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("GET_ADDRESS_LIST", msg == null ? "获取失败" : msg);
+                        sendData(Constants.ADDRESS_LIST, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -854,16 +967,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean baseNothingBean) {
                         if (baseNothingBean.getCode() == 200) {
-                            sendData("EDIT_ADDRESS", "success");
+                            sendData(Constants.EDIT_ADDRESS, "success");
                         } else {
-                            sendData("EDIT_ADDRESS", baseNothingBean.getMessage());
+                            sendData(Constants.EDIT_ADDRESS, baseNothingBean.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("EDIT_ADDRESS", msg == null ? "保存失败" : msg);
+                        sendData(Constants.EDIT_ADDRESS, msg == null ? "保存失败" : msg);
                     }
 
                     @Override
@@ -884,16 +997,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean baseNothingBean) {
                         if (baseNothingBean.getCode() == 200) {
-                            sendData("EDIT_ADDRESS", "success");
+                            sendData(Constants.EDIT_ADDRESS, "success");
                         } else {
-                            sendData("EDIT_ADDRESS", baseNothingBean.getMessage());
+                            sendData(Constants.EDIT_ADDRESS, baseNothingBean.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("EDIT_ADDRESS", msg == null ? "保存失败" : msg);
+                        sendData(Constants.EDIT_ADDRESS, msg == null ? "保存失败" : msg);
                     }
 
                     @Override
@@ -913,15 +1026,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<CityBean> response) {
                         if (response.isSuccess())
-                            sendData("GET_CITY_LIST", response.getData());
+                            sendData(Constants.CITY_LIST, response.getData());
                         else
-                            sendData("GET_CITY_LIST", response.getMessage());
+                            sendData(Constants.CITY_LIST, response.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("GET_CITY_LIST", msg == null ? "获取失败" : msg);
+                        sendData(Constants.CITY_LIST, msg == null ? "获取失败" : msg);
                     }
 
                     @Override
@@ -937,21 +1050,20 @@ public class MeRepository extends BaseRepository {
         addDisposable(apiService.clearnFootprint(getUserKey(), "android")
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
-                                   @Override
-                                   public void onSuccess(BaseNothingBean result) {
-                                       if (result.isSuccess())
-                                           sendData("CLEAR_FOOTPRINT", "success");
-                                       else
-                                           sendData("CLEAR_FOOTPRINT", result.getMessage());
-                                   }
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess())
+                            sendData(Constants.CLEAR_FOOTPRINT, "success");
+                        else
+                            sendData(Constants.CLEAR_FOOTPRINT, result.getMessage());
+                    }
 
-                                   @Override
-                                   public void onFailure(String msg) {
-                                       KLog.i(msg);
-                                       sendData("CLEAR_FOOTPRINT", msg == null ? "清空失败" : msg);
-                                   }
-                               }
-                )
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(Constants.CLEAR_FOOTPRINT, msg == null ? "清空失败" : msg);
+                    }
+                })
         );
     }
 
@@ -960,21 +1072,20 @@ public class MeRepository extends BaseRepository {
         addDisposable(apiService.getFootprint(getUserKey(), 10, curPage)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<FootprintBean>>() {
-                                   @Override
-                                   public void onSuccess(BaseResponse<FootprintBean> result) {
-                                       if (result.isSuccess())
-                                           sendData("GET_FOOTPRINT", result);
-                                       else
-                                           sendData("GET_FOOTPRINT", result.getMessage());
-                                   }
+                    @Override
+                    public void onSuccess(BaseResponse<FootprintBean> result) {
+                        if (result.isSuccess())
+                            sendData(Constants.GET_FOOTPRINT, result);
+                        else
+                            sendData(Constants.GET_FOOTPRINT, result.getMessage());
+                    }
 
-                                   @Override
-                                   public void onFailure(String msg) {
-                                       KLog.i(msg);
-                                       sendData("GET_FOOTPRINT", msg == null ? "获取失败" : msg);
-                                   }
-                               }
-                )
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(Constants.GET_FOOTPRINT, msg == null ? "获取失败" : msg);
+                    }
+                })
         );
     }
 
@@ -986,21 +1097,20 @@ public class MeRepository extends BaseRepository {
         addDisposable(apiService.getUserInfo(getUserKey())
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<MyInfoBean>>() {
-                                   @Override
-                                   public void onSuccess(BaseResponse<MyInfoBean> result) {
-                                       if (result.isSuccess())
-                                           sendData("GET_USER_INFO", result.getData());
-                                       else
-                                           sendData("GET_USER_INFO", result.getMessage());
-                                   }
+                    @Override
+                    public void onSuccess(BaseResponse<MyInfoBean> result) {
+                        if (result.isSuccess())
+                            sendData(Constants.GET_USER_INFO, result.getData());
+                        else
+                            sendData(Constants.GET_USER_INFO, result.getMessage());
+                    }
 
-                                   @Override
-                                   public void onFailure(String msg) {
-                                       KLog.i(msg);
-                                       sendData("GET_USER_INFO", msg == null ? "获取失败" : msg);
-                                   }
-                               }
-                )
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(Constants.GET_USER_INFO, msg == null ? "获取失败" : msg);
+                    }
+                })
         );
     }
 
@@ -1009,22 +1119,21 @@ public class MeRepository extends BaseRepository {
         addDisposable(apiService.getPayPwdInfo(getUserKey())
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<BaseCheckBean>>() {
-                                   @Override
-                                   public void onSuccess(BaseResponse<BaseCheckBean> result) {
-                                       if (result.isSuccess()) {
-                                           sendData("USER_PAYPWD_INFO", result.getData());
-                                       } else {
-                                           sendData("Err_USER_INFO", result.getMessage());
-                                       }
-                                   }
+                    @Override
+                    public void onSuccess(BaseResponse<BaseCheckBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.USER_PAYPWD_INFO, result.getData());
+                        } else {
+                            sendData(Constants.GET_USER_INFO, result.getMessage());
+                        }
+                    }
 
-                                   @Override
-                                   public void onFailure(String msg) {
-                                       KLog.i(msg);
-                                       sendData("Err_USER_INFO", msg);
-                                   }
-                               }
-                )
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(Constants.GET_USER_INFO, msg);
+                    }
+                })
         );
     }
 
@@ -1033,21 +1142,20 @@ public class MeRepository extends BaseRepository {
         addDisposable(apiService.getPhoneInfo(getUserKey())
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<BaseCheckBean>>() {
-                                   @Override
-                                   public void onSuccess(BaseResponse<BaseCheckBean> result) {
-                                       if (result.isSuccess()) {
-                                           sendData("USER_PHONE_INFO", result.getData());
-                                       } else {
-                                           sendData("Err_USER_INFO", result.getMessage());
-                                       }
-                                   }
+                    @Override
+                    public void onSuccess(BaseResponse<BaseCheckBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.USER_PHONE_INFO, result.getData());
+                        } else {
+                            sendData(Constants.Err_USER_INFO, result.getMessage());
+                        }
+                    }
 
-                                   @Override
-                                   public void onFailure(String msg) {
-                                       sendData("Err_USER_INFO", msg);
-                                   }
-                               }
-                )
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.GET_USER_INFO, msg);
+                    }
+                })
         );
     }
 
@@ -1056,23 +1164,22 @@ public class MeRepository extends BaseRepository {
         addDisposable(apiService.getMyAsset(getUserKey())
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<PropertyBean>>() {
-                                   @Override
-                                   public void onSuccess(BaseResponse<PropertyBean> result) {
-                                       if (result.isSuccess()) {
-                                           sendData("MY_ASSET", result.getData());
-                                       } else {
-                                           sendData("MY_ASSET", result.getMessage());
-                                       }
+                    @Override
+                    public void onSuccess(BaseResponse<PropertyBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.MY_ASSET, result.getData());
+                        } else {
+                            sendData(Constants.MY_ASSET, result.getMessage());
+                        }
 
-                                   }
+                    }
 
-                                   @Override
-                                   public void onFailure(String msg) {
-                                       KLog.i(msg);
-                                       sendData("MY_ASSET", msg == null ? "获取失败" : msg);
-                                   }
-                               }
-                )
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(Constants.MY_ASSET, msg == null ? "获取失败" : msg);
+                    }
+                })
         );
     }
 
@@ -1084,15 +1191,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<BaseIntDatasBean> result) {
                         if (result.isSuccess()) {
-                            sendData("SEND_FEEDBACK", "success");
+                            sendData(Constants.SEND_FEEDBACK, "success");
                         } else {
-                            sendData("SEND_FEEDBACK", result.getMessage());
+                            sendData(Constants.SEND_FEEDBACK, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("SEND_FEEDBACK", msg == null ? "反馈失败" : msg);
+                        sendData(Constants.SEND_FEEDBACK, msg == null ? "反馈失败" : msg);
                     }
 
                 })
@@ -1107,16 +1214,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<ShopsCollectionBean> result) {
                         if (result.isSuccess()) {
-                            sendData("SHOPS_COLLECT_LIST", result);
+                            sendData(Constants.SHOPS_COLLECT_LIST, result);
                         } else {
-                            sendData("SHOPS_COLLECT_LIST", result.getMessage());
+                            sendData(Constants.SHOPS_COLLECT_LIST, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("SHOPS_COLLECT_LIST", msg == null ? "获取失败" : msg);
+                        sendData(Constants.SHOPS_COLLECT_LIST, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -1130,16 +1237,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData("DEL_SHOP_COLLECT", "success");
+                            sendData(Constants.DEL_SHOP_COLLECT, "success");
                         } else {
-                            sendData("DEL_SHOP_COLLECT", result.getMessage());
+                            sendData(Constants.DEL_SHOP_COLLECT, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("DEL_SHOP_COLLECT", msg == null ? "删除失败" : msg);
+                        sendData(Constants.DEL_SHOP_COLLECT, msg == null ? "删除失败" : msg);
                     }
                 })
         );
@@ -1153,16 +1260,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData("DEL_GOODS_COLLECT", "success");
+                            sendData(Constants.DEL_GOODS_COLLECT, "success");
                         } else {
-                            sendData("DEL_GOODS_COLLECT", result.getMessage());
+                            sendData(Constants.DEL_GOODS_COLLECT, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("DEL_GOODS_COLLECT", msg == null ? "删除失败" : msg);
+                        sendData(Constants.DEL_GOODS_COLLECT, msg == null ? "删除失败" : msg);
                     }
                 })
         );
@@ -1173,22 +1280,21 @@ public class MeRepository extends BaseRepository {
         addDisposable(apiService.getProductCollectList(getUserKey(), curpage, 10)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ProductCollectionBean>>() {
-                                   @Override
-                                   public void onSuccess(BaseResponse<ProductCollectionBean> result) {
-                                       if (result.isSuccess()) {
-                                           sendData("PRODUCT_COLLECT_LIST", result);
-                                       } else {
-                                           sendData("PRODUCT_COLLECT_LIST", result.getMessage());
-                                       }
-                                   }
+                    @Override
+                    public void onSuccess(BaseResponse<ProductCollectionBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.PRODUCT_COLLECT_LIST, result);
+                        } else {
+                            sendData(Constants.PRODUCT_COLLECT_LIST, result.getMessage());
+                        }
+                    }
 
-                                   @Override
-                                   public void onFailure(String msg) {
-                                       KLog.i(msg);
-                                       sendData("PRODUCT_COLLECT_LIST", msg == null ? "获取失败" : msg);
-                                   }
-                               }
-                )
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(Constants.PRODUCT_COLLECT_LIST, msg == null ? "获取失败" : msg);
+                    }
+                })
         );
     }
 
@@ -1226,15 +1332,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<OrderInformationBean> result) {
                         if (result.isSuccess()) {
-                            sendData("PHYSICAL_ORDER_INFORMATION", result.getData());
+                            sendData(Constants.PHYSICAL_ORDER_INFORMATION, result.getData());
                         } else {
-                            sendData("PHYSICAL_ORDER_INFORMATION", result.getMessage());
+                            sendData(Constants.PHYSICAL_ORDER_INFORMATION, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("PHYSICAL_ORDER_INFORMATION", msg == null ? "获取失败" : msg);
+                        sendData(Constants.PHYSICAL_ORDER_INFORMATION, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -1249,15 +1355,15 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<OrderDeliverBean> result) {
                         if (result.isSuccess()) {
-                            sendData("ORDER_DELIVER_INFORMATION", result.getData());
+                            sendData(Constants.ORDER_DELIVER_INFORMATION, result.getData());
                         } else {
-                            sendData("ORDER_DELIVER_INFORMATION", result.getMessage());
+                            sendData(Constants.ORDER_DELIVER_INFORMATION, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("ORDER_DELIVER_INFORMATION", msg == null ? "获取失败" : msg);
+                        sendData(Constants.ORDER_DELIVER_INFORMATION, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -1272,16 +1378,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<OrderDeliverListBean> result) {
                         if (result.isSuccess()) {
-                            sendData("ORDER_DELIVER_LIST", result.getData());
+                            sendData(Constants.ORDER_DELIVER_LIST, result.getData());
                         } else {
-                            sendData("ORDER_DELIVER_LIST", result.getMessage());
+                            sendData(Constants.ORDER_DELIVER_LIST, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("ORDER_DELIVER_LIST", msg == null ? "获取失败" : msg);
+                        sendData(Constants.ORDER_DELIVER_LIST, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -1308,7 +1414,6 @@ public class MeRepository extends BaseRepository {
                     }
                 })
         );
-
     }
 
 }

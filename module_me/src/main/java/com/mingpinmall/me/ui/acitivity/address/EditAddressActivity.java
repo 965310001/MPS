@@ -17,6 +17,7 @@ import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityEditaddressBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：编辑 / 新增 收货地址
@@ -132,25 +133,18 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
 
     @Override
     protected void dataObserver() {
-        registerObserver("EDIT_ADDRESS", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            //保存成功
-                            progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                                @Override
-                                public void onDismiss() {
-                                    setResult(100);
-                                    finish();
-                                }
-                            });
-                        } else {
-                            //保存失败
-                            progressDialog.onFail(msg);
-                        }
-                    }
+        registerObserver(Constants.EDIT_ADDRESS, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                //保存成功
+                progressDialog.onComplete("", () -> {
+                    setResult(100);
+                    finish();
                 });
+            } else {
+                //保存失败
+                progressDialog.onFail(msg);
+            }
+        });
     }
 
     @Override

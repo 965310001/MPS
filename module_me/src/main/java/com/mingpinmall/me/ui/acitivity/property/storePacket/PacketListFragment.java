@@ -20,6 +20,7 @@ import com.mingpinmall.me.databinding.BaseRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.PacketListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.PacketListBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -81,25 +82,17 @@ public class PacketListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("REFRESH_COUPON", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                lazyLoad();
-            }
-        });
-        registerObserver("PACKET_LIST", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof String) {
-                    ToastUtils.showShort(result.toString());
-                    if (isLoadmore) {
-                        binding.refreshLayout.finishLoadMore(false);
-                    } else {
-                        binding.refreshLayout.finishRefresh(false);
-                    }
+        registerObserver("REFRESH_COUPON", String.class).observeForever(s -> lazyLoad());
+        registerObserver(Constants.PACKET_LIST, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                if (isLoadmore) {
+                    binding.refreshLayout.finishLoadMore(false);
                 } else {
-                    formatData((BaseResponse<PacketListBean>) result);
+                    binding.refreshLayout.finishRefresh(false);
                 }
+            } else {
+                formatData((BaseResponse<PacketListBean>) result);
             }
         });
     }

@@ -18,6 +18,7 @@ import com.mingpinmall.me.ui.adapter.RCardLogAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.RCardBalanceBean;
 import com.mingpinmall.me.ui.bean.RCardLogBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -69,47 +70,36 @@ public class CardSurplusLogFragment extends AbsLifecycleFragment<FragmentCardLog
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("REFRESH_RCARD", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String result) {
-                lazyLoad();
+        registerObserver("REFRESH_RCARD", String.class).observeForever(result -> lazyLoad());
+        registerObserver(Constants.RCBALANCE, Object.class).observeForever(result -> {
+            if (result instanceof RCardBalanceBean) {
+                RCardBalanceBean data = (RCardBalanceBean) result;
+                binding.tvSurplus.setText(data.getAvailable_rc_balance());
+            } else {
+                ToastUtils.showShort(result.toString());
             }
         });
-        registerObserver("RCBALANCE", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof RCardBalanceBean) {
-                    RCardBalanceBean data = (RCardBalanceBean) result;
-                    binding.tvSurplus.setText(data.getAvailable_rc_balance());
+        registerObserver(Constants.RCCHARGE_LIST, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                if (isLoadmore) {
+                    binding.refreshLayout.finishLoadMore(false);
                 } else {
-                    ToastUtils.showShort(result.toString());
+                    binding.refreshLayout.finishRefresh(false);
                 }
-            }
-        });
-        registerObserver("RCCHARGE_LIST", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof String) {
-                    ToastUtils.showShort(result.toString());
-                    if (isLoadmore) {
-                        binding.refreshLayout.finishLoadMore(false);
-                    } else {
-                        binding.refreshLayout.finishRefresh(false);
-                    }
+            } else {
+                BaseResponse<RCardLogBean> data = (BaseResponse<RCardLogBean>) result;
+                if (isLoadmore) {
+                    binding.refreshLayout.finishLoadMore();
+                    pageIndex++;
+                    rCardLogAdapter.addData(data.getData().getLog_list());
                 } else {
-                    BaseResponse<RCardLogBean> data = (BaseResponse<RCardLogBean>) result;
-                    if (isLoadmore) {
-                        binding.refreshLayout.finishLoadMore();
-                        pageIndex++;
-                        rCardLogAdapter.addData(data.getData().getLog_list());
-                    } else {
-                        binding.refreshLayout.finishRefresh();
-                        pageIndex = 1;
-                        rCardLogAdapter.setNewData(data.getData().getLog_list());
-                    }
-                    if (!data.isHasmore()) {
-                        binding.refreshLayout.setNoMoreData(true);
-                    }
+                    binding.refreshLayout.finishRefresh();
+                    pageIndex = 1;
+                    rCardLogAdapter.setNewData(data.getData().getLog_list());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

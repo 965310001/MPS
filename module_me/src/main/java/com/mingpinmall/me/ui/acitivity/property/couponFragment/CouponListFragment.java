@@ -21,6 +21,7 @@ import com.mingpinmall.me.databinding.BaseRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.CouponListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.CouponListBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -84,25 +85,17 @@ public class CouponListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("REFRESH_COUPON", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                lazyLoad();
-            }
-        });
-        registerObserver("COUPONLISTBEAN", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof String) {
-                    ToastUtils.showShort(result.toString());
-                    if (isLoadmore) {
-                        binding.refreshLayout.finishLoadMore(false);
-                    } else {
-                        binding.refreshLayout.finishRefresh(false);
-                    }
-                }else {
-                    formatData((BaseResponse<CouponListBean>) result);
+        registerObserver("REFRESH_COUPON", String.class).observeForever(s -> lazyLoad());
+        registerObserver(Constants.COUPONLISTBEAN, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                if (isLoadmore) {
+                    binding.refreshLayout.finishLoadMore(false);
+                } else {
+                    binding.refreshLayout.finishRefresh(false);
                 }
+            }else {
+                formatData((BaseResponse<CouponListBean>) result);
             }
         });
     }

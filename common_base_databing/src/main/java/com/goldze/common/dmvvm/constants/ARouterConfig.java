@@ -7,6 +7,9 @@ package com.goldze.common.dmvvm.constants;
  */
 public interface ARouterConfig {
 
+    Object REFRESH_DATA = "REFRESH_DATA";
+    Object LOGIN_SUCCESS = "LOGIN_SUCCESS";
+    Object LOGIN_OUT = "LOGIN_OUT";
 
     enum ARouterType {
         LOGINACTIVITY(ARouterConfig.LOGINACTIVITY),//登录
@@ -131,6 +134,15 @@ public interface ARouterConfig {
 
         //退换货
         String REFUNDACTIVITY = "/me/RefundActivity";
+
+        //订单退款
+        String ORDERREFUNDACTIVITY = "/me/OrderRefundActivity";
+
+        //商品退款
+        String APPLYREFUNDACTIVITY = "/me/ApplyRefundActivity";
+
+        //商品退货
+        String APPLYRETURNACTIVITY = "/me/ApplyReturnActivity";
 
         //退款详情
         String REFUNDORDERINFORMATION = "/me/RefundOrderInformationActivity";

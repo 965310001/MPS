@@ -31,6 +31,7 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.bean.VirtualInformationBean;
 import com.mingpinmall.me.ui.bean.VirtualStoreAddrsBean;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：订单详情
@@ -82,44 +83,32 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
 
     @Override
     protected void dataObserver() {
-        registerObserver("VIRTUAL_ORDER_INFORMATION", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof VirtualInformationBean) {
-                            VirtualInformationBean resultData = (VirtualInformationBean) result;
-                            data = resultData.getOrder_info();
-                            mViewModel.getVitrualOrderStoreAddrs(data.getStore_id());
-                            showDataInfo();
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
-        registerObserver("VIRTUAL_ORDER_ADDRS", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof VirtualStoreAddrsBean) {
-                            VirtualStoreAddrsBean resultData = (VirtualStoreAddrsBean) result;
-                            addrsAdapter.setNewData(resultData.getAddr_list());
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
-        registerObserver(EVENT_KEY_CANCEL, "RECEVIE_ORDER", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            setResult(100);
-                            finish();
-                        } else {
-                            ToastUtils.showShort(msg);
-                        }
-                    }
-                });
+        registerObserver(Constants.VIRTUAL_ORDER_INFORMATION, Object.class).observeForever(result -> {
+            if (result instanceof VirtualInformationBean) {
+                VirtualInformationBean resultData = (VirtualInformationBean) result;
+                data = resultData.getOrder_info();
+                mViewModel.getVitrualOrderStoreAddrs(data.getStore_id());
+                showDataInfo();
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
+        registerObserver(Constants.VIRTUAL_ORDER_ADDRS, Object.class).observeForever(result -> {
+            if (result instanceof VirtualStoreAddrsBean) {
+                VirtualStoreAddrsBean resultData = (VirtualStoreAddrsBean) result;
+                addrsAdapter.setNewData(resultData.getAddr_list());
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
+        registerObserver(EVENT_KEY_CANCEL, "RECEVIE_ORDER", String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                setResult(100);
+                finish();
+            } else {
+                ToastUtils.showShort(msg);
+            }
+        });
     }
 
     /**

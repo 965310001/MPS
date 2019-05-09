@@ -22,6 +22,7 @@ import com.mingpinmall.me.databinding.ActivityMessageBinding;
 import com.mingpinmall.me.ui.adapter.MessageListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.MessageListBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -92,28 +93,22 @@ public class MessageActivity extends AbsLifecycleActivity<ActivityMessageBinding
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("MESSAGE_LIST", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof MessageListBean) {
-                    MessageListBean bean = (MessageListBean) result;
-                    binding.refreshLayout.finishRefresh();
-                    listAdapter.setNewData(bean.getList());
-                } else {
-                    binding.refreshLayout.finishRefresh(false);
-                    ToastUtils.showShort(result.toString());
-                }
-
+        registerObserver(Constants.MESSAGE_LIST, Object.class).observeForever(result -> {
+            if (result instanceof MessageListBean) {
+                MessageListBean bean = (MessageListBean) result;
+                binding.refreshLayout.finishRefresh();
+                listAdapter.setNewData(bean.getList());
+            } else {
+                binding.refreshLayout.finishRefresh(false);
+                ToastUtils.showShort(result.toString());
             }
+
         });
-        registerObserver("DELETE_MESSAGE", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                if (msg.equals("success")) {
-                    initData();
-                } else {
-                    ToastUtils.showShort(msg);
-                }
+        registerObserver(Constants.DELETE_MESSAGE, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                initData();
+            } else {
+                ToastUtils.showShort(msg);
             }
         });
     }

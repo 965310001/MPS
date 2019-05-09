@@ -22,6 +22,7 @@ import com.mingpinmall.me.ui.adapter.PropertyItemAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
 import com.mingpinmall.me.ui.bean.PropertyBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.SettingItemView;
 
 import java.util.ArrayList;
@@ -62,17 +63,13 @@ public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBindi
 
     @Override
     protected void dataObserver() {
-        registerObserver("MY_ASSET", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof PropertyBean) {
-                            setData((PropertyBean) result);
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
+        registerObserver(Constants.MY_ASSET, Object.class).observeForever(result -> {
+            if (result instanceof PropertyBean) {
+                setData((PropertyBean) result);
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
     }
 
     private void setData(PropertyBean propertyBean) {

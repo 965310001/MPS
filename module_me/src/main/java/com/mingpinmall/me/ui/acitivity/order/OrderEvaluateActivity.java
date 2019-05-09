@@ -16,12 +16,14 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityOrderevaluateBinding;
 import com.mingpinmall.me.ui.adapter.OrderEvaluateAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
-import com.mingpinmall.me.ui.bean.BaseSelectPhotos;
+import com.goldze.common.dmvvm.base.bean.BaseSelectPhotos;
 import com.mingpinmall.me.ui.bean.OrderEvaluateBean;
+import com.mingpinmall.me.ui.constants.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,6 +47,7 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
     @Autowired
     String id;
 
+    private ProgressDialog progressDialog;
     private OrderEvaluateAdapter evaluateAdapter;
     private List<OrderEvaluateBean.OrderGoodsBean> data;
 
@@ -53,10 +56,12 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
         super.initViews(savedInstanceState);
         ARouter.getInstance().inject(this);
         setTitle(R.string.title_OrderEvaluateActivity);
+        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         evaluateAdapter = new OrderEvaluateAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recyclerView.setAdapter(evaluateAdapter);
         binding.btnSubmit.setOnClickListener(this);
+
     }
 
     @Override
@@ -66,6 +71,7 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
             //提交评价
             Log.i("点击", "onViewClicked: ----------");
             try {
+                progressDialog.onLoading("");
                 String key = ((UserBean) SharePreferenceUtil.getUser(UserBean.class)).getKey();
                 JSONObject jsonObject = new JSONObject();
                 JSONObject jsonObject1 = new JSONObject();
@@ -119,7 +125,7 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("ORDER_EVALUATE_LIST", Object.class).observeForever(result -> {
+        registerObserver(Constants.ORDER_EVALUATE_LIST, Object.class).observeForever(result -> {
             //可评价商品列表
             if (result instanceof OrderEvaluateBean) {
                 //获取成功
@@ -128,6 +134,16 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
             } else {
                 //获取失败
                 ToastUtils.showShort(result.toString());
+            }
+        });
+        registerObserver(Constants.SEND_EVALUATE, String.class).observeForever(s -> {
+            if (s.equals("success")) {
+                progressDialog.onComplete("", () -> {
+                    setResult(100);
+                    finish();
+                });
+            } else {
+                progressDialog.onFail(s);
             }
         });
     }

@@ -110,31 +110,18 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
 
     @Override
     protected void dataObserver() {
-        LiveBus.getDefault().subscribe("LoginSuccess").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object isLogin) {
-                mViewModel.getUserInfo();
-            }
-        });
+        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_SUCCESS).observeForever(isLogin -> mViewModel.getUserInfo());
 
-        LiveBus.getDefault().subscribe("LOGIN_OUT").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object isLogin) {
-                clearnDatas();
-            }
-        });
+        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_OUT).observeForever(isLogin -> clearnDatas());
 
-        registerObserver("GET_USER_INFO", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof String) {
-                    binding.refreshLayout.finishRefresh(false);
-                } else {
-                    binding.refreshLayout.finishRefresh();
-                    MyInfoBean myInfoBean = (MyInfoBean) result;
-                    setNewData(myInfoBean);
-                    SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
-                }
+        registerObserver(Constants.GET_USER_INFO, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                binding.refreshLayout.finishRefresh(false);
+            } else {
+                binding.refreshLayout.finishRefresh();
+                MyInfoBean myInfoBean = (MyInfoBean) result;
+                setNewData(myInfoBean);
+                SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
             }
         });
     }

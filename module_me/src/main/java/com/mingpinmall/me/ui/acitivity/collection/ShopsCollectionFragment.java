@@ -23,6 +23,7 @@ import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.ShopsCollectionAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -107,44 +108,36 @@ public class ShopsCollectionFragment extends AbsLifecycleFragment<FragmentDefaul
 
     @Override
     protected void dataObserver() {
-        registerObserver("DEL_SHOP_COLLECT", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            lazyLoad();
-                        } else {
-                            ToastUtils.showShort(msg);
-                        }
-                    }
-                });
-        registerObserver("SHOPS_COLLECT_LIST", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof String) {
-                            ToastUtils.showShort(result.toString());
-                            if (isLoadmore)
-                                binding.refreshLayout.finishLoadMore(false);
-                            else
-                                binding.refreshLayout.finishRefresh(false);
-                        } else {
-                            BaseResponse<ShopsCollectionBean> data = (BaseResponse<ShopsCollectionBean>) result;
-                            if (isLoadmore) {
-                                pageIndex++;
-                                binding.refreshLayout.finishLoadMore();
-                                collectionAdapter.addData(data.getData().getFavorites_list());
-                            } else {
-                                pageIndex = 1;
-                                binding.refreshLayout.finishRefresh();
-                                collectionAdapter.setNewData(data.getData().getFavorites_list());
-                            }
-                            if (!data.isHasmore()) {
-                                binding.refreshLayout.setNoMoreData(true);
-                            }
-                        }
-                    }
-                });
+        registerObserver(Constants.DEL_SHOP_COLLECT, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                lazyLoad();
+            } else {
+                ToastUtils.showShort(msg);
+            }
+        });
+        registerObserver(Constants.SHOPS_COLLECT_LIST, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                if (isLoadmore)
+                    binding.refreshLayout.finishLoadMore(false);
+                else
+                    binding.refreshLayout.finishRefresh(false);
+            } else {
+                BaseResponse<ShopsCollectionBean> data = (BaseResponse<ShopsCollectionBean>) result;
+                if (isLoadmore) {
+                    pageIndex++;
+                    binding.refreshLayout.finishLoadMore();
+                    collectionAdapter.addData(data.getData().getFavorites_list());
+                } else {
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    collectionAdapter.setNewData(data.getData().getFavorites_list());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.setNoMoreData(true);
+                }
+            }
+        });
     }
 
     @Override

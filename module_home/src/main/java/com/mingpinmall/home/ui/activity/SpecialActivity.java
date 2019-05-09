@@ -23,6 +23,7 @@ import com.mingpinmall.home.ui.adapter.RVBannerPagerClickListener;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.bean.SpecialPageBean;
+import com.mingpinmall.home.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -46,7 +47,7 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        setTitle("专题");
+        setTitle("");
         listAdapter = new HomeListAdapter();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 4);
@@ -231,17 +232,14 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("SPECIAL_LIST", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object o) {
-                if (o instanceof SpecialPageBean) {
-                    binding.refreshLayout.finishRefresh();
-                    SpecialPageBean result = (SpecialPageBean) o;
-                    listAdapter.setNewData(formatDatas(result.getList()));
-                } else {
-                    ToastUtils.showShort(o.toString());
-                    binding.refreshLayout.finishRefresh(false);
-                }
+        registerObserver(Constants.SPECIAL_LIST, Object.class).observeForever(o -> {
+            if (o instanceof SpecialPageBean) {
+                binding.refreshLayout.finishRefresh();
+                SpecialPageBean result = (SpecialPageBean) o;
+                listAdapter.setNewData(formatDatas(result.getList()));
+            } else {
+                ToastUtils.showShort(o.toString());
+                binding.refreshLayout.finishRefresh(false);
             }
         });
     }

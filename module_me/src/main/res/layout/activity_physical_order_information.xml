@@ -281,7 +281,7 @@
                             android:id="@+id/line"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/line_hight"
-                            android:background="@color/dark"
+                            android:background="@color/line_color"
                             app:layout_constraintBottom_toTopOf="@id/recyclerView"
                             app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                             app:layout_constraintStart_toStartOf="@id/ll_shopContent"
@@ -531,6 +531,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="发货时间：2019-04-16 14:48:11" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_order_finishTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="完成时间：2019-04-16 14:48:11" />
 
                 </LinearLayout>
 

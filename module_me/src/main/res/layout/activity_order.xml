@@ -51,10 +51,10 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <com.goldze.common.dmvvm.widget.NoScrollViewPager
-            android:id="@+id/viewPager"
+        <FrameLayout
+            android:id="@+id/fl_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 </layout>

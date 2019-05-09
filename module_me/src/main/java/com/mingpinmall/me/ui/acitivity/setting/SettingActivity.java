@@ -28,6 +28,7 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
 import com.goldze.common.dmvvm.base.bean.UserBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.SettingItemView;
 
 import java.util.ArrayList;
@@ -83,42 +84,23 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
 
     @Override
     protected void dataObserver() {
-        registerObserver("USER_PAYPWD_INFO", BaseCheckBean.class)
-                .observeForever(new Observer<BaseCheckBean>() {
-                    @Override
-                    public void onChanged(@Nullable BaseCheckBean result) {
-                        settingAdapter.getData().get(2).setSubTitle(result.isState() ? "已验证" : "未验证");
-                        settingAdapter.notifyDataSetChanged();
-                    }
-                });
-        registerObserver("USER_PHONE_INFO", BaseCheckBean.class)
-                .observeForever(new Observer<BaseCheckBean>() {
-                    @Override
-                    public void onChanged(@Nullable BaseCheckBean result) {
-                        checkPhoneState = result;
-                        settingAdapter.getData().get(1).setSubTitle(result.isState() ? result.getMobile() : "未绑定");
-                        settingAdapter.notifyDataSetChanged();
-                    }
-                });
-        registerObserver("Err_USER_INFO", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String result) {
-                        TextDialog.showBaseDialog(activity, "获取内容失败", result, new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                onBackPressed();
-                            }
-                        });
-                    }
-                });
-        registerObserver("Refresh_Data", "SettingActivity")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        initData();
-                    }
-                });
+        registerObserver(Constants.USER_PAYPWD_INFO, BaseCheckBean.class).observeForever(result -> {
+            settingAdapter.getData().get(2).setSubTitle(result.isState() ? "已验证" : "未验证");
+            settingAdapter.notifyDataSetChanged();
+        });
+        registerObserver(Constants.USER_PHONE_INFO, BaseCheckBean.class).observeForever(result -> {
+            checkPhoneState = result;
+            settingAdapter.getData().get(1).setSubTitle(result.isState() ? result.getMobile() : "未绑定");
+            settingAdapter.notifyDataSetChanged();
+        });
+        registerObserver(Constants.Err_USER_INFO, String.class).observeForever(result -> TextDialog.showBaseDialog(activity, "获取内容失败", result, new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                onBackPressed();
+            }
+        }));
+        registerObserver(ARouterConfig.REFRESH_DATA, "SettingActivity")
+                .observeForever(o -> initData());
     }
 
     /**
@@ -204,14 +186,11 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                     case 6:
                         //退出登录
                         TextDialog.showBaseDialog(activity, "登出提示", getString(R.string.text_isLoginOut),
-                                new TextDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick() {
-                                        LiveBus.getDefault().postEvent("LOGIN_OUT", true);
-                                        SharePreferenceUtil.saveUser(null);
-                                        SharePreferenceUtil.saveKeyValue("UserPhone", "");
-                                        finish();
-                                    }
+                                () -> {
+                                    LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_OUT, true);
+                                    SharePreferenceUtil.saveUser(null);
+                                    SharePreferenceUtil.saveKeyValue("UserPhone", "");
+                                    finish();
                                 })
                                 .show();
                 }

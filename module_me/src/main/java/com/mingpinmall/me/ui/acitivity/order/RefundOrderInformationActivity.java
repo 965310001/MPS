@@ -14,6 +14,7 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityRefundInformationBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.RefundInformation;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：退款单详情
@@ -36,18 +37,14 @@ public class RefundOrderInformationActivity extends AbsLifecycleActivity<Activit
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("REFUND_INFORMATION", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof RefundInformation) {
-                            RefundInformation data = (RefundInformation) result;
-                            binding.setData(data);
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
+        registerObserver(Constants.REFUND_INFORMATION, Object.class).observeForever(result -> {
+            if (result instanceof RefundInformation) {
+                RefundInformation data = (RefundInformation) result;
+                binding.setData(data);
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
     }
 
     @Override

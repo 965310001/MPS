@@ -23,6 +23,7 @@ import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.VirtualOrderListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.VirtualOrderBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -148,43 +149,36 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
 
     @Override
     protected void dataObserver() {
-        registerObserver(EVENT_KEY, "REMOVE_ORDER", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            //操作成功后刷新列表
-                            lazyLoad();
-                        } else {
-                            //操作失败
-                            ToastUtils.showShort(msg);
-                        }
-                    }
-                });
-        registerObserver(EVENT_KEY, Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof String) {
-                    ToastUtils.showShort(result.toString());
-                    if (!isLoadmore) {
-                        binding.refreshLayout.finishRefresh(false);
-                    } else {
-                        binding.refreshLayout.finishLoadMore(false);
-                    }
+        registerObserver(EVENT_KEY, Constants.RECEVIE_ORDER, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                //操作成功后刷新列表
+                lazyLoad();
+            } else {
+                //操作失败
+                ToastUtils.showShort(msg);
+            }
+        });
+        registerObserver(EVENT_KEY, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                if (!isLoadmore) {
+                    binding.refreshLayout.finishRefresh(false);
                 } else {
-                    BaseResponse<VirtualOrderBean> data = (BaseResponse<VirtualOrderBean>) result;
-                    if (!isLoadmore) {
-                        pageIndex = 1;
-                        binding.refreshLayout.finishRefresh();
-                        virtualOrderListAdapter.setNewData(data.getData().getOrder_list());
-                    } else {
-                        pageIndex++;
-                        binding.refreshLayout.finishLoadMore();
-                        virtualOrderListAdapter.addData(data.getData().getOrder_list());
-                    }
-                    if (!data.isHasmore()) {
-                        binding.refreshLayout.setNoMoreData(true);
-                    }
+                    binding.refreshLayout.finishLoadMore(false);
+                }
+            } else {
+                BaseResponse<VirtualOrderBean> data = (BaseResponse<VirtualOrderBean>) result;
+                if (!isLoadmore) {
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    virtualOrderListAdapter.setNewData(data.getData().getOrder_list());
+                } else {
+                    pageIndex++;
+                    binding.refreshLayout.finishLoadMore();
+                    virtualOrderListAdapter.addData(data.getData().getOrder_list());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

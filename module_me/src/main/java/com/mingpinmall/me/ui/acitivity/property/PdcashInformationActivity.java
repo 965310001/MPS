@@ -15,6 +15,7 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityPdcashInformationBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.PdcashInfoBean;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：提现详情
@@ -30,18 +31,14 @@ public class PdcashInformationActivity extends AbsLifecycleActivity<ActivityPdca
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("PDCASH_INFORMATION", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof PdcashInfoBean) {
-                            PdcashInfoBean data = (PdcashInfoBean) result;
-                            binding.setData(data);
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
+        registerObserver(Constants.PDCASH_INFORMATION, Object.class).observeForever(result -> {
+            if (result instanceof PdcashInfoBean) {
+                PdcashInfoBean data = (PdcashInfoBean) result;
+                binding.setData(data);
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.mingpinmall.me.ui.utils;
+package com.goldze.common.dmvvm.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,14 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ScrollView;
 
+import com.goldze.common.dmvvm.R;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
-import com.mingpinmall.me.R;
-import com.mingpinmall.me.ui.adapter.SelectPhotoImageAdapter;
-import com.mingpinmall.me.ui.bean.BaseSelectPhotos;
+import com.goldze.common.dmvvm.adapter.SelectPhotoImageAdapter;
+import com.goldze.common.dmvvm.base.bean.BaseSelectPhotos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +56,8 @@ public class SelectPhotosTools {
         init();
     }
 
-    public OnCall getOnCallListener() {
-        return onCallListener;
+    public void setOnDataChangeListener(SelectPhotoImageAdapter.ImageDataChangeListener onDataChangeListener) {
+        imageAdapter.setOnDataChangeListener(onDataChangeListener);
     }
 
     public void setOnCallListener(OnCall onCallListener) {
@@ -146,7 +146,7 @@ public class SelectPhotosTools {
                         .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
                         .previewImage(true)// 是否可预览图片 true or false
                         .isCamera(true)// 是否显示拍照按钮 true or false
-                        .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                        .imageFormat(PictureMimeType.JPEG)// 拍照保存图片格式后缀,默认jpeg
                         .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
                         .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
                         .compress(true)// 是否压缩 true or false
@@ -179,7 +179,7 @@ public class SelectPhotosTools {
 //                            .videoMinSecond(10)// 显示多少秒以内的视频or音频也可适用 int
 //                            .recordVideoSecond()//视频秒数录制 默认60s int
             } else {
-                //点击预览图片，这里暂时食用PictureSelector库自带的预览功能
+                //点击预览图片，这里暂时使用PictureSelector库自带的预览功能
                 selector.themeStyle(R.style.picture_default_style).openExternalPreview(position, selectList);
                 //下面是自定义预览界面
 //                ArrayList<String> picUrls = new ArrayList<>();

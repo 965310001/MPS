@@ -6,8 +6,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.me.R;
+import com.goldze.common.dmvvm.base.bean.BaseSelectPhotos;
 import com.mingpinmall.me.ui.bean.OrderEvaluateBean;
-import com.mingpinmall.me.ui.utils.SelectPhotosTools;
+import com.goldze.common.dmvvm.utils.SelectPhotosTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,11 @@ public class OrderEvaluateAdapter extends BaseQuickAdapter<OrderEvaluateBean.Ord
 
     private List<SelectPhotosTools> tools;
     private SelectPhotosTools callTool;
+    private OnItemPicChange onItemPicChangeListener;
+
+    public void setOnItemPicChangeListener(OnItemPicChange onItemPicChangeListener) {
+        this.onItemPicChangeListener = onItemPicChangeListener;
+    }
 
     public SelectPhotosTools getCallTool() {
         return callTool;
@@ -42,7 +48,7 @@ public class OrderEvaluateAdapter extends BaseQuickAdapter<OrderEvaluateBean.Ord
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final OrderEvaluateBean.OrderGoodsBean item) {
+    protected void convert(BaseViewHolder helper, OrderEvaluateBean.OrderGoodsBean item) {
         SelectPhotosTools photosTools;
         if (tools.size() >= helper.getAdapterPosition() + 1) {
             photosTools = tools.get(helper.getAdapterPosition());
@@ -53,16 +59,23 @@ public class OrderEvaluateAdapter extends BaseQuickAdapter<OrderEvaluateBean.Ord
             photosTools.setSpanCount(4);
             tools.add(photosTools);
         }
-        photosTools.setOnCallListener(photosTools1 -> {
-            this.callTool = photosTools1;
+        photosTools.setOnDataChangeListener(dataList -> {
+            if (onItemPicChangeListener != null) {
+                onItemPicChangeListener.onChange(dataList, helper.getLayoutPosition());
+            }
         });
+        photosTools.setOnCallListener(photosTools1 ->
+                this.callTool = photosTools1
+        );
         ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getGoods_image_url());
         MaterialRatingBar ratingBar = helper.getView(R.id.rb_evaluate);
         ratingBar.setNumStars(5);
-        ratingBar.setOnRatingChangeListener((ratingBar1, rating) -> {
-            item.setScore(String.valueOf((int) rating));
-        });
+        ratingBar.setOnRatingChangeListener((ratingBar1, rating) -> item.setScore(String.valueOf((int) rating)));
         helper.setText(R.id.tv_goodsName, item.getGoods_name());
+    }
+
+    public interface OnItemPicChange {
+        void onChange(List<BaseSelectPhotos> dataList, int position);
     }
 
 }

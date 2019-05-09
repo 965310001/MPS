@@ -23,6 +23,7 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityAddressmanagerBinding;
 import com.mingpinmall.me.ui.adapter.AddressListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -122,34 +123,26 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_ADDRESS_LIST", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof AddressDataBean) {
-                            AddressDataBean data = (AddressDataBean) result;
-                            //获取成功
-                            binding.refreshLayout.finishRefresh();
-                            addressListAdapter.setNewData(data.getAddress_list());
-                        } else {
-                            //获取失败
-                            binding.refreshLayout.finishRefresh(false);
-                        }
-                    }
-                });
-        registerObserver("DEL_ADDRESS", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            //删成功
-                            initData();
-                        } else {
-                            //删失败
-                            ToastUtils.showShort(msg);
-                        }
-                    }
-                });
+        registerObserver(Constants.ADDRESS_LIST, Object.class).observeForever(result -> {
+            if (result instanceof AddressDataBean) {
+                AddressDataBean data = (AddressDataBean) result;
+                //获取成功
+                binding.refreshLayout.finishRefresh();
+                addressListAdapter.setNewData(data.getAddress_list());
+            } else {
+                //获取失败
+                binding.refreshLayout.finishRefresh(false);
+            }
+        });
+        registerObserver(Constants.DEL_ADDRESS, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                //删成功
+                initData();
+            } else {
+                //删失败
+                ToastUtils.showShort(msg);
+            }
+        });
     }
 
     @Override

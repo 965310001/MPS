@@ -14,6 +14,7 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityFeedbackBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：用户反馈
@@ -55,21 +56,12 @@ public class FeedBackActivity extends AbsLifecycleActivity<ActivityFeedbackBindi
 
     @Override
     protected void dataObserver() {
-        registerObserver("SEND_FEEDBACK", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                                @Override
-                                public void onDismiss() {
-                                    finish();
-                                }
-                            });
-                        } else{
-                            progressDialog.onFail(msg);
-                        }
-                    }
-                });
+        registerObserver(Constants.SEND_FEEDBACK, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                progressDialog.onComplete("", () -> finish());
+            } else{
+                progressDialog.onFail(msg);
+            }
+        });
     }
 }

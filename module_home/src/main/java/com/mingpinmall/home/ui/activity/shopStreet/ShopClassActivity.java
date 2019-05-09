@@ -15,6 +15,7 @@ import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.ActivityShopclassBinding;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.ShopClassBean;
+import com.mingpinmall.home.ui.constants.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,23 +50,19 @@ public class ShopClassActivity extends AbsLifecycleActivity<ActivityShopclassBin
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_STORE_CLASS", "success", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof ShopClassBean) {
-                            shopClassBean = (ShopClassBean) result;
-                            stringList.clear();
-                            stringList.add("全部");
-                            for (ShopClassBean.ClassListBean classListBean : shopClassBean.getClass_list()) {
-                                stringList.add(classListBean.getSc_name());
-                            }
-                            binding.stackLabelView.setLabels(stringList);
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
+        registerObserver(Constants.GET_STORE_CLASS, Object.class).observeForever(result -> {
+            if (result instanceof ShopClassBean) {
+                shopClassBean = (ShopClassBean) result;
+                stringList.clear();
+                stringList.add("全部");
+                for (ShopClassBean.ClassListBean classListBean : shopClassBean.getClass_list()) {
+                    stringList.add(classListBean.getSc_name());
+                }
+                binding.stackLabelView.setLabels(stringList);
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
     }
 
     @Override

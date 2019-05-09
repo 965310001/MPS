@@ -13,6 +13,7 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityReturnInformationBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.ReturnInformation;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：退货单详情
@@ -28,18 +29,14 @@ public class ReturnOrderInformationActivity extends AbsLifecycleActivity<Activit
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("RETURN_INFORMATION", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof ReturnInformation) {
-                            ReturnInformation data = (ReturnInformation) result;
-                            binding.setData(data);
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
+        registerObserver(Constants.RETURN_INFORMATION, Object.class).observeForever(result -> {
+            if (result instanceof ReturnInformation) {
+                ReturnInformation data = (ReturnInformation) result;
+                binding.setData(data);
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
     }
 
     @Override

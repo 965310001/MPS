@@ -33,6 +33,9 @@
         <activity android:name=".ui.acitivity.order.OrderDeliveryActivity" />
         <activity android:name=".ui.acitivity.distribution.ReduceCashActivity" />
         <activity android:name=".ui.acitivity.order.OrderEvaluateActivity" />
+        <activity android:name=".ui.acitivity.order.RefundOrder.ApplyReturnActivity" />
+        <activity android:name=".ui.acitivity.order.RefundOrder.ApplyRefundActivity" />
+        <activity android:name=".ui.acitivity.order.RefundOrder.OrderRefundActivity" />
     </application>
 
 </manifest>

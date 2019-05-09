@@ -26,6 +26,7 @@ import com.mingpinmall.home.ui.adapter.HomeListAdapter;
 import com.mingpinmall.home.ui.adapter.RVBannerPagerClickListener;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
+import com.mingpinmall.home.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -376,24 +377,20 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     @Override
     protected void dataObserver() {
-        registerObserver("HOME_DATA_JSON", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable final Object result) {
-                        if (result instanceof HomeItemBean) {
-                            HomeItemBean data = (HomeItemBean) result;
-                            if (data.getCode() == 200) {
-                                binding.refreshLayout.finishRefresh();
-                                homeListAdapter.setNewData(formatDatas(data.getDatas()));
-                            } else {
-                                binding.refreshLayout.finishRefresh(false);
-                            }
-                        } else {
-                            binding.refreshLayout.finishRefresh(false);
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
+        registerObserver(Constants.HOME_DATA_JSON, Object.class).observeForever(result -> {
+            if (result instanceof HomeItemBean) {
+                HomeItemBean data = (HomeItemBean) result;
+                if (data.getCode() == 200) {
+                    binding.refreshLayout.finishRefresh();
+                    homeListAdapter.setNewData(formatDatas(data.getDatas()));
+                } else {
+                    binding.refreshLayout.finishRefresh(false);
+                }
+            } else {
+                binding.refreshLayout.finishRefresh(false);
+                ToastUtils.showShort(result.toString());
+            }
+        });
     }
 
     private List<HomeItemBean.DatasBean> formatDatas(List<HomeItemBean.DatasBean> datas) {

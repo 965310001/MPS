@@ -12,6 +12,7 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentCardChargeBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.CodeKeyBean;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：充值卡充值
@@ -45,20 +46,14 @@ public class CardSurplusChargeFragment extends AbsLifecycleFragment<FragmentCard
 
     @Override
     protected void dataObserver() {
-        registerObserver("RCARD_CHARGE", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                if (msg.equals("success")) {
-                    progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            binding.edCardNum.setText("");
-                            LiveBus.getDefault().postEvent("REFRESH_RCARD", "true");
-                        }
-                    });
-                } else {
-                    progressDialog.onFail(msg);
-                }
+        registerObserver(Constants.RCARD_CHARGE, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                progressDialog.onComplete("", () -> {
+                    binding.edCardNum.setText("");
+                    LiveBus.getDefault().postEvent("REFRESH_RCARD", "true");
+                });
+            } else {
+                progressDialog.onFail(msg);
             }
         });
     }

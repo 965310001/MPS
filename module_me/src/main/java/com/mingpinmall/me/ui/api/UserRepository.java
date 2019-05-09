@@ -3,12 +3,10 @@ package com.mingpinmall.me.ui.api;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.goldze.common.dmvvm.base.bean.CheckSmsCodeBean;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
-import com.mingpinmall.me.ui.bean.CodeKeyBean;
 import com.mingpinmall.me.ui.bean.DefaultCheckBean;
 import com.mingpinmall.me.ui.bean.SmsBean;
 import com.goldze.common.dmvvm.base.bean.UserBean;
@@ -27,22 +25,22 @@ public class UserRepository extends BaseRepository {
      */
     protected void resetPassword(String password, String password1) {
         addDisposable(apiService.resetPassword(password, password1, "android", getUserKey())
-                .compose(RxSchedulers.<BaseResponse<BaseBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<BaseBean>>() {
 
                     @Override
                     public void onSuccess(BaseResponse<BaseBean> baseBeanBaseResponse) {
                         if (baseBeanBaseResponse.isSuccess()) {
-                            sendData("RESET_PASSWORD", "success", "");
+                            sendData(Constants.RESET_PASSWORD, "success");
                         } else {
-                            sendData("RESET_PASSWORD", "fail", "");
+                            sendData(Constants.RESET_PASSWORD, baseBeanBaseResponse.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("RESET_PASSWORD", "err", msg);
+                        sendData(Constants.RESET_PASSWORD, msg == null ? "重设密码失败" : msg);
                     }
                 })
         );
@@ -56,21 +54,21 @@ public class UserRepository extends BaseRepository {
      */
     protected void resetPayPassword(String password, String password1) {
         addDisposable(apiService.resetPayPassword(password, password1, "android", getUserKey())
-                .compose(RxSchedulers.<BaseResponse<BaseBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<BaseBean>>() {
 
                     @Override
                     public void onSuccess(BaseResponse<BaseBean> baseBeanBaseResponse) {
                         if (baseBeanBaseResponse.isSuccess()) {
-                            sendData("RESET_PASSWORD", "success", "");
+                            sendData(Constants.RESET_PASSWORD, "success");
                         } else {
-                            sendData("RESET_PASSWORD", "fail", "");
+                            sendData(Constants.RESET_PASSWORD, baseBeanBaseResponse.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("RESET_PASSWORD", "err", msg);
+                        sendData(Constants.RESET_PASSWORD, msg == null ? "重设支付密码失败" : msg);
                     }
                 })
         );
@@ -78,20 +76,20 @@ public class UserRepository extends BaseRepository {
 
     protected void login(String phone, String password, int login_type) {
         addDisposable(apiService.login(phone, password, login_type, "android")
-                .compose(RxSchedulers.<BaseResponse<UserBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<UserBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<UserBean> result) {
                         if (result.isSuccess())
-                            sendData(Constants.EVENT_KEY_USER_GETUSER, result.getData());
+                            sendData(Constants.LOGIN, result.getData());
                         else
-                            sendData(Constants.Err_EVENT_KEY_USER_GETUSER, result.getMessage());
+                            sendData(Constants.LOGIN, result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData(Constants.Err_EVENT_KEY_USER_GETUSER, msg);
+                        sendData(Constants.LOGIN, msg == null ? "获取用户信息失败" : msg);
                     }
                 })
         );
@@ -100,17 +98,22 @@ public class UserRepository extends BaseRepository {
     /*验证 修改支付密码前，手机短信验证码是否正确*/
     protected void checkPayPsdSmsCode(String code) {
         addDisposable(apiService.checkPayPsdSmsCode(code, getUserKey(), "android", "android")
-                .compose(RxSchedulers.<CheckSmsCodeBean>io_main())
-                .subscribeWith(new RxSubscriber<CheckSmsCodeBean>() {
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
                     @Override
-                    public void onSuccess(CheckSmsCodeBean result) {
-                        sendData("CHECK_CODE", "success", result);
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.CHECK_CODE, "success");
+                        } else {
+                            sendData(Constants.CHECK_CODE, result.getMessage());
+                        }
+
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("CHECK_CODE", "err", msg);
+                        sendData(Constants.CHECK_CODE, msg);
                     }
                 })
         );
@@ -119,17 +122,20 @@ public class UserRepository extends BaseRepository {
     /*验证 修改登录密码前，短信验证码是否正确*/
     protected void checkLoginPsdSmsCode(String code) {
         addDisposable(apiService.checkLoginPsdSmsCode(code, getUserKey(), "android", "android")
-                .compose(RxSchedulers.<CheckSmsCodeBean>io_main())
-                .subscribeWith(new RxSubscriber<CheckSmsCodeBean>() {
-
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
-                    public void onSuccess(CheckSmsCodeBean result) {
-                        sendData("CHECK_CODE", "success", result);
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.CHECK_CODE, "success");
+                        } else {
+                            sendData(Constants.CHECK_CODE, result.getMessage());
+                        }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("CHECK_CODE", "err", msg);
+                        sendData(Constants.CHECK_CODE, msg == null ? "验证码错误" : msg);
                     }
                 })
         );
@@ -144,35 +150,15 @@ public class UserRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<DefaultCheckBean> result) {
                         if (result.getData().isState())
-                            sendData("CHECK_PAY_PASSWORD", "success", "");
+                            sendData(Constants.CHECK_PAY_PASSWORD, "success");
                         else
-                            sendData("CHECK_PAY_PASSWORD", "fail", result.getMessage());
+                            sendData(Constants.CHECK_PAY_PASSWORD, result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("CHECK_PAY_PASSWORD", "err", msg);
+                        sendData(Constants.CHECK_PAY_PASSWORD, msg == null ? "获取设置失败" : msg);
                     }
-                })
-        );
-    }
-
-    /*获取创建验证码图片的key*/
-    protected void makeCodeKey() {
-        addDisposable(apiService.makeCodeKey()
-                .compose(RxSchedulers.<BaseResponse<CodeKeyBean>>io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<CodeKeyBean>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<CodeKeyBean> result) {
-                        sendData(Constants.EVENT_KEY_GETCODEKEY, result.getData());
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-                        KLog.i(msg);
-                        sendData(Constants.Err_EVENT_KEY_GETCODEKEY, msg);
-                    }
-
                 })
         );
     }
@@ -180,20 +166,20 @@ public class UserRepository extends BaseRepository {
     /*获取 登录，注册，找回密码 短信验证码*/
     protected void getSmsCode(int type, String phone) {
         addDisposable(apiService.sendSMS(type, phone, "android")
-                .compose(RxSchedulers.<BaseResponse<SmsBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<SmsBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<SmsBean> result) {
                         if (result.isSuccess())
-                            sendData("GET_SMS_CODE", "success", result.getData());
+                            sendData(Constants.GET_SMS_CODE, result.getData());
                         else
-                            sendData("GET_SMS_CODE", "err", result.getMessage());
+                            sendData(Constants.GET_SMS_CODE, result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("GET_SMS_CODE", "err", msg == null ? "短信验证码发送失败" : msg);
+                        sendData(Constants.GET_SMS_CODE, msg == null ? "短信验证码发送失败" : msg);
                     }
 
                 })
@@ -208,15 +194,15 @@ public class UserRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.getCode() == 200)
-                            sendData("CHECK_CODE", "success", "成功");
+                            sendData(Constants.CHECK_CODE, "success");
                         else
-                            sendData("CHECK_CODE", "err", result.getMessage());
+                            sendData(Constants.CHECK_CODE, result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("CHECK_CODE", "err", msg == null ? "" : msg);
+                        sendData(Constants.CHECK_CODE, msg == null ? "" : msg);
                     }
 
                 })
@@ -231,15 +217,15 @@ public class UserRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.getCode() == 200)
-                            sendData("BIND_PHONE", "success", "成功");
+                            sendData(Constants.BIND_PHONE, "success");
                         else
-                            sendData("BIND_PHONE", "err", result.getMessage());
+                            sendData(Constants.BIND_PHONE, result.getMessage());
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData("BIND_PHONE", "err", msg == null ? "" : msg);
+                        sendData(Constants.BIND_PHONE, msg == null ? "" : msg);
                     }
 
                 })

@@ -22,6 +22,31 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         super(application);
     }
 
+    /*上传文件*/
+    public void uploadFiles(RequestBody file) {
+        mRepository.uploadFiles(file);
+    }
+
+    /*提交 订单 退款*/
+    public void postOrderRefund(Map<String, RequestBody> params) {
+        mRepository.postOrderRefund(params);
+    }
+
+    /*提交 商品 退款    &退货*/
+    public void postRefund(Map<String, RequestBody> params) {
+        mRepository.postRefund(params);
+    }
+
+    /*获取 商品退款&退货*/
+    public void getRefundShopsInfo(String order_id, String order_goods_id) {
+        mRepository.getRefundShopsInfo(order_id, order_goods_id);
+    }
+
+    /*获取 订单退款*/
+    public void getRefundOrderInfo(String order_id) {
+        mRepository.getRefundOrderInfo(order_id);
+    }
+
     /*获取该订单下可评价商品列表*/
     public void sendEvaluate(String json, Map<String, RequestBody> files) {
         mRepository.sendEvaluate(json, files);

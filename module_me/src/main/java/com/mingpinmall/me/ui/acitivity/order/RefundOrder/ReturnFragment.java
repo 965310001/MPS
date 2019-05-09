@@ -20,6 +20,7 @@ import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.ReturnOrderListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.ReturnBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -92,29 +93,25 @@ public class ReturnFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("RETURN", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof String) {
-                            ToastUtils.showShort(result.toString());
-                        } else {
-                            BaseResponse<ReturnBean> refundBean = (BaseResponse<ReturnBean>) result;
-                            if (isLoadmore) {
-                                pageIndex++;
-                                binding.refreshLayout.finishLoadMore();
-                                listAdapter.addData(refundBean.getData().getReturn_list());
-                            } else {
-                                pageIndex = 1;
-                                binding.refreshLayout.finishRefresh();
-                                listAdapter.setNewData(refundBean.getData().getReturn_list());
-                            }
-                            if (!refundBean.isHasmore()) {
-                                binding.refreshLayout.setNoMoreData(true);
-                            }
-                        }
-                    }
-                });
+        registerObserver(Constants.RETURN, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+            } else {
+                BaseResponse<ReturnBean> refundBean = (BaseResponse<ReturnBean>) result;
+                if (isLoadmore) {
+                    pageIndex++;
+                    binding.refreshLayout.finishLoadMore();
+                    listAdapter.addData(refundBean.getData().getReturn_list());
+                } else {
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    listAdapter.setNewData(refundBean.getData().getReturn_list());
+                }
+                if (!refundBean.isHasmore()) {
+                    binding.refreshLayout.setNoMoreData(true);
+                }
+            }
+        });
     }
 
     @Override

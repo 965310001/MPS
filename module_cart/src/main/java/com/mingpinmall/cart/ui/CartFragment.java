@@ -27,6 +27,7 @@ import com.mingpinmall.cart.ui.bean.AvailableCartBean;
 import com.mingpinmall.cart.ui.bean.CartQuantityState;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
 import com.goldze.common.dmvvm.widget.SmoothCheckBox;
+import com.mingpinmall.cart.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.socks.library.KLog;
@@ -344,70 +345,51 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        LiveBus.getDefault().subscribe("LoginSuccess").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object isLogin) {
-                KLog.i("登陆成功，刷新数据");
-                reGetData();
-            }
+        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_SUCCESS).observeForever(isLogin -> {
+            KLog.i("登陆成功，刷新数据");
+            reGetData();
         });
 
-        LiveBus.getDefault().subscribe("LOGIN_OUT").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object isLogin) {
-                KLog.i("退出登录，清除数据");
-                shopCartAdapter.setNewData(new ArrayList<AvailableCartBean>());
-            }
+        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_OUT).observeForever(isLogin -> {
+            KLog.i("退出登录，清除数据");
+            shopCartAdapter.setNewData(new ArrayList<>());
         });
         /* 如需要刷新购物车列表，调用
          * LiveBus.getDefault().postEvent("SHOP_CART_REFRESH", true);
          */
-        registerObserver("SHOP_CART_REFRESH", Boolean.class).observeForever(new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean o) {
-                Log.i("购物车", "onChanged: 重获数据");
-                if (o)
-                    reGetData();
+        registerObserver("SHOP_CART_REFRESH", Boolean.class).observeForever(o -> {
+            Log.i("购物车", "onChanged: 重获数据");
+            if (o)
+                reGetData();
+        });
+        registerObserver(EVENT_KEY + Constants.SHOP_CART_LIST, Object.class).observeForever(result -> {
+            //获取购物车数据并处理
+            if (result instanceof ShopCartBean) {
+                formatData((ShopCartBean) result);
+                binding.refreshLayout.finishRefresh();
+            } else {
+                ToastUtils.showShort(result.toString());
+                binding.refreshLayout.finishRefresh(false);
             }
         });
-        registerObserver(EVENT_KEY + "SHOP_CART_LIST", Object.class).
-                observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //获取购物车数据并处理
-                        if (result instanceof ShopCartBean) {
-                            formatData((ShopCartBean) result);
-                            binding.refreshLayout.finishRefresh();
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                            binding.refreshLayout.finishRefresh(false);
-                        }
-                    }
-                });
-        registerObserver("CART_QUANTITY", CartQuantityState.class).observeForever(new Observer<CartQuantityState>() {
-            @Override
-            public void onChanged(@Nullable CartQuantityState result) {
-                //购物车商品数量增加和减少
-                if (result.isSuccess()) {
-                    changeGoodsCount(result.getPosition(), result.getQuantity());
-                } else {
-                    if (result.getMsg().equals("参数错误")) {
-                        lazyLoad();
-                    }
-                    ToastUtils.showShort(result.getMsg());
+        registerObserver(Constants.CART_QUANTITY, CartQuantityState.class).observeForever(result -> {
+            //购物车商品数量增加和减少
+            if (result.isSuccess()) {
+                changeGoodsCount(result.getPosition(), result.getQuantity());
+            } else {
+                if (result.getMsg().equals("参数错误")) {
+                    lazyLoad();
                 }
+                ToastUtils.showShort(result.getMsg());
             }
         });
-        registerObserver("CART_DELETE", CartQuantityState.class).observeForever(new Observer<CartQuantityState>() {
-            @Override
-            public void onChanged(@Nullable CartQuantityState result) {
-                //购物车商品删除
-                if (result.isSuccess()) {
-                } else {
-                    ToastUtils.showShort(result.getMsg());
-                }
-                lazyLoad();
+        registerObserver(Constants.CART_DELETE, CartQuantityState.class).observeForever(result -> {
+            //购物车商品删除
+            if (result.isSuccess()) {
+            } else {
+                ToastUtils.showShort(result.getMsg());
             }
+            lazyLoad();
         });
     }
 

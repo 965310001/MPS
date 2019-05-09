@@ -20,6 +20,7 @@ import com.mingpinmall.me.databinding.ActivitySelectCityBinding;
 import com.mingpinmall.me.ui.adapter.SelectCityAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.CityBean;
+import com.mingpinmall.me.ui.constants.Constants;
 
 import java.util.List;
 
@@ -132,36 +133,32 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_CITY_LIST", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(Object result) {
-                        if (result instanceof CityBean) {
-                            CityBean cityBean = (CityBean) result;
-                            //获取成功
-                            if (cityBean.getArea_list().size() == 0) {
-                                Intent intent = new Intent();
-                                intent.putExtra("address", addressOne + addressTwo);
-                                intent.putExtra("cityId", cityId);
-                                intent.putExtra("areaId", cityId);
-                                setResult(100, intent);
-                                finish();
-                            } else {
-                                setLevelButton(level);
-                                selectCityAdapter.setNewData(cityBean.getArea_list());
-                                if (level == 1 && dataOneList == null) {
-                                    dataOneList = cityBean.getArea_list();
-                                } else if (level == 2 && dataTwoList == null) {
-                                    dataTwoList = cityBean.getArea_list();
-                                }
-                            }
-                        } else {
-                            //获取失败
-                            progressDialog.onFail(result.toString());
-                            level--;
-                        }
+        registerObserver(Constants.CITY_LIST, Object.class).observeForever(result -> {
+            if (result instanceof CityBean) {
+                CityBean cityBean = (CityBean) result;
+                //获取成功
+                if (cityBean.getArea_list().size() == 0) {
+                    Intent intent = new Intent();
+                    intent.putExtra("address", addressOne + addressTwo);
+                    intent.putExtra("cityId", cityId);
+                    intent.putExtra("areaId", cityId);
+                    setResult(100, intent);
+                    finish();
+                } else {
+                    setLevelButton(level);
+                    selectCityAdapter.setNewData(cityBean.getArea_list());
+                    if (level == 1 && dataOneList == null) {
+                        dataOneList = cityBean.getArea_list();
+                    } else if (level == 2 && dataTwoList == null) {
+                        dataTwoList = cityBean.getArea_list();
                     }
-                });
+                }
+            } else {
+                //获取失败
+                progressDialog.onFail(result.toString());
+                level--;
+            }
+        });
     }
 
     @Override

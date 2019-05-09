@@ -1,4 +1,4 @@
-package com.mingpinmall.me.ui.bean;
+package com.goldze.common.dmvvm.base.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

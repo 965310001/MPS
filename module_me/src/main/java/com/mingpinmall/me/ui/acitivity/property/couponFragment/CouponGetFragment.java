@@ -12,6 +12,7 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentCouponGetBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.CodeKeyBean;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：获取店铺代金券
@@ -43,20 +44,14 @@ public class CouponGetFragment extends AbsLifecycleFragment<FragmentCouponGetBin
 
     @Override
     protected void dataObserver() {
-        registerObserver("COUPON_CHARGE", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                if (msg.equals("success")) {
-                    progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            binding.edCardNum.setText("");
-                            LiveBus.getDefault().postEvent("REFRESH_COUPON", "true");
-                        }
-                    });
-                } else {
-                    progressDialog.onFail(msg);
-                }
+        registerObserver(Constants.COUPON_CHARGE, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                progressDialog.onComplete("", () -> {
+                    binding.edCardNum.setText("");
+                    LiveBus.getDefault().postEvent("REFRESH_COUPON", "true");
+                });
+            } else {
+                progressDialog.onFail(msg);
             }
         });
     }

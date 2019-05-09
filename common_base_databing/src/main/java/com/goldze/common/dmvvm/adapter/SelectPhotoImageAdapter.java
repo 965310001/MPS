@@ -1,4 +1,4 @@
-package com.mingpinmall.me.ui.adapter;
+package com.goldze.common.dmvvm.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.goldze.common.dmvvm.R;
+import com.goldze.common.dmvvm.base.bean.BaseSelectPhotos;
 import com.goldze.common.dmvvm.utils.ImageUtils;
-import com.mingpinmall.me.R;
-import com.mingpinmall.me.ui.bean.BaseSelectPhotos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,59 +22,62 @@ import java.util.List;
  **/
 public class SelectPhotoImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private onOpenListener openListener;
+    private OpenListener openListener;
     private List<BaseSelectPhotos> photoPath;
-    private RemoveImgListener removeImg;
+    private RemoveImgListener onRemoveListener;
+    private ImageDataChangeListener onDataChangeListener;
     private int MAXSIZE = 5;
 
     public void setMaxSize(int MAXSIZE) {
         this.MAXSIZE = MAXSIZE;
     }
 
-    public void setOpenListener(onOpenListener openListener) {
+    public void setOpenListener(OpenListener openListener) {
         this.openListener = openListener;
     }
 
-    public void setPhotoPath(List<BaseSelectPhotos> photoPath) {
-        this.photoPath = photoPath;
-        notifyDataSetChanged();
+    public void setOnDataChangeListener(ImageDataChangeListener onDataChangeListener) {
+        this.onDataChangeListener = onDataChangeListener;
     }
 
     public List<BaseSelectPhotos> getPhotoPath() {
         return photoPath;
     }
 
-    public void setRemoveImg(RemoveImgListener removeImg) {
-        this.removeImg = removeImg;
+    public void setOnRemoveListener(RemoveImgListener onRemoveListener) {
+        this.onRemoveListener = onRemoveListener;
     }
 
     public void putPhotoPath(List<BaseSelectPhotos> photoUrl) {
         photoPath.addAll(photoUrl);
         notifyDataSetChanged();
+        callDataChange();
     }
 
     public void addPhotoPath(BaseSelectPhotos path) {
         photoPath.add(path);
         notifyDataSetChanged();
+        callDataChange();
     }
 
     public void addPhotoPath(List<BaseSelectPhotos> paths) {
         photoPath.addAll(paths);
         notifyDataSetChanged();
-    }
-
-    public void replacePhotoPath(List<BaseSelectPhotos> oldPath, List<BaseSelectPhotos> newPath) {
-        photoPath.removeAll(oldPath);
-        photoPath.addAll(newPath);
-        notifyDataSetChanged();
+        callDataChange();
     }
 
     public void removePhotoPath(List<BaseSelectPhotos> oldPath) {
         photoPath.removeAll(oldPath);
     }
 
-    public SelectPhotoImageAdapter(RemoveImgListener removeImg) {
-        this.removeImg = removeImg;
+    private void callDataChange() {
+        if (onDataChangeListener != null) {
+            onDataChangeListener.onChange(photoPath);
+        }
+    }
+
+    public SelectPhotoImageAdapter(RemoveImgListener onRemoveListener) {
+        setOnRemoveListener(onRemoveListener);
         photoPath = new ArrayList<>();
     }
 
@@ -98,8 +101,8 @@ public class SelectPhotoImageAdapter extends RecyclerView.Adapter<BaseViewHolder
         helper.getView(R.id.iv_delete).setOnClickListener(v -> {
             notifyItemRemoved(helper.getLayoutPosition());
             photoPath.remove(helper.getLayoutPosition());
-            if (removeImg != null)
-                removeImg.removePos(helper.getLayoutPosition());
+            if (onRemoveListener != null)
+                onRemoveListener.removePos(helper.getLayoutPosition());
         });
         helper.itemView.setOnClickListener(v -> {
             if (openListener != null) {
@@ -116,11 +119,16 @@ public class SelectPhotoImageAdapter extends RecyclerView.Adapter<BaseViewHolder
         return photoPath.size() + 1;
     }
 
-    public interface onOpenListener {
+    public interface OpenListener {
         void onOpen(View view, int position);
     }
 
     public interface RemoveImgListener {
         void removePos(int pos);
     }
+
+    public interface ImageDataChangeListener {
+        void onChange(List<BaseSelectPhotos> dataList);
+    }
+
 }

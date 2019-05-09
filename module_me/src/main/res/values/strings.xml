@@ -8,6 +8,22 @@
     <string name="text_isLoginOut">是否退出该账号？</string>
     <string name="text_submit">提交</string>
 
+    <!-- OrderRefundActivity ApplyRefundActivity & ApplyReturnActivity -->
+    <string name="title_OrderRefundActivity">订单退款</string>
+    <string name="title_ApplyRefundActivity">商品退款</string>
+    <string name="title_ApplyReturnActivity">商品退货</string>
+    <string name="text_refund1">退款原因</string>
+    <string name="text_refund2">退款金额</string>
+    <string name="text_refund3">退款说明</string>
+    <string name="text_refund4">退款凭证</string>
+    <string name="text_refund5">最多可退金额</string>
+    <string name="text_refund6">退货数量</string>
+    <string name="text_refund7">最多可退数量</string>
+    <string name="hint_text_refund">申请原因！</string>
+    <string name="hint_text_refund1">取消订单，全部退款</string>
+    <string name="hint_text_refund2">请输入您要退款的说明文字</string>
+    <!-- OrderRefundActivity ApplyRefundActivity  & ApplyReturnActivity Over -->
+
     <!-- OrderEvaluateActivity -->
     <string name="title_OrderEvaluateActivity">评价订单</string>
     <string name="button_text_submitEvaluate">提交评价</string>
@@ -74,6 +90,7 @@
     <string name="text_phsi_11">创建时间：</string>
     <string name="text_phsi_12">付款时间：</string>
     <string name="text_phsi_13">发货时间：</string>
+    <string name="text_phsi_14">完成时间：</string>
     <string name="text_rmb">¥</string>
     <!-- PhysicalOrderInformationActivity Over -->
 

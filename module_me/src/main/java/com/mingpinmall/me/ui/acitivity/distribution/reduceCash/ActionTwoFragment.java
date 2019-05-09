@@ -2,7 +2,6 @@ package com.mingpinmall.me.ui.acitivity.distribution.reduceCash;
 
 import android.os.Bundle;
 
-import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentReducecashAction2Binding;
@@ -22,6 +21,9 @@ public class ActionTwoFragment extends AbsLifecycleFragment<FragmentReducecashAc
     @Override
     public void initView(Bundle state) {
         super.initView(state);
+        binding.btnSubmit2.setOnClickListener(v -> {
+
+        });
     }
 
     @Override

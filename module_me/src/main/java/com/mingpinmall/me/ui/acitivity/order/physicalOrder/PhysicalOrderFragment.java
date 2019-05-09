@@ -3,6 +3,7 @@ package com.mingpinmall.me.ui.acitivity.order.physicalOrder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultTabviewpagerBinding;
@@ -21,8 +22,8 @@ public class PhysicalOrderFragment extends BaseFragment<FragmentDefaultTabviewpa
     public PhysicalOrderFragment() {
     }
 
-    public void refreshCurrentPage() {
-        ((PhysicalOrderListFragment) pagerAdapter.getItem(binding.viewPager.getCurrentItem())).lazyLoad();
+    public void setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
     }
 
     public static PhysicalOrderFragment newInstance(int pageIndex) {
@@ -52,6 +53,8 @@ public class PhysicalOrderFragment extends BaseFragment<FragmentDefaultTabviewpa
 
     @Override
     public void initView(Bundle state) {
+        LiveBus.getDefault().subscribe("PAGER", "ORDER", Integer.class).observeForever(integer -> pageIndex = integer);
+
         pagerAdapter = new BasePagerAdapter(getChildFragmentManager(), activity);
         binding.viewPager.setAdapter(pagerAdapter);
         binding.tabs.setupWithViewPager(binding.viewPager);

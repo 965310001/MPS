@@ -26,6 +26,7 @@ import com.mingpinmall.home.databinding.ActivityShopstreetBinding;
 import com.mingpinmall.home.ui.adapter.ShopsStreetAdapter;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.ShopStreetBean;
+import com.mingpinmall.home.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -121,33 +122,29 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_STORE_LIST", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof String) {
-                            ToastUtils.showShort(result.toString());
-                            if (!isLoadmore)
-                                binding.refreshLayout.finishRefresh(false);
-                            else
-                                binding.refreshLayout.finishLoadMore(false);
-                        } else {
-                            BaseResponse<ShopStreetBean> data = (BaseResponse<ShopStreetBean>) result;
-                            if (!isLoadmore) {
-                                pageIndex = 1;
-                                binding.refreshLayout.finishRefresh();
-                                shopsStreetAdapter.setNewData(data.getData().getStore_list());
-                            } else {
-                                pageIndex++;
-                                binding.refreshLayout.finishLoadMore();
-                                shopsStreetAdapter.addData(data.getData().getStore_list());
-                            }
-                            if (!data.isHasmore()) {
-                                binding.refreshLayout.setNoMoreData(true);
-                            }
-                        }
-                    }
-                });
+        registerObserver(Constants.GET_STORE_LIST, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                if (!isLoadmore)
+                    binding.refreshLayout.finishRefresh(false);
+                else
+                    binding.refreshLayout.finishLoadMore(false);
+            } else {
+                BaseResponse<ShopStreetBean> data = (BaseResponse<ShopStreetBean>) result;
+                if (!isLoadmore) {
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    shopsStreetAdapter.setNewData(data.getData().getStore_list());
+                } else {
+                    pageIndex++;
+                    binding.refreshLayout.finishLoadMore();
+                    shopsStreetAdapter.addData(data.getData().getStore_list());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.setNoMoreData(true);
+                }
+            }
+        });
     }
 
     @Override

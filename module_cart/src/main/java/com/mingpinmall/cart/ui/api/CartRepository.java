@@ -8,6 +8,7 @@ import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.cart.ui.bean.CartQuantityState;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
+import com.mingpinmall.cart.ui.constants.Constants;
 
 /**
  * 功能描述：
@@ -20,20 +21,20 @@ public class CartRepository extends BaseRepository {
     /*购物车列表*/
     protected void getCartList(final String event_key) {
         addDisposable(apiService.getCartList(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<ShopCartBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ShopCartBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<ShopCartBean> result) {
                         if (result.isSuccess()) {
-                            sendData(event_key + "SHOP_CART_LIST", result.getData());
+                            sendData(event_key + Constants.SHOP_CART_LIST, result.getData());
                         } else {
-                            sendData(event_key + "SHOP_CART_LIST", result.getMessage());
+                            sendData(event_key + Constants.SHOP_CART_LIST, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData(event_key + "SHOP_CART_LIST", msg == null ? "获取失败" : msg);
+                        sendData(event_key + Constants.SHOP_CART_LIST, msg == null ? "获取失败" : msg);
                     }
                 })
         );
@@ -45,18 +46,18 @@ public class CartRepository extends BaseRepository {
         data.setPosition(position);
         data.setQuantity(quantity);
         addDisposable(apiService.editCartQuantity(getUserKey(), cartId, quantity)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
                             data.setMsg("成功");
                             data.setSuccess(true);
-                            sendData("CART_QUANTITY", data);
+                            sendData(Constants.CART_QUANTITY, data);
                         } else {
                             data.setMsg(result.getMessage());
                             data.setSuccess(false);
-                            sendData("CART_QUANTITY", data);
+                            sendData(Constants.CART_QUANTITY, data);
                         }
                     }
 
@@ -64,7 +65,7 @@ public class CartRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         data.setMsg(msg == null ? "获取失败" : msg);
                         data.setSuccess(false);
-                        sendData("CART_QUANTITY", data);
+                        sendData(Constants.CART_QUANTITY, data);
                     }
                 })
         );
@@ -75,18 +76,18 @@ public class CartRepository extends BaseRepository {
         final CartQuantityState data = new CartQuantityState();
         data.setPosition(position);
         addDisposable(apiService.deleteGoods(getUserKey(), cartId)
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
                             data.setMsg("成功");
                             data.setSuccess(true);
-                            sendData("CART_DELETE", data);
+                            sendData(Constants.CART_DELETE, data);
                         } else {
                             data.setMsg(result.getMessage());
                             data.setSuccess(false);
-                            sendData("CART_DELETE", data);
+                            sendData(Constants.CART_DELETE, data);
                         }
                     }
 
@@ -94,7 +95,7 @@ public class CartRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         data.setMsg(msg == null ? "获取失败" : msg);
                         data.setSuccess(false);
-                        sendData("CART_DELETE", data);
+                        sendData(Constants.CART_DELETE, data);
                     }
                 })
         );

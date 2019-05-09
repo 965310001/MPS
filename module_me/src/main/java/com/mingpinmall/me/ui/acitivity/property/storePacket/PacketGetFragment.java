@@ -11,6 +11,7 @@ import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentPacketGetBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：获取店铺红包
@@ -42,20 +43,14 @@ public class PacketGetFragment extends AbsLifecycleFragment<FragmentPacketGetBin
 
     @Override
     protected void dataObserver() {
-        registerObserver("PACKET_CHARGE", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String msg) {
-                if (msg.equals("success")) {
-                    progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            binding.edCardNum.setText("");
-                            LiveBus.getDefault().postEvent("REFRESH_PACKET", "true");
-                        }
-                    });
-                } else {
-                    progressDialog.onFail(msg);
-                }
+        registerObserver(Constants.PACKET_CHARGE, String.class).observeForever(msg -> {
+            if (msg.equals("success")) {
+                progressDialog.onComplete("", () -> {
+                    binding.edCardNum.setText("");
+                    LiveBus.getDefault().postEvent("REFRESH_PACKET", "true");
+                });
+            } else {
+                progressDialog.onFail(msg);
             }
         });
     }

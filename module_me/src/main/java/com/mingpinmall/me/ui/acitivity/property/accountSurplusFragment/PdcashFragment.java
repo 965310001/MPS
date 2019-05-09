@@ -21,6 +21,7 @@ import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.PdcashAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.PdcashBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -90,41 +91,38 @@ public class PdcashFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("PDCASH", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof String) {
-                    ToastUtils.showShort(result.toString());
-                    if (isLoadmore) {
-                        binding.refreshLayout.finishLoadMore(false);
-                    } else {
-                        binding.refreshLayout.finishRefresh(false);
-                    }
+        registerObserver(Constants.PDCASH, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                if (isLoadmore) {
+                    binding.refreshLayout.finishLoadMore(false);
                 } else {
-                    BaseResponse<PdcashBean> data = (BaseResponse<PdcashBean>) result;
-                    if (isLoadmore) {
-                        pageIndex++;
-                        binding.refreshLayout.finishLoadMore();
-                        pdcashAdapter.addData(data.getData().getList());
-                    } else {
-                        //如果数据有变，则更新预存款余额
-                        if (pdcashAdapter.getData().size() > 0) {
-                            if (data.getData().getList().size() > 0) {
-                                if (!pdcashAdapter.getItem(0).getPdc_id()
-                                        .equals(data.getData().getList().get(0).getPdc_id())) {
-                                    LiveBus.getDefault().postEvent("REFRESH_PDC", "true");
-                                }
-                            } else {
+                    binding.refreshLayout.finishRefresh(false);
+                }
+            } else {
+                BaseResponse<PdcashBean> data = (BaseResponse<PdcashBean>) result;
+                if (isLoadmore) {
+                    pageIndex++;
+                    binding.refreshLayout.finishLoadMore();
+                    pdcashAdapter.addData(data.getData().getList());
+                } else {
+                    //如果数据有变，则更新预存款余额
+                    if (pdcashAdapter.getData().size() > 0) {
+                        if (data.getData().getList().size() > 0) {
+                            if (!pdcashAdapter.getItem(0).getPdc_id()
+                                    .equals(data.getData().getList().get(0).getPdc_id())) {
                                 LiveBus.getDefault().postEvent("REFRESH_PDC", "true");
                             }
+                        } else {
+                            LiveBus.getDefault().postEvent("REFRESH_PDC", "true");
                         }
-                        pageIndex = 1;
-                        binding.refreshLayout.finishRefresh();
-                        pdcashAdapter.setNewData(data.getData().getList());
                     }
-                    if (!data.isHasmore()) {
-                        binding.refreshLayout.setNoMoreData(true);
-                    }
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    pdcashAdapter.setNewData(data.getData().getList());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });

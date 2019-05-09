@@ -17,6 +17,7 @@ import com.mingpinmall.me.databinding.ActivityOrderDeliveryBinding;
 import com.mingpinmall.me.ui.adapter.OrderDeliverysAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.OrderDeliverListBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -59,20 +60,17 @@ public class OrderDeliveryActivity extends AbsLifecycleActivity<ActivityOrderDel
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("ORDER_DELIVER_LIST", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof OrderDeliverListBean) {
-                    OrderDeliverListBean data = (OrderDeliverListBean) result;
-                    binding.refreshLayout.finishRefresh();
-                    binding.setData(data);
-                    List<String> dataList = data.getDeliver_info();
-                    Collections.reverse(dataList);
-                    listAdapter.setNewData(dataList);
-                } else {
-                    ToastUtils.showShort(result.toString());
-                    binding.refreshLayout.finishRefresh(false);
-                }
+        registerObserver(Constants.ORDER_DELIVER_LIST, Object.class).observeForever(result -> {
+            if (result instanceof OrderDeliverListBean) {
+                OrderDeliverListBean data = (OrderDeliverListBean) result;
+                binding.refreshLayout.finishRefresh();
+                binding.setData(data);
+                List<String> dataList = data.getDeliver_info();
+                Collections.reverse(dataList);
+                listAdapter.setNewData(dataList);
+            } else {
+                ToastUtils.showShort(result.toString());
+                binding.refreshLayout.finishRefresh(false);
             }
         });
     }

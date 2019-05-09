@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
@@ -31,6 +32,7 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.OrderDeliverBean;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：订单详情
@@ -56,64 +58,66 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         binding.llShopContent.setOnClickListener(this);
         binding.flCall.setOnClickListener(this);
         binding.flService.setOnClickListener(this);
-        listAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //商品点击事件
-                OrderInformationBean.OrderInfoBean.GoodsListBean data = listAdapter.getItem(position);
-                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data.getGoods_id());
+        listAdapter.setOnItemClickListener((adapter, view, position) -> {
+            //商品点击事件
+            OrderInformationBean.OrderInfoBean.GoodsListBean data = listAdapter.getItem(position);
+            ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data.getGoods_id());
+        });
+        listAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //退款和退货按钮点击事件
+            OrderInformationBean.OrderInfoBean.GoodsListBean data = listAdapter.getItem(position);
+            if (view.getId() == R.id.tv_refund) {
+                //商品退款
+                ARouter.getInstance().build(ARouterConfig.Me.APPLYREFUNDACTIVITY)
+                        .withString("id", orderId)
+                        .withString("goods_id", data.getRec_id())
+                        .navigation(activity, 1);
+            } else if (view.getId() == R.id.tv_return) {
+                //商品退货
+                ARouter.getInstance().build(ARouterConfig.Me.APPLYRETURNACTIVITY)
+                        .withString("id", orderId)
+                        .withString("goods_id", data.getRec_id())
+                        .navigation(activity, 1);
             }
         });
     }
 
     @Override
     protected void dataObserver() {
-        registerObserver("PHYSICAL_ORDER_INFORMATION", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof OrderInformationBean) {
-                            OrderInformationBean resultData = (OrderInformationBean) result;
-                            data = resultData.getOrder_info();
-                            showDataInfo();
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
+        registerObserver(Constants.PHYSICAL_ORDER_INFORMATION, Object.class).observeForever(result -> {
+            if (result instanceof OrderInformationBean) {
+                OrderInformationBean resultData = (OrderInformationBean) result;
+                data = resultData.getOrder_info();
+                showDataInfo();
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
+        registerObserver("INFORMATION_CANCEL_ORDER", Constants.RECEVIE_ORDER, String.class)
+                .observeForever(msg -> {
+                    if (msg.equals("success")) {
+                        setResult(100);
+                        finish();
+                    } else {
+                        ToastUtils.showShort(msg);
                     }
                 });
-        registerObserver("INFORMATION_CANCEL_ORDER", "REMOVE_ORDER", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            setResult(100);
-                            finish();
-                        } else {
-                            ToastUtils.showShort(msg);
-                        }
+        registerObserver("INFORMATION_RECEVIE_ORDER", Constants.RECEVIE_ORDER, String.class)
+                .observeForever(msg -> {
+                    if (msg.equals("success")) {
+                        ToastUtils.showShort("已确认收货");
+                        initData();
+                    } else {
+                        ToastUtils.showShort(msg);
                     }
                 });
-        registerObserver("INFORMATION_RECEVIE_ORDER", "RECEVIE_ORDER", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            initData();
-                        } else {
-                            ToastUtils.showShort(msg);
-                        }
-                    }
-                });
-        registerObserver("ORDER_DELIVER_INFORMATION", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof OrderDeliverBean) {
-                            OrderDeliverBean data = (OrderDeliverBean) result;
-                            binding.setDeliverData(data);
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
+        registerObserver(Constants.ORDER_DELIVER_INFORMATION, Object.class)
+                .observeForever(result -> {
+                    if (result instanceof OrderDeliverBean) {
+                        OrderDeliverBean data = (OrderDeliverBean) result;
+                        binding.setDeliverData(data);
+                    } else {
+                        ToastUtils.showShort(result.toString());
                     }
                 });
     }
@@ -181,6 +185,9 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         /*发货时间*/
         binding.tvOrderSendTime.setVisibility(!data.getShipping_time().isEmpty() ? View.VISIBLE : View.GONE);
         binding.tvOrderSendTime.setText(String.format("%s%s", getString(R.string.text_phsi_13), data.getShipping_time()));
+        /*完成时间*/
+        binding.tvOrderFinishTime.setVisibility(!data.getFinnshed_time().isEmpty() ? View.VISIBLE : View.GONE);
+        binding.tvOrderFinishTime.setText(String.format("%s%s", getString(R.string.text_phsi_14), data.getFinnshed_time()));
 
         /*最下面的按钮*/
         LinearLayout buttonContent = binding.llButtonContent;
@@ -216,7 +223,6 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
             tvBtn.setId(R.id.order_lock);
             tvBtn.setText("订单退款");
         }
-
         if (tvBtn != null) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.leftMargin = ScreenUtil.dip2px(activity, 6);
@@ -242,36 +248,32 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
 
     @Override
     public void onViewClicked(int viewId) {
-        if (viewId == R.id.bt_cancelOrder) {
+        if (viewId == R.id.order_cancel) {
             //取消订单
             if (data == null) {
                 return;
             }
             TextDialog.showBaseDialog(activity, "提示", "确定取消订单？",
-                    new TextDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick() {
-                            mViewModel.cancelOrder("INFORMATION_CANCEL_ORDER", data.getOrder_id());
-                        }
-                    })
+                    () -> mViewModel.cancelOrder("INFORMATION_CANCEL_ORDER", data.getOrder_id()))
                     .show();
         } else if (viewId == R.id.order_pay) {
             //立即支付
+
         } else if (viewId == R.id.order_lock) {
             //订单退款
+            ARouter.getInstance().build(ARouterConfig.Me.ORDERREFUNDACTIVITY)
+                    .withString("id", data.getOrder_id())
+                    .navigation(activity, 1);
         } else if (viewId == R.id.order_sure) {
             //确认收货
             TextDialog.showBaseDialog(activity, "确认收货", "确认已收到订单中商品？",
-                    new TextDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick() {
-                            mViewModel.recevieOrder("INFORMATION_RECEVIE_ORDER", data.getOrder_id());
-                        }
-                    })
+                    () -> mViewModel.recevieOrder("INFORMATION_RECEVIE_ORDER", data.getOrder_id()))
                     .show();
         } else if (viewId == R.id.order_evaluation) {
             //订单评价
-            ActivityToActivity.toActivity(ARouterConfig.Me.ORDEREVALUATEACTIVITY, "id", data.getOrder_id());
+            ARouter.getInstance().build(ARouterConfig.Me.ORDEREVALUATEACTIVITY)
+                    .withString("id", data.getOrder_id())
+                    .navigation(activity, 1);
         } else if (viewId == R.id.order_evaluation_again) {
             //追加评价
         } else if (viewId == R.id.cl_expressInformation) {
@@ -304,6 +306,16 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         Uri data = Uri.parse("tel:" + phoneNum);
         intent.setData(data);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == 100) {
+                initData();
+            }
+        }
     }
 
     @Override

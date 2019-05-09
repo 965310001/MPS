@@ -16,6 +16,7 @@ import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PdcashFra
 import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.Predepoit;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：我的财产-账户余额
@@ -63,26 +64,19 @@ public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccount
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("REFRESH_PDC", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //需要更新数据
-                initData();
+        registerObserver("REFRESH_PDC", String.class).observeForever(s -> {
+            //需要更新数据
+            initData();
+        });
+        registerObserver(Constants.PREDEPOIT, Object.class).observeForever(result -> {
+            if (result instanceof Predepoit) {
+                Predepoit predepoit = (Predepoit) result;
+                //获取到账户余额
+                binding.tvSurplus.setText(predepoit.getPredepoit());
+            } else {
+                ToastUtils.showShort(result.toString());
             }
         });
-        registerObserver("PREDEPOIT", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof Predepoit) {
-                            Predepoit predepoit = (Predepoit) result;
-                            //获取到账户余额
-                            binding.tvSurplus.setText(predepoit.getPredepoit());
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
     }
 
     @Override

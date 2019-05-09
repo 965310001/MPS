@@ -18,8 +18,8 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_image"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="74dp"
+                android:layout_height="74dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -33,12 +33,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="18dp"
+                android:maxLines="2"
                 android:textColor="#333"
                 android:textSize="14sp"
-                android:maxLines="2"
                 app:layout_constraintEnd_toStartOf="@id/tv_payMoney"
                 app:layout_constraintStart_toEndOf="@id/iv_image"
                 app:layout_constraintTop_toTopOf="@id/iv_image"
+                app:layout_constraintVertical_bias="0"
                 tools:text="这里是商品标题内容" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -47,12 +48,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="18dp"
+                android:maxLines="2"
                 android:textColor="#999"
                 android:textSize="12sp"
-                android:maxLines="2"
-                app:layout_constraintEnd_toStartOf="@id/tv_payMoney"
-                app:layout_constraintStart_toEndOf="@id/iv_image"
                 app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                app:layout_constraintEnd_toStartOf="@id/tv_refund"
+                app:layout_constraintStart_toEndOf="@id/iv_image"
                 app:layout_constraintTop_toBottomOf="@id/tv_label"
                 tools:text="这里是商品信息，颜色，种类等" />
 
@@ -77,6 +78,44 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_payMoney"
                 tools:text="x1" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_refund"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/shape_border_corner_ccc_4dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:text="退款"
+                android:textColor="#555"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/tv_return"
+                app:layout_constraintEnd_toStartOf="@id/tv_return"
+                app:layout_constraintTop_toTopOf="@id/tv_return"
+                tools:visibility="visible" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_border_corner_ccc_4dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:text="退货"
+                android:textColor="#555"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_count"
+                app:layout_constraintVertical_bias="1"
+                tools:visibility="visible" />
 
         </android.support.constraint.ConstraintLayout>
 

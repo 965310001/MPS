@@ -18,6 +18,7 @@ import com.mingpinmall.me.ui.adapter.VipPointListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.VipPointBean;
 import com.mingpinmall.me.ui.bean.VipPointListBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -72,42 +73,36 @@ public class VipIntegralActivity extends AbsLifecycleActivity<ActivityVipintergr
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("VIP_POINT", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof VipPointBean) {
-                    VipPointBean vipPointBean = (VipPointBean) result;
-                    binding.tvSurplus.setText(vipPointBean.getPoint());
-                } else {
-                    ToastUtils.showShort(result.toString());
-                }
+        registerObserver(Constants.VIP_POINT, Object.class).observeForever(result -> {
+            if (result instanceof VipPointBean) {
+                VipPointBean vipPointBean = (VipPointBean) result;
+                binding.tvSurplus.setText(vipPointBean.getPoint());
+            } else {
+                ToastUtils.showShort(result.toString());
             }
         });
-        registerObserver("VIP_POINT_LOG", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof String) {
-                    ToastUtils.showShort(result.toString());
-                    if (isLoadmore) {
-                        binding.refreshLayout.finishLoadMore(false);
-                    } else {
-                        binding.refreshLayout.finishRefresh(false);
-                    }
+        registerObserver(Constants.VIP_POINT_LOG, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                if (isLoadmore) {
+                    binding.refreshLayout.finishLoadMore(false);
                 } else {
-                    //获取到了会员积分记录
-                    BaseResponse<VipPointListBean> data = (BaseResponse<VipPointListBean>) result;
-                    if (isLoadmore) {
-                        pageIndex++;
-                        binding.refreshLayout.finishLoadMore();
-                        listAdapter.addData(data.getData().getLog_list());
-                    } else {
-                        pageIndex = 1;
-                        binding.refreshLayout.finishRefresh();
-                        listAdapter.setNewData(data.getData().getLog_list());
-                    }
-                    if (!data.isHasmore()) {
-                        binding.refreshLayout.setNoMoreData(true);
-                    }
+                    binding.refreshLayout.finishRefresh(false);
+                }
+            } else {
+                //获取到了会员积分记录
+                BaseResponse<VipPointListBean> data = (BaseResponse<VipPointListBean>) result;
+                if (isLoadmore) {
+                    pageIndex++;
+                    binding.refreshLayout.finishLoadMore();
+                    listAdapter.addData(data.getData().getLog_list());
+                } else {
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    listAdapter.setNewData(data.getData().getLog_list());
+                }
+                if (!data.isHasmore()) {
+                    binding.refreshLayout.setNoMoreData(true);
                 }
             }
         });
