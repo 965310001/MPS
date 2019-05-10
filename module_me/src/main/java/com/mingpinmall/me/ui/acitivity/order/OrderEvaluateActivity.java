@@ -40,7 +40,7 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：订单评价
- * *@author 小斌
+ * @author 小斌
  * @date 2019/4/30
  **/
 @Route(path = ARouterConfig.Me.ORDEREVALUATEACTIVITY)
@@ -71,7 +71,6 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
         super.onViewClicked(viewId);
         if (viewId == R.id.btn_submit) {
             //提交评价
-            Log.i("点击", "onViewClicked: ----------");
             try {
                 progressDialog.onLoading("");
                 String key = ((UserBean) SharePreferenceUtil.getUser(UserBean.class)).getKey();
