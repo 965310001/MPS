@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -21,18 +20,19 @@ import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityConfirmOrderBinding;
+import com.mingpinmall.classz.pay.Context;
+import com.mingpinmall.classz.pay.JPayListener;
+import com.mingpinmall.classz.pay.WeiXinBaoStrategy;
+import com.mingpinmall.classz.pay.ZhiFuBaoStrategy;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
+import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
 import com.mingpinmall.classz.widget.PayPopupWindow;
 import com.socks.library.KLog;
-import com.tencent.mm.opensdk.constants.Build;
-import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +51,7 @@ import java.util.Map;
  */
 @Route(path = ARouterConfig.classify.CONFIRMORDERACTIVITY, extras = ARouterConfig.LOGIN_NEEDED)
 public class ConfirmOrderActivity extends
-        AbsLifecycleActivity<ActivityConfirmOrderBinding, ClassifyViewModel> implements MaterialDialog.ListCallbackSingleChoice {
+        AbsLifecycleActivity<ActivityConfirmOrderBinding, ClassifyViewModel> implements MaterialDialog.ListCallbackSingleChoice, JPayListener {
 
     @Autowired
     String id;
@@ -59,17 +59,15 @@ public class ConfirmOrderActivity extends
     @Autowired
     String cartId;
 
-    /*地址id*/
-    String addressId;
-
-    private String invoice_id = "";/*是否选择发票*/
-
-    private int mPayFun = -1;
-
     @Autowired
     String ifcart;/*是否是购物车*/
 
-    private String mVatHash, mOffpayHash, mOffpayHashBatch;
+    /*地址id  是否选择发票*/
+    private String addressId, invoice_id = "", mVatHash, mOffpayHash, mOffpayHashBatch;
+
+    private List<BuyStepInfo.PayInfoBean.PaymentListBean> mPaymentList;
+
+    private int mPayFun = -1;
 
     private PayPopupWindow mPayPopupWindow;
 
@@ -162,11 +160,55 @@ public class ConfirmOrderActivity extends
                                         .build().createPop();
                             }
                             mPayPopupWindow.showAsDropDown(baseBinding.rlTitleContent);
+
+                            BuyStepInfo stepInfo = data.getData();
+                            mPaySn = stepInfo.getPay_sn();
+                            mPaymentCode = stepInfo.getPayment_code();
+                            /*KLog.i(data.getData().getPay_sn());*/
+                            BuyStepInfo.PayInfoBean payInfo = stepInfo.getPay_info();
+                            if (null != payInfo) {
+                                mPaymentList = payInfo.getPayment_list();
+                            }
                         } else {
                             ToastUtils.showLong(data.getMessage());
                         }
                     }
                 });
+
+        registerObserver(Constants.CONFIRMORDER_KEY[3] + "Success", PayMessageInfo.class)
+                .observe(this, new Observer<PayMessageInfo>() {
+                    @Override
+                    public void onChanged(@Nullable PayMessageInfo response) {
+                        KLog.i(response);
+                        switch (mPayFun) {
+                            case 0:
+                                aLiPay(response.getParam());
+                                break;
+                            case 1:
+                                weixinPay(response.getPay_code());
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void aLiPay(final String param) {
+        Context context = new Context(ZhiFuBaoStrategy.getInstance(this));
+        Map<String, String> map = new HashMap<>();
+        map.put("orderInfo", param);
+        context.pay(map, this);
+    }
+
+    private void weixinPay(PayMessageInfo.PayCodeBean response) {
+        Context context = new Context(WeiXinBaoStrategy.getInstance(this));
+        Map<String, String> map = new HashMap<>();
+        map.put("appId", response.getAppidX());
+        map.put("partnerId", response.getPartnerid());
+        map.put("prepayId", response.getPrepayid());
+        map.put("nonceStr", response.getNonce_strX());
+        map.put("timeStamp", response.getTimestamp());
+        map.put("sign", response.getSignX());
+        context.pay(map, this);
     }
 
     public void merchant(View view) {
@@ -182,58 +224,44 @@ public class ConfirmOrderActivity extends
         paymentDialog.show();
     }
 
+
     /*阿里*/
     public void aLiPay(View view) {
         mPayFun = 0;
+        mPaymentCode = getPaymentCode("支付宝app");
     }
 
     /*微信*/
     public void weixinPay(View view) {
         mPayFun = 1;
-
-        IWXAPI api = WXAPIFactory.createWXAPI(this, Constants.WEIXIN_APP_ID, true);
-        int wxSdkVersion = api.getWXAppSupportAPI();
-        if (wxSdkVersion >= Build.OFFLINE_PAY_SDK_INT) {
-//                    final IWXAPI msgApi = WXAPIFactory.createWXAPI(getApplicationContext(), null);
-//                    msgApi.registerApp("wxc18a7a67aae81510");
-            PayReq request = new PayReq();
-            request.appId = Constants.WEIXIN_APP_ID;
-            request.partnerId = "1414269202";
-            request.prepayId = "wx101032496536374724b5a6462408257615";
-            request.packageValue = "Sign=WXPay";
-            request.nonceStr = "wthodj3xyp9f5365zymwuft4i2v2i06b";
-            request.timeStamp = "1557455569";
-            request.sign = "575E40D7EA9A394EB0641FFC6533F6AE";
-            api.sendReq(request);
-            /*api.sendReq(new JumpToOfflinePay.Req());*/
-        } else {
-            ToastUtils.showLong("not supported");
-        }
+        mPaymentCode = getPaymentCode("微信app");
     }
+
+    private String getPaymentCode(String name) {
+        if (null != mPaymentList && mPaymentList.size() > 0) {
+            for (BuyStepInfo.PayInfoBean.PaymentListBean paymentListBean : mPaymentList) {
+                if (paymentListBean.getPayment_name().contains(name)) {
+                    return paymentListBean.getPayment_codeX();
+                }
+            }
+        }
+        return "";
+    }
+
+    private String mPaySn, mPaymentCode;
 
     /*确认订单*/
     public void btnOkClick(View view) {
         switch (mPayFun) {
             case 0:
-                aLiPay();
-                mPayPopupWindow.dismiss();
-                break;
             case 1:
-                weixinPay();
+                mViewModel.getPayNew(mPaySn, mPaymentCode, String.valueOf(mPayFun), Constants.CONFIRMORDER_KEY[3]);
                 mPayPopupWindow.dismiss();
                 break;
             default:
                 ToastUtils.showLong("请选择支付方式");
                 break;
         }
-    }
-
-    private void aLiPay() {
-        // TODO: 2019/4/28 阿里支付
-    }
-
-    private void weixinPay() {
-        // TODO: 2019/4/28 微信支付
     }
 
     public void invoiceInfo(View view) {
@@ -248,9 +276,7 @@ public class ConfirmOrderActivity extends
         KLog.i("提交订单" + binding.getContent() + payment);
         Map<String, Object> map = new HashMap<>();
 
-        if (!TextUtils.isEmpty(ifcart)) {
-            map.put("ifcart", ifcart);
-        }
+        if (!TextUtils.isEmpty(ifcart)) map.put("ifcart", ifcart);
         map.put("cart_id", cartId);
         map.put("address_id", addressId);
         map.put("vat_hash", mVatHash);
@@ -260,11 +286,7 @@ public class ConfirmOrderActivity extends
         map.put("invoice_id", invoice_id);
         map.put("rpt", "");
         map.put("pay_message", binding.getContent());//store_id+binding.getContent()|store_id+binding.getContent()
-//        mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
-
-
-        /*测试微信支付*/
-        weixinPay(null);
+        mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
     }
 
     public void onFinishClick(View view) {
@@ -296,6 +318,27 @@ public class ConfirmOrderActivity extends
             invoice_id = bean.getInv_idX();
             binding.setInvoice(String.format("%s %s", bean.getInv_title(), bean.getInv_content()));
         }
+
+    }
+
+    @Override
+    public void onPaySuccess() {
+        ToastUtils.showLong("支付成功");
+    }
+
+    @Override
+    public void onPayError(int error_code, String message) {
+        ToastUtils.showLong(error_code + " " + message);
+    }
+
+    @Override
+    public void onPayCancel() {
+        KLog.i("支付取消");
+        ToastUtils.showLong("支付取消");
+    }
+
+    @Override
+    public void onUUPay(String dataOrg, String sign, String mode) {
 
     }
 }

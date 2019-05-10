@@ -23,6 +23,7 @@ import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
+import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
@@ -858,6 +859,41 @@ public class ClassifyRepository extends BaseRepository {
 
     /*微信*/
     public void getWeiXin(Map<String, Object> map, Object eventKey) {
+    }
+
+    /*获取参数*/
+    public void getPayNew(String paySn, String paymentCode, String pdPay, final Object eventKey) {
+        Map<String, Object> map = parames("member_payment", "pay_new");
+        map.put("key", getUserKey());
+        map.put("pay_sn", paySn);
+        map.put("rcb_pay", "0");
+        map.put("pd_pay", "0");
+        map.put("payment_code", paymentCode);
+        map.put("client", "android");
+        addDisposable(apiService.getPayNew(map)
+                .compose(RxSchedulers.<PayMessageInfo>io_main())
+                .subscribeWith(new RxSubscriber<PayMessageInfo>() {
+                    @Override
+                    public void onSuccess(PayMessageInfo result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey + "Success", result);
+
+                        } else {
+                            sendData(Constants.CHAT[0] + "Error", result.getErr_code_des());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
     }
 
     /************************************* 店铺 end ******************************/

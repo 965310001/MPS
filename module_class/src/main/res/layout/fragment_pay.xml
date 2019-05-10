@@ -63,6 +63,39 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
+            <!--<RadioGroup-->
+                <!--android:id="@+id/iv_pay_weixin"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/dp_20"-->
+                <!--android:onClick="aLiPay"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:src="@drawable/icon_alipay_72"-->
+                <!--android:visibility="@{data.pay_info.aliPay?View.VISIBLE:View.GONE}"-->
+                <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--app:layout_constraintRight_toRightOf="parent"-->
+                <!--app:layout_constraintTop_toBottomOf="@id/tv_pay_fun">-->
+
+                <!--<RadioButton-->
+                    <!--android:layout_width="@dimen/image_height_large"-->
+                    <!--android:layout_height="@dimen/image_height_large"-->
+                    <!--android:layout_marginRight="@dimen/dp_20"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:background="@drawable/icon_alipay_72"-->
+                    <!--android:button="@null"-->
+                    <!--android:onClick="aLiPay"-->
+                    <!--android:visibility="@{data.pay_info.aliPay?View.VISIBLE:View.GONE}" />-->
+
+                <!--<RadioButton-->
+                    <!--android:layout_width="@dimen/image_height_large"-->
+                    <!--android:layout_height="@dimen/image_height_large"-->
+                    <!--android:layout_marginLeft="@dimen/dp_20"-->
+                    <!--android:background="@drawable/weixin"-->
+                    <!--android:button="@null"-->
+                    <!--android:onClick="weixinPay"-->
+                    <!--android:visibility="@{data.pay_info.weiXin?View.VISIBLE:View.GONE}" />-->
+            <!--</RadioGroup>-->
+
             <ImageView
                 android:id="@+id/iv_pay_weixin"
                 android:layout_width="@dimen/image_height_large"

@@ -184,14 +184,18 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
 
-    /*阿里支付*/
-    public void getAli(Map<String, Object> map, Object eventKey) {
-        mRepository.getAli(map, eventKey);
-    }
+//    /*阿里支付*/
+//    public void getAli(Map<String, Object> map, Object eventKey) {
+//        mRepository.getAli(map, eventKey);
+//    }
+//
+//    /*微信支付*/
+//    public void getWeiXin(Map<String, Object> map, Object eventKey) {
+//        mRepository.getWeiXin(map, eventKey);
+//    }
 
-    /*微信支付*/
-    public void getWeiXin(Map<String, Object> map, Object eventKey) {
-        mRepository.getWeiXin(map, eventKey);
+    public void getPayNew(String paySn, String paymentCode, String pdPay, Object eventKey) {
+        mRepository.getPayNew(paySn, paymentCode, pdPay, eventKey);
     }
 
     /************************************* end ******************************/

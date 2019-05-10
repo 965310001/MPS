@@ -15,6 +15,7 @@ import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
+import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
@@ -172,6 +173,11 @@ public interface ClassifyService {
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<BaseResponse<MsgInfo>> sendMsg(@FieldMap Map<String, Object> map);
+
+
+    /*getPayNew*/
+    @GET(BASEURL)
+    Flowable<PayMessageInfo> getPayNew(@QueryMap Map<String, Object> map);
 
     /***************************************封装通用******************************/
     /*封装通用*/

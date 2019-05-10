@@ -44,7 +44,7 @@ public class TokenInterceptor implements Interceptor {
         }
         String bodyString = buffer.clone().readString(charset);
 
-//        KLog.i("\n" + bodyString);
+        KLog.i("\n" + bodyString);
         try {
             jsonObject = new JSONObject(bodyString);
             if (jsonObject.has("login") &&

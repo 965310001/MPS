@@ -1,5 +1,7 @@
 package com.mingpinmall.classz.pay;
 
+import java.util.Map;
+
 public class Context {
 
     private Strategy strategy;
@@ -9,7 +11,7 @@ public class Context {
         this.strategy = strategy;
     }
 
-    public void pay() {
-        strategy.pay();
+    public void pay(Map<String, String> map, JPayListener listener) {
+        strategy.pay(map, listener);
     }
 }

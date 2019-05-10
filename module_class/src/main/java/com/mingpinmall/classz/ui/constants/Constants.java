@@ -40,7 +40,7 @@ public interface Constants {
 
     /*提交订单*/
     Object[] CONFIRMORDER_KEY = {"CONFIRMORDER_KEY", "CONFIRMORDER_STATE",
-            "CONFIRMORDER_PAY_KEY"};/*提交订单 支付*/
+            "CONFIRMORDER_PAY_KEY","CONFIRMORDER_WEIXIN_PAY_KEY"};/*提交订单 支付*/
 
     /*发票*/
     Object[] INVOICECONTENT_KEY = {"INVOICECONTENT_KEY", "INVOICECONTENT_KEY_STATE", "ADD_INVOICECONTENT_KEY", "INVOICE_LIST_STATE",
@@ -79,4 +79,6 @@ public interface Constants {
      int REFRESH_TOKEN = 3;
      int GET_INFO = 4;
      int GET_IMG = 5;
+     /*支付宝APPID*/
+    CharSequence AI_APP_ID = "2019050964432158";
 }

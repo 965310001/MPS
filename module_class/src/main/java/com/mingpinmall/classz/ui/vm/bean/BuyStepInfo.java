@@ -120,7 +120,7 @@ public class BuyStepInfo extends BaseBean {
         @Bindable
         public boolean isAliPay() {
             for (PaymentListBean paymentListBean : getPayment_list()) {
-                if (paymentListBean.getPayment_name().equals("支付宝")) {
+                if (paymentListBean.getPayment_name().contains("支付宝")) {
                     return true;
                 }
             }
@@ -141,7 +141,7 @@ public class BuyStepInfo extends BaseBean {
         @Bindable
         public boolean isWeiXin() {
             for (PaymentListBean paymentListBean : getPayment_list()) {
-                if (paymentListBean.getPayment_name().equals("微信")) {
+                if (paymentListBean.getPayment_name().contains("微信")) {
                     return true;
                 }
             }
