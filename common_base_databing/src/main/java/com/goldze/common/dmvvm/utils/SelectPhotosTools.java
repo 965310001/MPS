@@ -25,6 +25,9 @@ import static android.app.Activity.RESULT_OK;
 
 /**
  * 宫格展示图片 需要搭配RecyclerView食用
+ * 使用方法：初始化时传入用于显示图片的recyclerView，然后在onActivityResult里调用：
+ * onResultCall(requestCode, resultCode, data, scrollView);方法
+ * scrollView参数可为空，此参数用于scrollView嵌套recyclerView的情况；
  * Created by qq321 on 2017/5/26 0026.
  */
 public class SelectPhotosTools {

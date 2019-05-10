@@ -32,7 +32,7 @@ import java.util.List;
 import static com.xuexiang.xui.utils.ResUtils.getResources;
 
 /**
- * @author GuoFeng
+ *@author GuoFeng
  * @date :2019/1/16 18:05
  * @description: 图片工具类
  */

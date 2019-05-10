@@ -57,7 +57,7 @@ public interface Constants {
     Object GET_USER_INFO = "GET_USER_INFO";
     Object USER_PAYPWD_INFO = "USER_PAYPWD_INFO";
     Object USER_PHONE_INFO = "USER_PHONE_INFO";
-    Object Err_USER_INFO = "Err_USER_INFO";
+    Object ERR_USER_INFO = "ERR_USER_INFO";
     Object MY_ASSET = "MY_ASSET";
     Object SEND_FEEDBACK = "SEND_FEEDBACK";
     Object SHOPS_COLLECT_LIST = "SHOPS_COLLECT_LIST";

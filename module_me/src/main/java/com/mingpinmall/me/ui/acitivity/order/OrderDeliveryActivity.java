@@ -1,9 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.order;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -18,17 +15,14 @@ import com.mingpinmall.me.ui.adapter.OrderDeliverysAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.OrderDeliverListBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * 功能描述：物流信息
- * 创建人：小斌
- * 创建时间: 2019/4/27
+ * *@author 小斌
+ * @date 2019/4/27
  **/
 @Route(path = ARouterConfig.Me.ORDERDELIVERYACTIVITY)
 public class OrderDeliveryActivity extends AbsLifecycleActivity<ActivityOrderDeliveryBinding, MeViewModel> {
@@ -49,12 +43,7 @@ public class OrderDeliveryActivity extends AbsLifecycleActivity<ActivityOrderDel
         binding.recyclerView.setAdapter(listAdapter);
 
         binding.refreshLayout.setEnableLoadMore(false);
-        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                initData();
-            }
-        });
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> initData());
     }
 
     @Override

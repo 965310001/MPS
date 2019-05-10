@@ -5,8 +5,8 @@ import java.util.List;
 
 /**
  * 功能描述：退款列表
- * 创建人：小斌
- * 创建时间: 2019/4/22
+ * *@author 小斌
+ * @date 2019/4/22
  **/
 public class RefundBean implements Serializable {
 

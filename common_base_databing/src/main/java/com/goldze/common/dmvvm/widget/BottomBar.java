@@ -23,8 +23,8 @@ import java.util.List;
 
 /**
  * 功能描述：底部导航栏
- * 创建人：小斌
- * 创建时间: 2019/4/26
+ * @author 小斌
+ * @date 2019/4/26
  * 原作简书：https://www.jianshu.com/p/75f82b7d3f34
  **/
 public class BottomBar extends View {

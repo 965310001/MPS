@@ -24,8 +24,8 @@ import java.util.Properties;
 
 /**
  * 功能描述：状态栏透明
- * 创建人：小斌
- * 创建时间: 2019/4/8
+ * *@author 小斌
+ * @date 2019/4/8
  **/
 public class StatusBarUtils {
 
@@ -556,8 +556,9 @@ public class StatusBarUtils {
             Method getStringMethod = sysClass.getDeclaredMethod("get", String.class);
             String version = (String) getStringMethod.invoke(sysClass, "ro.build.display.id");
             if (!TextUtils.isEmpty(version)) {
-                if (version.toLowerCase().contains("flyme"))
+                if (version.toLowerCase().contains("flyme")) {
                     return true;
+                }
             }
         } catch (Exception e) {
         }

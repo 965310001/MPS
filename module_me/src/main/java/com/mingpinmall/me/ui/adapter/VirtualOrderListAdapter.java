@@ -1,6 +1,6 @@
 package com.mingpinmall.me.ui.adapter;
 
-import android.support.v7.widget.AppCompatImageView;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -12,13 +12,14 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：虚拟订单适配器
- * 创建人：小斌
- * 创建时间: 2019/4/13
+ *
+ * @author 小斌
+ * @date 2019/4/13
  **/
 public class VirtualOrderListAdapter extends BaseQuickAdapter<VirtualOrderBean.OrderListBean, BaseViewHolder> {
 
     public VirtualOrderListAdapter() {
-        super(R.layout.item_virtual_order_group, new ArrayList<VirtualOrderBean.OrderListBean>());
+        super(R.layout.item_virtual_order_group, new ArrayList<>());
     }
 
     @Override
@@ -28,13 +29,18 @@ public class VirtualOrderListAdapter extends BaseQuickAdapter<VirtualOrderBean.O
         helper.setText(R.id.tv_storeName, item.getStore_name())
                 .setText(R.id.tv_orderState, item.getState_desc())
                 .setText(R.id.tv_label, item.getGoods_name())
-                .setText(R.id.tv_payMoney, "¥" + item.getGoods_price())
-                .setText(R.id.tv_count, "x" + item.getGoods_num())
-                .setGone(R.id.bt_appraiseOrder, state.equals("40"))//评价
-                .setGone(R.id.bt_harvestOrder, state.equals("30"))//收货
-                .setGone(R.id.bt_payOrder, state.equals("10"))//支付
-                .setGone(R.id.bt_cancelOrder, state.equals("10"))//取消
-                .setGone(R.id.tv_removeOrder, state.equals("0") || state.equals("40"))//移除
+                .setText(R.id.tv_payMoney, String.format("¥%s", item.getGoods_price()))
+                .setText(R.id.tv_count, String.format("x%s", item.getGoods_num()))
+                //评价
+                .setGone(R.id.bt_appraiseOrder, TextUtils.equals("40", state))
+                //收货
+                .setGone(R.id.bt_harvestOrder, TextUtils.equals("30", state))
+                //支付
+                .setGone(R.id.bt_payOrder, TextUtils.equals("10", state))
+                //取消
+                .setGone(R.id.bt_cancelOrder, TextUtils.equals("10", state))
+                //移除
+                .setGone(R.id.tv_removeOrder, TextUtils.equals("0", state) || TextUtils.equals("40", state))
                 .addOnClickListener(R.id.ll_shopContent)
                 .addOnClickListener(R.id.bt_appraiseOrder)
                 .addOnClickListener(R.id.bt_harvestOrder)
@@ -42,6 +48,6 @@ public class VirtualOrderListAdapter extends BaseQuickAdapter<VirtualOrderBean.O
                 .addOnClickListener(R.id.bt_cancelOrder)
                 .addOnClickListener(R.id.tv_removeOrder);
 
-        ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), item.getGoods_image_url());
+        ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getGoods_image_url());
     }
 }

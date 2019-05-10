@@ -12,8 +12,8 @@ import java.util.List;
 
 /**
  * 功能描述：通用的UltraViewPager轮播图适配器
- * 创建人：小斌
- * 创建时间: 2019/5/5
+ * @author 小斌
+ * @date 2019/5/5
  **/
 public abstract class BaseBannerAdapter<T, D extends ViewDataBinding> extends PagerAdapter {
 
@@ -53,12 +53,9 @@ public abstract class BaseBannerAdapter<T, D extends ViewDataBinding> extends Pa
     public Object instantiateItem(ViewGroup container, final int position) {
         D view = DataBindingUtil.inflate(LayoutInflater.from(container.getContext()), getLayoutId(), container, false);
         convert(view, data.get(position), position);
-        view.getRoot().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onPagerClickListener != null) {
-                    onPagerClickListener.OnPagerClick(position);
-                }
+        view.getRoot().setOnClickListener(v -> {
+            if (onPagerClickListener != null) {
+                onPagerClickListener.onPagerClick(position);
             }
         });
         container.addView(view.getRoot());
@@ -72,6 +69,10 @@ public abstract class BaseBannerAdapter<T, D extends ViewDataBinding> extends Pa
     }
 
     public interface OnPagerClickListener {
-        void OnPagerClick(int position);
+        /**
+         * 哪个页面被点击
+         * @param position
+         */
+        void onPagerClick(int position);
     }
 }

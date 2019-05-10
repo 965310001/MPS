@@ -36,10 +36,12 @@ import java.util.Map;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
+
 /**
  * 功能描述：订单评价
- * 创建人：小斌
- * 创建时间: 2019/4/30
+ * *@author 小斌
+ * @date 2019/4/30
  **/
 @Route(path = ARouterConfig.Me.ORDEREVALUATEACTIVITY)
 public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrderevaluateBinding, MeViewModel> {
@@ -137,9 +139,9 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
             }
         });
         registerObserver(Constants.SEND_EVALUATE, String.class).observeForever(s -> {
-            if (s.equals("success")) {
+            if (s.equals(SUCCESS)) {
                 progressDialog.onComplete("", () -> {
-                    setResult(100);
+                    setResult(RESULT_OK);
                     finish();
                 });
             } else {

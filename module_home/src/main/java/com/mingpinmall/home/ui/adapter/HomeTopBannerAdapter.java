@@ -7,8 +7,8 @@ import com.mingpinmall.home.databinding.ViewHomeItem3Binding;
 
 /**
  * 功能描述：首页顶部轮播图适配器
- * 创建人：小斌
- * 创建时间: 2019/5/5
+ * *@author 小斌
+ * @date 2019/5/5
  **/
 public class HomeTopBannerAdapter extends BaseBannerAdapter<String, ViewHomeItem3Binding> {
 

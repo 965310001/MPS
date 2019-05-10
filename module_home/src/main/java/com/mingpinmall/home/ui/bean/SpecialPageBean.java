@@ -5,8 +5,8 @@ import java.util.List;
 
 /**
  * 功能描述：专题页面
- * 创建人：小斌
- * 创建时间: 2019/5/5
+ * *@author 小斌
+ * @date 2019/5/5
  **/
 public class SpecialPageBean implements Serializable {
 

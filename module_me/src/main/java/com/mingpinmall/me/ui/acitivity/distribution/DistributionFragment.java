@@ -10,8 +10,8 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 
 /**
  * 功能描述：我的推广 - X级下线
- * 创建人：小斌
- * 创建时间: 2019/3/29
+ * @author 小斌
+ * @date 2019/3/29
  **/
 public class DistributionFragment extends AbsLifecycleFragment<BaseRecyclerviewBinding, MeViewModel> {
 

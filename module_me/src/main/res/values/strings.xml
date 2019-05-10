@@ -91,6 +91,8 @@
     <string name="text_phsi_12">付款时间：</string>
     <string name="text_phsi_13">发货时间：</string>
     <string name="text_phsi_14">完成时间：</string>
+    <string name="text_phsi_15">收货地址：</string>
+    <string name="text_phsi_16">收货人：</string>
     <string name="text_rmb">¥</string>
     <!-- PhysicalOrderInformationActivity Over -->
 

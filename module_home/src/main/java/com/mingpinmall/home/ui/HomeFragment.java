@@ -1,11 +1,8 @@
 package com.mingpinmall.home.ui;
 
-
-import android.arch.lifecycle.Observer;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,20 +18,19 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentHomeBinding;
-import com.mingpinmall.home.ui.activity.qrCode.ScanQRCodeActivity;
+import com.mingpinmall.home.ui.activity.qrcode.ScanQrCodeActivity;
 import com.mingpinmall.home.ui.adapter.HomeListAdapter;
-import com.mingpinmall.home.ui.adapter.RVBannerPagerClickListener;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.constants.Constants;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 首页
+ * @author 小斌
+ * @date 2019/4/3
  */
 public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, HomeViewModel> {
 
@@ -44,7 +40,10 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     private HomeListAdapter homeListAdapter;
     private GridLayoutManager gridLayoutManager;
-    //列表滑动时用到的变量
+
+    /**
+     * 列表滑动时用到的变量
+     */
     private float scrollY;
     private float firstViewHeight;
     private int alpha;
@@ -76,40 +75,32 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
         binding.recyclerView.setLayoutManager(gridLayoutManager);
         homeListAdapter = new HomeListAdapter();
         homeListAdapter.bindToRecyclerView(binding.recyclerView);
-        homeListAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                switch (homeListAdapter.getData().get(position).getItemType()) {
-                    case 3://布局c
-                        return 2;
-                    case 6://导航
-                        return 1;
-                    case 10://商品
-                        return 2;
-                    case 12://团购
-                        return 2;
-                    default:
-                        return 4;
-                }
+        homeListAdapter.setSpanSizeLookup((gridLayoutManager, position) -> {
+            switch (homeListAdapter.getData().get(position).getItemType()) {
+                case 3:
+                    //布局c
+                    return 2;
+                case 6:
+                    //导航
+                    return 1;
+                case 10:
+                    //商品
+                    return 2;
+                case 12:
+                    //团购
+                    return 2;
+                default:
+                    return 4;
             }
         });
 
         //不使用上拉加载更多
         binding.refreshLayout.setEnableLoadMore(false);
         //下拉刷新监听
-        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mViewModel.getHomeDataList();
-            }
-        });
-        /**
-         * 列表上点击事件
-         */
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> mViewModel.getHomeDataList());
+        //列表上点击事件
         setItemCLickListener();
-        /**
-         * 除列表外，其他按钮点击事件
-         */
+        //除列表外，其他按钮点击事件
         setClickListener();
         //列表滑动监听
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -152,33 +143,21 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
      * 除列表外，其他按钮点击事件
      */
     private void setClickListener() {
-        binding.fab2top.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //返回顶部
-                binding.recyclerView.smoothScrollToPosition(0);
-            }
+        binding.fab2top.setOnClickListener(v -> {
+            //返回顶部
+            binding.recyclerView.smoothScrollToPosition(0);
         });
-        binding.svSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //点击搜索框
-                ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
-            }
+        binding.svSearch.setOnClickListener(v -> {
+            //点击搜索框
+            ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
         });
-        binding.llMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //点击消息
-                ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
-            }
+        binding.llMsg.setOnClickListener(v -> {
+            //点击消息
+            ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
         });
-        binding.llQRCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //点击扫一扫
-                IntentIntegrator.forSupportFragment(HomeFragment.this).setCaptureActivity(ScanQRCodeActivity.class).initiateScan();
-            }
+        binding.llQRCode.setOnClickListener(v -> {
+            //点击扫一扫
+            IntentIntegrator.forSupportFragment(HomeFragment.this).setCaptureActivity(ScanQrCodeActivity.class).initiateScan();
         });
     }
 
@@ -187,76 +166,72 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
      */
     private void setItemCLickListener() {
         //列表上的轮播图
-        homeListAdapter.setBannerClickListener(new RVBannerPagerClickListener() {
-            @Override
-            public void onItemClick(int position, int index) {
-                //轮播图点击事件
-                HomeItemBean.DatasBean bannerDatas = homeListAdapter.getItem(position);
-                if (bannerDatas.getAdv_list() != null) {
-                    //顶部单张图片式轮播图
-                    HomeItemBean.DatasBean.AdvListBean advListBean = bannerDatas.getAdv_list();
-                    ToastUtils.showShort("轮播图Index: " + index + " 事件：" + advListBean.getItem().get(index).getData());
-                } else {
-                    //其他轮播图
-                    HomeItemBean.DatasBean.Goods1Bean goods1Bean = bannerDatas.getGoods1();
-                    ActivityToActivity.toActivity(
-                            ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
-                            "id",
-                            goods1Bean.getItem().get(index).getGoods_id()
-                    );
-                }
+        homeListAdapter.setBannerClickListener((position, index) -> {
+            //轮播图点击事件
+            HomeItemBean.DatasBean bannerDatas = homeListAdapter.getItem(position);
+            if (bannerDatas.getAdv_list() != null) {
+                //顶部单张图片式轮播图
+                HomeItemBean.DatasBean.AdvListBean advListBean = bannerDatas.getAdv_list();
+                ToastUtils.showShort("轮播图Index: " + index + " 事件：" + advListBean.getItem().get(index).getData());
+            } else {
+                //其他轮播图
+                HomeItemBean.DatasBean.Goods1Bean goods1Bean = bannerDatas.getGoods1();
+                ActivityToActivity.toActivity(
+                        ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
+                        "id",
+                        goods1Bean.getItem().get(index).getGoods_id()
+                );
             }
         });
         //item内部子View点击
-        homeListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                //item上的View点击事件
-                if (!SharePreferenceUtil.isLogin()) {
-                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                    return;
-                }
-                int id = view.getId();
-                // 2 4 5
-                HomeItemBean.DatasBean datasBean = homeListAdapter.getItem(position);
-                int type = datasBean.getItemType();
-                switch (type) {
-                    case 5:
-                        //布局：左矩形  右上矩形  右下俩矩形  左1右3
-                        HomeItemBean.DatasBean.Home5Bean home5Bean = datasBean.getHome5();
-                        if (id == R.id.iv_square) {
-                            navigationRouter(home5Bean.getSquare_data(), home5Bean.getSquare_type());
-                        } else if (id == R.id.iv_rectangle1) {
-                            navigationRouter(home5Bean.getRectangle1_data(), home5Bean.getRectangle1_type());
-                        } else if (id == R.id.iv_rectangle2) {
-                            navigationRouter(home5Bean.getRectangle2_data(), home5Bean.getRectangle2_type());
-                        } else if (id == R.id.iv_rectangle3) {
-                            navigationRouter(home5Bean.getRectangle3_data(), home5Bean.getRectangle3_type());
-                        }
-                        break;
-                    case 4:
-                        //布局：左上矩形  左下矩形  右矩形  左2右1
-                        HomeItemBean.DatasBean.Home4Bean home4Bean = datasBean.getHome4();
-                        if (id == R.id.iv_square) {
-                            navigationRouter(home4Bean.getSquare_data(), home4Bean.getSquare_type());
-                        } else if (id == R.id.iv_rectangle1) {
-                            navigationRouter(home4Bean.getRectangle1_data(), home4Bean.getRectangle1_type());
-                        } else if (id == R.id.iv_rectangle2) {
-                            navigationRouter(home4Bean.getRectangle2_data(), home4Bean.getRectangle2_type());
-                        }
-                        break;
-                    case 2:
-                        //布局：左矩形  右上矩形  右下矩形  左1右2
-                        HomeItemBean.DatasBean.Home2Bean home2Bean = datasBean.getHome2();
-                        if (id == R.id.iv_square) {
-                            navigationRouter(home2Bean.getSquare_data(), home2Bean.getSquare_type());
-                        } else if (id == R.id.iv_rectangle1) {
-                            navigationRouter(home2Bean.getRectangle1_data(), home2Bean.getRectangle1_type());
-                        } else if (id == R.id.iv_rectangle2) {
-                            navigationRouter(home2Bean.getRectangle2_data(), home2Bean.getRectangle2_type());
-                        }
-                        break;
-                }
+        homeListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //item上的View点击事件
+            if (!SharePreferenceUtil.isLogin()) {
+                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                return;
+            }
+            int id = view.getId();
+            // 2 4 5
+            HomeItemBean.DatasBean datasBean = homeListAdapter.getItem(position);
+            int type = datasBean.getItemType();
+            switch (type) {
+                case 5:
+                    //布局：左矩形  右上矩形  右下俩矩形  左1右3
+                    HomeItemBean.DatasBean.Home5Bean home5Bean = datasBean.getHome5();
+                    if (id == R.id.iv_square) {
+                        navigationRouter(home5Bean.getSquare_data(), home5Bean.getSquare_type());
+                    } else if (id == R.id.iv_rectangle1) {
+                        navigationRouter(home5Bean.getRectangle1_data(), home5Bean.getRectangle1_type());
+                    } else if (id == R.id.iv_rectangle2) {
+                        navigationRouter(home5Bean.getRectangle2_data(), home5Bean.getRectangle2_type());
+                    } else if (id == R.id.iv_rectangle3) {
+                        navigationRouter(home5Bean.getRectangle3_data(), home5Bean.getRectangle3_type());
+                    }
+                    break;
+                case 4:
+                    //布局：左上矩形  左下矩形  右矩形  左2右1
+                    HomeItemBean.DatasBean.Home4Bean home4Bean = datasBean.getHome4();
+                    if (id == R.id.iv_square) {
+                        navigationRouter(home4Bean.getSquare_data(), home4Bean.getSquare_type());
+                    } else if (id == R.id.iv_rectangle1) {
+                        navigationRouter(home4Bean.getRectangle1_data(), home4Bean.getRectangle1_type());
+                    } else if (id == R.id.iv_rectangle2) {
+                        navigationRouter(home4Bean.getRectangle2_data(), home4Bean.getRectangle2_type());
+                    }
+                    break;
+                case 2:
+                    //布局：左矩形  右上矩形  右下矩形  左1右2
+                    HomeItemBean.DatasBean.Home2Bean home2Bean = datasBean.getHome2();
+                    if (id == R.id.iv_square) {
+                        navigationRouter(home2Bean.getSquare_data(), home2Bean.getSquare_type());
+                    } else if (id == R.id.iv_rectangle1) {
+                        navigationRouter(home2Bean.getRectangle1_data(), home2Bean.getRectangle1_type());
+                    } else if (id == R.id.iv_rectangle2) {
+                        navigationRouter(home2Bean.getRectangle2_data(), home2Bean.getRectangle2_type());
+                    }
+                    break;
+                default:
+                    break;
             }
         });
         //item点击
@@ -294,6 +269,8 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                         HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem goods2Bean = datasBean.getGoods2ItemBean();
                         navigationRouter(goods2Bean.getGoods_id(), "goods");
                         break;
+                    default:
+                        break;
                 }
             }
         });
@@ -305,29 +282,36 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
     }
 
     /**
-     * @date 创建时间： 2019/4/4
-     * @author 创建人：小斌
-     * @Description 描述：列表上的导航功能
-     * @Version
+     * 描述：列表上的导航功能
      **/
     private void navigationRouter(String data, String type) {
         switch (type) {
-            case "url"://跳转到指定页面
+            case "url":
+                //跳转到指定页面
                 route2Url(data);
                 break;
-            case "keyword"://通过关键字搜索产品
+            case "keyword":
+                //通过关键字搜索产品
                 ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "keyword", data);
                 break;
-            case "special"://前往指定专题页面
+            case "special":
+                //前往指定专题页面
                 ActivityToActivity.toActivity(ARouterConfig.home.SPECIALACTIVITY, "id", data);
                 break;
-            case "goods"://前往产品详细页面
+            case "goods":
+                //前往产品详细页面
                 ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data);
+                break;
+            default:
                 break;
         }
     }
 
-    /*跳转到指定页面*/
+    /**
+     * 跳转到指定页面
+     *
+     * @param url 地址
+     */
     private void route2Url(String url) {
         switch (url) {
             case "tmpl/mall.html":
@@ -365,6 +349,8 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             case "tmpl/member/signin.html":
                 //签到
                 ToastUtils.showShort("签到");
+                break;
+            default:
                 break;
         }
     }
@@ -421,7 +407,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 //团购
                 //添加一个标题
                 datasBean.setItemType(22);
-                datasBean.setLabel(datasBean.getGoods2().getTitle().equals("") ? "团购商品" : datasBean.getGoods2().getTitle());
+                datasBean.setLabel(datasBean.getGoods2().getTitle().isEmpty() ? "团购商品" : datasBean.getGoods2().getTitle());
                 datasBean.setSubLabel("精品抢购 有你所选");
                 listData.add(datasBean);
                 //添加内容

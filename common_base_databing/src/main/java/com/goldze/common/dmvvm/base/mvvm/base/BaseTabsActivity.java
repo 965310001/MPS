@@ -13,8 +13,8 @@ import java.util.List;
 
 /**
  * 功能描述：标题栏上Tabs分页按钮，适用于不使用ViewPager切换Fragment的页面
- * 创建人：小斌
- * 创建时间: 2019/4/29
+ * @author 小斌
+ * @date 2019/4/29
  **/
 public abstract class BaseTabsActivity extends BaseActivity<ActivityBaseTabsBinding> {
 

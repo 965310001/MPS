@@ -49,13 +49,14 @@ import com.socks.library.KLog;
 
 import java.util.Map;
 
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/1
+ * @author 小斌
+ * @date 2019/4/1
  **/
 public class MeRepository extends BaseRepository {
 
@@ -91,7 +92,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.POST_REFUND_ALL, "success");
+                            sendData(Constants.POST_REFUND_ALL, SUCCESS);
                         } else {
                             sendData(Constants.POST_REFUND_ALL, result.getMessage());
                         }
@@ -113,7 +114,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.POST_REFUND, "success");
+                            sendData(Constants.POST_REFUND, SUCCESS);
                         } else {
                             sendData(Constants.POST_REFUND, result.getMessage());
                         }
@@ -179,7 +180,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.SEND_EVALUATE, "success");
+                            sendData(Constants.SEND_EVALUATE, SUCCESS);
                         } else {
                             sendData(Constants.SEND_EVALUATE, result.getMessage());
                         }
@@ -225,7 +226,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.ADD_PDCASH, "success");
+                            sendData(Constants.ADD_PDCASH, SUCCESS);
                         } else {
                             sendData(Constants.ADD_PDCASH, result.getMessage());
                         }
@@ -247,7 +248,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.BIND_USER_CODE, "success");
+                            sendData(Constants.BIND_USER_CODE, SUCCESS);
                         } else {
                             sendData(Constants.BIND_USER_CODE, result.getMessage());
                         }
@@ -313,7 +314,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.DELETE_MESSAGE, "success");
+                            sendData(Constants.DELETE_MESSAGE, SUCCESS);
                         } else {
                             sendData(Constants.DELETE_MESSAGE, result.getMessage());
                         }
@@ -448,7 +449,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.COUPON_CHARGE, "success");
+                            sendData(Constants.COUPON_CHARGE, SUCCESS);
                         } else {
                             sendData(Constants.COUPON_CHARGE, result.getMessage());
                         }
@@ -470,7 +471,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.RCARD_CHARGE, "success");
+                            sendData(Constants.RCARD_CHARGE, SUCCESS);
                         } else {
                             sendData(Constants.RCARD_CHARGE, result.getMessage());
                         }
@@ -492,7 +493,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.PACKET_CHARGE, "success");
+                            sendData(Constants.PACKET_CHARGE, SUCCESS);
                         } else {
                             sendData(Constants.PACKET_CHARGE, result.getMessage());
                         }
@@ -786,10 +787,11 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onSuccess(BaseNothingBean result) {
-                        if (result.isSuccess())
-                            sendData(eventKey, Constants.RECEVIE_ORDER, "success");
-                        else
+                        if (result.isSuccess()) {
+                            sendData(eventKey, Constants.RECEVIE_ORDER, SUCCESS);
+                        } else {
                             sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -809,10 +811,11 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onSuccess(BaseNothingBean result) {
-                        if (result.isSuccess())
-                            sendData(eventKey, Constants.REMOVE_ORDER, "success");
-                        else
+                        if (result.isSuccess()) {
+                            sendData(eventKey, Constants.REMOVE_ORDER, SUCCESS);
+                        } else {
                             sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -832,10 +835,11 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onSuccess(BaseNothingBean result) {
-                        if (result.isSuccess())
-                            sendData(eventKey, Constants.RECEVIE_ORDER, "success");
-                        else
+                        if (result.isSuccess()) {
+                            sendData(eventKey, Constants.RECEVIE_ORDER, SUCCESS);
+                        } else {
                             sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -855,10 +859,11 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onSuccess(BaseNothingBean result) {
-                        if (result.isSuccess())
-                            sendData(eventKey, Constants.RECEVIE_ORDER, "success");
-                        else
+                        if (result.isSuccess()) {
+                            sendData(eventKey, Constants.RECEVIE_ORDER, SUCCESS);
+                        } else {
                             sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -917,7 +922,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.getCode() == 200) {
-                            sendData(Constants.DEL_ADDRESS, "success");
+                            sendData(Constants.DEL_ADDRESS, SUCCESS);
                         } else {
                             sendData(Constants.DEL_ADDRESS, result.getMessage());
                         }
@@ -967,7 +972,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean baseNothingBean) {
                         if (baseNothingBean.getCode() == 200) {
-                            sendData(Constants.EDIT_ADDRESS, "success");
+                            sendData(Constants.EDIT_ADDRESS, SUCCESS);
                         } else {
                             sendData(Constants.EDIT_ADDRESS, baseNothingBean.getMessage());
                         }
@@ -997,7 +1002,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean baseNothingBean) {
                         if (baseNothingBean.getCode() == 200) {
-                            sendData(Constants.EDIT_ADDRESS, "success");
+                            sendData(Constants.EDIT_ADDRESS, SUCCESS);
                         } else {
                             sendData(Constants.EDIT_ADDRESS, baseNothingBean.getMessage());
                         }
@@ -1025,10 +1030,11 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onSuccess(BaseResponse<CityBean> response) {
-                        if (response.isSuccess())
+                        if (response.isSuccess()) {
                             sendData(Constants.CITY_LIST, response.getData());
-                        else
+                        } else {
                             sendData(Constants.CITY_LIST, response.getMessage());
+                        }
                     }
 
                     @Override
@@ -1052,10 +1058,11 @@ public class MeRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
-                        if (result.isSuccess())
-                            sendData(Constants.CLEAR_FOOTPRINT, "success");
-                        else
+                        if (result.isSuccess()) {
+                            sendData(Constants.CLEAR_FOOTPRINT, SUCCESS);
+                        } else {
                             sendData(Constants.CLEAR_FOOTPRINT, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -1074,10 +1081,11 @@ public class MeRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<FootprintBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<FootprintBean> result) {
-                        if (result.isSuccess())
+                        if (result.isSuccess()) {
                             sendData(Constants.GET_FOOTPRINT, result);
-                        else
+                        } else {
                             sendData(Constants.GET_FOOTPRINT, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -1099,10 +1107,11 @@ public class MeRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<MyInfoBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<MyInfoBean> result) {
-                        if (result.isSuccess())
+                        if (result.isSuccess()) {
                             sendData(Constants.GET_USER_INFO, result.getData());
-                        else
+                        } else {
                             sendData(Constants.GET_USER_INFO, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -1147,7 +1156,7 @@ public class MeRepository extends BaseRepository {
                         if (result.isSuccess()) {
                             sendData(Constants.USER_PHONE_INFO, result.getData());
                         } else {
-                            sendData(Constants.Err_USER_INFO, result.getMessage());
+                            sendData(Constants.ERR_USER_INFO, result.getMessage());
                         }
                     }
 
@@ -1191,7 +1200,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<BaseIntDatasBean> result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.SEND_FEEDBACK, "success");
+                            sendData(Constants.SEND_FEEDBACK, SUCCESS);
                         } else {
                             sendData(Constants.SEND_FEEDBACK, result.getMessage());
                         }
@@ -1237,7 +1246,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.DEL_SHOP_COLLECT, "success");
+                            sendData(Constants.DEL_SHOP_COLLECT, SUCCESS);
                         } else {
                             sendData(Constants.DEL_SHOP_COLLECT, result.getMessage());
                         }
@@ -1260,7 +1269,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.DEL_GOODS_COLLECT, "success");
+                            sendData(Constants.DEL_GOODS_COLLECT, SUCCESS);
                         } else {
                             sendData(Constants.DEL_GOODS_COLLECT, result.getMessage());
                         }

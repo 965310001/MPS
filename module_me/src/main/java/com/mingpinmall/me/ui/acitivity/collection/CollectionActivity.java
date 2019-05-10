@@ -11,8 +11,8 @@ import com.mingpinmall.me.R;
 
 /**
  * 功能描述：商品or店铺收藏 页面
- * 创建人：小斌
- * 创建时间: 2019/3/27
+ * @author 小斌
+ * @date 2019/3/27
  **/
 @Route(path = ARouterConfig.Me.COLLECTIONACTIVITY)
 public class CollectionActivity extends BaseTabsActivity {

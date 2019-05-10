@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：订单退款 店铺商品 适配器
- * 创建人：小斌
- * 创建时间: 2019/5/9
+ * *@author 小斌
+ * @date 2019/5/9
  **/
 public class OrderRefundListAdapter extends BaseQuickAdapter<OrderApplyRefundBean.GoodsListBean, BaseViewHolder> {
 

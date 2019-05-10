@@ -3,10 +3,10 @@
 
     <application>
         <activity
-            android:name=".ui.activity.qrCode.ScanQRCodeActivity"
+            android:name=".ui.activity.qrcode.ScanQrCodeActivity"
             android:screenOrientation="fullSensor" />
-        <activity android:name=".ui.activity.shopStreet.ShopStreetActivity" />
-        <activity android:name=".ui.activity.shopStreet.ShopClassActivity" />
+        <activity android:name=".ui.activity.shopstreet.ShopStreetActivity" />
+        <activity android:name=".ui.activity.shopstreet.ShopClassActivity" />
         <activity android:name=".ui.activity.SpecialActivity" />
     </application>
 </manifest>

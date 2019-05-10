@@ -8,13 +8,13 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseTabsActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.ui.acitivity.order.RefundOrder.RefundFragment;
-import com.mingpinmall.me.ui.acitivity.order.RefundOrder.ReturnFragment;
+import com.mingpinmall.me.ui.acitivity.order.refundorder.RefundFragment;
+import com.mingpinmall.me.ui.acitivity.order.refundorder.ReturnFragment;
 
 /**
  * 功能描述：我的订单 > 退款/退货
- * 创建人：小斌
- * 创建时间: 2019/3/27
+ * @author 小斌
+ * @date 2019/3/27
  **/
 @Route(path = ARouterConfig.Me.REFUNDACTIVITY)
 public class RefundActivity extends BaseTabsActivity {

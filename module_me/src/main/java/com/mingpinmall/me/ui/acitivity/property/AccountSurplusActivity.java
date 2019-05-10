@@ -1,8 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.property;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
@@ -10,9 +8,9 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityAccountSurplusBinding;
-import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PredepositLogFragment;
-import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PdrechargeFragment;
-import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PdcashFragment;
+import com.mingpinmall.me.ui.acitivity.property.accountsurplus.PdcashFragment;
+import com.mingpinmall.me.ui.acitivity.property.accountsurplus.PdrechargeFragment;
+import com.mingpinmall.me.ui.acitivity.property.accountsurplus.PredepositLogFragment;
 import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.Predepoit;
@@ -20,8 +18,8 @@ import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：我的财产-账户余额
- * 创建人：小斌
- * 创建时间: 2019/3/28
+ * @author 小斌
+ * @date 2019/3/28
  **/
 @Route(path = ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY)
 public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccountSurplusBinding, MeViewModel> {

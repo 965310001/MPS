@@ -13,13 +13,13 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/3/25
+ * @author 小斌
+ * @date 2019/3/25
  **/
 public class MeItemAdapter extends BaseMultiItemQuickAdapter<MeItemBean, BaseViewHolder> {
 
     public MeItemAdapter() {
-        super(new ArrayList<MeItemBean>());
+        super(new ArrayList<>());
         addItemType(0, R.layout.view_me_horizontal_itemview);
         addItemType(1, R.layout.item_base_setting);
         addItemType(2, R.layout.item_default_space);

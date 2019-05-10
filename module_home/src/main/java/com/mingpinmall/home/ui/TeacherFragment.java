@@ -18,8 +18,8 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 /**
  * 功能描述：名师预约
- * 创建人：小斌
- * 创建时间: 2019/4/27
+ * *@author 小斌
+ * @date 2019/4/27
  **/
 public class TeacherFragment extends BaseFragment<FragmentTeacherBinding> {
 

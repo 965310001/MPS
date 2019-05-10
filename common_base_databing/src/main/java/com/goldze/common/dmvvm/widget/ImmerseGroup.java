@@ -7,8 +7,8 @@ import android.widget.FrameLayout;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/15
+ * *@author 小斌
+ * @date 2019/4/15
  **/
 public class ImmerseGroup  extends FrameLayout {
     public ImmerseGroup(Context context) {

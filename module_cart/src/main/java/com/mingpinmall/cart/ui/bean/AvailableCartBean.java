@@ -6,8 +6,8 @@ import java.util.List;
 
 /**
  * 功能描述：处理过后的购物车
- * 创建人：小斌
- * 创建时间: 2019/4/24
+ * *@author 小斌
+ * @date 2019/4/24
  **/
 public class AvailableCartBean implements MultiItemEntity {
 

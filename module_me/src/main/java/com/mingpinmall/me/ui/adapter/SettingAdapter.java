@@ -1,7 +1,6 @@
 package com.mingpinmall.me.ui.adapter;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
@@ -11,8 +10,8 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/3/25
+ * @author 小斌
+ * @date 2019/3/25
  **/
 public class SettingAdapter extends BaseMultiItemQuickAdapter<BaseItemBean, BaseViewHolder> {
 

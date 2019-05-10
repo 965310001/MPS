@@ -10,13 +10,13 @@ import com.goldze.common.dmvvm.base.mvvm.base.CustomTabsActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityOrderBinding;
-import com.mingpinmall.me.ui.acitivity.order.physicalOrder.PhysicalOrderFragment;
-import com.mingpinmall.me.ui.acitivity.order.virtualOrder.VirtualOrderFragment;
+import com.mingpinmall.me.ui.acitivity.order.physicalorder.PhysicalOrderFragment;
+import com.mingpinmall.me.ui.acitivity.order.virtualorder.VirtualOrderFragment;
 
 /**
  * 功能描述：我的订单
- * 创建人：小斌
- * 创建时间: 2019/3/26
+ * @author 小斌
+ * @date 2019/3/26
  **/
 @Route(path = ARouterConfig.Me.ORDERACTIVITY)
 public class OrderActivity extends CustomTabsActivity<ActivityOrderBinding> {

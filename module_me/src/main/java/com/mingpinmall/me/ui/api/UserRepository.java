@@ -13,6 +13,11 @@ import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.socks.library.KLog;
 
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
+
+/**
+ * @author 小斌
+ */
 public class UserRepository extends BaseRepository {
 
     private UserApiService apiService = RetrofitClient.getInstance().create(UserApiService.class);
@@ -31,7 +36,7 @@ public class UserRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<BaseBean> baseBeanBaseResponse) {
                         if (baseBeanBaseResponse.isSuccess()) {
-                            sendData(Constants.RESET_PASSWORD, "success");
+                            sendData(Constants.RESET_PASSWORD, SUCCESS);
                         } else {
                             sendData(Constants.RESET_PASSWORD, baseBeanBaseResponse.getMessage());
                         }
@@ -60,7 +65,7 @@ public class UserRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<BaseBean> baseBeanBaseResponse) {
                         if (baseBeanBaseResponse.isSuccess()) {
-                            sendData(Constants.RESET_PASSWORD, "success");
+                            sendData(Constants.RESET_PASSWORD, SUCCESS);
                         } else {
                             sendData(Constants.RESET_PASSWORD, baseBeanBaseResponse.getMessage());
                         }
@@ -80,10 +85,11 @@ public class UserRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<UserBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<UserBean> result) {
-                        if (result.isSuccess())
+                        if (result.isSuccess()) {
                             sendData(Constants.LOGIN, result.getData());
-                        else
+                        } else {
                             sendData(Constants.LOGIN, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -104,7 +110,7 @@ public class UserRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.CHECK_CODE, "success");
+                            sendData(Constants.CHECK_CODE, SUCCESS);
                         } else {
                             sendData(Constants.CHECK_CODE, result.getMessage());
                         }
@@ -127,7 +133,7 @@ public class UserRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.CHECK_CODE, "success");
+                            sendData(Constants.CHECK_CODE, SUCCESS);
                         } else {
                             sendData(Constants.CHECK_CODE, result.getMessage());
                         }
@@ -144,15 +150,15 @@ public class UserRepository extends BaseRepository {
     /*验证是否设置了支付密码*/
     protected void checkPayPassword() {
         addDisposable(apiService.checkPayPassword(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<DefaultCheckBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<DefaultCheckBean>>() {
-
                     @Override
                     public void onSuccess(BaseResponse<DefaultCheckBean> result) {
-                        if (result.getData().isState())
-                            sendData(Constants.CHECK_PAY_PASSWORD, "success");
-                        else
+                        if (result.getData().isState()) {
+                            sendData(Constants.CHECK_PAY_PASSWORD, SUCCESS);
+                        } else {
                             sendData(Constants.CHECK_PAY_PASSWORD, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -170,10 +176,11 @@ public class UserRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<SmsBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<SmsBean> result) {
-                        if (result.isSuccess())
+                        if (result.isSuccess()) {
                             sendData(Constants.GET_SMS_CODE, result.getData());
-                        else
+                        } else {
                             sendData(Constants.GET_SMS_CODE, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -189,14 +196,15 @@ public class UserRepository extends BaseRepository {
     /* 解除手机绑定 */
     protected void unBindPhone(String authCode) {
         addDisposable(apiService.unBindPhone(authCode, getUserKey())
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
-                        if (result.getCode() == 200)
-                            sendData(Constants.CHECK_CODE, "success");
-                        else
+                        if (result.isSuccess()) {
+                            sendData(Constants.CHECK_CODE, SUCCESS);
+                        } else {
                             sendData(Constants.CHECK_CODE, result.getMessage());
+                        }
                     }
 
                     @Override
@@ -212,14 +220,15 @@ public class UserRepository extends BaseRepository {
     /* 绑定手机 */
     protected void bindPhone(String authCode) {
         addDisposable(apiService.bindPhone(authCode, "android", getUserKey())
-                .compose(RxSchedulers.<BaseNothingBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
-                        if (result.getCode() == 200)
-                            sendData(Constants.BIND_PHONE, "success");
-                        else
+                        if (result.isSuccess()) {
+                            sendData(Constants.BIND_PHONE, SUCCESS);
+                        } else {
                             sendData(Constants.BIND_PHONE, result.getMessage());
+                        }
                     }
 
                     @Override

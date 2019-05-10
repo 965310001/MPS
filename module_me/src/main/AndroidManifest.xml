@@ -25,17 +25,17 @@
         <activity android:name=".ui.acitivity.setting.FeedBackActivity" />
         <activity android:name=".ui.acitivity.setting.CheckAuthActivity" />
         <activity android:name=".ui.acitivity.address.SelectCityActivity" />
-        <activity android:name=".ui.acitivity.order.physicalOrder.PhysicalOrderInformationActivity" />
-        <activity android:name=".ui.acitivity.order.virtualOrder.VirtualOrderInformationActivity" />
+        <activity android:name=".ui.acitivity.order.physicalorder.PhysicalOrderInformationActivity" />
+        <activity android:name=".ui.acitivity.order.virtualorder.VirtualOrderInformationActivity" />
         <activity android:name=".ui.acitivity.property.PdcashInformationActivity" />
         <activity android:name=".ui.acitivity.order.ReturnOrderInformationActivity" />
         <activity android:name=".ui.acitivity.order.RefundOrderInformationActivity" />
         <activity android:name=".ui.acitivity.order.OrderDeliveryActivity" />
         <activity android:name=".ui.acitivity.distribution.ReduceCashActivity" />
         <activity android:name=".ui.acitivity.order.OrderEvaluateActivity" />
-        <activity android:name=".ui.acitivity.order.RefundOrder.ApplyReturnActivity" />
-        <activity android:name=".ui.acitivity.order.RefundOrder.ApplyRefundActivity" />
-        <activity android:name=".ui.acitivity.order.RefundOrder.OrderRefundActivity" />
+        <activity android:name=".ui.acitivity.order.refundorder.ApplyReturnActivity" />
+        <activity android:name=".ui.acitivity.order.refundorder.ApplyRefundActivity" />
+        <activity android:name=".ui.acitivity.order.refundorder.OrderRefundActivity" />
     </application>
 
 </manifest>

@@ -5,8 +5,8 @@ import com.mingpinmall.me.ui.widget.SettingItemView;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/3/25
+ * @author 小斌
+ * @date 2019/3/25
  **/
 public class BaseItemBean implements MultiItemEntity {
 

@@ -6,16 +6,16 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityReducecashBinding;
-import com.mingpinmall.me.ui.acitivity.distribution.reduceCash.ActionOneFragment;
-import com.mingpinmall.me.ui.acitivity.distribution.reduceCash.ActionTwoFragment;
+import com.mingpinmall.me.ui.acitivity.distribution.reducecash.ActionOneFragment;
+import com.mingpinmall.me.ui.acitivity.distribution.reducecash.ActionTwoFragment;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.ReduceCashBean;
 import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：我的推广码
- * 创建人：小斌
- * 创建时间: 2019/4/29
+ * *@author 小斌
+ * @date 2019/4/29
  **/
 @Route(path = ARouterConfig.Me.REDUCECASHACTIVITY)
 public class ReduceCashActivity extends BaseTabsLifecycleActivity<ActivityReducecashBinding, MeViewModel> {

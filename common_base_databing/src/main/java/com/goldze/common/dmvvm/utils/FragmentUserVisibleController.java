@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * * 创建人：小斌
- * * 创建时间: 2019/4/8
+ * @author 小斌
+ * @date 2019/4/8
  * Fragment的mUserVisibleHint属性控制器，用于准确的监听Fragment是否对用户可见
  *
  * -->mUserVisibleHint属性有什么用？

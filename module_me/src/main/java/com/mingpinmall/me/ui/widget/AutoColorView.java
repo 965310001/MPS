@@ -21,17 +21,32 @@ import io.reactivex.annotations.Nullable;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/3/27
+ * @author 小斌
+ * @date 2019/3/27
  **/
 public class AutoColorView extends FrameLayout implements Animator.AnimatorListener {
 
     private Context context;
-    private List<Integer> colors = new ArrayList<>();//颜色集合
-    private boolean runState = false;//是否正在循环切换背景色
-    private boolean runLock = false;//动画锁，防止上一个动画未执行完，又重新开始了动画
-    private int index = 0;//第几个颜色了
-    private long delayMillis = 1000;//间隔多少毫秒更换颜色
+    /**
+     * 颜色集合
+     */
+    private List<Integer> colors = new ArrayList<>();
+    /**
+     * 是否正在循环切换背景色
+     */
+    private boolean runState = false;
+    /**
+     * 动画锁，防止上一个动画未执行完，又重新开始了动画
+     */
+    private boolean runLock = false;
+    /**
+     * 第几个颜色了
+     */
+    private int index = 0;
+    /**
+     * 间隔多少毫秒更换颜色
+     */
+    private long delayMillis = 1000;
 
     private final Handler handler = new Handler();
 
@@ -53,7 +68,7 @@ public class AutoColorView extends FrameLayout implements Animator.AnimatorListe
     /**
      * 设置前景图
      *
-     * @param drawable
+     * @param drawable 前景图
      * @return
      */
     public AutoColorView setImage(@DrawableRes int drawable) {
@@ -63,7 +78,7 @@ public class AutoColorView extends FrameLayout implements Animator.AnimatorListe
     /**
      * 设置前景图
      *
-     * @param drawable
+     * @param drawable 前景图
      * @return
      */
     public AutoColorView setImage(Drawable drawable) {
@@ -87,7 +102,7 @@ public class AutoColorView extends FrameLayout implements Animator.AnimatorListe
     /**
      * 设置切换颜色间隔
      *
-     * @param delayMillis
+     * @param delayMillis 间隔 毫秒
      * @return
      */
     public AutoColorView setDelayMillis(@IntRange(from = 0) long delayMillis) {
@@ -98,7 +113,7 @@ public class AutoColorView extends FrameLayout implements Animator.AnimatorListe
     /**
      * 添加颜色
      *
-     * @param colorId
+     * @param colorId 颜色
      */
     public void addColor(@ColorRes int colorId) {
         this.colors.add(colorId);
@@ -108,7 +123,7 @@ public class AutoColorView extends FrameLayout implements Animator.AnimatorListe
      * 添加颜色
      *
      * @param index 插入到第几个
-     * @param colorId
+     * @param colorId 颜色
      */
     public void addColor(int index, @ColorRes int colorId) {
         this.colors.add(index, colorId);
@@ -117,7 +132,7 @@ public class AutoColorView extends FrameLayout implements Animator.AnimatorListe
     /**
      * 添加颜色
      *
-     * @param colorIds
+     * @param colorIds 颜色
      */
     public void addColors(@NonNull List<Integer> colorIds) {
         this.colors.addAll(colorIds);
@@ -160,7 +175,8 @@ public class AutoColorView extends FrameLayout implements Animator.AnimatorListe
                 ContextCompat.getColor(context, color2)
         );//对背景色颜色进行改变，操作的属性为"backgroundColor",此处必须这样写，不能全小写,后面的颜色为在对应颜色间进行渐变
         animator.setDuration(1500);
-        animator.setEvaluator(new ArgbEvaluator());//如果要颜色渐变必须要ArgbEvaluator，来实现颜色之间的平滑变化，否则会出现颜色不规则跳动
+        //如果要颜色渐变必须要ArgbEvaluator，来实现颜色之间的平滑变化，否则会出现颜色不规则跳动
+        animator.setEvaluator(new ArgbEvaluator());
         animator.start();
         animator.addListener(this);
     }
@@ -213,13 +229,9 @@ public class AutoColorView extends FrameLayout implements Animator.AnimatorListe
     public void onAnimationEnd(Animator animation) {
         //结束动画，解锁
         runLock = false;
-        if (runState)
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    changeColor();
-                }
-            }, delayMillis);
+        if (runState) {
+            handler.postDelayed(() -> changeColor(), delayMillis);
+        }
     }
 
     @Override

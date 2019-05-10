@@ -11,8 +11,8 @@ import com.mingpinmall.home.ui.bean.HomeItemBean;
 
 /**
  * 功能描述：首页限购轮播图适配器
- * 创建人：小斌
- * 创建时间: 2019/5/5
+ * @author 小斌
+ * @date 2019/5/5
  **/
 public class HomeSecondsBannerAdapter extends BaseBannerAdapter<HomeItemBean.DatasBean.Goods1Bean.ItemBeanXX, LayoutBannerHomeBinding> {
 

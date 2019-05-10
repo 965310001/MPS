@@ -18,8 +18,8 @@ import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：退款单详情
- * 创建人：小斌
- * 创建时间: 2019/4/16
+ * *@author 小斌
+ * @date 2019/4/16
  **/
 @Route(path = ARouterConfig.Me.REFUNDORDERINFORMATION)
 public class RefundOrderInformationActivity extends AbsLifecycleActivity<ActivityRefundInformationBinding, MeViewModel> {

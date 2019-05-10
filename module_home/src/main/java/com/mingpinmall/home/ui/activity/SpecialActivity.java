@@ -1,16 +1,11 @@
 package com.mingpinmall.home.ui.activity;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -19,21 +14,19 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.ActivitySpecialBinding;
 import com.mingpinmall.home.ui.adapter.HomeListAdapter;
-import com.mingpinmall.home.ui.adapter.RVBannerPagerClickListener;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.bean.SpecialPageBean;
 import com.mingpinmall.home.ui.constants.Constants;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 功能描述：专题页面
- * 创建人：小斌
- * 创建时间: 2019/5/5
+ * *@author 小斌
+ *
+ * @date 2019/5/5
  **/
 @Route(path = ARouterConfig.home.SPECIALACTIVITY)
 public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding, HomeViewModel> {
@@ -54,177 +47,177 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
         binding.recyclerView.setLayoutManager(gridLayoutManager);
         listAdapter = new HomeListAdapter();
         listAdapter.bindToRecyclerView(binding.recyclerView);
-        listAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                switch (listAdapter.getData().get(position).getItemType()) {
-                    case 3://布局c
-                        return 2;
-                    case 6://导航
-                        return 1;
-                    case 10://商品
-                        return 2;
-                    case 12://团购
-                        return 2;
-                    default:
-                        return 4;
-                }
+        listAdapter.setSpanSizeLookup((gridLayoutManager1, position) -> {
+            switch (listAdapter.getData().get(position).getItemType()) {
+                case 3:
+                    //布局c
+                    return 2;
+                case 6:
+                    //导航
+                    return 1;
+                case 10:
+                    //商品
+                    return 2;
+                case 12:
+                    //团购
+                    return 2;
+                default:
+                    return 4;
             }
         });
 
         binding.refreshLayout.setEnableLoadMore(false);
-        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                initData();
-            }
-        });
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> initData());
         setListener();
     }
 
     private void setListener() {
         //列表上的轮播图
-        listAdapter.setBannerClickListener(new RVBannerPagerClickListener() {
-            @Override
-            public void onItemClick(int position, int index) {
-                //轮播图点击事件
-                HomeItemBean.DatasBean bannerDatas = listAdapter.getItem(position);
-                if (bannerDatas.getAdv_list() != null) {
-                    //顶部单张图片式轮播图
-                    HomeItemBean.DatasBean.AdvListBean advListBean = bannerDatas.getAdv_list();
-                    ToastUtils.showShort("事件: " + advListBean.getItem().get(index).getData());
-                } else {
-                    //其他轮播图
-                    HomeItemBean.DatasBean.Goods1Bean goods1Bean = bannerDatas.getGoods1();
-                    ActivityToActivity.toActivity(
-                            ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
-                            "id",
-                            goods1Bean.getItem().get(index).getGoods_id()
-                    );
-                }
+        listAdapter.setBannerClickListener((position, index) -> {
+            //轮播图点击事件
+            HomeItemBean.DatasBean bannerDatas = listAdapter.getItem(position);
+            if (bannerDatas.getAdv_list() != null) {
+                //顶部单张图片式轮播图
+                HomeItemBean.DatasBean.AdvListBean advListBean = bannerDatas.getAdv_list();
+                ToastUtils.showShort("事件: " + advListBean.getItem().get(index).getData());
+            } else {
+                //其他轮播图
+                HomeItemBean.DatasBean.Goods1Bean goods1Bean = bannerDatas.getGoods1();
+                ActivityToActivity.toActivity(
+                        ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
+                        "id",
+                        goods1Bean.getItem().get(index).getGoods_id()
+                );
             }
         });
         //item内部子View点击
-        listAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                //item上的View点击事件
-                if (!SharePreferenceUtil.isLogin()) {
-                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                    return;
-                }
-                int id = view.getId();
-                // 2 4 5
-                HomeItemBean.DatasBean datasBean = listAdapter.getItem(position);
-                int type = datasBean.getItemType();
-                switch (type) {
-                    case 5:
-                        //布局：左矩形  右上矩形  右下俩矩形  左1右3
-                        HomeItemBean.DatasBean.Home5Bean home5Bean = datasBean.getHome5();
-                        if (id == R.id.iv_square) {
-                            navigationRouter(home5Bean.getSquare_data(), home5Bean.getSquare_type());
-                        } else if (id == R.id.iv_rectangle1) {
-                            navigationRouter(home5Bean.getRectangle1_data(), home5Bean.getRectangle1_type());
-                        } else if (id == R.id.iv_rectangle2) {
-                            navigationRouter(home5Bean.getRectangle2_data(), home5Bean.getRectangle2_type());
-                        } else if (id == R.id.iv_rectangle3) {
-                            navigationRouter(home5Bean.getRectangle3_data(), home5Bean.getRectangle3_type());
-                        }
-                        break;
-                    case 4:
-                        //布局：左上矩形  左下矩形  右矩形  左2右1
-                        HomeItemBean.DatasBean.Home4Bean home4Bean = datasBean.getHome4();
-                        if (id == R.id.iv_square) {
-                            navigationRouter(home4Bean.getSquare_data(), home4Bean.getSquare_type());
-                        } else if (id == R.id.iv_rectangle1) {
-                            navigationRouter(home4Bean.getRectangle1_data(), home4Bean.getRectangle1_type());
-                        } else if (id == R.id.iv_rectangle2) {
-                            navigationRouter(home4Bean.getRectangle2_data(), home4Bean.getRectangle2_type());
-                        }
-                        break;
-                    case 2:
-                        //布局：左矩形  右上矩形  右下矩形  左1右2
-                        HomeItemBean.DatasBean.Home2Bean home2Bean = datasBean.getHome2();
-                        if (id == R.id.iv_square) {
-                            navigationRouter(home2Bean.getSquare_data(), home2Bean.getSquare_type());
-                        } else if (id == R.id.iv_rectangle1) {
-                            navigationRouter(home2Bean.getRectangle1_data(), home2Bean.getRectangle1_type());
-                        } else if (id == R.id.iv_rectangle2) {
-                            navigationRouter(home2Bean.getRectangle2_data(), home2Bean.getRectangle2_type());
-                        }
-                        break;
-                }
+        listAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //item上的View点击事件
+            if (!SharePreferenceUtil.isLogin()) {
+                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                return;
+            }
+            int id = view.getId();
+            // 2 4 5
+            HomeItemBean.DatasBean datasBean = listAdapter.getItem(position);
+            int type = datasBean.getItemType();
+            switch (type) {
+                case 5:
+                    //布局：左矩形  右上矩形  右下俩矩形  左1右3
+                    HomeItemBean.DatasBean.Home5Bean home5Bean = datasBean.getHome5();
+                    if (id == R.id.iv_square) {
+                        navigationRouter(home5Bean.getSquare_data(), home5Bean.getSquare_type());
+                    } else if (id == R.id.iv_rectangle1) {
+                        navigationRouter(home5Bean.getRectangle1_data(), home5Bean.getRectangle1_type());
+                    } else if (id == R.id.iv_rectangle2) {
+                        navigationRouter(home5Bean.getRectangle2_data(), home5Bean.getRectangle2_type());
+                    } else if (id == R.id.iv_rectangle3) {
+                        navigationRouter(home5Bean.getRectangle3_data(), home5Bean.getRectangle3_type());
+                    }
+                    break;
+                case 4:
+                    //布局：左上矩形  左下矩形  右矩形  左2右1
+                    HomeItemBean.DatasBean.Home4Bean home4Bean = datasBean.getHome4();
+                    if (id == R.id.iv_square) {
+                        navigationRouter(home4Bean.getSquare_data(), home4Bean.getSquare_type());
+                    } else if (id == R.id.iv_rectangle1) {
+                        navigationRouter(home4Bean.getRectangle1_data(), home4Bean.getRectangle1_type());
+                    } else if (id == R.id.iv_rectangle2) {
+                        navigationRouter(home4Bean.getRectangle2_data(), home4Bean.getRectangle2_type());
+                    }
+                    break;
+                case 2:
+                    //布局：左矩形  右上矩形  右下矩形  左1右2
+                    HomeItemBean.DatasBean.Home2Bean home2Bean = datasBean.getHome2();
+                    if (id == R.id.iv_square) {
+                        navigationRouter(home2Bean.getSquare_data(), home2Bean.getSquare_type());
+                    } else if (id == R.id.iv_rectangle1) {
+                        navigationRouter(home2Bean.getRectangle1_data(), home2Bean.getRectangle1_type());
+                    } else if (id == R.id.iv_rectangle2) {
+                        navigationRouter(home2Bean.getRectangle2_data(), home2Bean.getRectangle2_type());
+                    }
+                    break;
+                default:
+                    break;
             }
         });
         //item点击
-        listAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //item点击事件
-                if (!SharePreferenceUtil.isLogin()) {
-                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                    return;
-                }
-                HomeItemBean.DatasBean datasBean = listAdapter.getItem(position);
-                int type = datasBean.getItemType();
-                switch (type) {
-                    case 1:
-                        //布局：带标题单张图片
-                        HomeItemBean.DatasBean.Home1Bean datasBean0 = datasBean.getHome1();
-                        navigationRouter(datasBean0.getData(), datasBean0.getType());
-                        break;
-                    case 3:
-                        //布局：无标题单张图片
-                        navigationRouter(datasBean.getData(), datasBean.getType());
-                        break;
-                    case 6:
-                        //布局：无标题单张图片导航
-                        navigationRouter(datasBean.getData(), datasBean.getType());
-                        break;
-                    case 10:
-                        //布局：商品
-                        HomeItemBean.DatasBean.GoodsBean.ItemBean goodsBean = datasBean.getGoodsItemBean();
-                        navigationRouter(goodsBean.getGoods_id(), "goods");
-                        break;
-                    case 12:
-                        //布局：商品2
-                        HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem goods2Bean = datasBean.getGoods2ItemBean();
-                        navigationRouter(goods2Bean.getGoods_id(), "goods");
-                        break;
-                }
+        listAdapter.setOnItemClickListener((adapter, view, position) -> {
+            //item点击事件
+            if (!SharePreferenceUtil.isLogin()) {
+                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                return;
+            }
+            HomeItemBean.DatasBean datasBean = listAdapter.getItem(position);
+            int type = datasBean.getItemType();
+            switch (type) {
+                case 1:
+                    //布局：带标题单张图片
+                    HomeItemBean.DatasBean.Home1Bean datasBean0 = datasBean.getHome1();
+                    navigationRouter(datasBean0.getData(), datasBean0.getType());
+                    break;
+                case 3:
+                    //布局：无标题单张图片
+                    navigationRouter(datasBean.getData(), datasBean.getType());
+                    break;
+                case 6:
+                    //布局：无标题单张图片导航
+                    navigationRouter(datasBean.getData(), datasBean.getType());
+                    break;
+                case 10:
+                    //布局：商品
+                    HomeItemBean.DatasBean.GoodsBean.ItemBean goodsBean = datasBean.getGoodsItemBean();
+                    navigationRouter(goodsBean.getGoods_id(), "goods");
+                    break;
+                case 12:
+                    //布局：商品2
+                    HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem goods2Bean = datasBean.getGoods2ItemBean();
+                    navigationRouter(goods2Bean.getGoods_id(), "goods");
+                    break;
+                default:
+                    break;
             }
         });
     }
 
     /**
-     * @date 创建时间： 2019/4/4
-     * @author 创建人：小斌
-     * @Description 描述：列表上的导航功能
-     * @Version
+     * 列表上的导航功能
      **/
     private void navigationRouter(String data, String type) {
         switch (type) {
-            case "url"://跳转到指定页面
+            case "url":
+                //跳转到指定页面
                 route2Url(data);
                 break;
-            case "keyword"://通过关键字搜索产品
+            case "keyword":
+                //通过关键字搜索产品
                 ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "keyword", data);
                 break;
-            case "special"://前往指定专题页面
+            case "special":
+                //前往指定专题页面
                 ActivityToActivity.toActivity(ARouterConfig.home.SPECIALACTIVITY, "id", data);
                 break;
-            case "goods"://前往产品详细页面
+            case "goods":
+                //前往产品详细页面
                 ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data);
+                break;
+            default:
                 break;
         }
     }
 
-    /*跳转到指定页面*/
+    /**
+     * 跳转到指定页面
+     *
+     * @param url 地址
+     */
     private void route2Url(String url) {
         switch (url) {
             case "tmpl/member/signin.html":
                 //签到
                 ToastUtils.showShort("签到");
+                break;
+            default:
                 break;
         }
     }
@@ -272,7 +265,7 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
                 //团购
                 //添加一个标题
                 datasBean.setItemType(22);
-                datasBean.setLabel(datasBean.getGoods2().getTitle().equals("") ? "团购商品" : datasBean.getGoods2().getTitle());
+                datasBean.setLabel(datasBean.getGoods2().getTitle().isEmpty() ? "团购商品" : datasBean.getGoods2().getTitle());
                 datasBean.setSubLabel("精品抢购 有你所选");
                 listData.add(datasBean);
                 //添加内容

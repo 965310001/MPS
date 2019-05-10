@@ -2,8 +2,8 @@ package com.mingpinmall.me.ui.bean;
 
 /**
  * 功能描述：文件上传
- * 创建人：小斌
- * 创建时间: 2019/5/8
+ * *@author 小斌
+ * @date 2019/5/8
  **/
 public class UploadFilesBean {
 

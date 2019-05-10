@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 /**
  * 功能描述：我的推广码
- * 创建人：小斌
- * 创建时间: 2019/4/29
+ * *@author 小斌
+ * @date 2019/4/29
  **/
 public class ReduceCashBean implements Serializable {
 

@@ -12,8 +12,8 @@ import retrofit2.http.Query;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/3
+ * @author 小斌
+ * @date 2019/4/3
  **/
 public interface HomeApiService {
 

@@ -1,19 +1,12 @@
 package com.mingpinmall.me.ui.acitivity.setting;
 
-import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -27,7 +20,6 @@ import com.mingpinmall.me.ui.adapter.SettingAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
-import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.SettingItemView;
 
@@ -38,8 +30,9 @@ import java.util.Map;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/3/25
+ *
+ * @author 小斌
+ * @date 2019/3/25
  **/
 @Route(path = ARouterConfig.Me.SETTINGACTIVITY)
 public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding, MeViewModel> {
@@ -47,7 +40,6 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
     @Autowired
     String name;
 
-    private UserBean userBean;
     private BaseCheckBean checkPhoneState;
 
 
@@ -61,7 +53,6 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
     @Override
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
-        userBean = (UserBean) SharePreferenceUtil.getUser(UserBean.class);
         setTitle(getString(R.string.title_settingActivity));
         ARouter.getInstance().inject(this);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -93,7 +84,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
             settingAdapter.getData().get(1).setSubTitle(result.isState() ? result.getMobile() : "未绑定");
             settingAdapter.notifyDataSetChanged();
         });
-        registerObserver(Constants.Err_USER_INFO, String.class).observeForever(result -> TextDialog.showBaseDialog(activity, "获取内容失败", result, new DialogInterface.OnDismissListener() {
+        registerObserver(Constants.ERR_USER_INFO, String.class).observeForever(result -> TextDialog.showBaseDialog(activity, "获取内容失败", result, new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 onBackPressed();
@@ -139,61 +130,61 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
         itemBeanList.get(6).setItemMode(SettingItemView.ThemeMode.NoLeftImage_NoMoreIcon_NoDescription);
         settingAdapter.setNewData(itemBeanList);
 
-        settingAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position) {
-                    case 0:
-                        //修改密码   登录密码
-                        if (!checkPhoneState.isState()) {
-                            toBindPhone();
-                            break;
-                        }
-                        Map params = new HashMap<>();
-                        params.put("type", CheckAuthActivity.RESET_PASSWORD);
-                        params.put("phoneNumber", checkPhoneState != null ? checkPhoneState.getMobile() : "");
-                        params.put("phoneNumber2", checkPhoneState != null ? checkPhoneState.getMobile_full() : "");
-                        ActivityToActivity.toActivity(ARouterConfig.Me.CheckAuthActivity, params);
+        settingAdapter.setOnItemClickListener((adapter, view, position) -> {
+            switch (position) {
+                case 0:
+                    //修改密码   登录密码
+                    if (!checkPhoneState.isState()) {
+                        toBindPhone();
                         break;
-                    case 1:
-                        //手机验证
-                        if (!checkPhoneState.isState()) {
-                            ActivityToActivity.toActivity(ARouterConfig.Me.BindPhoneActivity);
-                            break;
-                        }
-                        Map params1 = new HashMap<>();
-                        params1.put("type", CheckAuthActivity.RESET_PHONE);
-                        params1.put("phoneNumber", checkPhoneState != null ? checkPhoneState.getMobile() : "");
-                        params1.put("phoneNumber2", checkPhoneState != null ? checkPhoneState.getMobile_full() : "");
-                        ActivityToActivity.toActivity(ARouterConfig.Me.CheckAuthActivity, params1);
+                    }
+                    Map<String, Object> params = new HashMap<>(3);
+                    params.put("type", CheckAuthActivity.RESET_PASSWORD);
+                    params.put("phoneNumber", checkPhoneState != null ? checkPhoneState.getMobile() : "");
+                    params.put("phoneNumber2", checkPhoneState != null ? checkPhoneState.getMobile_full() : "");
+                    ActivityToActivity.toActivity(ARouterConfig.Me.CHECKAUTHACTIVITY, params);
+                    break;
+                case 1:
+                    //手机验证
+                    if (!checkPhoneState.isState()) {
+                        ActivityToActivity.toActivity(ARouterConfig.Me.BINDPHONEACTIVITY);
                         break;
-                    case 2:
-                        //支付密码
-                        if (!checkPhoneState.isState()) {
-                            toBindPhone();
-                            break;
-                        }
-                        Map params2 = new HashMap<>();
-                        params2.put("type", CheckAuthActivity.RESET_PAY_PASSWORD);
-                        params2.put("phoneNumber", checkPhoneState != null ? checkPhoneState.getMobile() : "");
-                        params2.put("phoneNumber2", checkPhoneState != null ? checkPhoneState.getMobile_full() : "");
-                        ActivityToActivity.toActivity(ARouterConfig.Me.CheckAuthActivity, params2);
+                    }
+                    Map<String, Object> params1 = new HashMap<>(3);
+                    params1.put("type", CheckAuthActivity.RESET_PHONE);
+                    params1.put("phoneNumber", checkPhoneState != null ? checkPhoneState.getMobile() : "");
+                    params1.put("phoneNumber2", checkPhoneState != null ? checkPhoneState.getMobile_full() : "");
+                    ActivityToActivity.toActivity(ARouterConfig.Me.CHECKAUTHACTIVITY, params1);
+                    break;
+                case 2:
+                    //支付密码
+                    if (!checkPhoneState.isState()) {
+                        toBindPhone();
                         break;
-                    case 4:
-                        //用户反馈
-                        ActivityToActivity.toActivity(ARouterConfig.Me.FeedBackActivity);
-                        break;
-                    case 6:
-                        //退出登录
-                        TextDialog.showBaseDialog(activity, "登出提示", getString(R.string.text_isLoginOut),
-                                () -> {
-                                    LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_OUT, true);
-                                    SharePreferenceUtil.saveUser(null);
-                                    SharePreferenceUtil.saveKeyValue("UserPhone", "");
-                                    finish();
-                                })
-                                .show();
-                }
+                    }
+                    Map<String, Object> params2 = new HashMap<>(3);
+                    params2.put("type", CheckAuthActivity.RESET_PAY_PASSWORD);
+                    params2.put("phoneNumber", checkPhoneState != null ? checkPhoneState.getMobile() : "");
+                    params2.put("phoneNumber2", checkPhoneState != null ? checkPhoneState.getMobile_full() : "");
+                    ActivityToActivity.toActivity(ARouterConfig.Me.CHECKAUTHACTIVITY, params2);
+                    break;
+                case 4:
+                    //用户反馈
+                    ActivityToActivity.toActivity(ARouterConfig.Me.FEEDBACKACTIVITY);
+                    break;
+                case 6:
+                    //退出登录
+                    TextDialog.showBaseDialog(activity, "登出提示", getString(R.string.text_isLoginOut),
+                            () -> {
+                                LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_OUT, true);
+                                SharePreferenceUtil.saveUser(null);
+                                SharePreferenceUtil.saveKeyValue("UserPhone", "");
+                                finish();
+                            })
+                            .show();
+                    break;
+                default:
+                    break;
             }
         });
     }
@@ -203,12 +194,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
      */
     private void toBindPhone() {
         MaterialDialogUtils.showBasicDialog(SettingActivity.this, "您还未绑定手机，不能进行此操作。是否前往绑定手机？")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.BindPhoneActivity);
-                    }
-                })
+                .onPositive((dialog, which) -> ActivityToActivity.toActivity(ARouterConfig.Me.BINDPHONEACTIVITY))
                 .show();
     }
 }

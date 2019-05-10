@@ -1,15 +1,11 @@
 package com.mingpinmall.me.ui.acitivity.collection;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
@@ -23,13 +19,13 @@ import com.mingpinmall.me.ui.adapter.ProductCollectionAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.ProductCollectionBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：商品收藏页面
- * 创建人：小斌
- * 创建时间: 2019/3/26
+ * @author 小斌
+ * @date 2019/3/26
  **/
 public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefaultRecyclerviewBinding, MeViewModel> {
 
@@ -57,52 +53,34 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_me_favorite);
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_collectgoods_empty);
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_collectgoods_empty);
-        emptyView.findViewById(R.id.btn_action).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //切换到首页
-                LiveBus.getDefault().postEvent("Main", "tab", 0);
-                activity.onBackPressed();
-            }
+        emptyView.findViewById(R.id.btn_action).setOnClickListener(v -> {
+            //切换到首页
+            LiveBus.getDefault().postEvent("Main", "tab", 0);
+            activity.onBackPressed();
         });
         collectionAdapter.setEmptyView(emptyView);
 
         binding.recyclerView.setAdapter(collectionAdapter);
-        binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                isLoadmore = true;
-                mViewModel.getProductCollectList(pageIndex + 1);
-            }
-
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                isLoadmore = false;
-                mViewModel.getProductCollectList(1);
-            }
+        binding.refreshLayout.setEnableLoadMore(false);
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            isLoadmore = false;
+            mViewModel.getProductCollectList(1);
         });
-        collectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //点击事件，跳转商品详情
-                ProductCollectionBean.FavoritesListBean data = collectionAdapter.getItem(position);
-                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data.getGoods_id());
-            }
+        collectionAdapter.setOnLoadMoreListener(() -> {
+            isLoadmore = true;
+            mViewModel.getProductCollectList(pageIndex + 1);
+        }, binding.recyclerView);
+        collectionAdapter.setOnItemClickListener((adapter, view, position) -> {
+            //点击事件，跳转商品详情
+            ProductCollectionBean.FavoritesListBean data = collectionAdapter.getItem(position);
+            ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data.getGoods_id());
         });
-        collectionAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                //子控件点击事件
-                final ProductCollectionBean.FavoritesListBean itemData = collectionAdapter.getItem(position);
-                if (view.getId() == R.id.iv_delete) {
-                    //删除这条收藏
-                    TextDialog.showBaseDialog(activity, "取消收藏", "确定取消收藏吗？", new TextDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick() {
-                            mViewModel.deleGoodsCollect(itemData.getGoods_id());
-                        }
-                    }).show();
-                }
+        collectionAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //子控件点击事件
+            final ProductCollectionBean.FavoritesListBean itemData = collectionAdapter.getItem(position);
+            if (view.getId() == R.id.iv_delete) {
+                //删除这条收藏
+                TextDialog.showBaseDialog(activity, "取消收藏", "确定取消收藏吗？", () -> mViewModel.deleGoodsCollect(itemData.getGoods_id())).show();
             }
         });
     }
@@ -110,16 +88,17 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
     @Override
     protected void dataObserver() {
         registerObserver(Constants.DEL_GOODS_COLLECT, String.class).observeForever(msg -> {
-            if (msg.equals("success"))
+            if (msg.equals(SUCCESS)) {
                 lazyLoad();
-            else
+            } else {
                 ToastUtils.showShort(msg);
+            }
         });
         registerObserver(Constants.PRODUCT_COLLECT_LIST, Object.class).observeForever(result -> {
             if (result instanceof String) {
                 ToastUtils.showShort(result.toString());
                 if (isLoadmore) {
-                    binding.refreshLayout.finishLoadMore(false);
+                    collectionAdapter.loadMoreFail();
                 } else {
                     binding.refreshLayout.finishRefresh(false);
                 }
@@ -127,15 +106,16 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
                 BaseResponse<ProductCollectionBean> data = (BaseResponse<ProductCollectionBean>) result;
                 if (isLoadmore) {
                     pageIndex++;
-                    binding.refreshLayout.finishLoadMore();
+                    collectionAdapter.loadMoreComplete();
                     collectionAdapter.addData(data.getData().getFavorites_list());
                 } else {
                     pageIndex = 1;
                     binding.refreshLayout.finishRefresh();
                     collectionAdapter.setNewData(data.getData().getFavorites_list());
                 }
-                if (!data.isHasmore())
-                    binding.refreshLayout.setNoMoreData(true);
+                if (!data.isHasmore()) {
+                    collectionAdapter.loadMoreEnd();
+                }
             }
         });
     }

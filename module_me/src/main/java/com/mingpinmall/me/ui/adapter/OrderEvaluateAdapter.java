@@ -17,8 +17,8 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
  * 功能描述：评价页面，商品列表
- * 创建人：小斌
- * 创建时间: 2019/4/30
+ * *@author 小斌
+ * @date 2019/4/30
  **/
 public class OrderEvaluateAdapter extends BaseQuickAdapter<OrderEvaluateBean.OrderGoodsBean, BaseViewHolder> {
 

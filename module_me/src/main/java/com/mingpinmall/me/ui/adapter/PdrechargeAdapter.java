@@ -12,8 +12,8 @@ import java.util.List;
 
 /**
  * 功能描述：充值明细
- * 创建人：小斌
- * 创建时间: 2019/4/19
+ * *@author 小斌
+ * @date 2019/4/19
  **/
 public class PdrechargeAdapter extends BaseQuickAdapter<PdrechargeBean.ListBean, BaseViewHolder> {
     public PdrechargeAdapter() {

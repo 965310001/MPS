@@ -26,24 +26,32 @@ import java.util.List;
 
 /**
  * 功能描述：选择地区三级联动
- * 创建人：小斌
- * 创建时间: 2019/4/12
+ * @author 小斌
+ * @date 2019/4/12
  **/
-@Route(path = ARouterConfig.Me.SelectCityActivity)
+@Route(path = ARouterConfig.Me.SELECTCITYACTIVITY)
 public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityBinding, MeViewModel> {
 
     private SelectCityAdapter selectCityAdapter;
     private ProgressDialog progressDialog;
-
-    private int level = 1;//几级地区
+    /**
+     * 几级地区
+     */
+    private int level = 1;
     private List<CityBean.AreaListBean> dataOneList;
     private List<CityBean.AreaListBean> dataTwoList;
-
-    private String addressOne = "";//一级选择结果
-    private String addressTwo = "";//二级选择结果
-
-    private String cityId;//二级选择的ID
-    private String areaId;//三级选择的ID，三级没选则同二级ID
+    /**
+     * 一级选择结果
+     */
+    private String addressOne = "";
+    /**
+     * 二级选择结果
+     */
+    private String addressTwo = "";
+    /**
+     * 二级选择的ID
+     */
+    private String cityId;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -56,28 +64,25 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
                 DividerItemDecoration.VERTICAL));
         binding.recyclerView.setAdapter(selectCityAdapter);
 
-        selectCityAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //item点击事件
-                CityBean.AreaListBean bean = selectCityAdapter.getItem(position);
-                if (level == 1) {
-                    addressOne = bean.getArea_name();
-                } else if (level == 2) {
-                    addressTwo = bean.getArea_name();
-                    cityId = bean.getArea_id();
-                } else if (level >= 3) {
-                    Intent intent = new Intent();
-                    intent.putExtra("address", addressOne + " " + addressTwo + " " + bean.getArea_name());
-                    intent.putExtra("cityId", cityId);
-                    intent.putExtra("areaId", bean.getArea_id());
-                    setResult(100, intent);
-                    finish();
-                    return;
-                }
-                mViewModel.getCityList(bean.getArea_id());
-                level++;
+        selectCityAdapter.setOnItemClickListener((adapter, view, position) -> {
+            //item点击事件
+            CityBean.AreaListBean bean = selectCityAdapter.getItem(position);
+            if (level == 1) {
+                addressOne = bean.getArea_name();
+            } else if (level == 2) {
+                addressTwo = bean.getArea_name();
+                cityId = bean.getArea_id();
+            } else if (level >= 3) {
+                Intent intent = new Intent();
+                intent.putExtra("address", addressOne + " " + addressTwo + " " + bean.getArea_name());
+                intent.putExtra("cityId", cityId);
+                intent.putExtra("areaId", bean.getArea_id());
+                setResult(RESULT_OK, intent);
+                finish();
+                return;
             }
+            mViewModel.getCityList(bean.getArea_id());
+            level++;
         });
         binding.clOne.setOnClickListener(this);
         binding.clThree.setOnClickListener(this);
@@ -142,7 +147,7 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
                     intent.putExtra("address", addressOne + addressTwo);
                     intent.putExtra("cityId", cityId);
                     intent.putExtra("areaId", cityId);
-                    setResult(100, intent);
+                    setResult(RESULT_OK, intent);
                     finish();
                 } else {
                     setLevelButton(level);

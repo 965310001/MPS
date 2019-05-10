@@ -3,8 +3,6 @@ package com.mingpinmall.me.ui.adapter;
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -18,12 +16,11 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 功能描述：实物订单适配器
- * 创建人：小斌
- * 创建时间: 2019/4/13
+ * @author 小斌
+ * @date 2019/4/13
  **/
 public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean, BaseViewHolder> {
 
@@ -51,10 +48,11 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
         if (item.isIf_deliver()) {
             //查看物流
             AppCompatTextView tvBtn;
-            if (helper.getView(R.id.order_deliver) != null)
+            if (helper.getView(R.id.order_deliver) != null) {
                 tvBtn = helper.getView(R.id.order_deliver);
-            else
+            } else {
                 tvBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_default, null);
+            }
             tvBtn.setId(R.id.order_deliver);
             tvBtn.setText("查看物流");
             tvBtn.setLayoutParams(params);
@@ -64,10 +62,11 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
         if (item.isIf_evaluation_again()) {
             //追加评价
             AppCompatTextView tvBtn;
-            if (helper.getView(R.id.order_evaluation_again) != null)
+            if (helper.getView(R.id.order_evaluation_again) != null) {
                 tvBtn = helper.getView(R.id.order_evaluation_again);
-            else
+            } else {
                 tvBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_border_red, null);
+            }
             tvBtn.setId(R.id.order_evaluation_again);
             tvBtn.setText("追加评价");
             tvBtn.setLayoutParams(params);
@@ -77,10 +76,11 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
         if (item.isIf_evaluation()) {
             //评价订单
             AppCompatTextView tvBtn;
-            if (helper.getView(R.id.order_evaluation) != null)
+            if (helper.getView(R.id.order_evaluation) != null) {
                 tvBtn = helper.getView(R.id.order_evaluation);
-            else
+            } else {
                 tvBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_border_red, null);
+            }
             tvBtn.setId(R.id.order_evaluation);
             tvBtn.setText("评价订单");
             tvBtn.setLayoutParams(params);
@@ -90,10 +90,11 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
         if (item.isIf_receive()) {
             //确认收货
             AppCompatTextView tvBtn;
-            if (helper.getView(R.id.order_sure) != null)
+            if (helper.getView(R.id.order_sure) != null) {
                 tvBtn = helper.getView(R.id.order_sure);
-            else
+            } else {
                 tvBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_border_red, null);
+            }
             tvBtn.setId(R.id.order_sure);
             tvBtn.setText("确认收货");
             tvBtn.setLayoutParams(params);
@@ -104,10 +105,11 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
             //取消订单 & 立即支付
             AppCompatTextView orderCancel;
             AppCompatTextView orderPay;
-            if (helper.getView(R.id.order_cancel) != null)
+            if (helper.getView(R.id.order_cancel) != null) {
                 orderCancel = helper.getView(R.id.order_cancel);
-            else
+            } else {
                 orderCancel = (AppCompatTextView) View.inflate(context, R.layout.button_layout_default, null);
+            }
 
             orderCancel.setId(R.id.order_cancel);
             orderCancel.setText("取消订单");
@@ -115,10 +117,11 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
             buttonContent.addView(orderCancel);
             helper.addOnClickListener(R.id.order_cancel);
 
-            if (helper.getView(R.id.order_pay) != null)
+            if (helper.getView(R.id.order_pay) != null) {
                 orderPay = helper.getView(R.id.order_pay);
-            else
+            } else {
                 orderPay = (AppCompatTextView) View.inflate(context, R.layout.button_layout_solid_red, null);
+            }
 
             orderPay.setId(R.id.order_pay);
             orderPay.setText("立即支付");
@@ -127,19 +130,19 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
             helper.addOnClickListener(R.id.order_pay);
         }
 
-        LinearLayout ll_List = helper.getView(R.id.ll_gifts);
-        ll_List.removeAllViews();
+        LinearLayout llList = helper.getView(R.id.ll_gifts);
+        llList.removeAllViews();
         if (item.getZengpin_list() != null) {
             for (int i = 0; i < item.getZengpin_list().size(); i++) {
                 PhysicalOrderBean.ZengpinListBean giftListBean = item.getZengpin_list().get(i);
                 View view = View.inflate(context, R.layout.item_tips_textview_14sp, null);
                 TextView textView = view.findViewById(R.id.tv_label);
                 textView.setText(giftListBean.getGoods_name() + "    x" + giftListBean.getGoods_num());
-                ll_List.addView(view);
+                llList.addView(view);
                 if (i < item.getZengpin_list().size() - 1) {
                     View line = new View(context);
                     line.setBackgroundResource(R.color.line_color);
-                    ll_List.addView(line, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                    llList.addView(line, LinearLayout.LayoutParams.MATCH_PARENT, 1);
                 }
             }
         }
@@ -153,7 +156,7 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
             ((AppCompatTextView) childView.findViewById(R.id.tv_payMoney)).setText(shops.getGoods_price());
             ((AppCompatTextView) childView.findViewById(R.id.tv_count)).setText(shops.getGoods_num());
             ((AppCompatTextView) childView.findViewById(R.id.tv_spec)).setText(shops.getGoods_spec());
-            ImageUtils.loadImage((AppCompatImageView) childView.findViewById(R.id.iv_image), shops.getGoods_image_url());
+            ImageUtils.loadImage(childView.findViewById(R.id.iv_image), shops.getGoods_image_url());
             shopsList.addView(childView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             if (i < item.getExtend_order_goods().size() - 1) {
                 View line = new View(context);

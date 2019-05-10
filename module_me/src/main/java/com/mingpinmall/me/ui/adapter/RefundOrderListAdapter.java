@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：实物订单适配器
- * 创建人：小斌
- * 创建时间: 2019/4/13
+ * *@author 小斌
+ * @date 2019/4/13
  **/
 public class RefundOrderListAdapter extends BaseQuickAdapter<RefundBean.RefundListBean, BaseViewHolder> {
 

@@ -11,20 +11,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.design.widget.TabLayout
+        <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toTopOf="@id/ll_panel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabBackground="@color/white"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/app_theme_d61619"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/app_theme_d61619"
-            app:tabTextColor="@color/dark" />
+            app:tl_divider_color="@color/line_color"
+            app:tl_divider_width="@dimen/line_hight"
+            app:tl_indicator_anim_duration="300"
+            app:tl_indicator_bounce_enable="true"
+            app:tl_indicator_color="@color/app_theme_d61619"
+            app:tl_indicator_height="3dp"
+            app:tl_indicator_width_equal_title="true"
+            app:tl_tab_space_equal="true"
+            app:tl_textBold="SELECT"
+            app:tl_textSelectColor="@color/app_theme_d61619"
+            app:tl_textUnselectColor="@color/dark"
+            app:tl_textsize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color" />
 
         <RelativeLayout
             android:id="@+id/content_layout"

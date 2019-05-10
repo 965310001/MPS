@@ -1,10 +1,9 @@
 package com.mingpinmall.home.ui.adapter;
 
-import android.support.v7.widget.AppCompatImageView;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.goldze.common.dmvvm.adapter.BaseBannerAdapter;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
@@ -15,24 +14,22 @@ import java.util.List;
 
 /**
  * 功能描述：首页列表
- * 创建人：小斌
- * 创建时间: 2019/4/3
+ * @author 小斌
+ * @date 2019/4/3
  **/
 public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.DatasBean, BaseViewHolder> {
 
     private RVBannerPagerClickListener bannerClickListener;
 
     /**
-     * 轮播图 监听
-     *
-     * @param bannerClickListener
+     * @param bannerClickListener 轮播图点击事件
      */
     public void setBannerClickListener(RVBannerPagerClickListener bannerClickListener) {
         this.bannerClickListener = bannerClickListener;
     }
 
     public HomeListAdapter() {
-        super(new ArrayList<HomeItemBean.DatasBean>());
+        super(new ArrayList<>());
         //轮播图
         addItemType(0, R.layout.view_home_banner);
         //Homes系列
@@ -55,138 +52,153 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, HomeItemBean.DatasBean item) {
+    protected void convert(BaseViewHolder helper, HomeItemBean.DatasBean item) {
         switch (item.getItemType()) {
             case 0:
                 /*轮播图*/
-                HomeItemBean.DatasBean.AdvListBean advListBean = item.getAdv_list();
-                List<String> urls = new ArrayList<>();
-                for (HomeItemBean.DatasBean.AdvListBean.ItemBean itemBean : advListBean.getItem()) {
-                    urls.add(itemBean.getImage());
-                }
-                UltraViewPager banner = helper.getView(R.id.view_banner);
-                if (banner.getAdapter() != null) {
-                    ((HomeTopBannerAdapter) banner.getAdapter()).setData(urls);
-                } else {
-                    HomeTopBannerAdapter homeTopBannerAdapter = new HomeTopBannerAdapter();
-                    homeTopBannerAdapter.setData(urls);
-                    homeTopBannerAdapter.setOnPagerClickListener(new BaseBannerAdapter.OnPagerClickListener() {
-                        @Override
-                        public void OnPagerClick(int position) {
-                            bannerClickListener.onItemClick(helper.getAdapterPosition(), position);
-                        }
-                    });
-                    ImageUtils.createBanner(banner, homeTopBannerAdapter);
-                }
+                initItemType0(helper, item.getAdv_list());
                 break;
             case 1:
-                //板块A
-                HomeItemBean.DatasBean.Home1Bean datasBean1 = item.getHome1();
-                helper.setText(R.id.tv_label, datasBean1.getTitle())
-                        .setGone(R.id.tv_label, !datasBean1.getTitle().equals(""))
-                        .setGone(R.id.v_0, !datasBean1.getTitle().equals(""));
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_0), datasBean1.getImage());
+                //单张图片占一整行
+                initItemType1(helper, item.getHome1());
                 break;
             case 2:
-                //超值购  品牌街  有利可图
-                HomeItemBean.DatasBean.Home2Bean datasBean2 = item.getHome2();
-                helper.setText(R.id.tv_label, datasBean2.getTitle())
-                        .addOnClickListener(R.id.iv_square)
-                        .addOnClickListener(R.id.iv_rectangle1)
-                        .addOnClickListener(R.id.iv_rectangle2)
-                        .setGone(R.id.tv_label, !datasBean2.getTitle().equals(""))
-                        .setGone(R.id.v_0, !datasBean2.getTitle().equals(""));
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_square), datasBean2.getSquare_image());
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean2.getRectangle1_image());
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean2.getRectangle2_image());
+                //左1右2
+                initItemType2(helper, item.getHome2());
                 break;
             case 33:
-                //布局c 标题
-                HomeItemBean.DatasBean.Home3Bean datasBean3 = item.getHome3();
-                helper.setText(R.id.tv_label, datasBean3.getTitle())
-                        .setGone(R.id.tv_label, !datasBean3.getTitle().equals(""))
-                        .setGone(R.id.v_0, !datasBean3.getTitle().equals(""));
+                //单标题
+                initItemTitle3(helper, item.getHome3());
                 break;
             case 3:
-                //布局c ITEM
-                AppCompatImageView imageView = helper.getView(R.id.iv_0);
-                ImageUtils.loadImageNoPlaceholder(imageView, item.getImage());
+                //单张图片占一行的一半
+                ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_0), item.getImage());
                 break;
             case 4:
-                //热门活动  特色市场
-                HomeItemBean.DatasBean.Home4Bean datasBean4 = item.getHome4();
-                helper.setText(R.id.tv_label, datasBean4.getTitle())
-                        .addOnClickListener(R.id.iv_square)
-                        .addOnClickListener(R.id.iv_rectangle1)
-                        .addOnClickListener(R.id.iv_rectangle2)
-                        .setGone(R.id.tv_label, !datasBean4.getTitle().equals(""))
-                        .setGone(R.id.v_0, !datasBean4.getTitle().equals(""));
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean4.getRectangle1_image());
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean4.getRectangle2_image());
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_square), datasBean4.getSquare_image());
+                //左2右1
+                initItemType4(helper, item.getHome4());
                 break;
             case 5:
-                //手机通讯  自营超市
-                HomeItemBean.DatasBean.Home5Bean datasBean5 = item.getHome5();
-                helper.setText(R.id.tv_label, datasBean5.getTitle())
-                        .setText(R.id.tv_sub_label, datasBean5.getStitle())
-                        .addOnClickListener(R.id.iv_square)
-                        .addOnClickListener(R.id.iv_rectangle1)
-                        .addOnClickListener(R.id.iv_rectangle2)
-                        .addOnClickListener(R.id.iv_rectangle3)
-                        .setGone(R.id.tv_label, !datasBean5.getTitle().equals(""))
-                        .setGone(R.id.tv_sub_label, !datasBean5.getStitle().equals(""));
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_square), datasBean5.getSquare_image());
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle1), datasBean5.getRectangle1_image());
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle2), datasBean5.getRectangle2_image());
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_rectangle3), datasBean5.getRectangle3_image());
+                //左1右3
+                initItemType5(helper, item.getHome5());
                 break;
             case 6:
-                //导航
-                final AppCompatImageView imageView6 = helper.getView(R.id.image);
-                ImageUtils.loadImageNoPlaceholder(imageView6, item.getImage());
+                //单张图片导航
+                ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.image), item.getImage());
                 break;
             case 10:
-                //商品列表
-                HomeItemBean.DatasBean.GoodsBean.ItemBean goodsBean = item.getGoodsItemBean();
-                helper.setText(R.id.tv_label, goodsBean.getGoods_name())
-                        .setText(R.id.tv_money, goodsBean.getGoods_promotion_price())
-                        .setVisible(R.id.tv_tips, false);
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_image), goodsBean.getGoods_image());
+                //普通商品列表 一行俩个
+                initItemType10(helper, item.getGoodsItemBean());
                 break;
             case 11:
-                //限购
-                HomeItemBean.DatasBean.Goods1Bean goods1Bean = item.getGoods1();
-                UltraViewPager banner2 = helper.getView(R.id.view_banner);
-                if (banner2.getAdapter() != null) {
-                    ((HomeSecondsBannerAdapter) banner2.getAdapter()).setData(goods1Bean.getItem());
-                } else {
-                    HomeSecondsBannerAdapter homeSecondsBannerAdapter = new HomeSecondsBannerAdapter();
-                    homeSecondsBannerAdapter.setData(goods1Bean.getItem());
-                    homeSecondsBannerAdapter.setOnPagerClickListener(new BaseBannerAdapter.OnPagerClickListener() {
-                        @Override
-                        public void OnPagerClick(int position) {
-                            bannerClickListener.onItemClick(helper.getAdapterPosition(), position);
-                        }
-                    });
-                    ImageUtils.createBanner(banner2, homeSecondsBannerAdapter);
-                }
+                //限购 轮播图
+                initItemType11(helper, item.getGoods1());
                 break;
             case 12:
-                //团购
-                HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem goods2Bean = item.getGoods2ItemBean();
-                helper.setText(R.id.tv_label, goods2Bean.getGoods_name())
-                        .setText(R.id.tv_money, goods2Bean.getGoods_promotion_price())
-                        .setVisible(R.id.tv_tips, true);
-                ImageUtils.loadImageNoPlaceholder((AppCompatImageView) helper.getView(R.id.iv_image), goods2Bean.getGoods_image());
+                //团购商品列表 一行俩个
+                initItemType12(helper, item.getGoods2ItemBean());
                 break;
             case 22:
-                //团购
+                //团购标题
                 helper.setText(R.id.tv_label, item.getLabel())
                         .setText(R.id.tv_sub_label, item.getSubLabel());
                 break;
             default:
                 break;
+        }
+    }
+
+    private void initItemType12(BaseViewHolder helper, HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem data) {
+        helper.setText(R.id.tv_label, data.getGoods_name())
+                .setText(R.id.tv_money, data.getGoods_promotion_price())
+                .setVisible(R.id.tv_tips, true);
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_image), data.getGoods_image());
+    }
+
+    private void initItemType11(BaseViewHolder helper, HomeItemBean.DatasBean.Goods1Bean data) {
+        UltraViewPager banner2 = helper.getView(R.id.view_banner);
+        if (banner2.getAdapter() != null) {
+            ((HomeSecondsBannerAdapter) banner2.getAdapter()).setData(data.getItem());
+        } else {
+            HomeSecondsBannerAdapter homeSecondsBannerAdapter = new HomeSecondsBannerAdapter();
+            homeSecondsBannerAdapter.setData(data.getItem());
+            homeSecondsBannerAdapter.setOnPagerClickListener(position -> bannerClickListener.onItemClick(helper.getAdapterPosition(), position));
+            ImageUtils.createBanner(banner2, homeSecondsBannerAdapter);
+        }
+    }
+
+    private void initItemType10(BaseViewHolder helper, HomeItemBean.DatasBean.GoodsBean.ItemBean data) {
+        helper.setText(R.id.tv_label, data.getGoods_name())
+                .setText(R.id.tv_money, data.getGoods_promotion_price())
+                .setVisible(R.id.tv_tips, false);
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_image), data.getGoods_image());
+    }
+
+    private void initItemType5(BaseViewHolder helper, HomeItemBean.DatasBean.Home5Bean data) {
+        helper.setText(R.id.tv_label, data.getTitle())
+                .setText(R.id.tv_sub_label, data.getStitle())
+                .addOnClickListener(R.id.iv_square)
+                .addOnClickListener(R.id.iv_rectangle1)
+                .addOnClickListener(R.id.iv_rectangle2)
+                .addOnClickListener(R.id.iv_rectangle3)
+                .setGone(R.id.tv_label, !TextUtils.isEmpty(data.getTitle()))
+                .setGone(R.id.tv_sub_label, !TextUtils.isEmpty(data.getStitle()));
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_square), data.getSquare_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle3), data.getRectangle3_image());
+    }
+
+    private void initItemType4(BaseViewHolder helper, HomeItemBean.DatasBean.Home4Bean data) {
+        helper.setText(R.id.tv_label, data.getTitle())
+                .addOnClickListener(R.id.iv_square)
+                .addOnClickListener(R.id.iv_rectangle1)
+                .addOnClickListener(R.id.iv_rectangle2)
+                .setGone(R.id.tv_label, !TextUtils.isEmpty(data.getTitle()))
+                .setGone(R.id.v_0, !TextUtils.isEmpty(data.getTitle()));
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_square), data.getSquare_image());
+    }
+
+    private void initItemTitle3(BaseViewHolder helper, HomeItemBean.DatasBean.Home3Bean home3) {
+        helper.setText(R.id.tv_label, home3.getTitle())
+                .setGone(R.id.tv_label, !TextUtils.isEmpty(home3.getTitle()))
+                .setGone(R.id.v_0, !TextUtils.isEmpty(home3.getTitle()));
+    }
+
+    private void initItemType2(BaseViewHolder helper, HomeItemBean.DatasBean.Home2Bean home2) {
+        helper.setText(R.id.tv_label, home2.getTitle())
+                .addOnClickListener(R.id.iv_square)
+                .addOnClickListener(R.id.iv_rectangle1)
+                .addOnClickListener(R.id.iv_rectangle2)
+                .setGone(R.id.tv_label, !TextUtils.isEmpty(home2.getTitle()))
+                .setGone(R.id.v_0, !TextUtils.isEmpty(home2.getTitle()));
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_square), home2.getSquare_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle1), home2.getRectangle1_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle2), home2.getRectangle2_image());
+    }
+
+    private void initItemType1(BaseViewHolder helper, HomeItemBean.DatasBean.Home1Bean data) {
+        helper.setText(R.id.tv_label, data.getTitle())
+                .setGone(R.id.tv_label, !TextUtils.isEmpty(data.getTitle()))
+                .setGone(R.id.v_0, !TextUtils.isEmpty(data.getTitle()));
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_0), data.getImage());
+    }
+
+    private void initItemType0(BaseViewHolder helper, HomeItemBean.DatasBean.AdvListBean data) {
+        List<String> urls = new ArrayList<>();
+        for (HomeItemBean.DatasBean.AdvListBean.ItemBean itemBean : data.getItem()) {
+            urls.add(itemBean.getImage());
+        }
+        UltraViewPager banner = helper.getView(R.id.view_banner);
+        if (banner.getAdapter() != null) {
+            ((HomeTopBannerAdapter) banner.getAdapter()).setData(urls);
+        } else {
+            HomeTopBannerAdapter homeTopBannerAdapter = new HomeTopBannerAdapter();
+            homeTopBannerAdapter.setData(urls);
+            homeTopBannerAdapter.setOnPagerClickListener(position -> bannerClickListener.onItemClick(helper.getAdapterPosition(), position));
+            ImageUtils.createBanner(banner, homeTopBannerAdapter);
         }
     }
 }

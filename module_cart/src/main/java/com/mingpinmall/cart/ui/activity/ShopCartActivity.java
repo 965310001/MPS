@@ -16,8 +16,8 @@ import com.mingpinmall.cart.ui.CartFragment;
 
 /**
  * 功能描述：购物车页面
- * 创建人：小斌
- * 创建时间: 2019/4/29
+ * *@author 小斌
+ * @date 2019/4/29
  **/
 @Route(path = ARouterConfig.cart.SHOPCARTACTIVITY)
 public class ShopCartActivity extends FragmentActivity {

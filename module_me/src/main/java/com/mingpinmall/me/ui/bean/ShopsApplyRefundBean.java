@@ -5,8 +5,8 @@ import java.util.List;
 
 /**
  * 功能描述：商品退款 & 退货 申请
- * 创建人：小斌
- * 创建时间: 2019/5/9
+ * *@author 小斌
+ * @date 2019/5/9
  **/
 public class ShopsApplyRefundBean implements Serializable {
 

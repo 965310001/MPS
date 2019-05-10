@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * 功能描述：首页数据
- * 创建人：小斌
- * 创建时间: 2019/4/3
+ * @author 小斌
+ * @date 2019/4/3
  **/
 public class HomeItemBean implements Serializable {
 

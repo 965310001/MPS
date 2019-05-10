@@ -6,7 +6,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsRepository;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 
 /**
- * @author GuoFeng
+ *@author GuoFeng
  * @date :2019/1/17 16:42
  * @description:
  */

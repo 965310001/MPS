@@ -43,7 +43,6 @@ import com.xuexiang.xui.widget.tabbar.TabControlView;
 public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentActivity implements View.OnClickListener, ILoadManager {
 
     protected ActivityBaseBinding baseBinding;
-
     private LoadManager loadManager;
     protected Activity activity;
 
@@ -55,7 +54,9 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
 
     private ImmersionBar mImmersionBar;
     private ViewGroup contentLayout;
-    //黑色状态栏字体
+    /**
+     * 黑色状态栏字体
+     */
     private boolean darkMode = true;
 
     protected VD binding;
@@ -211,14 +212,17 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
     /*字体适配*/
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.fontScale != -1) getResources();
+        if (newConfig.fontScale != -1) {
+            getResources();
+        }
         super.onConfigurationChanged(newConfig);
     }
 
     @Override
     public Resources getResources() {
         Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
+        if (res.getConfiguration().fontScale != 1) {
+            //非默认值
             Configuration newConfig = new Configuration();
             newConfig.setToDefaults();//设置默认
             res.updateConfiguration(newConfig, res.getDisplayMetrics());

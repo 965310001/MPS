@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * 功能描述：店铺代金券
- * 创建人：小斌
- * 创建时间: 2019/4/20
+ * @author 小斌
+ * @date 2019/4/20
  **/
 public class CouponListBean implements Serializable {
 

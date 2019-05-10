@@ -12,8 +12,8 @@ import java.util.List;
 
 /**
  * 功能描述：退款列表 中 店铺商品 适配器
- * 创建人：小斌
- * 创建时间: 2019/4/13
+ * *@author 小斌
+ * @date 2019/4/13
  **/
 public class RefundOrderChildListAdapter extends BaseQuickAdapter<RefundBean.RefundListBean.GoodsListBean, BaseViewHolder> {
 

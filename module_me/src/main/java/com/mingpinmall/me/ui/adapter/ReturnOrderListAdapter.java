@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：退货列表
- * 创建人：小斌
- * 创建时间: 2019/4/23
+ * *@author 小斌
+ * @date 2019/4/23
  **/
 public class ReturnOrderListAdapter extends BaseQuickAdapter<ReturnBean.ReturnListBean, BaseViewHolder> {
     public ReturnOrderListAdapter() {

@@ -28,12 +28,14 @@ import com.xuexiang.xui.utils.CountDownButtonHelper;
 
 import org.w3c.dom.Text;
 
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
+
 /**
  * 功能描述：重设手机
- * 创建人：小斌
- * 创建时间: 2019/4/2
+ * @author 小斌
+ * @date 2019/4/2
  **/
-@Route(path = ARouterConfig.Me.BindPhoneActivity)
+@Route(path = ARouterConfig.Me.BINDPHONEACTIVITY)
 public class BindPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneBinding, UserViewModel> implements TextWatcher {
 
     @Autowired
@@ -93,7 +95,7 @@ public class BindPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneBi
             }
         });
         registerObserver(Constants.BIND_PHONE, String.class).observeForever(result -> {
-            if (result.equals("success")) {
+            if (result.equals(SUCCESS)) {
                 progressDialog.onComplete("", () -> {
                     LiveBus.getDefault().postEvent(ARouterConfig.REFRESH_DATA, "SettingActivity", "");
                     finish();

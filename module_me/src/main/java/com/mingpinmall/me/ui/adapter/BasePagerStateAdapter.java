@@ -12,8 +12,8 @@ import java.util.List;
 
 /**
  * 功能描述：ViewPager适配器，适用于大量page
- * 创建人：小斌
- * 创建时间: 2019/3/26
+ * @author 小斌
+ * @date 2019/3/26
  **/
 public class BasePagerStateAdapter extends FragmentStatePagerAdapter {
 

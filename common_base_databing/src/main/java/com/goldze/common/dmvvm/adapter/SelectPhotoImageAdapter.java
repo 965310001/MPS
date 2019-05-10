@@ -17,8 +17,8 @@ import java.util.List;
 
 /**
  * 功能描述：相册图片展示
- * 创建人：小斌
- * 创建时间: 2019/5/6
+ * *@author 小斌
+ * @date 2019/5/6
  **/
 public class SelectPhotoImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -101,8 +101,9 @@ public class SelectPhotoImageAdapter extends RecyclerView.Adapter<BaseViewHolder
         helper.getView(R.id.iv_delete).setOnClickListener(v -> {
             notifyItemRemoved(helper.getLayoutPosition());
             photoPath.remove(helper.getLayoutPosition());
-            if (onRemoveListener != null)
+            if (onRemoveListener != null) {
                 onRemoveListener.removePos(helper.getLayoutPosition());
+            }
         });
         helper.itemView.setOnClickListener(v -> {
             if (openListener != null) {

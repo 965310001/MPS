@@ -4,8 +4,8 @@ import java.util.List;
 
 /**
  * 功能描述：订单
- * 创建人：小斌
- * 创建时间: 2019/4/11
+ * @author 小斌
+ * @date 2019/4/11
  **/
 public class PhysicalOrderBean {
 

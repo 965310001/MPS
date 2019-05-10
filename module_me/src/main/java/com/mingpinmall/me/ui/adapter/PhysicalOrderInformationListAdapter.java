@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：订单详情 中 店铺商品 适配器
- * 创建人：小斌
- * 创建时间: 2019/4/13
+ * @author 小斌
+ * @date 2019/4/13
  **/
 public class PhysicalOrderInformationListAdapter extends BaseQuickAdapter<OrderInformationBean.OrderInfoBean.GoodsListBean, BaseViewHolder> {
 

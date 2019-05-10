@@ -5,8 +5,8 @@ import java.util.List;
 
 /**
  * 功能描述：订单退款申请
- * 创建人：小斌
- * 创建时间: 2019/5/9
+ * *@author 小斌
+ * @date 2019/5/9
  **/
 public class OrderApplyRefundBean implements Serializable {
 
