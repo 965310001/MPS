@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -28,6 +29,10 @@ import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.widget.PayPopupWindow;
 import com.socks.library.KLog;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -177,7 +182,6 @@ public class ConfirmOrderActivity extends
         paymentDialog.show();
     }
 
-
     /*阿里*/
     public void aLiPay(View view) {
         mPayFun = 0;
@@ -186,6 +190,25 @@ public class ConfirmOrderActivity extends
     /*微信*/
     public void weixinPay(View view) {
         mPayFun = 1;
+
+        IWXAPI api = WXAPIFactory.createWXAPI(this, Constants.WEIXIN_APP_ID, true);
+        int wxSdkVersion = api.getWXAppSupportAPI();
+        if (wxSdkVersion >= Build.OFFLINE_PAY_SDK_INT) {
+//                    final IWXAPI msgApi = WXAPIFactory.createWXAPI(getApplicationContext(), null);
+//                    msgApi.registerApp("wxc18a7a67aae81510");
+            PayReq request = new PayReq();
+            request.appId = Constants.WEIXIN_APP_ID;
+            request.partnerId = "1414269202";
+            request.prepayId = "wx101032496536374724b5a6462408257615";
+            request.packageValue = "Sign=WXPay";
+            request.nonceStr = "wthodj3xyp9f5365zymwuft4i2v2i06b";
+            request.timeStamp = "1557455569";
+            request.sign = "575E40D7EA9A394EB0641FFC6533F6AE";
+            api.sendReq(request);
+            /*api.sendReq(new JumpToOfflinePay.Req());*/
+        } else {
+            ToastUtils.showLong("not supported");
+        }
     }
 
     /*确认订单*/
@@ -237,7 +260,11 @@ public class ConfirmOrderActivity extends
         map.put("invoice_id", invoice_id);
         map.put("rpt", "");
         map.put("pay_message", binding.getContent());//store_id+binding.getContent()|store_id+binding.getContent()
-        mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
+//        mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
+
+
+        /*测试微信支付*/
+        weixinPay(null);
     }
 
     public void onFinishClick(View view) {

@@ -67,7 +67,7 @@ import java.util.Map;
 public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, ClassifyViewModel> implements OnItemClickListener {
 
     /******************************************微信支付******************************************/
-    IWXAPI api;
+   /* IWXAPI api;
 
     void weixin() {
         //商户APP工程中引入微信JAR包，调用API前，需要先向微信注册您的APPID，代码如下：
@@ -83,7 +83,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         request.timeStamp = "1398746574";
         request.sign = "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
         api.sendReq(request);
-    }
+    }*/
     /******************************************微信支付******************************************/
 
 
@@ -234,7 +234,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        payV2(null);weixin();
+        payV2(null);
         mRecyclerView = binding.getRoot().findViewById(R.id.recycler_view);
 
         setTitlePadding(binding.rlTitleContent);

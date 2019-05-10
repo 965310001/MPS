@@ -71,4 +71,12 @@ public interface Constants {
 
     /*Socker URL*/
     String CHAT_SERVER_URL = "https://www.mingpinmall.cn:8091";
+
+    /*微信APPID*/
+    String WEIXIN_APP_ID = "wxc18a7a67aae81510";
+     int GET_TOKEN = 1;
+     int CHECK_TOKEN = 2;
+     int REFRESH_TOKEN = 3;
+     int GET_INFO = 4;
+     int GET_IMG = 5;
 }
