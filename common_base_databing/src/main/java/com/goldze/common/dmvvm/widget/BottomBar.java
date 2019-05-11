@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -142,7 +143,7 @@ public class BottomBar extends View {
 
             try {
                 //这里为了防止activity被回收后重启activity出现fragment重叠的问题。
-                Fragment fragment = ((FragmentActivity)context).getSupportFragmentManager().findFragmentByTag(cln);
+                Fragment fragment = ((AppCompatActivity)context).getSupportFragmentManager().findFragmentByTag(cln);
                 if (fragment == null) {
                     fragment= (Fragment) clx.newInstance();
                 }
@@ -334,7 +335,7 @@ public class BottomBar extends View {
         int frameLayoutId = containerId;
 
         if (fragment != null) {
-            FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
             if (fragment.isAdded()) {
                 if (currentFragment != null) {
                     transaction.hide(currentFragment).show(fragment);

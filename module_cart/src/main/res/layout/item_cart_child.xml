@@ -7,187 +7,194 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:foreground="@drawable/button_foreground"
-        android:orientation="vertical">
+        android:foreground="@drawable/button_foreground">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
 
-            <com.goldze.common.dmvvm.widget.SmoothCheckBox
-                android:id="@+id/cb_single"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="12dp" />
+            android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="12dp" />
-
-            <android.support.constraint.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_margin="12dp">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_label"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="12dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@id/tv_spec"
-                    app:layout_constraintEnd_toStartOf="@id/iv_delete"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_delete"
+                <com.goldze.common.dmvvm.widget.SmoothCheckBox
+                    android:id="@+id/cb_single"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginEnd="4dp"
-                    android:padding="2dp"
-                    android:src="@drawable/ic_del"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_label"
-                    app:layout_constraintTop_toTopOf="@id/tv_label" />
+                    android:layout_marginStart="12dp" />
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_spec"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="@color/dark"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@id/ll_tips"
-                    app:layout_constraintEnd_toStartOf="@id/ll_countContent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="12dp" />
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:textColor="@color/app_theme_d61619"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/ll_tips"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="¥1234.0" />
-
-                <LinearLayout
-                    android:id="@+id/ll_tips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/shape_red_radius_4dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="4dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="4dp"
-                    android:paddingBottom="2dp"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_money"
-                    app:layout_constraintEnd_toStartOf="@id/ll_countContent"
-                    app:layout_constraintStart_toEndOf="@id/tv_money"
-                    app:layout_constraintTop_toTopOf="@id/tv_money">
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/iv_tips"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxWidth="12dp"
-                        android:maxHeight="12dp" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_margin="12dp">
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_state"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        tools:text="团购" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_countContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                        android:id="@+id/tv_label"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="12dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_spec"
+                        app:layout_constraintEnd_toStartOf="@id/iv_delete"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/iv_jian"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:srcCompat="@drawable/ic_jian" />
+                        android:id="@+id/iv_delete"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="4dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_del"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_label"
+                        app:layout_constraintTop_toTopOf="@id/tv_label" />
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_count"
+                        android:id="@+id/tv_spec"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="@color/dark"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@id/ll_tips"
+                        app:layout_constraintEnd_toStartOf="@id/ll_countContent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:minWidth="24dp"
-                        android:text="1"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_marginEnd="12dp"
+                        android:textColor="@color/app_theme_d61619"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/ll_tips"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="¥1234.0" />
 
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/iv_jia"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:srcCompat="@drawable/ic_jia" />
+                    <LinearLayout
+                        android:id="@+id/ll_tips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/shape_red_radius_4dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="4dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="4dp"
+                        android:paddingBottom="2dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_money"
+                        app:layout_constraintEnd_toStartOf="@id/ll_countContent"
+                        app:layout_constraintStart_toEndOf="@id/tv_money"
+                        app:layout_constraintTop_toTopOf="@id/tv_money">
 
-                </LinearLayout>
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxWidth="12dp"
+                            android:maxHeight="12dp" />
 
-            </android.support.constraint.ConstraintLayout>
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            tools:text="团购" />
 
-        </LinearLayout>
+                    </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_giftList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/shape_dashgap_gray"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
+                    <LinearLayout
+                        android:id="@+id/ll_countContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:layout_width="200dp"
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_jian"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            app:srcCompat="@drawable/ic_jian" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:minWidth="24dp"
+                            android:text="1"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_jia"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            app:srcCompat="@drawable/ic_jia" />
+
+                    </LinearLayout>
+
+                </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_giftList"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="12dp"
-                android:gravity="center"
-                android:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/shape_dashgap_gray"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="12dp"
+                    android:gravity="center"
+                    android:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
-            android:background="@color/line_color"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </LinearLayout>
+    </FrameLayout>
 
 </layout>

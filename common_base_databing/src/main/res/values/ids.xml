@@ -4,7 +4,9 @@
     <!--立即支付-->
     <item name="order_pay" type="id"/>
     <!--取消订单-->
-    <item name="order_cancel" type="id"/>
+    <item name="order_buyer_cancel" type="id"/>
+    <!--取消订单-->
+    <item name="order_refund_cancel" type="id"/>
     <!--查看物流-->
     <item name="order_deliver" type="id"/>
     <!--确认收货-->

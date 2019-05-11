@@ -45,9 +45,9 @@
                 android:id="@+id/cl_payContent"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
+                android:background="@color/white"
                 android:visibility="gone"
-                tools:visibility="visible"
-                android:background="@color/white">
+                tools:visibility="visible">
 
                 <com.goldze.common.dmvvm.widget.SmoothCheckBox
                     android:id="@+id/cb_selectAll"
@@ -91,19 +91,27 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="1368.00" />
 
-                <android.support.v7.widget.AppCompatTextView
+                <FrameLayout
                     android:id="@+id/tv_payNow"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/app_theme_d61619"
+                    android:background="@color/white"
                     android:foreground="@drawable/button_foreground"
-                    android:gravity="center"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:text="立即支付"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/app_theme_d61619"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="立即支付"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </FrameLayout>
 
             </android.support.constraint.ConstraintLayout>
 

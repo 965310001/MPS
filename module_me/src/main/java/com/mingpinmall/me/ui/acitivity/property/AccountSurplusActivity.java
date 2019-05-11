@@ -50,7 +50,7 @@ public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccount
         pagerAdapter.addFragment(pdcashFragment, R.string.tabs_text_surplus3);
 
         binding.viewPager.setAdapter(pagerAdapter);
-        binding.tabs.setupWithViewPager(binding.viewPager);
+        binding.tabs.setViewPager(binding.viewPager);
     }
 
     @Override

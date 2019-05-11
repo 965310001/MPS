@@ -1,7 +1,6 @@
 package com.mingpinmall.me.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：实物订单适配器
+ *
  * @author 小斌
  * @date 2019/4/13
  **/
@@ -36,100 +36,40 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
                 .setText(R.id.tv_tips1, "¥" + item.getOrder_amount())
                 .setText(R.id.tv_tips2, "(含运费¥" + item.getShipping_fee() + ")")
                 .setText(R.id.tv_orderState, item.getState_desc())
-                .setGone(R.id.tv_removeOrder, item.isIf_delete())// 移除订单 按钮
-                .setGone(R.id.tv_tips, item.isIf_lock())//退货退款状态
-                .setGone(R.id.ll_gifts, item.getZengpin_list() != null && item.getZengpin_list().size() > 0)//赠品列表
+                // 移除订单 按钮
+                .setGone(R.id.tv_removeOrder, item.isIf_delete())
+                //退货退款状态
+                .setGone(R.id.tv_tips, item.isIf_lock())
+                //赠品列表
+                .setGone(R.id.ll_gifts, item.getZengpin_list() != null && item.getZengpin_list().size() > 0)
                 .addOnClickListener(R.id.ll_shopContent, R.id.tv_removeOrder);
-        LinearLayout buttonContent = helper.getView(R.id.ll_buttonContent);
-        buttonContent.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.leftMargin = ScreenUtil.dip2px(context, 6);
+        //生成底部按钮
+        initBottomBtns(context, helper, item);
+        //生成礼物列表
+        initGiftsList(context, helper, item);
+        //生成商品列表
+        initGoodsList(context, helper, item);
+    }
 
-        if (item.isIf_deliver()) {
-            //查看物流
-            AppCompatTextView tvBtn;
-            if (helper.getView(R.id.order_deliver) != null) {
-                tvBtn = helper.getView(R.id.order_deliver);
-            } else {
-                tvBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_default, null);
-            }
-            tvBtn.setId(R.id.order_deliver);
-            tvBtn.setText("查看物流");
-            tvBtn.setLayoutParams(params);
-            buttonContent.addView(tvBtn);
-            helper.addOnClickListener(R.id.order_deliver);
+    private void initGoodsList(Context context, BaseViewHolder helper, PhysicalOrderBean item) {
+        LinearLayout shopsList = helper.getView(R.id.ll_shopList);
+        shopsList.removeAllViews();
+        for (int i = 0; i < item.getExtend_order_goods().size(); i++) {
+            PhysicalOrderBean.ExtendOrderGoodsBean shops = item.getExtend_order_goods().get(i);
+            View childView = View.inflate(context, R.layout.item_physical_order_child, null);
+            ((AppCompatTextView) childView.findViewById(R.id.tv_label)).setText(shops.getGoods_name());
+            ((AppCompatTextView) childView.findViewById(R.id.tv_payMoney)).setText(shops.getGoods_price());
+            ((AppCompatTextView) childView.findViewById(R.id.tv_count)).setText(shops.getGoods_num());
+            ((AppCompatTextView) childView.findViewById(R.id.tv_spec)).setText(shops.getGoods_spec());
+            ImageUtils.loadImage(childView.findViewById(R.id.iv_image), shops.getGoods_image_url());
+            shopsList.addView(childView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            View line = new View(context);
+            line.setBackgroundResource(R.color.line_color);
+            shopsList.addView(line, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtil.px2dip(context, 1));
         }
-        if (item.isIf_evaluation_again()) {
-            //追加评价
-            AppCompatTextView tvBtn;
-            if (helper.getView(R.id.order_evaluation_again) != null) {
-                tvBtn = helper.getView(R.id.order_evaluation_again);
-            } else {
-                tvBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_border_red, null);
-            }
-            tvBtn.setId(R.id.order_evaluation_again);
-            tvBtn.setText("追加评价");
-            tvBtn.setLayoutParams(params);
-            buttonContent.addView(tvBtn);
-            helper.addOnClickListener(R.id.order_evaluation_again);
-        }
-        if (item.isIf_evaluation()) {
-            //评价订单
-            AppCompatTextView tvBtn;
-            if (helper.getView(R.id.order_evaluation) != null) {
-                tvBtn = helper.getView(R.id.order_evaluation);
-            } else {
-                tvBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_border_red, null);
-            }
-            tvBtn.setId(R.id.order_evaluation);
-            tvBtn.setText("评价订单");
-            tvBtn.setLayoutParams(params);
-            buttonContent.addView(tvBtn);
-            helper.addOnClickListener(R.id.order_evaluation);
-        }
-        if (item.isIf_receive()) {
-            //确认收货
-            AppCompatTextView tvBtn;
-            if (helper.getView(R.id.order_sure) != null) {
-                tvBtn = helper.getView(R.id.order_sure);
-            } else {
-                tvBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_border_red, null);
-            }
-            tvBtn.setId(R.id.order_sure);
-            tvBtn.setText("确认收货");
-            tvBtn.setLayoutParams(params);
-            buttonContent.addView(tvBtn);
-            helper.addOnClickListener(R.id.order_sure);
-        }
-        if (item.isIf_cancel()) {
-            //取消订单 & 立即支付
-            AppCompatTextView orderCancel;
-            AppCompatTextView orderPay;
-            if (helper.getView(R.id.order_cancel) != null) {
-                orderCancel = helper.getView(R.id.order_cancel);
-            } else {
-                orderCancel = (AppCompatTextView) View.inflate(context, R.layout.button_layout_default, null);
-            }
+    }
 
-            orderCancel.setId(R.id.order_cancel);
-            orderCancel.setText("取消订单");
-            orderCancel.setLayoutParams(params);
-            buttonContent.addView(orderCancel);
-            helper.addOnClickListener(R.id.order_cancel);
-
-            if (helper.getView(R.id.order_pay) != null) {
-                orderPay = helper.getView(R.id.order_pay);
-            } else {
-                orderPay = (AppCompatTextView) View.inflate(context, R.layout.button_layout_solid_red, null);
-            }
-
-            orderPay.setId(R.id.order_pay);
-            orderPay.setText("立即支付");
-            orderPay.setLayoutParams(params);
-            buttonContent.addView(orderPay);
-            helper.addOnClickListener(R.id.order_pay);
-        }
-
+    private void initGiftsList(Context context, BaseViewHolder helper, PhysicalOrderBean item) {
         LinearLayout llList = helper.getView(R.id.ll_gifts);
         llList.removeAllViews();
         if (item.getZengpin_list() != null) {
@@ -142,27 +82,99 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
                 if (i < item.getZengpin_list().size() - 1) {
                     View line = new View(context);
                     line.setBackgroundResource(R.color.line_color);
-                    llList.addView(line, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                    llList.addView(line, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtil.px2dip(context, 1));
                 }
             }
         }
+    }
 
-        LinearLayout shopsList = helper.getView(R.id.ll_shopList);
-        shopsList.removeAllViews();
-        for (int i = 0; i < item.getExtend_order_goods().size(); i++) {
-            PhysicalOrderBean.ExtendOrderGoodsBean shops = item.getExtend_order_goods().get(i);
-            View childView = View.inflate(context, R.layout.item_physical_order_child, null);
-            ((AppCompatTextView) childView.findViewById(R.id.tv_label)).setText(shops.getGoods_name());
-            ((AppCompatTextView) childView.findViewById(R.id.tv_payMoney)).setText(shops.getGoods_price());
-            ((AppCompatTextView) childView.findViewById(R.id.tv_count)).setText(shops.getGoods_num());
-            ((AppCompatTextView) childView.findViewById(R.id.tv_spec)).setText(shops.getGoods_spec());
-            ImageUtils.loadImage(childView.findViewById(R.id.iv_image), shops.getGoods_image_url());
-            shopsList.addView(childView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            if (i < item.getExtend_order_goods().size() - 1) {
-                View line = new View(context);
-                line.setBackgroundResource(R.color.line_color);
-                shopsList.addView(line, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+    private void initBottomBtns(Context context, BaseViewHolder helper, PhysicalOrderBean item) {
+        LinearLayout buttonContent = helper.getView(R.id.ll_buttonContent);
+        buttonContent.removeAllViews();
+        if (item.isIf_deliver()) {
+            //查看物流
+            AppCompatTextView deliverBtn;
+            if (helper.getView(R.id.order_deliver) != null) {
+                deliverBtn = helper.getView(R.id.order_deliver);
+            } else {
+                deliverBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_default, null);
             }
+            deliverBtn.setId(R.id.order_deliver);
+            deliverBtn.setText("查看物流");
+            addButton(context, helper, buttonContent, deliverBtn);
         }
+        if (item.isIf_evaluation_again()) {
+            //追加评价
+            AppCompatTextView againBtn;
+            if (helper.getView(R.id.order_evaluation_again) != null) {
+                againBtn = helper.getView(R.id.order_evaluation_again);
+            } else {
+                againBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_border_red, null);
+            }
+            againBtn.setId(R.id.order_evaluation_again);
+            againBtn.setText("追加评价");
+            addButton(context, helper, buttonContent, againBtn);
+        }
+        if (item.isIf_evaluation()) {
+            //评价订单
+            AppCompatTextView evaluationBtn;
+            if (helper.getView(R.id.order_evaluation) != null) {
+                evaluationBtn = helper.getView(R.id.order_evaluation);
+            } else {
+                evaluationBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_border_red, null);
+            }
+            evaluationBtn.setId(R.id.order_evaluation);
+            evaluationBtn.setText("评价订单");
+            addButton(context, helper, buttonContent, evaluationBtn);
+        }
+        if (item.isIf_receive()) {
+            //确认收货
+            AppCompatTextView receiveBtn;
+            if (helper.getView(R.id.order_sure) != null) {
+                receiveBtn = helper.getView(R.id.order_sure);
+            } else {
+                receiveBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_border_red, null);
+            }
+            receiveBtn.setId(R.id.order_sure);
+            receiveBtn.setText("确认收货");
+            addButton(context, helper, buttonContent, receiveBtn);
+        }
+        if (item.isIf_cancel()) {
+            //取消订单
+            AppCompatTextView cancelBtn;
+            if (helper.getView(R.id.order_buyer_cancel) != null) {
+                cancelBtn = helper.getView(R.id.order_buyer_cancel);
+            } else {
+                cancelBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_default, null);
+            }
+            cancelBtn.setId(R.id.order_buyer_cancel);
+            cancelBtn.setText("取消订单");
+            addButton(context, helper, buttonContent, cancelBtn);
+        }
+        if (item.isIf_show_pay()) {
+            //订单支付
+            AppCompatTextView payBtn;
+            if (helper.getView(R.id.order_pay) != null) {
+                payBtn = helper.getView(R.id.order_pay);
+            } else {
+                payBtn = (AppCompatTextView) View.inflate(context, R.layout.button_layout_solid_red, null);
+            }
+            payBtn.setId(R.id.order_pay);
+            payBtn.setText("订单支付");
+            addButton(context, helper, buttonContent, payBtn);
+        }
+    }
+
+    private void addButton(Context context, BaseViewHolder helper, LinearLayout groupView, AppCompatTextView tvBtn) {
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = ScreenUtil.dip2px(context, 6);
+        if (tvBtn == null) {
+            return;
+        }
+        tvBtn.setLayoutParams(params);
+        groupView.addView(tvBtn);
+        helper.addOnClickListener(tvBtn.getId());
     }
 }

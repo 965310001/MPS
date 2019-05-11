@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
@@ -110,15 +111,18 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
         physicalOrderListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             //子控件点击事件
             final PhysicalOrderBean orderBean = physicalOrderListAdapter.getItem(position);
-            if (view.getId() == R.id.order_cancel) {
+            if (view.getId() == R.id.order_buyer_cancel) {
                 //取消订单
                 TextDialog.showBaseDialog(activity, "取消订单", "确定取消订单？",
                         () -> mViewModel.cancelOrder(eventKey, orderBean.getOrder_id()))
                         .show();
+            } else if (view.getId() == R.id.order_refund_cancel) {
+                //订单退款
+                ActivityToActivity.toActivity(ARouterConfig.Me.ORDERREFUNDACTIVITY, "id", orderBean.getOrder_id());
             } else if (view.getId() == R.id.order_pay) {
                 //立即支付
             } else if (view.getId() == R.id.order_lock) {
-                //退款/退货中...
+                //退款/退货中... tips
             } else if (view.getId() == R.id.order_sure) {
                 //确认收货
                 TextDialog.showBaseDialog(activity, "确认收货", "确认已收到订单中商品？",

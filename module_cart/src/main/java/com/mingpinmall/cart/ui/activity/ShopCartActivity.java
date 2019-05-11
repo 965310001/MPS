@@ -20,7 +20,7 @@ import com.mingpinmall.cart.ui.CartFragment;
  * @date 2019/4/29
  **/
 @Route(path = ARouterConfig.cart.SHOPCARTACTIVITY)
-public class ShopCartActivity extends FragmentActivity {
+public class ShopCartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,13 +30,10 @@ public class ShopCartActivity extends FragmentActivity {
         findViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
         findViewById(R.id.iv_back).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.tv_title)).setText(R.string.title_ShopCartActivity);
-        findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.remove(getSupportFragmentManager().findFragmentByTag("CART"));
-                onBackPressed();
-            }
+        findViewById(R.id.iv_back).setOnClickListener(v -> {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.remove(getSupportFragmentManager().findFragmentByTag("CART"));
+            onBackPressed();
         });
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

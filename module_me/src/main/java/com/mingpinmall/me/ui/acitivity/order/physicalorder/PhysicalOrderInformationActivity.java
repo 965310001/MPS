@@ -180,7 +180,7 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         if (data.isIf_buyer_cancel()) {
             //取消订单
             tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_default, null);
-            tvBtn.setId(R.id.order_cancel);
+            tvBtn.setId(R.id.order_buyer_cancel);
             tvBtn.setText("取消订单");
         }
         if (data.isIf_refund_cancel()) {
@@ -211,7 +211,7 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
 
     @Override
     public void onViewClicked(int viewId) {
-        if (viewId == R.id.order_cancel) {
+        if (viewId == R.id.order_buyer_cancel) {
             //取消订单
             if (data == null) {
                 return;
@@ -223,6 +223,8 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
             //立即支付
 
         } else if (viewId == R.id.order_lock) {
+            //退货/退款 tips
+        } else if (viewId == R.id.order_refund_cancel) {
             //订单退款
             ARouter.getInstance().build(ARouterConfig.Me.ORDERREFUNDACTIVITY)
                     .withString("id", data.getOrder_id())
