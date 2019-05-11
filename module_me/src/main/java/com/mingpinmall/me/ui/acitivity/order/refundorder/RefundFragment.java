@@ -1,13 +1,11 @@
 package com.mingpinmall.me.ui.acitivity.order.refundorder;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -19,8 +17,6 @@ import com.mingpinmall.me.ui.adapter.RefundOrderListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.RefundBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 /**
  * 功能描述：退款单列表
@@ -56,9 +52,9 @@ public class RefundFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
             mViewModel.getRefundList(pageIndex + 1);
         }, binding.recyclerView);
         listAdapter.setOnItemClickListener((adapter, view, position) -> {
-            // TODO item点击
+            // item点击
             RefundBean.RefundListBean data = listAdapter.getItem(position);
-
+            ActivityToActivity.toActivity(ARouterConfig.Me.REFUNDORDERINFORMATION, "refundId", data.getRefund_id());
         });
         listAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             //item子控件点击

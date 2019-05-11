@@ -1,6 +1,7 @@
 package com.goldze.common.dmvvm.utils;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -10,13 +11,16 @@ import android.media.ExifInterface;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
@@ -32,7 +36,7 @@ import java.util.List;
 import static com.xuexiang.xui.utils.ResUtils.getResources;
 
 /**
- *@author GuoFeng
+ * @author GuoFeng
  * @date :2019/1/16 18:05
  * @description: 图片工具类
  */
@@ -82,6 +86,23 @@ public class ImageUtils {
                 .into(imageView);
     }
 
+    public static int overrideHight = 0;
+    public static int overrideWidth = 0;
+
+    public static int getOverrideHight(Context context) {
+        if (overrideHight == 0) {
+            overrideHight = getOverrideWidth(context) / 640 * 260;
+        }
+        return overrideHight;
+    }
+
+    public static int getOverrideWidth(Context context) {
+        if (overrideWidth == 0) {
+            overrideWidth = ScreenUtil.getScreenWidth(context);
+        }
+        return overrideWidth;
+    }
+
     /**
      * 加载网络图片
      *
@@ -89,15 +110,35 @@ public class ImageUtils {
      * @param imageView imageView
      * @param imageView transformation 转换器
      */
-    public static void loadImageNoPlaceholder(ImageView imageView, String url) {
+    public static void loadImageNoPlaceholder(ImageView imageView, String url, int width, int hight) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Context context = imageView.getContext();
+        Glide.with(context)
+                .load(url)
+                .apply(new RequestOptions()
+                        .fitCenter()
+                        .override(width, hight)
+                        .error(new ColorDrawable(Color.WHITE)))
+                .into(imageView);
+    }
+
+    /**
+     * 加载网络图片
+     *
+     * @param url       url
+     * @param radius    圆角半径
+     * @param imageView imageView
+     */
+    public static void loadImageCorners(ImageView imageView, int radius, String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
         Glide.with(imageView.getContext())
                 .load(url)
-                .apply(new RequestOptions()
-                        .fitCenter()
-                        .override(1440, 720)
+                .apply(new RequestOptions().transform(new GlideRoundTransform(radius))
+                        .override(300, 300)
                         .error(new ColorDrawable(Color.WHITE)))
                 .into(imageView);
     }

@@ -48,7 +48,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
     private float firstViewHeight;
     private int alpha;
     private int position;
-    private boolean sChange;
+//    private boolean sChange;
 
     public HomeFragment() {
     }
@@ -112,22 +112,22 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                     View firstView = gridLayoutManager.findViewByPosition(position);
                     scrollY = Math.abs(firstView.getTop());
                     firstViewHeight = firstView.getHeight();
-                    alpha = (int) (scrollY / firstViewHeight * 175);
+                    alpha = (int) (scrollY / firstViewHeight * 200);
                     if (alpha > 0) {
-                        if (sChange) {
-                            sChange = false;
-                            binding.ivScan.setImageResource(R.drawable.ic_scans_new_black);
-                            binding.ivMsg.setImageResource(R.drawable.ic_msg_new_black);
-                        }
+//                        if (sChange) {
+//                            sChange = false;
+//                            binding.ivScan.setImageResource(R.drawable.ic_scans_new_black);
+//                            binding.ivMsg.setImageResource(R.drawable.ic_msg_new_black);
+//                        }
                         binding.lineTop.setBackgroundColor(Color.argb(alpha, 232, 232, 232));
                         binding.clTitleBar.setBackgroundColor(Color.argb(alpha, 255, 255, 255));
                         binding.fab2top.show();
                         darkMode = true;
                         setDarkMode(true);
                     } else {
-                        sChange = true;
-                        binding.ivScan.setImageResource(R.drawable.ic_scans_new_white);
-                        binding.ivMsg.setImageResource(R.drawable.ic_msg_new_white);
+//                        sChange = true;
+//                        binding.ivScan.setImageResource(R.drawable.ic_scans_new_white);
+//                        binding.ivMsg.setImageResource(R.drawable.ic_msg_new_white);
                         binding.lineTop.setBackgroundColor(Color.argb(0, 232, 232, 232));
                         binding.clTitleBar.setBackgroundColor(Color.argb(0, 255, 255, 255));
                         binding.fab2top.hide();

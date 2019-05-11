@@ -378,7 +378,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             itemBean.setTitle2(titles2[i]);
             itemBean.setPoint(0);
             data.add(itemBean);
-            if (i == 0 || i == 1 || i == 2 || i == 4) {
+            if (i == 0 || i == 1 || i == 3) {
                 /**
                  * 添加空白行，分隔行
                  */

@@ -1,10 +1,8 @@
 package com.mingpinmall.me.ui.acitivity.account;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -26,7 +24,6 @@ import com.mingpinmall.me.ui.constants.Constants;
 import com.xuexiang.xui.utils.CountDownButtonHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 功能描述：登陆界面
@@ -57,36 +54,36 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
             public String getTabTitle() {
                 return getString(R.string.tabs_login_puk);
             }
-
             @Override
             public int getTabSelectedIcon() {
                 return R.drawable.ic_login_tabs1_sel;
             }
-
             @Override
             public int getTabUnselectedIcon() {
                 return R.drawable.ic_login_tabs1_unsel;
             }
         };
-        tabEntityList.add(tabs1);
         CustomTabEntity tabs2 = new CustomTabEntity() {
             @Override
             public String getTabTitle() {
                 return getString(R.string.tabs_login_phone);
             }
-
             @Override
             public int getTabSelectedIcon() {
                 return R.drawable.ic_login_tabs2_sel;
             }
-
             @Override
             public int getTabUnselectedIcon() {
                 return R.drawable.ic_login_tabs2_unsel;
             }
         };
+        tabEntityList.add(tabs1);
         tabEntityList.add(tabs2);
         binding.tabs.setTabData(tabEntityList);
+        setListener();
+    }
+
+    private void setListener() {
         binding.tabs.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
@@ -160,7 +157,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
             mViewModel.getSmsCode(1, binding.edPhone.getText().toString().trim());
         } else if (viewId == R.id.tv_protocol) {
             /*阅读用户注册协议*/
-            ActivityToActivity.toWebView("http://39.108.254.185/wap/tmpl/member/document.html");
+            ActivityToActivity.toWebView("https://www.mingpinmall.cn/wap/tmpl/member/document.html");
         }
 
     }

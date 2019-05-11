@@ -1,7 +1,9 @@
 package com.mingpinmall.home.ui.adapter;
 
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
@@ -14,6 +16,7 @@ import java.util.List;
 
 /**
  * 功能描述：首页列表
+ *
  * @author 小斌
  * @date 2019/4/3
  **/
@@ -53,6 +56,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
 
     @Override
     protected void convert(BaseViewHolder helper, HomeItemBean.DatasBean item) {
+        Context context = helper.itemView.getContext();
         switch (item.getItemType()) {
             case 0:
                 /*轮播图*/
@@ -72,7 +76,8 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 break;
             case 3:
                 //单张图片占一行的一半
-                ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_0), item.getImage());
+                ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_0), item.getImage(),
+                        ScreenUtil.dip2px(context, 320), ScreenUtil.dip2px(context, 160));
                 break;
             case 4:
                 //左2右1
@@ -84,7 +89,8 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 break;
             case 6:
                 //单张图片导航
-                ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.image), item.getImage());
+                ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.image), item.getImage(),
+                        ScreenUtil.dip2px(context, 160), ScreenUtil.dip2px(context, 160));
                 break;
             case 10:
                 //普通商品列表 一行俩个
@@ -112,7 +118,9 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
         helper.setText(R.id.tv_label, data.getGoods_name())
                 .setText(R.id.tv_money, data.getGoods_promotion_price())
                 .setVisible(R.id.tv_tips, true);
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_image), data.getGoods_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_image), data.getGoods_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320));
     }
 
     private void initItemType11(BaseViewHolder helper, HomeItemBean.DatasBean.Goods1Bean data) {
@@ -131,7 +139,10 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
         helper.setText(R.id.tv_label, data.getGoods_name())
                 .setText(R.id.tv_money, data.getGoods_promotion_price())
                 .setVisible(R.id.tv_tips, false);
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_image), data.getGoods_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_image), data.getGoods_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320)
+        );
     }
 
     private void initItemType5(BaseViewHolder helper, HomeItemBean.DatasBean.Home5Bean data) {
@@ -143,10 +154,22 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 .addOnClickListener(R.id.iv_rectangle3)
                 .setGone(R.id.tv_label, !TextUtils.isEmpty(data.getTitle()))
                 .setGone(R.id.tv_sub_label, !TextUtils.isEmpty(data.getStitle()));
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_square), data.getSquare_image());
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image());
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image());
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle3), data.getRectangle3_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_square), data.getSquare_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320)
+        );
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 160)
+        );
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 160),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 160)
+        );
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle3), data.getRectangle3_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 160),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 160)
+        );
     }
 
     private void initItemType4(BaseViewHolder helper, HomeItemBean.DatasBean.Home4Bean data) {
@@ -156,9 +179,15 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 .addOnClickListener(R.id.iv_rectangle2)
                 .setGone(R.id.tv_label, !TextUtils.isEmpty(data.getTitle()))
                 .setGone(R.id.v_0, !TextUtils.isEmpty(data.getTitle()));
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image());
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image());
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_square), data.getSquare_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 160));
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 160));
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_square), data.getSquare_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320));
     }
 
     private void initItemTitle3(BaseViewHolder helper, HomeItemBean.DatasBean.Home3Bean home3) {
@@ -174,16 +203,24 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 .addOnClickListener(R.id.iv_rectangle2)
                 .setGone(R.id.tv_label, !TextUtils.isEmpty(home2.getTitle()))
                 .setGone(R.id.v_0, !TextUtils.isEmpty(home2.getTitle()));
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_square), home2.getSquare_image());
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle1), home2.getRectangle1_image());
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle2), home2.getRectangle2_image());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_square), home2.getSquare_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320));
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle1), home2.getRectangle1_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 160));
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_rectangle2), home2.getRectangle2_image(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 320),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 160));
     }
 
     private void initItemType1(BaseViewHolder helper, HomeItemBean.DatasBean.Home1Bean data) {
         helper.setText(R.id.tv_label, data.getTitle())
                 .setGone(R.id.tv_label, !TextUtils.isEmpty(data.getTitle()))
                 .setGone(R.id.v_0, !TextUtils.isEmpty(data.getTitle()));
-        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_0), data.getImage());
+        ImageUtils.loadImageNoPlaceholder(helper.getView(R.id.iv_0), data.getImage(),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 640),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 260));
     }
 
     private void initItemType0(BaseViewHolder helper, HomeItemBean.DatasBean.AdvListBean data) {

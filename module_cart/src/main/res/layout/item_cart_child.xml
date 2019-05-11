@@ -33,9 +33,11 @@
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_image"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginStart="12dp" />
+                    android:layout_width="78dp"
+                    android:layout_height="78dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/bg_grid_white_corners_05dp"
+                    android:padding="@dimen/line_hight" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"

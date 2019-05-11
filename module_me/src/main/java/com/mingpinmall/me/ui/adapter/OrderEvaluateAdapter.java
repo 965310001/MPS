@@ -2,6 +2,7 @@ package com.mingpinmall.me.ui.adapter;
 
 import android.app.Activity;
 
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
@@ -24,11 +25,6 @@ public class OrderEvaluateAdapter extends BaseQuickAdapter<OrderEvaluateBean.Ord
 
     private List<SelectPhotosTools> tools;
     private SelectPhotosTools callTool;
-    private OnItemPicChange onItemPicChangeListener;
-
-    public void setOnItemPicChangeListener(OnItemPicChange onItemPicChangeListener) {
-        this.onItemPicChangeListener = onItemPicChangeListener;
-    }
 
     public SelectPhotosTools getCallTool() {
         return callTool;
@@ -59,23 +55,15 @@ public class OrderEvaluateAdapter extends BaseQuickAdapter<OrderEvaluateBean.Ord
             photosTools.setSpanCount(4);
             tools.add(photosTools);
         }
-        photosTools.setOnDataChangeListener(dataList -> {
-            if (onItemPicChangeListener != null) {
-                onItemPicChangeListener.onChange(dataList, helper.getLayoutPosition());
-            }
-        });
         photosTools.setOnCallListener(photosTools1 ->
                 this.callTool = photosTools1
         );
-        ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getGoods_image_url());
+        ImageUtils.loadImageCorners(helper.getView(R.id.iv_image),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 4), item.getGoods_image_url());
         MaterialRatingBar ratingBar = helper.getView(R.id.rb_evaluate);
         ratingBar.setNumStars(5);
         ratingBar.setOnRatingChangeListener((ratingBar1, rating) -> item.setScore(String.valueOf((int) rating)));
         helper.setText(R.id.tv_goodsName, item.getGoods_name());
-    }
-
-    public interface OnItemPicChange {
-        void onChange(List<BaseSelectPhotos> dataList, int position);
     }
 
 }

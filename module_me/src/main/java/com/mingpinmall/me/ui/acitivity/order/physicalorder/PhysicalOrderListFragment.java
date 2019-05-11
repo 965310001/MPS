@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.bean.NewDatasResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -210,15 +211,15 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                         }
                         ToastUtils.showShort(result.toString());
                     } else {
-                        BaseResponse<PhysicalOrderBean> data = (BaseResponse<PhysicalOrderBean>) result;
+                        NewDatasResponse<PhysicalOrderBean> data = (NewDatasResponse<PhysicalOrderBean>) result;
                         if (!isLoadmore) {
                             pageIndex = 1;
                             binding.refreshLayout.finishRefresh();
-                            physicalOrderListAdapter.setNewData(data.getNewdata());
+                            physicalOrderListAdapter.setNewData(data.getData());
                         } else {
                             pageIndex++;
                             physicalOrderListAdapter.loadMoreComplete();
-                            physicalOrderListAdapter.addData(data.getNewdata());
+                            physicalOrderListAdapter.addData(data.getData());
                         }
                         if (!data.isHasmore()) {
                             physicalOrderListAdapter.loadMoreEnd();

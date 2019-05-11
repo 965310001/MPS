@@ -17,7 +17,7 @@ import java.util.ArrayList;
  **/
 public class ReturnOrderListAdapter extends BaseQuickAdapter<ReturnBean.ReturnListBean, BaseViewHolder> {
     public ReturnOrderListAdapter() {
-        super(R.layout.item_return_order, new ArrayList<ReturnBean.ReturnListBean>());
+        super(R.layout.item_return_order, new ArrayList<>());
     }
 
     @Override
@@ -30,6 +30,6 @@ public class ReturnOrderListAdapter extends BaseQuickAdapter<ReturnBean.ReturnLi
                 .addOnClickListener(R.id.ll_shopContent)
                 .addOnClickListener(R.id.bt_refundInformation)
                 .addOnClickListener(R.id.tv_removeOrder);
-        ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), item.getGoods_img_360());
+        ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getGoods_img_360());
     }
 }

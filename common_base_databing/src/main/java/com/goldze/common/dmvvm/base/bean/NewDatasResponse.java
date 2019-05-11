@@ -10,7 +10,7 @@ import java.util.List;
  * @description: 类仅供参考，实际业务返回的固定字段, 根据需求来定义，
  */
 
-public class BaseResponse<T> extends BaseBean {
+public class NewDatasResponse<T> extends BaseBean {
 
     private final int SUCCESS = 200;
     private final int FAIL = 500;
@@ -20,20 +20,9 @@ public class BaseResponse<T> extends BaseBean {
     private int code;
     @SerializedName("error")
     private String message;
-    @SerializedName("datas")
-    private T data;
+    @SerializedName("newdata")
+    private List<T> data;
 
-    /**
-     * 补充
-     * {
-     *     "code": 400,
-     *     "login": "0",
-     *     "error": "请登录",
-     *     "datas": {
-     *         "error": "请登录"
-     *     }
-     * }
-     */
     private String login;
 
     /**
@@ -89,7 +78,7 @@ public class BaseResponse<T> extends BaseBean {
         this.message = message;
     }
 
-    public T getData() {
+    public List<T> getData() {
         return data;
     }
 
@@ -97,7 +86,7 @@ public class BaseResponse<T> extends BaseBean {
         return null != data;
     }
 
-    public void setData(T data) {
+    public void setData(List<T> data) {
         this.data = data;
     }
 

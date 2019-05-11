@@ -22,6 +22,8 @@
                 android:layout_height="74dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
+                android:background="@drawable/bg_grid_white_corners_05dp"
+                android:padding="@dimen/line_hight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tv_label"
                 app:layout_constraintStart_toStartOf="parent"

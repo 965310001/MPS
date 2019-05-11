@@ -1,5 +1,6 @@
 package com.mingpinmall.me.ui.adapter;
 
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
@@ -27,6 +28,7 @@ public class PhysicalOrderInformationListAdapter extends BaseQuickAdapter<OrderI
                 .setVisible(R.id.tv_refund, item.getRefund() == 1)
                 .setVisible(R.id.tv_return, item.getRefund() == 1)
                 .addOnClickListener(R.id.tv_refund, R.id.tv_return);
-        ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getImage_url());
+        ImageUtils.loadImageCorners(helper.getView(R.id.iv_image),
+                ScreenUtil.dip2px(helper.itemView.getContext(), 4), item.getImage_url());
     }
 }

@@ -72,19 +72,30 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/line_hight"
                     android:background="@color/line_color"
-                    app:layout_constraintBottom_toTopOf="@id/recyclerView"
+                    app:layout_constraintBottom_toTopOf="@id/ll_shopList"
                     app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                     app:layout_constraintStart_toStartOf="@id/ll_shopContent"
                     app:layout_constraintTop_toBottomOf="@id/ll_shopContent" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                <LinearLayout
+                    android:id="@+id/ll_shopList"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toTopOf="@id/ll_information"
                     app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                     app:layout_constraintStart_toStartOf="@id/ll_shopContent"
-                    app:layout_constraintTop_toBottomOf="@id/line" />
+                    app:layout_constraintTop_toBottomOf="@id/line">
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="12dp"
+                        android:gravity="center"
+                        tools:text="这是一个商品列表。这个textview会被remove" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_information"
@@ -94,9 +105,9 @@
                     android:orientation="horizontal"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    app:layout_constraintEnd_toEndOf="@id/recyclerView"
-                    app:layout_constraintStart_toStartOf="@id/recyclerView"
-                    app:layout_constraintTop_toBottomOf="@id/recyclerView">
+                    app:layout_constraintEnd_toEndOf="@id/ll_shopList"
+                    app:layout_constraintStart_toStartOf="@id/ll_shopList"
+                    app:layout_constraintTop_toBottomOf="@id/ll_shopList">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_time"

@@ -3,15 +3,13 @@ package com.mingpinmall.me.ui.api;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.bean.NewDatasResponse;
 import com.mingpinmall.me.ui.bean.*;
 
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -20,7 +18,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 
 /**
  * 功能描述：
@@ -527,7 +524,7 @@ public interface MeApiService {
     String REFUND_INFORMATION = "/mo_bile/index.php?app=member_refund&wwi=get_refund_info";
 
     @GET(REFUND_INFORMATION)
-    Flowable<BaseResponse<RefundInformation>> getRefundInformation(
+    Flowable<NewDatasResponse<RefundInformationBean>> getRefundInformation(
             @Query("key") String key,
             @Query("refund_id") String refundId
     );
@@ -541,7 +538,7 @@ public interface MeApiService {
     String RETURN_INFORMATION = "/mo_bile/index.php?app=member_return&wwi=get_return_info";
 
     @GET(RETURN_INFORMATION)
-    Flowable<BaseResponse<ReturnInformation>> getReturnInformation(
+    Flowable<NewDatasResponse<ReturnInformationBean>> getReturnInformation(
             @Query("key") String key,
             @Query("return_id") String returnId
     );
@@ -822,7 +819,7 @@ public interface MeApiService {
 
     @FormUrlEncoded
     @POST(GET_PHYSICAL_ORDER)
-    Flowable<BaseResponse<PhysicalOrderBean>> getPhysicalOrderList(
+    Flowable<NewDatasResponse<PhysicalOrderBean>> getPhysicalOrderList(
             @Field("key") String key,
             @Field("state_type") String state_type,
             @Field("order_key") String order_key,

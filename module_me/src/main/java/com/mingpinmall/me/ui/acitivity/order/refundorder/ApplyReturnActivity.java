@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -121,7 +122,8 @@ public class ApplyReturnActivity extends AbsLifecycleActivity<ActivityReturnAppl
                 binding.tvMaxRefundCount.setText("最多可退" + data.getGoods().getGoods_num() + "件");
                 binding.tvMaxRefundMoney.setText("¥" + data.getGoods().getGoods_pay_price());
                 binding.spSpinner.setItems(data.getReason_list());
-                ImageUtils.loadImage(binding.ivImage, data.getGoods().getGoods_img_360());
+                ImageUtils.loadImageCorners(binding.ivImage,
+                        ScreenUtil.dip2px(activity, 4), data.getGoods().getGoods_img_360());
             } else {
                 ToastUtils.showShort(result.toString());
             }

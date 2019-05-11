@@ -81,6 +81,8 @@
                     android:id="@+id/cl_shopInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
                     app:layout_constraintBottom_toTopOf="@id/ll_information"
                     app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                     app:layout_constraintStart_toStartOf="@id/ll_shopContent"
@@ -88,10 +90,12 @@
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/iv_image"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:layout_width="74dp"
+                        android:layout_height="74dp"
                         android:layout_marginTop="6dp"
                         android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_grid_white_corners_05dp"
+                        android:padding="@dimen/line_hight"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/tv_label"
                         app:layout_constraintStart_toStartOf="parent"

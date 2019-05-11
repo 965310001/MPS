@@ -61,7 +61,8 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
             ((AppCompatTextView) childView.findViewById(R.id.tv_payMoney)).setText(shops.getGoods_price());
             ((AppCompatTextView) childView.findViewById(R.id.tv_count)).setText(shops.getGoods_num());
             ((AppCompatTextView) childView.findViewById(R.id.tv_spec)).setText(shops.getGoods_spec());
-            ImageUtils.loadImage(childView.findViewById(R.id.iv_image), shops.getGoods_image_url());
+            ImageUtils.loadImageCorners(childView.findViewById(R.id.iv_image),
+                    ScreenUtil.dip2px(context, 4), shops.getGoods_image_url());
             shopsList.addView(childView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             View line = new View(context);
             line.setBackgroundResource(R.color.line_color);

@@ -3,6 +3,7 @@ package com.mingpinmall.me.ui.api;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.bean.NewDatasResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
@@ -33,9 +34,9 @@ import com.mingpinmall.me.ui.bean.RCardBalanceBean;
 import com.mingpinmall.me.ui.bean.RCardLogBean;
 import com.mingpinmall.me.ui.bean.ReduceCashBean;
 import com.mingpinmall.me.ui.bean.RefundBean;
-import com.mingpinmall.me.ui.bean.RefundInformation;
+import com.mingpinmall.me.ui.bean.RefundInformationBean;
 import com.mingpinmall.me.ui.bean.ReturnBean;
-import com.mingpinmall.me.ui.bean.ReturnInformation;
+import com.mingpinmall.me.ui.bean.ReturnInformationBean;
 import com.mingpinmall.me.ui.bean.ShopsApplyRefundBean;
 import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
 import com.mingpinmall.me.ui.bean.UploadFilesBean;
@@ -332,10 +333,10 @@ public class MeRepository extends BaseRepository {
     protected void getReturnInformation(String returnId) {
         addDisposable(apiService.getReturnInformation(getUserKey(), returnId)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<ReturnInformation>>() {
+                .subscribeWith(new RxSubscriber<NewDatasResponse<ReturnInformationBean>>() {
 
                     @Override
-                    public void onSuccess(BaseResponse<ReturnInformation> result) {
+                    public void onSuccess(NewDatasResponse<ReturnInformationBean> result) {
                         if (result.isSuccess()) {
                             sendData(Constants.RETURN_INFORMATION, result.getData());
                         } else {
@@ -355,10 +356,10 @@ public class MeRepository extends BaseRepository {
     protected void getRefundInformation(String refundId) {
         addDisposable(apiService.getRefundInformation(getUserKey(), refundId)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<RefundInformation>>() {
+                .subscribeWith(new RxSubscriber<NewDatasResponse<RefundInformationBean>>() {
 
                     @Override
-                    public void onSuccess(BaseResponse<RefundInformation> result) {
+                    public void onSuccess(NewDatasResponse<RefundInformationBean> result) {
                         if (result.isSuccess()) {
                             sendData(Constants.REFUND_INFORMATION, result.getData());
                         } else {
@@ -1311,10 +1312,10 @@ public class MeRepository extends BaseRepository {
     protected void getPhysicalOrderList(final String event_key, String state_type, String order_key, int page, final int curpage) {
         addDisposable(apiService.getPhysicalOrderList(getUserKey(), state_type, order_key, page, curpage)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<PhysicalOrderBean>>() {
+                .subscribeWith(new RxSubscriber<NewDatasResponse<PhysicalOrderBean>>() {
 
                     @Override
-                    public void onSuccess(BaseResponse<PhysicalOrderBean> result) {
+                    public void onSuccess(NewDatasResponse<PhysicalOrderBean> result) {
                         if (result.isSuccess()) {
                             sendData(event_key, result);
                         } else {

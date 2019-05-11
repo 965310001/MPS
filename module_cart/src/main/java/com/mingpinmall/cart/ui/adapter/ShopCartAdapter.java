@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
@@ -57,6 +58,8 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
     }
 
     private void initItemType1(Context context, BaseViewHolder helper, AvailableCartBean item) {
+        ImageUtils.loadImageCorners(helper.getView(R.id.iv_image),
+                ScreenUtil.dip2px(context, 4), item.getGoods().getGoods_image_url());
         helper.setText(R.id.tv_label, item.getGoods().getGoods_name())
                 .setText(R.id.tv_spec, item.getGoods().getGoods_spec())
                 .setText(R.id.tv_money, "¥" + item.getGoods().getGoods_price())
@@ -102,7 +105,6 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
             helper.setVisible(R.id.ll_tips, false);
         }
         helper.setText(R.id.tv_state, state);
-        ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getGoods().getGoods_image_url());
     }
 
     private void initItemType0(Context context, BaseViewHolder helper, AvailableCartBean item) {
