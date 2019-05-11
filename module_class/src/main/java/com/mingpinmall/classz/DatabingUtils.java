@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,12 +15,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -32,11 +37,13 @@ import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.utils.FaceConversionUtil;
+import com.mingpinmall.classz.utils.HtmlFromUtils;
 import com.socks.library.KLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
 
+import java.net.URL;
 import java.util.List;
 
 
@@ -166,29 +173,44 @@ public class DatabingUtils {
      * @param image
      */
     @BindingAdapter(value = {"html", "imageHtml"}, requireAll = false)
-    public static void setHtml(TextView textView, String content, String image) {
+    public static void setHtml(final TextView textView, String content, String image) {
+//        final Drawable[] d = new Drawable[1];
         if (!TextUtils.isEmpty(image)) {
-            Html.ImageGetter imgGetter = new Html.ImageGetter() {
-                @Override
-                public Drawable getDrawable(String source) {
-                    if (source.endsWith(".jpg")) {
-
-                    } else {
-                        try {
-                            Drawable d = Utils.getApplication().getResources().getDrawable(Integer.parseInt(source));
-                            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());                        // TODO: 2019/5/6 GIF图片的修改
-                            return d;
-                        } catch (Exception e) {
-                            KLog.i(e.toString());
-                            return null;
-                        }
-
-                    }
-                    return null;
-                }
-            };
-            String source = FaceConversionUtil.dealExpression(image);
-            textView.setText(Html.fromHtml(source, imgGetter, null));
+//            Html.ImageGetter imgGetter = new Html.ImageGetter() {
+//                @Override
+//                public Drawable getDrawable(final String source) {
+//                    if (source.endsWith(".jpg") || source.endsWith(".png")) {
+//                        ImageUtils.loadImage(textView.getContext(), source, new SimpleTarget<Drawable>() {
+//                            @Override
+//                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+//                                d[0] = resource;
+//                                textView.invalidate();
+//                                KLog.i("网络图片" + source);
+//                            }
+//                        });
+//                    } else {
+//                        try {
+//                            d[0] = Utils.getApplication().getResources().getDrawable(Integer.parseInt(source));
+//                            d[0].setBounds(0, 0, d[0].getIntrinsicWidth(), d[0].getIntrinsicHeight());
+//                            return d[0];
+//                        } catch (Exception e) {
+//                            KLog.i(e.toString());
+//                            return null;
+//                        }
+//
+//                    }
+//                    return d[0];
+//                }
+//            };
+//            String source = FaceConversionUtil.dealExpression(image);
+//            textView.setText(Html.fromHtml(source, imgGetter, null));
+//            content="[http://hao.qudao.com/upload/article/20160120/82935299371453253610.jpg]";
+            /*KLog.i(image + "内容");*/
+            if (!TextUtils.isEmpty(image) &&
+                    (image.endsWith(".jpg") || image.endsWith(".png"))) {
+                image = String.format("[%s]", image);
+            }
+            HtmlFromUtils.setImageFromNetWork(textView.getContext(), textView, image, false);
         } else if (!TextUtils.isEmpty(content)) {
             textView.setText(Html.fromHtml(content));
         }

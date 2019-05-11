@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
 import com.socks.library.KLog;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -182,6 +183,14 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     public void sendMsg(String goodsId, String fId, String tId, String tName, String msg, Object eventKey) {
         mRepository.sendMsg(goodsId, fId, tId, tName, msg, eventKey);
     }
+
+    /*发送图片*/
+    public void picUpload(String goodsId, String fId, String tId, String tName, String image, Object eventKey) {
+        mRepository.picUpload(goodsId, fId, tId, tName, image, eventKey);
+    }
+//    public void picUpload(String goodsId, String fId, String tId, String tName, File file, Object eventKey) {
+//        mRepository.picUpload(goodsId, fId, tId, tName, file, eventKey);
+//    }
 
 
 //    /*阿里支付*/

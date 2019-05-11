@@ -115,7 +115,7 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 
         // TODO: 2019/4/19 测试
 //        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
-        ActivityToActivity.goShoppingDetails("110040"); //进入聊天
+        ActivityToActivity.goShoppingDetails("109978"); //进入聊天
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
     }
 

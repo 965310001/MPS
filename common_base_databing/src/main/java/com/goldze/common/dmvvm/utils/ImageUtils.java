@@ -1,6 +1,7 @@
 package com.goldze.common.dmvvm.utils;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -371,5 +372,17 @@ public class ImageUtils {
             return bitmap;
         }
         return bitmap;
+    }
+
+    /**
+     * 根据链接返回图片
+     *
+     * @param url
+     */
+    public static void loadImage(Context context, String url, SimpleTarget simpleTarget) {
+        Glide.with(context)
+                .asDrawable()
+                .load(url)
+                .into(simpleTarget);
     }
 }

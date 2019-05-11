@@ -16,6 +16,7 @@ public class ChatMessageInfo extends BaseBean {
     public boolean isMe;/*是否是自己*/
     public String addTime;
     public String icon;
+    public boolean isImage;
 
     public String getName() {
         return name;
@@ -60,5 +61,15 @@ public class ChatMessageInfo extends BaseBean {
     public void setIcon(String icon) {
         this.icon = icon;
         notifyPropertyChanged(BR.icon);
+    }
+
+    @Bindable
+    public boolean isImage() {
+        return isImage;
+    }
+
+    public void setImage(boolean image) {
+        isImage = image;
+        notifyPropertyChanged(BR.image);
     }
 }

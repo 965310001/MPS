@@ -29,6 +29,7 @@ import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 import com.socks.library.KLog;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -821,6 +822,81 @@ public class ClassifyRepository extends BaseRepository {
         );
 
     }
+
+    /*发送图片*/
+    public void picUpload(String goodsId, String fId, String tId, String tName, String image, final Object eventKey) {
+        Map<String, Object> map = parames("member_chat", "pic_upload");
+        map.put("key", getUserKey());
+        map.put("chat_goods_id", goodsId);
+        map.put("t_id", tId);
+        map.put("f_id", fId);
+        map.put("t_name", tName);
+        File file = new File(image);
+        KLog.i(file.exists() + "文件存在" + file.getPath());
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), file);
+        addDisposable(apiService.picUpload(map, requestBody)
+                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<MsgInfo> result) {
+                        if (result.isSuccess()) {
+                            KLog.i("发送图片");
+                            sendData(eventKey + "Success", result.getData());
+                        } else {
+                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
+    }
+
+    //    public void picUpload(String goodsId, String fId, String tId, String tName, File file, final Object eventKey) {
+//        Map<String, Object> map = parames("member_chat", "pic_upload");
+//        map.put("key", getUserKey());
+//        map.put("chat_goods_id", goodsId);
+//        map.put("t_id", tId);
+//        map.put("f_id", fId);
+//        map.put("t_name", tName);
+////        File file = new File(image);
+//        KLog.i(file.exists() + "文件存在" + file.getPath());
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), file);
+//        addDisposable(apiService.picUpload(map, requestBody)
+//                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
+//                .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
+//                    @Override
+//                    public void onSuccess(BaseResponse<MsgInfo> result) {
+//                        if (result.isSuccess()) {
+//                            KLog.i("发送图片");
+//                            sendData(eventKey + "Success", result.getData());
+//                        } else {
+//                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(String msg) {
+//                        KLog.i(msg);
+//                    }
+//
+//                    @Override
+//                    protected void onNoNetWork() {
+//                        super.onNoNetWork();
+//                    }
+//                })
+//        );
+//
+//    }
 
 
     /*支付宝*/

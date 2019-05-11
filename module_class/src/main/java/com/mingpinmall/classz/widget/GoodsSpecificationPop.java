@@ -90,7 +90,8 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         CustomDefaultFlowTagAdapter adapter;
         View chieView;
         int dimensionPixelSize = context.getResources().getDimensionPixelSize(R.dimen.dp_4);
-        for (int index = 0; index < goodsInfo.news_goods_spec_name.size(); index++) {
+        int size = goodsInfo.news_goods_spec_name.size();
+        for (int index = 0; index < size; index++) {
             chieView = View.inflate(context, R.layout.item_text, null);
             chieView.setPadding(dimensionPixelSize, dimensionPixelSize, 0, dimensionPixelSize);
             textView = chieView.findViewById(R.id.text);

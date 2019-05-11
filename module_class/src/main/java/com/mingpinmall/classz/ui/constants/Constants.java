@@ -66,7 +66,7 @@ public interface Constants {
             "VOUCHER_FREEEX_KEY"};/*代金券 2*/
 
     /*聊天*/
-    Object[] CHAT = {"CHAT_KEY", "CHAT_LIST_STATE", "NODEINFO_KEY", "CHAT_LOG_KEY"};
+    Object[] CHAT = {"CHAT_KEY", "CHAT_LIST_STATE", "NODEINFO_KEY", "CHAT_LOG_KEY","UPLOAD_IMAGE_KEY"};
 
 
     /*Socker URL*/

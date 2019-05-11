@@ -30,7 +30,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.PartMap;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -174,6 +174,12 @@ public interface ClassifyService {
     @POST(BASEURL)
     Flowable<BaseResponse<MsgInfo>> sendMsg(@FieldMap Map<String, Object> map);
 
+    /*发送图片*/
+//    @FormUrlEncoded
+    @Multipart
+    @POST(BASEURL)
+    Flowable<BaseResponse<MsgInfo>> picUpload(@QueryMap Map<String, Object> map,
+                                              @Part("name=\"up_img_kf\"; filename=\"test1.png\"") RequestBody images);
 
     /*getPayNew*/
     @GET(BASEURL)

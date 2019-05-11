@@ -5,7 +5,6 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -85,7 +84,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         return R.id.content_layout;
     }
 
-    private TextView textView;
+//    private TextView textView;
 
     @Override
     public void initView(Bundle state) {
@@ -113,22 +112,15 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         GoodsDetailInfo.DatasBean.MansongInfoBean mansong_info = goodsDetailInfo.getDatas().getMansong_info();
         try {
             if (mansong_info != null && mansong_info.getRules() != null && mansong_info.getRules().size() > 0) {
+                TextView textView;
                 for (final GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansong_info.getRules()) {
                     textView = new TextView(activity);
                     textView.setText(Html.fromHtml(String.format("单笔订单满<font color='#000000'>%s</font>元,立减<font color='#000000'>%s</font>元",
                             rule.getPrice(), rule.getDiscount())));
                     if (!TextUtils.isEmpty(rule.getGoods_image_url())) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                textView.append(Html.fromHtml(String.format(" 送礼品：<img src='%s'/>", rule.getGoods_image_url()), new Html.ImageGetter() {
-                                    @Override
-                                    public Drawable getDrawable(final String source) {
-                                        return HtmlFromUtils.getImageFromNetwork(source);
-                                    }
-                                }, null));
-                            }
-                        });
+                        HtmlFromUtils.setImageFromNetWork(textView.getContext(), textView,
+                                String.format(" 送礼品：[%s]", rule.getGoods_image_url()), true);
+
                     }
                     binding.llManjisong.addView(textView);
                     binding.tvPromotion.setVisibility(View.VISIBLE);
@@ -138,8 +130,9 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 binding.tvPromotion.setVisibility(View.GONE);
             }
             /*赠品*/
-            SpannableString spannableString;
             if (goodsDetailInfo.getDatas().getGift_array() != null && goodsDetailInfo.getDatas().getGift_array().size() > 0) {
+                SpannableString spannableString;
+                TextView textView;
                 for (final GoodsDetailInfo.DatasBean.GiftArrayBean giftArrayBean : goodsDetailInfo.getDatas().getGift_array()) {
                     textView = new TextView(activity);
                     spannableString = new SpannableString(String.format("%s x %s", giftArrayBean.getGift_goodsname(),
@@ -273,27 +266,49 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 //
 //            goodsInfo.setGoods_image_url(goodsDetailInfo.getDatas().getGoods_image().split(",").length > 0
 //                    ? goodsDetailInfo.getDatas().getGoods_image().split(",")[0] : "");
+
+
+//            String goods_image = goodsDetailInfo.getDatas().getGoods_image();
+//            if (goods_image.contains(",")) {
+//                goodsInfo.setGoods_image_url(goods_image.split(",")[0]);
+//                ImageUtils.loadBanner(binding.vpItemGoodsImg,
+//                        Arrays.asList(goods_image.split(",")),
+//                        new OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(int position) {
+//
+//                            }
+//                        });
+//            } else {
+//                goodsInfo.setGoods_image_url(goods_image);
+//
+//                ImageUtils.loadBanner(binding.vpItemGoodsImg,
+//                        Arrays.asList(goods_image),
+//                        new OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(int position) {
+//                            }
+//                        });
+//            }
+            /*优化*/
             String goods_image = goodsDetailInfo.getDatas().getGoods_image();
+            List<String> list;
             if (goods_image.contains(",")) {
                 goodsInfo.setGoods_image_url(goods_image.split(",")[0]);
-                ImageUtils.loadBanner(binding.vpItemGoodsImg,
-                        Arrays.asList(goods_image.split(",")),
-                        new OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int position) {
-
-                            }
-                        });
+                list = Arrays.asList(goods_image.split(","));
             } else {
                 goodsInfo.setGoods_image_url(goods_image);
-                ImageUtils.loadBanner(binding.vpItemGoodsImg,
-                        Arrays.asList(goods_image),
-                        new OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int position) {
-                            }
-                        });
+                list = Arrays.asList(goods_image);
             }
+            ImageUtils.loadBanner(binding.vpItemGoodsImg,
+                    list,
+                    new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                        }
+                    });
+
+
         }
     }
 

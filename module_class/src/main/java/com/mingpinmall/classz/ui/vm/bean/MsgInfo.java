@@ -26,8 +26,17 @@ public class MsgInfo extends BaseBean {
         private String t_msg;
         private String f_ip;
         private String add_time;
+        private String msg_type;/*是否是图片*/
         private int m_id;
         private int goods_id;
+
+        public String getMsg_type() {
+            return msg_type;
+        }
+
+        public void setMsg_type(String msg_type) {
+            this.msg_type = msg_type;
+        }
         //        private ChatGoodsBean chat_goods;
 //        @SerializedName("chat_goods")
 //        private GoodsInfo goodsInfo;

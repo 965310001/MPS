@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -55,6 +56,7 @@ import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 import com.xuexiang.xui.utils.ResUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -390,6 +392,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     }
                 });
 
+
         registerObserver(Constants.CHAT[0] + "Error", String.class)
                 .observe(this, new Observer<String>() {
                     @Override
@@ -466,6 +469,9 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
             info.setIcon(mUserInfo.getStore_avatar());
         }
         info.msg = msgBean.getT_msg();
+        if (!TextUtils.isEmpty(msgBean.getMsg_type())) {
+            info.setImage(msgBean.getMsg_type().equals("image"));
+        }
         return info;
     }
 
@@ -495,6 +501,9 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     public void addImgClick(View view) {
         hideTrvBottom(true);
         KLog.i("选择图片");
+
+        mViewModel.picUpload(goodsId, memberInfo.getMember_id(), tId,
+                mUserInfo.getMember_name(),"/mnt/shell/emulated/0/Images/icon_msg_other.png" , Constants.CHAT[0]);
     }
 
     /**

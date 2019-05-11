@@ -53,7 +53,8 @@ public class FaceConversionUtil {
         msg = msg.trim();
         for (int i = 0; i < length; i++) {
             if (msg.contains(stringArray[i])) {
-                msg = msg.replaceAll(stringArray[i], String.format("<img src='%d'/>", intArray.getResourceId(i, 0)));
+//                msg = msg.replaceAll(stringArray[i], String.format("<img src='%d'/>", intArray.getResourceId(i, 0)));
+                msg = msg.replaceAll(stringArray[i], String.format("[%d]", intArray.getResourceId(i, 0)));
             }
         }
         /*KLog.i(msg);*/
