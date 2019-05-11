@@ -27,6 +27,7 @@ public class OrderRefundListAdapter extends BaseQuickAdapter<OrderApplyRefundBea
         helper.setText(R.id.tv_label, item.getGoods_name())
                 .setText(R.id.tv_payMoney, "¥" + item.getGoods_price())
                 .setText(R.id.tv_count, "x" + item.getGoods_num())
+                .setText(R.id.tv_spec,  item.getGoods_spec())
                 .addOnClickListener(R.id.tv_refund, R.id.tv_return);
         ImageUtils.loadImageCorners(helper.getView(R.id.iv_image),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 4), item.getGoods_img_360());

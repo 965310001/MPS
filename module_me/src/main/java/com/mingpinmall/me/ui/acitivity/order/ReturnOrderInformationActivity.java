@@ -1,5 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.order;
 
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,7 +16,6 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityReturnInformationBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
-import com.mingpinmall.me.ui.bean.RefundInformationBean;
 import com.mingpinmall.me.ui.bean.ReturnInformationBean;
 import com.mingpinmall.me.ui.constants.Constants;
 
@@ -31,6 +31,15 @@ public class ReturnOrderInformationActivity extends AbsLifecycleActivity<Activit
 
     @Autowired
     String returnId;
+
+    @Override
+    protected void initViews(Bundle savedInstanceState) {
+        ARouter.getInstance().inject(this);
+        super.initViews(savedInstanceState);
+        setTitle(R.string.text_returnInformation);
+        binding.refreshLayout.setEnableLoadMore(false);
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> initData());
+    }
 
     @Override
     protected void dataObserver() {
@@ -77,8 +86,6 @@ public class ReturnOrderInformationActivity extends AbsLifecycleActivity<Activit
 
     @Override
     protected void initData() {
-        ARouter.getInstance().inject(this);
-        setTitle(R.string.text_returnInformation);
         mViewModel.getReturnInformation(returnId);
     }
 

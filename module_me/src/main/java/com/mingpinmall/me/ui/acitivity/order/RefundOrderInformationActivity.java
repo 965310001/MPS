@@ -38,6 +38,8 @@ public class RefundOrderInformationActivity extends AbsLifecycleActivity<Activit
         super.initViews(savedInstanceState);
         ARouter.getInstance().inject(this);
         setTitle(R.string.text_refundInformation);
+        binding.refreshLayout.setEnableLoadMore(false);
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> initData());
     }
 
     @Override

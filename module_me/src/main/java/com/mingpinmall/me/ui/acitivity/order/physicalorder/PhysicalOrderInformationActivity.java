@@ -186,7 +186,7 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         if (data.isIf_refund_cancel()) {
             //订单退款
             tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_default, null);
-            tvBtn.setId(R.id.order_lock);
+            tvBtn.setId(R.id.order_refund_cancel);
             tvBtn.setText("订单退款");
         }
         if (tvBtn != null) {

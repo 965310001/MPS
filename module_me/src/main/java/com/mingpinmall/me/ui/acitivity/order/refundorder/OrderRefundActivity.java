@@ -63,30 +63,32 @@ public class OrderRefundActivity extends AbsLifecycleActivity<ActivityRefundAppl
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recyclerView.setAdapter(listAdapter);
 
-        binding.btnSubmit.setOnClickListener(v -> {
-            if (progressDialog == null) {
-                progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
-            }
-            progressDialog.onLoading("");
-            Map<String, RequestBody> params = new HashMap<>();
-            params.put("key", RequestBody.create(MediaType.parse("text/plain"), ((UserBean) SharePreferenceUtil.getUser(UserBean.class)).getKey()));
-            params.put("order_id", RequestBody.create(MediaType.parse("text/plain"), id));
-            params.put("buyer_message", RequestBody.create(MediaType.parse("text/plain"), binding.edRefundInfo.getText().toString()));
-            String path;
-            File file;
-            RequestBody requestBody;
-            for (int i = 0; i < photosTools.getImagePath().size(); i++) {
-                path = photosTools.getImagePath().get(i).getOriginalurl();
-                file = new File(path);
-                if (!file.exists()) {
-                    continue;
-                }
-                requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-                params.put("file" + i + "\"; filename=\"" + file.getName(), requestBody);
-            }
+        binding.btnSubmit.setOnClickListener(v -> uploadRefundOrder());
+    }
 
-            mViewModel.postOrderRefund(params);
-        });
+    private void uploadRefundOrder() {
+        if (progressDialog == null) {
+            progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
+        }
+        progressDialog.onLoading("");
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("key", RequestBody.create(MediaType.parse("text/plain"), ((UserBean) SharePreferenceUtil.getUser(UserBean.class)).getKey()));
+        params.put("order_id", RequestBody.create(MediaType.parse("text/plain"), id));
+        params.put("buyer_message", RequestBody.create(MediaType.parse("text/plain"), binding.edRefundInfo.getText().toString()));
+        String path;
+        File file;
+        RequestBody requestBody;
+        for (int i = 0; i < photosTools.getImagePath().size(); i++) {
+            path = photosTools.getImagePath().get(i).getOriginalurl();
+            file = new File(path);
+            if (!file.exists()) {
+                continue;
+            }
+            requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+            params.put("file" + i + "\"; filename=\"" + file.getName(), requestBody);
+        }
+
+        mViewModel.postOrderRefund(params);
     }
 
     @Override
@@ -111,7 +113,7 @@ public class OrderRefundActivity extends AbsLifecycleActivity<ActivityRefundAppl
                 setResult(RESULT_OK);
                 finish();
             } else {
-                ToastUtils.showShort(result);
+                progressDialog.onFail(result);
             }
         });
     }
@@ -120,6 +122,8 @@ public class OrderRefundActivity extends AbsLifecycleActivity<ActivityRefundAppl
         listAdapter.setNewData(data.getGoods_list());
 
         binding.tvStoreName.setText(data.getOrder().getStore_name());
+        binding.tvRefundMoney.setText(String.format("¥%s", data.getOrder().getAllow_refund_amount()));
+
         /*赠品*/
         if (data.getGift_list() != null || data.getGift_list().size() > 0) {
             binding.llGifts.setVisibility(View.VISIBLE);
@@ -128,7 +132,7 @@ public class OrderRefundActivity extends AbsLifecycleActivity<ActivityRefundAppl
                 OrderApplyRefundBean.GiftListBean giftListBean = data.getGift_list().get(i);
                 View view = View.inflate(activity, R.layout.item_tips_textview_14sp, null);
                 TextView textView = view.findViewById(R.id.tv_label);
-                textView.setText(giftListBean.getGoods_name() + "    x" + giftListBean.getGoods_num());
+                textView.setText(String.format("%s    x%s", giftListBean.getGoods_name(), giftListBean.getGoods_num()));
                 binding.llGifts.addView(view);
                 if (i < data.getGift_list().size() - 1) {
                     View line = new View(activity);
