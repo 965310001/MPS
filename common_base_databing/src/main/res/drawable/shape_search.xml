@@ -2,8 +2,8 @@
 
     <!-- 设置圆角半径 -->
     <corners
-        android:radius="8dp" />
+        android:radius="24dp" />
 
-    <solid android:color="#D5D5D5" />
+    <solid android:color="#eee" />
 
 </shape>

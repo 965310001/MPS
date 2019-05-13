@@ -105,15 +105,15 @@ public class HomeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<SpecialPageBean> data) {
                         if (data.isSuccess()) {
-                            sendData(Constants.SPECIAL_LIST, data.getData());
+                            sendData(Constants.SPECIAL_LIST, specialId, data.getData());
                         } else {
-                            sendData(Constants.SPECIAL_LIST, data.getMessage());
+                            sendData(Constants.SPECIAL_LIST, specialId, data.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData(Constants.SPECIAL_LIST, msg == null ? "获取失败" : msg);
+                        sendData(Constants.SPECIAL_LIST, specialId, msg == null ? "获取失败" : msg);
                     }
                 })
         );

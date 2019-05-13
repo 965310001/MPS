@@ -8,12 +8,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
+import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -160,9 +165,24 @@ public class BottomBar extends View {
     }
 
     private Bitmap getBitmap(int resId) {
-        BitmapDrawable bitmapDrawable = (BitmapDrawable) context.getResources().getDrawable(resId);
-        return bitmapDrawable.getBitmap();
+        Drawable drawable = ContextCompat.getDrawable(context, resId);
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        } else if (drawable instanceof VectorDrawable || drawable instanceof VectorDrawableCompat) {
+            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            return bitmap;
+        } else {
+            throw new IllegalArgumentException("unsupported drawable type");
+        }
     }
+
+//    private Bitmap getBitmap(int resId) {
+//        BitmapDrawable bitmapDrawable = (BitmapDrawable) context.getResources().getDrawable(resId);
+//        return bitmapDrawable.getBitmap();
+//    }
 
     //////////////////////////////////////////////////
     //初始化数据基础

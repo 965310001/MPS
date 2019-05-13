@@ -51,14 +51,13 @@ public abstract class BaseBannerAdapter<T, D extends ViewDataBinding> extends Pa
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        D view = DataBindingUtil.inflate(LayoutInflater.from(container.getContext()), getLayoutId(), container, false);
+        D view = DataBindingUtil.inflate(LayoutInflater.from(container.getContext()), getLayoutId(), container, true);
         convert(view, data.get(position), position);
         view.getRoot().setOnClickListener(v -> {
             if (onPagerClickListener != null) {
                 onPagerClickListener.onPagerClick(position);
             }
         });
-        container.addView(view.getRoot());
         return view.getRoot();
     }
 

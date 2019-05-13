@@ -27,14 +27,14 @@
 
                 <com.goldze.common.dmvvm.widget.SmoothCheckBox
                     android:id="@+id/cb_single"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginStart="12dp" />
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_image"
-                    android:layout_width="78dp"
-                    android:layout_height="78dp"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
                     android:layout_marginStart="12dp"
                     android:background="@drawable/bg_grid_white_corners_05dp"
                     android:padding="@dimen/line_hight" />
@@ -141,8 +141,8 @@
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/iv_jian"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             app:srcCompat="@drawable/ic_jian" />
 
                         <android.support.v7.widget.AppCompatTextView
@@ -157,8 +157,8 @@
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/iv_jia"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             app:srcCompat="@drawable/ic_jia" />
 
                     </LinearLayout>
