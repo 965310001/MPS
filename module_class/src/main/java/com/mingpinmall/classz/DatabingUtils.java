@@ -34,6 +34,7 @@ import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.MultipleItemView;
 import com.leon.lib.settingview.LSettingItem;
 import com.mingpinmall.classz.adapter.AdapterPool;
+import com.mingpinmall.classz.adapter.CustomDefaultFlowTagAdapter;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.utils.FaceConversionUtil;
@@ -42,9 +43,12 @@ import com.socks.library.KLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
+import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
 import java.net.URL;
 import java.util.List;
+
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 
 public class DatabingUtils {
@@ -164,6 +168,33 @@ public class DatabingUtils {
         }
 
     }
+
+    /*设置 星星数量*/
+    @BindingAdapter(value = {"rating"}, requireAll = false)
+    public static void setRating(MaterialRatingBar ratingBar, String rating) {
+        if (null != ratingBar) {
+            ratingBar.setRating(Float.parseFloat(rating));
+        }
+    }
+
+
+    /*设置 星星数量*/
+    @BindingAdapter(value = {"list", "eventkey"}, requireAll = false)
+    public static void setFlowTagLayout(FlowTagLayout flowTagLayout, List list, Object eventkey) {
+        if (null != flowTagLayout && null != list && list.size() > 0) {
+            CustomDefaultFlowTagAdapter adapter = new CustomDefaultFlowTagAdapter(flowTagLayout.getContext());
+            flowTagLayout.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
+            flowTagLayout.setAdapter(adapter);
+            flowTagLayout.setItems(list);
+            flowTagLayout.setSelectedPositions(0);
+            flowTagLayout.setOnTagClickListener((parent, view, position) -> {
+                if (null != eventkey) {
+                    LiveBus.getDefault().postEvent(eventkey, position);
+                }
+            });
+        }
+    }
+
 
     /**
      * HTML的解析

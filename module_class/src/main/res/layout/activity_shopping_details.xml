@@ -86,21 +86,23 @@
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:background="@color/white"
+                android:gravity="center"
                 android:onClick="contactService"
                 android:paddingTop="4dp">
 
                 <ImageView
-                    android:id="@+id/iv_cart"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:id="@+id/iv_kefu"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/market_icon_shopping_cart" />
+                    android:background="@drawable/icon_kefu" />
 
                 <TextView
                     style="@style/TextStyle"
-                    android:layout_below="@id/iv_cart"
+                    android:layout_below="@id/iv_kefu"
                     android:layout_centerInParent="true"
-                    android:text="客服" />
+                    android:text="客服"
+                    android:textSize="@dimen/text_12" />
 
             </RelativeLayout>
 
@@ -114,9 +116,11 @@
                 android:paddingTop="4dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerInParent="true"
+                    android:id="@+id/iv_cart"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
                     android:background="@drawable/market_icon_shopping_cart" />
 
                 <TextView
@@ -132,16 +136,15 @@
                     android:text="@{String.valueOf(SharePreferenceUtil.login?ShoppingCartUtils.cartCount:0)}"
                     android:textColor="@color/white"
                     android:textSize="10sp"
-                    android:visibility="@{SharePreferenceUtil.login?View.VISIBLE:View.GONE}"
-                    tools:ignore="SmallSp" />
+                    android:visibility="@{SharePreferenceUtil.login?View.VISIBLE:View.GONE}" />
 
                 <TextView
                     style="@style/TextStyle"
                     android:layout_below="@id/iv_cart"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
                     android:text="购物车"
-                    tools:ignore="NotSibling" />
+                    android:textSize="@dimen/text_12" />
 
             </RelativeLayout>
 

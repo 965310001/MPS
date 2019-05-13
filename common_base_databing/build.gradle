@@ -138,7 +138,7 @@ dependencies {
         transitive = true
     }
     /*相册图片选择/拍照*/
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     /*WebView*/
     api 'com.just.agentweb:agentweb:4.0.3-alpha@aar'
 

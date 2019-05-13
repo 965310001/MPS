@@ -802,7 +802,9 @@ public class ClassifyRepository extends BaseRepository {
         map.put("chat_goods_id", goodsId);
         map.put("t_id", tId);
         map.put("f_id", fId);
-        map.put("t_name", tName);
+        if (!TextUtils.isEmpty(tName)) {
+            map.put("t_name", tName);
+        }
         map.put("t_msg", msg);
         addDisposable(apiService.sendMsg(map)
                 .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
@@ -839,7 +841,6 @@ public class ClassifyRepository extends BaseRepository {
         map.put("f_id", fId);
         map.put("t_name", tName);
         File file = new File(image);
-        KLog.i(file.exists() + "文件存在" + file.getPath());
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), file);
         addDisposable(apiService.picUpload(map, requestBody)
                 .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
@@ -857,6 +858,7 @@ public class ClassifyRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
+                        sendData(Constants.CHAT[0] + "Error", msg);
                     }
 
                     @Override

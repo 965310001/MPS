@@ -116,12 +116,9 @@ public class ScreeningPopWindow extends PopupWindow {
         private void newItemLayout() {
             contextll = new LinearLayout(context);
             contextll.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            contextll.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mScreeningPopWindow != null) {
-                        mScreeningPopWindow.dismiss();
-                    }
+            contextll.setOnClickListener(v -> {
+                if (mScreeningPopWindow != null) {
+                    mScreeningPopWindow.dismiss();
                 }
             });
             final FragmentScreeningBinding bind = DataBindingUtil
@@ -150,55 +147,44 @@ public class ScreeningPopWindow extends PopupWindow {
             bind.ftlShopServer.setItems(context.getResources().getStringArray(R.array.tags_values_type));
 
             /*点击事件*/
-            bind.btnReset.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for (EditText editText : Arrays.asList(bind.etPriceFrom, bind.etPriceTo))
-                        editText.setText("");
-                    for (FlowTagLayout flowTagLayout : Arrays.asList(bind.ftlGoodType, bind.ftlShopType, bind.ftlShopServer))
-                        flowTagLayout.getAdapter().notifyDataSetChanged();
-                    bind.spinnerSystem.setSelection(0);
-                }
+            bind.btnReset.setOnClickListener(v -> {
+                for (EditText editText : Arrays.asList(bind.etPriceFrom, bind.etPriceTo))
+                    editText.setText("");
+                for (FlowTagLayout flowTagLayout : Arrays.asList(bind.ftlGoodType, bind.ftlShopType, bind.ftlShopServer))
+                    flowTagLayout.getAdapter().notifyDataSetChanged();
+                bind.spinnerSystem.setSelection(0);
             });
-            bind.btnOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ScreenInfo screenInfo = new ScreenInfo();
-                    screenInfo.priceFrom = bind.etPriceFrom.getText().toString().trim();
-                    screenInfo.priceTo = bind.etPriceTo.getText().toString().trim();
-                    List<String> goodsType = screenInfo.goodsType = new ArrayList<>();
-                    goodsType.clear();
-                    for (Integer index : bind.ftlGoodType.getSelectedIndexs()) {
-                        goodsType.add(context.getResources().getStringArray(R.array.tags_values_server_index)[index]);
-                    }
-                    for (Integer index : bind.ftlShopType.getSelectedIndexs()) {
-                        screenInfo.shoppingType = true;
-                    }
-                    List<String> shoppingServer = screenInfo.shoppingServer = new ArrayList<>();
-//                    shoppingServer.clear();
-                    for (Integer index : bind.ftlShopServer.getSelectedIndexs()) {
-                        shoppingServer.add(String.valueOf(index));
-                    }
-                    screenInfo.areaId = AssetsData.getAreaByName(bind.spinnerSystem.getSelectedItem().toString());
-                    if (null != eventKey) {
-                        LiveBus.getDefault().postEvent(eventKey, screenInfo);
-                    } else if (null != listener) {
-                        listener.onClick(mScreeningPopWindow, screenInfo);
-                    } else {
-                        new NullPointerException("请设置eventKey");
-                    }
-                    mScreeningPopWindow.dismiss();
+            bind.btnOk.setOnClickListener(v -> {
+                ScreenInfo screenInfo = new ScreenInfo();
+                screenInfo.priceFrom = bind.etPriceFrom.getText().toString().trim();
+                screenInfo.priceTo = bind.etPriceTo.getText().toString().trim();
+                List<String> goodsType = screenInfo.goodsType = new ArrayList<>();
+                goodsType.clear();
+                for (Integer index : bind.ftlGoodType.getSelectedIndexs()) {
+                    goodsType.add(context.getResources().getStringArray(R.array.tags_values_server_index)[index]);
                 }
+                for (Integer index : bind.ftlShopType.getSelectedIndexs()) {
+                    screenInfo.shoppingType = true;
+                }
+                List<String> shoppingServer = screenInfo.shoppingServer = new ArrayList<>();
+//                    shoppingServer.clear();
+                for (Integer index : bind.ftlShopServer.getSelectedIndexs()) {
+                    shoppingServer.add(String.valueOf(index));
+                }
+                screenInfo.areaId = AssetsData.getAreaByName(bind.spinnerSystem.getSelectedItem().toString());
+                if (null != eventKey) {
+                    LiveBus.getDefault().postEvent(eventKey, screenInfo);
+                } else if (null != listener) {
+                    listener.onClick(mScreeningPopWindow, screenInfo);
+                } else {
+                    new NullPointerException("请设置eventKey");
+                }
+                mScreeningPopWindow.dismiss();
             });
             /*titlebar*/
             View ivBack = bind.getRoot().findViewById(R.id.iv_back);
             ivBack.setVisibility(View.VISIBLE);
-            ivBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mScreeningPopWindow.dismiss();
-                }
-            });
+            ivBack.setOnClickListener(v -> mScreeningPopWindow.dismiss());
 
             bind.getRoot().findViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
             TextView tvTitle = bind.getRoot().findViewById(R.id.tv_title);

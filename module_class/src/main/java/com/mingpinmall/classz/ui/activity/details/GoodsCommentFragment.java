@@ -1,24 +1,27 @@
 package com.mingpinmall.classz.ui.activity.details;
 
-import android.arch.lifecycle.Observer;
+import android.os.Bundle;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.mingpinmall.classz.adapter.AdapterPool;
-import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
+import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 
-import android.support.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 商品详情 -商品评价
  */
 public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
+    /*全部评价 好评 中评 差评 订单晒图 追加评价*/
     String type = "";
 
     public static GoodsCommentFragment newInstance() {
@@ -28,22 +31,33 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     @Override
     protected void getRemoteData() {
         super.getRemoteData();
-        KLog.i("EVALUATE_EVENT_KEY");
         mViewModel.getEvaluate(((ShoppingDetailsActivity) activity).getId(), type, String.valueOf(page));
+        /*itemData.add(new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价")));*/
+        setData(itemData);
     }
+
+    ItemData itemData = new ItemData();
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
         /*评价列表*/
         registerObserver(Constants.EVALUATE_EVENT_KEY[0], GoodsCommentListBean.class)
-                .observeForever(new Observer<GoodsCommentListBean>() {
-                    @Override
-                    public void onChanged(@Nullable GoodsCommentListBean response) {
-                        KLog.i("EVALUATE_EVENT_KEY");
-                        setData(response.getDatas().getGoods_eval_list());
-                    }
+                .observe(this, response -> {
+                    KLog.i("EVALUATE_EVENT_KEY");
+                    setData(response.getDatas().getGoods_eval_list());
                 });
+
+        registerObserver("FLOWTAGLAYOUT_POSTION", Integer.class).observe(this, integer -> {
+            if (integer == 0) {
+                type = "";
+            } else {
+                type = String.valueOf(integer);
+            }
+            /*itemData.add(new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价")));*/
+            onRefresh();
+            KLog.i(type);
+        });
     }
 
     @Override
@@ -64,4 +78,3 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
 
     }
 }
-

@@ -69,6 +69,9 @@ public class GoodsInfo extends BaseBean {
     @Transient
     private int cart;
 
+    @Transient
+    private String pic;
+
     private int num;//购买的数量
 
     /*属性*/
@@ -167,6 +170,14 @@ public class GoodsInfo extends BaseBean {
 
     public void setGoods_addtime_text(String goods_addtime_text) {
         this.goods_addtime_text = goods_addtime_text;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 
     @Bindable

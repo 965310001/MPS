@@ -133,7 +133,7 @@
                                     image="@{data.store_avatar}"
                                     android:layout_width="@dimen/image_height_large"
                                     android:layout_height="@dimen/image_height_large"
-                                    android:src="@drawable/ic_launcher" />
+                                    android:src="@color/gray" />
 
                                 <TextView
                                     android:layout_width="wrap_content"

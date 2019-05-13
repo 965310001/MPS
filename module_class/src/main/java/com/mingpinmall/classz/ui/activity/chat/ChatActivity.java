@@ -21,10 +21,15 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.BuildConfig;
+import com.goldze.common.dmvvm.base.bean.BaseSelectPhotos;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityChatBinding;
@@ -35,6 +40,7 @@ import com.mingpinmall.classz.ui.service.SocketIoBroadcast;
 import com.mingpinmall.classz.ui.service.SocketIoService;
 import com.mingpinmall.classz.ui.vm.bean.ChatEmojiInfo;
 import com.mingpinmall.classz.ui.vm.bean.ChatMessageInfo;
+import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.utils.FaceConversionUtil;
@@ -43,6 +49,7 @@ import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 import com.xuexiang.xui.utils.ResUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -101,12 +108,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         binding.setAddImg(String.format("%s/wap/images/picture_add.png", BuildConfig.APP_URL));
         binding.setMsgLogB(String.format("%s/wap/images/msg_log_b.png", BuildConfig.APP_URL));
 
-        binding.etMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                hideTrvBottom(true);
-            }
-        });
+        binding.etMsg.setOnFocusChangeListener((v, hasFocus) -> hideTrvBottom(true));
     }
 
     private final ServiceConnection mConnection = new ServiceConnection() {
@@ -162,46 +164,42 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     protected void dataObserver() {
         super.dataObserver();
         registerObserver(Constants.CHAT[2] + "Success", MsgListInfo.class)
-                .observe(this, new Observer<MsgListInfo>() {
-                    @Override
-                    public void onChanged(@Nullable MsgListInfo response) {
-                        mUserInfo = response.getUser_info();
-                        if (null != mUserInfo) {
-                            tId = mUserInfo.getMember_id();
+                .observe(this, response -> {
+                    mUserInfo = response.getUser_info();
+                    if (null != mUserInfo) {
+                        tId = mUserInfo.getMember_id();
 //                            mFid = response.getMember_info().getMember_id();
 //                            tName = mUserInfo.getMember_name();
 //                            meIcon = mUserInfo.getMember_avatar();
 //                            mOtherIcon = mUserInfo.getStore_avatar();
-                            binding.tvTitle.setText(mUserInfo.getStore_name());
-                            if (null != response.getChat_goods()) {
-                                itemData.add(response.getChat_goods());
-                            }
-                            binding.setList(itemData);
-                            memberInfo = response.getMember_info();
-                            mServerUrl = response.getNode_site_url();
-
-                            Intent intent = new Intent(getApplicationContext(), SocketIoService.class);
-                            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                            bindService(intent, mConnection, BIND_AUTO_CREATE);
-                            startService(intent);
-                            registerBroadcastReceiver();
-                        } else {
-                            showErrorState();
-                            KLog.i("服务员异常");
+                        binding.tvTitle.setText(mUserInfo.getStore_name());
+                        GoodsInfo goodsInfo = response.getChat_goods();
+                        if (null != goodsInfo) {
+                            goodsInfo.setGoods_image_url(goodsInfo.getPic());
+                            itemData.add(goodsInfo);
                         }
+                        binding.setList(itemData);
+                        memberInfo = response.getMember_info();
+                        mServerUrl = response.getNode_site_url();
+                        Intent intent = new Intent(getApplicationContext(), SocketIoService.class);
+                        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                        bindService(intent, mConnection, BIND_AUTO_CREATE);
+                        startService(intent);
+                        registerBroadcastReceiver();
+                    } else {
+                        showErrorState();
+                        KLog.i("服务员异常");
                     }
                 });
         /*历史纪录*/
         registerObserver(Constants.CHAT[3] + "Success", MsgListInfo.class)
-                .observe(this, new Observer<MsgListInfo>() {
-                    @Override
-                    public void onChanged(@Nullable MsgListInfo response) {
-                        List<MsgInfo.MsgBean> list = response.getList();
-                        if (null != list && list.size() > 0) {
-                            itemData.clear();
-                            binding.getAdapter().notifyDataSetChanged();
-                            Collections.reverse(list);
-                            KLog.i(list);
+                .observe(this, response -> {
+                    List<MsgInfo.MsgBean> list = response.getList();
+                    if (null != list && list.size() > 0) {
+                        itemData.clear();
+                        binding.getAdapter().notifyDataSetChanged();
+                        Collections.reverse(list);
+                        KLog.i(list);
 //                            for (MsgInfo.MsgBean msgBean : list) {
 //                            ChatMessageInfo info;
 ////                                info = resultMsg(new ChatMessageInfo(), msgBean);
@@ -212,21 +210,18 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //                            }
 //                            binding.getAdapter().notifyDataSetChanged();
 //                            mRecyclerView.scrollToPosition(itemData.size() - 1);
-                            updateList(list);
-                            binding.setList(itemData);
-                        } else {
-                            KLog.i("服务器异常");
-                        }
+                        updateList(list);
+                        binding.setList(itemData);
+                    } else {
+                        KLog.i("服务器异常");
                     }
                 });
         /*发送聊天信息*/
         registerObserver(Constants.CHAT[0] + "Success", MsgInfo.class)
-                .observe(this, new Observer<MsgInfo>() {
-                    @Override
-                    public void onChanged(@Nullable MsgInfo response) {
-                        binding.etMsg.setText("");
-                        KLog.i("发送聊天信息");
-                        update(response.getMsg(), true);
+                .observe(this, response -> {
+                    binding.etMsg.setText("");
+                    KLog.i("发送聊天信息");
+                    update(response.getMsg(), true);
 //                        MsgInfo.MsgBean msg = response.getMsg();
 //                        if (null != msg) {
 ////                            ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msg);
@@ -238,39 +233,29 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //                        } else {
 //                            KLog.i("1111");
 //                        }
-                    }
                 });
-
 
         registerObserver(Constants.CHAT[0] + "Error", String.class)
-                .observe(this, new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String response) {
-                        ToastUtils.showLong(response);
-                    }
-                });
+                .observe(this, response -> ToastUtils.showLong(response));
 
         registerObserver("UPDATE_CHAT_LIST", "UPDATE_CHAT_LIST", Object.class)
-                .observe(this, new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object object) {
-                        List<MsgInfo.MsgBean> msgBeans = (List<MsgInfo.MsgBean>) object;
-                        updateList(msgBeans);
-                        binding.setList(itemData);
-                        KLog.i("更新数据");
-                        // TODO: 2019/5/8 已经阅读的信息
-                        try {
+                .observe(this, object -> {
+                    List<MsgInfo.MsgBean> msgBeans = (List<MsgInfo.MsgBean>) object;
+                    updateList(msgBeans);
+                    binding.setList(itemData);
+                    KLog.i("更新数据");
+                    // TODO: 2019/5/8 已经阅读的信息
+                    try {
 
-                            if (null != msgBeans) {
-                                if (msgBeans.size() > 1) {
-                                    mIBackService.sendMessage(String.format("%s|%s", String.valueOf(msgBeans.size() - 1), msgBeans.get(0).getF_id()));
-                                } else if (msgBeans.size() == 1) {
-                                    mIBackService.sendMessage(String.format("%s|%s", String.valueOf(msgBeans.size() - 1), msgBeans.get(0).getF_id()));
-                                }
+                        if (null != msgBeans) {
+                            if (msgBeans.size() > 1) {
+                                mIBackService.sendMessage(String.format("%s|%s", String.valueOf(msgBeans.size() - 1), msgBeans.get(0).getF_id()));
+                            } else if (msgBeans.size() == 1) {
+                                mIBackService.sendMessage(String.format("%s|%s", String.valueOf(msgBeans.size() - 1), msgBeans.get(0).getF_id()));
                             }
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
                         }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                 });
     }
@@ -350,9 +335,58 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     public void addImgClick(View view) {
         hideTrvBottom(true);
         KLog.i("选择图片");
+        PictureSelector.create(activity)
+                .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+//                .maxSelectNum(1)// 最大图片选择数量 int
+//                .minSelectNum(1)// 最小选择数量 int
+                .imageSpanCount(3)// 每行显示个数 int
+                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                .previewImage(true)// 是否可预览图片 true or false
+                .isCamera(true)// 是否显示拍照按钮 true or false
+                .imageFormat(PictureMimeType.JPEG)// 拍照保存图片格式后缀,默认jpeg
+                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                .compress(true)// 是否压缩 true or false
+                .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示 true or false
+                .isGif(true)// 是否显示gif图片 true or false
+//                .selectionMedia(selectList)// 是否传入已选图片 List<LocalMedia> list
+                .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
 
-        mViewModel.picUpload(goodsId, memberInfo.getMember_id(), tId,
-                mUserInfo.getMember_name(), "/mnt/shell/emulated/0/Images/icon_msg_other.png", Constants.CHAT[0]);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    BaseSelectPhotos blockPhoto;
+                    for (LocalMedia lm : selectList) {
+                        blockPhoto = new BaseSelectPhotos();
+                        if (lm.isCompressed()) {
+                            blockPhoto.setOriginalurl(lm.getCompressPath());
+                        } else if (lm.isCut()) {
+                            blockPhoto.setOriginalurl(lm.getCutPath());
+                        } else {
+                            blockPhoto.setOriginalurl(lm.getPath());
+                        }
+                        KLog.i(blockPhoto.getOriginalurl());
+                        File file = new File(blockPhoto.getOriginalurl());
+                        if (file.exists()) {
+                            mViewModel.picUpload(goodsId, memberInfo.getMember_id(), tId,
+                                    mUserInfo.getMember_name(), blockPhoto.getOriginalurl(), Constants.CHAT[0]);
+                        } else {
+                            ToastUtils.showLong("图片不存在，请稍后再试");
+                        }
+
+                    }
+                    break;
+            }
+
+        }
     }
 
     /**

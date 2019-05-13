@@ -32,7 +32,7 @@
                 android:clickable="true"
                 android:scaleType="center"
                 app:srcCompat="@drawable/ic_back_to_top"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:backgroundTint="@color/white"
                 app:borderWidth="0dp"
                 app:fabSize="mini"

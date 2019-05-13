@@ -1,9 +1,7 @@
 package com.mingpinmall.classz.ui.activity.details;
 
-import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -17,11 +15,11 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.adapter.FragmentPagerAdapter;
-import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.databinding.ActivityShoppingDetailsBinding;
+import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.socks.library.KLog;
@@ -89,51 +87,48 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         super.dataObserver();
 
         registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0], GoodsDetailInfo.class)
-                .observeForever(new Observer<GoodsDetailInfo>() {
-                    @Override
-                    public void onChanged(@Nullable GoodsDetailInfo response) {
-                        if (response.isSuccess()) {
-                            goodsDetailInfo = response;
-                            goodsInfo = response.getDatas().getGoods_info();
-                            goodsInfo.news_spec_list_data = response.getDatas().getNews_spec_list_data();
-                            goodsInfo.setfavorate(response.getDatas().isIs_favorate());
+                .observeForever(response -> {
+                    if (response.isSuccess()) {
+                        goodsDetailInfo = response;
+                        goodsInfo = response.getDatas().getGoods_info();
+                        goodsInfo.news_spec_list_data = response.getDatas().getNews_spec_list_data();
+                        goodsInfo.setfavorate(response.getDatas().isIs_favorate());
 
-                            goodsInfo.setMember_id(goodsDetailInfo.getDatas().getStore_info().getMember_id());
+                        goodsInfo.setMember_id(goodsDetailInfo.getDatas().getStore_info().getMember_id());
 
-                            if (goodsInfoMainFragment == null) {
-                                List<HorizontalTabTitle> title = new ArrayList<>();
-                                HorizontalTabTitle horizontalTabTitle;
-                                for (String s : Arrays.asList("商品", "详情", "评价")) {
-                                    horizontalTabTitle = new HorizontalTabTitle(s);
-                                    title.add(horizontalTabTitle);
-                                }
-                                List<BaseFragment> fragmentList = new ArrayList<>();
-                                fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
-                                fragmentList.add(goodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
-                                fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
-
-                                binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
-                                binding.vpContent.setOffscreenPageLimit(3);
-                                binding.pstsTabs.setViewPager(binding.vpContent);
-                            } else {
-                                if (goodsInfoMainFragment.isVisible()) {
-                                    goodsInfoMainFragment.update();
-                                }
-                                if (goodsInfoDetailMainFragment.isVisible()) {
-                                    goodsInfoDetailMainFragment.setData();
-                                }
-                                if (goodsCommentFragment.isVisible()) {
-                                    goodsCommentFragment.onRefresh();
-                                }
-                                if (!TextUtils.isEmpty(SharePreferenceUtil.getKeyValue("SPECIFICATIONPOP"))) {
-                                    goodsInfoMainFragment.updateSpecificationPop();
-                                }
+                        if (goodsInfoMainFragment == null) {
+                            List<HorizontalTabTitle> title = new ArrayList<>();
+                            HorizontalTabTitle horizontalTabTitle;
+                            for (String s : Arrays.asList("商品", "详情", "评价")) {
+                                horizontalTabTitle = new HorizontalTabTitle(s);
+                                title.add(horizontalTabTitle);
                             }
-                            setCartNumber();
-                            binding.setData(goodsInfo);
+                            List<BaseFragment> fragmentList = new ArrayList<>();
+                            fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
+                            fragmentList.add(goodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
+                            fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
+
+                            binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
+                            binding.vpContent.setOffscreenPageLimit(3);
+                            binding.pstsTabs.setViewPager(binding.vpContent);
                         } else {
-                            showErrorState();
+                            if (goodsInfoMainFragment.isVisible()) {
+                                goodsInfoMainFragment.update();
+                            }
+                            if (goodsInfoDetailMainFragment.isVisible()) {
+                                goodsInfoDetailMainFragment.setData();
+                            }
+                            if (goodsCommentFragment.isVisible()) {
+                                goodsCommentFragment.onRefresh();
+                            }
+                            if (!TextUtils.isEmpty(SharePreferenceUtil.getKeyValue("SPECIFICATIONPOP"))) {
+                                goodsInfoMainFragment.updateSpecificationPop();
+                            }
                         }
+                        setCartNumber();
+                        binding.setData(goodsInfo);
+                    } else {
+                        showErrorState();
                     }
                 });
 
@@ -168,27 +163,21 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
         /*商品规格*/
         registerObserver("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL")
-                .observe(this, new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object s) {
-                        id = s.toString();
-                        KLog.i(s.toString());
-                        initData();
-                    }
+                .observe(this, s -> {
+                    id = s.toString();
+                    KLog.i(s.toString());
+                    initData();
                 });
 
         /*显示对话框 正在加载*/
         registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + "LOADING", Object.class)
-                .observe(this, new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object obj) {
-                        boolean isLoad = (boolean) obj;
-                        if (isLoad) {
-                            showLoading();
-                        } else {
-                            /*加载框*/
-                            // TODO: 2019/5/13  加载框
-                        }
+                .observe(this, obj -> {
+                    boolean isLoad = (boolean) obj;
+                    if (isLoad) {
+                        showLoading();
+                    } else {
+                        /*加载框*/
+                        // TODO: 2019/5/13  加载框
                     }
                 });
     }

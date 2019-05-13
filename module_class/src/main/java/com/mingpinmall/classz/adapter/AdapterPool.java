@@ -26,6 +26,7 @@ import com.trecyclerview.pojo.FootVo;
 import com.trecyclerview.pojo.HeaderVo;
 import com.trecyclerview.progressindicator.ProgressStyle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -80,7 +81,7 @@ public class AdapterPool {
     /*评价列表*/
     public DelegateAdapter.Builder getEvaluate(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(List.class, new DataBindItemViewHolderManager(context, R.layout.item_of_goods_comment_list, BR.data))
+                        .bind(ArrayList.class, new DataBindItemViewHolderManager(context, R.layout.item_of_goods_comment_list_flowtaglayout, BR.data))
                         .bind(GoodsComment.class, new DataBindItemViewHolderManager(context, R.layout.item_of_goods_comment_list, BR.data)),
                 context, ProgressStyle.Pacman);
     }

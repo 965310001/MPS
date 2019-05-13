@@ -33,7 +33,6 @@
                 android:layout_height="@dimen/image_height_big"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
-                android:alpha="0.4"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@color/gray" />
