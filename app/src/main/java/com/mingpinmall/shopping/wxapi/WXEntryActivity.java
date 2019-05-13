@@ -29,7 +29,7 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 
 /**
- * 微信支付
+ * 微信发送消息
  */
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private static String TAG = "MicroMsg.WXEntryActivity";

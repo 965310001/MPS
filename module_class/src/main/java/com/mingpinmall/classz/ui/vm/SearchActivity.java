@@ -59,6 +59,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
     @Override
     protected void initData() {
         super.initData();
+        showLoading();
         mViewModel.getHotKeys();
     }
 

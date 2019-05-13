@@ -2,7 +2,6 @@ package com.mingpinmall.classz.ui.api;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.classz.ResultBean;
-import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
@@ -31,14 +30,12 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface ClassifyService {
-
     String BASEURL = "/mo_bile/index.php";
-
+    
     String SHAPPINGLIST = "/mo_bile/index.php?app=goods&wwi=goods_list";
 
     /*品牌*/
@@ -46,21 +43,21 @@ public interface ClassifyService {
     /*商品详情*/
     String GOODSDETAIL = "/mo_bile/index.php?app=goods&wwi=goods_detail";
 
-    /*加入购物车*/
-    String ADD_CART_APP = "member_cart";
-    String ADD_CART_WWI = "cart_add";
+    //    加入购物车
+//    String ADD_CART_APP = "member_cart";
+//    String ADD_CART_WWI = "cart_add";
+    //    搜索列表
+//    String[] HOTKEY = {"index", "search_key_list"};
+//    添加收藏
+//    String ADDCOLLECTION_APP = "member_favorites";
+//    String ADDCOLLECTION_WWI = "favorites_add";
+    /*删除收藏*/
+//    String DELCOLLECTION_WWI = "favorites_del";
+
 
     /*商品评价*/
     String EVALUATE = "/mo_bile/index.php?app=goods&wwi=goods_evaluate";
 
-    /*搜索列表*/
-    String[] HOTKEY = {"index", "search_key_list"};
-
-    /*添加收藏*/
-    String ADDCOLLECTION_APP = "member_favorites";
-    String ADDCOLLECTION_WWI = "favorites_add";
-    /*删除收藏*/
-    String DELCOLLECTION_WWI = "favorites_del";
 
     /*左边*/
     @GET(BASEURL)
@@ -85,14 +82,12 @@ public interface ClassifyService {
     @GET(EVALUATE)
     Flowable<GoodsCommentListBean> getEvaluate(@QueryMap Map<String, Object> map);
 
-    /*商品评价*/
-    @GET(EVALUATE)
-    Flowable<BaseResponse<AreaListInfo>> getArea(@QueryMap Map<String, Object> map);
-
-
-    /*商品详情*/
-    @GET(GOODSDETAIL)
-    Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId);
+//    商品评价
+//    @GET(EVALUATE)
+//    Flowable<BaseResponse<AreaListInfo>> getArea(@QueryMap Map<String, Object> map);
+//    商品详情
+//    @GET(GOODSDETAIL)
+//    Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId);
 
     @GET(GOODSDETAIL)
     Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId, @Query("key") String key);
@@ -102,10 +97,10 @@ public interface ClassifyService {
     Flowable<BaseResponse<HotKeyInfo>> getHotKeys(@QueryMap Map<String, Object> map);
 
     /*添加 删除 收藏*/
-    @FormUrlEncoded
-    @POST("{path}")
-    Flowable<ResultBean> execute(@Path("path") String url,
-                                 @Query("Goods_id") String goodsId);
+//    @FormUrlEncoded
+//    @POST("{path}")
+//    Flowable<ResultBean> execute(@Path("path") String url,
+//                                 @Query("Goods_id") String goodsId);
 
     /*获取订单信息*/
     @FormUrlEncoded
@@ -127,7 +122,6 @@ public interface ClassifyService {
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<GoodsListInfo> getStoreGoods(@FieldMap Map<String, Object> map);
-
 
     /*收藏排行*/
     @FormUrlEncoded
@@ -175,11 +169,10 @@ public interface ClassifyService {
     Flowable<BaseResponse<MsgInfo>> sendMsg(@FieldMap Map<String, Object> map);
 
     /*发送图片*/
-//    @FormUrlEncoded
     @Multipart
     @POST(BASEURL)
     Flowable<BaseResponse<MsgInfo>> picUpload(@QueryMap Map<String, Object> map,
-                                              @Part("name=\"up_img_kf\"; filename=\"test1.png\"") RequestBody images);
+                                              @Part("up_img_kf\"; filename=\"test1.png") RequestBody images);
 
     /*getPayNew*/
     @GET(BASEURL)

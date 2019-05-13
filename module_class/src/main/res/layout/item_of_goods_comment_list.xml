@@ -17,16 +17,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:padding="10dp">
-
-        <TextView
-            android:id="@+id/tv_scores"
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"
-            android:text="@{data.geval_scores}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="星" />
 
         <ImageView
             android:id="@+id/iv_head"
@@ -34,15 +26,34 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:visibility="@{TextUtils.isEmpty(data.member_avatar)?View.GONE:View.VISIBLE}"
-            app:layout_constraintLeft_toRightOf="@id/tv_scores"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@drawable/ic_launcher" />
+            tools:background="@color/gray" />
+
+        <View
+            style="@style/HorizontalLine"
+            android:layout_marginTop="4dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_head" />
+
+        <TextView
+            android:layout_marginTop="@dimen/dp_6"
+            android:id="@+id/tv_scores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:text="@{data.geval_scores}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_head"
+            tools:text="星" />
+
 
         <TextView
             android:id="@+id/tv_name"
             style="@style/TextStyle"
             android:layout_width="0dp"
-            android:gravity="start"
+            android:layout_height="@dimen/dp_40"
+            android:gravity="start|center_vertical"
             android:paddingStart="@dimen/dp_10"
             android:text="@{data.geval_frommembername}"
             app:layout_constraintLeft_toRightOf="@id/iv_head"
@@ -58,7 +69,7 @@
             android:paddingStart="@dimen/dp_10"
             android:text="@{data.geval_content}"
             app:layout_constraintLeft_toRightOf="@id/iv_head"
-            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_scores"
             tools:text="内容" />
 
         <TextView

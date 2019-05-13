@@ -13,7 +13,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
 /**
- * Created by Javen on 2016/11/20.
+ * 微信支付
  */
 
 public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {

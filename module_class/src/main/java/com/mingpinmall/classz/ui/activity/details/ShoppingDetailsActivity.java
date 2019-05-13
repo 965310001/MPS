@@ -176,6 +176,21 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                         initData();
                     }
                 });
+
+        /*显示对话框 正在加载*/
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + "LOADING", Object.class)
+                .observe(this, new Observer<Object>() {
+                    @Override
+                    public void onChanged(@Nullable Object obj) {
+                        boolean isLoad = (boolean) obj;
+                        if (isLoad) {
+                            showLoading();
+                        } else {
+                            /*加载框*/
+                            // TODO: 2019/5/13  加载框
+                        }
+                    }
+                });
     }
 
     @Override

@@ -55,7 +55,8 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         map.put("goods_id", goodsId);
         map.put("quantity", num);
         map.put("_client", "android");
-        mRepository.execute(ClassifyService.ADD_CART_APP, ClassifyService.ADD_CART_WWI, eventKey, map);
+//        mRepository.execute(ClassifyService.ADD_CART_APP, ClassifyService.ADD_CART_WWI, eventKey, map);
+        mRepository.execute("member_cart", "cart_add", eventKey, map);
     }
 
     /*添加，删除收藏*/
@@ -65,8 +66,10 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         map.put(isLike ? "fav_id" : "goods_id", goodsId);
         map.put("_client", "android");
         KLog.i(isLike ? "取消收藏" : "添加收藏");
-        mRepository.execute(ClassifyService.ADDCOLLECTION_APP,
-                isLike ? ClassifyService.DELCOLLECTION_WWI : ClassifyService.ADDCOLLECTION_WWI, eventKey, map);
+//        mRepository.execute(ClassifyService.ADDCOLLECTION_APP,
+//                isLike ? ClassifyService.DELCOLLECTION_WWI : ClassifyService.ADDCOLLECTION_WWI, eventKey, map);
+        mRepository.execute("member_favorites",
+                isLike ? "favorites_del" : "favorites_add", eventKey, map);
     }
 
     /*评价列表*/

@@ -10,7 +10,6 @@ import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.constants.Constants;
-import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
@@ -38,7 +37,7 @@ import okhttp3.RequestBody;
 
 public class ClassifyRepository extends BaseRepository {
 
-    ClassifyService apiService = RetrofitClient.getInstance().create(ClassifyService.class);
+    private final ClassifyService apiService = RetrofitClient.getInstance().create(ClassifyService.class);
 
     /*获取左边的数据*/
     public void getLeft() {
@@ -148,6 +147,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
+                        KLog.i(msg);
                         showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.ERROR_STATE);
                     }
 
@@ -173,6 +173,12 @@ public class ClassifyRepository extends BaseRepository {
                     }
 
                     @Override
+                    protected void onStart() {
+                        super.onStart();
+                        sendData(Constants.GOODSDETAIL_EVENT_KEY[0] + "LOADING", true);
+                    }
+
+                    @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
                         showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.ERROR_STATE);
@@ -190,26 +196,27 @@ public class ClassifyRepository extends BaseRepository {
 
     /*搜索列表*/
     public void getHotKeys() {
-        addDisposable(apiService.getHotKeys(parames(ClassifyService.HOTKEY[0], ClassifyService.HOTKEY[1]))
-                        .compose(RxSchedulers.<BaseResponse<HotKeyInfo>>io_main())
-                        .subscribeWith(new RxSubscriber<BaseResponse<HotKeyInfo>>() {
-                            @Override
-                            public void onSuccess(BaseResponse<HotKeyInfo> result) {
-                                sendData(Constants.SEARCH_EVENT_KEY[0], result);
-//                        showPageState(Constants.SEARCH_EVENT_KEY_STATE, StateConstants.SUCCESS_STATE);
-                            }
+//        addDisposable(apiService.getHotKeys(parames(ClassifyService.HOTKEY[0], ClassifyService.HOTKEY[1]))
+        addDisposable(apiService.getHotKeys(parames("index", "search_key_list"))
+                .compose(RxSchedulers.<BaseResponse<HotKeyInfo>>io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<HotKeyInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<HotKeyInfo> result) {
+                        sendData(Constants.SEARCH_EVENT_KEY[0], result);
+                        showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.SUCCESS_STATE);
+                    }
 
-                            @Override
-                            public void onFailure(String msg) {
-                                showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.ERROR_STATE);
-                            }
+                    @Override
+                    public void onFailure(String msg) {
+                        showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.ERROR_STATE);
+                    }
 
-                            @Override
-                            protected void onNoNetWork() {
-                                super.onNoNetWork();
-                                showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
-                            }
-                        })
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                })
         );
 
     }
@@ -899,43 +906,42 @@ public class ClassifyRepository extends BaseRepository {
 //    }
 
 
-    /*支付宝*/
-    public void getAli(Map<String, Object> map, Object eventKey) {
-//        map = parames(map, "member_chat", "send_msg");
-//        map.put("key", getUserKey());
-//        map.put("chat_goods_id", goodsId);
-//        map.put("t_id", tId);
-//        map.put("f_id", fId);
-//        map.put("t_name", tName);
-//        map.put("t_msg", msg);
-//        addDisposable(apiService.sendMsg(map)
-//                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
-//                .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
-//                    @Override
-//                    public void onSuccess(BaseResponse<MsgInfo> result) {
-//                        if (result.isSuccess()) {
-//                            sendData(eventKey + "Success", result.getData());
-//                        } else {
-//                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(String msg) {
-//                        KLog.i(msg);
-//                    }
-//
-//                    @Override
-//                    protected void onNoNetWork() {
-//                        super.onNoNetWork();
-//                    }
-//                })
-//        );
-    }
-
-    /*微信*/
-    public void getWeiXin(Map<String, Object> map, Object eventKey) {
-    }
+//    /*支付宝*/
+//    public void getAli(Map<String, Object> map, Object eventKey) {
+////        map = parames(map, "member_chat", "send_msg");
+////        map.put("key", getUserKey());
+////        map.put("chat_goods_id", goodsId);
+////        map.put("t_id", tId);
+////        map.put("f_id", fId);
+////        map.put("t_name", tName);
+////        map.put("t_msg", msg);
+////        addDisposable(apiService.sendMsg(map)
+////                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
+////                .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
+////                    @Override
+////                    public void onSuccess(BaseResponse<MsgInfo> result) {
+////                        if (result.isSuccess()) {
+////                            sendData(eventKey + "Success", result.getData());
+////                        } else {
+////                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
+////                        }
+////                    }
+////
+////                    @Override
+////                    public void onFailure(String msg) {
+////                        KLog.i(msg);
+////                    }
+////
+////                    @Override
+////                    protected void onNoNetWork() {
+////                        super.onNoNetWork();
+////                    }
+////                })
+////        );
+//    }
+//    /*微信*/
+//    public void getWeiXin(Map<String, Object> map, Object eventKey) {
+//    }
 
     /*获取参数*/
     public void getPayNew(String paySn, String paymentCode, String pdPay, final Object eventKey) {
@@ -973,10 +979,113 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /************************************* 店铺 end ******************************/
+    /*通用*/
+    public void execute(String app, String wwi, final Object eventKey, Map<String, Object> map) {
+        map.put("key", getUserKey());
+        map.put("app", app);
+        map.put("wwi", wwi);
+        execute(eventKey, map);
+//        addDisposable(apiService.execute(app, wwi, map)
+//                        .compose(RxSchedulers.<ResultBean>io_main())
+//                        .subscribeWith(new RxSubscriber<ResultBean>() {
+//                            @Override
+//                            public void onSuccess(ResultBean result) {
+//                                sendData(eventKey, result);
+////                        showPageState(eventStateKey, StateConstants.SUCCESS_STATE);
+//                            }
+//
+//                            @Override
+//                            public void onFailure(String msg) {
+//                                KLog.i(msg);
+////                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
+//                            }
+//
+//                            @Override
+//                            protected void onNoNetWork() {
+//                                super.onNoNetWork();
+//                                KLog.i("onNoNetWork");
+////                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
+//                            }
+//                        })
+//        );
+    }
+
+//    public void execute(String app, String wwi, final Object eventKey, Map<String, Object> map) {
+//        map.put("key", getUserKey());
+//        map.put("app",app);
+//        map.put("wwi",wwi);
+//        addDisposable(apiService.execute(app, wwi, map)
+//                        .compose(RxSchedulers.<ResultBean>io_main())
+//                        .subscribeWith(new RxSubscriber<ResultBean>() {
+//                            @Override
+//                            public void onSuccess(ResultBean result) {
+//                                sendData(eventKey, result);
+////                        showPageState(eventStateKey, StateConstants.SUCCESS_STATE);
+//                            }
+//
+//                            @Override
+//                            public void onFailure(String msg) {
+//                                KLog.i(msg);
+////                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
+//                            }
+//
+//                            @Override
+//                            protected void onNoNetWork() {
+//                                super.onNoNetWork();
+//                                KLog.i("onNoNetWork");
+////                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
+//                            }
+//                        })
+//        );
+//    }
+
+    private void execute(final Object eventKey, Map<String, Object> map) {
+        addDisposable(apiService.execute(map)
+                        .compose(RxSchedulers.<ResultBean>io_main())
+                        .subscribeWith(new RxSubscriber<ResultBean>() {
+                            @Override
+                            public void onSuccess(ResultBean result) {
+                                sendData(eventKey, result);
+//                        showPageState(eventStateKey, StateConstants.SUCCESS_STATE);
+                            }
+
+                            @Override
+                            public void onFailure(String msg) {
+                                KLog.i(msg);
+//                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
+                            }
+
+                            @Override
+                            protected void onNoNetWork() {
+                                super.onNoNetWork();
+                                KLog.i("onNoNetWork");
+//                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
+                            }
+                        })
+        );
+    }
+
+//        Map<String, Object> parames(Object app, Object wwi) {
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("app", app);
+//        map.put("wwi", wwi);
+//        return map;
+//    }
+
+    private Map<String, Object> parames(Object app, Object wwi) {
+        Map<String, Object> map = new HashMap<>();
+        map = parames(map, app, wwi);
+        return map;
+    }
+
+    private Map<String, Object> parames(Map<String, Object> map, Object app, Object wwi) {
+        map.put("app", app);
+        map.put("wwi", wwi);
+        return map;
+    }
 
 
-    /**************************************/
-    /*省 市 区*/
+//    /*省 市 区*/
 //    public void getArea(String areaId) {
 //        Map<String, Object> map = parames("area_list", "area_list");
 //        map.put("area_id", areaId);
@@ -1004,83 +1113,13 @@ public class ClassifyRepository extends BaseRepository {
 //        );
 //
 //    }
-
-    /*通用*/
-    public void execute(String app, String wwi, final Object eventKey, Map<String, Object> map) {
-        map.put("key", getUserKey());
-        addDisposable(apiService.execute(app, wwi, map)
-                        .compose(RxSchedulers.<ResultBean>io_main())
-                        .subscribeWith(new RxSubscriber<ResultBean>() {
-                            @Override
-                            public void onSuccess(ResultBean result) {
-                                sendData(eventKey, result);
-//                        showPageState(eventStateKey, StateConstants.SUCCESS_STATE);
-                            }
-
-                            @Override
-                            public void onFailure(String msg) {
-                                KLog.i(msg);
-//                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
-                            }
-
-                            @Override
-                            protected void onNoNetWork() {
-                                super.onNoNetWork();
-                                KLog.i("onNoNetWork");
-//                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
-                            }
-                        })
-        );
-    }
-
-    public void execute(final Object eventKey, Map<String, Object> map) {
-        addDisposable(apiService.execute(map)
-                        .compose(RxSchedulers.<ResultBean>io_main())
-                        .subscribeWith(new RxSubscriber<ResultBean>() {
-                            @Override
-                            public void onSuccess(ResultBean result) {
-                                sendData(eventKey, result);
-//                        showPageState(eventStateKey, StateConstants.SUCCESS_STATE);
-                            }
-
-                            @Override
-                            public void onFailure(String msg) {
-                                KLog.i(msg);
-//                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
-                            }
-
-                            @Override
-                            protected void onNoNetWork() {
-                                super.onNoNetWork();
-                                KLog.i("onNoNetWork");
-//                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
-                            }
-                        })
-        );
-    }
-
-
-    Map<String, Object> parames(Object app, Object wwi) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("app", app);
-        map.put("wwi", wwi);
-        return map;
-    }
-
-    Map<String, Object> parames(Map<String, Object> map, Object app, Object wwi) {
-        map.put("app", app);
-        map.put("wwi", wwi);
-        return map;
-    }
-
-    Map<String, RequestBody> generateRequestBody(Map<String, Object> requestDataMap) {
-        Map<String, RequestBody> requestBodyMap = new HashMap<>();
-        for (String key : requestDataMap.keySet()) {
-            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
-                    requestDataMap.get(key) == null ? "" : (String) requestDataMap.get(key));
-            requestBodyMap.put(key, requestBody);
-        }
-        return requestBodyMap;
-    }
-
+//    Map<String, RequestBody> generateRequestBody(Map<String, Object> requestDataMap) {
+//        Map<String, RequestBody> requestBodyMap = new HashMap<>();
+//        for (String key : requestDataMap.keySet()) {
+//            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
+//                    requestDataMap.get(key) == null ? "" : (String) requestDataMap.get(key));
+//            requestBodyMap.put(key, requestBody);
+//        }
+//        return requestBodyMap;
+//    }
 }

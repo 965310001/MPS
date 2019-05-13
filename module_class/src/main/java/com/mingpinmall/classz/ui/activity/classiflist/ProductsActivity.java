@@ -134,8 +134,6 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                         onRefresh();
                     }
                 });
-
-
     }
 
     /*获取更多数据*/
