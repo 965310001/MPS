@@ -5,15 +5,72 @@ import android.support.annotation.NonNull;
 
 import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
 
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/1
+ * @author 小斌
+ * @date 2019/4/1
  **/
 public class MeViewModel extends AbsViewModel<MeRepository> {
 
     public MeViewModel(@NonNull Application application) {
         super(application);
+    }
+
+    /*上传文件*/
+    public void uploadFiles(RequestBody file) {
+        mRepository.uploadFiles(file);
+    }
+
+    /*提交 订单 退款*/
+    public void postOrderRefund(Map<String, RequestBody> params) {
+        mRepository.postOrderRefund(params);
+    }
+
+    /*提交 商品 退款    &退货*/
+    public void postRefund(Map<String, RequestBody> params) {
+        mRepository.postRefund(params);
+    }
+
+    /*获取 商品退款&退货*/
+    public void getRefundShopsInfo(String order_id, String order_goods_id) {
+        mRepository.getRefundShopsInfo(order_id, order_goods_id);
+    }
+
+    /*获取 订单退款*/
+    public void getRefundOrderInfo(String order_id) {
+        mRepository.getRefundOrderInfo(order_id);
+    }
+
+    /*获取该订单下可评价商品列表*/
+    public void sendEvaluate(String json, Map<String, RequestBody> files) {
+        mRepository.sendEvaluate(json, files);
+    }
+
+    /*获取该订单下可评价商品列表*/
+    public void getOrderEvaluate(String order_id) {
+        mRepository.getOrderEvaluate(order_id);
+    }
+
+    /*我的推广码*/
+    public void getReduceCash() {
+        mRepository.getReduceCash();
+    }
+
+    /*我的推广码子功能2:提现申请*/
+    protected void addPdCash(String pdc_bank_user, String pdc_bank_no,
+                             String pdc_bank_name, String pdc_amount, String password) {
+        mRepository.addPdCash(pdc_bank_user, pdc_bank_no, pdc_bank_name, pdc_amount, password);
+    }
+
+    /*我的推广码子功能1:绑定邀请码*/
+    protected void bindUserCode(String parent_id) {
+        mRepository.bindUserCode(parent_id);
     }
 
     /*消息列表*/
@@ -147,7 +204,7 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     }
 
     /*分销管理*/
-    public void getInviteList(String wwi, int curpage){
+    public void getInviteList(String wwi, int curpage) {
         mRepository.getInviteList(wwi, curpage);
     }
 
@@ -155,6 +212,7 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     public void getAddressList() {
         mRepository.getAddressList();
     }
+
     /*删除收货地址*/
     public void delAddress(String addressId) {
         mRepository.delAddress(addressId);

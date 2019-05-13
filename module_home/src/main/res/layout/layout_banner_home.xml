@@ -1,77 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/iv_image"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_margin="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_label"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <variable
+            name="data"
+            type="com.mingpinmall.home.ui.bean.HomeItemBean.DatasBean.Goods1Bean.ItemBeanXX" />
+    </data>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_label"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:maxLines="2"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_image"
-        app:layout_constraintTop_toTopOf="@id/iv_image" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-    <View
-        android:id="@+id/line"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/line_hight"
-        android:background="@color/line_color"
-        app:layout_constraintBottom_toTopOf="@id/tv_newPay"
-        app:layout_constraintEnd_toEndOf="@id/tv_label"
-        app:layout_constraintStart_toStartOf="@id/tv_label"
-        app:layout_constraintTop_toBottomOf="@id/tv_label" />
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_image"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_newPay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="￥2000.00"
-        android:textColor="@color/red"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@id/tv_oldPay"
-        app:layout_constraintStart_toStartOf="@id/tv_label"
-        app:layout_constraintBottom_toTopOf="@id/tv_time"
-        app:layout_constraintTop_toBottomOf="@id/line" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:text="@{data.goods_name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_image"
+            app:layout_constraintTop_toTopOf="@id/iv_image" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_oldPay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="￥2000.00"
-        android:textColor="@color/dark"
-        android:layout_marginStart="6dp"
-        android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@id/tv_newPay"
-        app:layout_constraintBottom_toBottomOf="@id/tv_newPay"
-        app:layout_constraintStart_toEndOf="@id/tv_newPay"
-        app:layout_constraintTop_toTopOf="@id/tv_newPay" />
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color"
+            app:layout_constraintBottom_toTopOf="@id/tv_newPay"
+            app:layout_constraintEnd_toEndOf="@id/tv_label"
+            app:layout_constraintStart_toStartOf="@id/tv_label"
+            app:layout_constraintTop_toBottomOf="@id/tv_label" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/app_theme_d61619"
-        app:layout_constraintStart_toStartOf="@id/tv_label"
-        app:layout_constraintTop_toBottomOf="@id/tv_newPay"
-        app:layout_constraintBottom_toBottomOf="@id/iv_image"
-        app:layout_constraintEnd_toEndOf="@id/tv_label"
-        />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_newPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.xianshi_price}"
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/tv_oldPay"
+            app:layout_constraintStart_toStartOf="@id/tv_label"
+            app:layout_constraintBottom_toTopOf="@id/tv_time"
+            app:layout_constraintTop_toBottomOf="@id/line" />
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_oldPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.goods_price}"
+            android:textColor="@color/dark"
+            android:layout_marginStart="6dp"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_newPay"
+            app:layout_constraintBottom_toBottomOf="@id/tv_newPay"
+            app:layout_constraintStart_toEndOf="@id/tv_newPay"
+            app:layout_constraintTop_toTopOf="@id/tv_newPay" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_theme_d61619"
+            app:layout_constraintStart_toStartOf="@id/tv_label"
+            app:layout_constraintTop_toBottomOf="@id/tv_newPay"
+            app:layout_constraintBottom_toBottomOf="@id/iv_image"
+            app:layout_constraintEnd_toEndOf="@id/tv_label" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

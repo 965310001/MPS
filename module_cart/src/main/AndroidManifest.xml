@@ -3,7 +3,6 @@
     package="com.mingpinmall.cart">
 
     <application>
-        <activity android:name=".ui.ShoppingDetailsActivity"></activity>
         <activity android:name=".ui.activity.ShopCartActivity" />
     </application>
 

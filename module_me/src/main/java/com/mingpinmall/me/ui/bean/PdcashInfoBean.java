@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 /**
  * 功能描述：提现详情
- * 创建人：小斌
- * 创建时间: 2019/4/19
+ * *@author 小斌
+ * @date 2019/4/19
  **/
 public class PdcashInfoBean implements Serializable {
 

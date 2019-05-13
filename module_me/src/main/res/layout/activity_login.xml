@@ -8,20 +8,35 @@
         android:layout_height="match_parent"
         tools:context=".ui.acitivity.account.LoginActivity">
 
-        <android.support.design.widget.TabLayout
+        <com.flyco.tablayout.CommonTabLayout
             android:id="@+id/tabs"
-            android:layout_width="0dp"
-            app:tabMode="fixed"
-            android:layout_height="50dp"
-            app:layout_constraintBottom_toTopOf="@id/ll_panel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:background="@color/white"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabBackground="@color/white"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/app_theme_d61619"
-            app:tabSelectedTextColor="@color/app_theme_d61619"
-            app:tabTextColor="@color/dark" />
+            app:tl_divider_color="@color/line_color"
+            app:tl_divider_width="@dimen/line_hight"
+            app:tl_iconGravity="LEFT"
+            app:tl_iconHeight="22dp"
+            app:tl_iconWidth="22dp"
+            app:tl_indicator_anim_duration="300"
+            app:tl_indicator_bounce_enable="true"
+            app:tl_indicator_color="@color/app_theme_d61619"
+            app:tl_indicator_height="3dp"
+            app:tl_indicator_width="100dp"
+            app:tl_tab_space_equal="true"
+            app:tl_textBold="SELECT"
+            app:tl_textSelectColor="@color/app_theme_d61619"
+            app:tl_textUnselectColor="@color/dark"
+            app:tl_textsize="16sp" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color"
+            app:layout_constraintBottom_toTopOf="@id/ll_panel"
+            app:layout_constraintTop_toBottomOf="@id/tabs" />
 
         <LinearLayout
             android:id="@+id/ll_panel"
@@ -32,7 +47,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tabs">
+            app:layout_constraintTop_toBottomOf="@id/line">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -118,13 +133,13 @@
                         android:id="@+id/tv_getPsdCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/blue"
-                        android:padding="6dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="12dp"
+                        android:padding="6dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:text="@string/text_getPsdCode"
+                        android:textColor="@color/blue"
                         android:visibility="invisible" />
 
                 </LinearLayout>

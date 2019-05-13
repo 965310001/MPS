@@ -4,151 +4,192 @@
 
     <data>
 
+        <import type="java.util.List" />
+
         <variable
             name="data"
-            type="com.mingpinmall.me.ui.bean.RefundInformation" />
+            type="com.mingpinmall.me.ui.bean.RefundInformationBean" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:overScrollMode="never">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:text="我的退款申请"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <com.mingpinmall.me.ui.widget.SettingItemView
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.refund.refund_sn}"
-                app:title="退款编号" />
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:overScrollMode="never">
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.refund.reason_info}"
-                app:title="退款原因" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.refund.refund_amount}"
-                app:title="退款金额" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:text="我的退款申请"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.refund.buyer_message}"
-                app:title="退款说明" />
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                        app:subTitle="@{data.refund.refund_sn}"
+                        app:title="退款编号" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle=""
-                app:title="凭证上传" />
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                        app:subTitle="@{data.refund.reason_info}"
+                        app:title="退款原因" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:text="商家退款处理"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                        app:subTitle="@{data.refund.refund_amount}"
+                        app:title="退款金额" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle=""
-                app:title="审核状态" />
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                        app:subTitle="@{data.refund.buyer_message}"
+                        app:title="退款说明" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.refund.seller_message}"
-                app:title="商家备注" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_hight"
+                        android:background="@color/line_color" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:text="商城退款审核"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                    <LinearLayout
+                        android:id="@+id/ll_imageList"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="18dp">
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.refund.admin_state}"
-                app:title="平台确认" />
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18dp"
+                            android:layout_weight="1"
+                            android:text="凭证上传"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.refund.admin_message}"
-                app:title="平台备注" />
+                    </LinearLayout>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:text="退款详细"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:text="商家退款处理"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.detail_array.refund_code}"
-                app:title="支付方式" />
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                        app:subTitle="@{data.refund.seller_state}"
+                        app:title="审核状态" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.detail_array.pay_amount}"
-                app:title="在线退款金额" />
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                        app:subTitle="@{data.refund.seller_message}"
+                        app:title="商家备注" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.detail_array.pd_amount}"
-                app:title="预存款返回金额" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:text="商城退款审核"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                app:subTitle="@{data.detail_array.rcb_amount}"
-                app:title="充值卡返还金额" />
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                        app:subTitle="@{data.refund.admin_state}"
+                        app:title="平台确认" />
 
-            <Space
-                android:layout_width="1px"
-                android:layout_height="20dp" />
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                        app:subTitle="@{data.refund.admin_message}"
+                        app:title="平台备注" />
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-    </android.support.v4.widget.NestedScrollView>
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="12dp"
+                            android:text="退款详细"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <com.mingpinmall.me.ui.widget.SettingItemView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                            app:subTitle="@{data.detail_array.refund_code}"
+                            app:title="支付方式" />
+
+                        <com.mingpinmall.me.ui.widget.SettingItemView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                            app:subTitle="@{data.detail_array.pay_amount}"
+                            app:title="在线退款金额" />
+
+                        <com.mingpinmall.me.ui.widget.SettingItemView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                            app:subTitle="@{data.detail_array.pd_amount}"
+                            app:title="预存款返回金额" />
+
+                        <com.mingpinmall.me.ui.widget.SettingItemView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:mode="NoLeftImage_NoMoreIcon_NoDescription"
+                            app:subTitle="@{data.detail_array.rcb_amount}"
+                            app:title="充值卡返还金额" />
+
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="1px"
+                        android:layout_height="20dp" />
+
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </FrameLayout>
 
 </layout>

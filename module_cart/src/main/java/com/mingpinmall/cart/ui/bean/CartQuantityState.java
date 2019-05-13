@@ -2,8 +2,8 @@ package com.mingpinmall.cart.ui.bean;
 
 /**
  * 功能描述：购物车商品数量更改
- * 创建人：小斌
- * 创建时间: 2019/4/25
+ * *@author 小斌
+ * @date 2019/4/25
  **/
 public class CartQuantityState {
 

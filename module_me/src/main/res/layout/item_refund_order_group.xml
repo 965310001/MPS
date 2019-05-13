@@ -12,174 +12,191 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <FrameLayout
             android:id="@+id/cl_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:foreground="@drawable/button_foreground">
 
-            <LinearLayout
-                android:id="@+id/ll_shopContent"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginStart="12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/line"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginEnd="12dp"
-                    app:srcCompat="@drawable/ic_store_b" />
+                <LinearLayout
+                    android:id="@+id/ll_shopContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/line"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginEnd="12dp"
+                        app:srcCompat="@drawable/ic_store_b" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_storeName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        tools:text="品牌网自营" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="18dp"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_svg_more" />
+
+                </LinearLayout>
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_storeName"
+                    android:id="@+id/tv_orderState"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    tools:text="品牌网自营" />
+                    android:layout_marginEnd="12dp"
+                    android:textColor="@color/app_theme_d61619"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ll_shopContent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/ll_shopContent"
+                    tools:text="待付款" />
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="18dp"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_svg_more" />
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color"
+                    app:layout_constraintBottom_toTopOf="@id/ll_shopList"
+                    app:layout_constraintEnd_toEndOf="@id/tv_orderState"
+                    app:layout_constraintStart_toStartOf="@id/ll_shopContent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_shopContent" />
 
-            </LinearLayout>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_orderState"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:textColor="@color/app_theme_d61619"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/ll_shopContent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/ll_shopContent"
-                tools:text="待付款" />
-
-            <View
-                android:id="@+id/line"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/line_hight"
-                android:background="@color/dark"
-                app:layout_constraintBottom_toTopOf="@id/recyclerView"
-                app:layout_constraintEnd_toEndOf="@id/tv_orderState"
-                app:layout_constraintStart_toStartOf="@id/ll_shopContent"
-                app:layout_constraintTop_toBottomOf="@id/ll_shopContent" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/ll_information"
-                app:layout_constraintEnd_toEndOf="@id/tv_orderState"
-                app:layout_constraintStart_toStartOf="@id/ll_shopContent"
-                app:layout_constraintTop_toBottomOf="@id/line" />
-
-            <LinearLayout
-                android:id="@+id/ll_information"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                app:layout_constraintEnd_toEndOf="@id/recyclerView"
-                app:layout_constraintStart_toStartOf="@id/recyclerView"
-                app:layout_constraintTop_toBottomOf="@id/recyclerView">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_time"
+                <LinearLayout
+                    android:id="@+id/ll_shopList"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="2016-07-08 13:20:30" />
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@id/ll_information"
+                    app:layout_constraintEnd_toEndOf="@id/tv_orderState"
+                    app:layout_constraintStart_toStartOf="@id/ll_shopContent"
+                    app:layout_constraintTop_toBottomOf="@id/line">
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="12dp"
+                        android:gravity="center"
+                        tools:text="这是一个商品列表。这个textview会被remove" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:layout_constraintEnd_toEndOf="@id/ll_shopList"
+                    app:layout_constraintStart_toStartOf="@id/ll_shopList"
+                    app:layout_constraintTop_toBottomOf="@id/ll_shopList">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="2016-07-08 13:20:30" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_lb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="退款金额:"
+                        android:textColor="@color/black" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/app_theme_d61619"
+                        tools:text="¥0.01" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color"
+                    app:layout_constraintEnd_toEndOf="@id/ll_information"
+                    app:layout_constraintStart_toStartOf="@id/ll_information"
+                    app:layout_constraintTop_toBottomOf="@id/ll_information" />
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_lb"
+                    android:id="@+id/tv_removeOrder"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="退款金额:"
-                    android:textColor="@color/black" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/app_theme_d61619"
-                    tools:text="¥0.01" />
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/line1"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/line_hight"
-                android:background="@color/dark"
-                app:layout_constraintEnd_toEndOf="@id/ll_information"
-                app:layout_constraintStart_toStartOf="@id/ll_information"
-                app:layout_constraintTop_toBottomOf="@id/ll_information" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_removeOrder"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:drawableLeft="@drawable/ic_del"
-                android:drawablePadding="8dp"
-                android:gravity="center"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="移除"
-                android:textColor="@color/dark"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/line1"
-                app:layout_constraintTop_toBottomOf="@id/line1"
-                tools:visibility="visible" />
-
-            <LinearLayout
-                android:id="@+id/ll_buttonContent"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:gravity="end|center_vertical"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/line1"
-                app:layout_constraintStart_toEndOf="@id/tv_removeOrder"
-                app:layout_constraintTop_toBottomOf="@id/line1">
-
-                <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                    android:id="@+id/bt_refundInformation"
-                    style="@style/RoundButton.Auto"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/text_refundInformation"
+                    android:layout_height="50dp"
+                    android:drawableLeft="@drawable/ic_del"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="移除"
                     android:textColor="@color/dark"
                     android:textSize="14sp"
-                    app:rb_backgroundColor="@color/transparent"
-                    app:rb_borderColor="@color/dark"
-                    app:rb_borderWidth="1dp"
-                    app:rb_radius="5dp" />
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/line1"
+                    app:layout_constraintTop_toBottomOf="@id/line1"
+                    tools:visibility="visible" />
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_buttonContent"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:gravity="end|center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/line1"
+                    app:layout_constraintStart_toEndOf="@id/tv_removeOrder"
+                    app:layout_constraintTop_toBottomOf="@id/line1">
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="@dimen/line_hight"
-                android:background="@color/line_color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                        android:id="@+id/bt_refundInformation"
+                        style="@style/RoundButton.Auto"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/text_refundInformation"
+                        android:textColor="@color/dark"
+                        android:textSize="14sp"
+                        app:rb_backgroundColor="@color/transparent"
+                        app:rb_borderColor="@color/dark"
+                        app:rb_borderWidth="1dp"
+                        app:rb_radius="5dp" />
 
-        </android.support.constraint.ConstraintLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </FrameLayout>
 
         <Space
             android:layout_width="wrap_content"

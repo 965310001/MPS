@@ -1,11 +1,8 @@
 package com.mingpinmall.me.ui.acitivity.setting;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -13,22 +10,21 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
-import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
-import com.google.gson.Gson;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityResetPasswordBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
-import com.mingpinmall.me.ui.bean.MyInfoBean;
-import com.mingpinmall.me.ui.bean.SmsBean;
+import com.mingpinmall.me.ui.constants.Constants;
+
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：重设密码
- * 创建人：小斌
- * 创建时间: 2019/4/2
+ *
+ * @author 小斌
+ * @date 2019/4/2
  **/
-@Route(path = ARouterConfig.Me.ResetPasswordActivity)
+@Route(path = ARouterConfig.Me.RESETPASSWORDACTIVITY)
 public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPasswordBinding, UserViewModel> implements TextWatcher {
 
     private ProgressDialog progressDialog;
@@ -76,37 +72,21 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
 
     @Override
     protected void dataObserver() {
-        registerObserver("RESET_PASSWORD", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        //重设密码成功
-                        progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                //发起更新数据
-                                LiveBus.getDefault().postEvent("Refresh_Data", "SettingActivity", "");
-                                finish();
-                            }
-                        });
-                    }
-                });
-        registerObserver("RESET_PASSWORD", "fail")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        //重设密码失败
-                        progressDialog.onFail("重设密码失败");
-                    }
-                });
-        registerObserver("RESET_PASSWORD", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        //重设密码成功错误
-                        progressDialog.onFail(o.toString());
-                    }
-                });
+        registerObserver(Constants.RESET_PASSWORD, String.class).observeForever(o -> {
+            //重设密码成功
+            switch (o) {
+                case SUCCESS:
+                    progressDialog.onComplete("", () -> {
+                        //发起更新数据
+                        LiveBus.getDefault().postEvent(ARouterConfig.REFRESH_DATA, "SettingActivity", "");
+                        finish();
+                    });
+                    break;
+                default:
+                    progressDialog.onFail(o);
+                    break;
+            }
+        });
     }
 
     @Override
@@ -130,6 +110,8 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
                 case 1:
                     mViewModel.resetPayPassword(password0, password1);
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -146,7 +128,7 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (binding.edPassword.length() >= 6 && binding.edPassword2.length() >= 6 ) {
+        if (binding.edPassword.length() >= 6 && binding.edPassword2.length() >= 6) {
             binding.btnSublimt.setEnabled(true);
         } else {
             binding.btnSublimt.setEnabled(false);

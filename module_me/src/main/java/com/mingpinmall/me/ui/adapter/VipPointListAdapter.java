@@ -1,7 +1,6 @@
 package com.mingpinmall.me.ui.adapter;
 
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -12,12 +11,12 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：会员积分记录
- * 创建人：小斌
- * 创建时间: 2019/4/20
+ * @author 小斌
+ * @date 2019/4/20
  **/
 public class VipPointListAdapter extends BaseQuickAdapter<VipPointListBean.LogListBean, BaseViewHolder> {
     public VipPointListAdapter() {
-        super(R.layout.item_vip_points, new ArrayList<VipPointListBean.LogListBean>());
+        super(R.layout.item_vip_points, new ArrayList<>());
     }
 
     @Override

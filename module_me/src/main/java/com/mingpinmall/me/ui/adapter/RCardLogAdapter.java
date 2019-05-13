@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：充值卡充值记录
- * 创建人：小斌
- * 创建时间: 2019/4/19
+ * @author 小斌
+ * @date 2019/4/19
  **/
 public class RCardLogAdapter extends BaseQuickAdapter<RCardLogBean.LogListBean, BaseViewHolder> {
     public RCardLogAdapter() {
-        super(R.layout.item_predepositlog, new ArrayList<RCardLogBean.LogListBean>());
+        super(R.layout.item_predepositlog, new ArrayList<>());
     }
 
     @Override

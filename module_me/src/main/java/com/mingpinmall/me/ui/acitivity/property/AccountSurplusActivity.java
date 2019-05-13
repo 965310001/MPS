@@ -1,8 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.property;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
@@ -10,17 +8,18 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityAccountSurplusBinding;
-import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PredepositLogFragment;
-import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PdrechargeFragment;
-import com.mingpinmall.me.ui.acitivity.property.accountSurplusFragment.PdcashFragment;
+import com.mingpinmall.me.ui.acitivity.property.accountsurplus.PdcashFragment;
+import com.mingpinmall.me.ui.acitivity.property.accountsurplus.PdrechargeFragment;
+import com.mingpinmall.me.ui.acitivity.property.accountsurplus.PredepositLogFragment;
 import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.Predepoit;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：我的财产-账户余额
- * 创建人：小斌
- * 创建时间: 2019/3/28
+ * @author 小斌
+ * @date 2019/3/28
  **/
 @Route(path = ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY)
 public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccountSurplusBinding, MeViewModel> {
@@ -51,7 +50,7 @@ public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccount
         pagerAdapter.addFragment(pdcashFragment, R.string.tabs_text_surplus3);
 
         binding.viewPager.setAdapter(pagerAdapter);
-        binding.tabs.setupWithViewPager(binding.viewPager);
+        binding.tabs.setViewPager(binding.viewPager);
     }
 
     @Override
@@ -63,26 +62,19 @@ public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccount
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver("REFRESH_PDC", String.class).observeForever(new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //需要更新数据
-                initData();
+        registerObserver("REFRESH_PDC", String.class).observeForever(s -> {
+            //需要更新数据
+            initData();
+        });
+        registerObserver(Constants.PREDEPOIT, Object.class).observeForever(result -> {
+            if (result instanceof Predepoit) {
+                Predepoit predepoit = (Predepoit) result;
+                //获取到账户余额
+                binding.tvSurplus.setText(predepoit.getPredepoit());
+            } else {
+                ToastUtils.showShort(result.toString());
             }
         });
-        registerObserver("PREDEPOIT", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof Predepoit) {
-                            Predepoit predepoit = (Predepoit) result;
-                            //获取到账户余额
-                            binding.tvSurplus.setText(predepoit.getPredepoit());
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
     }
 
     @Override

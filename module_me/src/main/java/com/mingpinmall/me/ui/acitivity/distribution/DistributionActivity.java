@@ -15,8 +15,8 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 
 /**
  * 功能描述：我的分销管理
- * 创建人：小斌
- * 创建时间: 2019/3/29
+ * @author 小斌
+ * @date 2019/3/29
  **/
 @Route(path = ARouterConfig.Me.DISRTIBUTIONACTIVITY)
 public class DistributionActivity extends BaseActivity<ActivityDistributionBinding> {

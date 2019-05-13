@@ -4,8 +4,8 @@ import android.animation.TypeEvaluator;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/3/27
+ * @author 小斌
+ * @date 2019/3/27
  **/
 public class ArgbEvaluator implements TypeEvaluator {
     /**
@@ -14,6 +14,7 @@ public class ArgbEvaluator implements TypeEvaluator {
      * startvalue:动画起始颜色
      * endValue:动画结束颜色
      */
+    @Override
     public Object evaluate(float fraction, Object startValue, Object endValue) {
         int startInt = (Integer) startValue;
         /*

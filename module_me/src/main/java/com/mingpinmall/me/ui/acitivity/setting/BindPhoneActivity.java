@@ -23,16 +23,19 @@ import com.mingpinmall.me.databinding.ActivityResetPhoneBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.bean.SmsBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.xuexiang.xui.utils.CountDownButtonHelper;
 
 import org.w3c.dom.Text;
 
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
+
 /**
  * 功能描述：重设手机
- * 创建人：小斌
- * 创建时间: 2019/4/2
+ * @author 小斌
+ * @date 2019/4/2
  **/
-@Route(path = ARouterConfig.Me.BindPhoneActivity)
+@Route(path = ARouterConfig.Me.BINDPHONEACTIVITY)
 public class BindPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneBinding, UserViewModel> implements TextWatcher {
 
     @Autowired
@@ -83,41 +86,24 @@ public class BindPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneBi
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_SMS_CODE", "success", SmsBean.class)
-                .observeForever(new Observer<SmsBean>() {
-                    @Override
-                    public void onChanged(@Nullable SmsBean smsBean) {
-                        ToastUtils.showShort("动态码已发送");
-                        buttonHelper.start();
-                    }
+        registerObserver(Constants.GET_SMS_CODE, Object.class).observeForever(result -> {
+            if (result instanceof SmsBean) {
+                ToastUtils.showShort("动态码已发送");
+                buttonHelper.start();
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
+        registerObserver(Constants.BIND_PHONE, String.class).observeForever(result -> {
+            if (result.equals(SUCCESS)) {
+                progressDialog.onComplete("", () -> {
+                    LiveBus.getDefault().postEvent(ARouterConfig.REFRESH_DATA, "SettingActivity", "");
+                    finish();
                 });
-        registerObserver("GET_SMS_CODE", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        ToastUtils.showShort(result.toString());
-                    }
-                });
-        registerObserver("BIND_PHONE", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object obj) {
-                        progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                LiveBus.getDefault().postEvent("Refresh_Data", "SettingActivity", "");
-                                finish();
-                            }
-                        });
-                    }
-                });
-        registerObserver("BIND_PHONE", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        progressDialog.onFail(result.toString());
-                    }
-                });
+            } else {
+                progressDialog.onFail(result);
+            }
+        });
     }
 
     @Override

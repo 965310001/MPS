@@ -6,51 +6,58 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:foreground="@drawable/button_foreground">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_image"
-            app:layout_constraintTop_toTopOf="@id/iv_image" />
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv_pay"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:textColor="@color/app_theme_d61619"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_image"
-            app:layout_constraintStart_toStartOf="@id/tv_label" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_image"
+                app:layout_constraintTop_toTopOf="@id/iv_image" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="@dimen/line_hight"
-            android:background="@color/line_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/tv_label"
-            app:layout_constraintStart_toStartOf="@id/tv_label" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_pay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:textColor="@color/app_theme_d61619"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                app:layout_constraintStart_toStartOf="@id/tv_label" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_label"
+                app:layout_constraintStart_toStartOf="@id/tv_label" />
 
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
+
 </layout>

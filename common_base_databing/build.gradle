@@ -20,6 +20,11 @@ android {
         //MultiDex分包方法
         multiDexEnabled true
 
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
         //Arouter路由配置
         javaCompileOptions {
             annotationProcessorOptions {
@@ -73,7 +78,7 @@ dependencies {
 
     api rootProject.ext.dependencies['klog']
 
-    implementation rootProject.ext.dependencies['glide']
+    api rootProject.ext.dependencies['glide']
     annotationProcessor rootProject.ext.dependencies['glide_compiler']
 
     api rootProject.ext.dependencies['banner']
@@ -128,6 +133,12 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
+    /*轮播图*/
+    api ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+        transitive = true
+    }
+    /*相册图片选择/拍照*/
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     /*WebView*/
     api 'com.just.agentweb:agentweb:4.0.3-alpha@aar'
 

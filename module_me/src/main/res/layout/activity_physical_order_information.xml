@@ -5,9 +5,13 @@
 
     <data>
 
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
         <variable
             name="data"
-            type="com.mingpinmall.me.ui.bean.OrderInformationBean" />
+            type="com.mingpinmall.me.ui.bean.OrderInformationBean.OrderInfoBean" />
 
         <variable
             name="deliverData"
@@ -19,505 +23,577 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v4.widget.NestedScrollView
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:fillViewport="true"
-            android:overScrollMode="never">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <LinearLayout
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:fillViewport="true"
+                android:overScrollMode="never">
 
-                <android.support.constraint.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:minHeight="48dp"
-                    android:padding="12dp">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/iv_icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="6dp"
-                        app:srcCompat="@drawable/ic_order"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_label"
-                        app:layout_constraintEnd_toStartOf="@id/tv_label"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_label" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_label"
-                        android:layout_width="0dp"
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="交易状态"
-                        android:textColor="#1B1B1B"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toTopOf="@id/tv_description"
-                        app:layout_constraintEnd_toStartOf="@id/tv_sublabel"
-                        app:layout_constraintStart_toEndOf="@id/iv_icon"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:background="@color/white"
+                        android:minHeight="48dp"
+                        android:padding="12dp">
 
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_description"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="请于1小时内完成付款，逾期未付订单自动关闭"
-                        android:textColor="#424242"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/tv_sublabel"
-                        app:layout_constraintStart_toStartOf="@id/tv_label"
-                        app:layout_constraintTop_toBottomOf="@id/tv_label" />
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="6dp"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_label"
+                            app:layout_constraintEnd_toStartOf="@id/tv_label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_label"
+                            app:srcCompat="@drawable/ic_order" />
 
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_sublabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:layout_marginStart="4dp"
-                        android:text="待付款"
-                        android:textColor="@color/app_theme_d61619"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_label"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tv_label"
-                        app:layout_constraintTop_toTopOf="@id/tv_label" />
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_label"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_phsi_0"
+                            android:textColor="#1B1B1B"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@id/tv_description"
+                            app:layout_constraintEnd_toStartOf="@id/tv_sublabel"
+                            app:layout_constraintStart_toEndOf="@id/iv_icon"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                </android.support.constraint.ConstraintLayout>
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_description"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.order_tips}"
+                            android:textColor="#424242"
+                            android:textSize="14sp"
+                            android:visibility='@{data.order_tips.equals("") ? View.GONE : View.VISIBLE}'
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tv_sublabel"
+                            app:layout_constraintStart_toStartOf="@id/tv_label"
+                            app:layout_constraintTop_toBottomOf="@id/tv_label"
+                            tools:text="请于1小时内完成付款，逾期未付订单自动关闭" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_hight"
-                    android:background="@color/line_color" />
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_sublabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_marginStart="4dp"
+                            android:text="@{data.state_desc}"
+                            android:textColor="@color/app_theme_d61619"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_label"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tv_label"
+                            app:layout_constraintTop_toTopOf="@id/tv_label"
+                            tools:text="待付款" />
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/cl_expressInformation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#fafafa"
-                    android:foreground="@drawable/button_foreground"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/iv_point"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_margin="12dp"
-                        android:src="@drawable/shape_green_point_coners_10dp"
-                        app:layout_constraintEnd_toStartOf="@id/tv_information"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <View
-                        android:layout_width="1.5dp"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="12dp"
-                        android:background="@drawable/shape_green_stroke_1dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/iv_point"
-                        app:layout_constraintStart_toStartOf="@id/iv_point"
-                        app:layout_constraintTop_toBottomOf="@id/iv_point" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_information"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:text="@{deliverData.deliver_info.context}"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toStartOf="@id/iv_more"
-                        app:layout_constraintStart_toEndOf="@id/iv_point"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="这里是物流信息展示，将显示最新的一条物流信息。" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_time"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="12dp"
-                        android:text="@{deliverData.deliver_info.time}"
-                        android:textColor="#777"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/tv_information"
-                        app:layout_constraintStart_toStartOf="@id/tv_information"
-                        app:layout_constraintTop_toBottomOf="@id/tv_information"
-                        tools:text="2019-04-27 14:24" />
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/iv_more"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_margin="12dp"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_information"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tv_information"
-                        app:layout_constraintTop_toTopOf="@id/tv_information"
-                        app:srcCompat="@drawable/ic_svg_more" />
+                    </android.support.constraint.ConstraintLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/line_hight"
-                        android:background="@color/line_color"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        android:background="@color/line_color" />
 
-                </android.support.constraint.ConstraintLayout>
-
-                <com.mingpinmall.me.ui.widget.SettingItemView
-                    android:id="@+id/siv_item2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    app:description="收货地址："
-                    app:image="@drawable/ic_gps"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:mode="NoMoreIcon"
-                    app:smallIcon="true"
-                    app:title="收货人：" />
-
-                <com.mingpinmall.me.ui.widget.SettingItemView
-                    android:id="@+id/siv_item3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:description="留言内容"
-                    app:image="@drawable/ic_leavemsg"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:mode="NoMoreIcon"
-                    app:smallIcon="true"
-                    app:title="买家留言" />
-
-                <com.mingpinmall.me.ui.widget.SettingItemView
-                    android:id="@+id/siv_item4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:description="类型：  抬头：  内容："
-                    app:image="@drawable/ic_invoice"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:mode="NoMoreIcon"
-                    app:smallIcon="true"
-                    app:title="发票信息" />
-
-                <com.mingpinmall.me.ui.widget.SettingItemView
-                    android:id="@+id/siv_item5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:description="在线付款"
-                    app:image="@drawable/ic_pay"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:mode="NoMoreIcon"
-                    app:smallIcon="true"
-                    app:title="付款方式" />
-
-                <!-- 商品列表模块 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical">
-
-                    <android.support.constraint.ConstraintLayout
-                        android:id="@+id/cl_content"
+                    <FrameLayout
+                        android:id="@+id/cl_expressInformation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:foreground="@drawable/button_foreground">
-
-                        <LinearLayout
-                            android:id="@+id/ll_shopContent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:layout_marginStart="12dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            app:layout_constraintBottom_toTopOf="@id/line"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <android.support.v7.widget.AppCompatImageView
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_marginEnd="12dp"
-                                app:srcCompat="@drawable/ic_store_b" />
-
-                            <android.support.v7.widget.AppCompatTextView
-                                android:id="@+id/tv_storeName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:textSize="16sp"
-                                tools:text="品牌网自营" />
-
-                            <android.support.v7.widget.AppCompatImageView
-                                android:layout_width="18dp"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/ic_svg_more" />
-
-                        </LinearLayout>
-
-                        <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/tv_orderState"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="12dp"
-                            android:textColor="@color/app_theme_d61619"
-                            android:textSize="14sp"
-                            app:layout_constraintBottom_toBottomOf="@id/ll_shopContent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/ll_shopContent"
-                            tools:text="待付款" />
-
-                        <View
-                            android:id="@+id/line"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/line_hight"
-                            android:background="@color/dark"
-                            app:layout_constraintBottom_toTopOf="@id/recyclerView"
-                            app:layout_constraintEnd_toEndOf="@id/tv_orderState"
-                            app:layout_constraintStart_toStartOf="@id/ll_shopContent"
-                            app:layout_constraintTop_toBottomOf="@id/ll_shopContent" />
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerView"
-                            style="@style/VerticalScrollBarRecyclerView"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/tv_orderState"
-                            app:layout_constraintStart_toStartOf="@id/ll_shopContent"
-                            app:layout_constraintTop_toBottomOf="@id/line" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/line_hight"
-                            android:background="@color/line_color"
-                            app:layout_constraintBottom_toBottomOf="parent" />
-
-                    </android.support.constraint.ConstraintLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_gifts"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:background="@drawable/shape_dashgap_gray"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@id/line1"
+                        android:background="#fafafa"
+                        android:foreground="@drawable/button_foreground"
+                        android:visibility="@{data.if_deliver ? View.VISIBLE : View.GONE}"
                         tools:visibility="visible">
 
-                        <TextView
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="12dp"
-                            android:gravity="center"
-                            android:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
+                        <android.support.constraint.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    </LinearLayout>
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/iv_point"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_margin="12dp"
+                                android:src="@drawable/shape_green_point_coners_10dp"
+                                app:layout_constraintEnd_toStartOf="@id/tv_information"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                </LinearLayout>
+                            <View
+                                android:layout_width="1.5dp"
+                                android:layout_height="0dp"
+                                android:layout_marginBottom="12dp"
+                                android:background="@drawable/shape_green_stroke_1dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@id/iv_point"
+                                app:layout_constraintStart_toStartOf="@id/iv_point"
+                                app:layout_constraintTop_toBottomOf="@id/iv_point" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_hight"
-                    android:background="@color/line_color" />
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_information"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="@{deliverData.deliver_info.context}"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                app:layout_constraintEnd_toStartOf="@id/iv_more"
+                                app:layout_constraintStart_toEndOf="@id/iv_point"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="这里是物流信息展示，将显示最新的一条物流信息。" />
 
-                <!-- 优惠 运费 实付款 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:paddingStart="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="6dp">
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_time"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="12dp"
+                                android:text="@{deliverData.deliver_info.time}"
+                                android:textColor="#777"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@id/tv_information"
+                                app:layout_constraintStart_toStartOf="@id/tv_information"
+                                app:layout_constraintTop_toBottomOf="@id/tv_information"
+                                tools:text="2019-04-27 14:24" />
 
-                    <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="优惠"
-                        android:textColor="@color/color_text" />
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/iv_more"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_margin="12dp"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_information"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/tv_information"
+                                app:layout_constraintTop_toTopOf="@id/tv_information"
+                                app:srcCompat="@drawable/ic_svg_more" />
 
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_youhui"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:textColor="@color/black"
-                        tools:text="ceshi yixia " />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/line_hight"
+                                android:background="@color/line_color"
+                                app:layout_constraintBottom_toBottomOf="parent" />
 
-                </LinearLayout>
+                        </android.support.constraint.ConstraintLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:paddingStart="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="6dp">
+                    </FrameLayout>
 
-                    <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="优惠"
-                        android:textColor="@color/color_text" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="¥"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_yunfei"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        tools:text="0.00" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:paddingStart="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="6dp">
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="实付款(含运费)"
-                        android:textColor="@color/color_text" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="¥"
-                        android:textColor="@color/app_theme_d61619"
-                        android:textSize="14sp" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_payMoney"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/app_theme_d61619"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:text="2680.00" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_hight"
-                    android:background="@color/line_color" />
-
-                <!-- 联系客服 与 拨打电话 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/fl_service"
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:id="@+id/siv_item2"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:foreground="@drawable/button_foreground"
-                        android:gravity="center">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:description='@{@string/text_phsi_15 + data.reciver_addr}'
+                        app:image="@drawable/ic_gps"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:mode="NoMoreIcon"
+                        app:smallIcon="true"
+                        app:title='@{@string/text_phsi_16 + data.reciver_name + " " + data.reciver_phone}' />
 
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            app:srcCompat="@drawable/ic_service" />
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:id="@+id/siv_item3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility='@{data.order_message.equals("") ? View.GONE : View.VISIBLE}'
+                        app:description="@{data.order_message}"
+                        app:image="@drawable/ic_leavemsg"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:mode="NoMoreIcon"
+                        app:smallIcon="true"
+                        app:title="@string/text_phsi_1" />
 
-                        <android.support.v7.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:id="@+id/siv_item4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility='@{data.invoice.equals("") ? View.GONE : View.VISIBLE}'
+                        app:description="@{data.invoice}"
+                        app:image="@drawable/ic_invoice"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:mode="NoMoreIcon"
+                        app:smallIcon="true"
+                        app:title="@string/text_phsi_2" />
+
+                    <com.mingpinmall.me.ui.widget.SettingItemView
+                        android:id="@+id/siv_item5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:description="@{data.payment_name}"
+                        app:image="@drawable/ic_pay"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:mode="NoMoreIcon"
+                        app:smallIcon="true"
+                        app:title="@string/text_phsi_3" />
+
+                    <Space
+                        android:layout_width="1px"
+                        android:layout_height="12dp" />
+
+                    <!-- 商品列表模块 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/cl_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="联系客服"
-                            android:textSize="16sp" />
+                            android:foreground="@drawable/button_foreground">
+
+                            <LinearLayout
+                                android:id="@+id/ll_shopContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_marginStart="12dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                app:layout_constraintBottom_toTopOf="@id/line"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <android.support.v7.widget.AppCompatImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_marginEnd="12dp"
+                                    app:srcCompat="@drawable/ic_store_b" />
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:id="@+id/tv_storeName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{data.store_name}"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp"
+                                    tools:text="品牌网自营" />
+
+                                <android.support.v7.widget.AppCompatImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_svg_more" />
+
+                            </LinearLayout>
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_orderState"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:text="@{data.state_desc}"
+                                android:textColor="@color/app_theme_d61619"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="@id/ll_shopContent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/ll_shopContent"
+                                tools:text="待付款" />
+
+                            <View
+                                android:id="@+id/line"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/line_hight"
+                                android:background="@color/line_color"
+                                app:layout_constraintBottom_toTopOf="@id/recyclerView"
+                                app:layout_constraintEnd_toEndOf="@id/tv_orderState"
+                                app:layout_constraintStart_toStartOf="@id/ll_shopContent"
+                                app:layout_constraintTop_toBottomOf="@id/ll_shopContent" />
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recyclerView"
+                                style="@style/VerticalScrollBarRecyclerView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@id/tv_orderState"
+                                app:layout_constraintStart_toStartOf="@id/ll_shopContent"
+                                app:layout_constraintTop_toBottomOf="@id/line" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/line_hight"
+                                android:background="@color/line_color"
+                                app:layout_constraintBottom_toBottomOf="parent" />
+
+                        </android.support.constraint.ConstraintLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_gifts"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/shape_dashgap_gray"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            app:layout_constraintTop_toBottomOf="@id/line1"
+                            tools:visibility="visible">
+
+                            <TextView
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="12dp"
+                                android:gravity="center"
+                                android:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                     <View
-                        android:layout_width="@dimen/line_hight"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_hight"
                         android:background="@color/line_color" />
 
+                    <!-- 优惠 运费 实付款 -->
                     <LinearLayout
-                        android:id="@+id/fl_call"
+                        android:id="@+id/ll_youhui"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:foreground="@drawable/button_foreground"
-                        android:gravity="center">
-
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            app:srcCompat="@drawable/ic_call_phone" />
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="6dp"
+                        android:visibility='@{data.promotion.size() > 0 ? View.VISIBLE : View.GONE}'>
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="拨打电话"
-                            android:textSize="16sp" />
+                            android:text="@string/text_phsi_6"
+                            android:textColor="@color/color_text" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_youhui"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textColor="@color/black"
+                            tools:text="ceshi yixia " />
 
                     </LinearLayout>
 
-                </LinearLayout>
-
-                <!-- 订单编号和时间 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_order_num"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="订单编号：20000000055887" />
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="6dp">
 
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_order_createTime"
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/text_phsi_7"
+                            android:textColor="@color/color_text" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_unit0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="@string/text_rmb"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_yunfei"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.shipping_fee}"
+                            android:textColor="@color/black"
+                            tools:text="0.00" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="创建时间：2019-04-16 14:48:11" />
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="6dp">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/text_phsi_8"
+                            android:textColor="@color/color_text" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_unit1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="@string/text_rmb"
+                            android:textColor="@color/app_theme_d61619"
+                            android:textSize="14sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_payMoney"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.real_pay_amount}"
+                            android:textColor="@color/app_theme_d61619"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="2680.00" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_hight"
+                        android:background="@color/line_color" />
+
+                    <!-- 联系客服 与 拨打电话 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:id="@+id/fl_service"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:foreground="@drawable/button_foreground">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center">
+
+                                <android.support.v7.widget.AppCompatImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    app:srcCompat="@drawable/ic_service" />
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/text_phsi_4"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                        </FrameLayout>
+
+                        <View
+                            android:layout_width="@dimen/line_hight"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/line_color" />
+
+                        <FrameLayout
+                            android:id="@+id/fl_call"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:foreground="@drawable/button_foreground">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center">
+
+                                <android.support.v7.widget.AppCompatImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    app:srcCompat="@drawable/ic_call_phone" />
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/text_phsi_5"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <!-- 订单编号和时间 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_order_num"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/text_phsi_10 + data.order_sn}"
+                            tools:text="@string/text_phsi_10" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_order_createTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/text_phsi_11 + data.add_time}"
+                            tools:text="创建时间：2019-04-16 14:48:11" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_order_payTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/text_phsi_12 + data.payment_time}"
+                            android:visibility='@{data.payment_time.equals("") ? View.GONE : View.VISIBLE}'
+                            tools:text="付款时间：2019-04-16 14:48:11" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_order_sendTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/text_phsi_13 + data.shipping_time}"
+                            android:visibility='@{data.shipping_time.equals("") ? View.GONE : View.VISIBLE}'
+                            tools:text="发货时间：2019-04-16 14:48:11" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_order_finishTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/text_phsi_14 + data.finnshed_time}"
+                            android:visibility='@{data.finnshed_time.equals("") ? View.GONE : View.VISIBLE}'
+                            tools:text="完成时间：2019-04-16 14:48:11" />
+
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="1px"
+                        android:layout_height="12dp" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
 
-        </android.support.v4.widget.NestedScrollView>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -537,10 +613,10 @@
                 android:gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:text="退款/退货中..."
+                android:text="@string/text_phsi_9"
                 android:textColor="#ed5564"
                 android:textSize="14sp"
-                android:visibility="gone"
+                android:visibility="@{data.if_lock ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/ll_buttonContent"
                 app:layout_constraintTop_toTopOf="parent"

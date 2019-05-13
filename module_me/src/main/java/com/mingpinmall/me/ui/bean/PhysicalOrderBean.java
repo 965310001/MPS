@@ -4,8 +4,8 @@ import java.util.List;
 
 /**
  * 功能描述：订单
- * 创建人：小斌
- * 创建时间: 2019/4/11
+ * @author 小斌
+ * @date 2019/4/11
  **/
 public class PhysicalOrderBean {
 
@@ -46,6 +46,7 @@ public class PhysicalOrderBean {
     private String state_desc;
     private String payment_name;
     private boolean if_cancel;
+    private boolean if_show_pay;
     private boolean if_refund_cancel;
     private boolean if_receive;
     private boolean if_lock;
@@ -56,6 +57,14 @@ public class PhysicalOrderBean {
     private boolean ownmall;
     private List<ExtendOrderGoodsBean> extend_order_goods;
     private List<ZengpinListBean> zengpin_list;
+
+    public boolean isIf_show_pay() {
+        return if_show_pay;
+    }
+
+    public void setIf_show_pay(boolean if_show_pay) {
+        this.if_show_pay = if_show_pay;
+    }
 
     public String getOrder_id() {
         return order_id == null ? "" : order_id;

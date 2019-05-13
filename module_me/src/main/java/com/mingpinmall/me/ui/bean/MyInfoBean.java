@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/1
+ * @author 小斌
+ * @date 2019/4/1
  **/
 public class MyInfoBean {
 

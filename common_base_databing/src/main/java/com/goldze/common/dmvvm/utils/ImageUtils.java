@@ -7,30 +7,33 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
+import com.goldze.common.dmvvm.adapter.BaseBannerAdapter;
 import com.goldze.common.dmvvm.manage.BlurTransformation;
+import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+
+import static com.xuexiang.xui.utils.ResUtils.getResources;
 
 /**
  * @author GuoFeng
@@ -83,6 +86,23 @@ public class ImageUtils {
                 .into(imageView);
     }
 
+    public static int overrideHight = 0;
+    public static int overrideWidth = 0;
+
+    public static int getOverrideHight(Context context) {
+        if (overrideHight == 0) {
+            overrideHight = getOverrideWidth(context) / 640 * 260;
+        }
+        return overrideHight;
+    }
+
+    public static int getOverrideWidth(Context context) {
+        if (overrideWidth == 0) {
+            overrideWidth = ScreenUtil.getScreenWidth(context);
+        }
+        return overrideWidth;
+    }
+
     /**
      * 加载网络图片
      *
@@ -90,15 +110,34 @@ public class ImageUtils {
      * @param imageView imageView
      * @param imageView transformation 转换器
      */
-    public static void loadImageNoPlaceholder(ImageView imageView, String url) {
+    public static void loadImageNoPlaceholder(ImageView imageView, String url, int width, int hight) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(Utils.getApplication())
+        Glide.with(imageView.getContext())
                 .load(url)
                 .apply(new RequestOptions()
                         .fitCenter()
-                        .override(1440, 720)
+                        .override(width, hight)
+                        .error(new ColorDrawable(Color.WHITE)))
+                .into(imageView);
+    }
+
+    /**
+     * 加载网络图片
+     *
+     * @param url       url
+     * @param radius    圆角半径
+     * @param imageView imageView
+     */
+    public static void loadImageCorners(ImageView imageView, int radius, String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(imageView.getContext())
+                .load(url)
+                .apply(new RequestOptions().transform(new GlideRoundTransform(radius))
+                        .override(300, 300)
                         .error(new ColorDrawable(Color.WHITE)))
                 .into(imageView);
     }
@@ -233,36 +272,62 @@ public class ImageUtils {
                 .setOnItemClickListener(listener)
                 .startTurning();
     }
-
     /**
-     * 加载只有一张图的Banner，解决在列表中更新列表时，重复调用startTurning()，导致错误的翻页
+     * 通用轮播图
      *
-     * @param banner   banner
-     * @param imgUrl   imgUrl
-     * @param listener listener
+     * @param ultraViewPager 必须是UltraViewPager
+     * @param adapter        适配器
      */
-    public static void loadBanners(ConvenientBanner banner, List<String> imgUrl, OnItemClickListener listener) {
-        banner.setPages(new BannerImgAdapter(), imgUrl)
-                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-                .setOnItemClickListener(listener);
+    public static void createBanner(UltraViewPager ultraViewPager, BaseBannerAdapter adapter) {
+        ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
+        ultraViewPager.setAdapter(adapter);
+        //内置indicator初始化
+        ultraViewPager.initIndicator();
+        //设置indicator样式
+        ultraViewPager.getIndicator()
+                .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
+                .setFocusColor(Color.GREEN)
+                .setNormalColor(Color.GRAY)
+                .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics()));
+        //设置indicator对齐方式
+        ultraViewPager.getIndicator().setGravity(Gravity.RIGHT | Gravity.BOTTOM);
+        ultraViewPager.getIndicator().setMargin(0, 0, 16, 16);
+        //构造indicator,绑定到UltraViewPager
+        ultraViewPager.getIndicator().build();
+        //设定页面循环播放
+        ultraViewPager.setInfiniteLoop(true);
+        //设定页面自动切换
+        ultraViewPager.setAutoScroll(3500);
     }
-
-    /**
-     * 加载自定义的Banner
-     *
-     * @param holderCreator adapter
-     * @param banner        banner
-     * @param dataList      dataList
-     * @param listener      listener
-     */
-    public static void loadBanner(ConvenientBanner banner, List<?> dataList, CBViewHolderCreator holderCreator, OnItemClickListener listener) {
-        banner.setPages(holderCreator, dataList)
-                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-                .setOnItemClickListener(listener)
-                .startTurning();
-    }
+//    /**
+//     * 加载只有一张图的Banner，解决在列表中更新列表时，重复调用startTurning()，导致错误的翻页
+//     *
+//     * @param banner   banner
+//     * @param imgUrl   imgUrl
+//     * @param listener listener
+//     */
+//    public static void loadBanners(ConvenientBanner banner, List<String> imgUrl, OnItemClickListener listener) {
+//        banner.setPages(new BannerImgAdapter(), imgUrl)
+//                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
+//                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+//                .setOnItemClickListener(listener);
+//    }
+//
+//    /**
+//     * 加载自定义的Banner
+//     *
+//     * @param holderCreator adapter
+//     * @param banner        banner
+//     * @param dataList      dataList
+//     * @param listener      listener
+//     */
+//    public static void loadBanner(ConvenientBanner banner, List<?> dataList, CBViewHolderCreator holderCreator, OnItemClickListener listener) {
+//        banner.setPages(holderCreator, dataList)
+//                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
+//                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+//                .setOnItemClickListener(listener)
+//                .startTurning();
+//    }
 
     /**
      * 压缩图片
@@ -380,7 +445,7 @@ public class ImageUtils {
      * @param url
      */
     public static void loadImage(Context context, String url, SimpleTarget simpleTarget) {
-        Glide.with(context)
+        Glide.with(Utils.getApplication())
                 .asDrawable()
                 .load(url)
                 .into(simpleTarget);

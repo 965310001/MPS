@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：店铺街  店铺列表
- * 创建人：小斌
- * 创建时间: 2019/4/8
+ * @author 小斌
+ * @date 2019/4/8
  **/
 public class ShopsStreetAdapter extends BaseQuickAdapter<ShopStreetBean.StoreListBean, BaseViewHolder> {
     public ShopsStreetAdapter() {

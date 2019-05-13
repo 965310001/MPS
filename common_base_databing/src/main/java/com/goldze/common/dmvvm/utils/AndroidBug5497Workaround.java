@@ -7,8 +7,8 @@ import android.view.ViewTreeObserver;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/15
+ * @author 小斌
+ * @date 2019/4/15
  **/
 public class AndroidBug5497Workaround {
     public static void assistActivity(View content) {
@@ -22,11 +22,7 @@ public class AndroidBug5497Workaround {
     private AndroidBug5497Workaround(View content) {
         if (content != null) {
             mChildOfContent = content;
-            mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                public void onGlobalLayout() {
-                    possiblyResizeChildOfContent();
-                }
-            });
+            mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(() -> possiblyResizeChildOfContent());
             frameLayoutParams = mChildOfContent.getLayoutParams();
         }
     }

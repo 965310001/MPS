@@ -7,8 +7,8 @@ import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/3
+ * @author 小斌
+ * @date 2019/4/3
  **/
 public class HomeViewModel extends AbsViewModel<HomeRepository> {
 
@@ -16,31 +16,23 @@ public class HomeViewModel extends AbsViewModel<HomeRepository> {
         super(application);
     }
 
-    /**
-     * 获取店铺列表
-     * @param curPage
-     */
+    /*获取店铺列表*/
     public void getStoreStreet(String keyword, String area_info, String sc_id, int curPage) {
         mRepository.getStoreStreet(keyword, area_info, sc_id, curPage);
     }
 
-    /**
-     * @date 创建时间： 2019/4/3
-     * @author 创建人：小斌
-     * @Description 描述：获取店铺分类
-     * @Version
-     **/
+    /*获取店铺分类*/
     public void getStoreClass() {
         mRepository.getStoreClass();
     }
 
-    /**
-     * @date 创建时间： 2019/4/3
-     * @author 创建人：小斌
-     * @Description 描述：获取首页数据
-     * @Version
-     **/
+    /*获取首页数据*/
     public void getHomeDataList() {
         mRepository.getHomeDataList();
+    }
+
+    /*获取专题页面*/
+    public void getSpecialList(String specialId) {
+        mRepository.getSpecialList(specialId);
     }
 }

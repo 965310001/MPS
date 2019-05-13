@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -69,13 +70,14 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         setDarkMode(false);
-        Fragment[] fragmentList = {
-                HomeFragment.newInstance(),
-                ClassifyFragment.newInstance(),
-                TeacherFragment.newInstance(),
-                CartFragment.newInstance(),
-                MeFragment.newInstance()
+        Class[] fragmentList = new Class[]{
+                HomeFragment.class,
+                ClassifyFragment.class,
+                TeacherFragment.class,
+                CartFragment.class,
+                MeFragment.class
         };
+
         TypedArray tabIcon = ResourcesUtils.getInstance().obtainTypedArray(R.array.tab_icon);
         TypedArray tabIconDef = ResourcesUtils.getInstance().obtainTypedArray(R.array.tab_icon_def);
         String[] tabName = ResourcesUtils.getInstance().getStringArray(R.array.tab_name);
@@ -86,7 +88,7 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 
         for (int i = 0; i < tabIcon.length(); i++) {
             binding.bottomBar.addItem(
-                    fragmentList[i].getClass(),//Fragment
+                    fragmentList[i],//Fragment
                     tabName[i],//FragmentTitle
                     tabIconDef.getResourceId(i, 0),//UnSelectTabIcon
                     tabIcon.getResourceId(i, 0)//OnSelectTabIcon
@@ -101,15 +103,12 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
         }
 
         /*监听切换Fragment*/
-        LiveBus.getDefault().subscribe("Main", "tab", Integer.class).observeForever(new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer position) {
-                //处于活动状态则直接切换fragment，否则记录要切换到的fragment，然后等待生命周期onresume调用
-                if (isResume) {
-                    binding.bottomBar.setCurrentItem(position == null ? 0 : position);
-                } else {
-                    index = position == null ? -1 : position;
-                }
+        LiveBus.getDefault().subscribe("Main", "tab", Integer.class).observeForever(position -> {
+            //处于活动状态则直接切换fragment，否则记录要切换到的fragment，然后等待生命周期onresume调用
+            if (isResume) {
+                binding.bottomBar.setCurrentItem(position == null ? 0 : position);
+            } else {
+                index = position == null ? -1 : position;
             }
         });
 

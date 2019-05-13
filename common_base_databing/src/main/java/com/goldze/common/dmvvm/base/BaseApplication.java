@@ -22,62 +22,17 @@ import com.socks.library.KLog;
 import com.squareup.leakcanary.LeakCanary;
 import com.tqzhang.stateview.core.LoadState;
 
-import java.util.Stack;
-
-
 /**
  * @author GuoFeng
  * @date :2019/1/15 10:42
  * @description:
  */
-public abstract class BaseApplication extends Application implements Runnable, Application.ActivityLifecycleCallbacks {
-
-    /*Activity管理*/
-    public static Stack<Activity> activities = new Stack<>();
-
-    @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        Log.i("生命周期监听", "Created:" + activity.getLocalClassName());
-        activities.add(activity);
-    }
-
-    @Override
-    public void onActivityStarted(Activity activity) {
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-        Log.i("生命周期监听", "SaveInstanceState:" + activity.getLocalClassName());
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-        Log.i("生命周期监听", "Destroy:" + activity.getLocalClassName());
-        activities.remove(activity);
-        if (activities.empty()) {
-            //app退出了
-            Log.i("生命周期监听", "所有Activity均退出，应用结束运行。");
-        }
-    }
-
+public abstract class BaseApplication extends Application implements Runnable {
 
     @Override
     public void onCreate() {
         super.onCreate();
         setApplication(this, this);
-        registerActivityLifecycleCallbacks(this);
         init();
     }
 
@@ -100,6 +55,7 @@ public abstract class BaseApplication extends Application implements Runnable, A
         application.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                Log.i("生命周期监听", "Created:" + activity.getLocalClassName());
                 AppManager.getInstance().addActivity(activity);
             }
 
@@ -125,11 +81,12 @@ public abstract class BaseApplication extends Application implements Runnable, A
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
+                Log.i("生命周期监听", "SaveInstanceState:" + activity.getLocalClassName());
             }
 
             @Override
             public void onActivityDestroyed(Activity activity) {
+                Log.i("生命周期监听", "Destroy:" + activity.getLocalClassName());
                 AppManager.getInstance().removeActivity(activity);
             }
         });

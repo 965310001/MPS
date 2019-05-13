@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mingpinmall.me.ui.bean.ShopsApplyRefundBean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/cl_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/ll_shopContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="12dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toTopOf="@id/line"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_marginEnd="12dp"
+                                app:srcCompat="@drawable/ic_store_b" />
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_storeName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{data.order.store_name}"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                tools:text="品牌网自营" />
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_svg_more" />
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_orderState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:textColor="@color/app_theme_d61619"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/ll_shopContent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/ll_shopContent"
+                            tools:text="待付款" />
+
+                        <View
+                            android:id="@+id/line"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/line_hight"
+                            android:background="@color/line_color"
+                            app:layout_constraintBottom_toTopOf="@id/cl_goods"
+                            app:layout_constraintEnd_toEndOf="@id/tv_orderState"
+                            app:layout_constraintStart_toStartOf="@id/ll_shopContent"
+                            app:layout_constraintTop_toBottomOf="@id/ll_shopContent" />
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/cl_goods"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/tv_orderState"
+                            app:layout_constraintStart_toStartOf="@id/ll_shopContent"
+                            app:layout_constraintTop_toBottomOf="@id/line">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/iv_image"
+                                android:layout_width="74dp"
+                                android:layout_height="74dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginBottom="6dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/tv_label"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_label"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_marginEnd="18dp"
+                                android:maxLines="2"
+                                android:text="@{data.goods.goods_name}"
+                                android:textColor="#333"
+                                android:textSize="14sp"
+                                app:layout_constraintEnd_toStartOf="@id/tv_payMoney"
+                                app:layout_constraintStart_toEndOf="@id/iv_image"
+                                app:layout_constraintTop_toTopOf="@id/iv_image"
+                                app:layout_constraintVertical_bias="0"
+                                tools:text="这里是商品标题内容" />
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_spec"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:maxLines="2"
+                                android:text="@{data.goods.goods_spec}"
+                                android:textColor="#999"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                                app:layout_constraintEnd_toEndOf="@id/tv_label"
+                                app:layout_constraintStart_toEndOf="@id/iv_image"
+                                app:layout_constraintTop_toBottomOf="@id/tv_label"
+                                tools:text="这里是商品信息，颜色，种类等" />
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_payMoney"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text='@{"¥" + data.goods.goods_price}'
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/iv_image"
+                                tools:text="¥48.00" />
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{data.goods.goods_num}"
+                                android:textColor="@color/dark"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_payMoney"
+                                tools:text="x1" />
+
+                        </android.support.constraint.ConstraintLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/line_hight"
+                            android:background="@color/line_color"
+                            app:layout_constraintBottom_toBottomOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_gifts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:background="@drawable/shape_dashgap_gray"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/line1"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="12dp"
+                            android:gravity="center"
+                            android:text="这是一个礼物列表，有内容时显示。这个textview会被remove" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:text="@string/text_refund1"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
+                        android:id="@+id/sp_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:text="@string/text_refund2"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/ed_refundMoney"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:hint="@string/text_refund2"
+                        android:inputType="numberDecimal"
+                        android:text="@{data.goods.goods_pay_price}"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_maxRefundMoney"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#36bc9b"
+                            android:textSize="14sp"
+                            tools:text="¥50.00" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_refund5"
+                            android:textColor="#999"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:text="@string/text_refund6"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/ed_refundCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:hint="@string/text_refund6"
+                        android:inputType="number"
+                        android:text="@{data.goods.goods_num}"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_maxRefundCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#36bc9b"
+                            android:textSize="14sp"
+                            tools:text="最多1件" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_refund7"
+                            android:textColor="#999"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:text="@string/text_refund3"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/ed_refundInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:background="@color/transparent"
+                        android:hint="@string/hint_text_refund2"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_hight"
+                    android:background="@color/line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/text_refund4"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_images"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginBottom="12dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_margin="18dp"
+            android:background="@drawable/button_shape_redcolor"
+            android:gravity="center"
+            android:text="@string/text_submit"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</layout>

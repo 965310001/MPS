@@ -1,23 +1,21 @@
 package com.mingpinmall.cart.ui;
 
-
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.SmoothCheckBox;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.cart.R;
 import com.mingpinmall.cart.databinding.FragmentCartBinding;
@@ -26,9 +24,7 @@ import com.mingpinmall.cart.ui.api.CartViewModel;
 import com.mingpinmall.cart.ui.bean.AvailableCartBean;
 import com.mingpinmall.cart.ui.bean.CartQuantityState;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
-import com.mingpinmall.cart.ui.utils.SmoothCheckBox;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.mingpinmall.cart.ui.constants.Constants;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
@@ -36,6 +32,7 @@ import java.util.List;
 
 /**
  * 购物车
+ * @author 小斌
  */
 public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, CartViewModel> {
 
@@ -68,17 +65,14 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        if (EVENT_KEY.equals("")) {
+        if (EVENT_KEY.isEmpty()) {
             getViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
             ((TextView) getViewById(R.id.tv_title)).setText("购物车");
             ((ImageView) getViewById(R.id.iv_search)).setImageResource(R.drawable.ic_message_black);
             getViewById(R.id.iv_search).setVisibility(View.VISIBLE);
-            getViewById(R.id.iv_search).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //跳转消息页面，未登录则跳转登陆页面
-                    ActivityToActivity.toActivity(SharePreferenceUtil.isLogin() ? ARouterConfig.Me.MESSAGEACTIVITY : ARouterConfig.LOGINACTIVITY);
-                }
+            getViewById(R.id.iv_search).setOnClickListener(v -> {
+                //跳转消息页面，未登录则跳转登陆页面
+                ActivityToActivity.toActivity(SharePreferenceUtil.isLogin() ? ARouterConfig.Me.MESSAGEACTIVITY : ARouterConfig.LOGINACTIVITY);
             });
             //在这里设置沉浸式状态栏
             setTitlePadding(getViewById(R.id.rl_title_content));
@@ -87,12 +81,9 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         setDarkMode(true);
 
         View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
-        emptyView.findViewById(R.id.btn_action).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //切换到首页
-                LiveBus.getDefault().postEvent("Main", "tab", 0);
-            }
+        emptyView.findViewById(R.id.btn_action).setOnClickListener(v -> {
+            //切换到首页
+            LiveBus.getDefault().postEvent("Main", "tab", 0);
         });
         shopCartAdapter = new ShopCartAdapter();
         shopCartAdapter.setEmptyView(emptyView);
@@ -107,103 +98,82 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
      * 设置监听
      */
     private void setListener() {
-        binding.clNoLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转去登陆
-                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-            }
+        binding.clNoLogin.setOnClickListener(v -> {
+            //跳转去登陆
+            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         });
-        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                if (!SharePreferenceUtil.isLogin()) {
-                    binding.refreshLayout.finishRefresh(false);
-                    return;
-                }
-                lazyLoad();
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (!SharePreferenceUtil.isLogin()) {
+                binding.refreshLayout.finishRefresh(false);
+                return;
             }
+            lazyLoad();
         });
 
-        binding.tvPayNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //立即支付
+        binding.tvPayNow.setOnClickListener(v -> {
+            //立即支付
 //                ActivityToActivity.toActivity(ARouterConfig.cart.SHOPCARTACTIVITY);这个是其他地方需要跳转到购物车，又不想返回首页的时候，跳转这个activity
-            }
         });
-        binding.cbSelectAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*全选购物车或者全反选购物车*/
-                binding.cbSelectAll.toggle();
-                boolean isCheck = binding.cbSelectAll.isChecked();
-                checkedSize = isCheck ? goodsSize : 0;
-                double money = 0.0;
-                for (AvailableCartBean item : shopCartAdapter.getData()) {
-                    item.setCheck(isCheck);
-                    if (item.getItemType() == 1 && isCheck) {
-                        double price = Double.parseDouble(item.getGoods().getGoods_price());
-                        int count = Integer.parseInt(item.getGoods().getGoods_num());
-                        price = price * count;
-                        money += isCheck ? price : -price;
-                    }
+        binding.cbSelectAll.setOnClickListener(v -> {
+            /*全选购物车或者全反选购物车*/
+            binding.cbSelectAll.toggle();
+            boolean isCheck = binding.cbSelectAll.isChecked();
+            checkedSize = isCheck ? goodsSize : 0;
+            double money = 0.0;
+            for (AvailableCartBean item : shopCartAdapter.getData()) {
+                item.setCheck(isCheck);
+                if (item.getItemType() == 1 && isCheck) {
+                    double price = Double.parseDouble(item.getGoods().getGoods_price());
+                    int count = Integer.parseInt(item.getGoods().getGoods_num());
+                    price = price * count;
+                    money += isCheck ? price : -price;
                 }
-                binding.tvMoney.setText(money + "");
-                shopCartAdapter.notifyDataSetChanged();
             }
+            binding.tvMoney.setText(money + "");
+            shopCartAdapter.notifyDataSetChanged();
         });
         /*列表item的点击事件*/
-        shopCartAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AvailableCartBean data = shopCartAdapter.getItem(position);
-                if (data.getItemType() == 1) {
-                    ActivityToActivity.toActivity(
-                            ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
-                            "id",
-                            data.getGoods().getGoods_id()
-                    );
-                }
-
+        shopCartAdapter.setOnItemClickListener((adapter, view, position) -> {
+            AvailableCartBean data = shopCartAdapter.getItem(position);
+            if (data.getItemType() == 1) {
+                ActivityToActivity.toActivity(
+                        ARouterConfig.home.SHOPPINGDETAILSACTIVITY,
+                        "id",
+                        data.getGoods().getGoods_id()
+                );
             }
+
         });
         /*列表上子控件的点击事件*/
-        shopCartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
-                final AvailableCartBean data = shopCartAdapter.getItem(position);
-                if (view.getId() == R.id.iv_delete) {
-                    //移除商品
-                    TextDialog.showBaseDialog(activity, "移除商品", "确定移除这个商品吗？", new TextDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick() {
-                            mViewModel.deleteGoods(position, data.getGoods().getCart_id());
-                        }
-                    }).show();
-                } else if (view.getId() == R.id.cb_single) {
-                    //勾选反勾选
-                    ((SmoothCheckBox) view).setChecked(!((SmoothCheckBox) view).isChecked(), true);
-                    checkStateChange(data, position);
-                } else if (view.getId() == R.id.iv_jian) {
-                    //商品减一
-                    int goodsNum = Integer.parseInt(data.getGoods().getGoods_num());
-                    mViewModel.editCartQuantity(position, data.getGoods().getCart_id(), goodsNum - 1);
-                    view.setEnabled(false);
-                } else if (view.getId() == R.id.iv_jia) {
-                    //商品加一
-                    int goodsNum = Integer.parseInt(data.getGoods().getGoods_num());
-                    mViewModel.editCartQuantity(position, data.getGoods().getCart_id(), goodsNum + 1);
-                    view.setEnabled(false);
-                } else if (view.getId() == R.id.ll_listContent || view.getId() == R.id.iv_arrow) {
-                    //满即送展开与收起
-                    data.setExpanded(!data.isExpanded());
-                    shopCartAdapter.notifyItemChanged(position);
-                } else if (view.getId() == R.id.tv_coupon) {
-                    //领券
-                    Log.i("购物车", "onItemChildClick: 领取优惠券");
+        shopCartAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            final AvailableCartBean data = shopCartAdapter.getItem(position);
+            if (view.getId() == R.id.iv_delete) {
+                //移除商品
+                TextDialog.showBaseDialog(activity, "移除商品", "确定移除这个商品吗？",
+                        () -> mViewModel.deleteGoods(position, data.getGoods().getCart_id())
+                ).show();
+            } else if (view.getId() == R.id.cb_single) {
+                //勾选反勾选
+                ((SmoothCheckBox) view).setChecked(!((SmoothCheckBox) view).isChecked(), true);
+                checkStateChange(data, position);
+            } else if (view.getId() == R.id.iv_jian) {
+                //商品减一
+                int goodsNum = Integer.parseInt(data.getGoods().getGoods_num());
+                mViewModel.editCartQuantity(position, data.getGoods().getCart_id(), goodsNum - 1);
+                view.setEnabled(false);
+            } else if (view.getId() == R.id.iv_jia) {
+                //商品加一
+                int goodsNum = Integer.parseInt(data.getGoods().getGoods_num());
+                mViewModel.editCartQuantity(position, data.getGoods().getCart_id(), goodsNum + 1);
+                view.setEnabled(false);
+            } else if (view.getId() == R.id.ll_listContent || view.getId() == R.id.iv_arrow) {
+                //满即送展开与收起
+                data.setExpanded(!data.isExpanded());
+                shopCartAdapter.notifyItemChanged(position);
+            } else if (view.getId() == R.id.tv_coupon) {
+                // TODO 领券
+                Log.i("购物车", "onItemChildClick: 领取优惠券");
 
-                }
             }
         });
     }
@@ -211,8 +181,8 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     /**
      * 增加或者减少单个商品数量
      *
-     * @param position
-     * @param quantity
+     * @param position 第几个
+     * @param quantity 增量
      */
     private void changeGoodsCount(int position, int quantity) {
         AvailableCartBean data = shopCartAdapter.getItem(position);
@@ -237,8 +207,6 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
 
     /**
      * 切换选中状态，非全选按钮
-     *
-     * @param data
      */
     private void checkStateChange(AvailableCartBean data, int position) {
         boolean isCheck = !data.isCheck();
@@ -283,7 +251,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             money += data.isCheck() ? price : -price;
         }
         binding.cbSelectAll.setChecked(goodsSize != 0 && checkedSize == goodsSize, false);
-        binding.tvMoney.setText(money + "");
+        binding.tvMoney.setText(String.valueOf(money));
     }
 
     @Override
@@ -335,78 +303,60 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             itemSpace.setStore_name(cartListBean.getStore_name());
             dataList.add(itemSpace);
         }
+        binding.clPayContent.setVisibility(dataList.size() > 0 ? View.VISIBLE : View.GONE);
         shopCartAdapter.setNewData(dataList);
         binding.cbSelectAll.setChecked(checkedSize == goodsSize, false);
-        binding.tvMoney.setText(money + "");
+        binding.tvMoney.setText(String.valueOf(money));
     }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        LiveBus.getDefault().subscribe("LoginSuccess").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object isLogin) {
-                KLog.i("登陆成功，刷新数据");
+        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_SUCCESS).observeForever(isLogin -> {
+            KLog.i("登陆成功，刷新数据");
+            reGetData();
+        });
+        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_OUT).observeForever(isLogin -> {
+            KLog.i("退出登录，清除数据");
+            if (shopCartAdapter != null) {
+                shopCartAdapter.setNewData(new ArrayList<>());
+            }
+        });
+        registerObserver("SHOP_CART_REFRESH", Boolean.class).observeForever(isOk -> {
+            Log.i("购物车", "onChanged: 重获数据");
+            if (isOk) {
                 reGetData();
             }
         });
-
-        LiveBus.getDefault().subscribe("LOGIN_OUT").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object isLogin) {
-                KLog.i("退出登录，清除数据");
-                shopCartAdapter.setNewData(new ArrayList<AvailableCartBean>());
+        registerObserver(EVENT_KEY + Constants.SHOP_CART_LIST, Object.class).observeForever(result -> {
+            //获取购物车数据并处理
+            if (result instanceof ShopCartBean) {
+                formatData((ShopCartBean) result);
+                binding.refreshLayout.finishRefresh();
+            } else {
+                ToastUtils.showShort(result.toString());
+                binding.refreshLayout.finishRefresh(false);
             }
         });
-        /* 如需要刷新购物车列表，调用
-         * LiveBus.getDefault().postEvent("SHOP_CART_REFRESH", true);
-         */
-        registerObserver("SHOP_CART_REFRESH", Boolean.class).observeForever(new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean o) {
-                Log.i("购物车", "onChanged: 重获数据");
-                if (o)
-                    reGetData();
-            }
-        });
-        registerObserver(EVENT_KEY + "SHOP_CART_LIST", Object.class).
-                observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //获取购物车数据并处理
-                        if (result instanceof ShopCartBean) {
-                            formatData((ShopCartBean) result);
-                            binding.refreshLayout.finishRefresh();
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                            binding.refreshLayout.finishRefresh(false);
-                        }
-                    }
-                });
-        registerObserver("CART_QUANTITY", CartQuantityState.class).observeForever(new Observer<CartQuantityState>() {
-            @Override
-            public void onChanged(@Nullable CartQuantityState result) {
-                //购物车商品数量增加和减少
-                if (result.isSuccess()) {
-                    changeGoodsCount(result.getPosition(), result.getQuantity());
-                } else {
-                    if (result.getMsg().equals("参数错误")) {
-                        lazyLoad();
-                    }
-                    ToastUtils.showShort(result.getMsg());
+        registerObserver(Constants.CART_QUANTITY, CartQuantityState.class).observeForever(result -> {
+            //购物车商品数量增加和减少
+            if (result.isSuccess()) {
+                changeGoodsCount(result.getPosition(), result.getQuantity());
+            } else {
+                if (TextUtils.equals("参数错误", result.getMsg())) {
+                    lazyLoad();
                 }
+                ToastUtils.showShort(result.getMsg());
             }
         });
-        registerObserver("CART_DELETE", CartQuantityState.class).observeForever(new Observer<CartQuantityState>() {
-            @Override
-            public void onChanged(@Nullable CartQuantityState result) {
-                //购物车商品删除
-                if (result.isSuccess()) {
-                } else {
-                    ToastUtils.showShort(result.getMsg());
-                }
-                lazyLoad();
+        registerObserver(Constants.CART_DELETE, CartQuantityState.class).observeForever(result -> {
+            //购物车商品删除
+            if (result.isSuccess()) {
+                ToastUtils.showShort("删除成功");
+            } else {
+                ToastUtils.showShort(result.getMsg());
             }
+            lazyLoad();
         });
     }
 
@@ -422,7 +372,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         binding.clNoLogin.setVisibility(!SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
         binding.clPayContent.setVisibility(SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
         if (!SharePreferenceUtil.isLogin() && shopCartAdapter.getItemCount() > 0) {
-            shopCartAdapter.setNewData(new ArrayList<AvailableCartBean>());
+            shopCartAdapter.setNewData(new ArrayList<>());
         }
     }
 

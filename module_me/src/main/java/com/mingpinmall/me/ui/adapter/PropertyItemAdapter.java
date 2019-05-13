@@ -10,13 +10,14 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：我的财产页面Item
- * 创建人：小斌
- * 创建时间: 2019/3/25
+ *
+ * @author 小斌
+ * @date 2019/3/25
  **/
 public class PropertyItemAdapter extends BaseMultiItemQuickAdapter<BaseItemBean, BaseViewHolder> {
 
     public PropertyItemAdapter() {
-        super(new ArrayList<BaseItemBean>());
+        super(new ArrayList<>());
         addItemType(0, R.layout.item_default_space);
         addItemType(1, R.layout.item_base_setting);
     }
@@ -37,6 +38,8 @@ public class PropertyItemAdapter extends BaseMultiItemQuickAdapter<BaseItemBean,
                 settingItemView.setSubTitle(item.getSubTitle() == null ? "" : item.getSubTitle());
                 settingItemView.setDescription(item.getDescription() == null ? "" : item.getDescription());
                 settingItemView.setImageIcon(item.getDrawable());
+                break;
+            default:
                 break;
         }
 

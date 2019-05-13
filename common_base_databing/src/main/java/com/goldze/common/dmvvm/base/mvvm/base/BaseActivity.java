@@ -11,7 +11,8 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ import com.goldze.common.dmvvm.databinding.ActivityBaseBinding;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.xutils.ViewUtils;
 import com.gyf.barlibrary.ImmersionBar;
-
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 import com.xuexiang.xui.XUI;
@@ -40,10 +40,9 @@ import com.xuexiang.xui.widget.tabbar.TabControlView;
  * @date :2019/1/16 14:40
  * @description: 基类Activity
  */
-public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentActivity implements View.OnClickListener, ILoadManager {
+public abstract class BaseActivity<VD extends ViewDataBinding> extends AppCompatActivity implements View.OnClickListener, ILoadManager {
 
     protected ActivityBaseBinding baseBinding;
-
     private LoadManager loadManager;
     protected Activity activity;
 
@@ -55,10 +54,16 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
 
     private ImmersionBar mImmersionBar;
     private ViewGroup contentLayout;
-    //黑色状态栏字体
+    /**
+     * 黑色状态栏字体
+     */
     private boolean darkMode = true;
 
     protected VD binding;
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -211,14 +216,17 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends FragmentA
     /*字体适配*/
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.fontScale != -1) getResources();
+        if (newConfig.fontScale != -1) {
+            getResources();
+        }
         super.onConfigurationChanged(newConfig);
     }
 
     @Override
     public Resources getResources() {
         Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
+        if (res.getConfiguration().fontScale != 1) {
+            //非默认值
             Configuration newConfig = new Configuration();
             newConfig.setToDefaults();//设置默认
             res.updateConfiguration(newConfig, res.getDisplayMetrics());

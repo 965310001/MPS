@@ -5,8 +5,8 @@ import java.util.List;
 
 /**
  * 功能描述：退款列表
- * 创建人：小斌
- * 创建时间: 2019/4/22
+ * *@author 小斌
+ * @date 2019/4/22
  **/
 public class RefundBean implements Serializable {
 
@@ -144,39 +144,39 @@ public class RefundBean implements Serializable {
 
             private String goods_id;
             private String goods_name;
-            private Object goods_spec;
+            private String goods_spec;
             private String goods_img_360;
 
             public String getGoods_id() {
-                return goods_id;
+                return goods_id == null ? "" : goods_id;
             }
 
             public void setGoods_id(String goods_id) {
-                this.goods_id = goods_id;
+                this.goods_id = goods_id == null ? "" : goods_id;
             }
 
             public String getGoods_name() {
-                return goods_name;
+                return goods_name == null ? "" : goods_name;
             }
 
             public void setGoods_name(String goods_name) {
-                this.goods_name = goods_name;
+                this.goods_name = goods_name == null ? "" : goods_name;
             }
 
-            public Object getGoods_spec() {
-                return goods_spec;
+            public String getGoods_spec() {
+                return goods_spec == null ? "" : goods_spec;
             }
 
-            public void setGoods_spec(Object goods_spec) {
-                this.goods_spec = goods_spec;
+            public void setGoods_spec(String goods_spec) {
+                this.goods_spec = goods_spec == null ? "" : goods_spec;
             }
 
             public String getGoods_img_360() {
-                return goods_img_360;
+                return goods_img_360 == null ? "" : goods_img_360;
             }
 
             public void setGoods_img_360(String goods_img_360) {
-                this.goods_img_360 = goods_img_360;
+                this.goods_img_360 = goods_img_360 == null ? "" : goods_img_360;
             }
         }
     }

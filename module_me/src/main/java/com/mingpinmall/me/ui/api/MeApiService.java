@@ -3,21 +3,188 @@ package com.mingpinmall.me.ui.api;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.bean.NewDatasResponse;
 import com.mingpinmall.me.ui.bean.*;
 
+import java.util.Map;
+
 import io.reactivex.Flowable;
+import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/1
+ * @author 小斌
+ * @date 2019/4/1
  **/
 public interface MeApiService {
+
+    /**
+     * 描述：上传文件
+     * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=sns_album&wwi=file_upload
+     * 请求方式：GET
+     * 参数
+     * order_id
+     */
+    String UPLOAD_FILES = "/mo_bile/index.php?app=sns_album&wwi=file_upload";
+
+    @Multipart
+    @POST(UPLOAD_FILES)
+    Flowable<BaseResponse<UploadFilesBean>> uploadFiles(
+            @Part("key") String key,
+            @Part RequestBody file
+    );
+
+    /**
+     * 描述：提交商品评价
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_evaluate&wwi=save
+     * 请求方式：GET
+     * 参数
+     * order_id
+     */
+    String SENDEVALUATE = "/mo_bile/index.php?app=member_evaluate&wwi=save";
+
+    @Multipart
+    @POST(SENDEVALUATE)
+    Flowable<BaseNothingBean> sendEvaluate(
+            @Part("jsonData") String json,
+            @PartMap() Map<String, RequestBody> files
+    );
+
+    /**
+     * 描述：提交 商品 退款&退货
+     * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=member_refund&wwi=refund_post
+     * 请求方式：POST
+     * 参数
+     * order_id
+     * order_goods_id
+     */
+    String SHOPS_REFUND_UPLOAD = "/mo_bile/index.php?app=member_refund&wwi=refund_post";
+
+    @Multipart
+    @POST(SHOPS_REFUND_UPLOAD)
+    Flowable<BaseNothingBean> postRefund(
+            @PartMap Map<String, RequestBody> images
+    );
+
+    /**
+     * 描述：提交 订单 退款
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_refund&wwi=refund_all_post
+     * 请求方式：POST
+     * 参数
+     * order_id
+     * order_goods_id
+     */
+    String ORDER_REFUND_UPLOAD = "/mo_bile/index.php?app=member_refund&wwi=refund_all_post";
+
+    @Multipart
+    @POST(ORDER_REFUND_UPLOAD)
+    Flowable<BaseNothingBean> postOrderRefund(
+            @PartMap Map<String, RequestBody> images
+    );
+
+    /**
+     * 描述：获取 商品退款&退货
+     * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=member_refund&wwi=refund_form&key=&order_id=&order_goods_id=
+     * 请求方式：GET
+     * 参数
+     * order_id
+     * order_goods_id
+     */
+    String SHOPS_REFUND_INFO = "/mo_bile/index.php?app=member_refund&wwi=refund_form";
+
+    @GET(SHOPS_REFUND_INFO)
+    Flowable<BaseResponse<ShopsApplyRefundBean>> getRefundShopsInfo(
+            @Query("key") String key,
+            @Query("order_id") String order_id,
+            @Query("order_goods_id") String order_goods_id
+    );
+
+    /**
+     * 描述：获取 订单退款
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_refund&wwi=refund_all_form&key=&order_id=
+     * 请求方式：GET
+     * 参数
+     * order_id
+     */
+    String ORDER_REFUND_INFO = "/mo_bile/index.php?app=member_refund&wwi=refund_all_form";
+
+    @GET(ORDER_REFUND_INFO)
+    Flowable<BaseResponse<OrderApplyRefundBean>> getRefundOrderInfo(
+            @Query("key") String key,
+            @Query("order_id") String order_id
+    );
+
+    /**
+     * 描述：获取该订单下可评价商品列表
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_evaluate&wwi=index
+     * 请求方式：GET
+     * 参数
+     * order_id
+     */
+    String ORDEREVALUATE = "/mo_bile/index.php?app=member_evaluate&wwi=index";
+
+    @GET(ORDEREVALUATE)
+    Flowable<BaseResponse<OrderEvaluateBean>> getOrderEvaluate(
+            @Query("key") String key,
+            @Query("order_id") String order_id
+    );
+
+    /**
+     * 描述：我的推广码子功能2:提现申请
+     * 请求 URL: https://www.mingpinmall.cn/member/index.php?app=predeposit&wwi=pd_cash_add&inajax=1
+     * 请求方式：POST
+     * 参数
+     * <p>
+     * type: phone
+     * pdc_bank_user: 44
+     * pdc_bank_no: 33
+     * pdc_bank_name: 22
+     * pdc_amount: 11
+     * password: 55
+     * form_submit: ok
+     */
+    String PD_CASH_ADD = "/mo_bile/index.php?app=predeposit&wwi=pd_cash_add";
+
+    @FormUrlEncoded
+    @POST(PD_CASH_ADD)
+    Flowable<BaseNothingBean> addPdCash(
+            @Field("key") String key,
+            @Field("type") String type,
+            @Field("pdc_bank_user") String pdc_bank_user,
+            @Field("pdc_bank_no") String pdc_bank_no,
+            @Field("pdc_bank_name") String pdc_bank_name,
+            @Field("pdc_amount") String pdc_amount,
+            @Field("password") String password,
+            @Field("form_submit") String form_submit,
+            @Field("inajax") int inajax
+    );
+
+    /**
+     * 描述：我的推广码子功能1:绑定邀请码
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_buy&wwi=BindUserCode
+     * 请求方式：POST
+     * 参数
+     * <p>
+     * parent_id: 1111
+     * type: 1
+     */
+    String BIND_USER_CODE = "/mo_bile/index.php?app=member_buy&wwi=BindUserCode";
+
+    @FormUrlEncoded
+    @POST(BIND_USER_CODE)
+    Flowable<BaseNothingBean> bindUserCode(
+            @Field("key") String key,
+            @Field("parent_id") String parent_id,
+            @Field("type") int type
+    );
 
     /**
      * 描述：消息记录
@@ -35,6 +202,20 @@ public interface MeApiService {
             @Field("recent") int recent
     );
 
+    /**
+     * 描述：我的推广码
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_buy&wwi=reduceCash
+     * 请求方式：POST
+     * 参数
+     * recent: 1
+     */
+    String REDUCECASH = "/mo_bile/index.php?app=member_buy&wwi=reduceCash";
+
+    @FormUrlEncoded
+    @POST(REDUCECASH)
+    Flowable<BaseResponse<ReduceCashBean>> getReduceCash(
+            @Field("key") String key
+    );
 
     /**
      * 描述：删除一条消息记录
@@ -245,7 +426,7 @@ public interface MeApiService {
      * 请求参数：
      * order_id:订单id
      */
-    String RECEIVE_ORDER = "/mo_bile/index.php?app=member_order&wwi=order_cancel";
+    String RECEIVE_ORDER = "/mo_bile/index.php?app=member_order&wwi=order_receive";
 
     @POST(RECEIVE_ORDER)
     @FormUrlEncoded
@@ -343,7 +524,7 @@ public interface MeApiService {
     String REFUND_INFORMATION = "/mo_bile/index.php?app=member_refund&wwi=get_refund_info";
 
     @GET(REFUND_INFORMATION)
-    Flowable<BaseResponse<RefundInformation>> getRefundInformation(
+    Flowable<NewDatasResponse<RefundInformationBean>> getRefundInformation(
             @Query("key") String key,
             @Query("refund_id") String refundId
     );
@@ -357,7 +538,7 @@ public interface MeApiService {
     String RETURN_INFORMATION = "/mo_bile/index.php?app=member_return&wwi=get_return_info";
 
     @GET(RETURN_INFORMATION)
-    Flowable<BaseResponse<ReturnInformation>> getReturnInformation(
+    Flowable<NewDatasResponse<ReturnInformationBean>> getReturnInformation(
             @Query("key") String key,
             @Query("return_id") String returnId
     );
@@ -497,10 +678,10 @@ public interface MeApiService {
      * 请求参数：
      * feedback:反馈内容
      */
-    String FeedBack = "mo_bile/index.php?app=member_feedback&wwi=feedback_add";
+    String FEED_BACK = "mo_bile/index.php?app=member_feedback&wwi=feedback_add";
 
     @FormUrlEncoded
-    @POST(FeedBack)
+    @POST(FEED_BACK)
     Flowable<BaseResponse<BaseIntDatasBean>> sendFeedBack(
             @Field("key") String key,
             @Field("feedback") String feedback
@@ -513,10 +694,9 @@ public interface MeApiService {
      * 请求方式：GET
      * 请求参数：无
      */
-    String ShopsCollectList = "/mo_bile/index.php?app=member_favorites_store&wwi=favorites_list";
+    String SHOPS_COLLECT_LIST = "/mo_bile/index.php?app=member_favorites_store&wwi=favorites_list";
 
-    /*店铺收藏*/
-    @GET(ShopsCollectList)
+    @GET(SHOPS_COLLECT_LIST)
     Flowable<BaseResponse<ShopsCollectionBean>> getShopsCollectList(
             @Query("key") String key,
             @Query("curpage") int curpage,
@@ -566,10 +746,9 @@ public interface MeApiService {
      * 请求方式：GET
      * 请求参数：无
      */
-    String ProductCollectList = "/mo_bile/index.php?app=member_favorites&wwi=favorites_list";
+    String PRODUCT_COLLECT_LIST = "/mo_bile/index.php?app=member_favorites&wwi=favorites_list";
 
-    /*产品收藏*/
-    @GET(ProductCollectList)
+    @GET(PRODUCT_COLLECT_LIST)
     Flowable<BaseResponse<ProductCollectionBean>> getProductCollectList(
             @Query("key") String key,
             @Query("curpage") int curpage,
@@ -615,9 +794,9 @@ public interface MeApiService {
      * 请求参数：
      * order_id:订单id
      */
-    String OrderInformation = "/mo_bile/index.php?app=member_order&wwi=order_info";
+    String ORDER_INFORMATION = "/mo_bile/index.php?app=member_order&wwi=order_info";
 
-    @GET(OrderInformation)
+    @GET(ORDER_INFORMATION)
     Flowable<BaseResponse<OrderInformationBean>> getOrderInformation(
             @Query("key") String key,
             @Query("order_id") String order_id
@@ -636,11 +815,11 @@ public interface MeApiService {
      * [state_noeval:待评价]
      * Order_key:搜索内容，产品标题或订单号
      */
-    String GetPhysicalOrder = "/mo_bile/index.php?app=member_order&wwi=order_list";
+    String GET_PHYSICAL_ORDER = "/mo_bile/index.php?app=member_order&wwi=order_list";
 
     @FormUrlEncoded
-    @POST(GetPhysicalOrder)
-    Flowable<BaseResponse<PhysicalOrderBean>> getPhysicalOrderList(
+    @POST(GET_PHYSICAL_ORDER)
+    Flowable<NewDatasResponse<PhysicalOrderBean>> getPhysicalOrderList(
             @Field("key") String key,
             @Field("state_type") String state_type,
             @Field("order_key") String order_key,
@@ -659,10 +838,10 @@ public interface MeApiService {
      * [state_pay:待使用]
      * Order_key:搜索内容，产品标题或订单号
      */
-    String GetVirtualOrder = "/mo_bile/index.php?app=member_vr_order&wwi=order_list";
+    String GET_VIRTUAL_ORDER = "/mo_bile/index.php?app=member_vr_order&wwi=order_list";
 
     @FormUrlEncoded
-    @POST(GetVirtualOrder)
+    @POST(GET_VIRTUAL_ORDER)
     Flowable<BaseResponse<VirtualOrderBean>> getVirtualOrderList(
             @Field("key") String key,
             @Field("state_type") String state_type,
@@ -678,9 +857,9 @@ public interface MeApiService {
      * 请求方式：get
      * 请求参数：无
      */
-    String MyFootprint = "/mo_bile/index.php?app=member_goodsbrowse&wwi=browse_list";
+    String MY_FOOTPRINT = "/mo_bile/index.php?app=member_goodsbrowse&wwi=browse_list";
 
-    @GET(MyFootprint)
+    @GET(MY_FOOTPRINT)
     Flowable<BaseResponse<FootprintBean>> getFootprint(
             @Query("key") String key,
             @Query("page") int page,
@@ -693,9 +872,9 @@ public interface MeApiService {
      * 请求方式：get
      * 请求参数：无
      */
-    String ClearnFootprint = "/mo_bile/index.php?app=member_goodsbrowse&wwi=browse_clearall";
+    String CLEARN_FOOTPRINT = "/mo_bile/index.php?app=member_goodsbrowse&wwi=browse_clearall";
 
-    @GET(ClearnFootprint)
+    @GET(CLEARN_FOOTPRINT)
     Flowable<BaseNothingBean> clearnFootprint(
             @Query("key") String key,
             @Query("_client") String client
@@ -707,9 +886,9 @@ public interface MeApiService {
      * 请求方式：get
      * 请求参数：无
      */
-    String myAsset = "/mo_bile/index.php?app=member_index&wwi=my_asset";
+    String MYASSET = "/mo_bile/index.php?app=member_index&wwi=my_asset";
 
-    @GET(myAsset)
+    @GET(MYASSET)
     Flowable<BaseResponse<PropertyBean>> getMyAsset(
             @Query("key") String key
     );
@@ -723,9 +902,9 @@ public interface MeApiService {
      * key:用户key
      * area_id:地区id
      */
-    String GetCity = "/mo_bile/index.php?app=area&wwi=area_list";
+    String GET_CITY = "/mo_bile/index.php?app=area&wwi=area_list";
 
-    @GET(GetCity)
+    @GET(GET_CITY)
     Flowable<BaseResponse<CityBean>> getCityList(
             @Query("key") String key,
             @Query("area_id") String area_id
@@ -737,9 +916,9 @@ public interface MeApiService {
      * 请求方式：get
      * 请求参数：无
      */
-    String AddressList = "/mo_bile/index.php?app=member_address&wwi=address_list";
+    String ADDRESS_LIST = "/mo_bile/index.php?app=member_address&wwi=address_list";
 
-    @GET(AddressList)
+    @GET(ADDRESS_LIST)
     Flowable<BaseResponse<AddressDataBean>> getAddressList(
             @Query("key") String key
     );
@@ -751,10 +930,10 @@ public interface MeApiService {
      * 请求参数：
      * address_id:地址id
      */
-    String GetAddress = "/mo_bile/index.php?app=member_address&wwi=address_info";
+    String GET_ADDRESS = "/mo_bile/index.php?app=member_address&wwi=address_info";
 
     @FormUrlEncoded
-    @POST(GetAddress)
+    @POST(GET_ADDRESS)
     Flowable<BaseResponse<AddressDataBean.AddressListBean>> getAddress(
             @Field("key") String key,
             @Field("address_id") String address_id
@@ -767,10 +946,10 @@ public interface MeApiService {
      * 请求参数：
      * address_id:地址id
      */
-    String DelAddress = "/mo_bile/index.php?app=member_address&wwi=address_del";
+    String DEL_ADDRESS = "/mo_bile/index.php?app=member_address&wwi=address_del";
 
     @FormUrlEncoded
-    @POST(DelAddress)
+    @POST(DEL_ADDRESS)
     Flowable<BaseNothingBean> delAddress(
             @Field("key") String key,
             @Field("address_id") String address_id
@@ -789,10 +968,10 @@ public interface MeApiService {
      * address:详细地址 名字
      * mob_phone:联系手机
      */
-    String AddAddress = "/mo_bile/index.php?app=member_address&wwi=address_add";
+    String ADD_ADDRESS = "/mo_bile/index.php?app=member_address&wwi=address_add";
 
     @FormUrlEncoded
-    @POST(AddAddress)
+    @POST(ADD_ADDRESS)
     Flowable<BaseNothingBean> addAddress(
             @Field("key") String key,
             @Field("is_default") int id_default,
@@ -818,10 +997,10 @@ public interface MeApiService {
      * address:详细地址 名字
      * mob_phone:联系手机
      */
-    String EditAddress = "/mo_bile/index.php?app=member_address&wwi=address_edit";
+    String EDIT_ADDRESS = "/mo_bile/index.php?app=member_address&wwi=address_edit";
 
     @FormUrlEncoded
-    @POST(EditAddress)
+    @POST(EDIT_ADDRESS)
     Flowable<BaseNothingBean> editAddress(
             @Field("key") String key,
             @Field("address_id") String address_id,

@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,8 +24,8 @@ import java.util.List;
 
 /**
  * 功能描述：底部导航栏
- * 创建人：小斌
- * 创建时间: 2019/4/26
+ * @author 小斌
+ * @date 2019/4/26
  * 原作简书：https://www.jianshu.com/p/75f82b7d3f34
  **/
 public class BottomBar extends View {
@@ -138,8 +139,14 @@ public class BottomBar extends View {
             iconRectList.add(rect);
 
             Class clx = fragmentClassList.get(i);
+            String cln = clx.getSimpleName();
+
             try {
-                Fragment fragment = (Fragment) clx.newInstance();
+                //这里为了防止activity被回收后重启activity出现fragment重叠的问题。
+                Fragment fragment = ((AppCompatActivity)context).getSupportFragmentManager().findFragmentByTag(cln);
+                if (fragment == null) {
+                    fragment= (Fragment) clx.newInstance();
+                }
                 fragmentList.add(fragment);
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
@@ -328,7 +335,7 @@ public class BottomBar extends View {
         int frameLayoutId = containerId;
 
         if (fragment != null) {
-            FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
             if (fragment.isAdded()) {
                 if (currentFragment != null) {
                     transaction.hide(currentFragment).show(fragment);
@@ -336,10 +343,11 @@ public class BottomBar extends View {
                     transaction.show(fragment);
                 }
             } else {
+                //add fragment的时候，给加上tag，值为这个fragment的class name。
                 if (currentFragment != null) {
-                    transaction.hide(currentFragment).add(frameLayoutId, fragment);
+                    transaction.hide(currentFragment).add(frameLayoutId, fragment, fragment.getClass().getSimpleName());
                 } else {
-                    transaction.add(frameLayoutId, fragment);
+                    transaction.add(frameLayoutId, fragment, fragment.getClass().getSimpleName());
                 }
             }
             currentFragment = fragment;

@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#D5FFFFFF"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/ll_QRCode"
@@ -45,27 +45,35 @@
                 app:layout_constraintTop_toTopOf="@id/sv_search">
 
                 <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:padding="3dp"
-                    app:srcCompat="@drawable/ic_scan" />
+                    android:id="@+id/iv_scan"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/ic_scans_new_black" />
 
             </LinearLayout>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/sv_search"
                 android:layout_width="0dp"
-                android:layout_height="32dp"
+                android:layout_height="30dp"
                 android:layout_margin="6dp"
                 android:background="@drawable/button_white_search"
-                android:drawableLeft="@drawable/search"
-                android:drawablePadding="6dp"
                 android:gravity="center_vertical"
-                android:paddingStart="8dp"
+                android:paddingStart="36dp"
+                android:paddingEnd="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/ll_msg"
                 app:layout_constraintStart_toEndOf="@id/ll_QRCode"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="6dp"
+                app:layout_constraintBottom_toBottomOf="@id/sv_search"
+                app:layout_constraintStart_toStartOf="@id/sv_search"
+                app:layout_constraintTop_toTopOf="@id/sv_search"
+                app:srcCompat="@drawable/ic_svg_cearch" />
 
             <LinearLayout
                 android:id="@+id/ll_msg"
@@ -82,13 +90,15 @@
                 app:layout_constraintTop_toTopOf="@id/sv_search">
 
                 <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    app:srcCompat="@drawable/ic_message_black" />
+                    android:id="@+id/iv_msg"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/ic_msg_new_black" />
 
             </LinearLayout>
 
             <View
+                android:id="@+id/line_top"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_hight"
                 android:background="@color/line_color"
@@ -113,7 +123,7 @@
         <RelativeLayout
             android:id="@+id/content_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
         </RelativeLayout>
     </FrameLayout>

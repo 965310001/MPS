@@ -24,19 +24,6 @@ public class BaseResponse<T> extends BaseBean {
     private T data;
 
     /**
-     * 补充 部分接口需要使用到
-     */
-    private List<T> newdata;
-
-    public List<T> getNewdata() {
-        return newdata;
-    }
-
-    public void setNewdata(List<T> newdata) {
-        this.newdata = newdata;
-    }
-
-    /**
      * 补充
      * {
      *     "code": 400,

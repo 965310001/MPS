@@ -5,64 +5,38 @@ import android.os.Bundle;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
+import com.goldze.common.dmvvm.base.mvvm.base.BaseTabsActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.databinding.ActivityCollectionBinding;
-import com.mingpinmall.me.ui.acitivity.order.RefundOrder.RefundFragment;
-import com.mingpinmall.me.ui.acitivity.order.RefundOrder.ReturnFragment;
-import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
-import com.xuexiang.xui.widget.tabbar.TabControlView;
+import com.mingpinmall.me.ui.acitivity.order.refundorder.RefundFragment;
+import com.mingpinmall.me.ui.acitivity.order.refundorder.ReturnFragment;
 
 /**
  * 功能描述：我的订单 > 退款/退货
- * 创建人：小斌
- * 创建时间: 2019/3/27
+ * @author 小斌
+ * @date 2019/3/27
  **/
 @Route(path = ARouterConfig.Me.REFUNDACTIVITY)
-public class RefundActivity extends BaseActivity<ActivityCollectionBinding> {
+public class RefundActivity extends BaseTabsActivity {
 
     @Autowired
-    int pageIndex = 0;
-
-    private ReturnFragment returnFragment;
-    private RefundFragment refundFragment;
-
-    private BasePagerAdapter pagerAdapter;
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_collection;
-    }
-
-    @Override
-    protected boolean isTabsBar() {
-        return true;
-    }
+    int pageIndex;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
+        setIndex(pageIndex);
+        super.initViews(savedInstanceState);
+    }
 
-        returnFragment = new ReturnFragment();
-        refundFragment = new RefundFragment();
-        pagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), this);
-        pagerAdapter.addFragment(refundFragment, getString(R.string.tabs_text_refundMoney));
-        pagerAdapter.addFragment(returnFragment, getString(R.string.tabs_text_refund));
-        binding.viewPager.setAdapter(pagerAdapter);
-        binding.viewPager.setNoScroll(true);
-        tabControlView.setOnTabSelectionChangedListener(new TabControlView.OnTabSelectionChangedListener() {
-            @Override
-            public void newSelection(String title, String value) {
-                binding.viewPager.setCurrentItem(value.equals("1") ? 0 : 1, false);
-            }
-        });
-        try {
-            tabControlView.setItems(new String[]{getString(R.string.tabs_text_refundMoney), getString(R.string.tabs_text_refund)}, new String[]{"1", "2"});
-            tabControlView.setDefaultSelection(pageIndex);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    protected String[] initTabs() {
+        return new String[]{getString(R.string.tabs_text_refundMoney), getString(R.string.tabs_text_refund)};
+    }
+
+    @Override
+    protected Class[] initFragments() {
+        return new Class[]{RefundFragment.class, ReturnFragment.class};
     }
 
 }

@@ -6,109 +6,116 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="@drawable/button_foreground"
         android:background="@color/white"
-        android:elevation="1dp">
+        android:elevation="1dp"
+        android:foreground="@drawable/button_foreground">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/tv_label"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@id/ll_info_content"
-            app:layout_constraintEnd_toStartOf="@id/iv_delete"
-            app:layout_constraintStart_toEndOf="@id/iv_image"
-            app:layout_constraintTop_toTopOf="@id/iv_image" />
-
-        <LinearLayout
-            android:id="@+id/ll_info_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/iv_image"
-            app:layout_constraintEnd_toEndOf="@id/tv_label"
-            app:layout_constraintStart_toStartOf="@id/tv_label"
-            app:layout_constraintTop_toBottomOf="@id/tv_label">
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@id/tv_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_label"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="粉丝: "
-                android:textSize="13sp" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_fans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:text="9999"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                app:layout_constraintBottom_toTopOf="@id/ll_info_content"
+                app:layout_constraintEnd_toStartOf="@id/iv_delete"
+                app:layout_constraintStart_toEndOf="@id/iv_image"
+                app:layout_constraintTop_toTopOf="@id/iv_image" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_info_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text=" 人    商品:"
-                android:textSize="13sp" />
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                app:layout_constraintEnd_toEndOf="@id/tv_label"
+                app:layout_constraintStart_toStartOf="@id/tv_label"
+                app:layout_constraintTop_toBottomOf="@id/tv_label">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:text="1"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="粉丝: "
+                    android:textSize="13sp" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 件"
-                android:textSize="13sp" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_fans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:text="9999"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-        </LinearLayout>
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 人    商品:"
+                    android:textSize="13sp" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="8dp"
-            android:layout_marginEnd="12dp"
-            android:src="@drawable/ic_del"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:text="1"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="@dimen/line_hight"
-            android:background="@color/line_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/tv_label"
-            app:layout_constraintStart_toStartOf="@id/tv_label" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 件"
+                    android:textSize="13sp" />
 
-    </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="12dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_del"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_label"
+                app:layout_constraintStart_toStartOf="@id/tv_label" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
+
 </layout>

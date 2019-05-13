@@ -8,6 +8,46 @@
     <string name="text_isLoginOut">是否退出该账号？</string>
     <string name="text_submit">提交</string>
 
+    <!-- OrderRefundActivity ApplyRefundActivity & ApplyReturnActivity -->
+    <string name="title_OrderRefundActivity">订单退款</string>
+    <string name="title_ApplyRefundActivity">商品退款</string>
+    <string name="title_ApplyReturnActivity">商品退货</string>
+    <string name="text_refund1">退款原因</string>
+    <string name="text_refund2">退款金额</string>
+    <string name="text_refund3">退款说明</string>
+    <string name="text_refund4">退款凭证</string>
+    <string name="text_refund5">最多可退金额</string>
+    <string name="text_refund6">退货数量</string>
+    <string name="text_refund7">最多可退数量</string>
+    <string name="hint_text_refund">申请原因！</string>
+    <string name="hint_text_refund1">取消订单，全部退款</string>
+    <string name="hint_text_refund2">请输入您要退款的说明文字</string>
+    <!-- OrderRefundActivity ApplyRefundActivity  & ApplyReturnActivity Over -->
+
+    <!-- OrderEvaluateActivity -->
+    <string name="title_OrderEvaluateActivity">评价订单</string>
+    <string name="button_text_submitEvaluate">提交评价</string>
+    <string name="text_anonymity">匿名</string>
+    <string name="text_evaluate">商品评分</string>
+    <string name="text_showPic">晒图</string>
+    <string name="hint_text_evaluate">亲，写点什么吧，您的意见对其他买家有很大帮助！</string>
+    <!-- OrderEvaluateActivity Over -->
+
+    <!-- ReduceCashActivity -->
+    <string name="title_ReduceCashActivity">余额提现</string>
+    <string name="label_text_reduce">提现余额</string>
+    <string name="tabs_text_reduce1">邀请码</string>
+    <string name="button_text_reduce1">立即绑定</string>
+    <string name="tabs_text_reduce2">提现申请</string>
+    <string name="button_text_reduce2">提交申请</string>
+    <string name="hint_text_reduce1_ed1">朋友邀请码</string>
+    <string name="hint_text_reduce2_ed1">提现金额</string>
+    <string name="hint_text_reduce2_ed2">收款方</string>
+    <string name="hint_text_reduce2_ed3">收款账号</string>
+    <string name="hint_text_reduce2_ed4">用户名</string>
+    <string name="hint_text_reduce2_ed5">支付密码</string>
+    <!-- ReduceCashActivity Over -->
+
     <!-- OrderDeliveryActivity -->
     <string name="title_OrderDeliveryActivity">物流信息</string>
     <string name="text_deliveryInfo">物流公司：</string>
@@ -36,6 +76,24 @@
 
     <!-- PhysicalOrderInformationActivity -->
     <string name="title_OrderInformation">订单详情</string>
+    <string name="text_phsi_0">交易状态</string>
+    <string name="text_phsi_1">买家留言</string>
+    <string name="text_phsi_2">发票信息</string>
+    <string name="text_phsi_3">付款方式</string>
+    <string name="text_phsi_4">联系客服</string>
+    <string name="text_phsi_5">拨打电话</string>
+    <string name="text_phsi_6">优惠</string>
+    <string name="text_phsi_7">运费</string>
+    <string name="text_phsi_8">实付款(含运费)</string>
+    <string name="text_phsi_9">退款/退货中…</string>
+    <string name="text_phsi_10">订单编号：</string>
+    <string name="text_phsi_11">创建时间：</string>
+    <string name="text_phsi_12">付款时间：</string>
+    <string name="text_phsi_13">发货时间：</string>
+    <string name="text_phsi_14">完成时间：</string>
+    <string name="text_phsi_15">收货地址：</string>
+    <string name="text_phsi_16">收货人：</string>
+    <string name="text_rmb">¥</string>
     <!-- PhysicalOrderInformationActivity Over -->
 
     <!-- CollectionActivity -->

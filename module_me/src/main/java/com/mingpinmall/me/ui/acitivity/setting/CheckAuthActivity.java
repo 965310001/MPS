@@ -1,40 +1,34 @@
 package com.mingpinmall.me.ui.acitivity.setting;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
-import com.google.gson.Gson;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityResetCheckBinding;
-import com.mingpinmall.me.databinding.ActivityResetPasswordBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
-import com.mingpinmall.me.ui.bean.MyInfoBean;
+import com.mingpinmall.me.ui.bean.SmsBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.xuexiang.xui.utils.CountDownButtonHelper;
+
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：重设密码
- * 创建人：小斌
- * 创建时间: 2019/4/2
+ *
+ * @author 小斌
+ * @date 2019/4/2
  **/
-@Route(path = ARouterConfig.Me.CheckAuthActivity)
+@Route(path = ARouterConfig.Me.CHECKAUTHACTIVITY)
 public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBinding, UserViewModel> {
 
     public final static int RESET_PHONE = 0;
@@ -65,7 +59,6 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
         switch (type) {
             case 0:
                 setTitle(R.string.title_resetPhoneActivity);
-//                binding.tvChange.setVisibility(View.VISIBLE); //通过支付密码验证 按钮
                 break;
             case 1:
                 setTitle(R.string.title_resetPasswordActivity);
@@ -82,7 +75,9 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
         setListener();
     }
 
-    /*设置监听*/
+    /**
+     * 设置监听
+     */
     private void setListener() {
         buttonHelper = new CountDownButtonHelper(binding.tvGetPsdCode, 60);
         buttonHelper.setOnCountDownListener(new CountDownButtonHelper.OnCountDownListener() {
@@ -124,84 +119,56 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
 
     @Override
     protected void dataObserver() {
-        registerObserver("CHECK_PAY_PASSWORD", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //设置了支付密码，跳转到使用支付密码设置手机
-                        progressDialog.close();
-                    }
-                });
-
-        registerObserver("CHECK_PAY_PASSWORD", "fail")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //没设置支付密码，跳转到设置支付密码
-                        progressDialog.close();
-                        MaterialDialogUtils.showBasicDialog(CheckAuthActivity.this, getString(R.string.dialog_text_tips))
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        //跳转操作放在这
-                                        //这里直接销毁这个界面，返回个人设置界面
-                                        finish();
-                                    }
-                                })
-                                .show();
-                    }
-                });
-
-        registerObserver("CHECK_PAY_PASSWORD", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //支付密码 查询失败
-                        progressDialog.onFail("网络错误！");
-                    }
-                });
-        registerObserver("GET_RESET_SMS_CODE", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        ToastUtils.showShort("验证码发送成功");
-                    }
-                });
-        registerObserver("GET_RESET_SMS_CODE", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        ToastUtils.showShort(result.toString());
-                    }
-                });
-        registerObserver("CHECK_CODE", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //验证成功
-                        switch (type) {
-                            case 0:
-                                ActivityToActivity.toActivity(ARouterConfig.Me.BindPhoneActivity);
-                                break;
-                            case 1:
-                                ActivityToActivity.toActivity(ARouterConfig.Me.ResetPasswordActivity, "type", 0);
-                                break;
-                            case 2:
-                                ActivityToActivity.toActivity(ARouterConfig.Me.ResetPasswordActivity, "type", 1);
-                                break;
+        registerObserver(Constants.CHECK_PAY_PASSWORD, String.class).observeForever(result -> {
+            if (result.equals(SUCCESS)) {
+                //设置了支付密码，跳转到使用支付密码设置手机
+                progressDialog.close();
+            } else if ("获取设置失败".equals(result)) {
+                progressDialog.onFail(result);
+            } else {
+                //没设置支付密码，跳转到设置支付密码
+                progressDialog.close();
+                TextDialog.showBaseDialog(activity,
+                        "提示",
+                        getString(R.string.dialog_text_tips),
+                        () -> {
+                            //跳转操作放在这
+                            //这里直接销毁这个界面，返回个人设置界面
+                            finish();
                         }
-                        finish();
-                    }
-                });
-        registerObserver("CHECK_CODE", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        //验证码验证失败
-                        ToastUtils.showShort(result.toString());
-                        binding.btnSublimt.setEnabled(true);
-                    }
-                });
+                ).show();
+            }
+
+        });
+        registerObserver(Constants.GET_SMS_CODE, Object.class).observeForever(result -> {
+            if (result instanceof SmsBean) {
+                ToastUtils.showShort("动态码已发送");
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
+        registerObserver(Constants.CHECK_CODE, String.class).observeForever(result -> {
+            if (result.equals(SUCCESS)) {
+                //验证成功
+                switch (type) {
+                    case 0:
+                        ActivityToActivity.toActivity(ARouterConfig.Me.BINDPHONEACTIVITY);
+                        break;
+                    case 1:
+                        ActivityToActivity.toActivity(ARouterConfig.Me.RESETPASSWORDACTIVITY, "type", 0);
+                        break;
+                    case 2:
+                        ActivityToActivity.toActivity(ARouterConfig.Me.RESETPASSWORDACTIVITY, "type", 1);
+                        break;
+                    default:
+                        break;
+                }
+                finish();
+            } else {
+                ToastUtils.showShort(result);
+                binding.btnSublimt.setEnabled(true);
+            }
+        });
     }
 
     @Override
@@ -223,20 +190,18 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
             final String smsCode = binding.edMsgCode.getText().toString().trim();
             switch (type) {
                 case 0:
-                    MaterialDialogUtils.showBasicDialog(CheckAuthActivity.this, "继续将解除当前已绑定的手机，是否继续？")
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    mViewModel.unBindPhone(smsCode);
-                                }
-                            })
-                            .show();
+                    TextDialog.showBaseDialog(activity,
+                            "提示",
+                            "继续将解除当前已绑定的手机，是否继续？",
+                            () -> mViewModel.unBindPhone(smsCode)).show();
                     break;
                 case 1:
                     mViewModel.checkLoginPsdSmsCode(smsCode);
                     break;
                 case 2:
                     mViewModel.checkPayPsdSmsCode(smsCode);
+                    break;
+                default:
                     break;
             }
         }

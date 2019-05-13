@@ -24,20 +24,23 @@ import com.mingpinmall.me.databinding.ActivityFootprintBinding;
 import com.mingpinmall.me.ui.adapter.FootprintListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.FootprintBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
 
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
+
 /**
  * 功能描述：我的足迹
- * 创建人：小斌
- * 创建时间: 2019/3/27
+ * @author 小斌
+ * @date 2019/3/27
  **/
 @Route(path = ARouterConfig.Me.FOOTPRINTACTIVITY)
 public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBinding, MeViewModel> {
 
-    private boolean isLoadmore;
+    private boolean isLoadmore = false;
     private int pageIndex = 1;
     private FootprintListAdapter footprintListAdapter;
 
@@ -60,38 +63,28 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_me_goods_browse);
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_footprint_empty);
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_footprint_empty);
-        emptyView.findViewById(R.id.btn_action).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //前往首页
-                LiveBus.getDefault().postEvent("Main", "tab", 0);
-                activity.onBackPressed();
-            }
+        emptyView.findViewById(R.id.btn_action).setOnClickListener(v -> {
+            //前往首页
+            LiveBus.getDefault().postEvent("Main", "tab", 0);
+            activity.onBackPressed();
         });
         footprintListAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(footprintListAdapter);
 
-        binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                isLoadmore = true;
-                mViewModel.getMyFootprint(pageIndex + 1);
-            }
-
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                isLoadmore = false;
-                mViewModel.getMyFootprint(1);
-            }
+        binding.refreshLayout.setEnableLoadMore(false);
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            isLoadmore = false;
+            mViewModel.getMyFootprint(1);
         });
+        footprintListAdapter.setOnLoadMoreListener(() -> {
+            isLoadmore = true;
+            mViewModel.getMyFootprint(pageIndex + 1);
+        }, binding.recyclerView);
 
-        footprintListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //item点击事件
-                FootprintBean.GoodsbrowseListBean bean = footprintListAdapter.getItem(position);
-                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", bean.getGoods_id());
-            }
+        footprintListAdapter.setOnItemClickListener((adapter, view, position) -> {
+            //item点击事件
+            FootprintBean.GoodsbrowseListBean bean = footprintListAdapter.getItem(position);
+            ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", bean.getGoods_id());
         });
     }
 
@@ -103,45 +96,40 @@ public class FootprintActivity extends AbsLifecycleActivity<ActivityFootprintBin
 
     @Override
     protected void dataObserver() {
-        registerObserver("GET_FOOTPRINT", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof String) {
-                            ToastUtils.showShort(result.toString());
-                            //获取失败
-                            binding.refreshLayout.finishRefresh(false);
-                            binding.refreshLayout.finishLoadMore(false);
-                        } else {
-                            BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
-                            if (isLoadmore) {
-                                pageIndex++;
-                                binding.refreshLayout.finishLoadMore();
-                                footprintListAdapter.addData(data.getData().getGoodsbrowse_list());
-                            } else {
-                                pageIndex = 1;
-                                binding.refreshLayout.finishRefresh();
-                                footprintListAdapter.setNewData(data.getData().getGoodsbrowse_list());
-                            }
-                            if (!data.isHasmore()) {
-                                binding.refreshLayout.setNoMoreData(true);
-                            }
-                        }
-                    }
-                });
-        registerObserver("CLEAR_FOOTPRINT", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            //清空成功
-                            initData();
-                        } else {
-                            //清空失败
-                            ToastUtils.showShort(msg);
-                        }
-                    }
-                });
+        registerObserver(Constants.GET_FOOTPRINT, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                //获取失败
+                if (isLoadmore) {
+                    footprintListAdapter.loadMoreFail();
+                } else {
+                    binding.refreshLayout.finishRefresh(false);
+                }
+            } else {
+                BaseResponse<FootprintBean> data = (BaseResponse<FootprintBean>) result;
+                if (isLoadmore) {
+                    pageIndex++;
+                    footprintListAdapter.loadMoreComplete();
+                    footprintListAdapter.addData(data.getData().getGoodsbrowse_list());
+                } else {
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    footprintListAdapter.setNewData(data.getData().getGoodsbrowse_list());
+                }
+                if (!data.isHasmore()) {
+                    footprintListAdapter.loadMoreEnd();
+                }
+            }
+        });
+        registerObserver(Constants.CLEAR_FOOTPRINT, String.class).observeForever(msg -> {
+            if (msg.equals(SUCCESS)) {
+                //清空成功
+                initData();
+            } else {
+                //清空失败
+                ToastUtils.showShort(msg);
+            }
+        });
     }
 
     @Override

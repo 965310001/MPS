@@ -3,10 +3,7 @@ package com.mingpinmall.me.ui.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
-import android.databinding.InverseBindingMethod;
-import android.databinding.InverseBindingMethods;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -17,7 +14,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -26,36 +22,55 @@ import com.mingpinmall.me.R;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/3/25
+ *
+ * @author 小斌
+ * @date 2019/3/25
  **/
 public class SettingItemView extends FrameLayout {
 
     public enum ThemeMode {
+        //默认
         Default,
+        //没有左侧图标
         NoLeftImage,
+        //没有左侧图标和主标题下侧描述
         NoLeftImage_NoDescription,
+        //没有左侧图标，没有右侧更多图标
         NoLeftImage_NoMoreIcon,
+        //没左侧图标，没更多图标，没下侧描述
         NoLeftImage_NoMoreIcon_NoDescription,
+        //没更多图标
         NoMoreIcon,
+        //没更多图标和下侧描述
         NoMoreIcon_NoDescription,
+        //没下侧描述
         NoDescription,
     }
 
+    /*控件*/
     /**
-     * 控件
+     * 主标题
      */
-    //主标题
     private AppCompatTextView tv_label;
-    //副标题
+    /**
+     * 副标题
+     */
     private AppCompatTextView tv_label2;
-    //小红点
+    /**
+     * 小红点
+     */
     private AppCompatTextView tv_redPoint;
-    //描述
+    /**
+     * 描述
+     */
     private AppCompatTextView tv_description;
-    //左侧图标
+    /**
+     * 左侧图标
+     */
     private AppCompatImageView iv_icon;
-    //右侧箭头
+    /**
+     * 右侧箭头
+     */
     private AppCompatImageView iv_more;
 
     /**
@@ -81,7 +96,8 @@ public class SettingItemView extends FrameLayout {
     /**
      * 左边图标资源
      */
-    private @DrawableRes int drawable;
+    private @DrawableRes
+    int drawable;
 
     /**
      * 样式，各种控件的隐藏和显示
@@ -163,6 +179,8 @@ public class SettingItemView extends FrameLayout {
             case NoDescription:
                 theme = 7;
                 break;
+            default:
+                break;
         }
         setThemeMode();
         return this;
@@ -221,6 +239,8 @@ public class SettingItemView extends FrameLayout {
                 showDescription(false);
                 showMoreIcon(true);
                 break;
+            default:
+                break;
         }
     }
 
@@ -240,7 +260,7 @@ public class SettingItemView extends FrameLayout {
     /**
      * 是否使用小图标，小图标模式将会将图标和标题栏对齐。 默认模式下是item上下居中
      *
-     * @param isSmall
+     * @param isSmall 是否使用小图标
      */
     @BindingAdapter("smallIcon")
     public static void setSmallIconMode(SettingItemView settingItemView, boolean isSmall) {

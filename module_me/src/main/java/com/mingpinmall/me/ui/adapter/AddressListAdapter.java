@@ -1,5 +1,7 @@
 package com.mingpinmall.me.ui.adapter;
 
+import android.text.TextUtils;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
@@ -9,13 +11,14 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：收货地址列表适配器
- * 创建人：小斌
- * 创建时间: 2019/3/29
+ *
+ * @author 小斌
+ * @date 2019/3/29
  **/
 public class AddressListAdapter extends BaseQuickAdapter<AddressDataBean.AddressListBean, BaseViewHolder> {
 
     public AddressListAdapter() {
-        super(R.layout.item_address, new ArrayList<AddressDataBean.AddressListBean>());
+        super(R.layout.item_address, new ArrayList<>());
     }
 
     @Override
@@ -25,6 +28,6 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressDataBean.Address
                 .setText(R.id.tv_name, item.getTrue_name())
                 .setText(R.id.tv_phone, item.getMob_phone())
                 .setText(R.id.tv_address, item.getArea_info() + " " + item.getAddress())
-                .setGone(R.id.tv_isDefault, item.getIs_default().equals("1"));
+                .setGone(R.id.tv_isDefault, TextUtils.equals("1", item.getIs_default()));
     }
 }

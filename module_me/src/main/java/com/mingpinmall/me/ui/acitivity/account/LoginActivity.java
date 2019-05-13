@@ -1,15 +1,14 @@
 package com.mingpinmall.me.ui.acitivity.account;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.CompoundButton;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -21,15 +20,16 @@ import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityLoginBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
 import com.mingpinmall.me.ui.bean.SmsBean;
-import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.xuexiang.xui.utils.CountDownButtonHelper;
 
+import java.util.ArrayList;
 
 /**
  * 功能描述：登陆界面
- * 创建人：小斌
- * 创建时间: 2019/3/25
+ *
+ * @author 小斌
+ * @date 2019/3/25
  */
 @Route(path = ARouterConfig.LOGINACTIVITY)
 public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, UserViewModel> implements TextWatcher {
@@ -48,28 +48,46 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         setTitle(R.string.title_loginActivity);
         progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
 
-        binding.tabs.addTab(binding.tabs.newTab().setText(R.string.tabs_login_puk));
-        binding.tabs.addTab(binding.tabs.newTab().setText(R.string.tabs_login_phone));
-        binding.tabs.getTabAt(0).select();
-
-        binding.edPassword.addTextChangedListener(this);
-        binding.edPhone.addTextChangedListener(this);
-        binding.edMsgCode.addTextChangedListener(this);
-
-        binding.tvProtocol.setOnClickListener(this);
-        binding.tvGetPsdCode.setOnClickListener(this);
-        binding.btnSublimt.setOnClickListener(this);
-
-        binding.cbAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ArrayList<CustomTabEntity> tabEntityList = new ArrayList<>(2);
+        CustomTabEntity tabs1 = new CustomTabEntity() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setEnabled();
+            public String getTabTitle() {
+                return getString(R.string.tabs_login_puk);
             }
-        });
-        binding.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
+            public int getTabSelectedIcon() {
+                return R.drawable.ic_login_tabs1_sel;
+            }
+            @Override
+            public int getTabUnselectedIcon() {
+                return R.drawable.ic_login_tabs1_unsel;
+            }
+        };
+        CustomTabEntity tabs2 = new CustomTabEntity() {
+            @Override
+            public String getTabTitle() {
+                return getString(R.string.tabs_login_phone);
+            }
+            @Override
+            public int getTabSelectedIcon() {
+                return R.drawable.ic_login_tabs2_sel;
+            }
+            @Override
+            public int getTabUnselectedIcon() {
+                return R.drawable.ic_login_tabs2_unsel;
+            }
+        };
+        tabEntityList.add(tabs1);
+        tabEntityList.add(tabs2);
+        binding.tabs.setTabData(tabEntityList);
+        setListener();
+    }
+
+    private void setListener() {
+        binding.tabs.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                switch (position) {
                     case 0:
                         binding.llPanel0.setVisibility(View.VISIBLE);
                         binding.llPanel1.setVisibility(View.GONE);
@@ -85,13 +103,20 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onTabReselect(int position) {
             }
         });
+
+        binding.edPassword.addTextChangedListener(this);
+        binding.edPhone.addTextChangedListener(this);
+        binding.edMsgCode.addTextChangedListener(this);
+
+        binding.tvProtocol.setOnClickListener(this);
+        binding.tvGetPsdCode.setOnClickListener(this);
+        binding.btnSublimt.setOnClickListener(this);
+
+        binding.cbAgree.setOnCheckedChangeListener((buttonView, isChecked) -> setEnabled());
+
         buttonHelper = new CountDownButtonHelper(binding.tvGetPsdCode, 60);
         buttonHelper.setOnCountDownListener(new CountDownButtonHelper.OnCountDownListener() {
             @Override
@@ -119,59 +144,46 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
             /*登陆*/
             progressDialog.onLoading("");
             mViewModel.login(
-                    binding.edPhone.getText().toString().trim(),//用户名
-                    binding.tabs.getSelectedTabPosition() == 0 ? binding.edMsgCode.getText().toString().trim()//密码或手机验证码
+                    //用户名
+                    binding.edPhone.getText().toString().trim(),
+                    //密码或手机验证码
+                    binding.tabs.getCurrentTab() == 0 ? binding.edMsgCode.getText().toString().trim()
                             : binding.edPassword.getText().toString().trim(),
-                    binding.tabs.getSelectedTabPosition() == 0 ? 1 : 2//1:表示手机验证码登录 2:表示密码登录
+                    //1:表示手机验证码登录 2:表示密码登录
+                    binding.tabs.getCurrentTab() == 0 ? 1 : 2
             );
         } else if (viewId == R.id.tv_getPsdCode) {
             /*获取登陆短信动态码*/
             mViewModel.getSmsCode(1, binding.edPhone.getText().toString().trim());
         } else if (viewId == R.id.tv_protocol) {
             /*阅读用户注册协议*/
-            ActivityToActivity.toWebView("http://39.108.254.185/wap/tmpl/member/document.html");
+            ActivityToActivity.toWebView("https://www.mingpinmall.cn/wap/tmpl/member/document.html");
         }
 
     }
 
     @Override
     protected void dataObserver() {
-        registerObserver(Constants.EVENT_KEY_USER_GETUSER, UserBean.class)
-                .observeForever(new Observer<UserBean>() {
-                    @Override
-                    public void onChanged(@Nullable UserBean userBean) {
-                        SharePreferenceUtil.saveUser(userBean);
-                        progressDialog.onComplete("", new ProgressDialog.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                LiveBus.getDefault().postEvent("LoginSuccess", true);
-                                finish();
-                            }
-                        });
-                    }
+        registerObserver(Constants.LOGIN, Object.class).observeForever(result -> {
+            if (result instanceof UserBean) {
+                SharePreferenceUtil.saveUser(result);
+                progressDialog.onComplete("", () -> {
+                    LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_SUCCESS, true);
+                    finish();
                 });
-        registerObserver(Constants.Err_EVENT_KEY_USER_GETUSER, String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        progressDialog.onFail(msg, 1500);
-                    }
-                });
-        registerObserver("GET_SMS_CODE", "success")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        ToastUtils.showShort("验证码已发送");
-                        buttonHelper.start();
-                    }
-                });
-        registerObserver("GET_SMS_CODE", "err")
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object msg) {
-                        ToastUtils.showShort(msg.toString());
-                    }
-                });
+            } else {
+                progressDialog.onFail(result.toString());
+            }
+        });
+        registerObserver(Constants.GET_SMS_CODE, Object.class).observeForever(result -> {
+            if (result instanceof SmsBean) {
+                ToastUtils.showShort("验证码已发送");
+                buttonHelper.start();
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+
+        });
     }
 
     @Override
@@ -189,13 +201,12 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         setEnabled();
     }
 
-    private boolean editTextAllOK = false;
-
     private void setEnabled() {
         int phoneCount = binding.edPhone.getText().length();
 
         binding.tvGetPsdCode.setVisibility(phoneCount >= 11 ? View.VISIBLE : View.INVISIBLE);
-        if (binding.tabs.getSelectedTabPosition() == 0) {
+        boolean editTextAllOK;
+        if (binding.tabs.getCurrentTab() == 0) {
             editTextAllOK = phoneCount >= 11 && binding.edMsgCode.getText().length() >= 4;
         } else {
             editTextAllOK = phoneCount >= 4 && binding.edPassword.getText().length() >= 6;

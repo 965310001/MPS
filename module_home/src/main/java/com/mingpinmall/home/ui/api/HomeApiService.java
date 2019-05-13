@@ -4,6 +4,7 @@ import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.bean.ShopClassBean;
 import com.mingpinmall.home.ui.bean.ShopStreetBean;
+import com.mingpinmall.home.ui.bean.SpecialPageBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
@@ -11,8 +12,8 @@ import retrofit2.http.Query;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/3
+ * @author 小斌
+ * @date 2019/4/3
  **/
 public interface HomeApiService {
 
@@ -24,9 +25,21 @@ public interface HomeApiService {
      */
     String HOME_PAGE = "/mo_bile/index.php?app=index";
 
-    /*我的商城中用户信息获取*/
+    /*获取首页数据*/
     @GET(HOME_PAGE)
     Flowable<HomeItemBean> getHomeDataList();
+
+    /**
+     * 描述：专题页面
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=index&wwi=special&special_id=2
+     * 请求方式：get
+     * 请求参数：special_id
+     */
+    String SPECIAL = "/mo_bile/index.php?app=index&wwi=special";
+
+    /*专题页面*/
+    @GET(SPECIAL)
+    Flowable<BaseResponse<SpecialPageBean>> getSpecialList(@Query("special_id") String specialId);
 
     /**
      * 描述：店铺街
@@ -55,7 +68,7 @@ public interface HomeApiService {
      */
     String STORE_CLASS = "/mo_bile/index.php?app=store&wwi=store_class_list";
 
-    /*店铺街*/
+    /*店铺街分类*/
     @GET(STORE_CLASS)
     Flowable<BaseResponse<ShopClassBean>> getStoreClass(
             @Query("key") String key

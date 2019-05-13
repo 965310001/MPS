@@ -8,12 +8,13 @@ import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.bean.ShopClassBean;
 import com.mingpinmall.home.ui.bean.ShopStreetBean;
-import com.socks.library.KLog;
+import com.mingpinmall.home.ui.bean.SpecialPageBean;
+import com.mingpinmall.home.ui.constants.Constants;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/3
+ * @author 小斌
+ * @date 2019/4/3
  **/
 public class HomeRepository extends BaseRepository {
     private HomeApiService apiService = RetrofitClient.getInstance().create(HomeApiService.class);
@@ -23,19 +24,20 @@ public class HomeRepository extends BaseRepository {
      */
     protected void getStoreClass() {
         addDisposable(apiService.getStoreClass(getUserKey())
-                .compose(RxSchedulers.<BaseResponse<ShopClassBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ShopClassBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<ShopClassBean> homeItemBean) {
-                        if (homeItemBean.isSuccess())
-                            sendData("GET_STORE_CLASS", homeItemBean.getData());
-                        else
-                            sendData("GET_STORE_CLASS", homeItemBean.getMessage());
+                        if (homeItemBean.isSuccess()) {
+                            sendData(Constants.GET_STORE_CLASS, homeItemBean.getData());
+                        } else {
+                            sendData(Constants.GET_STORE_CLASS, homeItemBean.getMessage());
+                        }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("GET_STORE_CLASS", msg == null ? "获取失败" : msg);
+                        sendData(Constants.GET_STORE_CLASS, msg == null ? "获取失败" : msg);
                     }
 
                     @Override
@@ -47,24 +49,23 @@ public class HomeRepository extends BaseRepository {
 
     /**
      * 获取店铺列表
-     *
-     * @param curPage
      */
-    protected void getStoreStreet(String keyword, String area_info, String sc_id, int curPage) {
-        addDisposable(apiService.getStoreStreet(keyword, area_info, sc_id, getUserKey(), 10, curPage)
-                .compose(RxSchedulers.<BaseResponse<ShopStreetBean>>io_main())
+    protected void getStoreStreet(String keyword, String areaInfo, String scId, int curPage) {
+        addDisposable(apiService.getStoreStreet(keyword, areaInfo, scId, getUserKey(), 10, curPage)
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ShopStreetBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<ShopStreetBean> homeItemBean) {
-                        if (homeItemBean.isSuccess())
-                            sendData("GET_STORE_LIST", homeItemBean);
-                        else
-                            sendData("GET_STORE_LIST", homeItemBean.getMessage());
+                        if (homeItemBean.isSuccess()) {
+                            sendData(Constants.GET_STORE_LIST, homeItemBean);
+                        } else {
+                            sendData(Constants.GET_STORE_LIST, homeItemBean.getMessage());
+                        }
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        sendData("GET_STORE_LIST", msg == null ? "获取失败" : msg);
+                        sendData(Constants.GET_STORE_LIST, msg == null ? "获取失败" : msg);
                     }
 
                     @Override
@@ -75,26 +76,46 @@ public class HomeRepository extends BaseRepository {
     }
 
     /**
-     * @date 创建时间： 2019/4/3
-     * @author 创建人：小斌
-     * @Description 描述：获取首页数据
-     * @Version
+     * 描述：获取首页数据
      **/
     protected void getHomeDataList() {
         addDisposable(apiService.getHomeDataList()
-                .compose(RxSchedulers.<HomeItemBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<HomeItemBean>() {
-                                   @Override
-                                   public void onSuccess(HomeItemBean data) {
-                                       sendData("HOME_DATA_JSON", data);
-                                   }
+                    @Override
+                    public void onSuccess(HomeItemBean data) {
+                        sendData(Constants.HOME_DATA_JSON, data);
+                    }
 
-                                   @Override
-                                   public void onFailure(String msg) {
-                                       sendData("HOME_DATA_JSON", msg == null ? "获取失败" : msg);
-                                   }
-                               }
-                )
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.HOME_DATA_JSON, msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /**
+     * 获取专题页面
+     */
+    protected void getSpecialList(String specialId) {
+        addDisposable(apiService.getSpecialList(specialId)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<SpecialPageBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<SpecialPageBean> data) {
+                        if (data.isSuccess()) {
+                            sendData(Constants.SPECIAL_LIST, data.getData());
+                        } else {
+                            sendData(Constants.SPECIAL_LIST, data.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.SPECIAL_LIST, msg == null ? "获取失败" : msg);
+                    }
+                })
         );
     }
 

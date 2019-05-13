@@ -5,8 +5,8 @@ import java.util.List;
 
 /**
  * 功能描述：订单物流信息列表
- * 创建人：小斌
- * 创建时间: 2019/4/27
+ * *@author 小斌
+ * @date 2019/4/27
  **/
 public class OrderDeliverListBean implements Serializable {
 

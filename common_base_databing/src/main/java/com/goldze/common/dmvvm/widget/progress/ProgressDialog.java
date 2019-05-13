@@ -6,12 +6,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.R;
-import com.goldze.common.dmvvm.utils.StatusBarUtils;
 
 /**
  * 功能描述：快速提示    等待中Dialog
- * 创建人：小斌
- * 创建时间: 2019/3/30
+ * *@author 小斌
+ *
+ * @date 2019/3/30
  **/
 public class ProgressDialog extends BaseDialog {
 
@@ -35,7 +35,14 @@ public class ProgressDialog extends BaseDialog {
         int delayMillis = 0;
 
         enum CommadType {
-            LODING, SUCCESS, FAIL, NONE
+            //加载中
+            LODING,
+            //加载完成
+            SUCCESS,
+            //加载失败
+            FAIL,
+            //未知
+            NONE
         }
     }
 
@@ -76,16 +83,17 @@ public class ProgressDialog extends BaseDialog {
                 break;
             case NONE:
                 break;
+            default:
+                break;
         }
         commads.type = Commad.CommadType.NONE;
     }
 
-    private Runnable runnableForLoading = new Runnable() {
-        @Override
-        public void run() {
-            if (onDismissListener != null) {
-                onDismissListener.onDismiss();
-            }
+    private Runnable runnableForLoading = () -> {
+        if (onDismissListener != null) {
+            onDismissListener.onDismiss();
+        }
+        if (getDialog() != null) {
             dismissAllowingStateLoss();
         }
     };

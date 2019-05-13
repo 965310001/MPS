@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：物流信息
- * 创建人：小斌
- * 创建时间: 2019/4/27
+ * *@author 小斌
+ * @date 2019/4/27
  **/
 public class OrderDeliverysAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     public OrderDeliverysAdapter() {

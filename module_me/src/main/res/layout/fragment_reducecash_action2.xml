@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </RelativeLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/ed_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/bg_edittext_default"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_text_reduce2_ed1"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/ed_shouKuan"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/bg_edittext_default"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_text_reduce2_ed2"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/ed_shouKuanAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/bg_edittext_default"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_text_reduce2_ed3"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/ed_userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/bg_edittext_default"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_text_reduce2_ed4"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/ed_payPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/bg_edittext_default"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_text_reduce2_ed5"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_submit2"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="40dp"
+                    android:background="@drawable/button_shape_redcolor"
+                    android:gravity="center"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
+                    android:text="@string/button_text_reduce2"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <Space
+                    android:layout_width="1px"
+                    android:layout_height="12dp" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </FrameLayout>
+
+</layout>

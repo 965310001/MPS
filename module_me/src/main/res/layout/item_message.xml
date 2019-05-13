@@ -7,79 +7,86 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:foreground="@drawable/button_foreground">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="#111"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/tv_time"
-            app:layout_constraintStart_toEndOf="@id/iv_image"
-            app:layout_constraintTop_toTopOf="@id/iv_image"
-            tools:text="对话名字" />
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:textColor="#bbb"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_name"
-            app:layout_constraintEnd_toStartOf="@id/iv_delete"
-            app:layout_constraintStart_toEndOf="@id/tv_name"
-            app:layout_constraintTop_toTopOf="@id/tv_name"
-            tools:text="2019-04-26 17:49:30" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="#111"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/tv_time"
+                app:layout_constraintStart_toEndOf="@id/iv_image"
+                app:layout_constraintTop_toTopOf="@id/iv_image"
+                tools:text="对话名字" />
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv_desc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="#666"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_image"
-            app:layout_constraintEnd_toEndOf="@id/tv_time"
-            app:layout_constraintStart_toStartOf="@id/tv_name"
-            app:layout_constraintTop_toBottomOf="@id/tv_name"
-            app:layout_constraintVertical_bias="1"
-            tools:text="对话内容" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:textColor="#bbb"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_name"
+                app:layout_constraintEnd_toStartOf="@id/iv_delete"
+                app:layout_constraintStart_toEndOf="@id/tv_name"
+                app:layout_constraintTop_toTopOf="@id/tv_name"
+                tools:text="2019-04-26 17:49:30" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_delete"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="12dp"
-            android:padding="6dp"
-            android:src="@drawable/ic_del"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="#666"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                app:layout_constraintEnd_toEndOf="@id/tv_time"
+                app:layout_constraintStart_toStartOf="@id/tv_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_name"
+                app:layout_constraintVertical_bias="1"
+                tools:text="对话内容" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="@dimen/line_hight"
-            android:background="@color/line_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/tv_desc"
-            app:layout_constraintStart_toStartOf="@id/tv_desc" />
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="12dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_del"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_hight"
+                android:background="@color/line_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_desc"
+                app:layout_constraintStart_toStartOf="@id/tv_desc" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
+
 </layout>

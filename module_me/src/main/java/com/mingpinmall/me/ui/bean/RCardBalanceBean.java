@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 /**
  * 功能描述：充值卡余额
- * 创建人：小斌
- * 创建时间: 2019/4/20
+ * @author 小斌
+ * @date 2019/4/20
  **/
 public class RCardBalanceBean implements Serializable {
 

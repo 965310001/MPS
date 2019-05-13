@@ -36,7 +36,6 @@
         <activity android:name=".ui.acitivity.address.EditAddressActivity" />
         <activity android:name=".ui.acitivity.setting.ResetPasswordActivity" />
         <activity android:name=".ui.acitivity.setting.BindPhoneActivity" />
-        <activity android:name=".ui.acitivity.setting.ResetPayPwdActivity" />
         <activity android:name=".ui.acitivity.setting.FeedBackActivity" />
     </application>
 </manifest>

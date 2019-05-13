@@ -1,5 +1,7 @@
 package com.mingpinmall.me.ui.bean;
 
+import android.text.TextUtils;
+
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.io.Serializable;
@@ -7,8 +9,9 @@ import java.util.List;
 
 /**
  * 功能描述：我的红包列表
- * 创建人：小斌
- * 创建时间: 2019/4/20
+ *
+ * @author 小斌
+ * @date 2019/4/20
  **/
 public class PacketListBean implements Serializable {
 
@@ -216,7 +219,7 @@ public class PacketListBean implements Serializable {
 
         @Override
         public int getItemType() {
-            return getRpacket_state().equals("0") ? 0 : 1;
+            return TextUtils.equals("0", getRpacket_state()) ? 0 : 1;
         }
     }
 }

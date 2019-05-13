@@ -7,8 +7,8 @@ import com.goldze.common.dmvvm.base.bean.BaseBean;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/3/25
+ * @author 小斌
+ * @date 2019/3/25
  **/
 public class MeItemBean extends BaseBean implements MultiItemEntity {
 
@@ -117,6 +117,7 @@ public class MeItemBean extends BaseBean implements MultiItemEntity {
         this.iconUrl = iconUrl == null ? "" : iconUrl;
     }
 
+    @Override
     public int getItemType() {
         return itemType;
     }

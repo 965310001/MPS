@@ -1,17 +1,12 @@
 package com.mingpinmall.me.ui.acitivity.property;
 
-import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.goldze.common.dmvvm.base.bean.BaseBean;
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
@@ -22,6 +17,7 @@ import com.mingpinmall.me.ui.adapter.PropertyItemAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
 import com.mingpinmall.me.ui.bean.PropertyBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.SettingItemView;
 
 import java.util.ArrayList;
@@ -29,8 +25,9 @@ import java.util.List;
 
 /**
  * 功能描述：我的财产
- * 创建人：小斌
- * 创建时间: 2019/3/27
+ *
+ * @author 小斌
+ * @date 2019/3/27
  **/
 @Route(path = ARouterConfig.Me.PROPERTYACTIVITY)
 public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBinding, MeViewModel> {
@@ -62,17 +59,13 @@ public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBindi
 
     @Override
     protected void dataObserver() {
-        registerObserver("MY_ASSET", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof PropertyBean) {
-                            setData((PropertyBean) result);
-                        } else {
-                            ToastUtils.showShort(result.toString());
-                        }
-                    }
-                });
+        registerObserver(Constants.MY_ASSET, Object.class).observeForever(result -> {
+            if (result instanceof PropertyBean) {
+                setData((PropertyBean) result);
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+        });
     }
 
     private void setData(PropertyBean propertyBean) {
@@ -85,26 +78,25 @@ public class PropertyActivity extends AbsLifecycleActivity<ActivityPropertyBindi
     }
 
     private void setItemClickListener() {
-        itemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position) {
-                    case 0:
-                        ActivityToActivity.toActivity(ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY);
-                        break;
-                    case 1:
-                        ActivityToActivity.toActivity(ARouterConfig.Me.CARDSURPLUSACTIVITY);
-                        break;
-                    case 2:
-                        ActivityToActivity.toActivity(ARouterConfig.Me.COUPONACTIVITY);
-                        break;
-                    case 3:
-                        ActivityToActivity.toActivity(ARouterConfig.Me.STOREPACKETACTIVITY);
-                        break;
-                    case 4:
-                        ActivityToActivity.toActivity(ARouterConfig.Me.VIPINTERGRALACTIVITY);
-                        break;
-                }
+        itemAdapter.setOnItemClickListener((adapter, view, position) -> {
+            switch (position) {
+                case 0:
+                    ActivityToActivity.toActivity(ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY);
+                    break;
+                case 1:
+                    ActivityToActivity.toActivity(ARouterConfig.Me.CARDSURPLUSACTIVITY);
+                    break;
+                case 2:
+                    ActivityToActivity.toActivity(ARouterConfig.Me.COUPONACTIVITY);
+                    break;
+                case 3:
+                    ActivityToActivity.toActivity(ARouterConfig.Me.STOREPACKETACTIVITY);
+                    break;
+                case 4:
+                    ActivityToActivity.toActivity(ARouterConfig.Me.VIPINTERGRALACTIVITY);
+                    break;
+                default:
+                    break;
             }
         });
     }

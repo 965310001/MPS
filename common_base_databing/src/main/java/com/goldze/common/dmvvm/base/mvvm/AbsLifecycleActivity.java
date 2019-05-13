@@ -8,7 +8,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.goldze.common.dmvvm.base.event.LiveBus;
@@ -17,7 +17,6 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.utils.TUtil;
 import com.tqzhang.stateview.stateview.BaseStateControl;
-import com.xuexiang.xui.XUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ public abstract class AbsLifecycleActivity<VD extends ViewDataBinding, T extends
      */
     protected abstract Object getStateEventKey();
 
-    protected <T extends ViewModel> T VMProviders(FragmentActivity fragment, @NonNull Class modelClass) {
+    protected <T extends ViewModel> T VMProviders(AppCompatActivity fragment, @NonNull Class modelClass) {
         return (T) ViewModelProviders.of(fragment).get(modelClass);
 
     }

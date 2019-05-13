@@ -13,14 +13,16 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：
- * 创建人：小斌
- * 创建时间: 2019/4/20
+ * @author 小斌
+ * @date 2019/4/20
  **/
 public class CouponListAdapter extends BaseMultiItemQuickAdapter<CouponListBean.VoucherListBean, BaseViewHolder> {
     public CouponListAdapter() {
-        super(new ArrayList<CouponListBean.VoucherListBean>());
-        addItemType(0, R.layout.item_coupon);//分隔item
-        addItemType(1, R.layout.item_coupon_list);//正常内容item
+        super(new ArrayList<>());
+        //分隔item
+        addItemType(0, R.layout.item_coupon);
+        //正常内容item
+        addItemType(1, R.layout.item_coupon_list);
     }
 
     @Override
@@ -30,7 +32,7 @@ public class CouponListAdapter extends BaseMultiItemQuickAdapter<CouponListBean.
                 helper.setText(R.id.tv_label, item.getVoucher_state_text());
                 break;
             default:
-                ImageUtils.loadImage((AppCompatImageView) helper.getView(R.id.iv_image), item.getVoucher_t_customimg());
+                ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getVoucher_t_customimg());
                 helper.setText(R.id.tv_storeName, item.getStore_name())
                         .setText(R.id.tv_time, "有效期至:\n" + item.getVoucher_end_date_text())
                         .setText(R.id.tv_money, "¥" + item.getVoucher_price())

@@ -1,12 +1,9 @@
 package com.mingpinmall.me.ui;
 
-import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -24,7 +19,6 @@ import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
-import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentMeBinding;
@@ -34,15 +28,13 @@ import com.mingpinmall.me.ui.bean.MeItemBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.AutoColorView;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 我的
+ * @author 小斌
  */
 public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewModel> implements View.OnClickListener {
 
@@ -88,13 +80,11 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.refreshLayout.setEnableLoadMore(false);
-        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                if (SharePreferenceUtil.isLogin())
-                    mViewModel.getUserInfo();
-                else
-                    refreshLayout.finishRefresh(false);
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (SharePreferenceUtil.isLogin()) {
+                mViewModel.getUserInfo();
+            } else {
+                refreshLayout.finishRefresh(false);
             }
         });
 
@@ -110,54 +100,43 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
 
     @Override
     protected void dataObserver() {
-        LiveBus.getDefault().subscribe("LoginSuccess").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object isLogin) {
-                mViewModel.getUserInfo();
-            }
-        });
+        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_SUCCESS).observeForever(isLogin -> mViewModel.getUserInfo());
 
-        LiveBus.getDefault().subscribe("LOGIN_OUT").observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object isLogin) {
-                clearnDatas();
-            }
-        });
+        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_OUT).observeForever(isLogin -> clearnDatas());
 
-        registerObserver("GET_USER_INFO", Object.class).observeForever(new Observer<Object>() {
-            @Override
-            public void onChanged(@Nullable Object result) {
-                if (result instanceof String) {
-                    binding.refreshLayout.finishRefresh(false);
-                } else {
-                    binding.refreshLayout.finishRefresh();
-                    MyInfoBean myInfoBean = (MyInfoBean) result;
-                    setNewData(myInfoBean);
-                    SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
-                }
+        registerObserver(Constants.GET_USER_INFO, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                binding.refreshLayout.finishRefresh(false);
+            } else {
+                binding.refreshLayout.finishRefresh();
+                MyInfoBean myInfoBean = (MyInfoBean) result;
+                setNewData(myInfoBean);
+                SharePreferenceUtil.saveBooleanKeyValue("needRefresh", false);
             }
         });
     }
 
     private void setNewData(MyInfoBean result) {
-        if (result == null) return;
+        if (result == null) {
+            return;
+        }
         headView.findViewById(R.id.iv_headItem1).setBackgroundColor(Color.parseColor("#00000000"));
         headView.findViewById(R.id.iv_headItem2).setBackgroundColor(Color.parseColor("#00000000"));
 
-        MyInfoBean.MemberInfoBean datas = result.getMember_info();
-        SharePreferenceUtil.saveKeyValue("USER_INFO", new Gson().toJson(datas));
+        MyInfoBean.MemberInfoBean data = result.getMember_info();
+        SharePreferenceUtil.saveKeyValue("USER_INFO", new Gson().toJson(data));
 
-        ((AppCompatTextView) headView.findViewById(R.id.tv_name)).setText(datas.getUser_name());
-        ((AppCompatTextView) headView.findViewById(R.id.tv_level)).setText(datas.getLevel_name());
-        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText(datas.getFavorites_goods());
-        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText(datas.getFavorites_store());
+        ((AppCompatTextView) headView.findViewById(R.id.tv_name)).setText(data.getUser_name());
+        ((AppCompatTextView) headView.findViewById(R.id.tv_level)).setText(data.getLevel_name());
+        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText(data.getFavorites_goods());
+        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText(data.getFavorites_store());
 
-        ImageUtils.loadImageCircle((AppCompatImageView) headView.findViewById(R.id.iv_headImage), datas.getAvatar());
+        ImageUtils.loadImageCircle(headView.findViewById(R.id.iv_headImage), data.getAvatar());
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
-                datas.getOrder_nopay_count(),
-                datas.getOrder_noreceipt_count(),
-                datas.getOrder_notakes_count(),
-                datas.getOrder_noeval_count(),
+                data.getOrder_nopay_count(),
+                data.getOrder_noreceipt_count(),
+                data.getOrder_notakes_count(),
+                data.getOrder_noeval_count(),
                 0
         });
         meItemAdapter.notifyDataSetChanged();
@@ -176,7 +155,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText("");
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText("");
 
-        ImageUtils.loadImageCircle((AppCompatImageView) headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
+        ImageUtils.loadImageCircle(headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
                 0, 0, 0, 0, 0
         });
@@ -199,7 +178,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         meItemAdapter.addHeaderView(headView);
         meItemAdapter.bindToRecyclerView(binding.recyclerView);
         //拿到头部 View
-        ImageUtils.loadImageCircle((AppCompatImageView) headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
+        ImageUtils.loadImageCircle(headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
         //开始自动变换背景色
         autoColorView = headView.findViewById(R.id.iv_bg);
         autoColorView.setColors(colorIds);
@@ -229,12 +208,12 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
                     if (alpha > 0) {
                         binding.titleBar.setVisibility(View.VISIBLE);
                         binding.titleBar.setAlpha(alpha);
-                        darkMode = alpha > 128 ? true : false;
+                        darkMode = alpha > 128;
                         setDarkMode(darkMode);
                     } else {
                         binding.titleBar.setVisibility(View.GONE);
                         darkMode = false;
-                        setDarkMode(darkMode);
+                        setDarkMode(false);
                     }
                 }
             }
@@ -245,118 +224,121 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
      * 监听点击事件
      */
     private void setItemClickListener() {
-        binding.ivSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //左上角设置 来自：界面上划后出现的覆盖层
-                if (!SharePreferenceUtil.isLogin()) {
-                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                    return;
-                }
-                ActivityToActivity.toActivity(ARouterConfig.Me.SETTINGACTIVITY);
+        binding.ivSetting.setOnClickListener(v -> {
+            //点击了设置按钮 来自：界面上划后出现的覆盖层
+            if (!SharePreferenceUtil.isLogin()) {
+                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                return;
+            }
+            ActivityToActivity.toActivity(ARouterConfig.Me.SETTINGACTIVITY);
+        });
+        binding.ivMessage.setOnClickListener(v -> {
+            if (!SharePreferenceUtil.isLogin()) {
+                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                return;
+            }
+            //点击了消息按钮  来自：界面上划后出现的覆盖层
+            ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
+        });
+        meItemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (!SharePreferenceUtil.isLogin()) {
+                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                return;
+            }
+            //item子控件点击事件
+            int i = view.getId();
+            int funCode = meItemAdapter.getData().get(position).getFunCode();
+            router2Activity(i, funCode);
+        });
+        meItemAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (!SharePreferenceUtil.isLogin()) {
+                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                return;
+            }
+            MeItemBean itemBean = meItemAdapter.getData().get(position);
+            if (itemBean.getItemType() == 1) {
+                //item点击事件
+                router2Activity(0, itemBean.getFunCode());
             }
         });
-        binding.ivMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!SharePreferenceUtil.isLogin()) {
-                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                    return;
-                }
-                ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
-            }
-        });
-        /**
-         * 子Item点击事件
-         */
-        meItemAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (!SharePreferenceUtil.isLogin()) {
-                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                    return;
-                }
-                int i = view.getId();
-                int funCode = meItemAdapter.getData().get(position).getFunCode();
-                if (i == R.id.ll_item1) {
-//                    ToastUtils.showShort(funCode == -1 ? "点击了 待付款" : "点击了 预存款");
-                    if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 1);
-                    } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY);
-                    }
-                } else if (i == R.id.ll_item2) {
-//                    ToastUtils.showShort(funCode == -1 ? "点击了 待收货" : "充值卡");
-                    if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 2);
-                    } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.CARDSURPLUSACTIVITY);
-                    }
-                } else if (i == R.id.ll_item3) {
-//                    ToastUtils.showShort(funCode == -1 ? "点击了 待自提" : "代金券");
-                    if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 3);
-                    } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.COUPONACTIVITY);
-                    }
-                } else if (i == R.id.ll_item4) {
-//                    ToastUtils.showShort(funCode == -1 ? "点击了 待评价" : "红包");
-                    if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 4);
-                    } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.STOREPACKETACTIVITY);
-                    }
-                } else if (i == R.id.ll_item5) {
-//                    ToastUtils.showShort(funCode == -1 ? "点击了 退款/退货" : "积分");
-                    if (funCode == -1) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.REFUNDACTIVITY);
-                    } else if (funCode == -2) {
-                        ActivityToActivity.toActivity(ARouterConfig.Me.VIPINTERGRALACTIVITY);
-                    }
-                }
-            }
-        });
-        /**
-         * item点击事件
-         */
-        meItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (!SharePreferenceUtil.isLogin()) {
-                    ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                    return;
-                }
-                MeItemBean itemBean = meItemAdapter.getData().get(position);
-                if (itemBean.getItemType() == 1) {
-                    switch (itemBean.getFunCode()) {
-                        case 0:
-//                            ToastUtils.showShort("我的订单");
-                            ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY);
-                            break;
-                        case 1:
-//                            ToastUtils.showShort("我的财产");
-                            ActivityToActivity.toActivity(ARouterConfig.Me.PROPERTYACTIVITY);
-                            break;
-                        case 2:
-//                            ToastUtils.showShort("我的分销管理");
-                            ActivityToActivity.toActivity(ARouterConfig.Me.DISRTIBUTIONACTIVITY);
-                            break;
-                        case 3:
-                            ToastUtils.showShort("我的推广码");
-                            break;
-                        case 4:
-//                            ToastUtils.showShort("收货地址管理");
-                            ActivityToActivity.toActivity(ARouterConfig.Me.ADDRESSMANAGERACTIVITY);
-                            break;
-                        case 5:
-//                            ToastUtils.showShort("用户设置");
-                            ActivityToActivity.toActivity(ARouterConfig.Me.SETTINGACTIVITY);
-                            break;
-                    }
-                }
+    }
 
+    /**
+     * 导航到某个页面
+     *
+     * @param viewId  点击的ViewId
+     * @param funCode 功能码
+     */
+    private void router2Activity(int viewId, int funCode) {
+        if (viewId == 0) {
+            //主item点击
+            switch (funCode) {
+                case 0:
+                    //我的订单
+                    ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY);
+                    break;
+                case 1:
+                    //我的财产
+                    ActivityToActivity.toActivity(ARouterConfig.Me.PROPERTYACTIVITY);
+                    break;
+                case 2:
+                    //我的分销管理
+                    ActivityToActivity.toActivity(ARouterConfig.Me.DISRTIBUTIONACTIVITY);
+                    break;
+                case 3:
+                    //我的推广码
+                    ActivityToActivity.toActivity(ARouterConfig.Me.REDUCECASHACTIVITY);
+                    break;
+                case 4:
+                    //收货地址管理
+                    ActivityToActivity.toActivity(ARouterConfig.Me.ADDRESSMANAGERACTIVITY);
+                    break;
+                case 5:
+                    //用户设置
+                    ActivityToActivity.toActivity(ARouterConfig.Me.SETTINGACTIVITY);
+                    break;
+                default:
+                    break;
             }
-        });
+        } else {
+            //item子控件点击
+            if (viewId == R.id.ll_item1) {
+                //点击了 待付款 or 点击了 预存款
+                if (funCode == -1) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 1);
+                } else if (funCode == -2) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY);
+                }
+            } else if (viewId == R.id.ll_item2) {
+                //点击了 待收货 or 充值卡
+                if (funCode == -1) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 2);
+                } else if (funCode == -2) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.CARDSURPLUSACTIVITY);
+                }
+            } else if (viewId == R.id.ll_item3) {
+                //点击了 待自提 or 代金券
+                if (funCode == -1) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 3);
+                } else if (funCode == -2) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.COUPONACTIVITY);
+                }
+            } else if (viewId == R.id.ll_item4) {
+                //点击了 待评价 or 红包
+                if (funCode == -1) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.ORDERACTIVITY, "pageIndex", 4);
+                } else if (funCode == -2) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.STOREPACKETACTIVITY);
+                }
+            } else if (viewId == R.id.ll_item5) {
+                //点击了 退款/退货 or 积分
+                if (funCode == -1) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.REFUNDACTIVITY);
+                } else if (funCode == -2) {
+                    ActivityToActivity.toActivity(ARouterConfig.Me.VIPINTERGRALACTIVITY);
+                }
+            }
+        }
     }
 
     /**
@@ -396,7 +378,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             itemBean.setTitle2(titles2[i]);
             itemBean.setPoint(0);
             data.add(itemBean);
-            if (i == 0 || i == 1 || i == 2 || i == 4) {
+            if (i == 0 || i == 1 || i == 3) {
                 /**
                  * 添加空白行，分隔行
                  */
@@ -459,22 +441,22 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             return;
         }
         if (i == R.id.iv_setting) {
-            //ToastUtils.showShort("点击了 左上角设置");
+            //点击了 左上角设置
             ActivityToActivity.toActivity(ARouterConfig.Me.SETTINGACTIVITY);
         } else if (i == R.id.iv_message) {
-            //ToastUtils.showShort("点击了 右上角消息");
+            //点击了 右上角消息
             ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
         } else if (i == R.id.ll_headItem1) {
-            //ToastUtils.showShort("点击了 商品收藏");
+            //点击了 商品收藏
             ActivityToActivity.toActivity(ARouterConfig.Me.COLLECTIONACTIVITY, "pageIndex", 0);
         } else if (i == R.id.ll_headItem2) {
-            //ToastUtils.showShort("点击了 店铺收藏");
+            //点击了 店铺收藏
             ActivityToActivity.toActivity(ARouterConfig.Me.COLLECTIONACTIVITY, "pageIndex", 1);
         } else if (i == R.id.ll_headItem3) {
-            //ToastUtils.showShort("点击了 我的足迹");
+            //点击了 我的足迹
             ActivityToActivity.toActivity(ARouterConfig.Me.FOOTPRINTACTIVITY);
         } else if (i == R.id.iv_headImage) {
-            //ToastUtils.showShort("点击了 头像");
+            //点击了 头像
         }
     }
 }

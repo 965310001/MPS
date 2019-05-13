@@ -23,13 +23,16 @@ import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.ShopsCollectionAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.ShopsCollectionBean;
+import com.mingpinmall.me.ui.constants.Constants;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
+
 /**
  * 功能描述：店铺收藏页面
- * 创建人：小斌
- * 创建时间: 2019/3/26
+ * @author 小斌
+ * @date 2019/3/26
  **/
 public class ShopsCollectionFragment extends AbsLifecycleFragment<FragmentDefaultRecyclerviewBinding, MeViewModel> {
 
@@ -56,95 +59,70 @@ public class ShopsCollectionFragment extends AbsLifecycleFragment<FragmentDefaul
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_me_store);
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_collect_empty);
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_collect_empty);
-        emptyView.findViewById(R.id.btn_action).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //前往店铺街
-                ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
-            }
+        emptyView.findViewById(R.id.btn_action).setOnClickListener(v -> {
+            //前往店铺街
+            ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
         });
         collectionAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(collectionAdapter);
 
-        binding.refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                isLoadmore = true;
-                mViewModel.getShopsCollectList(pageIndex + 1);
-            }
-
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                isLoadmore = false;
-                mViewModel.getShopsCollectList(1);
-            }
+        binding.refreshLayout.setEnableLoadMore(false);
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            isLoadmore = false;
+            mViewModel.getShopsCollectList(1);
         });
-        collectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //点击事件，跳转到店铺
-                ShopsCollectionBean.FavoritesListBean bean = collectionAdapter.getItem(position);
-                ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", bean.getStore_id());
-            }
+        collectionAdapter.setOnLoadMoreListener(()-> {
+            isLoadmore = true;
+            mViewModel.getShopsCollectList(pageIndex + 1);
+        }, binding.recyclerView);
+        collectionAdapter.setOnItemClickListener((adapter, view, position) -> {
+            //点击事件，跳转到店铺
+            ShopsCollectionBean.FavoritesListBean bean = collectionAdapter.getItem(position);
+            ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", bean.getStore_id());
         });
-        collectionAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                //子控件点击事件
-                final ShopsCollectionBean.FavoritesListBean itemData = collectionAdapter.getItem(position);
-                if (view.getId() == R.id.iv_delete) {
-                    //删除这条收藏
-                    TextDialog.showBaseDialog(activity, "取消收藏", "确定取消收藏吗？", new TextDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick() {
-                            mViewModel.deleShopsCollect(itemData.getStore_id());
-                        }
-                    }).show();
-                }
+        collectionAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //子控件点击事件
+            final ShopsCollectionBean.FavoritesListBean itemData = collectionAdapter.getItem(position);
+            if (view.getId() == R.id.iv_delete) {
+                //删除这条收藏
+                TextDialog.showBaseDialog(activity, "取消收藏", "确定取消收藏吗？", () -> mViewModel.deleShopsCollect(itemData.getStore_id())).show();
             }
         });
     }
 
     @Override
     protected void dataObserver() {
-        registerObserver("DEL_SHOP_COLLECT", String.class)
-                .observeForever(new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String msg) {
-                        if (msg.equals("success")) {
-                            lazyLoad();
-                        } else {
-                            ToastUtils.showShort(msg);
-                        }
-                    }
-                });
-        registerObserver("SHOPS_COLLECT_LIST", Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object result) {
-                        if (result instanceof String) {
-                            ToastUtils.showShort(result.toString());
-                            if (isLoadmore)
-                                binding.refreshLayout.finishLoadMore(false);
-                            else
-                                binding.refreshLayout.finishRefresh(false);
-                        } else {
-                            BaseResponse<ShopsCollectionBean> data = (BaseResponse<ShopsCollectionBean>) result;
-                            if (isLoadmore) {
-                                pageIndex++;
-                                binding.refreshLayout.finishLoadMore();
-                                collectionAdapter.addData(data.getData().getFavorites_list());
-                            } else {
-                                pageIndex = 1;
-                                binding.refreshLayout.finishRefresh();
-                                collectionAdapter.setNewData(data.getData().getFavorites_list());
-                            }
-                            if (!data.isHasmore()) {
-                                binding.refreshLayout.setNoMoreData(true);
-                            }
-                        }
-                    }
-                });
+        registerObserver(Constants.DEL_SHOP_COLLECT, String.class).observeForever(msg -> {
+            if (msg.equals(SUCCESS)) {
+                lazyLoad();
+            } else {
+                ToastUtils.showShort(msg);
+            }
+        });
+        registerObserver(Constants.SHOPS_COLLECT_LIST, Object.class).observeForever(result -> {
+            if (result instanceof String) {
+                ToastUtils.showShort(result.toString());
+                if (isLoadmore) {
+                    collectionAdapter.loadMoreFail();
+                } else {
+                    binding.refreshLayout.finishRefresh(false);
+                }
+            } else {
+                BaseResponse<ShopsCollectionBean> data = (BaseResponse<ShopsCollectionBean>) result;
+                if (isLoadmore) {
+                    pageIndex++;
+                    collectionAdapter.loadMoreComplete();
+                    collectionAdapter.addData(data.getData().getFavorites_list());
+                } else {
+                    pageIndex = 1;
+                    binding.refreshLayout.finishRefresh();
+                    collectionAdapter.setNewData(data.getData().getFavorites_list());
+                }
+                if (!data.isHasmore()) {
+                    collectionAdapter.loadMoreEnd();
+                }
+            }
+        });
     }
 
     @Override
