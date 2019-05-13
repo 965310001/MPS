@@ -33,42 +33,42 @@
         <View
             style="@style/HorizontalLine"
             android:layout_marginTop="4dp"
+            android:alpha="0.5"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_head" />
 
         <TextView
-            android:layout_marginTop="@dimen/dp_6"
             android:id="@+id/tv_scores"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_6"
             android:text="@{data.geval_scores}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_head"
             tools:text="星" />
-
 
         <TextView
             android:id="@+id/tv_name"
             style="@style/TextStyle"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_40"
+            android:layout_marginStart="@dimen/dp_10"
             android:gravity="start|center_vertical"
-            android:paddingStart="@dimen/dp_10"
             android:text="@{data.geval_frommembername}"
+            android:textColor="@color/black"
             app:layout_constraintLeft_toRightOf="@id/iv_head"
             app:layout_constraintRight_toLeftOf="@id/tv_time"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="张三" />
+            tools:text="张三张三张三张三张三张三张三张三张三" />
 
         <TextView
             android:id="@+id/tv_comment"
             style="@style/TextStyle"
             android:layout_marginTop="@dimen/dp_2"
             android:lineSpacingExtra="4dp"
-            android:paddingStart="@dimen/dp_10"
             android:text="@{data.geval_content}"
-            app:layout_constraintLeft_toRightOf="@id/iv_head"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_scores"
             tools:text="内容" />
 
@@ -76,11 +76,10 @@
             style="@style/TextStyle"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_2"
-            android:paddingStart="@dimen/dp_10"
             android:text="@{`解释:`+data.geval_explain}"
             android:textColor="@color/shallow_red"
             android:visibility="@{TextUtils.isEmpty(data.geval_explain)?View.GONE:View.VISIBLE}"
-            app:layout_constraintLeft_toRightOf="@id/iv_head"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_comment"
             tools:text="解释" />
 
