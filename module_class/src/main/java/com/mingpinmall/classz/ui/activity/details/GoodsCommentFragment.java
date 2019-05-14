@@ -29,12 +29,12 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     @Override
     protected void getRemoteData() {
         super.getRemoteData();
-        if (!isAdd) {
-            KLog.i(isAdd+" TAG13");
-            itemData.add(new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价", String.valueOf(index))));
-            isAdd = true;
-//            setData(itemData);
-        }
+//        if (!isAdd) {
+//            KLog.i(isAdd+" TAG13");
+//            itemData.add(new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价", String.valueOf(index))));
+//            isAdd = true;
+////            setData(itemData);
+//        }
         mViewModel.getEvaluate(((ShoppingDetailsActivity) activity).getId(), type, String.valueOf(page));
     }
 
@@ -51,8 +51,9 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
                 .observe(this, response -> {
                     KLog.i("EVALUATE_EVENT_KEY");
                     isAdd = true;
-                    itemData.addAll(response.getDatas().getGoods_eval_list());
-                    setData(itemData);
+//                    itemData.addAll(response.getDatas().getGoods_eval_list());
+//                    setData(itemData);
+                    setData(response.getDatas().getGoods_eval_list());
                 });
         registerObserver("FLOWTAGLAYOUT_POSTION", Integer.class).observe(this, integer -> {
             if (integer == 0) {
@@ -70,13 +71,13 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
         });
     }
 
-    @Override
-    public void onRefresh() {
-        isAdd = false;
-        itemData.clear();
-        adapter.notifyDataSetChanged();
-        super.onRefresh();
-    }
+//    @Override
+//    public void onRefresh() {
+//        isAdd = false;
+//        itemData.clear();
+//        adapter.notifyDataSetChanged();
+//        super.onRefresh();
+//    }
 
     @Override
     protected DelegateAdapter createAdapter() {
