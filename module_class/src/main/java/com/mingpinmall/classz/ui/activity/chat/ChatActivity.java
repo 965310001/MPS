@@ -288,7 +288,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
     private void notifyItemInserted(boolean isUpdate) {
         if (isUpdate) {
-            /*binding.setList(itemData);*/
+            binding.setList(itemData);
             binding.getAdapter().notifyItemInserted(itemData.size() - 1);
             mRecyclerView.scrollToPosition(itemData.size() - 1);
         }
