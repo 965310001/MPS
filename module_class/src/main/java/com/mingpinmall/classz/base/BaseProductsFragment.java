@@ -102,25 +102,22 @@ public abstract class BaseProductsFragment<T extends ClassifyViewModel> extends 
         // TODO: 2019/4/9 待测试
         /*筛选*/
         registerObserver(getCustompopWindowKey(), ScreenInfo.class)
-                .observe(this, new Observer<ScreenInfo>() {
-                    @Override
-                    public void onChanged(@Nullable ScreenInfo reponse) {
-                        areaId = reponse.areaId;
-                        priceFrom = reponse.priceFrom;
-                        priceTo = reponse.priceTo;
-                        for (String s : reponse.shoppingServer) {
-                            ci = ci.concat(s).concat("_");
-                        }
-                        for (String s : reponse.goodsType) {
-                            st = st.concat(s).concat("_");
-                        }
-                        keyword = "";
-//                        areaId="";
-                        order = "";
-                        key = "";
-                        id = "";
-                        onRefresh();
+                .observe(this, reponse -> {
+                    areaId = reponse.areaId;
+                    priceFrom = reponse.priceFrom;
+                    priceTo = reponse.priceTo;
+                    for (String s : reponse.shoppingServer) {
+                        ci = ci.concat(s).concat("_");
                     }
+                    for (String s : reponse.goodsType) {
+                        st = st.concat(s).concat("_");
+                    }
+                    keyword = "";
+//                        areaId="";
+                    order = "";
+                    key = "";
+                    id = "";
+                    onRefresh();
                 });
     }
 

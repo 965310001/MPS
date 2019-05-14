@@ -88,12 +88,9 @@ public class DatabingUtils {
         if (null != data && !TextUtils.isEmpty(data.getGc_name())) {
             settingItem.setLeftText(data.getGc_name());
         }
-        settingItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
-            @Override
-            public void click(boolean isChecked) {
-                KLog.i(data.getGc_name() + " " + data.getGc_id());
-                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(data.getGc_id()));
-            }
+        settingItem.setmOnLSettingItemClick(isChecked -> {
+            KLog.i(data.getGc_name() + " " + data.getGc_id());
+            ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(data.getGc_id()));
         });
     }
 
@@ -102,12 +99,7 @@ public class DatabingUtils {
         if (null != data && !TextUtils.isEmpty(data)) {
             settingItem.setLeftText(data);
         }
-        settingItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                KLog.i("商家界面");
-            }
-        });
+        settingItem.setOnClickListener(v -> KLog.i("商家界面"));
     }
 
     @BindingAdapter({"prightText"})
@@ -178,16 +170,20 @@ public class DatabingUtils {
     }
 
 
-    /*设置 星星数量*/
+    /*设置 FlowTagLayout*/
     @BindingAdapter(value = {"list", "eventkey"}, requireAll = false)
     public static void setFlowTagLayout(FlowTagLayout flowTagLayout, List list, Object eventkey) {
         if (null != flowTagLayout && null != list && list.size() > 0) {
+            /*int index = Integer.parseInt((String) list.get(list.size() - 1));*/
             CustomDefaultFlowTagAdapter adapter = new CustomDefaultFlowTagAdapter(flowTagLayout.getContext());
             flowTagLayout.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
             flowTagLayout.setAdapter(adapter);
-            flowTagLayout.setItems(list);
-            flowTagLayout.setSelectedPositions(0);
-            flowTagLayout.setOnTagClickListener((parent, view, position) -> {
+            /*list.remove(list.get(list.size() - 1));*/
+            flowTagLayout.setItems(list.subList(0, list.size()-1));
+            flowTagLayout.setSelectedPositions(Integer.valueOf(list.get(list.size() - 1).toString()));
+            KLog.i(Integer.valueOf(list.get(list.size() - 1).toString())+"");
+//            KLog.i(Integer.valueOf((Integer) list.get(list.size() - 1))+"");
+            flowTagLayout.setOnTagSelectListener((parent, position, selectedList) -> {
                 if (null != eventkey) {
                     LiveBus.getDefault().postEvent(eventkey, position);
                 }

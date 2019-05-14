@@ -1,6 +1,5 @@
 package com.mingpinmall.classz.ui.activity.store;
 
-import android.arch.lifecycle.Observer;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,8 +17,6 @@ import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
-
-import io.reactivex.annotations.Nullable;
 
 /**
  * 店铺首页
@@ -45,49 +42,43 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
         super.dataObserver();
 
         registerObserver(Constants.STORE_GOODS_RANK_KEY[0], BaseResponse.class)
-                .observeForever(new Observer<BaseResponse>() {
-                    @Override
-                    public void onChanged(@Nullable BaseResponse response) {
-                        if (response.isSuccess()) {
-                            BaseResponse<StoreInfo> data = response;
-                            try {
-                                ItemData itemData = new ItemData();
-                                itemData.add(new TypeInfo("店铺排行榜"));
-                                GoodsListInfo goodsListInfo = new GoodsListInfo();
-                                goodsListInfo.setCollectdesc_goods_list(data.getData().getCollectdesc_goods_list());
-                                goodsListInfo.setSalenumdesc_goods_list(data.getData().getSalenumdesc_goods_list());
-                                goodsListInfo.setList(goodsListInfo.getCollectdesc_goods_list());
-                                itemData.add(goodsListInfo);
-                                itemData.add(new TypeInfo("店主推荐"));
-                                itemData.addAll(data.getData().getRec_goods_list());
-                                setData(itemData);
-                                ((StoreActivity) getActivity()).setStoreInfo(data.getData().getStore_info());
-                            } catch (Exception e) {
-                                KLog.i(e.toString());
-                            }
-                        } else {
-                            ToastUtils.showLong(response.getMessage());
+                .observeForever(response -> {
+                    if (response.isSuccess()) {
+                        BaseResponse<StoreInfo> data = response;
+                        try {
+                            ItemData itemData = new ItemData();
+                            itemData.add(new TypeInfo("店铺排行榜"));
+                            GoodsListInfo goodsListInfo = new GoodsListInfo();
+                            goodsListInfo.setCollectdesc_goods_list(data.getData().getCollectdesc_goods_list());
+                            goodsListInfo.setSalenumdesc_goods_list(data.getData().getSalenumdesc_goods_list());
+                            goodsListInfo.setList(goodsListInfo.getCollectdesc_goods_list());
+                            itemData.add(goodsListInfo);
+                            itemData.add(new TypeInfo("店主推荐"));
+                            itemData.addAll(data.getData().getRec_goods_list());
+                            setData(itemData);
+                            ((StoreActivity) getActivity()).setStoreInfo(data.getData().getStore_info());
+                        } catch (Exception e) {
+                            KLog.i(e.toString());
                         }
+                    } else {
+                        ToastUtils.showLong(response.getMessage());
                     }
                 });
 
         registerObserver("TabLayout", "TabLayout")
-                .observe(this, new Observer<Object>() {
-                    @Override
-                    public void onChanged(@android.support.annotation.Nullable Object object) {
-                        int index = (int) object;
-                        GoodsListInfo goodsListInfo;
-                        for (int i = 0; i < adapter.getItems().size(); i++) {
-                            if (adapter.getItems().get(i) instanceof GoodsListInfo) {
-                                goodsListInfo = (GoodsListInfo) adapter.getItems().get(i);
-                                switch (index) {
-                                    case 0:
-                                        goodsListInfo.setList(goodsListInfo.getCollectdesc_goods_list());
-                                        break;
-                                    case 1:
-                                        goodsListInfo.setList(goodsListInfo.getSalenumdesc_goods_list());
-                                        break;
-                                }
+                .observe(this, object -> {
+                    int index = (int) object;
+                    GoodsListInfo goodsListInfo;
+                    for (int i = 0; i < adapter.getItems().size(); i++) {
+                        if (adapter.getItems().get(i) instanceof GoodsListInfo) {
+                            goodsListInfo = (GoodsListInfo) adapter.getItems().get(i);
+                            switch (index) {
+                                case 0:
+                                    goodsListInfo.setList(goodsListInfo.getCollectdesc_goods_list());
+                                    break;
+                                case 1:
+                                    goodsListInfo.setList(goodsListInfo.getSalenumdesc_goods_list());
+                                    break;
                             }
                         }
                     }

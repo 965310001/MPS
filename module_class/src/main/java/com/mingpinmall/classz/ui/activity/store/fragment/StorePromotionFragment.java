@@ -1,8 +1,5 @@
 package com.mingpinmall.classz.ui.activity.store.fragment;
 
-import android.arch.lifecycle.Observer;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
@@ -41,17 +38,14 @@ public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> 
         super.dataObserver();
 
         registerObserver(Constants.STORE_GOODS_RANK_KEY[4], StorePromotionInfo.class)
-                .observe(this, new Observer<StorePromotionInfo>() {
-                    @Override
-                    public void onChanged(@Nullable StorePromotionInfo response) {
-                        try {
-                            ItemData itemData = new ItemData();
-                            itemData.add(response.getDatas().getPromotion().getMansong());
-                            itemData.add(response.getDatas().getPromotion().getXianshi());
-                            setData(itemData);
-                        } catch (Exception e) {
-                            KLog.i(e.toString());
-                        }
+                .observe(this, response -> {
+                    try {
+                        ItemData itemData = new ItemData();
+                        itemData.add(response.getDatas().getPromotion().getMansong());
+                        itemData.add(response.getDatas().getPromotion().getXianshi());
+                        setData(itemData);
+                    } catch (Exception e) {
+                        KLog.i(e.toString());
                     }
                 });
     }

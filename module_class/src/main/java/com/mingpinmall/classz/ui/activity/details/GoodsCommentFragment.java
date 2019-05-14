@@ -1,6 +1,5 @@
 package com.mingpinmall.classz.ui.activity.details;
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
@@ -21,8 +20,7 @@ import java.util.Arrays;
  */
 public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
 
-    /*全部评价 好评 中评 差评 订单晒图 追加评价*/
-    String type = "";
+    private String type = "";
 
     public static GoodsCommentFragment newInstance() {
         return new GoodsCommentFragment();
@@ -31,10 +29,17 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     @Override
     protected void getRemoteData() {
         super.getRemoteData();
+        if (!isAdd) {
+            KLog.i(isAdd+" TAG13");
+            itemData.add(new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价", String.valueOf(index))));
+            isAdd = true;
+//            setData(itemData);
+        }
         mViewModel.getEvaluate(((ShoppingDetailsActivity) activity).getId(), type, String.valueOf(page));
-        /*itemData.add(new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价")));*/
-        setData(itemData);
     }
+
+    boolean isAdd;
+    int index;
 
     ItemData itemData = new ItemData();
 
@@ -45,19 +50,32 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
         registerObserver(Constants.EVALUATE_EVENT_KEY[0], GoodsCommentListBean.class)
                 .observe(this, response -> {
                     KLog.i("EVALUATE_EVENT_KEY");
-                    setData(response.getDatas().getGoods_eval_list());
+                    isAdd = true;
+                    itemData.addAll(response.getDatas().getGoods_eval_list());
+                    setData(itemData);
                 });
-
         registerObserver("FLOWTAGLAYOUT_POSTION", Integer.class).observe(this, integer -> {
             if (integer == 0) {
                 type = "";
             } else {
                 type = String.valueOf(integer);
             }
-            /*itemData.add(new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价")));*/
+            index = integer;
+            isAdd = false;
+            itemData.clear();
+            adapter.notifyDataSetChanged();
             onRefresh();
+//            getRemoteData();
             KLog.i(type);
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        isAdd = false;
+        itemData.clear();
+        adapter.notifyDataSetChanged();
+        super.onRefresh();
     }
 
     @Override

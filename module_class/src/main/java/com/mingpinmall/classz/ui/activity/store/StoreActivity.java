@@ -1,9 +1,7 @@
 package com.mingpinmall.classz.ui.activity.store;
 
-import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -23,12 +21,11 @@ import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityStoreBinding;
-import com.mingpinmall.classz.ui.activity.store.fragment.StoreProductsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StoreNewGoodsFragment;
+import com.mingpinmall.classz.ui.activity.store.fragment.StoreProductsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StorePromotionFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
-import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 import com.mingpinmall.classz.widget.XBottomSheet;
@@ -109,89 +106,80 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
         super.dataObserver();
         /*收藏*/
         registerObserver(Constants.STORE_FAVORITES, ResultBean.class)
-                .observeForever(new Observer<ResultBean>() {
-                    @Override
-                    public void onChanged(@android.support.annotation.Nullable ResultBean response) {
-                        /*KLog.i(response.isSuccess() + " " + response.getError());*/
-                        if (response.isSuccess()) {
-                            int store_collect = storeInfo.getStore_collect();
-                            storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);
-                            storeInfo.setIs_favorate(!storeInfo.isIs_favorate());
-                        } else {
-                            ToastUtils.showLong(response.getError());
-                        }
+                .observeForever(response -> {
+                    /*KLog.i(response.isSuccess() + " " + response.getError());*/
+                    if (response.isSuccess()) {
+                        int store_collect = storeInfo.getStore_collect();
+                        storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);
+                        storeInfo.setIs_favorate(!storeInfo.isIs_favorate());
+                    } else {
+                        ToastUtils.showLong(response.getError());
                     }
                 });
         /*代金券*/
         registerObserver(Constants.VOUCHER[0], BaseResponse.class)
-                .observeForever(new Observer<BaseResponse>() {
-                    @Override
-                    public void onChanged(@Nullable BaseResponse response) {
-                        BaseResponse<VoucherInfo> data = response;
-                        if (data.isSuccess()) {
-                            List<VoucherInfo.VoucherListBean> voucher_list = data.getData().getVoucher_list();
+                .observeForever(response -> {
+                    BaseResponse<VoucherInfo> data = response;
+                    if (data.isSuccess()) {
+                        List<VoucherInfo.VoucherListBean> voucher_list = data.getData().getVoucher_list();
 
-                            // TODO: 2019/4/29 测试
-                            if (null != voucher_list) {
-                                if (null == xBottomSheet) {
-                                    xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
-                                            .setItemData(voucher_list)
-                                            .setAdapter(AdapterPool.newInstance()
-                                                    .getVoucherInfoAdapter(activity)
-                                                    .build())
-                                            .setLayoutManager(new LinearLayoutManager(activity))
-                                            .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
-                                                @Override
-                                                public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
-                                                    dialog.dismiss();
-                                                    ToastUtils.showLong("Item " + (position + 1));
-                                                }
-                                            })
-                                            .build();
-                                }
-                                xBottomSheet.show();
-                            } else {
-                                ToastUtils.showLong("暂时没有代金券");
+                        // TODO: 2019/4/29 测试
+                        if (null != voucher_list) {
+                            if (null == xBottomSheet) {
+                                xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
+                                        .setItemData(voucher_list)
+                                        .setAdapter(AdapterPool.newInstance()
+                                                .getVoucherInfoAdapter(activity)
+                                                .build())
+                                        .setLayoutManager(new LinearLayoutManager(activity))
+                                        .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
+                                            @Override
+                                            public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
+                                                dialog.dismiss();
+                                                ToastUtils.showLong("Item " + (position + 1));
+                                            }
+                                        })
+                                        .build();
                             }
-                            // TODO: 2019/4/29 测试end
-                           /* if (null != voucher_list && voucher_list.size() > 0) {
-                                if (null == xBottomSheet) {
-                                    xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
-                                            .setItemData(voucher_list)
-                                            .setAdapter(AdapterPool.newInstance()
-                                                    .getVoucherInfoAdapter(activity)
-                                                    .build())
-                                            .setLayoutManager(new LinearLayoutManager(activity))
-                                            .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
-                                                @Override
-                                                public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
-                                                    dialog.dismiss();
-                                                    ToastUtils.showLong("Item " + (position + 1));
-                                                }
-                                            })
-                                            .build();
-                                }
-                                xBottomSheet.show();
-                            } else {
-                                ToastUtils.showLong("暂时没有代金券");
-                            }*/
+                            xBottomSheet.show();
                         } else {
-                            ToastUtils.showLong(data.getMessage());
+                            ToastUtils.showLong("暂时没有代金券");
                         }
+                        // TODO: 2019/4/29 测试end
+                       /* if (null != voucher_list && voucher_list.size() > 0) {
+                            if (null == xBottomSheet) {
+                                xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
+                                        .setItemData(voucher_list)
+                                        .setAdapter(AdapterPool.newInstance()
+                                                .getVoucherInfoAdapter(activity)
+                                                .build())
+                                        .setLayoutManager(new LinearLayoutManager(activity))
+                                        .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
+                                            @Override
+                                            public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
+                                                dialog.dismiss();
+                                                ToastUtils.showLong("Item " + (position + 1));
+                                            }
+                                        })
+                                        .build();
+                            }
+                            xBottomSheet.show();
+                        } else {
+                            ToastUtils.showLong("暂时没有代金券");
+                        }*/
+                    } else {
+                        ToastUtils.showLong(data.getMessage());
                     }
                 });
 
         /*领取代金券*/
         registerObserver(Constants.VOUCHER[2], ResultBean.class)
-                .observe(this, new Observer<ResultBean>() {
-                    @Override
-                    public void onChanged(@Nullable ResultBean response) {
-                        xBottomSheet.dismiss();
-                        if (response.isSuccess()) {
-                            ToastUtils.showLong("领取成功");
-                        } else {
-                            ToastUtils.showLong(response.getError());
-                        }
+                .observe(this, response -> {
+                    xBottomSheet.dismiss();
+                    if (response.isSuccess()) {
+                        ToastUtils.showLong("领取成功");
+                    } else {
+                        ToastUtils.showLong(response.getError());
                     }
                 });
     }

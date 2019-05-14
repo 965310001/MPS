@@ -1,7 +1,5 @@
 package com.mingpinmall.classz.ui.activity.store.fragment;
 
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -39,24 +37,21 @@ public class StoreNewGoodsFragment extends BaseListFragment<ClassifyViewModel> {
         super.dataObserver();
 
         registerObserver(Constants.STORE_GOODS_RANK_KEY[3], GoodsListInfo.class)
-                .observe(this, new Observer<GoodsListInfo>() {
-                    @Override
-                    public void onChanged(@Nullable GoodsListInfo response) {
-                        KLog.i("TAG123", "新品" + response.getDatas().getGoods_list().size());
+                .observe(this, response -> {
+                    KLog.i("TAG123", "新品" + response.getDatas().getGoods_list().size());
 
-                        ItemData itemData = new ItemData();
-                        String s = "";
+                    ItemData itemData = new ItemData();
+                    String s = "";
 
-                        for (GoodsInfo goodsInfo : response.getDatas().getGoods_list()) {
-                            if (!s.equals(goodsInfo.getGoods_addtime_text())) {
-                                s = goodsInfo.getGoods_addtime_text();
-                                itemData.add(s);
-                            }
-                            itemData.add(goodsInfo);
+                    for (GoodsInfo goodsInfo : response.getDatas().getGoods_list()) {
+                        if (!s.equals(goodsInfo.getGoods_addtime_text())) {
+                            s = goodsInfo.getGoods_addtime_text();
+                            itemData.add(s);
                         }
-                        KLog.i(itemData);
-                        setData(itemData);
+                        itemData.add(goodsInfo);
                     }
+                    KLog.i(itemData);
+                    setData(itemData);
                 });
     }
 

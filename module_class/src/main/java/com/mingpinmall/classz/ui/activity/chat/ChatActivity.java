@@ -1,6 +1,5 @@
 package com.mingpinmall.classz.ui.activity.chat;
 
-import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -57,7 +56,7 @@ import java.util.List;
 /**
  * 商品分类list
  */
-@Route(path = ARouterConfig.classify.CHATACTIVITY)
+@Route(path = ARouterConfig.classify.CHATACTIVITY, extras = ARouterConfig.LOGIN_NEEDED)
 public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, ClassifyViewModel> implements OnItemClickListener {
 
     @Autowired
