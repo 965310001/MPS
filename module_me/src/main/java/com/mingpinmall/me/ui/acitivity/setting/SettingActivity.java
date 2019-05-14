@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -42,7 +43,6 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
 
     private BaseCheckBean checkPhoneState;
 
-
     SettingAdapter settingAdapter;
 
     @Override
@@ -57,6 +57,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
         ARouter.getInstance().inject(this);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         settingAdapter = new SettingAdapter();
+        settingAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         settingAdapter.bindToRecyclerView(binding.recyclerView);
 
         initItems();

@@ -217,8 +217,9 @@ public class SelectPhotosTools {
                     // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
                     imageAdapter.removePhotoPath(imagePath);
                     imagePath.clear();
+                    BaseSelectPhotos blockPhoto;
                     for (LocalMedia lm : selectList) {
-                        BaseSelectPhotos blockPhoto = new BaseSelectPhotos();
+                        blockPhoto = new BaseSelectPhotos();
                         if (lm.isCompressed()) {
                             blockPhoto.setOriginalurl(lm.getCompressPath());
                         } else if (lm.isCut()) {
@@ -229,6 +230,8 @@ public class SelectPhotosTools {
                         imagePath.add(blockPhoto);
                     }
                     imageAdapter.addPhotoPath(imagePath);
+                    break;
+                default:
                     break;
             }
         }

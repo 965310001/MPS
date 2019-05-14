@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.bean.NewDatasResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
@@ -76,6 +77,7 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
         super.initView(state);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         physicalOrderListAdapter = new PhysicalOrderListAdapter();
+        physicalOrderListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_order_empty_white);
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_order_empty);
@@ -175,12 +177,25 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                 lazyLoad();
             }
         });
-        registerObserver(eventKey, Constants.RECEVIE_ORDER, String.class)
+        registerObserver(eventKey, Constants.REMOVE_ORDER, String.class)
                 .observeForever(msg -> {
                     //移除订单
                     if (msg.equals(SUCCESS)) {
                         //成功
                         ToastUtils.showShort("移除订单");
+                        lazyLoad();
+                    } else {
+                        //操作失败
+                        ToastUtils.showShort(msg);
+                    }
+
+                });
+        registerObserver(eventKey, Constants.CANCEL_ORDER, String.class)
+                .observeForever(msg -> {
+                    //移除订单
+                    if (msg.equals(SUCCESS)) {
+                        //成功
+                        ToastUtils.showShort("订单已取消");
                         lazyLoad();
                     } else {
                         //操作失败

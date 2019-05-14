@@ -26,15 +26,26 @@
                 android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                app:srlFooterInsetStart="46dp">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     style="@style/VerticalScrollBarRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:paddingBottom="46dp" />
 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
@@ -45,14 +56,14 @@
                 android:id="@+id/cl_payContent"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
-                android:background="@color/white"
+                android:background="#CEFFFFFF"
                 android:visibility="gone"
                 tools:visibility="visible">
 
                 <com.goldze.common.dmvvm.widget.SmoothCheckBox
                     android:id="@+id/cb_selectAll"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_margin="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:textColor="@color/app_theme_d61619"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tv_payNow"

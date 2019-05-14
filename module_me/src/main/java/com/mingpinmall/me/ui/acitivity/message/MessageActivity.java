@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -40,6 +41,7 @@ public class MessageActivity extends AbsLifecycleActivity<ActivityMessageBinding
         super.initViews(savedInstanceState);
         setTitle(R.string.title_messageActivity);
         listAdapter = new MessageListAdapter();
+        listAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_message_white);

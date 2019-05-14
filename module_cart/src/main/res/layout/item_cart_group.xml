@@ -14,20 +14,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="44dp"
             android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <com.goldze.common.dmvvm.widget.SmoothCheckBox
                 android:id="@+id/cb_single"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="12dp" />
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="12dp"
                 app:srcCompat="@drawable/ic_store_b" />
 
@@ -38,7 +38,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <View
                 android:layout_width="@dimen/line_hight"
@@ -57,14 +57,15 @@
                 tools:visibility="visible">
 
                 <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     app:srcCompat="@drawable/ic_cart_coupon_small" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
+                    android:textSize="14sp"
                     android:text="领券"
                     android:textColor="@color/black" />
 
@@ -100,7 +101,7 @@
                 android:paddingBottom="2dp"
                 android:text="免运费"
                 android:textColor="@color/white"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -111,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:textColor="@color/color_text"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_tips0"
                 app:layout_constraintStart_toEndOf="@id/tv_tips0"
                 app:layout_constraintTop_toTopOf="@id/tv_tips0"
@@ -147,7 +148,7 @@
                 android:paddingBottom="2dp"
                 android:text="满即送"
                 android:textColor="@color/white"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

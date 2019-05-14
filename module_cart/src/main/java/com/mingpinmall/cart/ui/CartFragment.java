@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -86,6 +87,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             LiveBus.getDefault().postEvent("Main", "tab", 0);
         });
         shopCartAdapter = new ShopCartAdapter();
+        shopCartAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         shopCartAdapter.setEmptyView(emptyView);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recyclerView.setAdapter(shopCartAdapter);

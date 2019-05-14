@@ -32,13 +32,10 @@ public class CardSurplusChargeFragment extends AbsLifecycleFragment<FragmentCard
     public void initView(Bundle state) {
         super.initView(state);
         progressDialog = ProgressDialog.initNewDialog(getChildFragmentManager());
-        binding.btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (binding.edCardNum.length() > 0) {
-                    progressDialog.onLoading("");
-                    mViewModel.rcCharge(binding.edCardNum.getText().toString());
-                }
+        binding.btnSubmit.setOnClickListener(v -> {
+            if (binding.edCardNum.length() > 0) {
+                progressDialog.onLoading("");
+                mViewModel.rcCharge(binding.edCardNum.getText().toString());
             }
         });
     }

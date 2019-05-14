@@ -6,6 +6,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
@@ -48,6 +49,7 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
     public void initView(Bundle state) {
         super.initView(state);
         collectionAdapter = new ProductCollectionAdapter();
+        collectionAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         binding.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_me_favorite);

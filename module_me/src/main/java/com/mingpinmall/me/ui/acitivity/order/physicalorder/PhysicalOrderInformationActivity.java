@@ -95,7 +95,7 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
                 ToastUtils.showShort(result.toString());
             }
         });
-        registerObserver("INFORMATION_CANCEL_ORDER", Constants.RECEVIE_ORDER, String.class)
+        registerObserver("INFORMATION_CANCEL_ORDER", Constants.CANCEL_ORDER, String.class)
                 .observeForever(msg -> {
                     if (SUCCESS.equals(msg)) {
                         setResult(RESULT_OK);

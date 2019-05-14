@@ -43,6 +43,7 @@ public class VipIntegralActivity extends AbsLifecycleActivity<ActivityVipintergr
         super.initViews(savedInstanceState);
         setTitle(R.string.title_vipIntegralActivity);
         listAdapter = new VipPointListAdapter();
+        listAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(activity,
                 DividerItemDecoration.VERTICAL));
