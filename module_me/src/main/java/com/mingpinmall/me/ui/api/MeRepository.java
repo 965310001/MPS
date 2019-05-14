@@ -815,14 +815,14 @@ public class MeRepository extends BaseRepository {
                         if (result.isSuccess()) {
                             sendData(eventKey, Constants.REMOVE_ORDER, SUCCESS);
                         } else {
-                            sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
+                            sendData(eventKey, Constants.REMOVE_ORDER, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData(eventKey, Constants.RECEVIE_ORDER, msg == null ? "删除订单失败" : msg);
+                        sendData(eventKey, Constants.REMOVE_ORDER, msg == null ? "删除订单失败" : msg);
                     }
                 })
         );
@@ -837,16 +837,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(eventKey, Constants.RECEVIE_ORDER, SUCCESS);
+                            sendData(eventKey, Constants.CANCEL_ORDER, SUCCESS);
                         } else {
-                            sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
+                            sendData(eventKey, Constants.CANCEL_ORDER, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData(eventKey, Constants.RECEVIE_ORDER, msg == null ? "取消订单失败" : msg);
+                        sendData(eventKey, Constants.CANCEL_ORDER, msg == null ? "取消订单失败" : msg);
                     }
                 })
         );
@@ -861,16 +861,16 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(eventKey, Constants.RECEVIE_ORDER, SUCCESS);
+                            sendData(eventKey, Constants.CANCEL_ORDER, SUCCESS);
                         } else {
-                            sendData(eventKey, Constants.RECEVIE_ORDER, result.getMessage());
+                            sendData(eventKey, Constants.CANCEL_ORDER, result.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        sendData(eventKey, Constants.RECEVIE_ORDER, msg == null ? "取消订单失败" : msg);
+                        sendData(eventKey, Constants.CANCEL_ORDER, msg == null ? "取消订单失败" : msg);
                     }
                 })
         );

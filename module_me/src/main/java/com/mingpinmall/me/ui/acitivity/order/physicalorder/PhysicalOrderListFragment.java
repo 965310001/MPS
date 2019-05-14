@@ -177,12 +177,25 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                 lazyLoad();
             }
         });
-        registerObserver(eventKey, Constants.RECEVIE_ORDER, String.class)
+        registerObserver(eventKey, Constants.REMOVE_ORDER, String.class)
                 .observeForever(msg -> {
                     //移除订单
                     if (msg.equals(SUCCESS)) {
                         //成功
                         ToastUtils.showShort("移除订单");
+                        lazyLoad();
+                    } else {
+                        //操作失败
+                        ToastUtils.showShort(msg);
+                    }
+
+                });
+        registerObserver(eventKey, Constants.CANCEL_ORDER, String.class)
+                .observeForever(msg -> {
+                    //移除订单
+                    if (msg.equals(SUCCESS)) {
+                        //成功
+                        ToastUtils.showShort("订单已取消");
                         lazyLoad();
                     } else {
                         //操作失败
