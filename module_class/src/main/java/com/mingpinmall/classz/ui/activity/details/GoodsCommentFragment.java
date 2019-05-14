@@ -29,16 +29,16 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     @Override
     protected void getRemoteData() {
         super.getRemoteData();
-//        if (!isAdd) {
-//            KLog.i(isAdd+" TAG13");
-//            itemData.add(new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价", String.valueOf(index))));
-//            isAdd = true;
-////            setData(itemData);
-//        }
+
+        KLog.i("EVALUATE_EVENT_KEY"+adapter.getItems().size());
+        if (itemData.size() == 0) {
+            KLog.i("EVALUATE_EVENT_KEY");
+            itemData.add(0, new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价", String.valueOf(index))));
+            setData(itemData);
+        }
         mViewModel.getEvaluate(((ShoppingDetailsActivity) activity).getId(), type, String.valueOf(page));
     }
 
-    boolean isAdd;
     int index;
 
     ItemData itemData = new ItemData();
@@ -49,10 +49,10 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
         /*评价列表*/
         registerObserver(Constants.EVALUATE_EVENT_KEY[0], GoodsCommentListBean.class)
                 .observe(this, response -> {
-                    KLog.i("EVALUATE_EVENT_KEY");
-                    isAdd = true;
 //                    itemData.addAll(response.getDatas().getGoods_eval_list());
 //                    setData(itemData);
+//                    setData(response.getDatas().getGoods_eval_list());
+//                    itemData.add(response.getDatas().getGoods_eval_list());
                     setData(response.getDatas().getGoods_eval_list());
                 });
         registerObserver("FLOWTAGLAYOUT_POSTION", Integer.class).observe(this, integer -> {
@@ -62,16 +62,15 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
                 type = String.valueOf(integer);
             }
             index = integer;
-            isAdd = false;
-            itemData.clear();
-            adapter.notifyDataSetChanged();
+//            itemData.clear();
+//            adapter.notifyDataSetChanged();
             onRefresh();
-//            getRemoteData();
             KLog.i(type);
         });
     }
 
-//    @Override
+
+    //    @Override
 //    public void onRefresh() {
 //        isAdd = false;
 //        itemData.clear();

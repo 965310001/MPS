@@ -268,8 +268,12 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<OrderInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<OrderInfo> result) {
-                        sendData(eventKey, result);
-                        showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.SUCCESS_STATE);
+                        if (result.isData() && result.isSuccess()) {
+                            sendData(eventKey, result.getData());
+                            showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.SUCCESS_STATE);
+                        } else {
+                            sendData(Constants.CONFIRMORDER_KEY[1] + "Error", result.getMessage());
+                        }
                     }
 
                     @Override
@@ -961,7 +965,6 @@ public class ClassifyRepository extends BaseRepository {
                     public void onSuccess(PayMessageInfo result) {
                         if (result.isSuccess()) {
                             sendData(eventKey + "Success", result);
-
                         } else {
                             sendData(Constants.CHAT[0] + "Error", result.getErr_code_des());
                         }

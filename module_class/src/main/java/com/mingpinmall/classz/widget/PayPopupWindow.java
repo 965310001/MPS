@@ -6,18 +6,15 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
-import com.mingpinmall.classz.BR;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentPayBinding;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
-import com.socks.library.KLog;
 
 import static com.xuexiang.xui.utils.ResUtils.getResources;
 

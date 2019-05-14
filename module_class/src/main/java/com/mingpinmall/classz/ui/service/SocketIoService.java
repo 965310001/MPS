@@ -49,6 +49,9 @@ public class SocketIoService extends Service {
                 KLog.i("已经阅读信息");
                 String[] strings = message.split("|");
                 mSocket.get().emit("delMsg", strings[0], strings[1]);
+            } else {
+                KLog.i(message);
+                mSocket.get().emit("send_msg", message);
             }
             return false;
         }
@@ -184,19 +187,16 @@ public class SocketIoService extends Service {
                 String str = arg.toString();
                 if (!TextUtils.isEmpty(str) && !"{}".equals(str)) {
                     try {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                KLog.i(arg.toString());
-                                Gson gson = new Gson();
-                                List<MsgInfo.MsgBean> msgBeans = gson.fromJson(arg.toString(), new TypeToken<List<MsgInfo.MsgBean>>() {
-                                }.getType());
-                                /*intent.putExtra("com.broadcast.test", (Serializable) msgBeans);*/
-                                Intent intent = new Intent("com.broadcast.test");
-                                intent.putExtra("com.broadcast.test.string", arg.toString());
-                                sendBroadcast(intent);
-                                mLocalBroadcastManager.sendBroadcast(intent);
-                            }
+                        new Thread(() -> {
+                            KLog.i(arg.toString());
+                            Gson gson = new Gson();
+//                            List<MsgInfo.MsgBean> msgBeans = gson.fromJson(arg.toString(), new TypeToken<List<MsgInfo.MsgBean>>() {
+//                            }.getType());
+                            /*intent.putExtra("com.broadcast.test", (Serializable) msgBeans);*/
+                            Intent intent = new Intent("com.broadcast.test");
+                            intent.putExtra("com.broadcast.test.string", arg.toString());
+                            sendBroadcast(intent);
+                            mLocalBroadcastManager.sendBroadcast(intent);
                         }).start();
                     } catch (Exception e) {
                         KLog.i(e.toString());

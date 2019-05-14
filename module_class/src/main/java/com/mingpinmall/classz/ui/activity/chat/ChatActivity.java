@@ -25,6 +25,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -103,9 +104,9 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 .getChatAdapter(this)
                 .build());
 
-        binding.setSmileImg(String.format("%s/wap/images/smile_b.png", BuildConfig.APP_URL));
-        binding.setAddImg(String.format("%s/wap/images/picture_add.png", BuildConfig.APP_URL));
-        binding.setMsgLogB(String.format("%s/wap/images/msg_log_b.png", BuildConfig.APP_URL));
+//        binding.setSmileImg(String.format("%s/wap/images/smile_b.png", BuildConfig.APP_URL));
+//        binding.setAddImg(String.format("%s/wap/images/picture_add.png", BuildConfig.APP_URL));
+//        binding.setMsgLogB(String.format("%s/wap/images/msg_log_b.png", BuildConfig.APP_URL));
 
         binding.etMsg.setOnFocusChangeListener((v, hasFocus) -> hideTrvBottom(true));
     }
@@ -171,7 +172,13 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //                            tName = mUserInfo.getMember_name();
 //                            meIcon = mUserInfo.getMember_avatar();
 //                            mOtherIcon = mUserInfo.getStore_avatar();
-                        binding.tvTitle.setText(mUserInfo.getStore_name());
+                        if (!TextUtils.isEmpty(mUserInfo.getStore_name())) {
+                            binding.tvTitle.setText(mUserInfo.getStore_name());
+                        } else if (!TextUtils.isEmpty(mUserInfo.getMember_name())) {
+                            binding.tvTitle.setText(mUserInfo.getMember_name());
+                        } else {
+                            binding.tvTitle.setText("消息详情");
+                        }
                         GoodsInfo goodsInfo = response.getChat_goods();
                         if (null != goodsInfo) {
                             goodsInfo.setGoods_image_url(goodsInfo.getPic());
@@ -221,6 +228,13 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     binding.etMsg.setText("");
                     KLog.i("发送聊天信息");
                     update(response.getMsg(), true);
+                    /*发送消息*/
+                    try {
+                        Gson gson = new Gson();
+                        mIBackService.sendMessage(gson.toJson(response.getMsg()));
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
 //                        MsgInfo.MsgBean msg = response.getMsg();
 //                        if (null != msg) {
 ////                            ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msg);
@@ -420,8 +434,12 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unbindService(mConnection);
-        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mReceiver);
+        if (null != mConnection) {
+            unbindService(mConnection);
+        }
+        if (null != mReceiver) {
+            LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mReceiver);
+        }
     }
 }
 

@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
@@ -18,11 +19,16 @@ import com.mingpinmall.me.ui.adapter.MessageListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.MessageListBean;
 import com.mingpinmall.me.ui.constants.Constants;
+import com.socks.library.KLog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：
+ *
  * @author 小斌
  * @date 2019/3/27
  **/
@@ -55,8 +61,11 @@ public class MessageActivity extends AbsLifecycleActivity<ActivityMessageBinding
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> initData());
 
         listAdapter.setOnItemClickListener((adapter, view, position) -> {
-            //item
-
+            MessageListBean.ListBean data = listAdapter.getItem(position);
+            Map<String, Object> map = new HashMap<>();
+            map.put("goodsId", "");
+            map.put("tId", data.getU_id());
+            ActivityToActivity.toActivity(ARouterConfig.classify.CHATACTIVITY, map);
         });
         listAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             //子控件

@@ -169,25 +169,27 @@ public class DatabingUtils {
         }
     }
 
-
     /*设置 FlowTagLayout*/
     @BindingAdapter(value = {"list", "eventkey"}, requireAll = false)
     public static void setFlowTagLayout(FlowTagLayout flowTagLayout, List list, Object eventkey) {
         if (null != flowTagLayout && null != list && list.size() > 0) {
             /*int index = Integer.parseInt((String) list.get(list.size() - 1));*/
+//            if (flowTagLayout.getAdapter() == null) {
             CustomDefaultFlowTagAdapter adapter = new CustomDefaultFlowTagAdapter(flowTagLayout.getContext());
             flowTagLayout.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
             flowTagLayout.setAdapter(adapter);
             /*list.remove(list.get(list.size() - 1));*/
-            flowTagLayout.setItems(list.subList(0, list.size()-1));
-            flowTagLayout.setSelectedPositions(Integer.valueOf(list.get(list.size() - 1).toString()));
-            KLog.i(Integer.valueOf(list.get(list.size() - 1).toString())+"");
+            flowTagLayout.setItems(list.subList(0, list.size() - 1));
+
+            KLog.i(Integer.valueOf(list.get(list.size() - 1).toString()) + "");
 //            KLog.i(Integer.valueOf((Integer) list.get(list.size() - 1))+"");
             flowTagLayout.setOnTagSelectListener((parent, position, selectedList) -> {
                 if (null != eventkey) {
                     LiveBus.getDefault().postEvent(eventkey, position);
                 }
             });
+            flowTagLayout.setSelectedPositions(Integer.valueOf(list.get(list.size() - 1).toString()));
+//            }
         }
     }
 

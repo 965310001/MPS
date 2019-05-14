@@ -3,7 +3,9 @@
     package="com.mingpinmall.cart">
 
     <application>
-        <activity android:name=".ui.activity.ShopCartActivity" />
+        <activity
+            android:name=".ui.activity.ShopCartActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

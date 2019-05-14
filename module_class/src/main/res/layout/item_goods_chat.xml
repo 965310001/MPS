@@ -10,62 +10,66 @@
             type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
     </data>
 
-    <android.support.v7.widget.CardView
-        style="@style/width_match_height_warp"
-        android:layout_marginLeft="@dimen/dp_6"
-        android:layout_marginTop="@dimen/dp_6"
-        android:layout_marginRight="@dimen/dp_6"
-        android:background="@color/gray"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/dp_4"
-        app:contentPadding="@dimen/dp_5">
+    <!--<android.support.v7.widget.CardView-->
+    <!--style="@style/width_match_height_warp"-->
+    <!--android:layout_marginLeft="@dimen/dp_6"-->
+    <!--android:layout_marginTop="@dimen/dp_6"-->
+    <!--android:layout_marginRight="@dimen/dp_6"-->
+    <!--android:background="@color/gray"-->
+    <!--app:cardBackgroundColor="@color/white"-->
+    <!--app:cardCornerRadius="@dimen/dp_4"-->
+    <!--app:contentPadding="@dimen/dp_5">-->
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:onClick="@{(view)->data.click(view)}"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            image="@{data.goods_image_url}"
+            android:layout_width="@dimen/image_height_big"
+            android:layout_height="@dimen/image_height_big"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@color/gray" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/dp_10"
+            android:maxLines="2"
+            android:paddingTop="@dimen/dp_4"
+            android:text="@{data.goods_name}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_16"
+            android:gravity="start"
+            app:layout_constraintLeft_toRightOf="@id/iv_icon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="textview" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{(view)->data.click(view)}"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iv_icon"
-                image="@{data.goods_image_url}"
-                android:layout_width="@dimen/image_height_big"
-                android:layout_height="@dimen/image_height_big"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@color/gray" />
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="@dimen/dp_10"
-                android:maxLines="2"
-                android:paddingTop="@dimen/dp_4"
-                android:text="@{data.goods_name}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_16"
-                app:layout_constraintLeft_toRightOf="@id/iv_icon"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="textview" />
-
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_10"
-                android:paddingBottom="@dimen/dp_4"
-                android:text="@{@string/price_holder(data.goods_price)}"
-                android:textColor="@color/shallow_red"
-                android:textSize="@dimen/text_16"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/iv_icon"
-                tools:text="TextView" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+            android:layout_marginStart="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_4"
+            android:text="@{@string/price_holder(data.goods_price)}"
+            android:textColor="@color/shallow_red"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/iv_icon"
+            tools:text="TextView" />
+    </android.support.constraint.ConstraintLayout>
+    <!--</android.support.v7.widget.CardView>-->
 
 
 </layout>

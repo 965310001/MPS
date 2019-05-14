@@ -151,16 +151,13 @@ public class XBottomSheet extends Dialog {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mIsAnimating = false;
-                mContentView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // java.lang.IllegalArgumentException: View=com.android.internal.policy.PhoneWindow$DecorView{22dbf5b V.E...... R......D 0,0-1080,1083} not attached to window manager
-                        // 在dismiss的时候可能已经detach了，简单try-catch一下
-                        try {
-                            XBottomSheet.super.dismiss();
-                        } catch (Exception e) {
-                            UILog.w("dismiss error\n" + Log.getStackTraceString(e));
-                        }
+                mContentView.post(() -> {
+                    // java.lang.IllegalArgumentException: View=com.android.internal.policy.PhoneWindow$DecorView{22dbf5b V.E...... R......D 0,0-1080,1083} not attached to window manager
+                    // 在dismiss的时候可能已经detach了，简单try-catch一下
+                    try {
+                        XBottomSheet.super.dismiss();
+                    } catch (Exception e) {
+                        UILog.w("dismiss error\n" + Log.getStackTraceString(e));
                     }
                 });
             }

@@ -32,17 +32,17 @@
             name="emojiAdapter"
             type="DelegateAdapter" />
 
-        <variable
-            name="smileImg"
-            type="String" />
+        <!--<variable-->
+        <!--name="smileImg"-->
+        <!--type="String" />-->
 
-        <variable
-            name="msgLogB"
-            type="String" />
+        <!--<variable-->
+        <!--name="msgLogB"-->
+        <!--type="String" />-->
 
-        <variable
-            name="addImg"
-            type="String" />
+        <!--<variable-->
+        <!--name="addImg"-->
+        <!--type="String" />-->
 
     </data>
 
@@ -90,11 +90,10 @@
                 android:padding="4dp">
 
                 <ImageView
-                    image="@{msgLogB}"
                     android:layout_width="@dimen/image_height_large"
                     android:layout_height="@dimen/image_height_large"
                     android:layout_centerHorizontal="true"
-                    bind:src="@drawable/ic_launcher" />
+                    android:src="@drawable/icon_msg_log" />
 
                 <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
@@ -133,32 +132,43 @@
             app:layout_constraintBottom_toTopOf="@+id/trv_boottom">
 
             <android.support.v7.widget.AppCompatImageView
-                image="@{smileImg}"
                 android:layout_width="@dimen/image_height"
                 android:layout_height="@dimen/image_height"
+                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/dp_5"
                 android:layout_marginRight="@dimen/dp_5"
                 android:onClick="smileImgClick"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/icon_smile" />
 
             <android.support.v7.widget.AppCompatImageView
-                image="@{addImg}"
                 android:layout_width="@dimen/image_height"
                 android:layout_height="@dimen/image_height"
+                android:layout_gravity="center"
                 android:layout_marginRight="@dimen/dp_5"
                 android:onClick="addImgClick"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/icon_picture_add" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_msg"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_weight="1"
                 android:background="@drawable/bg_rect_round_gray"
                 android:cacheColorHint="@android:color/transparent"
                 android:paddingLeft="@dimen/dp_4"
                 android:singleLine="true" />
+
+            <!--<ImageView-->
+            <!--android:layout_width="@dimen/image_height_large"-->
+            <!--android:layout_height="@dimen/dp_30"-->
+            <!--android:layout_margin="@dimen/dp_10"-->
+            <!--android:background="@color/gray"-->
+            <!--android:onClick="sendMsgClick"-->
+            <!--android:padding="@dimen/dp_2"-->
+            <!--android:src="@drawable/icon_enter"-->
+            <!--android:text="发送"-->
+            <!--android:textSize="@dimen/text_12" />-->
 
             <Button
                 android:layout_width="wrap_content"
@@ -166,7 +176,12 @@
                 android:layout_margin="@dimen/dp_10"
                 android:background="@drawable/bg_rect_round_gray"
                 android:onClick="sendMsgClick"
-                android:text="发送" />
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_6"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_6"
+                android:text="发送"
+                android:textSize="@dimen/text_12" />
         </LinearLayout>
 
         <com.trecyclerview.TRecyclerView

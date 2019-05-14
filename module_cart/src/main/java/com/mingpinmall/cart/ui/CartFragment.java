@@ -29,10 +29,13 @@ import com.mingpinmall.cart.ui.constants.Constants;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 购物车
+ *
  * @author 小斌
  */
 public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, CartViewModel> {
@@ -113,6 +116,16 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         });
 
         binding.tvPayNow.setOnClickListener(v -> {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (AvailableCartBean item : shopCartAdapter.getData()) {
+                if (item.getItemType() == 1 && item.isCheck()) {
+                    stringBuilder.append(String.format("%s|%s,", item.getGoods().getCart_id(), item.getGoods().getGoods_num()));
+                }
+            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("ifcart", "1");
+            map.put("cartId", stringBuilder.toString());/*76|1,77|1,79|4,96|1,98|1,99|1*/
+            ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, map);
             //立即支付
 //                ActivityToActivity.toActivity(ARouterConfig.cart.SHOPCARTACTIVITY);这个是其他地方需要跳转到购物车，又不想返回首页的时候，跳转这个activity
         });

@@ -1,6 +1,5 @@
 package com.mingpinmall.classz.ui.activity.order;
 
-import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -96,6 +95,8 @@ public class ConfirmOrderActivity extends
     protected void initData() {
         super.initData();
         KLog.i(cartId);
+
+        showLoading();
         mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 
@@ -103,91 +104,121 @@ public class ConfirmOrderActivity extends
     protected void dataObserver() {
         super.dataObserver();
 
-        registerObserver(Constants.CONFIRMORDER_KEY[0], BaseResponse.class)
-                .observeForever(new Observer<BaseResponse>() {
-                    @Override
-                    public void onChanged(@Nullable BaseResponse response) {
-                        BaseResponse<OrderInfo> data = response;
-                        if (data.isData()) {
-                            KLog.i(data.getData().toString());
-                            if (data.isSuccess()) {
-                                try {
-                                    binding.setAddress(data.getData().getAddress_info());
-                                    binding.setTotal(data.getData().getOrder_amount());
-                                    List<GoodsInfo> goods_list = new ArrayList<>();
-                                    String name = "";
-                                    for (OrderInfo.StoreCartListBean storeCartListBean : data.getData().getStore_cart_list()) {
-                                        for (GoodsInfo goodsInfo : storeCartListBean.getGoods_list()) {
-                                            if (!name.equals(storeCartListBean.getStore_name())) {
-                                                name = storeCartListBean.getStore_name();
-                                                goodsInfo.setStoreName(true);
-                                            }
-                                            goods_list.add(goodsInfo);
-                                        }
-                                    }
-                                    addressId = data.getData().getAddress_info()
-                                            .getAddress_id();
-                                    OrderInfo.AddressApiBean addressApi = data.getData().getAddress_api();
-                                    mVatHash = data.getData().getVat_hash();
-                                    mOffpayHash = addressApi.getOffpay_hash();
-                                    mOffpayHashBatch = addressApi.getOffpay_hash_batch();
-                                    binding.setData(goods_list);
-                                    binding.setAdapter(AdapterPool.newInstance().getConfirmOrder(activity)
-                                            .build());
-                                    binding.setPayment("在线付款");
-                                    binding.setInvoice(data.getData().getInv_info().getContent());
-                                    binding.executePendingBindings();
-                                } catch (Exception e) {
-                                    KLog.i(e.toString());
+        registerObserver(Constants.CONFIRMORDER_KEY[1] + "Error", String.class)
+                .observe(this, s -> ToastUtils.showLong(s));
+
+        registerObserver(Constants.CONFIRMORDER_KEY[0], OrderInfo.class)
+                .observeForever(response -> {
+                    showSuccess();
+                    try {
+                        binding.setAddress(response.getAddress_info());
+                        binding.setTotal(response.getOrder_amount());
+                        List<GoodsInfo> goods_list = new ArrayList<>();
+                        String name = "";
+                        for (OrderInfo.StoreCartListBean storeCartListBean : response.getStore_cart_list()) {
+                            for (GoodsInfo goodsInfo : storeCartListBean.getGoods_list()) {
+                                if (!name.equals(storeCartListBean.getStore_name())) {
+                                    name = storeCartListBean.getStore_name();
+                                    goodsInfo.setStoreName(true);
                                 }
-                            } else {
-                                ToastUtils.showLong(data.getMessage());
+                                goods_list.add(goodsInfo);
                             }
                         }
+                        addressId = response.getAddress_info()
+                                .getAddress_id();
+                        OrderInfo.AddressApiBean addressApi = response.getAddress_api();
+                        mVatHash = response.getVat_hash();
+                        mOffpayHash = addressApi.getOffpay_hash();
+                        mOffpayHashBatch = addressApi.getOffpay_hash_batch();
+                        binding.setData(goods_list);
+                        binding.setAdapter(AdapterPool.newInstance().getConfirmOrder(activity)
+                                .build());
+                        binding.setPayment("在线付款");
+                        binding.setInvoice(response.getInv_info().getContent());
+                        binding.executePendingBindings();
+                    } catch (Exception e) {
+                        KLog.i(e.toString());
+                        ToastUtils.showLong(e.toString());
                     }
                 });
 
+//        registerObserver(Constants.CONFIRMORDER_KEY[0], BaseResponse.class)
+//                .observeForever(response -> {
+//                    showSuccess();
+//                    BaseResponse<OrderInfo> data = response;
+//                    if (data.isData()) {
+//                        KLog.i(data.getData().toString());
+//                        if (data.isSuccess()) {
+//                            try {
+//                                binding.setAddress(data.getData().getAddress_info());
+//                                binding.setTotal(data.getData().getOrder_amount());
+//                                List<GoodsInfo> goods_list = new ArrayList<>();
+//                                String name = "";
+//                                for (OrderInfo.StoreCartListBean storeCartListBean : data.getData().getStore_cart_list()) {
+//                                    for (GoodsInfo goodsInfo : storeCartListBean.getGoods_list()) {
+//                                        if (!name.equals(storeCartListBean.getStore_name())) {
+//                                            name = storeCartListBean.getStore_name();
+//                                            goodsInfo.setStoreName(true);
+//                                        }
+//                                        goods_list.add(goodsInfo);
+//                                    }
+//                                }
+//                                addressId = data.getData().getAddress_info()
+//                                        .getAddress_id();
+//                                OrderInfo.AddressApiBean addressApi = data.getData().getAddress_api();
+//                                mVatHash = data.getData().getVat_hash();
+//                                mOffpayHash = addressApi.getOffpay_hash();
+//                                mOffpayHashBatch = addressApi.getOffpay_hash_batch();
+//                                binding.setData(goods_list);
+//                                binding.setAdapter(AdapterPool.newInstance().getConfirmOrder(activity)
+//                                        .build());
+//                                binding.setPayment("在线付款");
+//                                binding.setInvoice(data.getData().getInv_info().getContent());
+//                                binding.executePendingBindings();
+//                            } catch (Exception e) {
+//                                KLog.i(e.toString());
+//                            }
+//                        } else {
+//                            ToastUtils.showLong(data.getMessage());
+//                        }
+//                    }
+//                });
+
         /*支付sn的返回*/
         registerObserver(Constants.CONFIRMORDER_KEY[2], BaseResponse.class)
-                .observe(this, new Observer<BaseResponse>() {
-                    @Override
-                    public void onChanged(@Nullable BaseResponse response) {
-                        BaseResponse<BuyStepInfo> data = response;
-                        if (data.isSuccess()) {
-                            if (null == mPayPopupWindow) {
-                                mPayPopupWindow = new PayPopupWindow.Builder(activity)
-                                        .setData(data.getData())
-                                        .build().createPop();
-                            }
-                            mPayPopupWindow.showAsDropDown(baseBinding.rlTitleContent);
-
-                            BuyStepInfo stepInfo = data.getData();
-                            mPaySn = stepInfo.getPay_sn();
-                            mPaymentCode = stepInfo.getPayment_code();
-                            /*KLog.i(data.getData().getPay_sn());*/
-                            BuyStepInfo.PayInfoBean payInfo = stepInfo.getPay_info();
-                            if (null != payInfo) {
-                                mPaymentList = payInfo.getPayment_list();
-                            }
-                        } else {
-                            ToastUtils.showLong(data.getMessage());
+                .observe(this, response -> {
+                    BaseResponse<BuyStepInfo> data = response;
+                    if (data.isSuccess()) {
+                        if (null == mPayPopupWindow) {
+                            mPayPopupWindow = new PayPopupWindow.Builder(activity)
+                                    .setData(data.getData())
+                                    .build().createPop();
                         }
+                        mPayPopupWindow.showAsDropDown(baseBinding.rlTitleContent);
+
+                        BuyStepInfo stepInfo = data.getData();
+                        mPaySn = stepInfo.getPay_sn();
+                        mPaymentCode = stepInfo.getPayment_code();
+                        /*KLog.i(data.getData().getPay_sn());*/
+                        BuyStepInfo.PayInfoBean payInfo = stepInfo.getPay_info();
+                        if (null != payInfo) {
+                            mPaymentList = payInfo.getPayment_list();
+                        }
+                    } else {
+                        ToastUtils.showLong(data.getMessage());
                     }
                 });
 
         registerObserver(Constants.CONFIRMORDER_KEY[3] + "Success", PayMessageInfo.class)
-                .observe(this, new Observer<PayMessageInfo>() {
-                    @Override
-                    public void onChanged(@Nullable PayMessageInfo response) {
-                        KLog.i(response);
-                        switch (mPayFun) {
-                            case 0:
-                                aLiPay(response.getParam());
-                                break;
-                            case 1:
-                                weixinPay(response.getPay_code());
-                                break;
-                        }
+                .observe(this, response -> {
+                    KLog.i(response);
+                    switch (mPayFun) {
+                        case 0:
+                            aLiPay(response.getParam());
+                            break;
+                        case 1:
+                            weixinPay(response.getPay_code());
+                            break;
                     }
                 });
     }
@@ -324,6 +355,7 @@ public class ConfirmOrderActivity extends
     @Override
     public void onPaySuccess() {
         ToastUtils.showLong("支付成功");
+        KLog.i("支付成功");
     }
 
     @Override

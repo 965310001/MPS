@@ -95,16 +95,13 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         goodsInfo = goodsDetailInfo.getDatas().getGoods_info();
         KLog.i(goodsInfo + "=====");
         setGoodsInfo();
-        binding.lsiGoodsSpecification.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
-            @Override
-            public void click(boolean isChecked) {
-                if (null == specificationPop) {
-                    specificationPop = GoodsSpecificationPop.getInstance(getContext());
-                }
-                specificationPop.setGoodsInfo(goodsInfo);
-                specificationPop.show(binding.getRoot());
-                SharePreferenceUtil.saveKeyValue("SPECIFICATIONPOP", "SPECIFICATIONPOP");
+        binding.lsiGoodsSpecification.setmOnLSettingItemClick(isChecked -> {
+            if (null == specificationPop) {
+                specificationPop = GoodsSpecificationPop.getInstance(getContext());
             }
+            specificationPop.setGoodsInfo(goodsInfo);
+            specificationPop.show(binding.getRoot());
+            SharePreferenceUtil.saveKeyValue("SPECIFICATIONPOP", "SPECIFICATIONPOP");
         });
         binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
@@ -190,44 +187,38 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 
         // TODO: 2019/4/2 收藏
         registerObserver(Constants.FAVORITES, ResultBean.class)
-                .observeForever(new Observer<ResultBean>() {
-                    @Override
-                    public void onChanged(@Nullable ResultBean response) {
-                        KLog.i(response.isSuccess() + " " + response.getError());
-                        if (response.isSuccess()) {
-                            /*ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏成功" : "添加收藏成功");*/
-                            binding.ivLike.setBackgroundResource(goodsInfo.isfavorate() ? R.drawable.ic_me_favorite : R.drawable.ic_me_favorite_red);
-                            goodsInfo.setfavorate(!goodsInfo.isfavorate());
-                            binding.executePendingBindings();
-                        } else {
-                            ToastUtils.showLong(response.getError());
-                        }
+                .observeForever(response -> {
+                    KLog.i(response.isSuccess() + " " + response.getError());
+                    if (response.isSuccess()) {
+                        /*ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏成功" : "添加收藏成功");*/
+                        binding.ivLike.setBackgroundResource(goodsInfo.isfavorate() ? R.drawable.ic_me_favorite : R.drawable.ic_me_favorite_red);
+                        goodsInfo.setfavorate(!goodsInfo.isfavorate());
+                        binding.executePendingBindings();
+                    } else {
+                        ToastUtils.showLong(response.getError());
                     }
                 });
 
         /*添加购物车*/
         registerObserver(Constants.CART_EVENT_KEY, ResultBean.class)
-                .observeForever(new Observer<ResultBean>() {
-                    @Override
-                    public void onChanged(@Nullable ResultBean response) {
-                        if (response.isSuccess()) {
-                            ShoppingCartUtils.addCartGoods(goodsInfo);
-                            shoppingDetailsActivity.setCartNumber();
-                            ToastUtils.showLong("添加购物车成功");
-                            LiveBus.getDefault().postEvent("SHOP_CART_REFRESH", true);
-                            if (null != specificationPop && specificationPop.isShowing()) {
-                                specificationPop.dismiss();
-                            }
-                        } else {
-                            if (response.isLogin()) {
-                                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                                ToastUtils.showLong(response.getError());
-                            } else {
-                                ToastUtils.showLong(response.getError());
-                            }
+                .observeForever(response -> {
+                    if (response.isSuccess()) {
+                        ShoppingCartUtils.addCartGoods(goodsInfo);
+                        shoppingDetailsActivity.setCartNumber();
+                        ToastUtils.showLong("添加购物车成功");
+                        LiveBus.getDefault().postEvent("SHOP_CART_REFRESH", true);
+                        if (null != specificationPop && specificationPop.isShowing()) {
+                            specificationPop.dismiss();
                         }
-                        KLog.i(response);
+                    } else {
+                        if (response.isLogin()) {
+                            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                            ToastUtils.showLong(response.getError());
+                        } else {
+                            ToastUtils.showLong(response.getError());
+                        }
                     }
+                    KLog.i(response);
                 });
 
     }

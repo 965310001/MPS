@@ -132,12 +132,9 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                                                 .getVoucherInfoAdapter(activity)
                                                 .build())
                                         .setLayoutManager(new LinearLayoutManager(activity))
-                                        .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
-                                            @Override
-                                            public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
-                                                dialog.dismiss();
-                                                ToastUtils.showLong("Item " + (position + 1));
-                                            }
+                                        .setOnSheetItemClickListener((dialog, itemView, position, tag) -> {
+                                            dialog.dismiss();
+                                            ToastUtils.showLong("Item " + (position + 1));
                                         })
                                         .build();
                             }

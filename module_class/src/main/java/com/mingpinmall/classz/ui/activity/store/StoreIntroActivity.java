@@ -1,6 +1,5 @@
 package com.mingpinmall.classz.ui.activity.store;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.view.View;
 
@@ -30,7 +29,7 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
     @Autowired
     String storeId;
 
-    StoreInfo.StoreInfoBean storeInfo;
+    private StoreInfo.StoreInfoBean storeInfo;
 
     @Override
     protected int getLayoutId() {
@@ -58,44 +57,37 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
         return Constants.STOREINTRO[1];
     }
 
-
     @Override
     protected void dataObserver() {
         super.dataObserver();
         registerObserver(Constants.STOREINTRO[0], BaseResponse.class)
-                .observeForever(new Observer<BaseResponse>() {
-                    @Override
-                    public void onChanged(@io.reactivex.annotations.Nullable BaseResponse response) {
-                        showSuccess();
-                        if (response.isSuccess()) {
-                            BaseResponse<StoreInfo> data = response;
-                            try {
-                                storeInfo = data.getData().getStore_info();
-                                binding.setData(storeInfo);
-                            } catch (Exception e) {
-                                KLog.i(e.toString());
-                            }
-                        } else {
-                            ToastUtils.showLong(response.getMessage());
+                .observeForever(response -> {
+                    showSuccess();
+                    if (response.isSuccess()) {
+                        BaseResponse<StoreInfo> data = response;
+                        try {
+                            storeInfo = data.getData().getStore_info();
+                            binding.setData(storeInfo);
+                        } catch (Exception e) {
+                            KLog.i(e.toString());
                         }
+                    } else {
+                        ToastUtils.showLong(response.getMessage());
                     }
                 });
 
         /*收藏*/
         registerObserver("Constants.STORE_FAVORITES", ResultBean.class)
-                .observeForever(new Observer<ResultBean>() {
-                    @Override
-                    public void onChanged(@android.support.annotation.Nullable ResultBean response) {
-                        /*KLog.i(response.isSuccess() + " " + response.getError());*/
-                        if (response.isSuccess()) {
-                            int store_collect = storeInfo.getStore_collect();
-                            storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);
-                            storeInfo.setIs_favorate(!storeInfo.isIs_favorate());
+                .observeForever(response -> {
+                    /*KLog.i(response.isSuccess() + " " + response.getError());*/
+                    if (response.isSuccess()) {
+                        int store_collect = storeInfo.getStore_collect();
+                        storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);
+                        storeInfo.setIs_favorate(!storeInfo.isIs_favorate());
 
-                            // TODO: 2019/4/18 这里还需要修改
-                        } else {
-                            ToastUtils.showLong(response.getError());
-                        }
+                        // TODO: 2019/4/18 这里还需要修改
+                    } else {
+                        ToastUtils.showLong(response.getError());
                     }
                 });
     }
