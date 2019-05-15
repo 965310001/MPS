@@ -9,4 +9,6 @@ public interface Constants {
     String SHOP_CART_LIST = "SHOP_CART_LIST";
     Object CART_QUANTITY = "CART_QUANTITY";
     Object CART_DELETE = "CART_DELETE";
+    Object CART_VOUCHERTPL = "CART_VOUCHERTPL";
+    Object CART_GETVOUCHERTPL = "CART_GETVOUCHERTPL";
 }

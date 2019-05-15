@@ -18,6 +18,8 @@ import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.SmoothCheckBox;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
+import com.mingpinmall.cart.BR;
+import com.mingpinmall.cart.DataBindItemViewHolderManager;
 import com.mingpinmall.cart.R;
 import com.mingpinmall.cart.databinding.FragmentCartBinding;
 import com.mingpinmall.cart.ui.adapter.ShopCartAdapter;
@@ -25,19 +27,24 @@ import com.mingpinmall.cart.ui.api.CartViewModel;
 import com.mingpinmall.cart.ui.bean.AvailableCartBean;
 import com.mingpinmall.cart.ui.bean.CartQuantityState;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
+import com.mingpinmall.cart.ui.bean.ShopVoucherInfo;
 import com.mingpinmall.cart.ui.constants.Constants;
+import com.mingpinmall.cart.widget.XBottomSheet;
 import com.socks.library.KLog;
+import com.trecyclerview.adapter.DelegateAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 购物车
+ *
  * @author 小斌
  */
 public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, CartViewModel> {
 
     private String EVENT_KEY = "";
+    private XBottomSheet xBottomSheet;
     private ShopCartAdapter shopCartAdapter;
     private int checkedSize = 0;
     private int goodsSize = 0;
@@ -173,9 +180,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 data.setExpanded(!data.isExpanded());
                 shopCartAdapter.notifyItemChanged(position);
             } else if (view.getId() == R.id.tv_coupon) {
-                // TODO 领券
-                Log.i("购物车", "onItemChildClick: 领取优惠券");
-
+                mViewModel.getVoucherTplList(data.getStore_id(), Constants.CART_VOUCHERTPL);
             }
         });
     }
@@ -314,6 +319,47 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     @Override
     protected void dataObserver() {
         super.dataObserver();
+        registerObserver(Constants.CART_VOUCHERTPL, Object.class).observeForever(result -> {
+            if (result instanceof ShopVoucherInfo) {
+                ShopVoucherInfo data = (ShopVoucherInfo) result;
+                List<ShopVoucherInfo.VoucherListBean> voucherList = data.getVoucher_list();
+                if (null != voucherList) {
+                    if (null == xBottomSheet) {
+                        DataBindItemViewHolderManager manager = new DataBindItemViewHolderManager(activity,
+                                R.layout.item_voucher, BR.data);
+                        manager.setOnClickListener(this::getReceive);
+                        xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
+                                .setItemData(voucherList)
+                                .setAdapter(new DelegateAdapter.Builder<>()
+                                        .bind(ShopVoucherInfo.VoucherListBean.class, manager)
+                                        .build())
+                                .setLayoutManager(new LinearLayoutManager(activity))
+                                .setOnSheetItemClickListener((dialog, itemView, position, tag) -> {
+                                    dialog.dismiss();
+                                    ToastUtils.showLong("Item " + (position + 1));
+                                })
+                                .build();
+                    }
+                    xBottomSheet.show();
+                } else {
+                    ToastUtils.showLong("暂时没有代金券");
+                }
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
+
+        });
+        /*领取代金券*/
+        registerObserver(Constants.CART_GETVOUCHERTPL, String.class)
+                .observe(this, response -> {
+                    xBottomSheet.dismiss();
+                    if (ARouterConfig.SUCCESS.equals(response)) {
+                        ToastUtils.showLong("领取成功");
+                    } else {
+                        ToastUtils.showLong(response);
+                    }
+                });
+
         LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_SUCCESS).observeForever(isLogin -> {
             KLog.i("登陆成功，刷新数据");
             reGetData();
@@ -360,6 +406,12 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             }
             lazyLoad();
         });
+    }
+
+    /*领取代金券*/
+    public void getReceive(View view) {
+        /*String tId = (String) view.getTag();*/
+        mViewModel.getVoucherFreeex((String) view.getTag(), Constants.CART_GETVOUCHERTPL);
     }
 
     @Override

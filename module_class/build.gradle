@@ -78,6 +78,8 @@ dependencies {
 
     //公用依赖包
     implementation project(':common_base_databing')
+    //支付依赖
+    implementation project(':module_pay')
 
     implementation 'com.github.free46000:MultiItem:0.9.7'
 
@@ -93,12 +95,6 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
 
     implementation 'com.github.nkzawa:socket.io-client:0.3.0'
-
-    /*阿里支付*/
-    implementation(name: 'alipaySdk-15.6.2-20190416165100', ext: 'aar')
-
-    /*微信支付*/
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 
     implementation rootProject.ext.dependencies['glide']
 

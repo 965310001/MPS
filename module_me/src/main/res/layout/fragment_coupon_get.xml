@@ -106,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_margin="12dp"
-                android:background="@drawable/button_shape_redcolor"
+                android:background="@drawable/button_shape"
                 android:gravity="center"
                 android:text="确认提交"
                 android:textColor="@color/white"

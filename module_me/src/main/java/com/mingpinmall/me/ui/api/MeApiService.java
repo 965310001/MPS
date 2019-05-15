@@ -4,6 +4,7 @@ import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.bean.NewDatasResponse;
+import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.me.ui.bean.*;
 
 import java.util.Map;
@@ -29,9 +30,8 @@ public interface MeApiService {
     /**
      * 描述：上传文件
      * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=sns_album&wwi=file_upload
-     * 请求方式：GET
+     * 请求方式：POST
      * 参数
-     * order_id
      */
     String UPLOAD_FILES = "/mo_bile/index.php?app=sns_album&wwi=file_upload";
 
@@ -40,6 +40,47 @@ public interface MeApiService {
     Flowable<BaseResponse<UploadFilesBean>> uploadFiles(
             @Part("key") String key,
             @Part RequestBody file
+    );
+
+    /**
+     * 描述：获取支付信息2
+     * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=member_payment&wwi=pay_new
+     * 请求方式：POST
+     * 参数
+     * pay_sn:
+     * rcb_pay:
+     * pd_pay:
+     * payment_code:
+     * client: android
+     */
+    String PAY_INFO2 = "/mo_bile/index.php?app=member_payment&wwi=pay_new";
+
+    @FormUrlEncoded
+    @POST(PAY_INFO2)
+    Flowable<PayMessageInfo> getPayInfo2(
+            @Field("key") String key,
+            @Field("pay_sn") String paySn,
+            @Field("rcb_pay") String rcb_pay,
+            @Field("pd_pay") String pd_pay,
+            @Field("password") String password,
+            @Field("payment_code") String payment_code,
+            @Field("client") String client
+    );
+
+    /**
+     * 描述：获取支付信息
+     * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=member_buy&wwi=pay
+     * 请求方式：POST
+     * 参数
+     * pay_sn:
+     */
+    String PAY_INFO = "/mo_bile/index.php?app=member_buy&wwi=pay";
+
+    @FormUrlEncoded
+    @POST(PAY_INFO)
+    Flowable<BaseResponse<PayLayoutBean>> getPayInfo(
+            @Field("key") String key,
+            @Field("pay_sn") String paySn
     );
 
     /**

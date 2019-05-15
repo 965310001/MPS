@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.mingpinmall.classz.pay.WeiXinBaoStrategy;
+import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
 import com.socks.library.KLog;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;

@@ -3,11 +3,14 @@ package com.mingpinmall.cart.ui.api;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
+import com.mingpinmall.cart.ui.bean.ShopVoucherInfo;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * 功能描述：
@@ -15,6 +18,39 @@ import retrofit2.http.POST;
  * @date 2019/4/24
  **/
 public interface CartApiService {
+
+    /**
+     * 获取店铺优惠券
+     * https://www.mingpinmall.cn/mo_bile/index.php?app=voucher&wwi=voucher_tpl_list
+     * GET
+     * 参数
+     * store_id
+     * gettype
+     */
+    String VOUCHERTPL = "/mo_bile/index.php?app=voucher&wwi=voucher_tpl_list";
+
+    @GET(VOUCHERTPL)
+    Flowable<BaseResponse<ShopVoucherInfo>> getVoucherTplList(
+            @Query("key") String key,
+            @Query("store_id") String store_id,
+            @Query("gettype") String gettype
+    );
+
+    /**
+     * 获取店铺优惠券
+     * https://www.mingpinmall.cn/mo_bile/index.php?app=member_voucher&wwi=voucher_freeex
+     * POST
+     * 参数
+     * tid
+     */
+    String VOUCHER_FREEEX = "/mo_bile/index.php?app=member_voucher&wwi=voucher_freeex";
+
+    @FormUrlEncoded
+    @POST(VOUCHER_FREEEX)
+    Flowable<BaseNothingBean> getVoucherFreeex(
+            @Field("key") String key,
+            @Field("tid") String tid
+    );
 
     /**
      * 购物车

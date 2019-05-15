@@ -371,7 +371,7 @@ public class XBottomSheet extends Dialog {
         private View buildTViews() {
          /*   TrecyclerviewBaseBinding bind = DataBindingUtil
                     .bind(LayoutInflater.from(mContext)
-                            .inflate(R.layout.trecyclerview_base, null));
+                            .inflate(R.layout.layout_trecyclerview_base, null));
             View wrapperView = bind.getRoot().getRootView();
             mRecyclerView = wrapperView.findViewById(R.id.recycler_view);// bind.recyclerView;
             if (layoutManager == null) {
@@ -383,7 +383,7 @@ public class XBottomSheet extends Dialog {
             if (needToScrollByTr()) {
                 ViewGroup.LayoutParams layoutParams = mRecyclerView.getLayoutParams();
                 layoutParams.height = getListMaxHeight();
-                mDialog.setOnBottomSheetShowListener(new XBottomSheet.OnBottomSheetShowListener() {
+                mDialog.setOnBottomSheetShowListener(new UserPaySheet.OnBottomSheetShowListener() {
                     @Override
                     public void onShow() {
 //                        mContainerView.setSelection(mCheckedIndex);
@@ -667,11 +667,11 @@ public class XBottomSheet extends Dialog {
 //         */
 //        public static final int SECOND_LINE = 1;
 //        private Context mContext;
-//        private XBottomSheet mDialog;
+//        private UserPaySheet mDialog;
 //        private SparseArray<View> mFirstLineViews;
 //        private SparseArray<View> mSecondLineViews;
 //        private int mMiniItemWidth = -1;
-//        private XBottomSheet.BottomGridSheetBuilder.OnSheetItemClickListener mOnSheetItemClickListener;
+//        private UserPaySheet.BottomGridSheetBuilder.OnSheetItemClickListener mOnSheetItemClickListener;
 //        private Typeface mItemTextTypeFace = null;
 //        private ViewGroup mBottomButtonContainer;
 //        private TextView mBottomButton;
@@ -686,11 +686,11 @@ public class XBottomSheet extends Dialog {
 //            mSecondLineViews = new SparseArray<>();
 //        }
 //
-//        public BottomSheet.BottomGridSheetBuilder addItem(int imageRes, CharSequence textAndTag, @XBottomSheet.BottomGridSheetBuilder.Style int style) {
+//        public BottomSheet.BottomGridSheetBuilder addItem(int imageRes, CharSequence textAndTag, @UserPaySheet.BottomGridSheetBuilder.Style int style) {
 //            return addItem(imageRes, textAndTag, textAndTag, style, 0);
 //        }
 //
-//        public BottomSheet.BottomGridSheetBuilder addItem(int imageRes, CharSequence text, Object tag, @XBottomSheet.BottomGridSheetBuilder.Style int style) {
+//        public BottomSheet.BottomGridSheetBuilder addItem(int imageRes, CharSequence text, Object tag, @UserPaySheet.BottomGridSheetBuilder.Style int style) {
 //            return addItem(imageRes, text, tag, style, 0);
 //        }
 //
@@ -699,22 +699,22 @@ public class XBottomSheet extends Dialog {
 //            return this;
 //        }
 //
-//        public XBottomSheet.BottomGridSheetBuilder setButtonText(CharSequence buttonText) {
+//        public UserPaySheet.BottomGridSheetBuilder setButtonText(CharSequence buttonText) {
 //            mButtonText = buttonText;
 //            return this;
 //        }
 //
-//        public XBottomSheet.BottomGridSheetBuilder setButtonClickListener(View.OnClickListener buttonClickListener) {
+//        public UserPaySheet.BottomGridSheetBuilder setButtonClickListener(View.OnClickListener buttonClickListener) {
 //            mButtonClickListener = buttonClickListener;
 //            return this;
 //        }
 //
-//        public XBottomSheet.BottomGridSheetBuilder setItemTextTypeFace(Typeface itemTextTypeFace) {
+//        public UserPaySheet.BottomGridSheetBuilder setItemTextTypeFace(Typeface itemTextTypeFace) {
 //            mItemTextTypeFace = itemTextTypeFace;
 //            return this;
 //        }
 //
-//        public XBottomSheet.BottomGridSheetBuilder setBottomButtonTypeFace(Typeface bottomButtonTypeFace) {
+//        public UserPaySheet.BottomGridSheetBuilder setBottomButtonTypeFace(Typeface bottomButtonTypeFace) {
 //            mBottomButtonTypeFace = bottomButtonTypeFace;
 //            return this;
 //        }

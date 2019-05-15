@@ -17,6 +17,16 @@ public class CartViewModel extends AbsViewModel<CartRepository> {
         super(application);
     }
 
+    /*领取代金券*/
+    public void getVoucherFreeex(String storeId, final Object eventKey) {
+        mRepository.getVoucherFreeex(storeId, eventKey);
+    }
+
+    /*店铺代金券*/
+    public void getVoucherTplList(String storeId, final Object eventKey) {
+        mRepository.getVoucherTplList(storeId, "free", eventKey);
+    }
+
     /*购物车列表*/
     public void getCartList(String event_key) {
         mRepository.getCartList(event_key);

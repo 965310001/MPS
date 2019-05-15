@@ -119,7 +119,7 @@ public class ApplyRefundActivity extends AbsLifecycleActivity<ActivityRefundAppl
             if (result instanceof ShopsApplyRefundBean) {
                 data = (ShopsApplyRefundBean) result;
                 binding.setData(data);
-                binding.tvMaxRefundMoney.setText("¥" + data.getGoods().getGoods_pay_price());
+                binding.tvMaxRefundMoney.setText(String.format("¥%s", data.getGoods().getGoods_pay_price()));
                 binding.spSpinner.setItems(data.getReason_list());
                 ImageUtils.loadImageCorners(binding.ivImage,
                         ScreenUtil.dip2px(activity, 4), data.getGoods().getGoods_img_360());

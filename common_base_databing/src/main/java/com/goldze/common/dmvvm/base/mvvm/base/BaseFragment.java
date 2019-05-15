@@ -37,6 +37,7 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
         FragmentUserVisibleController.UserVisibleCallback {
 
     private View rootView;
+    protected String TAG;
 
     protected AppCompatActivity activity;
 
@@ -54,6 +55,7 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
+        TAG = this.getClass().getSimpleName();
         if (null == rootView) {
             binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false);
             rootView = binding.getRoot();

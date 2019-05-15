@@ -27,6 +27,16 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         mRepository.uploadFiles(file);
     }
 
+    /*获取支付信息*/
+    public void getPayInfo(String paySn, Object eventKey, String tag) {
+        mRepository.getPayInfo(paySn, eventKey, tag);
+    }
+
+    /*获取支付信息*/
+    public void getPayInfo2(String paySn, String rcb_pay, String pd_pay, String password, String payment_code, Object eventKey, String tag) {
+        mRepository.getPayInfo2(paySn, rcb_pay, pd_pay, password, payment_code, eventKey, tag);
+    }
+
     /*提交 订单 退款*/
     public void postOrderRefund(Map<String, RequestBody> params) {
         mRepository.postOrderRefund(params);

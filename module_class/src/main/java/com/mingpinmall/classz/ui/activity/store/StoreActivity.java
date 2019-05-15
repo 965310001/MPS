@@ -148,15 +148,15 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                         // TODO: 2019/4/29 测试end
                        /* if (null != voucher_list && voucher_list.size() > 0) {
                             if (null == xBottomSheet) {
-                                xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
+                                xBottomSheet = new UserPaySheet.BottomListSheetBuilder(activity)
                                         .setItemData(voucher_list)
                                         .setAdapter(AdapterPool.newInstance()
                                                 .getVoucherInfoAdapter(activity)
                                                 .build())
                                         .setLayoutManager(new LinearLayoutManager(activity))
-                                        .setOnSheetItemClickListener(new XBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener() {
+                                        .setOnSheetItemClickListener(new UserPaySheet.BottomListSheetBuilder.OnSheetItemClickListener() {
                                             @Override
-                                            public void onClick(XBottomSheet dialog, View itemView, int position, String tag) {
+                                            public void onClick(UserPaySheet dialog, View itemView, int position, String tag) {
                                                 dialog.dismiss();
                                                 ToastUtils.showLong("Item " + (position + 1));
                                             }

@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:background="@drawable/shape_red_radius"
+        android:background="@drawable/shape_red_unfocused"
         android:paddingStart="2dp"
         android:paddingEnd="2dp"
         android:textColor="@color/white"
