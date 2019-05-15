@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <import type="com.trecyclerview.adapter.DelegateAdapter" />
+
+        <import type="android.support.v7.widget.RecyclerView.LayoutManager" />
+
+        <variable
+            name="tag"
+            type="String" />
+
+        <variable
+            name="data"
+            type="List" />
+
+        <variable
+            name="adapter"
+            type="DelegateAdapter" />
+
+        <variable
+            name="layout"
+            type="LayoutManager" />
+
+        <variable
+            name="itemdecoration"
+            type="Boolean" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.trecyclerview.TRecyclerView
+            android:id="@+id/recycler_view"
+            adapter="@{adapter}"
+            itemdecoration="@{itemdecoration}"
+            layout="@{layout}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:tag="@{tag}"
+            bind:items="@{data}" />
+
+    </FrameLayout>
+
+</layout>

@@ -11,6 +11,7 @@ import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.goldze.common.dmvvm.R;
@@ -247,12 +248,9 @@ public class CustomStatusView extends View {
 
     private void startSuccessAnim() {
         ValueAnimator success = ValueAnimator.ofFloat(0f, 1.0f);
-        success.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                successValue = (float) animation.getAnimatedValue();
-                invalidate();
-            }
+        success.addUpdateListener(animation -> {
+            successValue = (float) animation.getAnimatedValue();
+            invalidate();
         });
         //组合动画,一先一后执行
         AnimatorSet animatorSet = new AnimatorSet();
@@ -263,20 +261,16 @@ public class CustomStatusView extends View {
 
     private void startFailAnim() {
         ValueAnimator failLeft = ValueAnimator.ofFloat(0f, 1.0f);
-        failLeft.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                failValueRight = (float) animation.getAnimatedValue();
-                invalidate();
-            }
+        failLeft.addUpdateListener(animation -> {
+            Log.i("动画", "startFailAnim: failLeft");
+            failValueRight = (float) animation.getAnimatedValue();
+            invalidate();
         });
         ValueAnimator failRight = ValueAnimator.ofFloat(0f, 1.0f);
-        failRight.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                failValueLeft = (float) animation.getAnimatedValue();
-                invalidate();
-            }
+        failRight.addUpdateListener(animation -> {
+            Log.i("动画", "startFailAnim: failRight");
+            failValueLeft = (float) animation.getAnimatedValue();
+            invalidate();
         });
         //组合动画,一先一后执行
         AnimatorSet animatorSet = new AnimatorSet();

@@ -46,7 +46,7 @@
             </android.support.v4.widget.SwipeRefreshLayout>
 
             <!--<include-->
-                <!--layout="@layout/trecyclerview_base"-->
+                <!--layout="@layout/layout_trecyclerview_base"-->
                 <!--android:visibility="gone" />-->
         </FrameLayout>
 

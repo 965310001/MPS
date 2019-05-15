@@ -42,7 +42,7 @@ import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
-import com.mingpinmall.classz.utils.HtmlFromUtils;
+import com.goldze.common.dmvvm.utils.HtmlFromUtils;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
 import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;

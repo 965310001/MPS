@@ -22,6 +22,8 @@ import com.mingpinmall.me.ui.bean.OrderDeliverListBean;
 import com.mingpinmall.me.ui.bean.OrderEvaluateBean;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.bean.PacketListBean;
+import com.mingpinmall.apppay.pay.PayLayoutBean;
+import com.mingpinmall.me.ui.bean.PayMessageInfo;
 import com.mingpinmall.me.ui.bean.PdcashBean;
 import com.mingpinmall.me.ui.bean.PdcashInfoBean;
 import com.mingpinmall.me.ui.bean.PdrechargeBean;
@@ -80,6 +82,50 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         sendData(Constants.UPLOAD_FILES, msg == null ? "上传失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取支付信息*/
+    protected void getPayInfo(String paySn, Object eventKey, String tag) {
+        addDisposable(apiService.getPayInfo(getUserKey(), paySn)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<PayLayoutBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<PayLayoutBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, tag, result.getData());
+                        } else {
+                            sendData(eventKey, tag, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(eventKey, tag, msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*获取支付信息*/
+    protected void getPayInfo2(String paySn, String rcb_pay, String pd_pay, String password, String payment_code, Object eventKey, String tag) {
+        addDisposable(apiService.getPayInfo2(getUserKey(), paySn, rcb_pay, pd_pay, password, payment_code, "android")
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<PayMessageInfo>() {
+                    @Override
+                    public void onSuccess(PayMessageInfo result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, tag, result);
+                        } else {
+                            sendData(eventKey, tag, result.getErr_code_des());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(eventKey, tag, msg == null ? "获取失败" : msg);
                     }
                 })
         );

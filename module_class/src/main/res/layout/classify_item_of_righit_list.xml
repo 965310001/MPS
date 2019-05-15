@@ -41,7 +41,7 @@
                 bind:items="@{data.child}" />
 
             <!--<include-->
-                <!--layout="@layout/trecyclerview_base"-->
+                <!--layout="@layout/layout_trecyclerview_base"-->
                 <!--bind:data="@{data.child}"-->
                 <!--bind:itemdecoration="@{true}"-->
                 <!--bind:tag="@{`0`}" />-->

@@ -7,11 +7,10 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.bean.NewDatasResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
@@ -19,28 +18,50 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
+import com.mingpinmall.apppay.UserPaySheet;
+import com.mingpinmall.apppay.pay.Context;
+import com.mingpinmall.apppay.pay.JPayListener;
+import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
+import com.mingpinmall.apppay.pay.ZhiFuBaoStrategy;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.PhysicalOrderListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
+import com.mingpinmall.apppay.pay.PayLayoutBean;
+import com.mingpinmall.me.ui.bean.PayMessageInfo;
 import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 import com.mingpinmall.me.ui.constants.Constants;
+import com.socks.library.KLog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：全部实物订单页面
+ *
  * @author 小斌
  * @date 2019/3/26
  */
-public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefaultRecyclerviewBinding, MeViewModel> {
+public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefaultRecyclerviewBinding, MeViewModel> implements JPayListener {
 
     private int pageIndex = 1;
     private String eventType = "";
     private String eventKey = "ALL_PHYSICAL";
     private PhysicalOrderListAdapter physicalOrderListAdapter;
     private boolean isLoadmore = false;
+    /**
+     * -1：未选择
+     * 0：充值卡
+     * 1：预存款
+     * 2：支付宝
+     * 3：微信
+     */
+    private int method = -1;
+
+    private UserPaySheet userPaySheet;
 
     public PhysicalOrderListFragment() {
     }
@@ -123,7 +144,7 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                 //订单退款
                 ActivityToActivity.toActivity(ARouterConfig.Me.ORDERREFUNDACTIVITY, "id", orderBean.getOrder_id());
             } else if (view.getId() == R.id.order_pay) {
-                //立即支付
+                mViewModel.getPayInfo(orderBean.getPay_sn(), eventKey, Constants.PAY_INFO.toString());
             } else if (view.getId() == R.id.order_lock) {
                 //退款/退货中... tips
             } else if (view.getId() == R.id.order_sure) {
@@ -138,7 +159,7 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                 //订单评价
                 ActivityToActivity.toActivity(ARouterConfig.Me.ORDEREVALUATEACTIVITY, "id", orderBean.getOrder_id());
             } else if (view.getId() == R.id.order_evaluation_again) {
-                //追加评价
+                // TODO 追加评价
 
             } else if (view.getId() == R.id.order_deliver) {
                 //查看物流
@@ -168,9 +189,60 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
         }
     }
 
+    private void aLiPay(final String param) {
+        Context context = new Context(ZhiFuBaoStrategy.getInstance(activity));
+        Map<String, String> map = new HashMap<>(1);
+        map.put("orderInfo", param);
+        context.pay(map, this);
+    }
+
+    private void weixinPay(PayMessageInfo.PayCodeBean response) {
+        Context context = new Context(WeiXinBaoStrategy.getInstance(activity));
+        Map<String, String> map = new HashMap<>(6);
+        map.put("appId", response.getAppidX());
+        map.put("partnerId", response.getPartnerid());
+        map.put("prepayId", response.getPrepayid());
+        map.put("nonceStr", response.getNonce_strX());
+        map.put("timeStamp", response.getTimestamp());
+        map.put("sign", response.getSignX());
+        context.pay(map, this);
+    }
+
     @Override
     protected void dataObserver() {
         super.dataObserver();
+        registerObserver(eventKey, Constants.PAY_INFO.toString(), Object.class).observeForever(result -> {
+            if (result instanceof PayLayoutBean) {
+                PayLayoutBean data = (PayLayoutBean) result;
+                showPaySheet(data.getPay_info());
+            }
+        });
+        registerObserver(eventKey, Constants.PAY_METHOD, Object.class).observeForever(result -> {
+            if (result instanceof PayMessageInfo) {
+                PayMessageInfo data = (PayMessageInfo) result;
+                switch (method) {
+                    case 0:
+                        //充值卡支付方式
+                        break;
+                    case 1:
+                        //预存款支付方式
+                        break;
+                    case 2:
+                        //支付宝支付方式
+                        KLog.i("支付宝");
+                        aLiPay(data.getParam());
+                        break;
+                    case 3:
+                        //微信支付方式
+                        weixinPay(data.getPay_code());
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                userPaySheet.getSheetBuilder().onPayFail(result.toString());
+            }
+        });
         //这个是点击搜索时，当前显示的页面根据搜索条件更新数据
         registerObserver("SEARCH", "ORDER", String.class).observeForever(s -> {
             if (this.isVisibleToUser()) {
@@ -243,6 +315,60 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                 });
     }
 
+    private void showPaySheet(PayLayoutBean.PayInfoBean payInfo) {
+        userPaySheet = new UserPaySheet.PayViewSheetBuilder(activity)
+                .setData(payInfo)
+                .setmOnPayMethodListener(new UserPaySheet.OnPayMethodListener() {
+                    @Override
+                    public void onAlipay(UserPaySheet dialog) {
+                        //支付宝支付方式
+                        dialog.getSheetBuilder().onPaying("");
+                        method = 2;
+                        mViewModel.getPayInfo2(
+                                payInfo.getPay_sn(),
+                                "0",
+                                "0",
+                                "",
+                                "alipay_sdk",
+                                eventKey,
+                                Constants.PAY_METHOD
+                        );
+                    }
+
+                    @Override
+                    public void onWxpay(UserPaySheet dialog) {
+                        //微信支付方式
+                        dialog.getSheetBuilder().onPaying("");
+                        method = 3;
+                        mViewModel.getPayInfo2(
+                                payInfo.getPay_sn(),
+                                "0",
+                                "0",
+                                "",
+                                "wxpay_sdk",
+                                eventKey,
+                                Constants.PAY_METHOD
+                        );
+                    }
+
+                    @Override
+                    public void onPcd(UserPaySheet dialog, int type, String password) {
+                        dialog.getSheetBuilder().onPaying("");
+                        method = type;
+                        mViewModel.getPayInfo2(
+                                payInfo.getPay_sn(),
+                                type == 0 ? "1" : "0",
+                                type == 1 ? "1" : "0",
+                                password,
+                                "",
+                                eventKey,
+                                Constants.PAY_METHOD
+                        );
+                    }
+                }).build();
+        userPaySheet.show();
+    }
+
     @Override
     protected void lazyLoad() {
         mViewModel.getPhysicalOrderList(eventKey, eventType, getOrderKey(), 1);
@@ -251,6 +377,9 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
     @Override
     protected void onVisible() {
         super.onVisible();
+        if (userPaySheet != null && userPaySheet.isShowing()) {
+            return;
+        }
         lazyLoad();
     }
 
@@ -262,5 +391,29 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
     @Override
     protected Object getStateEventKey() {
         return "PhysicalOrderListFragment";
+    }
+
+    @Override
+    public void onPaySuccess() {
+        //支付成功
+        userPaySheet.getSheetBuilder().onPaySuccess("");
+    }
+
+    @Override
+    public void onPayError(int error_code, String message) {
+        //支付失败
+        userPaySheet.getSheetBuilder().onPayFail(message);
+    }
+
+    @Override
+    public void onPayCancel() {
+        //取消支付
+        userPaySheet.getSheetBuilder().onPayFail("支付已取消");
+    }
+
+    @Override
+    public void onUUPay(String dataOrg, String sign, String mode) {
+        //银联回调
+        userPaySheet.getSheetBuilder().onPayFail("");
     }
 }

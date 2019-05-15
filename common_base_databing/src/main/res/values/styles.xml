@@ -114,5 +114,12 @@
         <item name="android:scrollbars">vertical</item>
     </style>
 
+    <style name="ConstraintLayoutRecyclerView">
+        <item name="android:height">0dp</item>
+        <item name="android:scrollbarSize">2dp</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
 
 </resources>

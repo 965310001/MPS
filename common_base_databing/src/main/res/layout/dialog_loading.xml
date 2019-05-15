@@ -27,10 +27,10 @@
 
             <com.goldze.common.dmvvm.widget.progress.CustomStatusView
                 android:id="@+id/view_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_margin="6dp"
-                android:padding="1dp"
+                android:padding="2dp"
                 app:progress_width="4dp"
                 app:progress_radius="30dp"/>
 

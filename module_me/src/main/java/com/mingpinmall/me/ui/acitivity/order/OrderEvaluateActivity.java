@@ -108,7 +108,6 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
                 }
                 jsonObject.put("goods", jsonObject1);
                 String jsonData = jsonObject.toString();
-                Log.i("点击1", "JSON内容: " + jsonData);
                 mViewModel.sendEvaluate(jsonData, pics);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -99,6 +99,7 @@ dependencies {
 //    implementation project(':common_base')
 
     implementation project(':common_base_databing')
+    implementation project(':module_pay')
     if (!Boolean.valueOf(rootProject.ext.isModule)) {
         //main模块
         implementation project(':module_home')
@@ -106,9 +107,6 @@ dependencies {
         implementation project(':module_cart')
         implementation project(':module_me')
     }
-
-    /*支付宝*/
-    implementation (name: 'alipaySdk-15.6.2-20190416165100', ext: 'aar')
 
     /*微信支付*/
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'

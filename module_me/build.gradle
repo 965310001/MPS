@@ -58,6 +58,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':common_base_databing')
+    implementation project(':module_pay')
     /*评分*/
     implementation 'me.zhanghai.android.materialratingbar:library:1.3.2'
 

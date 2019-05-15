@@ -3,12 +3,17 @@ package com.mingpinmall.cart.ui.api;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
 import com.mingpinmall.cart.ui.bean.CartQuantityState;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
+import com.mingpinmall.cart.ui.bean.ShopVoucherInfo;
 import com.mingpinmall.cart.ui.constants.Constants;
+import com.socks.library.KLog;
+
+import java.util.Map;
 
 /**
  * 功能描述：
@@ -17,6 +22,64 @@ import com.mingpinmall.cart.ui.constants.Constants;
  **/
 public class CartRepository extends BaseRepository {
     private CartApiService apiService = RetrofitClient.getInstance().create(CartApiService.class);
+
+    /*店铺代金券*/
+    public void getVoucherFreeex(String tId, final Object eventKey) {
+        addDisposable(apiService.getVoucherFreeex(getUserKey(), tId)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, ARouterConfig.SUCCESS);
+                        } else {
+                            sendData(eventKey, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(eventKey, msg == null ? "领取失败" : msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
+    }
+
+    /*店铺代金券*/
+    public void getVoucherTplList(String storeId, String gettype, final Object eventKey) {
+        addDisposable(apiService.getVoucherTplList(getUserKey(), storeId, gettype)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ShopVoucherInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ShopVoucherInfo> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, result.getData());
+                        } else {
+                            sendData(eventKey, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(eventKey, msg == null ? "获取失败" : msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
+    }
 
     /*购物车列表*/
     protected void getCartList(final String event_key) {

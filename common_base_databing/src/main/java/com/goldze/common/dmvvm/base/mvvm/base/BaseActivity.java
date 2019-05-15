@@ -42,6 +42,8 @@ import com.xuexiang.xui.widget.tabbar.TabControlView;
  */
 public abstract class BaseActivity<VD extends ViewDataBinding> extends AppCompatActivity implements View.OnClickListener, ILoadManager {
 
+    protected String TAG;
+
     protected ActivityBaseBinding baseBinding;
     private LoadManager loadManager;
     protected Activity activity;
@@ -72,6 +74,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends AppCompat
         /*竖屏*/
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
+        TAG = this.getClass().getSimpleName();
         activity = this;
         /*android软键盘挡住输入框问题*/
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
