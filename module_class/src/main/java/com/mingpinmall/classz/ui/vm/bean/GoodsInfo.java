@@ -41,6 +41,8 @@ public class GoodsInfo extends BaseBean {
     private String have_gift;/*赠*/
     private String store_name;/*商家名字*/
     @Transient
+    private String presell_deliverdate_str;/*预售*/
+    @Transient
     private boolean isStoreName = false;
     private String is_own_mall;
     //            private boolean sole_flag;
@@ -85,6 +87,14 @@ public class GoodsInfo extends BaseBean {
     public List<NewsSpecDataBean> news_spec_data;
     @Transient
     public List<NewsSpecListDataBean> news_spec_list_data;
+
+    public String getPresell_deliverdate_str() {
+        return presell_deliverdate_str;
+    }
+
+    public void setPresell_deliverdate_str(String presell_deliverdate_str) {
+        this.presell_deliverdate_str = presell_deliverdate_str;
+    }
 
     @Transient
     public String member_id;/*是否是自己*/
@@ -342,6 +352,7 @@ public class GoodsInfo extends BaseBean {
     public String getIs_presell() {
         return is_presell;
     }
+
 
     public void setIs_presell(String is_presell) {
         this.is_presell = is_presell;

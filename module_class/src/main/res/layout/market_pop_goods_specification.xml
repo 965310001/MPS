@@ -215,16 +215,16 @@
                     android:textSize="@dimen/text_14"
                     android:visibility="@{data.is_presell.equals(`1`)?View.VISIBLE:View.GONE}" />
 
-                <!--<TextView-->
-                    <!--style="@style/width_warp_height_warp"-->
-                    <!--android:layout_marginLeft="@dimen/dp_6"-->
-                    <!--android:layout_marginRight="@dimen/dp_6"-->
-                    <!--android:background="@drawable/bg_of_red_gradient_radius"-->
-                    <!--android:padding="@dimen/dp_10"-->
-                    <!--android:text="@{data.presell_deliverdate_str+`日发货`}"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:visibility="@{data.is_virtual.equals(`1`)?View.VISIBLE:View.GONE}"-->
-                    <!--tools:text="即日起 到 2028-4-28 23:59:59" />-->
+                <TextView
+                    style="@style/width_warp_height_warp"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:layout_marginRight="@dimen/dp_6"
+                    android:background="@drawable/bg_of_red_gradient_radius"
+                    android:padding="@dimen/dp_10"
+                    android:text="@{data.presell_deliverdate_str+`日发货`}"
+                    android:textColor="@color/white"
+                    android:visibility="@{data.is_presell.equals(`1`)?View.VISIBLE:View.GONE}"
+                    tools:text="即日起 到 2028-4-28 23:59:59" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

@@ -177,6 +177,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     TextView textView;
                     for (final GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansongInfo.getRules()) {
                         textView = new TextView(activity);
+                        textView.setText("");
                         textView.setText(Html.fromHtml(String.format("单笔订单满<font color='#000000'>%s</font>元,立减<font color='#000000'>%s</font>元",
                                 rule.getPrice(), rule.getDiscount())));
                         if (!TextUtils.isEmpty(rule.getGoods_image_url())) {

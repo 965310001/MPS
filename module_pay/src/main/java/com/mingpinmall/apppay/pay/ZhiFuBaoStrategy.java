@@ -1,4 +1,4 @@
-package com.mingpinmall.classz.pay;
+package com.mingpinmall.apppay.pay;
 
 import android.app.Activity;
 import android.os.Handler;
@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
-import com.mingpinmall.classz.pay.ali.PayResult;
+import com.mingpinmall.apppay.pay.ali.PayResult;
 
 import java.util.Map;
 
