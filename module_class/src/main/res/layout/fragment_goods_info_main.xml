@@ -13,6 +13,8 @@
 
         <import type="android.support.v7.widget.RecyclerView.LayoutManager" />
 
+        <import type="android.text.TextUtils" />
+
         <variable
             name="layout"
             type="LayoutManager" />
@@ -96,7 +98,7 @@
                             android:text="虚拟"
                             android:textColor="@color/white"
                             android:tint="@color/shallow_red"
-                            android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
+                            android:visibility="@{data.is_virtual.equals(`1`)?View.VISIBLE:View.GONE}" />
 
                         <TextView
                             style="@style/width_warp_height_warp"
@@ -109,7 +111,7 @@
                             android:paddingBottom="@dimen/dp_4"
                             android:text="F码"
                             android:textColor="@color/white"
-                            android:visibility="@{data.is_virtual.equals(`1`)?View.VISIBLE:View.GONE}" />
+                            android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
 
                         <TextView
                             style="@style/width_warp_height_warp"
@@ -181,13 +183,13 @@
                         android:text="@{data.goods_jingle}"
                         android:textColor="@color/gray"
                         android:textSize="@dimen/text_14"
+                        android:visibility="@{TextUtils.isEmpty(data.goods_jingle)?View.GONE:View.VISIBLE}"
                         tools:text="型号BD7108G    100米防水 终身保修 全国包邮 邦顿正品  专柜同款" />
 
                     <!--商品价格-->
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -294,9 +296,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dp_5"
+                        android:alpha="0.8"
                         android:padding="@dimen/dp_1"
                         android:text="点击领取店铺代金券"
-                        android:textColor="@color/gray" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
 
@@ -330,11 +333,6 @@
                     android:padding="10dp"
                     android:visibility="gone"
                     tools:text="说明：质保3年" />
-
-                <!--评论-->
-                <!--<include-->
-                <!--layout="@layout/market_fragment_goods_comment"-->
-                <!--android:visibility="gone" />-->
 
                 <!--评论start-->
                 <com.leon.lib.settingview.LSettingItem
@@ -411,11 +409,6 @@
                         android:visibility="gone"
                         leon:canLoop="true" />
 
-                    <!--<include-->
-                    <!--android:id="@+id/recycle_recommend_view"-->
-                    <!--layout="@layout/recyclerview_base"-->
-                    <!--android:visibility="gone" />-->
-
                     <include
                         itemdecoration="@{true}"
                         layout="@layout/trecyclerview_base"
@@ -424,7 +417,6 @@
                         bind:layout="@{layout}"
                         bind:tag='@{"4"}' />
                 </LinearLayout>
-
 
                 <!-- 上拉查看图文详情 -->
                 <LinearLayout

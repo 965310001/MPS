@@ -24,7 +24,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
 
 /**
  * 商品规格Pop
@@ -114,30 +113,22 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
             }
             bind.llAttar.addView(flowLayout);
             final int finalIndex = index;
-            flowLayout.setOnTagSelectListener(new FlowTagLayout.OnTagSelectListener() {
-                @Override
-                public void onItemSelect(FlowTagLayout parent, int position, List<Integer> selectedList) {
-                    ints[finalIndex] = goodsInfo.news_spec_data.get(finalIndex).getSpec_value().get(position).getSpe_id();
-                    stringBuilder = new StringBuilder();
-                    for (int anInt : ints) {
-                        stringBuilder.append(anInt).append("|");
-                    }
-                    Observable.fromIterable(goodsInfo.news_spec_list_data)
-                            .filter(new Predicate<GoodsInfo.NewsSpecListDataBean>() {
-                                @Override
-                                public boolean test(GoodsInfo.NewsSpecListDataBean newsSpecListDataBean) throws Exception {
-                                    return stringBuilder.toString().contains(newsSpecListDataBean.getKey());
-                                }
-                            }).subscribe(new Consumer<GoodsInfo.NewsSpecListDataBean>() {
-                        @Override
-                        public void accept(GoodsInfo.NewsSpecListDataBean newsSpecListDataBean) throws Exception {
-                            KLog.i(newsSpecListDataBean.getVal());
-                            LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
-                                    newsSpecListDataBean.getVal());
-                        }
-                    });
-
+            flowLayout.setOnTagSelectListener((parent1, position, selectedList) -> {
+                ints[finalIndex] = goodsInfo.news_spec_data.get(finalIndex).getSpec_value().get(position).getSpe_id();
+                stringBuilder = new StringBuilder();
+                for (int anInt : ints) {
+                    stringBuilder.append(anInt).append("|");
                 }
+                Observable.fromIterable(goodsInfo.news_spec_list_data)
+                        .filter(newsSpecListDataBean -> stringBuilder.toString().contains(newsSpecListDataBean.getKey())).subscribe(new Consumer<GoodsInfo.NewsSpecListDataBean>() {
+                    @Override
+                    public void accept(GoodsInfo.NewsSpecListDataBean newsSpecListDataBean) throws Exception {
+                        KLog.i(newsSpecListDataBean.getVal());
+                        LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
+                                newsSpecListDataBean.getVal());
+                    }
+                });
+
             });
         }
     }

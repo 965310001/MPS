@@ -32,6 +32,7 @@ import com.goldze.common.dmvvm.widget.SlideLayout;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.AdapterPool;
+import com.mingpinmall.classz.adapter.CustomDefaultFlowTagAdapter;
 import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoMainBinding;
 import com.mingpinmall.classz.databinding.ItemGoodsDescBinding;
@@ -45,7 +46,9 @@ import com.mingpinmall.classz.utils.HtmlFromUtils;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
 import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
+import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -110,6 +113,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             ToastUtils.showLong("服务器异常，请稍后再试");
         }
     }
+
 
     /**
      * 设置商品信息
@@ -184,6 +188,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                         binding.tvPromotion.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    KLog.i("TAGTAG");
                     binding.llManjisong.setVisibility(View.GONE);
                     binding.tvPromotion.setVisibility(View.GONE);
                 }
@@ -215,10 +220,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                         textView.setMovementMethod(LinkMovementMethod.getInstance());
                         binding.llZengping.addView(textView);
                         binding.tvPromotion.setVisibility(View.VISIBLE);
+                        KLog.i("TAGTAG");
                     }
                 } else {
                     binding.llZengping.setVisibility(View.GONE);
-                    binding.tvPromotion.setVisibility(View.GONE);
+//                    binding.tvPromotion.setVisibility(View.GONE);
+//                    KLog.i("TAGTAG");
                 }
             }
         } catch (Exception e) {
@@ -274,10 +281,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     protected void update() {
-        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
+       /* goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
         goodsInfo = datasBean.getGoods_info();
         KLog.i(goodsInfo + "=====");
-        setGoodsInfo();
+        setGoodsInfo();*/
+
+        setGoodsDetailInfo();
     }
 
     protected void updateSpecificationPop() {

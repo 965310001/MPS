@@ -73,12 +73,12 @@ public class URLImageParser {
                     mImageSizeHeight = d.getIntrinsicHeight() * 3;
                 }
                 textView.setTag(source);
-                return Glide.with(context).asDrawable().load(source)
-                        .into(mImageSize, mImageSizeHeight)
-                        .get();
 //                return Glide.with(context).asDrawable().load(source)
-//                        .into(d.getIntrinsicWidth(), d.getIntrinsicHeight())
+//                        .into(mImageSize, mImageSizeHeight)
 //                        .get();
+                return Glide.with(context).asDrawable().load(source)
+                        .into(d.getIntrinsicWidth(), d.getIntrinsicHeight())
+                        .get();
             } catch (Exception e) {
                 KLog.i(e.toString());
                 return null;
