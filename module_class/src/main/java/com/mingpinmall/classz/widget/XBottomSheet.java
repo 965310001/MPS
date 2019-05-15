@@ -30,7 +30,6 @@ import android.widget.TextView;
 
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.DialogBottomSelectVoucherBinding;
-import com.mingpinmall.classz.databinding.TrecyclerviewBaseBinding;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;

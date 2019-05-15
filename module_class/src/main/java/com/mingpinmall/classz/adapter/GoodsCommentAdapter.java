@@ -16,7 +16,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 public class GoodsCommentAdapter extends BaseRecyclerAdapter<GoodsComment> {
 
     public GoodsCommentAdapter(Context context, @Nullable List<GoodsComment> list) {
-        super(context, list, R.layout.item_of_goods_comment_list);
+        super(context, list, R.layout.item_of_goods_comment_list_detail);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class GoodsCommentAdapter extends BaseRecyclerAdapter<GoodsComment> {
         holder.setText(R.id.tv_name, data.getGeval_frommembername());
         holder.setText(R.id.tv_comment, data.getGeval_content());
         holder.setText(R.id.tv_time, data.getGeval_addtime_date());
-        holder.getView(R.id.iv_head).setVisibility(View.GONE);
+        /*holder.getView(R.id.iv_head).setVisibility(View.GONE);*/
         ((MaterialRatingBar) holder.getView(R.id.rb_evaluate)).setRating(Float.parseFloat(data.getGeval_scores()));
     }
 }

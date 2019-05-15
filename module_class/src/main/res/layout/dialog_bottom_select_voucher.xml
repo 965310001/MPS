@@ -4,6 +4,7 @@
     xmlns:leon="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="com.trecyclerview.adapter.DelegateAdapter" />
 
         <import type="java.util.List" />
@@ -51,6 +52,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
+            android:visibility="@{isShowIcon?View.VISIBLE:View.GONE}"
             leon:layout_constraintBottom_toBottomOf="parent"
             leon:layout_constraintLeft_toLeftOf="parent"
             leon:layout_constraintRight_toRightOf="parent"
@@ -62,8 +64,7 @@
                 android:background="@drawable/bg_dialog_bottom_no_voucher"
                 android:padding="@dimen/dp_15"
                 android:src="@drawable/mcc_08_b"
-                android:tint="@color/white"
-                android:visibility="@{isShowIcon?View.VISIBLE:View.GONE}" />
+                android:tint="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,11 +85,20 @@
                 android:textSize="@dimen/text_12" />
         </LinearLayout>
 
-        <include
-            layout="@layout/trecyclerview_base"
-            bind:adapter="@{adapter}"
-            bind:data="@{list}"
-            bind:tag="@{`0`}" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_40"
+            leon:layout_constraintTop_toTopOf="parent"
+            leon:layout_constraintLeft_toLeftOf="parent">
+
+            <include
+                layout="@layout/trecyclerview_base"
+                bind:adapter="@{adapter}"
+                bind:data="@{list}"
+                bind:tag="@{`0`}" />
+        </FrameLayout>
+
 
     </android.support.constraint.ConstraintLayout>
 

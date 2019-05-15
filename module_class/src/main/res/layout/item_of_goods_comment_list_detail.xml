@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.mingpinmall.classz.ui.vm.bean.GoodsComment" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/rb_evaluate"
+            style="@style/Widget.MaterialRatingBar.RatingBar"
+            rating="@{data.geval_scores+``}"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="@dimen/dp_6"
+            android:clickable="false"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:mrb_progressTint="@color/shallow_red"
+            tools:rating="5" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/TextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:text="@{data.geval_frommembername}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_time"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="张三张三张三张三张三张三张三张三张三" />
+
+        <TextView
+            android:id="@+id/tv_comment"
+            style="@style/TextStyle"
+            android:layout_marginTop="@dimen/dp_2"
+            android:lineSpacingExtra="4dp"
+            android:text="@{data.geval_content}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rb_evaluate"
+            tools:text="内容" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|right"
+            android:text="@{data.geval_addtime_date}"
+            android:textColor="@color/gray"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2019/2/2 23:2:54" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

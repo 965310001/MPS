@@ -1,5 +1,7 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
+import android.databinding.Bindable;
+
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.google.gson.annotations.SerializedName;
 
@@ -49,6 +51,22 @@ public class GoodsDetailInfo extends BaseBean {
 
         private MansongInfoBean mansong_info;
         private List<GiftArrayBean> gift_array;
+
+        private List<VoucherInfo.VoucherListBean> voucher;
+
+        public List<VoucherInfo.VoucherListBean> getVoucher() {
+            return voucher;
+        }
+
+        public void setVoucher(List<VoucherInfo.VoucherListBean> voucher) {
+            this.voucher = voucher;
+        }
+
+
+        @Bindable
+        public boolean isVoucher() {
+            return null == getVoucher();
+        }
 
         public boolean isIs_favorate() {
             return is_favorate;

@@ -239,6 +239,12 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         }
     }
 
+    /*领取代金券*/
+    public void getReceive(View view) {
+        /*String tId = (String) view.getTag();*/
+        mViewModel.getVoucherFreeex((String) view.getTag(), Constants.VOUCHER[2]);
+    }
+
     /**
      * 设置购物车数量
      */

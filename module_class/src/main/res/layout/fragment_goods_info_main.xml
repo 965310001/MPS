@@ -33,6 +33,10 @@
             name="isOwnMall"
             type="Boolean" />
 
+        <variable
+            name="isVoucher"
+            type="Boolean" />
+
     </data>
 
     <com.goldze.common.dmvvm.widget.SlideLayout
@@ -268,6 +272,34 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/ll_voucher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:visibility="@{isVoucher?View.GONE:View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_25"
+                        android:background="@drawable/bg_of_red_gradient_radius"
+                        android:padding="@dimen/dp_1"
+                        android:text="券"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:padding="@dimen/dp_1"
+                        android:text="点击领取店铺代金券"
+                        android:textColor="@color/gray" />
+                </LinearLayout>
+
+
                 <com.leon.lib.settingview.LSettingItem
                     android:id="@+id/lsi_goods_specification"
                     style="@style/width_match_height_warp"
@@ -332,11 +364,11 @@
                     android:visibility="@{isOwnMall?View.VISIBLE:View.GONE}"
                     leon:LtextColor="@color/black"
                     leon:LtextSize="14"
-                    leon:leftText="自家经营"
                     leon:isShowRightText="false"
                     leon:isShowUnderLine="true"
                     leon:leftIcon="@drawable/ic_store_b"
                     leon:leftIconSize="@dimen/image_height_litter"
+                    leon:leftText="自家经营"
                     leon:rightText="更多"
                     leon:rightTextColor="@color/gray"
                     leon:rightTextSize="8" />

@@ -1,7 +1,6 @@
 package com.mingpinmall.classz.pay;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -10,8 +9,6 @@ import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
 import com.mingpinmall.classz.pay.ali.PayResult;
-import com.socks.library.KLog;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 import java.util.Map;
 
