@@ -53,10 +53,10 @@ android {
     }
     signingConfigs {
         release {
+            storeFile file(keystoreProperties['KEY_STOREFILE'])
             keyAlias keystoreProperties['KEY_ALIAS']
             keyPassword keystoreProperties['KEY_PASSWORD']
             storePassword keystoreProperties['PASSWORD']
-            storeFile file(keystoreProperties['KEY_STOREFILE'])
         }
     }
     dataBinding {
@@ -66,10 +66,15 @@ android {
         release {
             minifyEnabled false
             signingConfig signingConfigs.release
+
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
         }
         debug {
+            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
+
+
             aaptOptions {
                 cruncherEnabled = false
             }

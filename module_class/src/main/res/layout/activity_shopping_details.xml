@@ -151,7 +151,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toEndOf="@+id/rl_cart1">
+                android:layout_toEndOf="@+id/rl_cart1"
+                android:alpha="@{data.shop?0.5f:1f}">
 
                 <TextView
                     android:id="@+id/tv_buy_now"
