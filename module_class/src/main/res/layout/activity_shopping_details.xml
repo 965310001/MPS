@@ -151,8 +151,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toEndOf="@+id/rl_cart1"
-                android:alpha="@{data.shop?0.5f:1f}">
+                android:layout_toEndOf="@+id/rl_cart1">
 
                 <TextView
                     android:id="@+id/tv_buy_now"
@@ -160,7 +159,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_of_red_gradient"
-                    android:clickable="@{data.shop?false:true}"
                     android:gravity="center"
                     android:onClick="buyNow"
                     android:text="@string/market_buy_now"
@@ -171,6 +169,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:alpha="@{data.shop?0.5f:1f}"
                     android:background="@drawable/bg_of_orange_gradient"
                     android:clickable="@{data.shop?false:true}"
                     android:gravity="center"

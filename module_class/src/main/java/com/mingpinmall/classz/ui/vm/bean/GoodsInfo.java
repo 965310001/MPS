@@ -345,6 +345,11 @@ public class GoodsInfo extends BaseBean {
         return is_virtual;
     }
 
+    /*是否是虚拟*/
+    public boolean isVirtual() {
+        return "1".equals(getIs_virtual());
+    }
+
     public void setIs_virtual(String is_virtual) {
         this.is_virtual = is_virtual;
     }

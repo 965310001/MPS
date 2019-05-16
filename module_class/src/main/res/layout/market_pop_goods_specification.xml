@@ -61,7 +61,7 @@
                         image="@{data.goods_image_url}"
                         android:layout_width="75dp"
                         android:layout_height="90dp"
-                        tools:src="@drawable/ic_launcher" />
+                        tools:src="@color/gray" />
 
                     <TextView
                         style="@style/TextStyle"
@@ -127,26 +127,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
-
-                <!--预售-->
-                <!-- <TextView
-                     style="@style/TextStyle"
-                     android:padding="@dimen/dp_4"
-                     android:text="预售:"
-                     android:textColor="@color/gray"
-                     android:textSize="@dimen/text_14"
-                     android:visibility="@{data.is_presell.equals(`1`)?View.VISIBLE:View.GONE}" />
-
-                 <TextView
-                     style="@style/width_warp_height_warp"
-                     android:layout_marginLeft="@dimen/dp_6"
-                     android:layout_marginRight="@dimen/dp_6"
-                     android:background="@drawable/bg_of_red_gradient_radius"
-                     android:padding="@dimen/dp_10"
-                     android:text="@{data.}"
-                     android:textColor="@color/white"
-                     android:visibility="@{data.is_presell.equals(`1`)?View.VISIBLE:View.GONE}" />-->
-
 
                 <!--购买类型-->
                 <TextView
@@ -256,7 +236,6 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_50"
             android:background="@drawable/bg_of_red_gradient"
-            android:clickable="@{data.shop?false:true}"
             android:gravity="center"
             android:onClick="buyNow"
             android:text="@string/market_buy_now"

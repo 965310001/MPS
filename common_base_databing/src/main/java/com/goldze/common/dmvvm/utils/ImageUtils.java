@@ -269,7 +269,7 @@ public class ImageUtils {
                 .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
                 .setOnItemClickListener(listener)
-                .startTurning();
+                .startTurning();banner.setCanLoop(true);
     }
     /**
      * 通用轮播图

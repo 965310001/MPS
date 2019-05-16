@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.activity.details;
 
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -125,6 +126,18 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                                 goodsInfoMainFragment.updateSpecificationPop();
                             }
                         }
+//                        android:alpha="@{data.shop?0.5f:1f}"
+//                        android:clickable="@{data.shop?false:true}"
+                        if (goodsInfo.isVirtual()) {
+                            binding.tvBuyNow.setAlpha(1.0f);
+                            binding.tvBuyNow.setClickable(true);
+                        } else if (goodsInfo.isShop()) {
+                            binding.tvBuyNow.setAlpha(0.5f);
+                            binding.tvBuyNow.setClickable(false);
+                        } else {
+                            binding.tvBuyNow.setAlpha(1.0f);
+                            binding.tvBuyNow.setClickable(true);
+                        }
                         setCartNumber();
                         binding.setData(goodsInfo);
                     } else {
@@ -213,12 +226,22 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     }
 
     public void buyNow(View view) {
-        KLog.i("立即购买");
+        /*判断是否是虚拟*/
+        if (goodsInfoMainFragment.isPopWindowDismiss()) {
+            goodsInfoMainFragment.popWindowDismiss();
+            if (goodsInfo.isVirtual()) {
+                // TODO: 2019/5/16 虚拟
+                KLog.i("是虚拟");
 
-        String goodsNum = SharePreferenceUtil.getKeyValue("ccvclick_goods_num");
-        ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, "cartId",
-                String.format("%s|%s", id, TextUtils.isEmpty(goodsNum) ? "1" : goodsNum));
-        SharePreferenceUtil.saveKeyValue("ccvclick_goods_num", "");
+            } else {
+                String goodsNum = SharePreferenceUtil.getKeyValue("ccvclick_goods_num");
+                ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, "cartId",
+                        String.format("%s|%s", id, TextUtils.isEmpty(goodsNum) ? "1" : goodsNum));
+                SharePreferenceUtil.saveKeyValue("ccvclick_goods_num", "");
+            }
+        } else {
+            goodsInfoMainFragment.showBuyPopWindow();
+        }
     }
 
     public void contactService(View view) {

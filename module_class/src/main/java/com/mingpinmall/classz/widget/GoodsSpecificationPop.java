@@ -23,7 +23,6 @@ import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
 
 /**
  * 商品规格Pop
@@ -54,10 +53,17 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
     }
 
     public void show(View parent) {
-//        View view = View.inflate(context, R.layout.market_pop_goods_specification, null);
-//        bind.getRoot().setBackgroundColor(context.getResources().getColor(R.color.color_33000000));
-
         bind = DataBindingUtil.bind(LayoutInflater.from(context).inflate(R.layout.market_pop_goods_specification, null));
+        if (goodsInfo.isVirtual()) {
+            bind.tvBuyNow.setAlpha(1.0f);
+            bind.tvBuyNow.setClickable(true);
+        } else if (goodsInfo.isShop()) {
+            bind.tvBuyNow.setAlpha(0.5f);
+            bind.tvBuyNow.setClickable(false);
+        } else {
+            bind.tvBuyNow.setAlpha(1.0f);
+            bind.tvBuyNow.setClickable(true);
+        }
         setAnimationStyle(R.style.AnimSheetBottom);
         setBackgroundDrawable(new ColorDrawable(0));
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -68,19 +74,6 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         showAtLocation(parent, Gravity.CENTER, 0, 0);
         loadData();
         update();
-
-//        bind.viewClose.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
-//        bind.ivClose.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
 
         /*添加属性*/
         TextView textView;
@@ -120,13 +113,10 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                     stringBuilder.append(anInt).append("|");
                 }
                 Observable.fromIterable(goodsInfo.news_spec_list_data)
-                        .filter(newsSpecListDataBean -> stringBuilder.toString().contains(newsSpecListDataBean.getKey())).subscribe(new Consumer<GoodsInfo.NewsSpecListDataBean>() {
-                    @Override
-                    public void accept(GoodsInfo.NewsSpecListDataBean newsSpecListDataBean) throws Exception {
-                        KLog.i(newsSpecListDataBean.getVal());
-                        LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
-                                newsSpecListDataBean.getVal());
-                    }
+                        .filter(newsSpecListDataBean -> stringBuilder.toString().contains(newsSpecListDataBean.getKey())).subscribe(newsSpecListDataBean -> {
+                    KLog.i(newsSpecListDataBean.getVal());
+                    LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
+                            newsSpecListDataBean.getVal());
                 });
 
             });

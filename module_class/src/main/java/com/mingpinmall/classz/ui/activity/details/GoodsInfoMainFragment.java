@@ -25,6 +25,7 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.HtmlFromUtils;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -32,7 +33,6 @@ import com.goldze.common.dmvvm.widget.SlideLayout;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.AdapterPool;
-import com.mingpinmall.classz.adapter.CustomDefaultFlowTagAdapter;
 import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoMainBinding;
 import com.mingpinmall.classz.databinding.ItemGoodsDescBinding;
@@ -42,13 +42,10 @@ import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
-import com.goldze.common.dmvvm.utils.HtmlFromUtils;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
 import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
-import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -165,6 +162,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     list,
                     position -> {
                     });
+            binding.vpItemGoodsImg.invalidate();
         }
     }
 
@@ -175,6 +173,10 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 GoodsDetailInfo.DatasBean.MansongInfoBean mansongInfo = datasBean.getMansong_info();
                 if (mansongInfo != null && mansongInfo.getRules() != null && mansongInfo.getRules().size() > 0) {
                     TextView textView;
+//                    for (int i = 1; i < binding.llManjisong.getChildCount(); i++) {
+//                        KLog.i(binding.llManjisong.getChildCount() + "===");
+//                        binding.llManjisong.removeViewAt(i);
+//                    }
                     for (final GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansongInfo.getRules()) {
                         textView = new TextView(activity);
                         textView.setText("");
@@ -239,12 +241,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         binding.svSwitch.setOnSlideDetailsListener(this);
 
         binding.lsiGoodsSpecification.setmOnLSettingItemClick(isChecked -> {
-            if (null == specificationPop) {
-                specificationPop = GoodsSpecificationPop.getInstance(getContext());
-            }
-            specificationPop.setGoodsInfo(goodsInfo);
-            specificationPop.show(binding.getRoot());
-            SharePreferenceUtil.saveKeyValue("SPECIFICATIONPOP", "SPECIFICATIONPOP");
+            showBuyPopWindow();
         });
 
         /*领取代金券*/
@@ -282,11 +279,10 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     protected void update() {
-       /* goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
-        goodsInfo = datasBean.getGoods_info();
-        KLog.i(goodsInfo + "=====");
-        setGoodsInfo();*/
-
+//        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
+//        goodsInfo = datasBean.getGoods_info();
+//        KLog.i(goodsInfo + "=====");
+//        setGoodsInfo();
         setGoodsDetailInfo();
     }
 
@@ -326,9 +322,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                         shoppingDetailsActivity.setCartNumber();
                         ToastUtils.showLong("添加购物车成功");
                         LiveBus.getDefault().postEvent("SHOP_CART_REFRESH", true);
-                        if (null != specificationPop && specificationPop.isShowing()) {
-                            specificationPop.dismiss();
-                        }
+                        popWindowDismiss();
                     } else {
                         if (response.isLogin()) {
                             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
@@ -350,6 +344,29 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     }
                 });
 
+    }
+
+    /*关闭 dismiss*/
+    public void popWindowDismiss() {
+        if (null != specificationPop && specificationPop.isShowing()) {
+            specificationPop.dismiss();
+        }
+    }
+
+    public boolean isPopWindowDismiss() {
+        if (null == specificationPop) {
+            return false;
+        }
+        return specificationPop.isShowing();
+    }
+
+    public void showBuyPopWindow() {
+        if (null == specificationPop) {
+            specificationPop = GoodsSpecificationPop.getInstance(getContext());
+        }
+        specificationPop.setGoodsInfo(goodsInfo);
+        specificationPop.show(binding.getRoot());
+        SharePreferenceUtil.saveKeyValue("SPECIFICATIONPOP", "SPECIFICATIONPOP");
     }
 
     @Override

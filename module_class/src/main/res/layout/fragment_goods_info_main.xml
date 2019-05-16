@@ -68,7 +68,7 @@
                 <com.bigkoo.convenientbanner.ConvenientBanner
                     android:id="@+id/vp_item_goods_img"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
+                    android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:minHeight="260dp"
                     leon:canLoop="true" />

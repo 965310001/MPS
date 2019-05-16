@@ -61,6 +61,9 @@ public class ConfirmOrderActivity extends
     @Autowired
     String ifcart;/*是否是购物车*/
 
+    @Autowired
+    String virtual;/*是否是虚拟*/
+
     /*地址id  是否选择发票*/
     private String addressId, invoice_id = "", mVatHash, mOffpayHash, mOffpayHashBatch;
 
@@ -97,6 +100,11 @@ public class ConfirmOrderActivity extends
         KLog.i(cartId);
 
         showLoading();
+        // TODO: 2019/5/16 虚拟
+        if ("".equals(virtual)) {
+            /*是虚拟*/
+        } else {
+        }
         mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 
