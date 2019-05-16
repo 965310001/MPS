@@ -197,6 +197,10 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
     }
 
     private void weixinPay(PayMessageInfo.PayCodeBean response) {
+        if(response == null) {
+            userPaySheet.getSheetBuilder().onPayFail("未知错误");
+            return;
+        }
         Context context = new Context(WeiXinBaoStrategy.getInstance(activity));
         Map<String, String> map = new HashMap<>(6);
         map.put("appId", response.getAppidX());
