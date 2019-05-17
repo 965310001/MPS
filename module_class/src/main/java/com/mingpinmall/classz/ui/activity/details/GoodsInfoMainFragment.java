@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.text.HtmlCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,7 +23,6 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
@@ -34,7 +33,6 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.HtmlFromUtils;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
-import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.SlideLayout;
 import com.mingpinmall.classz.R;
@@ -50,17 +48,10 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsComment;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
-import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import com.socks.library.KLog;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static android.support.v4.text.HtmlCompat.FROM_HTML_MODE_COMPACT;
 
 public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel> implements SlideLayout.OnSlideDetailsListener {
     /**
@@ -85,6 +76,13 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         return new GoodsInfoMainFragment();
     }
 
+    public void setDrawerFragment(Fragment fragment) {
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fl_fragment, fragment)
+                .commitNowAllowingStateLoss();
+    }
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_goods_info_main;
@@ -101,7 +99,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     public void initView(Bundle state) {
         super.initView(state);
         bannerHight = ScreenUtil.getScreenWidth(activity) / 2;
-        Log.d("屏幕宽度的一半", "initView: " + bannerHight);
         binding.svSwitch.setOnSlideDetailsListener(this);
 
         goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();

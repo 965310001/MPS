@@ -2,10 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.activity.details.GoodsInfoWebFragment">
+
+        <RelativeLayout
+            android:id="@+id/rl_topPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"/>
 
         <FrameLayout
             android:id="@+id/content_layout"
@@ -13,5 +19,5 @@
             android:layout_height="match_parent">
         </FrameLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 </layout>

@@ -109,13 +109,34 @@ public class ImageUtils {
      * @param imageView imageView
      * @param imageView transformation 转换器
      */
-    public static void loadImageNoPlaceholder(ImageView imageView, String url, int width, int hight) {
+    public static void loadImage(ImageView imageView, String url, int width, int hight) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
         Glide.with(imageView.getContext())
                 .load(url)
                 .apply(new RequestOptions()
+                        .fitCenter()
+                        .override(width, hight)
+                        .error(new ColorDrawable(Color.WHITE)))
+                .into(imageView);
+    }
+
+    /**
+     * 加载网络图片,带圆角
+     *
+     * @param url       url
+     * @param imageView imageView
+     * @param width     width
+     * @param hight     hight
+     */
+    public static void loadImageCorners(ImageView imageView, String url, int width, int hight, int radius) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(imageView.getContext())
+                .load(url)
+                .apply(new RequestOptions().transform(new GlideRoundTransform(radius))
                         .fitCenter()
                         .override(width, hight)
                         .error(new ColorDrawable(Color.WHITE)))
@@ -271,6 +292,7 @@ public class ImageUtils {
                 .setOnItemClickListener(listener)
                 .startTurning();
     }
+
     /**
      * 通用轮播图
      *

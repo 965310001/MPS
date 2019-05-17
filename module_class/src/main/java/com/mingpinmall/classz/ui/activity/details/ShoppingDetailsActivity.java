@@ -3,9 +3,11 @@ package com.mingpinmall.classz.ui.activity.details;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.bean.HorizontalTabTitle;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
@@ -221,14 +224,17 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                                 horizontalTabTitle = new HorizontalTabTitle(s);
                                 title.add(horizontalTabTitle);
                             }
+                            String url = BuildConfig.APP_URL + "/mo_bile/index.php?app=goods&wwi=goods_body&goods_id=" + getId();
                             List<BaseFragment> fragmentList = new ArrayList<>();
                             fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
-                            fragmentList.add(goodsDetailWebFragment = GoodsInfoWebFragment.newInstance(BuildConfig.APP_URL + "/mo_bile/index.php?app=goods&wwi=goods_body&goods_id=" + getId()));
+                            fragmentList.add(goodsDetailWebFragment = GoodsInfoWebFragment.newInstance(url));
                             fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
 
                             binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
                             binding.vpContent.setOffscreenPageLimit(3);
                             binding.tabs.setViewPager(binding.vpContent);
+
+                            goodsInfoMainFragment.setDrawerFragment(GoodsInfoWebFragment.newInstance(url));
                         } else {
                             if (goodsInfoMainFragment.isVisible()) {
                                 goodsInfoMainFragment.update();
