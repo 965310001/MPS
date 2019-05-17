@@ -49,7 +49,6 @@ public class ProductCollectionFragment extends AbsLifecycleFragment<FragmentDefa
     public void initView(Bundle state) {
         super.initView(state);
         collectionAdapter = new ProductCollectionAdapter();
-        collectionAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         binding.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_me_favorite);

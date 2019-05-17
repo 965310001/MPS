@@ -70,11 +70,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                app:layout_constraintBottom_toTopOf="@id/line1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/line0"
                 app:layout_constraintTop_toTopOf="@id/line0"
-                app:layout_constraintBottom_toTopOf="@id/line1"
                 app:layout_constraintVertical_weight="1" />
 
             <View
@@ -99,6 +99,18 @@
                 app:layout_constraintVertical_weight="1" />
 
         </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color"
+            app:layout_constraintBottom_toTopOf="@id/cl_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toBottomOf="@id/cl_content" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

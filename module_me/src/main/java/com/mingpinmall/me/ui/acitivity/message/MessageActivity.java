@@ -41,7 +41,6 @@ public class MessageActivity extends AbsLifecycleActivity<ActivityMessageBinding
         super.initViews(savedInstanceState);
         setTitle(R.string.title_messageActivity);
         listAdapter = new MessageListAdapter();
-        listAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_message_white);

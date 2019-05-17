@@ -59,21 +59,23 @@ public class AdapterPool {
     /*获取右边的数据*/
     public DelegateAdapter.Builder getRightAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.class, new DataBindItemViewHolderManager(context, R.layout.classify_item_of_righit_list, BR.data))
-                        .bind(BrandListInfo.DatasBean.BrandListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_classify_brand, BR.data))
-                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.ChildBean.class, new DataBindItemViewHolderManager(context, R.layout.item_classify, BR.data)),
+                        .bind(String.class, new DataBindItemViewHolderManager(context, R.layout.item_text2, BR.data))
+                        .bind(ClassificationRighitBean.DatasBean.ClassListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_classify_classic, BR.data))
+                        .bind(BrandListInfo.DatasBean.BrandListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_classify_brand, BR.data)),
                 context, ProgressStyle.Pacman);
     }
 
     /*分类列表里面的list*/
     public DelegateAdapter.Builder getProductsAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(String.class, new DataBindItemViewHolderManager(context, R.layout.item_image, BR.data))
                         .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_products, BR.data)),
                 context, ProgressStyle.Pacman);
     }
 
     public DelegateAdapter.Builder getProductsGridAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
+                        .bind(String.class, new DataBindItemViewHolderManager(context, R.layout.item_image, BR.data))
                         .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_products_grid, BR.data)),
                 context, ProgressStyle.Pacman);
     }

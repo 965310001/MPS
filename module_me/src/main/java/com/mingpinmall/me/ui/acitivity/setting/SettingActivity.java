@@ -57,7 +57,6 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
         ARouter.getInstance().inject(this);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         settingAdapter = new SettingAdapter();
-        settingAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         settingAdapter.bindToRecyclerView(binding.recyclerView);
 
         initItems();

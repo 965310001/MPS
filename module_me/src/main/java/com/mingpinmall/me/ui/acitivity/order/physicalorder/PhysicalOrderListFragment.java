@@ -98,7 +98,6 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
         super.initView(state);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         physicalOrderListAdapter = new PhysicalOrderListAdapter();
-        physicalOrderListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_order_empty_white);
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_order_empty);

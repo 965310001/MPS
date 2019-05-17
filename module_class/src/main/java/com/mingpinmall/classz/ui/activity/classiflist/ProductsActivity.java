@@ -8,12 +8,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -31,8 +33,11 @@ import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
+import com.trecyclerview.adapter.ItemData;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 商品分类list
@@ -78,6 +83,12 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
 
         ItemTabsegmentBinding itemTabsegmentBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.item_tabsegment, null, false);
         binding.llRecyclerview.addView(itemTabsegmentBinding.getRoot(), 0);
+        //分割线
+        View view = new View(activity);
+        view.setBackgroundResource(R.color.line_color);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtil.px2dip(activity, 1));
+        binding.llRecyclerview.addView(view, 1, layoutParams);
+
         filterTab0 = itemTabsegmentBinding.filterTab0;
         imageView = itemTabsegmentBinding.filterTab4;
         imageView.setOnClickListener(this);
@@ -91,6 +102,19 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                         itemTabsegmentBinding.filterTab3)) {
             tab.setOnClickListener(this);
         }
+    }
+
+    private String picPath = "";
+
+    @Override
+    protected void onRefreshSuccess(Collection<?> collection) {
+        oldItems.clear();
+        if (!picPath.isEmpty()) {
+            oldItems.add(picPath);
+        }
+        oldItems.addAll(collection);
+        mRecyclerView.refreshComplete(oldItems, !isLoadMore);
+        isRefresh = false;
     }
 
     @Override
@@ -108,6 +132,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                 .observe(this, new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
+                        picPath = response.getDatas().getBrand_bgpic();
                         setData(response.getDatas().getGoods_list());
                     }
                 });

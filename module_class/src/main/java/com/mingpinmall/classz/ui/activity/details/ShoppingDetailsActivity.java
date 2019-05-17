@@ -1,13 +1,20 @@
 package com.mingpinmall.classz.ui.activity.details;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.bean.HorizontalTabTitle;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
@@ -22,6 +29,7 @@ import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
+import com.mingpinmall.classz.utils.ArgbEvaluator;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
@@ -42,9 +50,77 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     private GoodsInfo goodsInfo;
     private GoodsDetailInfo goodsDetailInfo;
 
+    /**
+     * 商品图文详情 + 规格参数 双 Fg
+     * GoodsInfoDetailMainFragment goodsInfoDetailMainFragment;
+     * <p>
+     * <p>
+     * 商品主页
+     */
     private GoodsInfoMainFragment goodsInfoMainFragment;
-    private GoodsInfoDetailMainFragment goodsInfoDetailMainFragment;
+
+    /**
+     * 单图文详情
+     */
+    private GoodsInfoWebFragment goodsDetailWebFragment;
+
+    /**
+     * 评价列表
+     */
     private GoodsCommentFragment goodsCommentFragment;
+
+    public void scroll2Shopinfo() {
+        binding.vpContent.setCurrentItem(1, false);
+    }
+
+    /**
+     * 顶部标题栏状态
+     */
+    private int show = -2;
+
+    /**
+     * 修改顶部标题栏状态，过渡背景颜色
+     * @param type 0：不透明化标题栏  1：80%不透明  2：全透明
+     */
+    public void setTitleBarState(int type) {
+        if (show == type) {
+            return;
+        }
+        show = type;
+        if (show == 2 && binding.vpContent.getCurrentItem() != 0) {
+            return;
+        }
+        int startColor = ((ColorDrawable) binding.rlTop.getBackground()).getColor();
+        int endColor;
+        if (show < 2 && show >= 0) {
+            if (show == 0) {
+                //不透明化标题栏
+                endColor = Color.parseColor("#FFFFFFFF");
+            } else {
+                //80%不透明
+                endColor = Color.parseColor("#CCFFFFFF");
+            }
+            binding.tabs.setVisibility(View.VISIBLE);
+            binding.tabs.setAlpha(1);
+            binding.line.setVisibility(View.VISIBLE);
+            binding.line.setAlpha(1);
+        } else {
+            //全透明
+            endColor = Color.parseColor("#00FFFFFF");
+            binding.tabs.setVisibility(View.GONE);
+            binding.line.setVisibility(View.GONE);
+        }
+        ValueAnimator animator = ObjectAnimator.ofInt(
+                binding.rlTop,
+                "backgroundColor",
+                startColor,
+                endColor
+        );//对背景色颜色进行改变，操作的属性为"backgroundColor",此处必须这样写，不能全小写,后面的颜色为在对应颜色间进行渐变
+        animator.setDuration(500);
+        //如果要颜色渐变必须要ArgbEvaluator，来实现颜色之间的平滑变化，否则会出现颜色不规则跳动
+        animator.setEvaluator(new ArgbEvaluator());
+        animator.start();
+    }
 
     @Override
     protected boolean isActionBar() {
@@ -68,6 +144,48 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
         setTitlePadding(binding.rlTop);
+        addListener();
+    }
+
+    private void addListener() {
+        binding.vpContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+                if (i == 0) {
+                    int alpha;
+                    if (!goodsInfoMainFragment.trans) {
+                        //80%不透明
+                        alpha = (int) (v * (255 - 204)) + 204;
+                        binding.tabs.setVisibility(View.VISIBLE);
+                        binding.line.setVisibility(View.VISIBLE);
+                    } else {
+                        alpha = (int) (v * 255);
+                        binding.tabs.setVisibility(v > 0.1 ? View.VISIBLE : View.GONE);
+                        binding.line.setVisibility(v > 0.1 ? View.VISIBLE : View.GONE);
+                        binding.tabs.setAlpha(v);
+                        binding.line.setAlpha(v);
+                    }
+                    binding.rlTop.setBackgroundColor(Color.argb(alpha, 255, 255, 255));
+                }
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (i == 0) {
+                    if (goodsInfoMainFragment.trans) {
+                        binding.tabs.setVisibility(View.GONE);
+                        binding.line.setVisibility(View.GONE);
+                    }
+                } else {
+                    binding.tabs.setVisibility(View.VISIBLE);
+                    binding.line.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
     }
 
     @Override
@@ -105,18 +223,18 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                             }
                             List<BaseFragment> fragmentList = new ArrayList<>();
                             fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
-                            fragmentList.add(goodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
+                            fragmentList.add(goodsDetailWebFragment = GoodsInfoWebFragment.newInstance(BuildConfig.APP_URL + "/mo_bile/index.php?app=goods&wwi=goods_body&goods_id=" + getId()));
                             fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
 
                             binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
                             binding.vpContent.setOffscreenPageLimit(3);
-                            binding.pstsTabs.setViewPager(binding.vpContent);
+                            binding.tabs.setViewPager(binding.vpContent);
                         } else {
                             if (goodsInfoMainFragment.isVisible()) {
                                 goodsInfoMainFragment.update();
                             }
-                            if (goodsInfoDetailMainFragment.isVisible()) {
-                                goodsInfoDetailMainFragment.setData();
+                            if (goodsDetailWebFragment.isVisible()) {
+//                                goodsDetailWebFragment.setData();
                             }
                             if (goodsCommentFragment.isVisible()) {
                                 goodsCommentFragment.onRefresh();
@@ -186,16 +304,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     protected void onResume() {
         super.onResume();
         setCartNumber();
-    }
-
-    /**
-     * 设置内容
-     */
-    public void setViewContent(boolean scrollToBottom) {
-        // true:图文详情  false:商品详情
-        binding.vpContent.setNoScroll(scrollToBottom);
-        binding.tvTitle.setVisibility(scrollToBottom ? View.VISIBLE : View.GONE);
-        binding.pstsTabs.setVisibility(scrollToBottom ? View.GONE : View.VISIBLE);
     }
 
     public void finish(View view) {

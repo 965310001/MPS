@@ -59,7 +59,6 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
         setTitle("选择地区");
         progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         selectCityAdapter = new SelectCityAdapter();
-        selectCityAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));

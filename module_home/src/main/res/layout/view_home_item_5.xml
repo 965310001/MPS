@@ -129,5 +129,8 @@
                 app:layout_constraintTop_toTopOf="@id/iv_rectangle2" />
 
         </android.support.constraint.ConstraintLayout>
+
+
+
     </LinearLayout>
 </layout>

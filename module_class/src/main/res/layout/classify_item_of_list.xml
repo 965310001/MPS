@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="com.mingpinmall.classz.ui.vm.bean.ClassificationBean.ClassListBean" />
@@ -14,8 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/space_7"
-        android:paddingRight="@dimen/space_7">
+        android:padding="@dimen/space_7">
 
         <ImageView
             image="@{data.image}"
@@ -25,16 +26,28 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:textSize="@dimen/text_12"
+            android:visibility="gone"
             tools:src="@drawable/ic_launcher" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
             android:gravity="center"
             android:text="@{data.gc_name}"
             android:textColor="@{data.select?@color/shallow_red : @color/black}"
             android:textSize="@dimen/text_12"
             tools:text="首页" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_2"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/shallow_red"
+            android:visibility="@{data.select?View.VISIBLE : View.INVISIBLE}" />
+
     </LinearLayout>
 
 </layout>

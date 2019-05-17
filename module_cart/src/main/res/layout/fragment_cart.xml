@@ -56,7 +56,7 @@
                 android:id="@+id/cl_payContent"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
-                android:background="#CEFFFFFF"
+                android:background="#E8FFFFFF"
                 android:visibility="gone"
                 tools:visibility="visible">
 

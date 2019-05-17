@@ -46,6 +46,7 @@ public class ClassificationRighitBean extends BaseBean {
 
             private String gc_id;
             private String gc_name;
+            private String gc_thumb;
             private List<ChildBean> child;
 
             public String getGc_id() {
@@ -70,6 +71,18 @@ public class ClassificationRighitBean extends BaseBean {
 
             public void setChild(List<ChildBean> child) {
                 this.child = child;
+            }
+
+            public void click(View view) {
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", getGc_id());
+            }
+
+            public String getGc_thumb() {
+                return gc_thumb;
+            }
+
+            public void setGc_thumb(String gc_thumb) {
+                this.gc_thumb = gc_thumb;
             }
 
             public class ChildBean extends BaseBean {

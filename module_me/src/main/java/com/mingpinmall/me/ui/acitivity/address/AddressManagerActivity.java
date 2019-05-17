@@ -43,7 +43,6 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
         isGetAddress = getIntent().getBooleanExtra("isGetAddress", false);
         setTitle(R.string.title_addressManagerActivity);
         addressListAdapter = new AddressListAdapter();
-        addressListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         binding.setAdapter(addressListAdapter);
         binding.btnSubmit.setOnClickListener(this);
         binding.refreshLayout.setEnableLoadMore(false);
