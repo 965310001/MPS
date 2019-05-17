@@ -152,7 +152,7 @@ public class MsgInfo extends BaseBean {
 //            return goodsInfo;
 //        }
 //
-//        public void setGoodsInfo(GoodsInfo goodsInfo) {
+//        public void setmGoodsInfo(GoodsInfo goodsInfo) {
 //            this.goodsInfo = goodsInfo;
 //        }
 

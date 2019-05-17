@@ -62,7 +62,7 @@ public class ConfirmOrderActivity extends
     String ifcart;/*是否是购物车*/
 
     @Autowired
-    String virtual;/*是否是虚拟*/
+    String quantity;/*是否是虚拟*/
 
     /*地址id  是否选择发票*/
     private String addressId, invoice_id = "", mVatHash, mOffpayHash, mOffpayHashBatch;
@@ -101,11 +101,18 @@ public class ConfirmOrderActivity extends
 
         showLoading();
         // TODO: 2019/5/16 虚拟
-        if ("".equals(virtual)) {
+        binding.setIsVr(isVr());
+        if (isVr()) {
             /*是虚拟*/
+            mViewModel.getMemberVrBuy(id, quantity, Constants.CONFIRMORDER_KEY[0]);
         } else {
+            mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
         }
-        mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
+    }
+
+    /*是否是虚拟产品*/
+    boolean isVr() {
+        return !TextUtils.isEmpty(quantity);
     }
 
     @Override
@@ -119,30 +126,38 @@ public class ConfirmOrderActivity extends
                 .observeForever(response -> {
                     showSuccess();
                     try {
-                        binding.setAddress(response.getAddress_info());
-                        binding.setTotal(response.getOrder_amount());
+
                         List<GoodsInfo> goods_list = new ArrayList<>();
                         String name = "";
-                        for (OrderInfo.StoreCartListBean storeCartListBean : response.getStore_cart_list()) {
-                            for (GoodsInfo goodsInfo : storeCartListBean.getGoods_list()) {
-                                if (!name.equals(storeCartListBean.getStore_name())) {
-                                    name = storeCartListBean.getStore_name();
-                                    goodsInfo.setStoreName(true);
+                        List<OrderInfo.StoreCartListBean> storeCartList = response.getStore_cart_list();
+                        if (null != storeCartList) {
+                            for (OrderInfo.StoreCartListBean storeCartListBean : storeCartList) {
+                                for (GoodsInfo goodsInfo : storeCartListBean.getGoods_list()) {
+                                    if (!name.equals(storeCartListBean.getStore_name())) {
+                                        name = storeCartListBean.getStore_name();
+                                        goodsInfo.setStoreName(true);
+                                    }
+                                    goods_list.add(goodsInfo);
                                 }
-                                goods_list.add(goodsInfo);
+                            }
+                            addressId = response.getAddress_info()
+                                    .getAddress_id();
+                            OrderInfo.AddressApiBean addressApi = response.getAddress_api();
+                            mOffpayHash = addressApi.getOffpay_hash();
+                            mOffpayHashBatch = addressApi.getOffpay_hash_batch();
+                            mVatHash = response.getVat_hash();
+                            binding.setInvoice(response.getInv_info().getContent());
+                            binding.setAddress(response.getAddress_info());
+                            binding.setTotal(response.getOrder_amount());
+                        } else {
+                            if (isVr()) {
+                                goods_list.add(response.getGoodsInfo());
                             }
                         }
-                        addressId = response.getAddress_info()
-                                .getAddress_id();
-                        OrderInfo.AddressApiBean addressApi = response.getAddress_api();
-                        mVatHash = response.getVat_hash();
-                        mOffpayHash = addressApi.getOffpay_hash();
-                        mOffpayHashBatch = addressApi.getOffpay_hash_batch();
                         binding.setData(goods_list);
                         binding.setAdapter(AdapterPool.newInstance().getConfirmOrder(activity)
                                 .build());
                         binding.setPayment("在线付款");
-                        binding.setInvoice(response.getInv_info().getContent());
                         binding.executePendingBindings();
                     } catch (Exception e) {
                         KLog.i(e.toString());

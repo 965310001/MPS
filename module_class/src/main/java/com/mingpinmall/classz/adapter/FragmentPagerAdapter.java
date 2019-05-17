@@ -47,8 +47,6 @@ public class FragmentPagerAdapter extends FragmentStatePagerAdapter {
         if (fragment == null) {
             throw new NullPointerException("Fragment is  null,please give me a fragment!");
         }
-        // TODO: 2019/1/24 设置数据
-//        fragment.setFragmentData(titles.get(position));
         return fragment;
     }
 

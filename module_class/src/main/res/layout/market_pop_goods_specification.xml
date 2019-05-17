@@ -263,199 +263,60 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/tv_buy_now" />
     </android.support.constraint.ConstraintLayout>
+</layout>
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="#AF000000"-->
-    <!--android:orientation="vertical">-->
 
-    <!--<View-->
-    <!--android:id="@+id/view_close"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="3" />-->
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="#AF000000"--><!--android:orientation="vertical">-->
 
-    <!--<RelativeLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="2">-->
+    <!--<View--><!--android:id="@+id/view_close"--><!--android:layout_width="match_parent"--><!--android:layout_height="0dp"--><!--android:layout_weight="3" />-->
 
-    <!--<android.support.v4.widget.NestedScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content">-->
+    <!--<RelativeLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="0dp"--><!--android:layout_weight="2">-->
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@color/white"-->
-    <!--android:orientation="vertical"-->
-    <!--android:paddingLeft="12dp"-->
-    <!--android:paddingTop="12dp"-->
-    <!--android:paddingRight="12dp">-->
+    <!--<android.support.v4.widget.NestedScrollView--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content">-->
 
-    <!--<RelativeLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="90dp">-->
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@color/white"--><!--android:orientation="vertical"--><!--android:paddingLeft="12dp"--><!--android:paddingTop="12dp"--><!--android:paddingRight="12dp">-->
 
-    <!--<ImageView-->
-    <!--android:id="@+id/iv_goods_img"-->
-    <!--image="@{data.goods_image_url}"-->
-    <!--android:layout_width="75dp"-->
-    <!--android:layout_height="90dp"-->
-    <!--tools:src="@drawable/ic_launcher" />-->
+    <!--<RelativeLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="90dp">-->
 
-    <!--<TextView-->
-    <!--style="@style/TextStyle"-->
-    <!--android:layout_above="@+id/tv_goods_no"-->
-    <!--android:layout_marginStart="15dp"-->
-    <!--android:layout_toEndOf="@+id/iv_goods_img"-->
-    <!--android:text="@{data.goods_price}"-->
-    <!--android:textColor="@color/red"-->
-    <!--android:textStyle="bold"-->
-    <!--tools:text="手机" />-->
+    <!--<ImageView--><!--android:id="@+id/iv_goods_img"--><!--image="@{data.goods_image_url}"--><!--android:layout_width="75dp"--><!--android:layout_height="90dp"--><!--tools:src="@drawable/ic_launcher" />-->
 
-    <!--<TextView-->
-    <!--style="@style/TextStyle"-->
-    <!--android:layout_above="@+id/tv_goods_no"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:text="@{`库存：`+data.goods_storage+`件`}"-->
-    <!--android:textColor="@color/gray"-->
-    <!--android:textStyle="bold"-->
-    <!--tools:text="库存：1件" />-->
+    <!--<TextView--><!--style="@style/TextStyle"--><!--android:layout_above="@+id/tv_goods_no"--><!--android:layout_marginStart="15dp"--><!--android:layout_toEndOf="@+id/iv_goods_img"--><!--android:text="@{data.goods_price}"--><!--android:textColor="@color/red"--><!--android:textStyle="bold"--><!--tools:text="手机" />-->
 
-    <!--<ImageView-->
-    <!--android:id="@+id/iv_close"-->
-    <!--android:layout_width="@dimen/image_height"-->
-    <!--android:layout_height="@dimen/image_height"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:src="@drawable/popup_icon_close" />-->
+    <!--<TextView--><!--style="@style/TextStyle"--><!--android:layout_above="@+id/tv_goods_no"--><!--android:layout_alignParentRight="true"--><!--android:text="@{`库存：`+data.goods_storage+`件`}"--><!--android:textColor="@color/gray"--><!--android:textStyle="bold"--><!--tools:text="库存：1件" />-->
 
-    <!--<TextView-->
-    <!--android:id="@+id/tv_name"-->
-    <!--style="@style/TextStyle"-->
-    <!--android:layout_marginStart="15dp"-->
-    <!--android:layout_toLeftOf="@id/iv_close"-->
-    <!--android:layout_toEndOf="@+id/iv_goods_img"-->
-    <!--android:gravity="left"-->
-    <!--android:maxLines="3"-->
-    <!--android:text="@{data.goods_name}"-->
-    <!--android:textStyle="bold"-->
-    <!--tools:text="夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼" />-->
+    <!--<ImageView--><!--android:id="@+id/iv_close"--><!--android:layout_width="@dimen/image_height"--><!--android:layout_height="@dimen/image_height"--><!--android:layout_alignParentRight="true"--><!--android:src="@drawable/popup_icon_close" />-->
 
-    <!--<TextView-->
-    <!--android:id="@+id/tv_goods_no"-->
-    <!--style="@style/TextStyle"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_marginStart="15dp"-->
-    <!--android:layout_toEndOf="@+id/iv_goods_img"-->
-    <!--android:text="商品编号：100001378187"-->
-    <!--android:textSize="10sp"-->
-    <!--android:visibility="invisible" />-->
+    <!--<TextView--><!--android:id="@+id/tv_name"--><!--style="@style/TextStyle"--><!--android:layout_marginStart="15dp"--><!--android:layout_toLeftOf="@id/iv_close"--><!--android:layout_toEndOf="@+id/iv_goods_img"--><!--android:gravity="left"--><!--android:maxLines="3"--><!--android:text="@{data.goods_name}"--><!--android:textStyle="bold"--><!--tools:text="夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼" />-->
+
+    <!--<TextView--><!--android:id="@+id/tv_goods_no"--><!--style="@style/TextStyle"--><!--android:layout_alignParentBottom="true"--><!--android:layout_marginStart="15dp"--><!--android:layout_toEndOf="@+id/iv_goods_img"--><!--android:text="商品编号：100001378187"--><!--android:textSize="10sp"--><!--android:visibility="invisible" />-->
 
     <!--</RelativeLayout>-->
 
-    <!--&lt;!&ndash;属性&ndash;&gt;-->
-    <!--<LinearLayout-->
-    <!--android:id="@+id/ll_attar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="vertical" />-->
+    <!--&lt;!&ndash;属性&ndash;&gt;--><!--<LinearLayout--><!--android:id="@+id/ll_attar"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:orientation="vertical" />-->
 
-    <!--&lt;!&ndash;提货方式&ndash;&gt;-->
-    <!--<TextView-->
-    <!--style="@style/TextStyle"-->
-    <!--android:padding="@dimen/dp_4"-->
-    <!--android:text="提货方式:"-->
-    <!--android:textColor="@color/gray"-->
-    <!--android:textSize="@dimen/text_14"-->
-    <!--android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />-->
+    <!--&lt;!&ndash;提货方式&ndash;&gt;--><!--<TextView--><!--style="@style/TextStyle"--><!--android:padding="@dimen/dp_4"--><!--android:text="提货方式:"--><!--android:textColor="@color/gray"--><!--android:textSize="@dimen/text_14"--><!--android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />-->
 
-    <!--<TextView-->
-    <!--style="@style/width_warp_height_warp"-->
-    <!--android:layout_marginLeft="@dimen/dp_6"-->
-    <!--android:layout_marginRight="@dimen/dp_6"-->
-    <!--android:background="@drawable/bg_of_red_gradient_radius"-->
-    <!--android:padding="@dimen/dp_10"-->
-    <!--android:text="电子兑换券"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />-->
+    <!--<TextView--><!--style="@style/width_warp_height_warp"--><!--android:layout_marginLeft="@dimen/dp_6"--><!--android:layout_marginRight="@dimen/dp_6"--><!--android:background="@drawable/bg_of_red_gradient_radius"--><!--android:padding="@dimen/dp_10"--><!--android:text="电子兑换券"--><!--android:textColor="@color/white"--><!--android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />-->
 
-    <!--&lt;!&ndash;有限期&ndash;&gt;-->
-    <!--<TextView-->
-    <!--style="@style/TextStyle"-->
-    <!--android:padding="@dimen/dp_4"-->
-    <!--android:text="有效期:"-->
-    <!--android:textColor="@color/gray"-->
-    <!--android:textSize="@dimen/text_14"-->
-    <!--android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />-->
+    <!--&lt;!&ndash;有限期&ndash;&gt;--><!--<TextView--><!--style="@style/TextStyle"--><!--android:padding="@dimen/dp_4"--><!--android:text="有效期:"--><!--android:textColor="@color/gray"--><!--android:textSize="@dimen/text_14"--><!--android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />-->
 
-    <!--<TextView-->
-    <!--style="@style/width_warp_height_warp"-->
-    <!--android:layout_marginLeft="@dimen/dp_6"-->
-    <!--android:layout_marginRight="@dimen/dp_6"-->
-    <!--android:background="@drawable/bg_of_red_gradient_radius"-->
-    <!--android:padding="@dimen/dp_10"-->
-    <!--android:text="@{data.validity}"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}"-->
-    <!--tools:text="即日起 到 2028-4-28 23:59:59" />-->
+    <!--<TextView--><!--style="@style/width_warp_height_warp"--><!--android:layout_marginLeft="@dimen/dp_6"--><!--android:layout_marginRight="@dimen/dp_6"--><!--android:background="@drawable/bg_of_red_gradient_radius"--><!--android:padding="@dimen/dp_10"--><!--android:text="@{data.validity}"--><!--android:textColor="@color/white"--><!--android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}"--><!--tools:text="即日起 到 2028-4-28 23:59:59" />-->
 
-    <!--<RelativeLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginBottom="@dimen/dp_10">-->
+    <!--<RelativeLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="@dimen/dp_10">-->
 
-    <!--<TextView-->
-    <!--style="@style/TextStyle"-->
-    <!--android:layout_marginTop="15dp"-->
-    <!--android:text="购买数量"-->
-    <!--android:textColor="@color/gray"-->
-    <!--android:textSize="@dimen/text_14" />-->
+    <!--<TextView--><!--style="@style/TextStyle"--><!--android:layout_marginTop="15dp"--><!--android:text="购买数量"--><!--android:textColor="@color/gray"--><!--android:textSize="@dimen/text_14" />-->
 
-    <!--<com.goldze.common.dmvvm.widget.CountClickView-->
-    <!--android:id="@+id/ccv_click"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:background="@color/shallow_red" />-->
-    <!--</RelativeLayout>-->
-    <!--</LinearLayout>-->
+    <!--<com.goldze.common.dmvvm.widget.CountClickView--><!--android:id="@+id/ccv_click"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentEnd="true"--><!--android:background="@color/shallow_red" />--><!--</RelativeLayout>--><!--</LinearLayout>-->
 
     <!--</android.support.v4.widget.NestedScrollView>-->
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/dp_50"-->
-    <!--android:layout_alignParentBottom="true">-->
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/dp_50"--><!--android:layout_alignParentBottom="true">-->
 
-    <!--<TextView-->
-    <!--android:id="@+id/tv_buy_now"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_weight="1"-->
-    <!--android:background="@drawable/bg_of_red_gradient"-->
-    <!--android:gravity="center"-->
-    <!--android:onClick="buyNow"-->
-    <!--android:padding="@dimen/dp_10"-->
-    <!--android:text="@string/market_buy_now"-->
-    <!--android:textColor="@color/white" />-->
+    <!--<TextView--><!--android:id="@+id/tv_buy_now"--><!--android:layout_width="0dp"--><!--android:layout_height="match_parent"--><!--android:layout_weight="1"--><!--android:background="@drawable/bg_of_red_gradient"--><!--android:gravity="center"--><!--android:onClick="buyNow"--><!--android:padding="@dimen/dp_10"--><!--android:text="@string/market_buy_now"--><!--android:textColor="@color/white" />-->
 
-    <!--<TextView-->
-    <!--android:id="@+id/tv_add_cart"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_weight="1"-->
-    <!--android:background="@drawable/bg_of_orange_gradient"-->
-    <!--android:gravity="center"-->
-    <!--android:onClick="addCart"-->
-    <!--android:text="@string/market_add_to_cart"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:visibility="@{data.cart?View.VISIBLE:View.GONE}" />-->
-    <!--</LinearLayout>-->
+    <!--<TextView--><!--android:id="@+id/tv_add_cart"--><!--android:layout_width="0dp"--><!--android:layout_height="match_parent"--><!--android:layout_weight="1"--><!--android:background="@drawable/bg_of_orange_gradient"--><!--android:gravity="center"--><!--android:onClick="addCart"--><!--android:text="@string/market_add_to_cart"--><!--android:textColor="@color/white"--><!--android:visibility="@{data.cart?View.VISIBLE:View.GONE}" />--><!--</LinearLayout>-->
 
     <!--</RelativeLayout>-->
 
     <!--</LinearLayout>-->
 
-</layout>

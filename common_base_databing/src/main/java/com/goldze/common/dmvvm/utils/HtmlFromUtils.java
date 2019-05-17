@@ -1,15 +1,19 @@
 package com.goldze.common.dmvvm.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.goldze.common.dmvvm.utils.Utils;
+import com.socks.library.KLog;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +32,8 @@ public class HtmlFromUtils {
      */
     public static void setImageFromNetWork(Context context, TextView textView, String text, boolean isAppend) {
         SpannableString spannableString = new SpannableString(text);
+        KLog.i(text);
+        /*匹配图片*/
         Matcher matcher = Pattern.compile("\\[[^\\]]+\\]").matcher(text);
         ImageSpan imageSpan;
         String group, url;
@@ -50,10 +56,28 @@ public class HtmlFromUtils {
             if (null != drawable) {
                 drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
                 imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
-                //设置图片
                 spannableString.setSpan(imageSpan, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
+        /*保存颜色*/
+        List<String> colorList = new ArrayList<>();
+        matcher = Pattern.compile("\\<color=[^\\=](.*?)'>(.*?)\\</color>").matcher(text);
+        while (matcher.find()) {
+            colorList.add(matcher.group(1));
+            text.replace(matcher.group(), matcher.group(2));
+        }
+        // TODO: 2019/5/17 字体颜色的设置需要正则
+        /*字体的颜色*/
+        matcher = Pattern.compile("\\<color=[^\\=](.*?)'>(.*?)\\</color>").matcher(text);
+        while (matcher.find()) {
+            KLog.i(matcher.group(0) + "||" + matcher.group(1) + "||" + matcher.group(2));
+            spannableString.toString().replace(matcher.group(), matcher.group(2));
+            spannableString.setSpan(new ForegroundColorSpan(Color.RED),
+                    matcher.start(), matcher.end(),
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+        /*字体大小*/
+
         if (isAppend) {
             textView.append(spannableString);
         } else {

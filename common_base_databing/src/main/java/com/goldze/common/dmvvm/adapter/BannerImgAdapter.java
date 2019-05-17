@@ -49,7 +49,7 @@ public class BannerImgAdapter implements CBViewHolderCreator {
 
             @Override
             public void updateUI(String data) {
-                KLog.i(data);
+                /*KLog.i(data);*/
                 ImageUtils.loadImage(Utils.getApplication(), data, new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {

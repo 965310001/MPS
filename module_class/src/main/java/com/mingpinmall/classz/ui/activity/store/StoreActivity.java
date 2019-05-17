@@ -122,8 +122,6 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                     BaseResponse<VoucherInfo> data = response;
                     if (data.isSuccess()) {
                         List<VoucherInfo.VoucherListBean> voucher_list = data.getData().getVoucher_list();
-
-                        // TODO: 2019/4/29 测试
                         if (null != voucher_list) {
                             if (null == xBottomSheet) {
                                 xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
@@ -142,7 +140,6 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                         } else {
                             ToastUtils.showLong("暂时没有代金券");
                         }
-                        // TODO: 2019/4/29 测试end
                        /* if (null != voucher_list && voucher_list.size() > 0) {
                             if (null == xBottomSheet) {
                                 xBottomSheet = new UserPaySheet.BottomListSheetBuilder(activity)

@@ -92,7 +92,6 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
                 });
     }
 
-    // TODO: 2019/4/16 店铺收藏代码添加
     public void favorites(View view) {
         KLog.i("店铺收藏");
         if (!SharePreferenceUtil.isLogin()) {

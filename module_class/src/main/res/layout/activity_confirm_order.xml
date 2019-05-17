@@ -10,6 +10,7 @@
         <!--商品列表-->
         <import type="com.mingpinmall.classz.ui.vm.bean.GoodsInfo" />
 
+        <import type="android.view.View" />
         <!--总金额-->
         <variable
             name="total"
@@ -41,6 +42,11 @@
         <variable
             name="adapter"
             type="DelegateAdapter" />
+
+
+        <variable
+            name="isVr"
+            type="Boolean" /><!--是否是虚拟-->
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -67,7 +73,8 @@
                     android:layout_height="60dp"
                     android:background="@color/white"
                     android:onClick="selectAddress"
-                    android:padding="@dimen/dp_10">
+                    android:padding="@dimen/dp_10"
+                    android:visibility="@{isVr?View.GONE:View.VISIBLE}">
 
                     <ImageView
                         android:layout_width="@dimen/image_height_litter"
@@ -104,6 +111,44 @@
                         android:src="@drawable/icon_more" />
                 </RelativeLayout>
 
+                <!--虚拟订单-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_10"
+                    android:visibility="@{isVr?View.VISIBLE:View.GONE}">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_height_litter"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/icon_mobile" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_4"
+                        android:text="接收方式" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_4"
+                        android:text="虚拟订单兑换码将以短信形式发送至买家手机"
+                        android:textColor="@color/shallow_red" />
+                </LinearLayout>
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_10"
+                    android:background="@drawable/shape_chat_me_bg"
+                    android:padding="10dp"
+                    android:visibility="@{isVr?View.VISIBLE:View.GONE}" />
+
                 <com.goldze.common.dmvvm.widget.MultipleItemView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,6 +156,7 @@
                     android:background="@color/white"
                     android:minHeight="@dimen/dp_50"
                     android:onClick="paymentMethod"
+                    android:visibility="@{isVr?View.GONE:View.VISIBLE}"
                     leon:leftIconSize="@dimen/image_height_small"
                     leon:leftText="支付方式"
                     leon:prightText="@{payment}"
@@ -127,6 +173,7 @@
                     android:background="@color/white"
                     android:minHeight="@dimen/dp_50"
                     android:onClick="invoiceInfo"
+                    android:visibility="@{isVr?View.GONE:View.VISIBLE}"
                     leon:leftIconSize="@dimen/image_height_small"
                     leon:leftText="发票信息"
                     leon:prightText="@{invoice}"
@@ -148,6 +195,7 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
+                    android:visibility="@{isVr?View.GONE:View.VISIBLE}"
                     leon:leftText="物流配送"
                     leon:ptleftIcon="@drawable/ic_launcher"
                     leon:rightText="运费0.00元"
@@ -161,9 +209,9 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:hint="店铺订单留言"
+                    android:inputType="text"
                     android:padding="@dimen/dp_10"
                     android:text="@={content}"
-                    android:inputType="text"
                     android:textSize="@dimen/text_14" />
 
                 <TextView

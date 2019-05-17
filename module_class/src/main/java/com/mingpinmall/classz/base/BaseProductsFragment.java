@@ -99,7 +99,6 @@ public abstract class BaseProductsFragment<T extends ClassifyViewModel> extends 
                     }
                 });
 
-        // TODO: 2019/4/9 待测试
         /*筛选*/
         registerObserver(getCustompopWindowKey(), ScreenInfo.class)
                 .observe(this, reponse -> {

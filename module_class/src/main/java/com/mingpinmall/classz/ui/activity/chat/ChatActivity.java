@@ -257,9 +257,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     updateList(msgBeans);
                     binding.setList(itemData);
                     KLog.i("更新数据");
-                    // TODO: 2019/5/8 已经阅读的信息
                     try {
-
                         if (null != msgBeans) {
                             if (msgBeans.size() > 1) {
                                 mIBackService.sendMessage(String.format("%s|%s", String.valueOf(msgBeans.size() - 1), msgBeans.get(0).getF_id()));

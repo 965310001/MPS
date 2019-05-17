@@ -60,7 +60,6 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /*添加，删除收藏*/
-    // TODO: 2019/4/2 收藏
     public void favorites(String goodsId, boolean isLike, Object eventKey) {
         Map<String, Object> map = new HashMap<>();
         map.put(isLike ? "fav_id" : "goods_id", goodsId);
@@ -80,6 +79,10 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     /*获取订单信息*/
     public void getOrderInfo(String cartId, String addressId, String ifcart, Object eventKey) {
         mRepository.getOrderInfo(cartId, addressId, ifcart, eventKey);
+    }
+
+    public void getMemberVrBuy(String goodsId, String quantity, Object eventKey) {
+        mRepository.getMemberVrBuy(goodsId, quantity, eventKey);
     }
 
     /*搜索列表*/

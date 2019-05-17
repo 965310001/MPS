@@ -127,7 +127,6 @@ public class StoreProductsFragment extends BaseProductsFragment<ClassifyViewMode
 //                    }
 //                });
 //
-//        // TODO: 2019/4/9 待测试
 //        /*筛选*/
 //        registerObserver(Constants.CUSTOMPOPWINDOW_KEY[1], ScreenInfo.class)
 //                .observe(this, new Observer<ScreenInfo>() {

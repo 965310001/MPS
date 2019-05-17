@@ -302,7 +302,6 @@
                         android:textColor="@color/black" />
                 </LinearLayout>
 
-
                 <com.leon.lib.settingview.LSettingItem
                     android:id="@+id/lsi_goods_specification"
                     style="@style/width_match_height_warp"
@@ -321,8 +320,35 @@
 
                 </com.leon.lib.settingview.LSettingItem>
 
-                <!-- 商品保障图 -->
                 <View style="@style/HorizontalLine" />
+                <!--服务-->
+                <LinearLayout
+                    android:id="@+id/ll_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="服务" />
+
+                    <TextView
+                        android:id="@+id/tv_service"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="服务" />
+                </LinearLayout>
+
+                <!-- 商品保障图 -->
+                <!--<View-->
+                <!--style="@style/HorizontalLine"-->
+                <!--android:layout_height="@dimen/dp_10" />-->
 
                 <TextView
                     android:id="@+id/tv_ensure"

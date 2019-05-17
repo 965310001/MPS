@@ -49,6 +49,7 @@ import com.socks.library.KLog;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel> implements SlideLayout.OnSlideDetailsListener {
     /**
      * 当前商品详情数据页的索引分别是图文详情、规格参数
@@ -96,7 +97,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     private void setGoodsDetailInfo() {
-        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
+        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getmGoodsDetailInfo();
         if (null != goodsDetailInfo) {
             datasBean = goodsDetailInfo.getDatas();
             if (null != datasBean) {
@@ -142,6 +143,31 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             binding.setData(goodsInfo);
         }
         binding.setIsVoucher(datasBean.isVoucher());
+
+        List<GoodsInfo.NewsContractlistBean> newsContractlist = goodsInfo.getNews_contractlist();
+        if (null != newsContractlist) {
+            try {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(String.format("由“%s”销售和发货，并享受售后服务\n", datasBean.getStore_info().getStore_name()));
+
+                for (GoodsInfo.NewsContractlistBean contractlistBean : newsContractlist) {
+//                    stringBuilder.append(String.format("[%s] <color='#000000'>%s</color> ", contractlistBean.getCti_icon_url(),
+                    stringBuilder.append(String.format("[%s] %s ", contractlistBean.getCti_icon_url(),
+                            contractlistBean.getCti_name()));
+                }
+                HtmlFromUtils.setImageFromNetWork(activity, binding.tvService,
+                        stringBuilder.toString(), false);
+                binding.llService.setVisibility(View.VISIBLE);
+                KLog.i(stringBuilder.toString());
+                if (null==newsContractlist||newsContractlist.size()==0) {
+                    binding.llService.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                KLog.i(e.toString());
+            }
+        } else {
+            binding.llService.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -173,10 +199,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 GoodsDetailInfo.DatasBean.MansongInfoBean mansongInfo = datasBean.getMansong_info();
                 if (mansongInfo != null && mansongInfo.getRules() != null && mansongInfo.getRules().size() > 0) {
                     TextView textView;
-//                    for (int i = 1; i < binding.llManjisong.getChildCount(); i++) {
-//                        KLog.i(binding.llManjisong.getChildCount() + "===");
-//                        binding.llManjisong.removeViewAt(i);
-//                    }
                     for (final GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansongInfo.getRules()) {
                         textView = new TextView(activity);
                         textView.setText("");
@@ -185,7 +207,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                         if (!TextUtils.isEmpty(rule.getGoods_image_url())) {
                             HtmlFromUtils.setImageFromNetWork(textView.getContext(), textView,
                                     String.format(" 送礼品：[%s]", rule.getGoods_image_url()), true);
-
                         }
                         binding.llManjisong.addView(textView);
                         binding.tvPromotion.setVisibility(View.VISIBLE);
@@ -243,14 +264,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         binding.lsiGoodsSpecification.setmOnLSettingItemClick(isChecked -> {
             showBuyPopWindow();
         });
-
         /*领取代金券*/
         binding.llVoucher.setOnClickListener(v -> {
             // TODO: 2019/4/29 测试
             if (null != datasBean.getVoucher()) {
                 if (null == xBottomSheet) {
                     xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
-                            .setItemData(datasBean.getVoucher())
                             .setItemData(datasBean.getVoucher())
                             .setAdapter(AdapterPool.newInstance()
                                     .getVoucherInfoAdapter(activity)
@@ -279,15 +298,11 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     protected void update() {
-//        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
-//        goodsInfo = datasBean.getGoods_info();
-//        KLog.i(goodsInfo + "=====");
-//        setGoodsInfo();
         setGoodsDetailInfo();
     }
 
     protected void updateSpecificationPop() {
-        specificationPop.setGoodsInfo(goodsInfo);
+        specificationPop.setmGoodsInfo(goodsInfo);
         specificationPop.loadData();
     }
 
@@ -317,8 +332,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         /*添加购物车*/
         registerObserver(Constants.CART_EVENT_KEY, ResultBean.class)
                 .observeForever(response -> {
+                    KLog.i(response.isSuccess() + " " + response.getError());
                     if (response.isSuccess()) {
+                        /*String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");*/
+//                        goodsInfo.setNum(Integer.valueOf(goodsNum));
                         ShoppingCartUtils.addCartGoods(goodsInfo);
+                        SharePreferenceUtil.saveKeyValue("click_goods_num", "");
                         shoppingDetailsActivity.setCartNumber();
                         ToastUtils.showLong("添加购物车成功");
                         LiveBus.getDefault().postEvent("SHOP_CART_REFRESH", true);
@@ -364,7 +383,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         if (null == specificationPop) {
             specificationPop = GoodsSpecificationPop.getInstance(getContext());
         }
-        specificationPop.setGoodsInfo(goodsInfo);
+        specificationPop.setmGoodsInfo(goodsInfo);
         specificationPop.show(binding.getRoot());
         SharePreferenceUtil.saveKeyValue("SPECIFICATIONPOP", "SPECIFICATIONPOP");
     }

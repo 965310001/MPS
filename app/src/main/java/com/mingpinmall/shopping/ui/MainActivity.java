@@ -1,12 +1,8 @@
 package com.mingpinmall.shopping.ui;
 
 import android.Manifest;
-import android.arch.lifecycle.Observer;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -114,7 +110,10 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 
         // TODO: 2019/4/19 测试
 //        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
-        ActivityToActivity.goShoppingDetails("109927"); //进入聊天
+//        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
+//        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
+        ActivityToActivity.goShoppingDetails("109975"); //虚拟
+
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
     }
 

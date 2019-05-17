@@ -112,27 +112,23 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                     }
                 });
 
-        // TODO: 2019/4/9 待测试
         /*筛选*/
         registerObserver(Constants.CUSTOMPOPWINDOW_KEY[1], ScreenInfo.class)
-                .observe(this, new Observer<ScreenInfo>() {
-                    @Override
-                    public void onChanged(@Nullable ScreenInfo reponse) {
-                        areaId = reponse.areaId;
-                        priceFrom = reponse.priceFrom;
-                        priceTo = reponse.priceTo;
-                        for (String s : reponse.shoppingServer) {
-                            ci = ci.concat(s).concat("_");
-                        }
-                        for (String s : reponse.goodsType) {
-                            st = st.concat(s).concat("_");
-                        }
-//                        keyword = "";
-                        order = "";
-                        key = "";
-                        id = "";
-                        onRefresh();
+                .observe(this, reponse -> {
+                    areaId = reponse.areaId;
+                    priceFrom = reponse.priceFrom;
+                    priceTo = reponse.priceTo;
+                    for (String s : reponse.shoppingServer) {
+                        ci = ci.concat(s).concat("_");
                     }
+                    for (String s : reponse.goodsType) {
+                        st = st.concat(s).concat("_");
+                    }
+//                        keyword = "";
+                    order = "";
+                    key = "";
+                    id = "";
+                    onRefresh();
                 });
     }
 

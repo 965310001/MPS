@@ -1,7 +1,6 @@
 package com.mingpinmall.classz.ui.activity.details;
 
 import android.content.Intent;
-import android.media.ExifInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -40,12 +39,12 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     @Autowired
     String id;
 
-    private GoodsInfo goodsInfo;
-    private GoodsDetailInfo goodsDetailInfo;
+    private GoodsInfo mGoodsInfo;
+    private GoodsDetailInfo mGoodsDetailInfo;
 
-    private GoodsInfoMainFragment goodsInfoMainFragment;
-    private GoodsInfoDetailMainFragment goodsInfoDetailMainFragment;
-    private GoodsCommentFragment goodsCommentFragment;
+    private GoodsInfoMainFragment mGoodsInfoMainFragment;
+    private GoodsInfoDetailMainFragment mGoodsInfoDetailMainFragment;
+    private GoodsCommentFragment mGoodsCommentFragment;
 
     @Override
     protected boolean isActionBar() {
@@ -90,14 +89,14 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0], GoodsDetailInfo.class)
                 .observeForever(response -> {
                     if (response.isSuccess()) {
-                        goodsDetailInfo = response;
-                        goodsInfo = response.getDatas().getGoods_info();
-                        goodsInfo.news_spec_list_data = response.getDatas().getNews_spec_list_data();
-                        goodsInfo.setfavorate(response.getDatas().isIs_favorate());
+                        mGoodsDetailInfo = response;
+                        mGoodsInfo = response.getDatas().getGoods_info();
+                        mGoodsInfo.news_spec_list_data = response.getDatas().getNews_spec_list_data();
+                        mGoodsInfo.setfavorate(response.getDatas().isIs_favorate());
 
-                        goodsInfo.setMember_id(goodsDetailInfo.getDatas().getStore_info().getMember_id());
+                        mGoodsInfo.setMember_id(mGoodsDetailInfo.getDatas().getStore_info().getMember_id());
 
-                        if (goodsInfoMainFragment == null) {
+                        if (mGoodsInfoMainFragment == null) {
                             List<HorizontalTabTitle> title = new ArrayList<>();
                             HorizontalTabTitle horizontalTabTitle;
                             for (String s : Arrays.asList("商品", "详情", "评价")) {
@@ -105,33 +104,31 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                                 title.add(horizontalTabTitle);
                             }
                             List<BaseFragment> fragmentList = new ArrayList<>();
-                            fragmentList.add(goodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
-                            fragmentList.add(goodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
-                            fragmentList.add(goodsCommentFragment = GoodsCommentFragment.newInstance());
+                            fragmentList.add(mGoodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
+                            fragmentList.add(mGoodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
+                            fragmentList.add(mGoodsCommentFragment = GoodsCommentFragment.newInstance());
 
                             binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
                             binding.vpContent.setOffscreenPageLimit(3);
                             binding.pstsTabs.setViewPager(binding.vpContent);
                         } else {
-                            if (goodsInfoMainFragment.isVisible()) {
-                                goodsInfoMainFragment.update();
+                            if (mGoodsInfoMainFragment.isVisible()) {
+                                mGoodsInfoMainFragment.update();
                             }
-                            if (goodsInfoDetailMainFragment.isVisible()) {
-                                goodsInfoDetailMainFragment.setData();
+                            if (mGoodsInfoDetailMainFragment.isVisible()) {
+                                mGoodsInfoDetailMainFragment.setData();
                             }
-                            if (goodsCommentFragment.isVisible()) {
-                                goodsCommentFragment.onRefresh();
+                            if (mGoodsCommentFragment.isVisible()) {
+                                mGoodsCommentFragment.onRefresh();
                             }
                             if (!TextUtils.isEmpty(SharePreferenceUtil.getKeyValue("SPECIFICATIONPOP"))) {
-                                goodsInfoMainFragment.updateSpecificationPop();
+                                mGoodsInfoMainFragment.updateSpecificationPop();
                             }
                         }
-//                        android:alpha="@{data.shop?0.5f:1f}"
-//                        android:clickable="@{data.shop?false:true}"
-                        if (goodsInfo.isVirtual()) {
+                        if (mGoodsInfo.isVirtual()) {
                             binding.tvBuyNow.setAlpha(1.0f);
                             binding.tvBuyNow.setClickable(true);
-                        } else if (goodsInfo.isShop()) {
+                        } else if (mGoodsInfo.isShop()) {
                             binding.tvBuyNow.setAlpha(0.5f);
                             binding.tvBuyNow.setClickable(false);
                         } else {
@@ -139,7 +136,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                             binding.tvBuyNow.setClickable(true);
                         }
                         setCartNumber();
-                        binding.setData(goodsInfo);
+                        binding.setData(mGoodsInfo);
                     } else {
                         showErrorState();
                     }
@@ -154,12 +151,12 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 //                            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
 //                            ToastUtils.showLong(response.getError());
 //                        } else {
-//                            ShoppingCartUtils.addCartGoods(goodsInfo);
+//                            ShoppingCartUtils.addCartGoods(mGoodsInfo);
 //                            setCartNumber();
 //                            ToastUtils.showLong("添加购物车成功");
 //                        }*/
 //                        if (response.isSuccess()) {
-//                            ShoppingCartUtils.addCartGoods(goodsInfo);
+//                            ShoppingCartUtils.addCartGoods(mGoodsInfo);
 //                            setCartNumber();
 //                            ToastUtils.showLong("添加购物车成功");
 //                        } else {
@@ -221,33 +218,41 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     public void addCart(View view) {
         KLog.i("添加到购物车");
-        mViewModel.addCart(id, 1, Constants.CART_EVENT_KEY);
-        goodsInfo.setNum(1);
+        if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
+            String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
+            mGoodsInfo.setNum(TextUtils.isEmpty(goodsNum) ? 1 : Integer.parseInt(goodsNum));
+            mViewModel.addCart(id, mGoodsInfo.getNum(), Constants.CART_EVENT_KEY);
+        } else {
+            mGoodsInfoMainFragment.showBuyPopWindow();
+        }
     }
 
     public void buyNow(View view) {
         /*判断是否是虚拟*/
-        if (goodsInfoMainFragment.isPopWindowDismiss()) {
-            goodsInfoMainFragment.popWindowDismiss();
-            if (goodsInfo.isVirtual()) {
+        if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
+            mGoodsInfoMainFragment.popWindowDismiss();
+            if (mGoodsInfo.isVirtual()) {
                 // TODO: 2019/5/16 虚拟
                 KLog.i("是虚拟");
-
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", id);
+                map.put("quantity", "1");
+                ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, map);
             } else {
-                String goodsNum = SharePreferenceUtil.getKeyValue("ccvclick_goods_num");
+                String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
                 ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, "cartId",
                         String.format("%s|%s", id, TextUtils.isEmpty(goodsNum) ? "1" : goodsNum));
-                SharePreferenceUtil.saveKeyValue("ccvclick_goods_num", "");
+                SharePreferenceUtil.saveKeyValue("click_goods_num", "");
             }
         } else {
-            goodsInfoMainFragment.showBuyPopWindow();
+            mGoodsInfoMainFragment.showBuyPopWindow();
         }
     }
 
     public void contactService(View view) {
         Map<String, Object> map = new HashMap<>();
         map.put("goodsId", getId());
-        GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = goodsDetailInfo.getDatas().getStore_info();
+        GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = mGoodsDetailInfo.getDatas().getStore_info();
         map.put("tId", storeInfo.getMember_id());
 //        map.put("tName", storeInfo.getMember_name());
         ActivityToActivity.toActivity(ARouterConfig.classify.CHATACTIVITY, map);
@@ -258,7 +263,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         if (!SharePreferenceUtil.isLogin()) {
             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {
-            goodsInfoMainFragment.favorites();
+            mGoodsInfoMainFragment.favorites();
         }
     }
 
@@ -288,8 +293,8 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         return TextUtils.isEmpty(id) ? "" : id;
     }
 
-    public GoodsDetailInfo getGoodsDetailInfo() {
-        return goodsDetailInfo;
+    public GoodsDetailInfo getmGoodsDetailInfo() {
+        return mGoodsDetailInfo;
     }
 
     /**

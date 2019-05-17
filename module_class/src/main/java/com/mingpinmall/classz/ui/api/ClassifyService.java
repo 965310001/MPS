@@ -35,7 +35,7 @@ import retrofit2.http.QueryMap;
 
 public interface ClassifyService {
     String BASEURL = "/mo_bile/index.php";
-    
+
     String SHAPPINGLIST = "/mo_bile/index.php?app=goods&wwi=goods_list";
 
     /*品牌*/
@@ -43,21 +43,8 @@ public interface ClassifyService {
     /*商品详情*/
     String GOODSDETAIL = "/mo_bile/index.php?app=goods&wwi=goods_detail";
 
-    //    加入购物车
-//    String ADD_CART_APP = "member_cart";
-//    String ADD_CART_WWI = "cart_add";
-    //    搜索列表
-//    String[] HOTKEY = {"index", "search_key_list"};
-//    添加收藏
-//    String ADDCOLLECTION_APP = "member_favorites";
-//    String ADDCOLLECTION_WWI = "favorites_add";
-    /*删除收藏*/
-//    String DELCOLLECTION_WWI = "favorites_del";
-
-
     /*商品评价*/
     String EVALUATE = "/mo_bile/index.php?app=goods&wwi=goods_evaluate";
-
 
     /*左边*/
     @GET(BASEURL)
@@ -82,25 +69,12 @@ public interface ClassifyService {
     @GET(EVALUATE)
     Flowable<GoodsCommentListBean> getEvaluate(@QueryMap Map<String, Object> map);
 
-//    商品评价
-//    @GET(EVALUATE)
-//    Flowable<BaseResponse<AreaListInfo>> getArea(@QueryMap Map<String, Object> map);
-//    商品详情
-//    @GET(GOODSDETAIL)
-//    Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId);
-
     @GET(GOODSDETAIL)
     Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId, @Query("key") String key);
 
     /*商品列表*/
     @GET(BASEURL)
     Flowable<BaseResponse<HotKeyInfo>> getHotKeys(@QueryMap Map<String, Object> map);
-
-    /*添加 删除 收藏*/
-//    @FormUrlEncoded
-//    @POST("{path}")
-//    Flowable<ResultBean> execute(@Path("path") String url,
-//                                 @Query("Goods_id") String goodsId);
 
     /*获取订单信息*/
     @FormUrlEncoded
@@ -111,7 +85,6 @@ public interface ClassifyService {
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<BaseResponse<InvoiceListInfo>> getInvoiceContentList(@FieldMap Map<String, Object> map);
-
 
     /*店铺信息*/
     @FormUrlEncoded
@@ -189,4 +162,28 @@ public interface ClassifyService {
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<ResultBean> execute(@FieldMap Map<String, Object> map);
+
+
+    //    加入购物车
+//    String ADD_CART_APP = "member_cart";
+//    String ADD_CART_WWI = "cart_add";
+    //    搜索列表
+//    String[] HOTKEY = {"index", "search_key_list"};
+//    添加收藏
+//    String ADDCOLLECTION_APP = "member_favorites";
+//    String ADDCOLLECTION_WWI = "favorites_add";
+    /*删除收藏*/
+//    String DELCOLLECTION_WWI = "favorites_del";
+    /*添加 删除 收藏*/
+//    @FormUrlEncoded
+//    @POST("{path}")
+//    Flowable<ResultBean> execute(@Path("path") String url,
+//                                 @Query("Goods_id") String goodsId);
+//    商品评价
+//    @GET(EVALUATE)
+//    Flowable<BaseResponse<AreaListInfo>> getArea(@QueryMap Map<String, Object> map);
+//    商品详情
+//    @GET(GOODSDETAIL)
+//    Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId);
+
 }

@@ -42,7 +42,7 @@ public class ClassifyRepository extends BaseRepository {
     /*获取左边的数据*/
     public void getLeft() {
         addDisposable(apiService.getLeft("goods_class", "index")
-                .compose(RxSchedulers.<BaseResponse<ClassificationBean>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<ClassificationBean>>() {
                     @Override
                     public void onSuccess(BaseResponse<ClassificationBean> result) {
@@ -68,7 +68,7 @@ public class ClassifyRepository extends BaseRepository {
     /*获取右边的数据*/
     public void getRight(String gcId) {
         addDisposable(apiService.getRight("goods_class", "get_child_all", gcId)
-                .compose(RxSchedulers.<ClassificationRighitBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<ClassificationRighitBean>() {
                     @Override
                     public void onSuccess(ClassificationRighitBean result) {
@@ -92,7 +92,7 @@ public class ClassifyRepository extends BaseRepository {
     /*获取品牌的数据*/
     public void getRightByBrand() {
         addDisposable(apiService.getRightByBrand()
-                        .compose(RxSchedulers.<BrandListInfo>io_main())
+                        .compose(RxSchedulers.io_main())
                         .subscribeWith(new RxSubscriber<BrandListInfo>() {
                             @Override
                             public void onSuccess(BrandListInfo result) {
@@ -137,7 +137,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("page", Constants.PAGE_RN);
         map.put("curpage", curpage);
         addDisposable(apiService.getShappingList(map)
-                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
@@ -164,7 +164,7 @@ public class ClassifyRepository extends BaseRepository {
     /*商品详情*/
     public void getGoodsDetail(String goodsId) {
         addDisposable(apiService.getGoodsDetail(goodsId, getUserKey())
-                .compose(RxSchedulers.<GoodsDetailInfo>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsDetailInfo>() {
                     @Override
                     public void onSuccess(GoodsDetailInfo result) {
@@ -198,7 +198,7 @@ public class ClassifyRepository extends BaseRepository {
     public void getHotKeys() {
 //        addDisposable(apiService.getHotKeys(parames(ClassifyService.HOTKEY[0], ClassifyService.HOTKEY[1]))
         addDisposable(apiService.getHotKeys(parames("index", "search_key_list"))
-                .compose(RxSchedulers.<BaseResponse<HotKeyInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<HotKeyInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<HotKeyInfo> result) {
@@ -264,7 +264,40 @@ public class ClassifyRepository extends BaseRepository {
         }
         map.put("key", getUserKey());
         addDisposable(apiService.getOrderInfo(map)
-                .compose(RxSchedulers.<BaseResponse<OrderInfo>>io_main())
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<OrderInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<OrderInfo> result) {
+                        if (result.isData() && result.isSuccess()) {
+                            sendData(eventKey, result.getData());
+                            showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.SUCCESS_STATE);
+                        } else {
+                            sendData(Constants.CONFIRMORDER_KEY[1] + "Error", result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
+    }
+
+    /*获取虚拟订单信息*/
+    public void getMemberVrBuy(String goodsId, String quantity, Object eventKey) {
+        Map<String, Object> map = parames("member_vr_buy", "buy_step2");
+        map.put("goods_id", goodsId);
+        map.put("quantity", quantity);
+        map.put("key", getUserKey());
+        addDisposable(apiService.getOrderInfo(map)
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<OrderInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<OrderInfo> result) {
@@ -322,7 +355,7 @@ public class ClassifyRepository extends BaseRepository {
                 "invoice_list");
         map.put("key", getUserKey());
         addDisposable(apiService.getInvoiceContentList(map)
-                .compose(RxSchedulers.<BaseResponse<InvoiceListInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<InvoiceListInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<InvoiceListInfo> result) {
@@ -389,7 +422,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("return_full", "1");
         map.put("num", "3");
         addDisposable(apiService.getStoreInfo(map)
-                .compose(RxSchedulers.<BaseResponse<StoreInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<StoreInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<StoreInfo> result) {
@@ -419,7 +452,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("ordertype", orderType);
         map.put("num", num);
         addDisposable(apiService.getStoreGoodsRank(map)
-                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
@@ -448,7 +481,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("curpage", page);
         map.put("page", Constants.PAGE_RN);
         addDisposable(apiService.getStoreGoods(map)
-                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
@@ -483,7 +516,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("page", Constants.PAGE_RN);
 
         addDisposable(apiService.getStoreGoods(map)
-                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
@@ -512,7 +545,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("curpage", page);
         map.put("page", Constants.PAGE_RN);
         addDisposable(apiService.getStoreGoodsRank(map)
-                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
@@ -538,7 +571,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("curpage", page);
         map.put("page", Constants.PAGE_RN);
         addDisposable(apiService.getStorePromotionInfo(map)
-                .compose(RxSchedulers.<StorePromotionInfo>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<StorePromotionInfo>() {
                     @Override
                     public void onSuccess(StorePromotionInfo result) {
@@ -565,7 +598,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("_client", "android");
         map.put("key", getUserKey());
         addDisposable(apiService.getStoreFavorites(map)
-                .compose(RxSchedulers.<ResultBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<ResultBean>() {
                     @Override
                     public void onSuccess(ResultBean result) {
@@ -589,7 +622,7 @@ public class ClassifyRepository extends BaseRepository {
         Map<String, Object> map = parames("store", "store_intro");
         map.put("store_id", storeId);
         addDisposable(apiService.getStoreIntro(map)
-                .compose(RxSchedulers.<BaseResponse<StoreInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<StoreInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<StoreInfo> result) {
@@ -630,7 +663,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("page", Constants.PAGE_RN);
         map.put("curpage", curpage);
         addDisposable(apiService.getShappingList(map)
-                .compose(RxSchedulers.<GoodsListInfo>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
@@ -659,7 +692,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("store_id", storeId);
         map.put("gettype", gettype);
         addDisposable(apiService.getVoucherTplList(map)
-                .compose(RxSchedulers.<BaseResponse<VoucherInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<VoucherInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<VoucherInfo> result) {
@@ -685,7 +718,7 @@ public class ClassifyRepository extends BaseRepository {
         Map<String, Object> map = parames("member_voucher", "voucher_freeex");
         map.put("tid", storeId);
         addDisposable(apiService.execute(map)
-                .compose(RxSchedulers.<ResultBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<ResultBean>() {
                     @Override
                     public void onSuccess(ResultBean result) {
@@ -711,7 +744,7 @@ public class ClassifyRepository extends BaseRepository {
         map = parames(map, "member_buy", "buy_step2");
         map.put("key", getUserKey());
         addDisposable(apiService.getBuyStep2(map)
-                .compose(RxSchedulers.<BaseResponse<BuyStepInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<BuyStepInfo> result) {
@@ -740,7 +773,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("t", t);
         map.put("page", "50");
         addDisposable(apiService.getChatLog(map)
-                .compose(RxSchedulers.<BaseResponse<MsgListInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<MsgListInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<MsgListInfo> result) {
@@ -774,7 +807,7 @@ public class ClassifyRepository extends BaseRepository {
         }
         map.put("u_id", tId);
         addDisposable(apiService.getNodeInfo(map)
-                .compose(RxSchedulers.<BaseResponse<MsgListInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<MsgListInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<MsgListInfo> result) {
@@ -811,7 +844,7 @@ public class ClassifyRepository extends BaseRepository {
         }
         map.put("t_msg", msg);
         addDisposable(apiService.sendMsg(map)
-                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<MsgInfo> result) {
@@ -847,7 +880,7 @@ public class ClassifyRepository extends BaseRepository {
         File file = new File(image);
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), file);
         addDisposable(apiService.picUpload(map, requestBody)
-                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<MsgInfo> result) {
@@ -959,7 +992,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("payment_code", paymentCode);
         map.put("client", "android");
         addDisposable(apiService.getPayNew(map)
-                .compose(RxSchedulers.<PayMessageInfo>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<PayMessageInfo>() {
                     @Override
                     public void onSuccess(PayMessageInfo result) {
@@ -1046,7 +1079,7 @@ public class ClassifyRepository extends BaseRepository {
 
     private void execute(final Object eventKey, Map<String, Object> map) {
         addDisposable(apiService.execute(map)
-                        .compose(RxSchedulers.<ResultBean>io_main())
+                        .compose(RxSchedulers.io_main())
                         .subscribeWith(new RxSubscriber<ResultBean>() {
                             @Override
                             public void onSuccess(ResultBean result) {

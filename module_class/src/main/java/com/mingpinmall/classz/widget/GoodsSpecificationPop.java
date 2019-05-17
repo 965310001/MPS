@@ -29,35 +29,33 @@ import io.reactivex.Observable;
  */
 public class GoodsSpecificationPop extends PopupWindow implements CountClickView.OnClickAfterListener, View.OnClickListener {
 
-    private Context context;
-    private static GoodsSpecificationPop specificationPop;
-    private GoodsInfo goodsInfo;
-
-    private int[] ints = new int[3];
+    private final Context mContext;
+    private static GoodsSpecificationPop INSTANCE;
+    private GoodsInfo mGoodsInfo;
+    private MarketPopGoodsSpecificationBinding bind;
+    private final int[] ints = new int[3];
     private StringBuilder stringBuilder;
 
-    public GoodsSpecificationPop(Context context) {
-        this.context = context;
+    private GoodsSpecificationPop(Context context) {
+        this.mContext = context;
     }
 
     public static synchronized GoodsSpecificationPop getInstance(Context context) {
-        if (specificationPop == null) specificationPop = new GoodsSpecificationPop(context);
-        return specificationPop;
+        if (INSTANCE == null) INSTANCE = new GoodsSpecificationPop(context);
+        return INSTANCE;
     }
 
-    MarketPopGoodsSpecificationBinding bind;
-
-    public GoodsSpecificationPop setGoodsInfo(GoodsInfo goodsInfo) {
-        this.goodsInfo = goodsInfo;
+    public GoodsSpecificationPop setmGoodsInfo(GoodsInfo mGoodsInfo) {
+        this.mGoodsInfo = mGoodsInfo;
         return this;
     }
 
     public void show(View parent) {
-        bind = DataBindingUtil.bind(LayoutInflater.from(context).inflate(R.layout.market_pop_goods_specification, null));
-        if (goodsInfo.isVirtual()) {
+        bind = DataBindingUtil.bind(LayoutInflater.from(mContext).inflate(R.layout.market_pop_goods_specification, null));
+        if (mGoodsInfo.isVirtual()) {
             bind.tvBuyNow.setAlpha(1.0f);
             bind.tvBuyNow.setClickable(true);
-        } else if (goodsInfo.isShop()) {
+        } else if (mGoodsInfo.isShop()) {
             bind.tvBuyNow.setAlpha(0.5f);
             bind.tvBuyNow.setClickable(false);
         } else {
@@ -80,39 +78,39 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         List<String> stringList;
         FlowTagLayout flowLayout;
         CustomDefaultFlowTagAdapter adapter;
-        View chieView;
-        int dimensionPixelSize = context.getResources().getDimensionPixelSize(R.dimen.dp_4);
-        int size = goodsInfo.news_goods_spec_name.size();
+        View chideView;
+        int dimensionPixelSize = mContext.getResources().getDimensionPixelSize(R.dimen.dp_4);
+        int size = mGoodsInfo.news_goods_spec_name.size();
         for (int index = 0; index < size; index++) {
-            chieView = View.inflate(context, R.layout.item_text, null);
-            chieView.setPadding(dimensionPixelSize, dimensionPixelSize, 0, dimensionPixelSize);
-            textView = chieView.findViewById(R.id.text);
-            textView.setTextColor(context.getResources().getColor(R.color.gray));
-            textView.setTextSize(context.getResources().getDimensionPixelSize(R.dimen.text_8));
-            textView.setText(goodsInfo.news_goods_spec_name.get(index));
-            bind.llAttar.addView(chieView);
-            stringList = goodsInfo.news_goods_spec_value.get(index);
-            flowLayout = new FlowTagLayout(context);
-            adapter = new CustomDefaultFlowTagAdapter(context);
+            chideView = View.inflate(mContext, R.layout.item_text, null);
+            chideView.setPadding(dimensionPixelSize, dimensionPixelSize, 0, dimensionPixelSize);
+            textView = chideView.findViewById(R.id.text);
+            textView.setTextColor(mContext.getResources().getColor(R.color.gray));
+            textView.setTextSize(mContext.getResources().getDimensionPixelSize(R.dimen.text_8));
+            textView.setText(mGoodsInfo.news_goods_spec_name.get(index));
+            bind.llAttar.addView(chideView);
+            stringList = mGoodsInfo.news_goods_spec_value.get(index);
+            flowLayout = new FlowTagLayout(mContext);
+            adapter = new CustomDefaultFlowTagAdapter(mContext);
             flowLayout.setAdapter(adapter);
             flowLayout.setItems(stringList);
             flowLayout.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
 
             for (int i = 0; i < stringList.size(); i++) {
-                if (stringList.get(i).equals(goodsInfo.news_goods_spec.get(index))) {
+                if (stringList.get(i).equals(mGoodsInfo.news_goods_spec.get(index))) {
                     flowLayout.setSelectedPositions(i);
-                    ints[index] = goodsInfo.news_spec_data.get(index).getSpec_value().get(i).getSpe_id();
+                    ints[index] = mGoodsInfo.news_spec_data.get(index).getSpec_value().get(i).getSpe_id();
                 }
             }
             bind.llAttar.addView(flowLayout);
             final int finalIndex = index;
             flowLayout.setOnTagSelectListener((parent1, position, selectedList) -> {
-                ints[finalIndex] = goodsInfo.news_spec_data.get(finalIndex).getSpec_value().get(position).getSpe_id();
+                ints[finalIndex] = mGoodsInfo.news_spec_data.get(finalIndex).getSpec_value().get(position).getSpe_id();
                 stringBuilder = new StringBuilder();
                 for (int anInt : ints) {
                     stringBuilder.append(anInt).append("|");
                 }
-                Observable.fromIterable(goodsInfo.news_spec_list_data)
+                Observable.fromIterable(mGoodsInfo.news_spec_list_data)
                         .filter(newsSpecListDataBean -> stringBuilder.toString().contains(newsSpecListDataBean.getKey())).subscribe(newsSpecListDataBean -> {
                     KLog.i(newsSpecListDataBean.getVal());
                     LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
@@ -130,7 +128,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
     }
 
     public void loadData() {
-        bind.setData(goodsInfo);
+        bind.setData(mGoodsInfo);
         bind.setListener(this);
         bind.setDismissListener(this);
         bind.executePendingBindings();
@@ -139,7 +137,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
     @Override
     public void onAfter(int value) {
         KLog.i(value + "");
-        SharePreferenceUtil.saveKeyValue("ccvclick_goods_num", String.valueOf(value));
+        SharePreferenceUtil.saveKeyValue("click_goods_num", String.valueOf(value));
     }
 
     @Override

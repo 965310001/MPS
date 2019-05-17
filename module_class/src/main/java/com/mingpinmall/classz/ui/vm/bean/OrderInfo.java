@@ -21,6 +21,11 @@ public class OrderInfo extends BaseBean {
     private List<ContentBean> store_final_total_list;
     private String vat_hash;
 
+    /**
+     * member_info : {"member_mobile":"15013070796","available_predeposit":"0.00","available_rc_balance":"0.00"}
+     */
+
+
     public String getVat_hash() {
         return vat_hash;
     }
@@ -76,6 +81,7 @@ public class OrderInfo extends BaseBean {
     public void setStore_final_total_list(List<ContentBean> store_final_total_list) {
         this.store_final_total_list = store_final_total_list;
     }
+
 
     public static class StoreCartListBean {
         /**
@@ -171,11 +177,11 @@ public class OrderInfo extends BaseBean {
             this.state = state;
         }
 
-        public  List<ContentBean> getContent() {
+        public List<ContentBean> getContent() {
             return content;
         }
 
-        public void setContent( List<ContentBean> content) {
+        public void setContent(List<ContentBean> content) {
             this.content = content;
         }
 
@@ -204,6 +210,7 @@ public class OrderInfo extends BaseBean {
         }
 
     }
+
     public static class ContentBean {
 
         /**
@@ -240,5 +247,62 @@ public class OrderInfo extends BaseBean {
                 ", order_amount='" + order_amount + '\'' +
                 ", store_final_total_list=" + store_final_total_list +
                 '}';
+    }
+
+    /*虚拟产品*/
+    @SerializedName("goods_info")
+    private GoodsInfo goodsInfo;
+    private MemberInfoBean member_info;
+
+    public GoodsInfo getGoodsInfo() {
+        return goodsInfo;
+    }
+
+    public void setGoodsInfo(GoodsInfo goodsInfo) {
+        this.goodsInfo = goodsInfo;
+    }
+
+    public MemberInfoBean getMember_info() {
+        return member_info;
+    }
+
+    public void setMember_info(MemberInfoBean member_info) {
+        this.member_info = member_info;
+    }
+
+    public static class MemberInfoBean extends BaseBean {
+        /**
+         * member_mobile : 15013070796
+         * available_predeposit : 0.00
+         * available_rc_balance : 0.00
+         */
+
+        private String member_mobile;
+        private String available_predeposit;
+        private String available_rc_balance;
+
+        public String getMember_mobile() {
+            return member_mobile;
+        }
+
+        public void setMember_mobile(String member_mobile) {
+            this.member_mobile = member_mobile;
+        }
+
+        public String getAvailable_predeposit() {
+            return available_predeposit;
+        }
+
+        public void setAvailable_predeposit(String available_predeposit) {
+            this.available_predeposit = available_predeposit;
+        }
+
+        public String getAvailable_rc_balance() {
+            return available_rc_balance;
+        }
+
+        public void setAvailable_rc_balance(String available_rc_balance) {
+            this.available_rc_balance = available_rc_balance;
+        }
     }
 }

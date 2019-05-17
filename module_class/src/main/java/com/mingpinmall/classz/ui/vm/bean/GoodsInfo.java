@@ -5,7 +5,6 @@ import android.view.View;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.goldze.common.dmvvm.base.bean.UserBean;
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.DateUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
@@ -87,6 +86,9 @@ public class GoodsInfo extends BaseBean {
     public List<NewsSpecDataBean> news_spec_data;
     @Transient
     public List<NewsSpecListDataBean> news_spec_list_data;
+    @Transient
+    private List<NewsContractlistBean> news_contractlist;
+
 
     public String getPresell_deliverdate_str() {
         return presell_deliverdate_str;
@@ -433,6 +435,14 @@ public class GoodsInfo extends BaseBean {
         return String.format("即日起 到 %s", DateUtils.getFormatDate(Long.parseLong(virtual_indate), "yyyy-MM-dd HH:mm:ss"));
     }
 
+    public List<NewsContractlistBean> getNews_contractlist() {
+        return news_contractlist;
+    }
+
+    public void setNews_contractlist(List<NewsContractlistBean> news_contractlist) {
+        this.news_contractlist = news_contractlist;
+    }
+
 
     public static class NewsSpecDataBean extends BaseBean {
 
@@ -514,6 +524,142 @@ public class GoodsInfo extends BaseBean {
 
         public void setVal(String val) {
             this.val = val;
+        }
+    }
+
+    public static class NewsContractlistBean extends BaseBean {
+        /**
+         * cti_id : 1
+         * cti_name : 7天退货
+         * cti_describe : 卖家就该商品退货服务向买家作出承诺，自商品签收之日起至卖家承诺保障时间内，商品符合卖家约定状态的情况下，如买家对购买的商品不满意可无理由申请退货。
+         * cti_cost : 1000.00
+         * cti_icon : 7day.gif
+         * cti_descurl :
+         * cti_state : 1
+         * cti_sort : 1
+         * cti_state_key : open
+         * cti_state_text : 开启
+         * cti_icon_url : http://192.168.0.44/data/upload/mall/contracticon/7day.gif
+         * cti_icon_url_60 : http://192.168.0.44/data/upload/mall/contracticon/7day_60.gif
+         * cti_state_name : 开启
+         */
+
+        private String cti_id;
+        private String cti_name;
+        private String cti_describe;
+        private String cti_cost;
+        private String cti_icon;
+        private String cti_descurl;
+        private String cti_state;
+        private String cti_sort;
+        private String cti_state_key;
+        private String cti_state_text;
+        private String cti_icon_url;
+        private String cti_icon_url_60;
+        private String cti_state_name;
+
+        public String getCti_id() {
+            return cti_id;
+        }
+
+        public void setCti_id(String cti_id) {
+            this.cti_id = cti_id;
+        }
+
+        public String getCti_name() {
+            return cti_name;
+        }
+
+        public void setCti_name(String cti_name) {
+            this.cti_name = cti_name;
+        }
+
+        public String getCti_describe() {
+            return cti_describe;
+        }
+
+        public void setCti_describe(String cti_describe) {
+            this.cti_describe = cti_describe;
+        }
+
+        public String getCti_cost() {
+            return cti_cost;
+        }
+
+        public void setCti_cost(String cti_cost) {
+            this.cti_cost = cti_cost;
+        }
+
+        public String getCti_icon() {
+            return cti_icon;
+        }
+
+        public void setCti_icon(String cti_icon) {
+            this.cti_icon = cti_icon;
+        }
+
+        public String getCti_descurl() {
+            return cti_descurl;
+        }
+
+        public void setCti_descurl(String cti_descurl) {
+            this.cti_descurl = cti_descurl;
+        }
+
+        public String getCti_state() {
+            return cti_state;
+        }
+
+        public void setCti_state(String cti_state) {
+            this.cti_state = cti_state;
+        }
+
+        public String getCti_sort() {
+            return cti_sort;
+        }
+
+        public void setCti_sort(String cti_sort) {
+            this.cti_sort = cti_sort;
+        }
+
+        public String getCti_state_key() {
+            return cti_state_key;
+        }
+
+        public void setCti_state_key(String cti_state_key) {
+            this.cti_state_key = cti_state_key;
+        }
+
+        public String getCti_state_text() {
+            return cti_state_text;
+        }
+
+        public void setCti_state_text(String cti_state_text) {
+            this.cti_state_text = cti_state_text;
+        }
+
+        public String getCti_icon_url() {
+            return cti_icon_url;
+        }
+
+        public void setCti_icon_url(String cti_icon_url) {
+            this.cti_icon_url = cti_icon_url;
+        }
+
+        public String getCti_icon_url_60() {
+            return cti_icon_url_60;
+        }
+
+        public void setCti_icon_url_60(String cti_icon_url_60) {
+            this.cti_icon_url_60 = cti_icon_url_60;
+        }
+
+        public String getCti_state_name() {
+            return cti_state_name;
+        }
+
+        public void setCti_state_name(String cti_state_name) {
+            this.cti_state_name = cti_state_name;
         }
     }
 }
