@@ -10,38 +10,41 @@
             type="com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean.DatasBean.ClassListBean" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
-
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
         android:background="@color/white"
-        android:gravity="center"
-        android:onClick="@{(view)->data.click(view)}"
-        android:orientation="vertical"
-        android:padding="@dimen/dp_10">
+        android:foreground="@drawable/button_foreground"
+        android:onClick="@{(view)->data.click(view)}">
 
-        <ImageView
-            android:id="@+id/iv_image"
-            image="@{data.gc_thumb}"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_launcher" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/TextStyle_12"
-            android:layout_width="match_parent"
-            android:ellipsize="end"
-            android:gravity="center_horizontal"
-            android:maxLines="1"
-            android:text="@{data.gc_name}"
-            android:textColor="@color/color_666666"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_image"
-            tools:text="首页" />
+            <ImageView
+                android:id="@+id/iv_image"
+                image="@{data.gc_thumb}"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_launcher" />
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                style="@style/TextStyle_12"
+                android:layout_width="match_parent"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
+                android:text="@{data.gc_name}"
+                android:textColor="@color/color_666666"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_image"
+                tools:text="首页" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
 
 </layout>
