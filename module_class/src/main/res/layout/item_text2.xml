@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/root_layout"
+        style="@style/width_match_height_warp"
+        android:layout_height="@dimen/dp_38"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text"
+            style="@style/width_warp_height_warp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:gravity="start|center"
+            android:text="@{data}"
+            android:textColor="@color/black"
+            tools:text="直播课" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color" />
+
+    </LinearLayout>
+
+</layout>

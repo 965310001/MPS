@@ -1,8 +1,11 @@
 package com.mingpinmall.classz.ui.activity.details;
 
+import android.os.Bundle;
 import android.view.View;
 
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
+import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
@@ -24,6 +27,12 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
 
     public static GoodsCommentFragment newInstance() {
         return new GoodsCommentFragment();
+    }
+
+    @Override
+    public void initView(Bundle state) {
+        super.initView(state);
+        binding.getRoot().setPadding(0, ScreenUtil.dip2px(activity, 44) + StatusBarUtils.getStatusBarHeight(activity), 0, 0);
     }
 
     @Override

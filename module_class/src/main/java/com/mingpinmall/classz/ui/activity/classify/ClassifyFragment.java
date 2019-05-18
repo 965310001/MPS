@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.BuildConfig;
+import com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.FragmentClassifyBinding;
@@ -60,10 +62,9 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     public void initView(Bundle state) {
         super.initView(state);
 
-        getViewById(R.id.rl_title_bar).setVisibility(View.VISIBLE);
-        getViewById(R.id.iv_search).setVisibility(View.VISIBLE);
-        getViewById(R.id.iv_search).setOnClickListener(this);
-        ((TextView) getViewById(R.id.tv_title)).setText("分类");
+        getViewById(R.id.sv_search).setOnClickListener(this);
+        getViewById(R.id.iv_scan).setOnClickListener(this);
+        getViewById(R.id.iv_msg).setOnClickListener(this);
 
         //在这里设置沉浸式状态栏
         setTitlePadding(getViewById(R.id.rl_title_content));
@@ -77,9 +78,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int i) {
-                if (rightAdapter.getItems().get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean) {
-                    return 3;
-                } else if (rightAdapter.getItems().get(i) instanceof ClassificationRighitBean.DatasBean.ClassListBean.ChildBean) {
+                if (rightAdapter.getItems().get(i) instanceof String) {
                     return 3;
                 } else {
                     return 1;
@@ -133,9 +132,11 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                         rightData.clear();
                         if (object instanceof ClassificationRighitBean) {
                             ClassificationRighitBean data = (ClassificationRighitBean) object;
+                            rightData.add("热门推荐");
                             rightData.addAll(data.getDatas().getClass_list());
                         } else if (object instanceof BrandListInfo) {
                             BrandListInfo data = (BrandListInfo) object;
+                            rightData.add("热门品牌");
                             rightData.addAll(data.getDatas().getBrand_list());
                         }
                         binding.setRightdata(rightData);
@@ -168,7 +169,13 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.iv_search) ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
+        if (i == R.id.sv_search) {
+            ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
+        } else if (i == R.id.iv_scan) {
+            IntentIntegrator.forSupportFragment(ClassifyFragment.this).setCaptureActivity(ScanQrCodeActivity.class).initiateScan();
+        } else if (i == R.id.iv_msg) {
+            ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);
+        }
     }
 
     @Override

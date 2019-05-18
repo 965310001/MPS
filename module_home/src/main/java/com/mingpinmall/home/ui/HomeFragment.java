@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -18,7 +17,7 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentHomeBinding;
-import com.mingpinmall.home.ui.activity.qrcode.ScanQrCodeActivity;
+import com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity;
 import com.mingpinmall.home.ui.adapter.HomeListAdapter;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
@@ -74,7 +73,6 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
         gridLayoutManager = new GridLayoutManager(activity, 4);
         binding.recyclerView.setLayoutManager(gridLayoutManager);
         homeListAdapter = new HomeListAdapter();
-        homeListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         homeListAdapter.bindToRecyclerView(binding.recyclerView);
         homeListAdapter.setSpanSizeLookup((gridLayoutManager, position) -> {
             switch (homeListAdapter.getData().get(position).getItemType()) {

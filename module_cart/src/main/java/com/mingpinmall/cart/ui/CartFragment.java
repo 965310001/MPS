@@ -96,7 +96,6 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             LiveBus.getDefault().postEvent("Main", "tab", 0);
         });
         shopCartAdapter = new ShopCartAdapter();
-        shopCartAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         shopCartAdapter.setEmptyView(emptyView);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recyclerView.setAdapter(shopCartAdapter);
@@ -192,6 +191,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 data.setExpanded(!data.isExpanded());
                 shopCartAdapter.notifyItemChanged(position);
             } else if (view.getId() == R.id.tv_coupon) {
+                //领券
                 mViewModel.getVoucherTplList(data.getStore_id(), Constants.CART_VOUCHERTPL);
             }
         });
@@ -336,22 +336,16 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 ShopVoucherInfo data = (ShopVoucherInfo) result;
                 List<ShopVoucherInfo.VoucherListBean> voucherList = data.getVoucher_list();
                 if (null != voucherList) {
-                    if (null == xBottomSheet) {
-                        DataBindItemViewHolderManager manager = new DataBindItemViewHolderManager(activity,
-                                R.layout.item_voucher, BR.data);
-                        manager.setOnClickListener(this::getReceive);
-                        xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
-                                .setItemData(voucherList)
-                                .setAdapter(new DelegateAdapter.Builder<>()
-                                        .bind(ShopVoucherInfo.VoucherListBean.class, manager)
-                                        .build())
-                                .setLayoutManager(new LinearLayoutManager(activity))
-                                .setOnSheetItemClickListener((dialog, itemView, position, tag) -> {
-                                    dialog.dismiss();
-                                    ToastUtils.showLong("Item " + (position + 1));
-                                })
-                                .build();
-                    }
+                    DataBindItemViewHolderManager manager = new DataBindItemViewHolderManager(activity,
+                            R.layout.item_voucher, BR.data);
+                    manager.setOnClickListener(this::getReceive);
+                    xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
+                            .setItemData(voucherList)
+                            .setAdapter(new DelegateAdapter.Builder<>()
+                                    .bind(ShopVoucherInfo.VoucherListBean.class, manager)
+                                    .build())
+                            .setLayoutManager(new LinearLayoutManager(activity))
+                            .setOnSheetItemClickListener((dialog, itemView, position, tag) -> dialog.dismiss()).build();
                     xBottomSheet.show();
                 } else {
                     ToastUtils.showLong("暂时没有代金券");

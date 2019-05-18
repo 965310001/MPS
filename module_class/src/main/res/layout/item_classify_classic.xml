@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.mingpinmall.classz.ui.vm.bean.BrandListInfo.DatasBean.BrandListBean" />
+            type="com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean.DatasBean.ClassListBean" />
     </data>
 
     <FrameLayout
@@ -24,7 +24,7 @@
 
             <ImageView
                 android:id="@+id/iv_image"
-                image="@{data.brand_pic}"
+                image="@{data.gc_thumb}"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="1:1"
@@ -36,7 +36,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="@{data.brand_name}"
+                android:text="@{data.gc_name}"
                 android:textColor="@color/color_666666"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

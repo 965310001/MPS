@@ -72,6 +72,7 @@ public class GoodsListInfo extends BaseBean {
 
     public class DatasBean extends BaseBean {
         private List<GoodsInfo> goods_list;
+        private String brand_bgpic;
 
         @Bindable
         public List<GoodsInfo> getGoods_list() {
@@ -81,6 +82,14 @@ public class GoodsListInfo extends BaseBean {
         public void setGoods_list(List<GoodsInfo> goods_list) {
             this.goods_list = goods_list;
             notifyPropertyChanged(BR.goods_list);
+        }
+
+        public String getBrand_bgpic() {
+            return brand_bgpic == null ? "" : brand_bgpic;
+        }
+
+        public void setBrand_bgpic(String brand_bgpic) {
+            this.brand_bgpic = brand_bgpic;
         }
     }
 

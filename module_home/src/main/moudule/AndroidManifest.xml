@@ -16,7 +16,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.qrcode.ScanQrCodeActivity"
+            android:name="com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity"
             android:screenOrientation="fullSensor" />
     </application>
 

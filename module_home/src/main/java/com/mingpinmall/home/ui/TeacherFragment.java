@@ -62,12 +62,7 @@ public class TeacherFragment extends BaseFragment<FragmentTeacherBinding> {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
-        binding.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mAgentWeb.getUrlLoader().loadUrl(URL);
-            }
-        });
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> mAgentWeb.getUrlLoader().loadUrl(URL));
     }
 
     private class MyWebClient extends WebViewClient {

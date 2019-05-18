@@ -57,6 +57,8 @@
                 android:id="@+id/tv_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:textColor="#666"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_image"

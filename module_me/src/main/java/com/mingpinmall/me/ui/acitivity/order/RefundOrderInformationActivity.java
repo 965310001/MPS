@@ -78,7 +78,7 @@ public class RefundOrderInformationActivity extends AbsLifecycleActivity<Activit
             imageView = new AppCompatImageView(activity);
             imageView.setLayoutParams(params);
             binding.llImageList.addView(imageView);
-            ImageUtils.loadImageNoPlaceholder(imageView, imageUrl,
+            ImageUtils.loadImage(imageView, imageUrl,
                     ScreenUtil.dip2px(activity, 36),
                     ScreenUtil.dip2px(activity, 36)
             );

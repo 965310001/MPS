@@ -2,6 +2,7 @@ package com.mingpinmall.cart.ui.utils;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.os.Build;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,45 +32,18 @@ public class DatabingUtils {
      */
     @BindingAdapter(value = {"html", "imageHtml"}, requireAll = false)
     public static void setHtml(final TextView textView, String content, String image) {
-//        final Drawable[] d = new Drawable[1];
         if (!TextUtils.isEmpty(image)) {
-//            Html.ImageGetter imgGetter = new Html.ImageGetter() {
-//                @Override
-//                public Drawable getDrawable(final String source) {
-//                    if (source.endsWith(".jpg") || source.endsWith(".png")) {
-//                        ImageUtils.loadImage(textView.getContext(), source, new SimpleTarget<Drawable>() {
-//                            @Override
-//                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-//                                d[0] = resource;
-//                                textView.invalidate();
-//                                KLog.i("网络图片" + source);
-//                            }
-//                        });
-//                    } else {
-//                        try {
-//                            d[0] = Utils.getApplication().getResources().getDrawable(Integer.parseInt(source));
-//                            d[0].setBounds(0, 0, d[0].getIntrinsicWidth(), d[0].getIntrinsicHeight());
-//                            return d[0];
-//                        } catch (Exception e) {
-//                            KLog.i(e.toString());
-//                            return null;
-//                        }
-//
-//                    }
-//                    return d[0];
-//                }
-//            };
-//            String source = FaceConversionUtil.dealExpression(image);
-//            textView.setText(Html.fromHtml(source, imgGetter, null));
-//            content="[http://hao.qudao.com/upload/article/20160120/82935299371453253610.jpg]";
-            /*KLog.i(image + "内容");*/
             if (!TextUtils.isEmpty(image) &&
                     (image.endsWith(".jpg") || image.endsWith(".png"))) {
                 image = String.format("[%s]", image);
             }
             HtmlFromUtils.setImageFromNetWork(textView.getContext(), textView, image, false);
         } else if (!TextUtils.isEmpty(content)) {
-            textView.setText(Html.fromHtml(content));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                textView.setText(Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                textView.setText(Html.fromHtml(content));
+            }
         }
     }
     /*封装*/

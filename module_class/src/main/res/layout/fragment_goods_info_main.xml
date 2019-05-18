@@ -52,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:focusableInTouchMode="false">
+            android:focusableInTouchMode="false"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,13 +66,24 @@
                     android:layout_height="wrap_content" />
 
                 <!--商品图片 轮播-->
-                <com.bigkoo.convenientbanner.ConvenientBanner
-                    android:id="@+id/vp_item_goods_img"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:minHeight="260dp"
-                    leon:canLoop="true" />
+                    android:layout_height="wrap_content">
+
+                    <com.bigkoo.convenientbanner.ConvenientBanner
+                        android:id="@+id/vp_item_goods_img"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/white"
+                        bind:layout_constraintBottom_toBottomOf="parent"
+                        bind:layout_constraintDimensionRatio="1:1"
+                        bind:layout_constraintEnd_toEndOf="parent"
+                        bind:layout_constraintStart_toStartOf="parent"
+                        bind:layout_constraintTop_toTopOf="parent"
+                        leon:canLoop="true" />
+
+                </android.support.constraint.ConstraintLayout>
+
 
                 <View style="@style/HorizontalLine" />
 
@@ -360,6 +372,11 @@
                     android:visibility="gone"
                     tools:text="说明：质保3年" />
 
+                <!--评论-->
+                <!--<include-->
+                <!--layout="@layout/market_fragment_goods_comment"-->
+                <!--android:visibility="gone" />-->
+
                 <!--评论start-->
                 <com.leon.lib.settingview.LSettingItem
                     android:id="@+id/lsi_comment"
@@ -435,6 +452,11 @@
                         android:visibility="gone"
                         leon:canLoop="true" />
 
+                    <!--<include-->
+                    <!--android:id="@+id/recycle_recommend_view"-->
+                    <!--layout="@layout/recyclerview_base"-->
+                    <!--android:visibility="gone" />-->
+
                     <include
                         itemdecoration="@{true}"
                         layout="@layout/trecyclerview_base"
@@ -443,6 +465,7 @@
                         bind:layout="@{layout}"
                         bind:tag='@{"4"}' />
                 </LinearLayout>
+
 
                 <!-- 上拉查看图文详情 -->
                 <LinearLayout
@@ -471,9 +494,25 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/fl_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_empty"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/white" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_drawer_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true" />
+
+        </LinearLayout>
+
     </com.goldze.common.dmvvm.widget.SlideLayout>
 </layout>

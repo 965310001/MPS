@@ -171,7 +171,6 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     private void initHeadView() {
         //初始化适配器和头部
         meItemAdapter = new MeItemAdapter();
-        meItemAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         headView = LayoutInflater.from(activity).inflate(R.layout.view_me_user_head, binding.recyclerView, false);
         //设置控件上部增加一个状态栏的高度
         StatusBarUtils.setPaddingSmart(activity, headView.findViewById(R.id.top_btn_content));

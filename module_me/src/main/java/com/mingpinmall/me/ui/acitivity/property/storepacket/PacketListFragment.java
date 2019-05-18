@@ -46,7 +46,6 @@ public class PacketListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
     public void initView(Bundle state) {
         super.initView(state);
         listAdapter = new PacketListAdapter();
-        listAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_mcc_09_w);

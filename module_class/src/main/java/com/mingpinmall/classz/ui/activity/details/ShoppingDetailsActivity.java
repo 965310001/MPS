@@ -8,6 +8,7 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.bean.HorizontalTabTitle;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
@@ -103,6 +104,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                                 horizontalTabTitle = new HorizontalTabTitle(s);
                                 title.add(horizontalTabTitle);
                             }
+                            String url = BuildConfig.APP_URL + "/mo_bile/index.php?app=goods&wwi=goods_body&goods_id=" + getId();
                             List<BaseFragment> fragmentList = new ArrayList<>();
                             fragmentList.add(mGoodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
                             fragmentList.add(mGoodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
@@ -110,7 +112,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
                             binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
                             binding.vpContent.setOffscreenPageLimit(3);
-                            binding.pstsTabs.setViewPager(binding.vpContent);
+                            binding.tabs.setViewPager(binding.vpContent);
                         } else {
                             if (mGoodsInfoMainFragment.isVisible()) {
                                 mGoodsInfoMainFragment.update();
@@ -151,12 +153,12 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 //                            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
 //                            ToastUtils.showLong(response.getError());
 //                        } else {
-//                            ShoppingCartUtils.addCartGoods(mGoodsInfo);
+//                            ShoppingCartUtils.addCartGoods(goodsInfo);
 //                            setCartNumber();
 //                            ToastUtils.showLong("添加购物车成功");
 //                        }*/
 //                        if (response.isSuccess()) {
-//                            ShoppingCartUtils.addCartGoods(mGoodsInfo);
+//                            ShoppingCartUtils.addCartGoods(goodsInfo);
 //                            setCartNumber();
 //                            ToastUtils.showLong("添加购物车成功");
 //                        } else {

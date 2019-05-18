@@ -1,4 +1,4 @@
-package com.mingpinmall.home.ui.activity.qrcode;
+package com.goldze.common.dmvvm.activity.qrcode;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -8,16 +8,16 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.databinding.ActivityQrcodeBinding;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.CaptureManager;
-import com.mingpinmall.home.R;
-import com.mingpinmall.home.databinding.ActivityQrcodeBinding;
 
 import java.util.List;
 

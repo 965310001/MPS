@@ -74,11 +74,12 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
         LinearLayout llList = helper.getView(R.id.ll_gifts);
         llList.removeAllViews();
         if (item.getZengpin_list() != null) {
+            helper.setVisible(R.id.line2, item.getZengpin_list().size() > 0);
             for (int i = 0; i < item.getZengpin_list().size(); i++) {
                 PhysicalOrderBean.ZengpinListBean giftListBean = item.getZengpin_list().get(i);
                 View view = View.inflate(context, R.layout.item_tips_textview_14sp, null);
                 TextView textView = view.findViewById(R.id.tv_label);
-                textView.setText(giftListBean.getGoods_name() + "    x" + giftListBean.getGoods_num());
+                textView.setText(String.format("%s    x%s", giftListBean.getGoods_name(), giftListBean.getGoods_num()));
                 llList.addView(view);
                 if (i < item.getZengpin_list().size() - 1) {
                     View line = new View(context);

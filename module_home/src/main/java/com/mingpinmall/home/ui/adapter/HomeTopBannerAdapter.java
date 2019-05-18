@@ -19,6 +19,6 @@ public class HomeTopBannerAdapter extends BaseBannerAdapter<String, ViewHomeItem
 
     @Override
     protected void convert(ViewHomeItemTopbannerBinding binding, String item, int position) {
-        ImageUtils.loadImageNoPlaceholder(binding.iv0, item, 640, 300);
+        ImageUtils.loadImage(binding.iv0, item, 640, 300);
     }
 }

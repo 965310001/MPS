@@ -163,9 +163,11 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/line_hight"
                     android:background="@color/line_color"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="@id/ll_gifts"
                     app:layout_constraintStart_toStartOf="@id/ll_gifts"
-                    app:layout_constraintTop_toTopOf="@id/ll_orderInfo" />
+                    app:layout_constraintTop_toTopOf="@id/ll_orderInfo"
+                    tools:visibility="visible" />
 
                 <View
                     android:id="@+id/line3"

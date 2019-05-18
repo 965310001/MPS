@@ -54,7 +54,6 @@ public class ShopsCollectionFragment extends AbsLifecycleFragment<FragmentDefaul
     public void initView(Bundle state) {
         super.initView(state);
         collectionAdapter = new ShopsCollectionAdapter();
-        collectionAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         View emptyView = View.inflate(activity, R.layout.layout_state_view, null);
         ((AppCompatImageView) emptyView.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_me_store);
