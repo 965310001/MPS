@@ -25,6 +25,7 @@ import java.util.Properties;
 /**
  * 功能描述：状态栏透明
  * *@author 小斌
+ *
  * @date 2019/4/8
  **/
 public class StatusBarUtils {
@@ -245,6 +246,7 @@ public class StatusBarUtils {
 
     /**
      * 计算对应透明度的颜色值
+     *
      * @param color
      * @param alpha
      * @return
@@ -294,6 +296,7 @@ public class StatusBarUtils {
 
     /**
      * 判断是否MIUI V6及以上
+     *
      * @return
      */
     private static boolean isMiUIV6OrAbove() {
@@ -316,6 +319,7 @@ public class StatusBarUtils {
 
     /**
      * 判断是否MIUI V6及以上
+     *
      * @return
      */
     static boolean isMiUIV7OrAbove() {
@@ -561,6 +565,7 @@ public class StatusBarUtils {
                 }
             }
         } catch (Exception e) {
+            Log.i("TAG", e.toString());
         }
         return false;
     }

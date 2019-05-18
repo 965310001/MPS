@@ -68,17 +68,13 @@ android {
             signingConfig signingConfigs.release
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
         }
         debug {
             signingConfig signingConfigs.release
-//            signingConfig signingConfigs.release
-
 
             aaptOptions {
                 cruncherEnabled = false
             }
-//            buildConfigField "String", "APP_URL", "\"http://39.108.254.185/mobile/index.php\""
         }
 
     }
@@ -91,17 +87,9 @@ android {
     }
 
 }
-//configurations.all {
-//    resolutionStrategy.force 'com.android.support:support-annotations:27.1.1'
-//}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //    implementation 'com.android.support:appcompat-v7:28.0.0'
-    //    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    //    testImplementation 'junit:junit:4.12'
-    //    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-//    implementation project(':common_base')
 
     implementation project(':common_base_databing')
     implementation project(':module_pay')

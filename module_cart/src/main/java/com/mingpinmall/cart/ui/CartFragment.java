@@ -258,7 +258,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             checkedSize = isCheck ? checkedSize + 1 : checkedSize - 1;
             for (int i = 0; i < shopCartAdapter.getData().size(); i++) {
                 AvailableCartBean itemBean = shopCartAdapter.getData().get(i);
-                if (itemBean.getStore_id() == storeId && itemBean.getItemType() == 0) {
+                if (itemBean.getStore_id().equals(storeId) && itemBean.getItemType() == 0) {
                     itemBean.changeCheckedCount(isCheck);
                     shopCartAdapter.notifyItemChanged(i);
                     break;

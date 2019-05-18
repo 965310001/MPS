@@ -21,16 +21,19 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_40"
                 android:text="商品详情"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.5" />
 
             <TextView
                 android:id="@+id/tv_goods_config"
+
                 style="@style/TextStyle"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_40"
                 android:text="商品规格"
+                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.5" />
@@ -40,6 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:background="@color/red"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_goods_detail"
                 app:layout_constraintWidth_percent="0.5" />

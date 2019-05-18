@@ -1,7 +1,6 @@
 package com.mingpinmall.classz.adapter;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 
 import com.mingpinmall.classz.BR;
 import com.mingpinmall.classz.DataBindItemViewHolderManager;
@@ -18,7 +17,6 @@ import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
-import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.footview.FootViewHolder;
 import com.trecyclerview.headview.HeaderViewHolder;
@@ -27,7 +25,6 @@ import com.trecyclerview.pojo.HeaderVo;
 import com.trecyclerview.progressindicator.ProgressStyle;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -68,7 +65,7 @@ public class AdapterPool {
     /*分类列表里面的list*/
     public DelegateAdapter.Builder getProductsAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(String.class, new DataBindItemViewHolderManager(context, R.layout.item_image, BR.data))
+                        .bind(String.class, new DataBindItemViewHolderManager(context, R.layout.item_image_products, BR.data))
                         .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_products, BR.data)),
                 context, ProgressStyle.Pacman);
     }

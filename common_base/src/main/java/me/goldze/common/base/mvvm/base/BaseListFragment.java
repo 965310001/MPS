@@ -183,10 +183,12 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     /*是否到顶部*/
     protected boolean isSlideToBottom(RecyclerView recyclerView) {
         if (recyclerView == null) return false;
-        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
-                >= recyclerView.computeVerticalScrollRange())
-            return true;
-        return false;
+//        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
+//                >= recyclerView.computeVerticalScrollRange())
+//            return true;
+//        return false;
+        return recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
+                >= recyclerView.computeVerticalScrollRange();
     }
 
     protected boolean isItemDecoration() {

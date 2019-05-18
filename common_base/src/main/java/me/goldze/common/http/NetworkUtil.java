@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -60,7 +61,7 @@ public final class NetworkUtil {
                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress()) {
-                        ret = inetAddress.getHostAddress().toString();
+                        ret = inetAddress.getHostAddress();
                     }
                 }
             }
@@ -115,6 +116,7 @@ public final class NetworkUtil {
             httpUrl.connect();
             result = true;
         } catch (IOException e) {
+            Log.i("TAG", e.toString());
         } finally {
             if (null != httpUrl) {
                 httpUrl.disconnect();

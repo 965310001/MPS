@@ -84,7 +84,26 @@ public class MaterialDialogUtils {
      * @return MaterialDialog.Builder
      */
     public static MaterialDialog.Builder showIndeterminateProgressDialog(Context context, String content, boolean horizontal) {
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//        MaterialDialog.Builder  builder = new MaterialDialog.Builder(context)
+//                .title(content)
+//                .progress(true, 0)
+//                .progressIndeterminateStyle(horizontal)
+//                .canceledOnTouchOutside(false)
+//                .backgroundColorRes(R.color.white)
+//                .keyListener(new DialogInterface.OnKeyListener() {
+//                    @Override
+//                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+//                        if (event.getAction() == KeyEvent.ACTION_DOWN) {//如果是按下，则响应，否则，一次按下会响应两次
+//                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+//                                //activity.onBackPressed();
+//
+//                            }
+//                        }
+//                        return false;//false允许按返回键取消对话框，true除了调用取消，其他情况下不会取消
+//                    }
+//                });
+//        return builder;
+        return new MaterialDialog.Builder(context)
                 .title(content)
                 .progress(true, 0)
                 .progressIndeterminateStyle(horizontal)
@@ -102,7 +121,6 @@ public class MaterialDialogUtils {
                         return false;//false允许按返回键取消对话框，true除了调用取消，其他情况下不会取消
                     }
                 });
-        return builder;
     }
 
 
@@ -115,7 +133,24 @@ public class MaterialDialogUtils {
     public static MaterialDialog.Builder showBasicDialog(final Context context, String
             content) {
 
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//                .title(content)
+//                .positiveText("确定")
+//                .negativeText("取消");
+//                .btnStackedGravity(GravityEnum.END)         //按钮排列位置
+//                .stackingBehavior(StackingBehavior.ALWAYS)  //按钮排列方式
+//                .iconRes(R.mipmap.ic_launcher)
+//                .limitIconToDefaultSize() // limits the displayed icon size to 48dp
+//                .onAny(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction
+//                            which) {
+//                    }
+//                })
+//                .checkBoxPromptRes(R.string.app_name, false, null)
+//        return builder;
+
+        return new MaterialDialog.Builder(context)
                 .title(content)
                 .positiveText("确定")
                 .negativeText("取消");
@@ -129,10 +164,7 @@ public class MaterialDialogUtils {
 //                            which) {
 //                    }
 //                })
-//                .checkBoxPromptRes(R.string.app_name, false, null)
-
-
-        return builder;
+//                .checkBoxPromptRes(R.string.app_name, false, null);
     }
 
     /***
@@ -143,12 +175,16 @@ public class MaterialDialogUtils {
      */
     public static MaterialDialog.Builder showBasicDialogNoTitle(final Context context, String content) {
 
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//                .content(content)
+//                .positiveText("确定")
+//                .negativeText("取消");
+//
+//        return builder;
+        return new MaterialDialog.Builder(context)
                 .content(content)
                 .positiveText("确定")
                 .negativeText("取消");
-
-        return builder;
     }
 
 
@@ -162,12 +198,16 @@ public class MaterialDialogUtils {
     public static MaterialDialog.Builder showBasicDialogNoCancel(final Context context, String
             title, String content) {
 
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//                .title(title)
+//                .content(content)
+//                .positiveText("确定");
+//
+//        return builder;
+        return new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
                 .positiveText("确定");
-
-        return builder;
     }
 
     /***
@@ -179,13 +219,19 @@ public class MaterialDialogUtils {
     public static MaterialDialog.Builder showBasicDialog(final Context context, String
             title, String content) {
 
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//                .title(title)
+//                .content(content)
+//                .positiveText("确定")
+//                .negativeText("取消");
+
+//        return builder;
+
+        return new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
                 .positiveText("确定")
                 .negativeText("取消");
-
-        return builder;
     }
 
     /***

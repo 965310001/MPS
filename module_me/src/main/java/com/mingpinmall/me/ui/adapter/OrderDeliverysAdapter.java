@@ -13,7 +13,7 @@ import java.util.ArrayList;
  **/
 public class OrderDeliverysAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     public OrderDeliverysAdapter() {
-        super(R.layout.item_orderdelivery, new ArrayList<String>());
+        super(R.layout.item_orderdelivery, new ArrayList<>());
     }
 
     @Override

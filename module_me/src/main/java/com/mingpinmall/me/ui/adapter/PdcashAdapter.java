@@ -14,7 +14,7 @@ import java.util.ArrayList;
  **/
 public class PdcashAdapter extends BaseQuickAdapter<PdcashBean.ListBean, BaseViewHolder> {
     public PdcashAdapter() {
-        super(R.layout.item_pdcash, new ArrayList<PdcashBean.ListBean>());
+        super(R.layout.item_pdcash, new ArrayList<>());
     }
 
     @Override

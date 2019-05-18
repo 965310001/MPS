@@ -102,27 +102,24 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     protected void dataObserver() {
         super.dataObserver();
         registerObserver(Constants.EVENT_KEY_CLASSIFY_MORE[0], BaseResponse.class)
-                .observeForever(new Observer<BaseResponse>() {
-                    @Override
-                    public void onChanged(@Nullable BaseResponse response) {
-                        BaseResponse<ClassificationBean> baseResponse = response;
-                        if (baseResponse.isSuccess()) {
-                            try {
-                                List<ClassificationBean.ClassListBean> class_list = baseResponse.getData().getClass_list();
-                                data = new ClassificationBean.ClassListBean("-1",
-                                        "品牌推荐", BuildConfig.APP_URL + "/wap/images/degault.png", true);
-                                class_list.add(0, data);
-                                binding.setData(class_list);
-                                mViewModel.getRightByBrand();
-                            } catch (Exception e) {
-                                KLog.i(e.toString());
-                                ToastUtils.showLong("服务器出现问题，请稍后再试");
-                            }
-                        } else {
-                            ToastUtils.showLong(baseResponse.getMessage());
+                .observeForever(response -> {
+                    BaseResponse<ClassificationBean> baseResponse = response;
+                    if (baseResponse.isSuccess()) {
+                        try {
+                            List<ClassificationBean.ClassListBean> class_list = baseResponse.getData().getClass_list();
+                            data = new ClassificationBean.ClassListBean("-1",
+                                    "品牌推荐", BuildConfig.APP_URL + "/wap/images/degault.png", true);
+                            class_list.add(0, data);
+                            binding.setData(class_list);
+                            mViewModel.getRightByBrand();
+                        } catch (Exception e) {
+                            KLog.i(e.toString());
+                            ToastUtils.showLong("服务器出现问题，请稍后再试");
                         }
-
+                    } else {
+                        ToastUtils.showLong(baseResponse.getMessage());
                     }
+
                 });
 
         registerObserver(Constants.EVENT_KEY_CLASSIFY_MORE[2], Object.class)

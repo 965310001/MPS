@@ -211,7 +211,7 @@ public class FragmentUserVisibleController {
     public void addOnUserVisibleListener(OnUserVisibleListener listener) {
         if (listener != null) {
             if (userVisibleListenerList == null) {
-                userVisibleListenerList = new LinkedList<OnUserVisibleListener>();
+                userVisibleListenerList = new LinkedList<>();
             }
             userVisibleListenerList.add(listener);
         }

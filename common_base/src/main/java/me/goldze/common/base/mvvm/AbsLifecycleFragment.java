@@ -126,19 +126,16 @@ public abstract class AbsLifecycleFragment<T extends AbsViewModel> extends BaseF
     }
 
 
-    protected Observer observer = new Observer<String>() {
-        @Override
-        public void onChanged(@Nullable String state) {
-            if (!TextUtils.isEmpty(state)) {
-                if (StateConstants.ERROR_STATE.equals(state)) {
-                    showError(ErrorState.class, "2");
-                } else if (StateConstants.NET_WORK_STATE.equals(state)) {
-                    showError(ErrorState.class, "1");
-                } else if (StateConstants.LOADING_STATE.equals(state)) {
-                    showLoading();
-                } else if (StateConstants.SUCCESS_STATE.equals(state)) {
-                    showSuccess();
-                }
+    protected Observer observer = (Observer<String>) state -> {
+        if (!TextUtils.isEmpty(state)) {
+            if (StateConstants.ERROR_STATE.equals(state)) {
+                showError(ErrorState.class, "2");
+            } else if (StateConstants.NET_WORK_STATE.equals(state)) {
+                showError(ErrorState.class, "1");
+            } else if (StateConstants.LOADING_STATE.equals(state)) {
+                showLoading();
+            } else if (StateConstants.SUCCESS_STATE.equals(state)) {
+                showSuccess();
             }
         }
     };

@@ -1,8 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.setting;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,25 +11,21 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
-import com.google.gson.Gson;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.databinding.ActivityResetPasswordBinding;
 import com.mingpinmall.me.databinding.ActivityResetPhoneBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
-import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.bean.SmsBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.xuexiang.xui.utils.CountDownButtonHelper;
 
-import org.w3c.dom.Text;
 
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：重设手机
+ *
  * @author 小斌
  * @date 2019/4/2
  **/

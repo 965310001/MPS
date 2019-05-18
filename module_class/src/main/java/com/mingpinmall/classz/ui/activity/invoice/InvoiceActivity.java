@@ -107,84 +107,71 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
     protected void dataObserver() {
         super.dataObserver();
         registerObserver(Constants.INVOICECONTENT_KEY[0], BaseResponse.class)
-                .observeForever(new Observer<BaseResponse>() {
-                    @Override
-                    public void onChanged(@Nullable BaseResponse response) {
-                        if (response.isSuccess()) {
-                            BaseResponse<InvoiceListInfo> data = response;
-                            KLog.i(data.getData());
-                            try {
-                                binding.spinnerSystem.setSelection(0);
-                                WidgetUtils.initSpinnerStyle(binding.spinnerSystem, data.getData().getInvoice_content_list().toArray(
-                                        new String[data.getData().getInvoice_content_list().size()]));
-                            } catch (Exception e) {
-
-                            }
-                        } else {
+                .observeForever(response -> {
+                    if (response.isSuccess()) {
+                        BaseResponse<InvoiceListInfo> data = response;
+                        KLog.i(data.getData());
+                        try {
+                            binding.spinnerSystem.setSelection(0);
+                            WidgetUtils.initSpinnerStyle(binding.spinnerSystem, data.getData().getInvoice_content_list().toArray(
+                                    new String[data.getData().getInvoice_content_list().size()]));
+                        } catch (Exception e) {
+                            KLog.i(e.toString());
                         }
                     }
                 });
         /*获取发票列表*/
         registerObserver(Constants.INVOICECONTENT_KEY[3], BaseResponse.class)
-                .observeForever(new Observer<BaseResponse>() {
-                    @Override
-                    public void onChanged(@Nullable BaseResponse response) {
-                        if (response.isSuccess()) {
-                            BaseResponse<InvoiceListInfo> data = response;
-                            KLog.i(data.getData());
-                            try {
-                                invoiceList = data.getData().getInvoice_list();
-                                adapter = AdapterPool.newInstance()
-                                        .getInvoiceList(activity)
-                                        .setOnItemClickListener(InvoiceActivity.this).build();
-                                binding.setAdapter(adapter);
-                                binding.setList(invoiceList);
-                            } catch (Exception e) {
-                                KLog.i(e.toString());
-                            }
-                        } else {
-                            ToastUtils.showLong(response.getMessage());
+                .observeForever(response -> {
+                    if (response.isSuccess()) {
+                        BaseResponse<InvoiceListInfo> data = response;
+                        KLog.i(data.getData());
+                        try {
+                            invoiceList = data.getData().getInvoice_list();
+                            adapter = AdapterPool.newInstance()
+                                    .getInvoiceList(activity)
+                                    .setOnItemClickListener(InvoiceActivity.this).build();
+                            binding.setAdapter(adapter);
+                            binding.setList(invoiceList);
+                        } catch (Exception e) {
+                            KLog.i(e.toString());
                         }
+                    } else {
+                        ToastUtils.showLong(response.getMessage());
                     }
                 });
         /*添加发票内容*/
         registerObserver(Constants.INVOICECONTENT_KEY[2], BaseResponse.class)
-                .observeForever(new Observer<BaseResponse>() {
-                    @Override
-                    public void onChanged(@Nullable BaseResponse response) {
-                        BaseResponse<InvoiceListInfo> data = response;
-                        if (data.isSuccess()) {
-                            ToastUtils.showLong("添加成功");
-                            KLog.i(data.getData().getInv_id());
-                            mViewModel.getInvoiceList(Constants.INVOICECONTENT_KEY[3]);
-                        } else {
-                            ToastUtils.showLong(data.getMessage());
-                        }
+                .observeForever(response -> {
+                    BaseResponse<InvoiceListInfo> data = response;
+                    if (data.isSuccess()) {
+                        ToastUtils.showLong("添加成功");
+                        KLog.i(data.getData().getInv_id());
+                        mViewModel.getInvoiceList(Constants.INVOICECONTENT_KEY[3]);
+                    } else {
+                        ToastUtils.showLong(data.getMessage());
                     }
                 });
         /*删除发票列表*/
         registerObserver(Constants.INVOICECONTENT_KEY[4], ResultBean.class)
-                .observeForever(new Observer<ResultBean>() {
-                    @Override
-                    public void onChanged(@Nullable ResultBean response) {
-                        if (response.isSuccess()) {
-                            if (!TextUtils.isEmpty(tag)) {
-                                if (null != invoiceList && invoiceList.size() > 0) {
-                                    String invIdX;
-                                    for (InvoiceListInfo.InvoiceListBean data : invoiceList) {
-                                        invIdX = data.getInv_idX();
-                                        if (tag.equals(invIdX)) {
-                                            if (invoiceList.remove(data)) {
-                                                binding.setList(invoiceList);
-                                            }
-                                            break;
+                .observeForever(response -> {
+                    if (response.isSuccess()) {
+                        if (!TextUtils.isEmpty(tag)) {
+                            if (null != invoiceList && invoiceList.size() > 0) {
+                                String invIdX;
+                                for (InvoiceListInfo.InvoiceListBean data : invoiceList) {
+                                    invIdX = data.getInv_idX();
+                                    if (tag.equals(invIdX)) {
+                                        if (invoiceList.remove(data)) {
+                                            binding.setList(invoiceList);
                                         }
+                                        break;
                                     }
                                 }
                             }
-                        } else {
-                            ToastUtils.showLong(response.getError());
                         }
+                    } else {
+                        ToastUtils.showLong(response.getError());
                     }
                 });
     }

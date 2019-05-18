@@ -43,7 +43,7 @@
             android:exported="true" />
 
 
-        <activity
+       <!-- <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:exported="false"
             android:screenOrientation="behind"
@@ -53,7 +53,7 @@
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />-->
 
 
     </application>

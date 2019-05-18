@@ -38,7 +38,7 @@ public abstract class AbsLifecycleActivity<VD extends ViewDataBinding, T extends
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        mViewModel = VMProviders(this, (Class<T>) TUtil.getInstance(this, 1));
+        mViewModel = VMProviders(this, TUtil.getInstance(this, 1));
 //        dataObserver();
         if (null != mViewModel) {
             dataObserver();

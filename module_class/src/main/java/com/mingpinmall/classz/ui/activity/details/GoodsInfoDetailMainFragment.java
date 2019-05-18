@@ -43,8 +43,9 @@ public class GoodsInfoDetailMainFragment extends AbsLifecycleFragment<FragmentGo
     }
 
     public static GoodsInfoDetailMainFragment newInstance() {
-        GoodsInfoDetailMainFragment fragment = new GoodsInfoDetailMainFragment();
-        return fragment;
+//        GoodsInfoDetailMainFragment fragment = new GoodsInfoDetailMainFragment();
+//        return fragment;
+        return new GoodsInfoDetailMainFragment();
     }
 
     @Override

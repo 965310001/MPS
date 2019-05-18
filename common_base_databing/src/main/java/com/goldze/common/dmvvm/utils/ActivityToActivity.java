@@ -189,7 +189,7 @@ public final class ActivityToActivity {
         toActivity(url, null);
     }
 
-    public static void toActivityForResult(){}
+//    public static void toActivityForResult(){}
 
     /********************************************返回数据的activity**************************************/
     public static void toActivityForResult(Activity activity, Class<? extends Activity> clazz,

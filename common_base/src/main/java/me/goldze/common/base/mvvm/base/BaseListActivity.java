@@ -23,7 +23,6 @@ import com.trecyclerview.listener.OnScrollStateListener;
 import java.util.Collection;
 import java.util.List;
 
-import butterknife.OnClick;
 import me.goldze.common.R;
 import me.goldze.common.base.core.banner.BannerList;
 import me.goldze.common.utils.Utils;

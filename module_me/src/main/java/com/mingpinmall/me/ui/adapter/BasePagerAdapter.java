@@ -1,7 +1,6 @@
 package com.mingpinmall.me.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

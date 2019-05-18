@@ -2,8 +2,6 @@ package com.goldze.common.dmvvm.base.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  * @author GuoFeng
  * @date :2019/1/15 20:53

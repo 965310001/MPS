@@ -3,51 +3,26 @@ package com.mingpinmall.classz.widget;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.goldze.common.dmvvm.base.event.LiveBus;
-import com.goldze.common.dmvvm.utils.AssetsUtils;
-import com.goldze.common.dmvvm.utils.ColorUtil;
-import com.goldze.common.dmvvm.utils.DisplayUtil;
-import com.goldze.common.dmvvm.utils.Utils;
-import com.google.gson.Gson;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.CustomDefaultFlowTagAdapter;
 import com.mingpinmall.classz.databinding.FragmentScreeningBinding;
-import com.mingpinmall.classz.ui.constants.Constants;
-import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.utils.AssetsData;
-import com.socks.library.KLog;
-import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author GuoFeng

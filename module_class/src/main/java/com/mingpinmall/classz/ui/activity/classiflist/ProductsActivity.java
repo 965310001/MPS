@@ -1,9 +1,7 @@
 package com.mingpinmall.classz.ui.activity.classiflist;
 
-import android.arch.lifecycle.Observer;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,11 +31,9 @@ import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
-import com.trecyclerview.adapter.ItemData;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * 商品分类list
@@ -54,20 +50,19 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     @Autowired
     String keyword;
 
-    View curressView;
-
+    private View currentView;
     /*店铺服务*/
-    String ci = "", st = "";
-
+    private String ci = "", st = "";
     private String areaId = "", priceFrom = "", priceTo = "";//地区 价格区间最低范围 价格区间最高范围
-
     private String key, order;/*排序条件*/
-
     private FilterTab filterTab0;
-
     private PopupWindow screeningPopWindow, customPopWindow;
+    private ImageView imageView;
+    private String picPath = "";
+    private GridLayoutManager gridLayoutManager;
+    private DelegateAdapter gridAdapter;
+    private boolean isGrid;
 
-    ImageView imageView;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -93,7 +88,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         imageView = itemTabsegmentBinding.filterTab4;
         imageView.setOnClickListener(this);
         filterTab0.setFilterTabSelected(true);
-        curressView = filterTab0;
+        currentView = filterTab0;
 
         for (FilterTab tab :
                 Arrays.asList(itemTabsegmentBinding.filterTab0,
@@ -104,7 +99,6 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         }
     }
 
-    private String picPath = "";
 
     @Override
     protected void onRefreshSuccess(Collection<?> collection) {
@@ -129,24 +123,21 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         super.dataObserver();
 
         registerObserver(Constants.PRODUCTS_EVENT_KEY[0], String.valueOf(type), GoodsListInfo.class)
-                .observe(this, new Observer<GoodsListInfo>() {
-                    @Override
-                    public void onChanged(@Nullable GoodsListInfo response) {
-                        picPath = response.getDatas().getBrand_bgpic();
-                        setData(response.getDatas().getGoods_list());
-                    }
+                .observe(this, response -> {
+                    picPath = response.getDatas().getBrand_bgpic();
+                    setData(response.getDatas().getGoods_list());
                 });
 
         /*筛选*/
         registerObserver(Constants.CUSTOMPOPWINDOW_KEY[1], ScreenInfo.class)
-                .observe(this, reponse -> {
-                    areaId = reponse.areaId;
-                    priceFrom = reponse.priceFrom;
-                    priceTo = reponse.priceTo;
-                    for (String s : reponse.shoppingServer) {
+                .observe(this, response -> {
+                    areaId = response.areaId;
+                    priceFrom = response.priceFrom;
+                    priceTo = response.priceTo;
+                    for (String s : response.shoppingServer) {
                         ci = ci.concat(s).concat("_");
                     }
-                    for (String s : reponse.goodsType) {
+                    for (String s : response.goodsType) {
                         st = st.concat(s).concat("_");
                     }
 //                        keyword = "";
@@ -176,9 +167,9 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     public void onClick(View v) {
         int i = v.getId();
         if (v instanceof FilterTab) {
-            if (v != curressView) {
+            if (v != currentView) {
                 ((FilterTab) v).setFilterTabSelected(!v.isSelected());
-                curressView = v;
+                currentView = v;
             }
             if (i == R.id.filter_tab0) {
                 if (null == customPopWindow) {
@@ -237,10 +228,6 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
             adapter.notifyDataSetChanged();
         }
     }
-
-    GridLayoutManager gridLayoutManager;
-    DelegateAdapter gridAdapter;
-    boolean isGrid;
 
     @Override
     public void onClick(PopupWindow dialog, View itemView, int position, String content) {

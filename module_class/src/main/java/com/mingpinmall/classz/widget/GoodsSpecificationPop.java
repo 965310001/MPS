@@ -33,7 +33,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
     private static GoodsSpecificationPop INSTANCE;
     private GoodsInfo mGoodsInfo;
     private MarketPopGoodsSpecificationBinding bind;
-    private final int[] ints = new int[3];
+    private final int[] ints = {-1, -1, -1};
     private StringBuilder stringBuilder;
 
     private GoodsSpecificationPop(Context context) {
@@ -45,7 +45,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         return INSTANCE;
     }
 
-    public GoodsSpecificationPop setmGoodsInfo(GoodsInfo mGoodsInfo) {
+    public GoodsSpecificationPop setGoodsInfo(GoodsInfo mGoodsInfo) {
         this.mGoodsInfo = mGoodsInfo;
         return this;
     }
@@ -108,14 +108,25 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                 ints[finalIndex] = mGoodsInfo.news_spec_data.get(finalIndex).getSpec_value().get(position).getSpe_id();
                 stringBuilder = new StringBuilder();
                 for (int anInt : ints) {
-                    stringBuilder.append(anInt).append("|");
+                    if (anInt != -1) stringBuilder.append(anInt).append("|");
                 }
+                /*KLog.i(stringBuilder.toString().substring(0, stringBuilder.length() - 1));*/
+                String str = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
+                for (GoodsInfo.NewsSpecListDataBean listDatum : mGoodsInfo.news_spec_list_data) {
+                    /*KLog.i(listDatum.getKey() + "=" + str);*/
+                    if (listDatum.getKey().equals(str)) {
+
+                    }
+                }
+
                 Observable.fromIterable(mGoodsInfo.news_spec_list_data)
-                        .filter(newsSpecListDataBean -> stringBuilder.toString().contains(newsSpecListDataBean.getKey())).subscribe(newsSpecListDataBean -> {
-                    KLog.i(newsSpecListDataBean.getVal());
-                    LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
-                            newsSpecListDataBean.getVal());
-                });
+                        .filter(newsSpecListDataBean -> stringBuilder.toString().contains(newsSpecListDataBean.getKey()))
+                        .subscribe(newsSpecListDataBean -> {
+                            KLog.i(newsSpecListDataBean.getVal());
+                            LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
+                                    newsSpecListDataBean.getVal());
+                            KLog.i(newsSpecListDataBean.getVal());
+                        });
 
             });
         }

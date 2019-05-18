@@ -328,7 +328,7 @@ public class ClassifyRepository extends BaseRepository {
         Map<String, Object> map = parames("member_invoice", "invoice_content_list");
         map.put("key", getUserKey());
         addDisposable(apiService.getInvoiceContentList(map)
-                .compose(RxSchedulers.<BaseResponse<InvoiceListInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<InvoiceListInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<InvoiceListInfo> result) {
@@ -382,7 +382,7 @@ public class ClassifyRepository extends BaseRepository {
                 "invoice_add");
         map.put("key", getUserKey());
         addDisposable(apiService.getInvoiceContentList(map)
-                .compose(RxSchedulers.<BaseResponse<InvoiceListInfo>>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<InvoiceListInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<InvoiceListInfo> result) {
@@ -846,6 +846,7 @@ public class ClassifyRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
+                        sendData(Constants.CHAT[0] + "Error", msg);
                     }
 
                     @Override
@@ -883,6 +884,7 @@ public class ClassifyRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
+                        sendData(Constants.CHAT[0] + "Error", msg);
                     }
 
                     @Override

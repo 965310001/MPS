@@ -206,11 +206,13 @@ public class RefundInformationBean implements Serializable {
         private String rcb_amount;
 
         public boolean isNull() {
-            if (TextUtils.isEmpty(refund_code) && TextUtils.isEmpty(pay_amount) &&
-                    TextUtils.isEmpty(pd_amount) && TextUtils.isEmpty(rcb_amount)) {
-                return true;
-            }
-            return false;
+//            if (TextUtils.isEmpty(refund_code) && TextUtils.isEmpty(pay_amount) &&
+//                    TextUtils.isEmpty(pd_amount) && TextUtils.isEmpty(rcb_amount)) {
+//                return true;
+//            }
+//            return false;
+            return TextUtils.isEmpty(refund_code) && TextUtils.isEmpty(pay_amount) &&
+                    TextUtils.isEmpty(pd_amount) && TextUtils.isEmpty(rcb_amount);
         }
 
         public String getRefund_code() {

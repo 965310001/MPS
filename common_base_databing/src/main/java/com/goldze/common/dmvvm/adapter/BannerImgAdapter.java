@@ -16,7 +16,6 @@ import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.Utils;
-import com.socks.library.KLog;
 
 
 /**

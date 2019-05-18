@@ -17,7 +17,7 @@ import java.util.List;
  **/
 public class PdrechargeAdapter extends BaseQuickAdapter<PdrechargeBean.ListBean, BaseViewHolder> {
     public PdrechargeAdapter() {
-        super(R.layout.item_pdrecharge, new ArrayList<PdrechargeBean.ListBean>());
+        super(R.layout.item_pdrecharge, new ArrayList<>());
     }
 
     @Override

@@ -11,15 +11,12 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.socks.library.KLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 /**
  * SocketIo

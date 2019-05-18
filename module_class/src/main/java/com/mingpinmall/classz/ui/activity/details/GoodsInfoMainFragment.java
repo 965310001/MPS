@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -63,9 +62,9 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     private GoodsDetailInfo goodsDetailInfo;
     private ShoppingDetailsActivity shoppingDetailsActivity;
     private GoodsSpecificationPop specificationPop;
-    private int bannerHight = 0;
+    private int bannerHeight = 0;
 
-    private GoodsDetailInfo.DatasBean datasBean;
+    private GoodsDetailInfo.DatasBean dataBean;
 
     private XBottomSheet xBottomSheet;
 
@@ -108,60 +107,21 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        bannerHight = ScreenUtil.getScreenWidth(activity) / 2;
-        binding.svSwitch.setOnSlideDetailsListener(this);
+        bannerHeight = ScreenUtil.getScreenWidth(activity) / 2;
         setTitlePadding(binding.rlEmpty);
-        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
-        goodsInfo = goodsDetailInfo.getDatas().getGoods_info();
-        KLog.i(goodsInfo + "=====");
-        setGoodsInfo();
-
-        //滑动监听
-        binding.svGoodsInfo.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
-                (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                    Log.d(TAG, "initView: " + scrollY + " , " + bannerHight);
-                    if (!isVisible()) {
-                        return;
-                    }
-                    if (scrollY > bannerHight) {
-                        if (trans) {
-                            ((ShoppingDetailsActivity) activity).setTitleBarState(1);
-                        }
-                        trans = false;
-                    } else {
-                        if (!trans) {
-                            ((ShoppingDetailsActivity) activity).setTitleBarState(2);
-                        }
-                        trans = true;
-                    }
-                });
-
-        binding.lsiGoodsSpecification.setmOnLSettingItemClick(isChecked -> {
-            if (null == specificationPop) {
-                specificationPop = GoodsSpecificationPop.getInstance(getContext());
-            }
-            specificationPop.setGoodsInfo(goodsInfo);
-            specificationPop.show(binding.getRoot());
-            SharePreferenceUtil.saveKeyValue("SPECIFICATIONPOP", "SPECIFICATIONPOP");
-        });
-        binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         setGoodsDetailInfo();
         setListener();
-
-        binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     private void setGoodsDetailInfo() {
-        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getmGoodsDetailInfo();
+        goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
         if (null != goodsDetailInfo) {
-            datasBean = goodsDetailInfo.getDatas();
-            if (null != datasBean) {
-                goodsInfo = datasBean.getGoods_info();
+            dataBean = goodsDetailInfo.getDatas();
+            if (null != dataBean) {
+                goodsInfo = dataBean.getGoods_info();
                 setGoodsInfo();
                 setMansongInfo();
-            } else {
-                KLog.i("网络不好，请稍后再试");
             }
         } else {
             ToastUtils.showLong("服务器异常，请稍后再试");
@@ -175,36 +135,38 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     private void setGoodsInfo() {
         setGoodsHeadImg();
         if (goodsInfo != null) {
+            binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
             binding.ivLike.setBackgroundResource(!goodsInfo.isfavorate() ? R.drawable.ic_me_favorite : R.drawable.ic_me_favorite_red);
-            GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = datasBean.getStore_info();
+            GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = dataBean.getStore_info();
             binding.lsiItem.setLeftText(storeInfo.getStore_name());
             /*描述*/
             showDesc(storeInfo);
-            if (null != datasBean.getGoods_evaluate_info()) {
-                binding.lsiComment.setLeftText(String.format("用户点评(%s)", datasBean.getGoods_evaluate_info().getAll()));
+            if (null != dataBean.getGoods_evaluate_info()) {
+                binding.lsiComment.setLeftText(String.format("用户点评(%s)", dataBean.getGoods_evaluate_info().getAll()));
             }
 
-            commentList(datasBean.getGoods_eval_list());
+            commentList(dataBean.getGoods_eval_list());
 
             /*店铺推荐*/
-            if (null != datasBean && null != datasBean.getGoods_commend_list()) {
-                binding.setList(datasBean.getGoods_commend_list());
+            if (null != dataBean && null != dataBean.getGoods_commend_list()) {
+                binding.setList(dataBean.getGoods_commend_list());
                 binding.setAdapter(AdapterPool.newInstance().getRecommend(getContext()).build());
                 binding.setLayout(new GridLayoutManager(getContext(), 4));
             }
             // TODO: 2019/4/1  全国 有货 免运费
-            KLog.i(datasBean.getGoods_hair_info().content + " " +
-                    datasBean.getGoods_hair_info().if_store_cn +
-                    datasBean.getGoods_hair_info().area_name);
+            KLog.i(dataBean.getGoods_hair_info().content + " " +
+                    dataBean.getGoods_hair_info().if_store_cn +
+                    dataBean.getGoods_hair_info().area_name);
             binding.setData(goodsInfo);
         }
-        binding.setIsVoucher(datasBean.isVoucher());
+        binding.setIsVoucher(dataBean.isVoucher());
 
         List<GoodsInfo.NewsContractlistBean> newsContractlist = goodsInfo.getNews_contractlist();
         if (null != newsContractlist) {
             try {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(String.format("由“%s”销售和发货，并享受售后服务\n", datasBean.getStore_info().getStore_name()));
+                stringBuilder.append(String.format("由“%s”销售和发货，并享受售后服务\n", dataBean.getStore_info().getStore_name()));
 
                 for (GoodsInfo.NewsContractlistBean contractlistBean : newsContractlist) {
 //                    stringBuilder.append(String.format("[%s] <color='#000000'>%s</color> ", contractlistBean.getCti_icon_url(),
@@ -215,7 +177,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                         stringBuilder.toString(), false);
                 binding.llService.setVisibility(View.VISIBLE);
                 KLog.i(stringBuilder.toString());
-                if (null==newsContractlist||newsContractlist.size()==0) {
+                if (null == newsContractlist || newsContractlist.size() == 0) {
                     binding.llService.setVisibility(View.GONE);
                 }
             } catch (Exception e) {
@@ -230,7 +192,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
      * 设置商品头图 轮播
      */
     private void setGoodsHeadImg() {
-        String goods_image = datasBean.getGoods_image();
+        String goods_image = dataBean.getGoods_image();
         if (!TextUtils.isEmpty(goods_image)) {
             List<String> list;
             if (goods_image.contains(",")) {
@@ -244,15 +206,14 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     list,
                     position -> {
                     });
-            binding.vpItemGoodsImg.invalidate();
         }
     }
 
     private void setMansongInfo() {
         /*满级送*/
         try {
-            if (null != datasBean) {
-                GoodsDetailInfo.DatasBean.MansongInfoBean mansongInfo = datasBean.getMansong_info();
+            if (null != dataBean) {
+                GoodsDetailInfo.DatasBean.MansongInfoBean mansongInfo = dataBean.getMansong_info();
                 if (mansongInfo != null && mansongInfo.getRules() != null && mansongInfo.getRules().size() > 0) {
                     TextView textView;
                     for (final GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansongInfo.getRules()) {
@@ -268,16 +229,15 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                         binding.tvPromotion.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    KLog.i("TAGTAG");
                     binding.llManjisong.setVisibility(View.GONE);
                     binding.tvPromotion.setVisibility(View.GONE);
                 }
 
-                List<GoodsDetailInfo.DatasBean.GiftArrayBean> giftArray = datasBean.getGift_array();
+                List<GoodsDetailInfo.DatasBean.GiftArrayBean> giftArray = dataBean.getGift_array();
                 if (giftArray != null && giftArray.size() > 0) {
                     SpannableString spannableString;
                     TextView textView;
-                    for (final GoodsDetailInfo.DatasBean.GiftArrayBean giftArrayBean : datasBean.getGift_array()) {
+                    for (final GoodsDetailInfo.DatasBean.GiftArrayBean giftArrayBean : dataBean.getGift_array()) {
                         textView = new TextView(activity);
                         spannableString = new SpannableString(String.format("%s x %s", giftArrayBean.getGift_goodsname(),
                                 giftArrayBean.getGift_amount()));
@@ -288,22 +248,22 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                                         giftArrayBean.getGift_goodsid());
                             }
 
-                        @Override
-                        public void updateDrawState(@NonNull TextPaint ds) {
-                            super.updateDrawState(ds);
-                            ds.setColor(Color.GRAY);
-                            ds.setUnderlineText(true);      //设置下划线
-                        }
-                    };
-                    spannableString.setSpan(clickableSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                    textView.setText(spannableString);
-                    textView.setMovementMethod(LinkMovementMethod.getInstance());
-                    binding.llZengping.addView(textView);
-                    binding.tvPromotion.setVisibility(View.VISIBLE);
+                            @Override
+                            public void updateDrawState(@NonNull TextPaint ds) {
+                                super.updateDrawState(ds);
+                                ds.setColor(Color.GRAY);
+                                ds.setUnderlineText(true);      //设置下划线
+                            }
+                        };
+                        spannableString.setSpan(clickableSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        textView.setText(spannableString);
+                        textView.setMovementMethod(LinkMovementMethod.getInstance());
+                        binding.llZengping.addView(textView);
+                        binding.tvPromotion.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    binding.llZengping.setVisibility(View.GONE);
                 }
-            } else {
-                binding.llZengping.setVisibility(View.GONE);
-                binding.tvPromotion.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             KLog.i(e.toString());
@@ -314,16 +274,33 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     private void setListener() {
         binding.svSwitch.setOnSlideDetailsListener(this);
 
-        binding.lsiGoodsSpecification.setmOnLSettingItemClick(isChecked -> {
-            showBuyPopWindow();
-        });
+        binding.lsiGoodsSpecification.setmOnLSettingItemClick(isChecked -> showBuyPopWindow());
+        //滑动监听
+        binding.svGoodsInfo.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
+                (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                    Log.d(TAG, "initView: " + scrollY + " , " + bannerHeight);
+                    if (!isVisible()) {
+                        return;
+                    }
+                    if (scrollY > bannerHeight) {
+                        if (trans) {
+                            ((ShoppingDetailsActivity) activity).setTitleBarState(1);
+                        }
+                        trans = false;
+                    } else {
+                        if (!trans) {
+                            ((ShoppingDetailsActivity) activity).setTitleBarState(2);
+                        }
+                        trans = true;
+                    }
+                });
         /*领取代金券*/
         binding.llVoucher.setOnClickListener(v -> {
             // TODO: 2019/4/29 测试
-            if (null != datasBean.getVoucher()) {
+            if (null != dataBean.getVoucher()) {
                 if (null == xBottomSheet) {
                     xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
-                            .setItemData(datasBean.getVoucher())
+                            .setItemData(dataBean.getVoucher())
                             .setAdapter(AdapterPool.newInstance()
                                     .getVoucherInfoAdapter(activity)
                                     .build())
@@ -339,13 +316,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 ToastUtils.showLong("暂时没有代金券");
             }
         });
-
         binding.lsiComment.setmOnLSettingItemClick(isChecked -> shoppingDetailsActivity.setCurrentFragment(2));
 
         binding.lsiItem.setmOnLSettingItemClick(isChecked -> {
             // TODO: 2019/4/2 品牌网自营
             KLog.i("点击");
-            ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", datasBean.getStore_info().getStore_id());
+            ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", dataBean.getStore_info().getStore_id());
         });
 
     }
@@ -355,7 +331,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     protected void updateSpecificationPop() {
-        specificationPop.setmGoodsInfo(goodsInfo);
+        specificationPop.setGoodsInfo(goodsInfo);
         specificationPop.loadData();
     }
 
@@ -436,7 +412,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         if (null == specificationPop) {
             specificationPop = GoodsSpecificationPop.getInstance(getContext());
         }
-        specificationPop.setmGoodsInfo(goodsInfo);
+        specificationPop.setGoodsInfo(goodsInfo);
         specificationPop.show(binding.getRoot());
         SharePreferenceUtil.saveKeyValue("SPECIFICATIONPOP", "SPECIFICATIONPOP");
     }
@@ -453,130 +429,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             binding.svGoodsInfo.smoothScrollTo(0, 0);
             binding.svSwitch.smoothClose(true);
         }
-    }
-
-    /**
-     * 设置商品头图 轮播
-     */
-    private void setGoodsHeadImg() {
-        if (goodsDetailInfo != null) {
-//            binding.vpItemGoodsImg.setPages(new BannerImgAdapter() {
-//                @Override
-//                public ImageView getImageView() {
-//                    ImageView imageView = new ImageView(getContext());
-//                    imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                            ViewGroup.LayoutParams.MATCH_PARENT));
-//                    return imageView;
-//                }
-//            }, Arrays.asList(goodsDetailInfo.getDatas().getGoods_image().split(",")))
-////                    .setPageIndicator(new int[]{R.drawable.market_banner_index_white, R.drawable.market_shape_round_red})
-//                    .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
-//                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
-//
-//            goodsInfo.setGoods_image_url(goodsDetailInfo.getDatas().getGoods_image().split(",").length > 0
-//                    ? goodsDetailInfo.getDatas().getGoods_image().split(",")[0] : "");
-
-
-//            String goods_image = goodsDetailInfo.getDatas().getGoods_image();
-//            if (goods_image.contains(",")) {
-//                goodsInfo.setGoods_image_url(goods_image.split(",")[0]);
-//                ImageUtils.loadBanner(binding.vpItemGoodsImg,
-//                        Arrays.asList(goods_image.split(",")),
-//                        new OnItemClickListener() {
-//                            @Override
-//                            public void onItemClick(int position) {
-//
-//                            }
-//                        });
-//            } else {
-//                goodsInfo.setGoods_image_url(goods_image);
-//
-//                ImageUtils.loadBanner(binding.vpItemGoodsImg,
-//                        Arrays.asList(goods_image),
-//                        new OnItemClickListener() {
-//                            @Override
-//                            public void onItemClick(int position) {
-//                            }
-//                        });
-//            }
-            /*优化*/
-            String goods_image = goodsDetailInfo.getDatas().getGoods_image();
-            List<String> list;
-            if (goods_image.contains(",")) {
-                goodsInfo.setGoods_image_url(goods_image.split(",")[0]);
-                list = Arrays.asList(goods_image.split(","));
-            } else {
-                goodsInfo.setGoods_image_url(goods_image);
-                list = Arrays.asList(goods_image);
-            }
-            ImageUtils.loadBanner(binding.vpItemGoodsImg,
-                    list,
-                    new OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                        }
-                    });
-
-
-        }
-    }
-
-    /**
-     * 设置商品信息
-     */
-    private void setGoodsInfo() {
-        setGoodsHeadImg();
-        if (goodsInfo != null) {
-            binding.ivLike.setBackgroundResource(!goodsInfo.isfavorate() ? R.drawable.ic_me_favorite : R.drawable.ic_me_favorite_red);
-            GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = goodsDetailInfo.getDatas().getStore_info();
-            binding.lsiItem.setLeftText(storeInfo.getStore_name());
-            binding.lsiItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
-                @Override
-                public void click(boolean isChecked) {
-                    // TODO: 2019/4/2 品牌网自营
-                    KLog.i("点击");
-                    ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", goodsDetailInfo.getDatas().getStore_info().getStore_id());
-                }
-            });
-            /*描述*/
-            showDesc(storeInfo);
-            if (null != goodsDetailInfo.getDatas().getGoods_evaluate_info()) {
-                binding.lsiComment.setLeftText(String.format("用户点评(%s)", goodsDetailInfo.getDatas().getGoods_evaluate_info().getAll()));
-//                ((TextView) binding.getRoot().findViewById(R.id.tv_comment_count)).setText(String.format("用户点评(%s)", goodsDetailInfo.getDatas().getGoods_evaluate_info().getAll()));
-            }
-            commentList(goodsDetailInfo.getDatas().getGoods_eval_list());
-//            binding.getRoot().findViewById(R.id.ll_comment).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    shoppingDetailsActivity.setCurrentFragment(2);
-//                }
-//            });
-            binding.lsiComment.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
-                @Override
-                public void click(boolean isChecked) {
-                    shoppingDetailsActivity.setCurrentFragment(2);
-                }
-            });
-            /*店铺推荐*/
-            if (null != goodsDetailInfo.getDatas() && null != goodsDetailInfo.getDatas().getGoods_commend_list()) {
-//                RecyclerView recyclerViewRecommend = binding.recycleRecommendView.recyclerView;
-//                recyclerViewRecommend.addItemDecoration(new DividerItemDecoration(getContext(),
-//                        DividerItemDecoration.VERTICAL));
-//                recyclerViewRecommend.setLayoutManager(new GridLayoutManager(getContext(), 4));
-//                recyclerViewRecommend.setAdapter(new RecommendGoodsInfoAdapter(getContext(),
-//                        goodsDetailInfo.getDatas().getGoods_commend_list()));
-
-                binding.setList(goodsDetailInfo.getDatas().getGoods_commend_list());
-                binding.setAdapter(AdapterPool.newInstance().getRecommend(getContext()).build());
-                binding.setLayout(new GridLayoutManager(getContext(), 4));
-            }
-            // TODO: 2019/4/1  全国 有货 免运费
-            KLog.i(goodsDetailInfo.getDatas().getGoods_hair_info().content + " " +
-                    goodsDetailInfo.getDatas().getGoods_hair_info().if_store_cn +
-                    goodsDetailInfo.getDatas().getGoods_hair_info().area_name);
-            binding.setData(goodsInfo);
-        }
-
     }
 
     private void showDesc(GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo) {
@@ -604,7 +456,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         RecyclerView recyclerView = binding.recycleView;
         recyclerView.setNestedScrollingEnabled(false);
         if (null != commentList && commentList.size() > 0) {
-//            tvEmptyComment.setVisibility(View.GONE);
             recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                     DividerItemDecoration.VERTICAL));
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -612,18 +463,5 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         } else {
             recyclerView.setVisibility(View.GONE);
         }
-//        else {
-//            tvEmptyComment.setVisibility(View.GONE);
-//            tvEmptyComment.setText("暂无精彩评论");
-//        }
     }
-
-//    /**
-//     * 当前商品数量
-//     *
-//     * @return
-//     */
-//    public int getGoodsCount() {
-//        return binding.ccvClick.getCount();
-//    }
 }

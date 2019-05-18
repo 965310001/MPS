@@ -5,7 +5,6 @@ import android.view.View;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.List;

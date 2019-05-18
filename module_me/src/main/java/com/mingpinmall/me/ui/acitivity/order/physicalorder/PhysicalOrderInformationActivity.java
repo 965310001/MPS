@@ -27,6 +27,9 @@ import com.mingpinmall.me.ui.bean.OrderDeliverBean;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.constants.Constants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
@@ -38,7 +41,7 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 @Route(path = ARouterConfig.Me.PHYSICALORDERINFORMATIONACTIVITY)
 public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<ActivityPhysicalOrderInformationBinding, MeViewModel> {
 
-    private String orderId;
+    private String orderId, mStoreId;
     private PhysicalOrderInformationListAdapter listAdapter;
     private OrderInformationBean.OrderInfoBean data;
 
@@ -87,6 +90,7 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
             if (result instanceof OrderInformationBean) {
                 OrderInformationBean resultData = (OrderInformationBean) result;
                 data = resultData.getOrder_info();
+                mStoreId = data.getStore_id();
                 binding.setData(data);
                 showDataInfo();
             } else {
@@ -255,6 +259,10 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
             callPhone(data.getStore_phone());
         } else if (viewId == R.id.fl_service) {
             // TODO 联系客服
+            Map<String, Object> map = new HashMap<>();
+            map.put("goodsId", "");
+            map.put("tId", mStoreId);
+            ActivityToActivity.toActivity(ARouterConfig.classify.CHATACTIVITY, map);
         }
 
     }

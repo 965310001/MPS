@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author GuoFeng
@@ -66,7 +67,7 @@ public final class AssetsUtils {
             byte[] buff = out.toByteArray();// 以 byte 数组的形式返回此输出流的当前内容
             out.close(); // 关闭流
             is.close(); // 关闭流
-            content = new String(buff, "UTF-8"); // 设置字符串编码
+            content = new String(buff, StandardCharsets.UTF_8); // 设置字符串编码
         } catch (Exception e) {
             Toast.makeText(mContext, "对不起，没有找到指定文件！", Toast.LENGTH_SHORT)
                     .show();
@@ -145,7 +146,8 @@ public final class AssetsUtils {
                     makeDirs = false;
                 } else {
                     File folder = new File(getFolderName);
-                    makeDirs = (folder.exists() && folder.isDirectory()) ? true : folder.mkdirs();
+                    /*makeDirs = (folder.exists() && folder.isDirectory()) ? true : folder.mkdirs();*/
+                    makeDirs = (folder.exists() && folder.isDirectory()) || folder.mkdirs();
                 }
                 if (makeDirs) {
                     o = new FileOutputStream(file, false);
@@ -217,7 +219,7 @@ public final class AssetsUtils {
             byte[] buffer = new byte[length];
             in.read(buffer);
             //res = EncodingUtils.getString(buffer, "GBK");
-            res = new String(buffer, "UTF-8");
+            res = new String(buffer, StandardCharsets.UTF_8);
             in.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -262,8 +264,8 @@ public final class AssetsUtils {
             int length = fin.available();
             byte[] buffer = new byte[length];
             fin.read(buffer);
-            //res = EncodingUtils.getString(buffer, "UTF-8");
-            res = new String(buffer, "UTF-8");
+            //res = EncodingUtils.getString(buffer, StandardCharsets.UTF_8);
+            res = new String(buffer, StandardCharsets.UTF_8);
             fin.close();
         } catch (Exception e) {
             e.printStackTrace();

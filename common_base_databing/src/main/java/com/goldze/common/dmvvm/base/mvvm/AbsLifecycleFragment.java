@@ -9,16 +9,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.View;
 
-import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
-import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.utils.TUtil;
-import com.socks.library.KLog;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
 import java.util.ArrayList;
@@ -142,19 +138,16 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
     }
 
 
-    protected Observer observer = new Observer<String>() {
-        @Override
-        public void onChanged(@Nullable String state) {
-            if (!TextUtils.isEmpty(state)) {
-                if (StateConstants.ERROR_STATE.equals(state)) {
-                    showError(ErrorState.class, "2");
-                } else if (StateConstants.NET_WORK_STATE.equals(state)) {
-                    showError(ErrorState.class, "1");
-                } else if (StateConstants.LOADING_STATE.equals(state)) {
-                    showLoading();
-                } else if (StateConstants.SUCCESS_STATE.equals(state)) {
-                    showSuccess();
-                }
+    protected Observer observer = (Observer<String>) state -> {
+        if (!TextUtils.isEmpty(state)) {
+            if (StateConstants.ERROR_STATE.equals(state)) {
+                showError(ErrorState.class, "2");
+            } else if (StateConstants.NET_WORK_STATE.equals(state)) {
+                showError(ErrorState.class, "1");
+            } else if (StateConstants.LOADING_STATE.equals(state)) {
+                showLoading();
+            } else if (StateConstants.SUCCESS_STATE.equals(state)) {
+                showSuccess();
             }
         }
     };
@@ -174,9 +167,9 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
         }
     }
 
-    @Override
+   /* @Override
     public void onDestroy() {
         super.onDestroy();
 
-    }
+    }*/
 }

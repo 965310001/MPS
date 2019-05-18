@@ -3,7 +3,6 @@ package com.goldze.common.dmvvm.utils;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 /**
  * 功能描述：
