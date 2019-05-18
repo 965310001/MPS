@@ -236,8 +236,10 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                 KLog.i("是虚拟");
                 Map<String, Object> map = new HashMap<>();
                 map.put("id", id);
-                map.put("quantity", "1");
+                String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
+                map.put("quantity",  TextUtils.isEmpty(goodsNum) ? "1" : goodsNum);
                 ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, map);
+                SharePreferenceUtil.saveKeyValue("click_goods_num", "");
             } else {
                 String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
                 ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, "cartId",

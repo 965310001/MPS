@@ -229,7 +229,7 @@ public class ClassifyRepository extends BaseRepository {
         map.put("page", Integer.parseInt(Constants.PAGE_RN) * 2);
         map.put("curpage", curpage);
         addDisposable(apiService.getEvaluate(map)
-                .compose(RxSchedulers.<GoodsCommentListBean>io_main())
+                .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsCommentListBean>() {
                     @Override
                     public void onSuccess(GoodsCommentListBean result) {
@@ -742,6 +742,31 @@ public class ClassifyRepository extends BaseRepository {
     /*提交订单*/
     public void getBuyStep2(Map<String, Object> map, final Object eventKey) {
         map = parames(map, "member_buy", "buy_step2");
+        map.put("key", getUserKey());
+        addDisposable(apiService.getBuyStep2(map)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+
+    }
+
+    public void getBuyStep3(Map<String, Object> map, final Object eventKey) {
+        map = parames(map, "member_vr_buy", "buy_step3");
         map.put("key", getUserKey());
         addDisposable(apiService.getBuyStep2(map)
                 .compose(RxSchedulers.io_main())

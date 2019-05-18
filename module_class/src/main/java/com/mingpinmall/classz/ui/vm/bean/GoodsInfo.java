@@ -65,6 +65,9 @@ public class GoodsInfo extends BaseBean {
     private String goods_addtime_text;/*添加时间*/
 
     @Transient
+    private String order_amout;/*总价*/
+
+    @Transient
     public String virtual_indate;/*有效期*/
 
     @Transient
@@ -89,6 +92,13 @@ public class GoodsInfo extends BaseBean {
     @Transient
     private List<NewsContractlistBean> news_contractlist;
 
+    public String getOrder_amount() {
+        return order_amout;
+    }
+
+    public void setOrder_amount(String order_amount) {
+        this.order_amout = order_amount;
+    }
 
     public String getPresell_deliverdate_str() {
         return presell_deliverdate_str;

@@ -128,21 +128,26 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getBuyStep2(map, eventKey);
     }
 
+    /*提交虚拟订单*/
+    public void getBuyStep3(Map<String, Object> map, Object eventKey) {
+        mRepository.getBuyStep3(map, eventKey);
+    }
+
     /************************************* 店铺 ******************************/
     /*店铺信息*/
     public void getStoreInfo(String storeId, String key, Object eventKey) {
         mRepository.getStoreInfo(storeId, key, eventKey);
     }
 
-    /*收藏排行*/
-    public void getStoreGoodsRank(String storeId, String orderType, String num, Object eventKey) {
-        mRepository.getStoreGoodsRank(storeId, orderType, num, eventKey);
-    }
-
-    /*全部商品*/
-    public void getStoreGoods(String storeId, long page, Object eventKey) {
-        mRepository.getStoreGoods(storeId, page, eventKey);
-    }
+//    /*收藏排行*/
+//    public void getStoreGoodsRank(String storeId, String orderType, String num, Object eventKey) {
+//        mRepository.getStoreGoodsRank(storeId, orderType, num, eventKey);
+//    }
+//
+//    /*全部商品*/
+//    public void getStoreGoods(String storeId, long page, Object eventKey) {
+//        mRepository.getStoreGoods(storeId, page, eventKey);
+//    }
 
     public void getStoreGoods(String storeId, long page, String keyword,
                               String areaId, String priceFrom, String priceTo,

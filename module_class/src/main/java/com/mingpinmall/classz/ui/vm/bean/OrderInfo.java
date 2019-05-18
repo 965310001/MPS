@@ -151,7 +151,7 @@ public class OrderInfo extends BaseBean {
         }
     }
 
-    public static class AddressApiBean {
+    public static class AddressApiBean extends BaseBean {
         /**
          * state : success
          * content : {"10":"0.00"}
@@ -253,6 +253,15 @@ public class OrderInfo extends BaseBean {
     @SerializedName("goods_info")
     private GoodsInfo goodsInfo;
     private MemberInfoBean member_info;
+    /*private StoreInfo.StoreInfoBean store_info;*/
+
+   /* public StoreInfo.StoreInfoBean getStore_info() {
+        return store_info;
+    }
+
+    public void setStore_info(StoreInfo.StoreInfoBean store_info) {
+        this.store_info = store_info;
+    }*/
 
     public GoodsInfo getGoodsInfo() {
         return goodsInfo;

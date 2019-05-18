@@ -14,7 +14,7 @@ import java.util.List;
 public class StoreInfo extends BaseBean {
 
     private StoreInfoBean store_info;
-    private int rec_goods_list_count;
+//    private int rec_goods_list_count;
     private List<GoodsInfo> rec_goods_list;
     /*收藏 销量*/
     private List<GoodsInfo> collectdesc_goods_list;
@@ -28,13 +28,13 @@ public class StoreInfo extends BaseBean {
         this.store_info = store_info;
     }
 
-    public int getRec_goods_list_count() {
-        return rec_goods_list_count;
-    }
-
-    public void setRec_goods_list_count(int rec_goods_list_count) {
-        this.rec_goods_list_count = rec_goods_list_count;
-    }
+//    public int getRec_goods_list_count() {
+//        return rec_goods_list_count;
+//    }
+//
+//    public void setRec_goods_list_count(int rec_goods_list_count) {
+//        this.rec_goods_list_count = rec_goods_list_count;
+//    }
 
     public List<GoodsInfo> getRec_goods_list() {
         return rec_goods_list;
@@ -79,13 +79,13 @@ public class StoreInfo extends BaseBean {
         private String store_name;
         private String member_id;
         private String store_avatar;
-        private int goods_count;
+//        private int goods_count;
         private int store_collect;
         private boolean is_favorate;
         private boolean is_own_mall;
-        private String store_credit_text;
-        private String mb_title_img;
-        private List<?> mb_sliders;
+//        private String store_credit_text;
+//        private String mb_title_img;
+//        private List<?> mb_sliders;
         /**
          * store_company_name : 桃桃
          * province_id : 4
@@ -96,13 +96,13 @@ public class StoreInfo extends BaseBean {
         private String store_company_name;
         private String province_id;
         private String area_info;
-        private String store_address;
+//        private String store_address;
         private String store_time_text;
         /**
          * store_keywords : 瑞士邦顿手表，手表，男表，女表，邦顿手表，bestdon，情侣手表
          */
 
-        private String store_keywords;
+//        private String store_keywords;
         private String store_zy;
 
         private String store_workingtime;
@@ -145,13 +145,13 @@ public class StoreInfo extends BaseBean {
             this.store_avatar = store_avatar;
         }
 
-        public int getGoods_count() {
-            return goods_count;
-        }
-
-        public void setGoods_count(int goods_count) {
-            this.goods_count = goods_count;
-        }
+//        public int getGoods_count() {
+//            return goods_count;
+//        }
+//
+//        public void setGoods_count(int goods_count) {
+//            this.goods_count = goods_count;
+//        }
 
         @Bindable
         public int getStore_collect() {
@@ -181,29 +181,29 @@ public class StoreInfo extends BaseBean {
             this.is_own_mall = is_own_mall;
         }
 
-        public String getStore_credit_text() {
-            return store_credit_text;
-        }
+//        public String getStore_credit_text() {
+//            return store_credit_text;
+//        }
+//
+//        public void setStore_credit_text(String store_credit_text) {
+//            this.store_credit_text = store_credit_text;
+//        }
 
-        public void setStore_credit_text(String store_credit_text) {
-            this.store_credit_text = store_credit_text;
-        }
+//        public String getMb_title_img() {
+//            return mb_title_img;
+//        }
 
-        public String getMb_title_img() {
-            return mb_title_img;
-        }
-
-        public void setMb_title_img(String mb_title_img) {
-            this.mb_title_img = mb_title_img;
-        }
-
-        public List<?> getMb_sliders() {
-            return mb_sliders;
-        }
-
-        public void setMb_sliders(List<?> mb_sliders) {
-            this.mb_sliders = mb_sliders;
-        }
+//        public void setMb_title_img(String mb_title_img) {
+//            this.mb_title_img = mb_title_img;
+//        }
+//
+//        public List<?> getMb_sliders() {
+//            return mb_sliders;
+//        }
+//
+//        public void setMb_sliders(List<?> mb_sliders) {
+//            this.mb_sliders = mb_sliders;
+//        }
 
         public String getStore_company_name() {
             return store_company_name;
@@ -236,22 +236,22 @@ public class StoreInfo extends BaseBean {
         public void setArea_info(String area_info) {
             this.area_info = area_info;
         }
+//
+//        public String getStore_address() {
+//            return store_address;
+//        }
+//
+//        public void setStore_address(String store_address) {
+//            this.store_address = store_address;
+//        }
 
-        public String getStore_address() {
-            return store_address;
-        }
-
-        public void setStore_address(String store_address) {
-            this.store_address = store_address;
-        }
-
-        public String getStore_keywords() {
-            return store_keywords;
-        }
-
-        public void setStore_keywords(String store_keywords) {
-            this.store_keywords = store_keywords;
-        }
+//        public String getStore_keywords() {
+//            return store_keywords;
+//        }
+//
+//        public void setStore_keywords(String store_keywords) {
+//            this.store_keywords = store_keywords;
+//        }
 
         public String getStore_zy() {
             return store_zy;
