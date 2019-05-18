@@ -168,26 +168,26 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<GoodsDetailInfo>() {
                     @Override
                     public void onSuccess(GoodsDetailInfo result) {
-                        sendData(Constants.GOODSDETAIL_EVENT_KEY[0], result);
-                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.SUCCESS_STATE);
+                        sendData(Constants.GOODSDETAIL_EVENT_KEY[0] + goodsId, result);
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1] + goodsId, StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     protected void onStart() {
                         super.onStart();
-                        sendData(Constants.GOODSDETAIL_EVENT_KEY[0] + "LOADING", true);
+                        sendData(Constants.GOODSDETAIL_EVENT_KEY[0] + goodsId + "LOADING", true);
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.ERROR_STATE);
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1] + goodsId, StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
-                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
+                        showPageState(Constants.GOODSDETAIL_EVENT_KEY[1] + goodsId, StateConstants.NET_WORK_STATE);
                     }
                 })
         );
