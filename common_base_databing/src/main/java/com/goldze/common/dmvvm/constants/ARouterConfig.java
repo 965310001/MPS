@@ -42,12 +42,12 @@ public interface ARouterConfig {
     /**
      * 过渡界面
      */
-    String SPLASHACTIVITY = "/app/SplashActivity";
+    String SPLASHACTIVITY = "/main/SplashActivity";
 
     /**
      * 主界面
      */
-    String MAINACTIVITY = "/app/MainActivity";
+    String MAINACTIVITY = "/main/MainActivity";
 
     /**
      * 登录

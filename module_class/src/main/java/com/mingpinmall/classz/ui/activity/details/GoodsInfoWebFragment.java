@@ -4,18 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
-import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
-import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.WebChromeClient;
-import com.just.agentweb.WebViewClient;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoWebBinding;
 
@@ -31,10 +26,15 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
     public GoodsInfoWebFragment() {
     }
 
+    public void needScroll2Top() {
+        if (mAgentWeb.getWebCreator().getWebView() != null) {
+            mAgentWeb.getWebCreator().getWebView().scrollTo(0, 0);
+        }
+    }
+
     @Override
     protected void onInVisible() {
         super.onInVisible();
-        mAgentWeb.getWebCreator().getWebView().scrollTo(0, 0);
     }
 
     public static GoodsInfoWebFragment newInstance(String url) {
@@ -56,11 +56,30 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
     }
 
     @Override
+    protected void onVisible() {
+        super.onVisible();
+        WebView view = mAgentWeb.getWebCreator().getWebView();
+        if (view.getWidth() == 0 || view.getHeight() == 0) {
+            return;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        ((ShoppingDetailsActivity) activity).setDrawerImage(bitmap);
+    }
+
+    @Override
     public void initView(Bundle state) {
         setTitlePadding(binding.rlTopPanel);
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(binding.contentLayout, new FrameLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
+                .setWebChromeClient(new WebChromeClient() {
+                    @Override
+                    public void onProgressChanged(WebView view, int newProgress) {
+                        super.onProgressChanged(view, newProgress);
+                    }
+                })
                 .createAgentWeb()
                 .ready()
                 .go(getArguments().getString("url"));

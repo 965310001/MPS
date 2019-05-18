@@ -2,6 +2,7 @@ package com.mingpinmall.classz.ui.activity.details;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
@@ -83,6 +84,10 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 .commitNowAllowingStateLoss();
     }
 
+    protected void setDrawerImage(Bitmap bitmap) {
+        binding.ivDrawerImage.setImageBitmap(bitmap);
+    }
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_goods_info_main;
@@ -100,7 +105,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         super.initView(state);
         bannerHight = ScreenUtil.getScreenWidth(activity) / 2;
         binding.svSwitch.setOnSlideDetailsListener(this);
-
+        setTitlePadding(binding.rlEmpty);
         goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
         goodsInfo = goodsDetailInfo.getDatas().getGoods_info();
         KLog.i(goodsInfo + "=====");
