@@ -1,9 +1,7 @@
 package com.goldze.common.dmvvm.widget.dialog;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -42,23 +40,14 @@ public class MaterialDialogUtils {
                 .negativeColorAttr(android.R.attr.textColorSecondaryInverse)
                 .theme(Theme.DARK)
                 .autoDismiss(true)  //点击是否关闭对话框
-                .showListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-                        //dialog 出现
-                    }
+                .showListener(dialog -> {
+                    //dialog 出现
                 })
-                .cancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        //dialog 消失（返回键）
-                    }
+                .cancelListener(dialog -> {
+                    //dialog 消失（返回键）
                 })
-                .dismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        //dialog 消失
-                    }
+                .dismissListener(dialog -> {
+                    //dialog 消失
                 })
                 .show();
 
@@ -109,17 +98,14 @@ public class MaterialDialogUtils {
                 .progressIndeterminateStyle(horizontal)
                 .canceledOnTouchOutside(false)
                 .backgroundColorRes(R.color.white)
-                .keyListener(new DialogInterface.OnKeyListener() {
-                    @Override
-                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                        if (event.getAction() == KeyEvent.ACTION_DOWN) {//如果是按下，则响应，否则，一次按下会响应两次
-                            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                                //activity.onBackPressed();
+                .keyListener((dialog, keyCode, event) -> {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {//如果是按下，则响应，否则，一次按下会响应两次
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            //activity.onBackPressed();
 
-                            }
                         }
-                        return false;//false允许按返回键取消对话框，true除了调用取消，其他情况下不会取消
                     }
+                    return false;//false允许按返回键取消对话框，true除了调用取消，其他情况下不会取消
                 });
     }
 
@@ -132,24 +118,6 @@ public class MaterialDialogUtils {
      */
     public static MaterialDialog.Builder showBasicDialog(final Context context, String
             content) {
-
-//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
-//                .title(content)
-//                .positiveText("确定")
-//                .negativeText("取消");
-//                .btnStackedGravity(GravityEnum.END)         //按钮排列位置
-//                .stackingBehavior(StackingBehavior.ALWAYS)  //按钮排列方式
-//                .iconRes(R.mipmap.ic_launcher)
-//                .limitIconToDefaultSize() // limits the displayed icon size to 48dp
-//                .onAny(new MaterialDialog.SingleButtonCallback() {
-//                    @Override
-//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction
-//                            which) {
-//                    }
-//                })
-//                .checkBoxPromptRes(R.string.app_name, false, null)
-//        return builder;
-
         return new MaterialDialog.Builder(context)
                 .title(content)
                 .positiveText("确定")
@@ -174,13 +142,6 @@ public class MaterialDialogUtils {
      * @return MaterialDialog.Builder
      */
     public static MaterialDialog.Builder showBasicDialogNoTitle(final Context context, String content) {
-
-//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
-//                .content(content)
-//                .positiveText("确定")
-//                .negativeText("取消");
-//
-//        return builder;
         return new MaterialDialog.Builder(context)
                 .content(content)
                 .positiveText("确定")
@@ -197,13 +158,6 @@ public class MaterialDialogUtils {
      */
     public static MaterialDialog.Builder showBasicDialogNoCancel(final Context context, String
             title, String content) {
-
-//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
-//                .title(title)
-//                .content(content)
-//                .positiveText("确定");
-//
-//        return builder;
         return new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
@@ -218,15 +172,6 @@ public class MaterialDialogUtils {
      */
     public static MaterialDialog.Builder showBasicDialog(final Context context, String
             title, String content) {
-
-//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
-//                .title(title)
-//                .content(content)
-//                .positiveText("确定")
-//                .negativeText("取消");
-
-//        return builder;
-
         return new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
@@ -241,14 +186,11 @@ public class MaterialDialogUtils {
      */
     public static MaterialDialog.Builder showBasicDialogPositive(final Context context, String
             title, String content) {
-
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+        return new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
                 .positiveText("复制")
                 .negativeText("取消");
-
-        return builder;
     }
 
     /***
@@ -258,14 +200,11 @@ public class MaterialDialogUtils {
      * @return MaterialDialog.Builder
      */
     public static MaterialDialog.Builder getSelectDialog(Context context, String title, String[] arrays) {
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+        return new MaterialDialog.Builder(context)
                 .items(arrays)
                 .itemsColor(0XFF456ea6)
+                .title(!TextUtils.isEmpty(title) ? title : "")
                 .negativeText("取消");
-        if (!TextUtils.isEmpty(title)) {
-            builder.title(title);
-        }
-        return builder;
     }
 
     /***
@@ -276,21 +215,15 @@ public class MaterialDialogUtils {
      */
     public static MaterialDialog.Builder showBasicListDialog(final Context context, String title, List
             content) {
-
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+        return new MaterialDialog.Builder(context)
                 .title(title)
                 .items(content)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                .itemsCallback((dialog, itemView, position, text) -> {
 
-                    }
                 })
                 .negativeText("取消")
 //                .checkBoxPromptRes(R.string.app_name, false, null)
                 ;
-
-        return builder;
     }
 
     /***
@@ -301,12 +234,11 @@ public class MaterialDialogUtils {
      */
     public static MaterialDialog.Builder showSingleListDialog(final Context context, String title, List
             content, MaterialDialog.ListCallbackSingleChoice callback) {
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+        return new MaterialDialog.Builder(context)
                 .title(title)
                 .items(content)
                 .itemsCallbackSingleChoice(0, callback)
                 .positiveText("选择");
-        return builder;
     }
 
 
@@ -319,31 +251,44 @@ public class MaterialDialogUtils {
     public static MaterialDialog.Builder showMultiListDialog(final Context context, String title, List
             content) {
 
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//                .title(title)
+//                .items(content)
+//                .itemsCallbackMultiChoice(new Integer[]{1, 3}, new MaterialDialog
+//                        .ListCallbackMultiChoice() {
+//                    @Override
+//                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+//
+//
+//                        return true; // allow selection
+//                    }
+//                })
+//                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                        dialog.clearSelectedIndices();
+//                    }
+//                })
+//                .alwaysCallMultiChoiceCallback()
+//                .positiveText(R.string.md_choose_label)
+//                .autoDismiss(false)
+//                .neutralText("clear")
+//                .itemsDisabledIndices(0, 1);
+
+//        return builder;
+
+        return new MaterialDialog.Builder(context)
                 .title(title)
                 .items(content)
-                .itemsCallbackMultiChoice(new Integer[]{1, 3}, new MaterialDialog
-                        .ListCallbackMultiChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-
-
-                        return true; // allow selection
-                    }
+                .itemsCallbackMultiChoice(new Integer[]{1, 3}, (dialog, which, text) -> {
+                    return true; // allow selection
                 })
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.clearSelectedIndices();
-                    }
-                })
+                .onNeutral((dialog, which) -> dialog.clearSelectedIndices())
                 .alwaysCallMultiChoiceCallback()
                 .positiveText(R.string.md_choose_label)
                 .autoDismiss(false)
                 .neutralText("clear")
                 .itemsDisabledIndices(0, 1);
-
-        return builder;
     }
 
 
@@ -360,11 +305,8 @@ public class MaterialDialogUtils {
                 .customView(content, true)
                 .positiveText("确定")
                 .negativeText(android.R.string.cancel)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                .onPositive((dialog, which) -> {
 
-                    }
                 });
 //        positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
 //        //noinspection ConstantConditions
@@ -412,12 +354,7 @@ public class MaterialDialogUtils {
                 .customView(view, true)
                 .cancelable(false)
                 .autoDismiss(false)
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
+                .onNegative((dialog, which) -> dialog.dismiss())
                 .positiveText(android.R.string.yes)
                 .negativeText(android.R.string.cancel)
                 .onPositive(callback);
@@ -432,8 +369,7 @@ public class MaterialDialogUtils {
      */
     public static MaterialDialog.Builder showInputDialog(final Context context, String title, String
             content, MaterialDialog.InputCallback inputCallback) {
-
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+        return new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
                 .inputType(InputType.TYPE_CLASS_TEXT |
@@ -442,7 +378,5 @@ public class MaterialDialogUtils {
                 .positiveText("确定")
                 .negativeText("取消")
                 .input("hint", "", true, inputCallback);
-
-        return builder;
     }
 }

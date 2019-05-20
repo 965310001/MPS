@@ -432,11 +432,15 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (null != mConnection) {
-            unbindService(mConnection);
-        }
-        if (null != mReceiver) {
-            LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mReceiver);
+        try {
+            if (null != mConnection) {
+                unbindService(mConnection);
+            }
+            if (null != mReceiver) {
+                LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mReceiver);
+            }
+        } catch (Exception e) {
+            KLog.i(e.toString());
         }
     }
 }
