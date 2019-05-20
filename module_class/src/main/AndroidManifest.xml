@@ -15,7 +15,7 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.details.ShoppingDetailsActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="standard" />
         <activity
             android:name=".ui.activity.order.ConfirmOrderActivity"
             android:launchMode="singleTop" />

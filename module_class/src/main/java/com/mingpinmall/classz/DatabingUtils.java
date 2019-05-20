@@ -63,6 +63,18 @@ public class DatabingUtils {
 
     }
 
+    @BindingAdapter(value = {"sqImage", "sqSpan"}, requireAll = false)
+    public static void squareImageLoader(ImageView imageView, String url, String sqSpan) {
+        if (!TextUtils.isEmpty(url)) {
+            if (!TextUtils.isEmpty(sqSpan)) {
+                int width = 640 / Integer.parseInt(sqSpan);
+                ImageUtils.loadImage(imageView, url, width, width);
+            } else {
+                ImageUtils.loadImage(imageView, url, 320, 320);
+            }
+        }
+
+    }
 
     /*LSettingItem 的绑定*/
     @BindingAdapter({"lefttext"})

@@ -33,6 +33,7 @@ import com.mingpinmall.cart.widget.XBottomSheet;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -121,18 +122,29 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         });
 
         binding.tvPayNow.setOnClickListener(v -> {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (AvailableCartBean item : shopCartAdapter.getData()) {
-                if (item.getItemType() == 1 && item.isCheck()) {
-                    stringBuilder.append(String.format("%s|%s,", item.getGoods().getCart_id(), item.getGoods().getGoods_num()));
+            // 立即支付
+            StringBuilder cartId = new StringBuilder();
+            String gId;
+            String gNum;
+            for (AvailableCartBean cartBean : shopCartAdapter.getData()) {
+                //遍历一次列表
+                if (cartBean.getItemType() == 1) {
+                    //只处理商品类型的 item
+                    if (!cartBean.isCheck()) {
+                        //如果没有勾选这个商品，则不添加
+                        continue;
+                    }
+                    gId = cartBean.getGoods().getCart_id();
+                    gNum = cartBean.getGoods().getGoods_num();
+                    cartId.append(String.format("%s|%s,", gId, TextUtils.isEmpty(gNum) ? "1" : gNum));
                 }
             }
-            Map<String, Object> map = new HashMap<>();
-            map.put("ifcart", "1");
-            map.put("cartId", stringBuilder.toString());/*76|1,77|1,79|4,96|1,98|1,99|1*/
-            ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, map);
-            //立即支付
-//                ActivityToActivity.toActivity(ARouterConfig.cart.SHOPCARTACTIVITY);这个是其他地方需要跳转到购物车，又不想返回首页的时候，跳转这个activity
+            String cartInfo = cartId.toString().substring(0, cartId.lastIndexOf(","));
+            Log.d("立即购买", "setListener: " + cartInfo);
+            Map<String, Object> params = new HashMap<>(2);
+            params.put("cartId", cartInfo);
+            params.put("ifcart", "1");
+            ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, params);
         });
         binding.cbSelectAll.setOnClickListener(v -> {
             /*全选购物车或者全反选购物车*/
@@ -149,7 +161,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                     money += isCheck ? price : -price;
                 }
             }
-            binding.tvMoney.setText(money + "");
+            binding.tvMoney.setText(getMoney(money));
             shopCartAdapter.notifyDataSetChanged();
         });
         /*列表item的点击事件*/
@@ -220,7 +232,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             double price = Double.parseDouble(data.getGoods().getGoods_price());
             //总价 加上 这次的单价
             money = money + (isAdd ? price : -price);
-            binding.tvMoney.setText(String.valueOf(money));
+            binding.tvMoney.setText(getMoney(money));
         }
     }
 
@@ -258,7 +270,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             checkedSize = isCheck ? checkedSize + 1 : checkedSize - 1;
             for (int i = 0; i < shopCartAdapter.getData().size(); i++) {
                 AvailableCartBean itemBean = shopCartAdapter.getData().get(i);
-                if (itemBean.getStore_id().equals(storeId) && itemBean.getItemType() == 0) {
+                if (itemBean.getStore_id() == storeId && itemBean.getItemType() == 0) {
                     itemBean.changeCheckedCount(isCheck);
                     shopCartAdapter.notifyItemChanged(i);
                     break;
@@ -270,7 +282,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             money += data.isCheck() ? price : -price;
         }
         binding.cbSelectAll.setChecked(goodsSize != 0 && checkedSize == goodsSize, false);
-        binding.tvMoney.setText(String.valueOf(money));
+        binding.tvMoney.setText(getMoney(money));
     }
 
     @Override
@@ -325,7 +337,12 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         binding.clPayContent.setVisibility(dataList.size() > 0 ? View.VISIBLE : View.GONE);
         shopCartAdapter.setNewData(dataList);
         binding.cbSelectAll.setChecked(checkedSize == goodsSize, false);
-        binding.tvMoney.setText(String.valueOf(money));
+        binding.tvMoney.setText(getMoney(money));
+    }
+
+    private String getMoney(double mMoney) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(mMoney);
     }
 
     @Override

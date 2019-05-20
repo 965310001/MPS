@@ -78,7 +78,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     @Override
     protected Object getStateEventKey() {
-        return Constants.GOODSDETAIL_EVENT_KEY[1];
+        return Constants.GOODSDETAIL_EVENT_KEY[1] + id;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     protected void dataObserver() {
         super.dataObserver();
 
-        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0], GoodsDetailInfo.class)
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + id, GoodsDetailInfo.class)
                 .observeForever(response -> {
                     if (response.isSuccess()) {
                         mGoodsDetailInfo = response;
@@ -158,7 +158,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                 });
 
         /*显示对话框 正在加载*/
-        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + "LOADING", Object.class)
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + id + "LOADING", Object.class)
                 .observe(this, obj -> {
                     boolean isLoad = (boolean) obj;
                     if (isLoad) {

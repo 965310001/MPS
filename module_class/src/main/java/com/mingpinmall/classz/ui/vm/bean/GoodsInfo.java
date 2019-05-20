@@ -32,6 +32,8 @@ public class GoodsInfo extends BaseBean {
     private String goods_marketprice;
     private String goods_image;
     private String goods_salenum;
+    @Transient
+    private String goods_spec;
     private String evaluation_good_star;
     private String evaluation_count;
     private String is_virtual;/*是否是虚拟码*/
@@ -125,6 +127,14 @@ public class GoodsInfo extends BaseBean {
 
     public void setMember_id(String member_id) {
         this.member_id = member_id;
+    }
+
+    public String getGoods_spec() {
+        return goods_spec == null ? "" : goods_spec;
+    }
+
+    public void setGoods_spec(String goods_spec) {
+        this.goods_spec = goods_spec == null ? "" : goods_spec;
     }
 
     @Keep
