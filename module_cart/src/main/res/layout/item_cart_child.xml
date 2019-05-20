@@ -109,9 +109,9 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingStart="4dp"
-                        android:paddingTop="2dp"
+                        android:paddingTop="1dp"
                         android:paddingEnd="4dp"
-                        android:paddingBottom="2dp"
+                        android:paddingBottom="1dp"
                         app:layout_constraintBottom_toBottomOf="@id/tv_money"
                         app:layout_constraintEnd_toStartOf="@id/ll_countContent"
                         app:layout_constraintStart_toEndOf="@id/tv_money"
@@ -121,8 +121,8 @@
                             android:id="@+id/iv_tips"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxWidth="12dp"
-                            android:maxHeight="12dp" />
+                            android:maxWidth="10dp"
+                            android:maxHeight="10dp" />
 
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/tv_state"

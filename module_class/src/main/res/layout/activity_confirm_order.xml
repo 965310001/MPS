@@ -106,10 +106,9 @@
 
                 <com.goldze.common.dmvvm.widget.MultipleItemView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
-                    android:minHeight="@dimen/dp_50"
                     android:onClick="paymentMethod"
                     leon:leftIconSize="@dimen/image_height_small"
                     leon:leftText="支付方式"
@@ -122,10 +121,9 @@
 
                 <com.goldze.common.dmvvm.widget.MultipleItemView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
-                    android:minHeight="@dimen/dp_50"
                     android:onClick="invoiceInfo"
                     leon:leftIconSize="@dimen/image_height_small"
                     leon:leftText="发票信息"
@@ -195,16 +193,54 @@
             bind:layout_constraintRight_toRightOf="parent" />
 
         <TextView
+            android:id="@+id/tv_tips0"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_50"
             android:background="@color/white"
             android:gravity="end|center"
             android:paddingEnd="@dimen/dp_10"
-            android:text="@{total}"
+            android:text="合计总金额:"
             bind:layout_constraintBottom_toBottomOf="parent"
             bind:layout_constraintLeft_toLeftOf="parent"
-            bind:layout_constraintRight_toLeftOf="@id/sublimit"
-            tools:text="合计总金额:￥500" />
+            bind:layout_constraintRight_toLeftOf="@id/tv_tips1"
+            tools:text="合计总金额:" />
+
+        <TextView
+            android:id="@+id/tv_tips1"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="¥"
+            android:textColor="@color/app_theme_d61619"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintStart_toEndOf="@id/tv_tips0"
+            bind:layout_constraintEnd_toStartOf="@id/tv_tips2"
+            tools:text="¥" />
+
+        <TextView
+            android:id="@+id/tv_tips2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:background="@color/white"
+            android:gravity="end|center"
+            android:paddingEnd="@dimen/dp_10"
+            android:text="@{total}"
+            android:textSize="20sp"
+            android:textColor="@color/app_theme_d61619"
+            bind:layout_constraintBaseline_toBaselineOf="@id/tv_tips1"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintStart_toEndOf="@id/tv_tips1"
+            bind:layout_constraintEnd_toStartOf="@id/sublimit"
+            tools:text="500" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color"
+            bind:layout_constraintTop_toTopOf="@id/sublimit"
+            />
+
     </android.support.constraint.ConstraintLayout>
 
 </layout>

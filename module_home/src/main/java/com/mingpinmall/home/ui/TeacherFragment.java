@@ -23,6 +23,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
  **/
 public class TeacherFragment extends BaseFragment<FragmentTeacherBinding> {
 
+//    private final String URL = "https://www.feeai.cn/wxapi/h5/fitting/demo.php?goods_id=37&cat_id=7";
     private final String URL = "http://c85of8h57pslid5r.mikecrm.com/D1HWDMm";
 
     private AgentWeb mAgentWeb;

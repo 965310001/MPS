@@ -26,8 +26,8 @@
                 android:layout_marginStart="12dp" />
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_marginStart="12dp"
                 app:srcCompat="@drawable/ic_store_b" />
 
@@ -57,8 +57,8 @@
                 tools:visibility="visible">
 
                 <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     app:srcCompat="@drawable/ic_cart_coupon_small" />
 
                 <android.support.v7.widget.AppCompatTextView
@@ -78,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:minHeight="22dp"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -92,16 +93,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/shape_red_radius_4dp"
-                android:paddingStart="6dp"
-                android:paddingTop="2dp"
-                android:paddingEnd="6dp"
-                android:paddingBottom="2dp"
+                android:paddingStart="3dp"
+                android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="1dp"
                 android:text="免运费"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -112,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:textColor="@color/color_text"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_tips0"
                 app:layout_constraintStart_toEndOf="@id/tv_tips0"
                 app:layout_constraintTop_toTopOf="@id/tv_tips0"
@@ -139,16 +140,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="6dp"
                 android:background="@drawable/shape_red_radius_4dp"
-                android:paddingStart="6dp"
-                android:paddingTop="2dp"
-                android:paddingEnd="6dp"
-                android:paddingBottom="2dp"
+                android:paddingStart="3dp"
+                android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="1dp"
                 android:text="满即送"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -160,7 +161,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="6dp"
-                android:minHeight="26dp"
+                android:minHeight="22dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_arrow"
@@ -180,7 +181,7 @@
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_arrow"
                 android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_height="22dp"
                 android:layout_marginEnd="12dp"
                 android:padding="4dp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_tips1"

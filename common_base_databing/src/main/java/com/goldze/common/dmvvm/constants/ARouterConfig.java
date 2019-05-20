@@ -61,6 +61,10 @@ public interface ARouterConfig {
          * 购物车
          */
         String SHOPCARTACTIVITY = "/cart/ShopCartActivity";
+        /**
+         * 提交订单
+         */
+        String PAYSTEPONEACTIVITY = "/cart/PayStepOneActivity";
     }
 
     interface home {

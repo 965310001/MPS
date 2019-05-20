@@ -122,7 +122,7 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
             LinearLayout llList = helper.getView(R.id.ll_listContent);
             llList.removeAllViews();
             for (int i = 0; i < item.getMansong().size(); i++) {
-                View view = View.inflate(context, R.layout.item_img_textview_14sp, null);
+                View view = View.inflate(context, R.layout.item_img_textview_12sp, null);
                 TextView textView = view.findViewById(R.id.tv_label);
                 textView.setText(item.getMansong().get(i).getDesc());
                 if (!item.getMansong().get(i).getUrl().isEmpty()) {
