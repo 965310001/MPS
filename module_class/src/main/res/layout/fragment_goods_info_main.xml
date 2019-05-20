@@ -298,7 +298,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_25"
+                        android:layout_marginStart="@dimen/dp_16"
                         android:background="@drawable/bg_of_red_gradient_radius"
                         android:padding="@dimen/dp_1"
                         android:text="券"
@@ -314,40 +314,53 @@
                         android:textColor="@color/black" />
                 </LinearLayout>
 
-                <com.leon.lib.settingview.LSettingItem
-                    android:id="@+id/lsi_goods_specification"
-                    style="@style/width_match_height_warp"
-                    android:layout_height="@dimen/dp_40"
-                    leon:LtextColor="@color/black"
-                    leon:LtextSize="14"
-                    leon:isShowUnderLine="false"
-                    leon:leftText="已选：默认"
-                    leon:rightText="更多"
-                    leon:rightTextColor="@color/gray"
-                    leon:rightTextSize="8">
+                <!--<com.leon.lib.settingview.LSettingItem-->
+                <!--android:id="@+id/lsi_goods_specification"-->
+                <!--style="@style/width_match_height_warp"-->
+                <!--android:layout_height="@dimen/dp_40"-->
+                <!--leon:LtextColor="@color/black"-->
+                <!--leon:LtextSize="14"-->
+                <!--leon:isShowUnderLine="false"-->
+                <!--leon:leftText="已选：默认"-->
+                <!--leon:rightText="更多"-->
+                <!--leon:rightTextColor="@color/gray"-->
+                <!--leon:rightTextSize="8">-->
 
-                    <com.xuexiang.xui.widget.flowlayout.FlowLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                <!--<com.xuexiang.xui.widget.flowlayout.FlowLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
+                <!--</com.leon.lib.settingview.LSettingItem>-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="21121212" />
-
-                </com.leon.lib.settingview.LSettingItem>
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_8"
                         android:paddingTop="@dimen/dp_4"
-                        android:text="已选" />
+                        android:text="已选"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14" />
 
-                </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_goods_specification"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/dp_6" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/righticon" />
+                </LinearLayout>
 
                 <View style="@style/HorizontalLine" />
                 <!--服务-->

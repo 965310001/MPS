@@ -41,6 +41,7 @@ import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoMainBinding;
 import com.mingpinmall.classz.databinding.ItemGoodsDescBinding;
+import com.mingpinmall.classz.databinding.ItemTextBinding;
 import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
@@ -159,33 +160,56 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     dataBean.getGoods_hair_info().if_store_cn +
                     dataBean.getGoods_hair_info().area_name);
             binding.setData(goodsInfo);
-        }
-        binding.setIsVoucher(dataBean.isVoucher());
 
-        List<GoodsInfo.NewsContractlistBean> newsContractlist = goodsInfo.getNews_contractlist();
-        if (null != newsContractlist) {
-            try {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(String.format("由“%s”销售和发货，并享受售后服务\n", dataBean.getStore_info().getStore_name()));
-
-                for (GoodsInfo.NewsContractlistBean contractlistBean : newsContractlist) {
+            List<GoodsInfo.NewsContractlistBean> newsContractlist = goodsInfo.getNews_contractlist();
+            if (null != newsContractlist) {
+                try {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(String.format("由“%s”销售和发货，并享受售后服务\n", dataBean.getStore_info().getStore_name()));
+                    for (GoodsInfo.NewsContractlistBean contractlistBean : newsContractlist) {
 //                    stringBuilder.append(String.format("[%s] <color='#000000'>%s</color> ", contractlistBean.getCti_icon_url(),
-                    stringBuilder.append(String.format("[%s] %s ", contractlistBean.getCti_icon_url(),
-                            contractlistBean.getCti_name()));
+                        stringBuilder.append(String.format("[%s] %s ", contractlistBean.getCti_icon_url(),
+                                contractlistBean.getCti_name()));
+                    }
+                    HtmlFromUtils.setImageFromNetWork(activity, binding.tvService,
+                            stringBuilder.toString(), false);
+                    binding.llService.setVisibility(View.VISIBLE);
+                    KLog.i(stringBuilder.toString());
+                    if (null == newsContractlist || newsContractlist.size() == 0) {
+                        binding.llService.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    KLog.i(e.toString());
                 }
-                HtmlFromUtils.setImageFromNetWork(activity, binding.tvService,
-                        stringBuilder.toString(), false);
-                binding.llService.setVisibility(View.VISIBLE);
-                KLog.i(stringBuilder.toString());
-                if (null == newsContractlist || newsContractlist.size() == 0) {
-                    binding.llService.setVisibility(View.GONE);
-                }
-            } catch (Exception e) {
-                KLog.i(e.toString());
+            } else {
+                binding.llService.setVisibility(View.GONE);
             }
-        } else {
-            binding.llService.setVisibility(View.GONE);
+
+            ItemTextBinding textBinding;
+            int size = goodsInfo.news_goods_spec_name.size();
+            binding.llGoodsSpecification.removeAllViews();
+            if (size > 0) {
+                for (int i = 0; i < size; i++) {
+                    textBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_text, null, false);
+                    textBinding.text.setTextSize(14f);
+                    textBinding.text.setPadding(4, 4, 4, 4);
+                    textBinding.text.setTextColor(getResources().getColor(R.color.gray));
+                    textBinding.text.setBackgroundResource(R.drawable.shape_bg_solid_attr);
+                    textBinding.setData(String.format("%s %s", goodsInfo.news_goods_spec_name.get(i), goodsInfo.news_goods_spec.get(i)));
+                    binding.llGoodsSpecification.addView(textBinding.getRoot());
+                }
+            } else {
+                textBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_text, null, false);
+                textBinding.text.setTextSize(14f);
+                textBinding.text.setPadding(8, 6, 8, 6);
+                textBinding.text.setTextColor(getResources().getColor(R.color.black));
+                textBinding.text.setBackgroundResource(R.drawable.shape_bg_solid_attr);
+                textBinding.setData("默认");
+                binding.llGoodsSpecification.addView(textBinding.getRoot());
+            }
         }
+        KLog.i(dataBean.isVoucher() + "==");
+        binding.setIsVoucher(dataBean.isVoucher());
     }
 
     /**
@@ -274,7 +298,8 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     private void setListener() {
         binding.svSwitch.setOnSlideDetailsListener(this);
 
-        binding.lsiGoodsSpecification.setmOnLSettingItemClick(isChecked -> showBuyPopWindow());
+        binding.llGoodsSpecification.setOnClickListener(v -> showBuyPopWindow());
+
         //滑动监听
         binding.svGoodsInfo.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
                 (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {

@@ -65,7 +65,7 @@ public class GoodsDetailInfo extends BaseBean {
 
         @Bindable
         public boolean isVoucher() {
-            return null == getVoucher();
+            return null == getVoucher() || getVoucher().size() == 0;
         }
 
         public boolean isIs_favorate() {

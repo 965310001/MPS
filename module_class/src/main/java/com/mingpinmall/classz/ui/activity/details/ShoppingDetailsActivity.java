@@ -199,31 +199,32 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         /*判断是否是虚拟*/
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             mGoodsInfoMainFragment.popWindowDismiss();
+            Map<String, Object> map = new HashMap<>();
+            String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
+            goodsNum = TextUtils.isEmpty(goodsNum) ? "1" : goodsNum;
             if (mGoodsInfo.isVirtual()) {
-                KLog.i("是虚拟" + id);
-                Map<String, Object> map = new HashMap<>();
                 map.put("id", id);
-                String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
-                map.put("quantity", TextUtils.isEmpty(goodsNum) ? "1" : goodsNum);
-                ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, map);
-                SharePreferenceUtil.saveKeyValue("click_goods_num", "");
+                map.put("quantity", goodsNum);
             } else {
-                String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
-                ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, "cartId",
-                        String.format("%s|%s", id, TextUtils.isEmpty(goodsNum) ? "1" : goodsNum));
-                SharePreferenceUtil.saveKeyValue("click_goods_num", "");
+                map.put("cartId", String.format("%s|%s", id, goodsNum));
             }
+            ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, map);
+            SharePreferenceUtil.saveKeyValue("click_goods_num", "");
         } else {
             mGoodsInfoMainFragment.showBuyPopWindow();
         }
     }
 
     public void contactService(View view) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("goodsId", getId());
-        GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = mGoodsDetailInfo.getDatas().getStore_info();
-        map.put("tId", storeInfo.getMember_id());
-        ActivityToActivity.toActivity(ARouterConfig.classify.CHATACTIVITY, map);
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("goodsId", getId());
+            GoodsDetailInfo.DatasBean.StoreInfoBean storeInfo = mGoodsDetailInfo.getDatas().getStore_info();
+            map.put("tId", storeInfo.getMember_id());
+            ActivityToActivity.toActivity(ARouterConfig.classify.CHATACTIVITY, map);
+        } catch (Exception e) {
+            KLog.i(e.toString());
+        }
     }
 
     public void favorites(View view) {
