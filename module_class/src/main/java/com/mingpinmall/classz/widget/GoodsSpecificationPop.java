@@ -22,8 +22,6 @@ import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-
 /**
  * 商品规格Pop
  */
@@ -33,7 +31,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
     private static GoodsSpecificationPop INSTANCE;
     private GoodsInfo mGoodsInfo;
     private MarketPopGoodsSpecificationBinding bind;
-    private final int[] ints = {-1, -1, -1};
+    private int[] ints;
     private StringBuilder stringBuilder;
 
     private GoodsSpecificationPop(Context context) {
@@ -81,6 +79,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         View chideView;
         int dimensionPixelSize = mContext.getResources().getDimensionPixelSize(R.dimen.dp_4);
         int size = mGoodsInfo.news_goods_spec_name.size();
+        ints = new int[size];
         for (int index = 0; index < size; index++) {
             chideView = View.inflate(mContext, R.layout.item_text, null);
             chideView.setPadding(dimensionPixelSize, dimensionPixelSize, 0, dimensionPixelSize);
@@ -95,7 +94,6 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
             flowLayout.setAdapter(adapter);
             flowLayout.setItems(stringList);
             flowLayout.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
-
             for (int i = 0; i < stringList.size(); i++) {
                 if (stringList.get(i).equals(mGoodsInfo.news_goods_spec.get(index))) {
                     flowLayout.setSelectedPositions(i);
@@ -107,27 +105,33 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
             flowLayout.setOnTagSelectListener((parent1, position, selectedList) -> {
                 ints[finalIndex] = mGoodsInfo.news_spec_data.get(finalIndex).getSpec_value().get(position).getSpe_id();
                 stringBuilder = new StringBuilder();
-                for (int anInt : ints) {
-                    if (anInt != -1) stringBuilder.append(anInt).append("|");
+                for (int i = ints.length - 1; i >= 0; i--) {
+                    stringBuilder.append(ints[i]).append("|");
                 }
-                /*KLog.i(stringBuilder.toString().substring(0, stringBuilder.length() - 1));*/
-                String str = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
-                for (GoodsInfo.NewsSpecListDataBean listDatum : mGoodsInfo.news_spec_list_data) {
-                    /*KLog.i(listDatum.getKey() + "=" + str);*/
-                    if (listDatum.getKey().equals(str)) {
-
+                int i;
+                for (GoodsInfo.NewsSpecListDataBean newsSpecListDataBean : mGoodsInfo.news_spec_list_data) {
+                    i = 0;
+                    for (int anInt : ints) {
+                        if (newsSpecListDataBean.getKey().contains(String.valueOf(anInt))) {
+                            ++i;
+                        }
+                    }
+                    if (i == size) {
+                        KLog.i(newsSpecListDataBean.getVal());
+                        LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
+                                newsSpecListDataBean.getVal());
+                        KLog.i(newsSpecListDataBean.getVal());
+                        break;
                     }
                 }
-
-                Observable.fromIterable(mGoodsInfo.news_spec_list_data)
+               /* Observable.fromIterable(mGoodsInfo.news_spec_list_data)
                         .filter(newsSpecListDataBean -> stringBuilder.toString().contains(newsSpecListDataBean.getKey()))
                         .subscribe(newsSpecListDataBean -> {
                             KLog.i(newsSpecListDataBean.getVal());
                             LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
                                     newsSpecListDataBean.getVal());
                             KLog.i(newsSpecListDataBean.getVal());
-                        });
-
+                        });*/
             });
         }
     }
