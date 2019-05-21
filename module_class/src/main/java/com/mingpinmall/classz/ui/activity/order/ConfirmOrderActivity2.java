@@ -264,19 +264,19 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     @Override
     public void onPayError(int error_code, String message) {
         userPaySheet.getSheetBuilder().onPayFail(message);
-        finish();
+        /*finish();*/
     }
 
     @Override
     public void onPayCancel() {
         userPaySheet.getSheetBuilder().onPayFail("支付已取消");
-        finish();
+        /*finish();*/
     }
 
     @Override
     public void onUUPay(String dataOrg, String sign, String mode) {
         userPaySheet.getSheetBuilder().onPayFail("");
-        finish();
+        /*finish();*/
     }
 
     /**

@@ -20,6 +20,9 @@
             android:name=".ui.activity.order.ConfirmOrderActivity"
             android:launchMode="singleTop" />
         <activity
+            android:name=".ui.activity.order.ConfirmOrderActivity2"
+            android:launchMode="singleTop" />
+        <activity
             android:name=".ui.activity.invoice.InvoiceActivity"
             android:launchMode="singleTop" />
         <activity
@@ -41,21 +44,6 @@
             android:name=".ui.service.SocketIoService"
             android:enabled="true"
             android:exported="true" />
-
-
-       <!-- <activity
-            android:name="com.alipay.sdk.app.H5PayActivity"
-            android:exported="false"
-            android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity
-            android:name="com.alipay.sdk.app.H5AuthActivity"
-            android:exported="false"
-            android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-
     </application>
 
 </manifest>

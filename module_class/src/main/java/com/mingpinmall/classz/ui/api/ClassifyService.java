@@ -130,13 +130,13 @@ public interface ClassifyService {
     Flowable<BaseResponse<VoucherInfo>> getVoucherTplList(@FieldMap Map<String, Object> map);
 
     /*提交订单*/
-//    @FormUrlEncoded
-//    @POST(BASEURL)
-//    Flowable<BaseResponse<BuyStepInfo>> getBuyStep2(@FieldMap Map<String, Object> map);
-
     @FormUrlEncoded
     @POST(BASEURL)
-    Flowable<BaseResponse<PayLayoutBean>> getBuyStep2(@FieldMap Map<String, Object> map);
+    Flowable<BaseResponse<BuyStepInfo>> getBuyStep2(@FieldMap Map<String, Object> map);
+
+//    @FormUrlEncoded
+//    @POST(BASEURL)
+//    Flowable<BaseResponse<PayLayoutBean>> getBuyStep2(@FieldMap Map<String, Object> map);
 
     /*消息列表*/
     @GET(BASEURL)

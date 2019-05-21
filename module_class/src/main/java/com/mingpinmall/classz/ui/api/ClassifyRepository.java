@@ -779,32 +779,11 @@ public class ClassifyRepository extends BaseRepository {
     public void getBuyStep2(Map<String, Object> map, final Object eventKey) {
         map = parames(map, "member_buy", "buy_step2");
         map.put("key", getUserKey());
-//        addDisposable(apiService.getBuyStep2(map)
-//                .compose(RxSchedulers.io_main())
-//                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
-//                    @Override
-//                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
-//                        sendData(eventKey, result);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(String msg) {
-//                        KLog.i(msg);
-//                    }
-//
-//                    @Override
-//                    protected void onNoNetWork() {
-//                        super.onNoNetWork();
-//                    }
-//                })
-//        );
-
-        /*修改*/
         addDisposable(apiService.getBuyStep2(map)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<PayLayoutBean>>() {
+                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
                     @Override
-                    public void onSuccess(BaseResponse<PayLayoutBean> result) {
+                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
                         sendData(eventKey, result);
                     }
 
@@ -828,9 +807,9 @@ public class ClassifyRepository extends BaseRepository {
         map.put("key", getUserKey());
         addDisposable(apiService.getBuyStep2(map)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<PayLayoutBean>>() {
+                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
                     @Override
-                    public void onSuccess(BaseResponse<PayLayoutBean> result) {
+                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
                         sendData(eventKey, result);
                     }
 
@@ -845,25 +824,6 @@ public class ClassifyRepository extends BaseRepository {
                     }
                 })
         );
-//        addDisposable(apiService.getBuyStep2(map)
-//                .compose(RxSchedulers.io_main())
-//                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
-//                    @Override
-//                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
-//                        sendData(eventKey, result);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(String msg) {
-//                        KLog.i(msg);
-//                    }
-//
-//                    @Override
-//                    protected void onNoNetWork() {
-//                        super.onNoNetWork();
-//                    }
-//                })
-//        );
 
     }
 
