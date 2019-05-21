@@ -552,6 +552,13 @@ public class ConfirmOrderBean extends BaseBean {
                 return is_fcode == null ? "" : is_fcode;
             }
 
+            public boolean isFCode() {
+                if (is_fcode == null) {
+                    return false;
+                }
+                return "1".equals(is_fcode);
+            }
+
             public void setIs_fcode(String is_fcode) {
                 this.is_fcode = is_fcode == null ? "" : is_fcode;
             }

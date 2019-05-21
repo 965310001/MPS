@@ -2,6 +2,7 @@ package com.mingpinmall.classz.ui.api;
 
 import android.text.TextUtils;
 
+import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
@@ -40,6 +41,38 @@ import okhttp3.RequestBody;
 public class ClassifyRepository extends BaseRepository {
 
     private final ClassifyService apiService = RetrofitClient.getInstance().create(ClassifyService.class);
+
+    /**
+     * 检查F码
+     *
+     * @param fcode F码
+     */
+    public void checkFCode(String fcode, String goods_id) {
+        //请求 URL: http://192.168.0.44/mo_bile/index.php?app=member_buy&wwi=check_fcode
+        //fcode: sdafsdg    goods_id: 109943
+        Map<String, Object> params = parames("member_buy", "check_fcode");
+        params.put("key", getUserKey());
+        params.put("fcode", fcode);
+        params.put("goods_id", goods_id);
+        addDisposable(apiService.checkFCode(params)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean baseNothingBean) {
+                        if (baseNothingBean.isSuccess()) {
+                            sendData(Constants.CONFIRMORDER_KEY[4], "success");
+                        } else {
+                            sendData(Constants.CONFIRMORDER_KEY[4], baseNothingBean.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.CONFIRMORDER_KEY[4], msg == null ? "验证失败" : msg);
+                    }
+                })
+        );
+    }
 
     /*获取左边的数据*/
     public void getLeft() {
@@ -1168,7 +1201,6 @@ public class ClassifyRepository extends BaseRepository {
         map.put("wwi", wwi);
         return map;
     }
-
 
 //    /*省 市 区*/
 //    public void getArea(String areaId) {
