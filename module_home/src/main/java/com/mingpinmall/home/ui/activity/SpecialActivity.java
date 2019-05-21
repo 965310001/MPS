@@ -20,7 +20,9 @@ import com.mingpinmall.home.ui.bean.SpecialPageBean;
 import com.mingpinmall.home.ui.constants.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 功能描述：专题页面
@@ -219,7 +221,10 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
         if (url.contains("product_list.html?b_id")) {
             //跳转到搜索
             String id = url.split("b_id=")[1];
-            ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", id);
+            Map<String, Object> params = new HashMap<>(2);
+            params.put("id", id);
+            params.put("type", 1);
+            ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
         } else if (url.contains("signin.html")) {
             //签到
             ToastUtils.showShort("签到");

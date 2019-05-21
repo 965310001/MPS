@@ -2,6 +2,7 @@ package com.mingpinmall.home.ui;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -12,6 +13,8 @@ import com.just.agentweb.AgentWeb;
 import com.just.agentweb.WebViewClient;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentTeacherBinding;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 /**
  * 功能描述：名师预约
@@ -20,6 +23,7 @@ import com.mingpinmall.home.databinding.FragmentTeacherBinding;
  **/
 public class TeacherFragment extends BaseFragment<FragmentTeacherBinding> {
 
+//    private final String URL = "https://www.feeai.cn/demo/demo.php#/";
     private final String URL = "http://c85of8h57pslid5r.mikecrm.com/D1HWDMm";
 
     private AgentWeb mAgentWeb;

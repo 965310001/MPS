@@ -26,7 +26,6 @@ import com.trecyclerview.progressindicator.ProgressStyle;
 
 import java.util.ArrayList;
 
-
 /**
  * @author GuoFeng
  * @date : 2019/1/20 15:06
@@ -65,7 +64,7 @@ public class AdapterPool {
     /*分类列表里面的list*/
     public DelegateAdapter.Builder getProductsAdapter(Context context) {
         return getAdapter(new DelegateAdapter.Builder<>()
-                        .bind(String.class, new DataBindItemViewHolderManager(context, R.layout.item_image_products, BR.data))
+                        .bind(String.class, new DataBindItemViewHolderManager(context, R.layout.item_image, BR.data))
                         .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_products, BR.data)),
                 context, ProgressStyle.Pacman);
     }

@@ -45,6 +45,9 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     String id;
 
     @Autowired
+    String gcIdType;
+
+    @Autowired
     int type;
 
     @Autowired
@@ -155,7 +158,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
 
         KLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
 
-        mViewModel.getShappingList(id, String.valueOf(page), keyword, String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
+        mViewModel.getShappingList(gcIdType, id, String.valueOf(page), keyword, String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
     }
 
     @Override
@@ -249,6 +252,8 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
             case 3:/*综合排序*/
                 key = "2";
                 order = "2";
+                break;
+            default:
                 break;
         }
 //        keyword = "";

@@ -8,7 +8,9 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.mingpinmall.classz.BR;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ClassificationRighitBean extends BaseBean {
 
@@ -74,7 +76,10 @@ public class ClassificationRighitBean extends BaseBean {
             }
 
             public void click(View view) {
-                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", getGc_id());
+                Map<String, Object> params = new HashMap<>(2);
+                params.put("id", getGc_id());
+                params.put("gcIdType", "gc_id_2");
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
             }
 
             public String getGc_thumb() {

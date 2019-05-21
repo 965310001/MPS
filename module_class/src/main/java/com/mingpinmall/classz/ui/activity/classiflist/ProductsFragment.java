@@ -16,10 +16,11 @@ import com.mingpinmall.classz.ui.constants.Constants;
  */
 public class ProductsFragment extends BaseProductsFragment<ClassifyViewModel> {
 
-    public static ProductsFragment newInstance(String id, int type, String keyword) {
+    public static ProductsFragment newInstance(String id, String gcIdType, int type, String keyword) {
         ProductsFragment fragment = new ProductsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
+        bundle.putString("gcIdType", gcIdType);
         bundle.putInt("type", type);
         bundle.putString("keyword", keyword);
         fragment.setArguments(bundle);
@@ -37,7 +38,7 @@ public class ProductsFragment extends BaseProductsFragment<ClassifyViewModel> {
     protected void getRemoteData() {
         super.getRemoteData();
 
-        mViewModel.getShappingList(getArguments().getString("id"),
+        mViewModel.getShappingList(getArguments().getString("gcIdType"), getArguments().getString("id"),
                 String.valueOf(page), keyword, String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
     }
 
@@ -62,6 +63,7 @@ public class ProductsFragment extends BaseProductsFragment<ClassifyViewModel> {
         order = "2";
     }
 
+    @Override
     protected void changeKeyAndOrder(int position) {
         switch (position) {
             case 0:/*综合排序*/
@@ -79,6 +81,8 @@ public class ProductsFragment extends BaseProductsFragment<ClassifyViewModel> {
             case 3:/*综合排序*/
                 key = "2";
                 order = "2";
+                break;
+            default:
                 break;
         }
     }
