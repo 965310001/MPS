@@ -329,7 +329,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         KLog.i("立即购买");
 
         String goodsNum = SharePreferenceUtil.getKeyValue("ccvclick_goods_num");
-        ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY, "cartId",
+        ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY2, "cartId",
                 String.format("%s|%s", id, TextUtils.isEmpty(goodsNum) ? "1" : goodsNum));
         SharePreferenceUtil.saveKeyValue("ccvclick_goods_num", "");
     }
