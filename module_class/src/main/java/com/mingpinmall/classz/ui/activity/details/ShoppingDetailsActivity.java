@@ -45,6 +45,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     @Autowired
     String id;
 
+
     private GoodsInfo mGoodsInfo;
     private GoodsDetailInfo mGoodsDetailInfo;
 
