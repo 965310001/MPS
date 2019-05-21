@@ -20,8 +20,7 @@ import com.mingpinmall.home.databinding.FragmentTeacherBinding;
  **/
 public class TeacherFragment extends BaseFragment<FragmentTeacherBinding> {
 
-    private final String URL = "https://www.feeai.cn/demo/demo.php#/";
-//    private final String URL = "http://c85of8h57pslid5r.mikecrm.com/D1HWDMm";
+    private final String URL = "http://c85of8h57pslid5r.mikecrm.com/D1HWDMm";
 
     private AgentWeb mAgentWeb;
 
