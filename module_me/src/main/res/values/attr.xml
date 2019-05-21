@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="SettingItemView" >
-        <attr name="mode" >
-            <enum name="Default" value="0" />
-            <enum name="NoLeftImage" value="1" />
-            <enum name="NoLeftImage_NoDescription" value="2" />
-            <enum name="NoLeftImage_NoMoreIcon" value="3" />
-            <enum name="NoLeftImage_NoMoreIcon_NoDescription" value="4" />
-            <enum name="NoMoreIcon" value="5" />
-            <enum name="NoMoreIcon_NoDescription" value="6" />
-            <enum name="NoDescription" value="7" />
-        </attr>
-        <attr name="smallIcon" format="boolean" />
-        <attr name="image" format="reference" />
-        <attr name="title" format="reference|string" />
-        <attr name="subTitle" format="reference|string" />
-        <attr name="description" format="reference|string" />
-        <attr name="showMoreIcon" format="boolean" />
-    </declare-styleable>
+    <!--<declare-styleable name="SettingItemView" >-->
+        <!--<attr name="mode" >-->
+            <!--<enum name="Default" value="0" />-->
+            <!--<enum name="NoLeftImage" value="1" />-->
+            <!--<enum name="NoLeftImage_NoDescription" value="2" />-->
+            <!--<enum name="NoLeftImage_NoMoreIcon" value="3" />-->
+            <!--<enum name="NoLeftImage_NoMoreIcon_NoDescription" value="4" />-->
+            <!--<enum name="NoMoreIcon" value="5" />-->
+            <!--<enum name="NoMoreIcon_NoDescription" value="6" />-->
+            <!--<enum name="NoDescription" value="7" />-->
+        <!--</attr>-->
+        <!--<attr name="smallIcon" format="boolean" />-->
+        <!--<attr name="image" format="reference" />-->
+        <!--<attr name="title" format="reference|string" />-->
+        <!--<attr name="subTitle" format="reference|string" />-->
+        <!--<attr name="description" format="reference|string" />-->
+        <!--<attr name="showMoreIcon" format="boolean" />-->
+    <!--</declare-styleable>-->
 
 </resources>

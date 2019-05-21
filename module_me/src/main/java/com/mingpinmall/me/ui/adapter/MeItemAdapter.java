@@ -1,13 +1,10 @@
 package com.mingpinmall.me.ui.adapter;
 
-import android.util.Log;
-
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.ui.bean.MeItemBean;
-import com.mingpinmall.me.ui.widget.AutoColorView;
-import com.mingpinmall.me.ui.widget.SettingItemView;
+import com.goldze.common.dmvvm.widget.SettingItemView;
 
 import java.util.ArrayList;
 

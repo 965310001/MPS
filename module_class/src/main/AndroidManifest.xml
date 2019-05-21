@@ -54,6 +54,7 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".ui.activity.order.ConfirmOrderActivity2" />
 
 
     </application>

@@ -9,9 +9,14 @@
 
         <import type="com.mingpinmall.classz.ui.vm.bean.BuyStepInfo" />
 
+        <import type="com.mingpinmall.apppay.pay.PayLayoutBean.PayInfoBean" />
+
         <variable
             name="data"
             type="BuyStepInfo" />
+        <variable
+            name="data2"
+            type="PayInfoBean" />
     </data>
 
     <RelativeLayout
@@ -35,7 +40,7 @@
 
             <TextView
                 android:id="@+id/tv_price"
-                html="@{data.pay_info.payAmout}"
+                html="@{data2.payAmout}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
@@ -105,7 +110,7 @@
                 android:adjustViewBounds="true"
                 android:onClick="aLiPay"
                 android:src="@drawable/icon_alipay_72"
-                android:visibility="@{data.pay_info.aliPay?View.VISIBLE:View.GONE}"
+                android:visibility="@{data2.aliPay?View.VISIBLE:View.GONE}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_pay_fun" />
 
@@ -117,7 +122,7 @@
                 android:adjustViewBounds="true"
                 android:onClick="weixinPay"
                 android:src="@drawable/weixin"
-                android:visibility="@{data.pay_info.weiXin?View.VISIBLE:View.GONE}"
+                android:visibility="@{data2.weiXin?View.VISIBLE:View.GONE}"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_pay_fun" />
 

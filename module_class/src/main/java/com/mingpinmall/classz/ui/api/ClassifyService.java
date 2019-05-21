@@ -6,6 +6,7 @@ import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
@@ -106,6 +107,11 @@ public interface ClassifyService {
     @FormUrlEncoded
     @POST(BASEURL)
     Flowable<BaseResponse<OrderInfo>> getOrderInfo(@FieldMap Map<String, Object> map);
+
+    /*获取订单信息*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<BaseResponse<ConfirmOrderBean>> getOrderInfo2(@FieldMap Map<String, Object> map);
 
     /*获取发票内容*/
     @FormUrlEncoded

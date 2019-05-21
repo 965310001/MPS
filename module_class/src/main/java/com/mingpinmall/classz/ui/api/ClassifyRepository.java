@@ -14,6 +14,7 @@ import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
+import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
@@ -268,6 +269,40 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<OrderInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<OrderInfo> result) {
+                        sendData(eventKey, result);
+                        showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
+    }
+
+    /*获取订单信息2*/
+    public void getOrderInfo2(String cartId, String addressId, String ifcart, final Object eventKey) {
+        Map<String, Object> map = parames("member_buy", "buy_step1");
+        map.put("cart_id", cartId);
+        if (!TextUtils.isEmpty(addressId)) {
+            map.put("address_id", ifcart);
+        }
+        if (!TextUtils.isEmpty(ifcart)) {
+            map.put("ifcart", ifcart);
+        }
+        map.put("key", getUserKey());
+        addDisposable(apiService.getOrderInfo2(map)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ConfirmOrderBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ConfirmOrderBean> result) {
                         sendData(eventKey, result);
                         showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.SUCCESS_STATE);
                     }
@@ -870,80 +905,36 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
-    //    public void picUpload(String goodsId, String fId, String tId, String tName, File file, final Object eventKey) {
-//        Map<String, Object> map = parames("member_chat", "pic_upload");
-//        map.put("key", getUserKey());
-//        map.put("chat_goods_id", goodsId);
-//        map.put("t_id", tId);
-//        map.put("f_id", fId);
-//        map.put("t_name", tName);
-////        File file = new File(image);
-//        KLog.i(file.exists() + "文件存在" + file.getPath());
-//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), file);
-//        addDisposable(apiService.picUpload(map, requestBody)
-//                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
-//                .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
-//                    @Override
-//                    public void onSuccess(BaseResponse<MsgInfo> result) {
-//                        if (result.isSuccess()) {
-//                            KLog.i("发送图片");
-//                            sendData(eventKey + "Success", result.getData());
-//                        } else {
-//                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(String msg) {
-//                        KLog.i(msg);
-//                    }
-//
-//                    @Override
-//                    protected void onNoNetWork() {
-//                        super.onNoNetWork();
-//                    }
-//                })
-//        );
-//
-//    }
+    /*获取支付信息*/
+    protected void getPayInfoNew(String paySn, String rcb_pay, String pd_pay, String password,
+                                 String payment_code, Object eventKey) {
+        Map<String, Object> map = parames("member_payment", "pay_new");
+        map.put("key", getUserKey());
+        map.put("pay_sn", paySn);
+        map.put("rcb_pay", rcb_pay);
+        map.put("pd_pay", pd_pay);
+        map.put("password", password);
+        map.put("payment_code", payment_code);
+        map.put("client", "android");
+        addDisposable(apiService.getPayNew(map)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<PayMessageInfo>() {
+                    @Override
+                    public void onSuccess(PayMessageInfo result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, result);
+                        } else {
+                            sendData(eventKey, result.getErr_code_des());
+                        }
+                    }
 
-
-//    /*支付宝*/
-//    public void getAli(Map<String, Object> map, Object eventKey) {
-////        map = parames(map, "member_chat", "send_msg");
-////        map.put("key", getUserKey());
-////        map.put("chat_goods_id", goodsId);
-////        map.put("t_id", tId);
-////        map.put("f_id", fId);
-////        map.put("t_name", tName);
-////        map.put("t_msg", msg);
-////        addDisposable(apiService.sendMsg(map)
-////                .compose(RxSchedulers.<BaseResponse<MsgInfo>>io_main())
-////                .subscribeWith(new RxSubscriber<BaseResponse<MsgInfo>>() {
-////                    @Override
-////                    public void onSuccess(BaseResponse<MsgInfo> result) {
-////                        if (result.isSuccess()) {
-////                            sendData(eventKey + "Success", result.getData());
-////                        } else {
-////                            sendData(Constants.CHAT[0] + "Error", result.getMessage());
-////                        }
-////                    }
-////
-////                    @Override
-////                    public void onFailure(String msg) {
-////                        KLog.i(msg);
-////                    }
-////
-////                    @Override
-////                    protected void onNoNetWork() {
-////                        super.onNoNetWork();
-////                    }
-////                })
-////        );
-//    }
-//    /*微信*/
-//    public void getWeiXin(Map<String, Object> map, Object eventKey) {
-//    }
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(eventKey, msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
 
     /*获取参数*/
     public void getPayNew(String paySn, String paymentCode, String pdPay, final Object eventKey) {

@@ -82,6 +82,11 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getOrderInfo(cartId, addressId, ifcart, eventKey);
     }
 
+    /*获取订单信息*/
+    public void getOrderInfo2(String cartId, String addressId, String ifcart, Object eventKey) {
+        mRepository.getOrderInfo2(cartId, addressId, ifcart, eventKey);
+    }
+
     /*搜索列表*/
     public void getHotKeys() {
         mRepository.getHotKeys();
@@ -208,6 +213,11 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
 
     public void getPayNew(String paySn, String paymentCode, String pdPay, Object eventKey) {
         mRepository.getPayNew(paySn, paymentCode, pdPay, eventKey);
+    }
+
+    /*获取支付信息*/
+    public void getPayInfoNew(String paySn, String rcb_pay, String pd_pay, String password, String payment_code, Object eventKey) {
+        mRepository.getPayInfoNew(paySn, rcb_pay, pd_pay, password, payment_code, eventKey);
     }
 
     /************************************* end ******************************/

@@ -2,10 +2,8 @@ package com.mingpinmall.me.ui.acitivity.property;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -18,7 +16,7 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
 import com.mingpinmall.me.ui.bean.PropertyBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.mingpinmall.me.ui.widget.SettingItemView;
+import com.goldze.common.dmvvm.widget.SettingItemView;
 
 import java.util.ArrayList;
 import java.util.List;

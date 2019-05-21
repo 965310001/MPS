@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <!--总金额-->
+        <variable
+            name="total"
+            type="String" />
+
+        <!--地址-->
+        <variable
+            name="address"
+            type="com.goldze.common.dmvvm.base.bean.AddressDataBean.AddressListBean" />
+
+        <variable
+            name="data"
+            type="java.util.List" />
+
+        <!--支付方式-->
+        <variable
+            name="payment"
+            type="String" />
+
+        <!--发票信息-->
+        <variable
+            name="invoice"
+            type="String" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.activity.order.ConfirmOrderActivity">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/sublimit"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@color/white"
+                    android:onClick="selectAddress"
+                    android:padding="@dimen/dp_10">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_height_litter"
+                        android:layout_height="@dimen/image_height_litter"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:src="@drawable/icon_add" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_30"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='@{address.userName}'
+                            tools:text="收货人" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{address.area_info}"
+                            tools:text="北京	北京市	东城区114645" />
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:layout_width="@dimen/image_height_litter"
+                        android:layout_height="@dimen/image_height_litter"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/ic_svg_more" />
+
+                </RelativeLayout>
+
+                <com.goldze.common.dmvvm.widget.SettingItemView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:image="@drawable/mcc_01"
+                    app:mode="NoDescription"
+                    app:subTitle="@{payment}"
+                    app:title="支付方式" />
+
+                <com.goldze.common.dmvvm.widget.SettingItemView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:foreground="@drawable/button_foreground"
+                    android:onClick="invoiceInfo"
+                    app:image="@drawable/mcc_08_b"
+                    app:mode="NoDescription"
+                    app:subTitle="@{invoice}"
+                    app:title="发票信息" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/sublimit"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:layout_alignParentEnd="true"
+            android:background="@color/shallow_red"
+            android:gravity="center"
+            android:onClick="sublimit"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:text="提交订单"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_tips0"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_50"
+            android:background="@color/white"
+            android:gravity="end|center"
+            android:paddingEnd="@dimen/dp_10"
+            android:text="合计总金额:"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_tips1"
+            tools:text="合计总金额:" />
+
+        <TextView
+            android:id="@+id/tv_tips1"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="¥"
+            android:textColor="@color/app_theme_d61619"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_tips2"
+            app:layout_constraintStart_toEndOf="@id/tv_tips0"
+            tools:text="¥" />
+
+        <TextView
+            android:id="@+id/tv_tips2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:background="@color/white"
+            android:gravity="end|center"
+            android:paddingEnd="@dimen/dp_10"
+            android:text="@{total}"
+            android:textColor="@color/app_theme_d61619"
+            android:textSize="20sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_tips1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sublimit"
+            app:layout_constraintStart_toEndOf="@id/tv_tips1"
+            tools:text="500" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_hight"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toTopOf="@id/sublimit" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

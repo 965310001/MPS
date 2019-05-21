@@ -17,6 +17,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityConfirmOrderBinding;
@@ -65,7 +66,7 @@ public class ConfirmOrderActivity extends
     /*地址id  是否选择发票*/
     private String addressId, invoice_id = "", mVatHash, mOffpayHash, mOffpayHashBatch;
 
-    private List<BuyStepInfo.PayInfoBean.PaymentListBean> mPaymentList;
+    private List<PayLayoutBean.PayInfoBean.PaymentListBean> mPaymentList;
 
     private int mPayFun = -1;
 
@@ -165,7 +166,7 @@ public class ConfirmOrderActivity extends
                             mPaySn = stepInfo.getPay_sn();
                             mPaymentCode = stepInfo.getPayment_code();
                             /*KLog.i(data.getData().getPay_sn());*/
-                            BuyStepInfo.PayInfoBean payInfo = stepInfo.getPay_info();
+                            PayLayoutBean.PayInfoBean payInfo = stepInfo.getPay_info();
                             if (null != payInfo) {
                                 mPaymentList = payInfo.getPayment_list();
                             }
@@ -239,9 +240,9 @@ public class ConfirmOrderActivity extends
 
     private String getPaymentCode(String name) {
         if (null != mPaymentList && mPaymentList.size() > 0) {
-            for (BuyStepInfo.PayInfoBean.PaymentListBean paymentListBean : mPaymentList) {
+            for (PayLayoutBean.PayInfoBean.PaymentListBean paymentListBean : mPaymentList) {
                 if (paymentListBean.getPayment_name().contains(name)) {
-                    return paymentListBean.getPayment_codeX();
+                    return paymentListBean.getPayment_code();
                 }
             }
         }
@@ -276,7 +277,9 @@ public class ConfirmOrderActivity extends
         KLog.i("提交订单" + binding.getContent() + payment);
         Map<String, Object> map = new HashMap<>();
 
-        if (!TextUtils.isEmpty(ifcart)) map.put("ifcart", ifcart);
+        if (!TextUtils.isEmpty(ifcart)) {
+            map.put("ifcart", ifcart);
+        }
         map.put("cart_id", cartId);
         map.put("address_id", addressId);
         map.put("vat_hash", mVatHash);
@@ -290,7 +293,9 @@ public class ConfirmOrderActivity extends
     }
 
     public void onFinishClick(View view) {
-        if (mPayPopupWindow.isShowing()) mPayPopupWindow.dismiss();
+        if (mPayPopupWindow.isShowing()) {
+            mPayPopupWindow.dismiss();
+        }
     }
 
     public void selectAddress(View view) {

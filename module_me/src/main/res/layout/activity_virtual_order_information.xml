@@ -79,7 +79,7 @@
                     android:layout_marginTop="12dp"
                     android:background="@color/white">
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:id="@+id/siv_item2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
 
                 </android.support.constraint.ConstraintLayout>
 
-                <com.mingpinmall.me.ui.widget.SettingItemView
+                <com.goldze.common.dmvvm.widget.SettingItemView
                     android:id="@+id/siv_item3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                     app:smallIcon="true"
                     app:title="买家留言" />
 
-                <com.mingpinmall.me.ui.widget.SettingItemView
+                <com.goldze.common.dmvvm.widget.SettingItemView
                     android:id="@+id/siv_item4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     style="@style/VerticalScrollBarRecyclerView"/>
 
-                <com.mingpinmall.me.ui.widget.SettingItemView
+                <com.goldze.common.dmvvm.widget.SettingItemView
                     android:id="@+id/siv_item5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
                     android:layout_height="@dimen/line_hight"
                     android:background="@color/line_color" />
 
-                <com.mingpinmall.me.ui.widget.SettingItemView
+                <com.goldze.common.dmvvm.widget.SettingItemView
                     android:id="@+id/siv_goMaps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                     app:smallIcon="true"
                     app:title="查看商家地址" />
 
-                <com.mingpinmall.me.ui.widget.SettingItemView
+                <com.goldze.common.dmvvm.widget.SettingItemView
                     android:id="@+id/siv_item6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

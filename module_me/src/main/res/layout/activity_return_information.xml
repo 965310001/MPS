@@ -37,28 +37,28 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                         app:subTitle="@{data.return_info.refund_sn}"
                         app:title="退款编号" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                         app:subTitle="@{data.return_info.reason_info}"
                         app:title="退款原因" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                         app:subTitle="@{data.return_info.refund_amount}"
                         app:title="退款金额" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mode="NoLeftImage_NoMoreIcon_NoDescription"
@@ -98,14 +98,14 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                         app:subTitle="@{data.return_info.admin_state}"
                         app:title="审核状态" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mode="NoLeftImage_NoMoreIcon_NoDescription"
@@ -120,14 +120,14 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                         app:subTitle="@{data.return_info.admin_state}"
                         app:title="平台确认" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mode="NoLeftImage_NoMoreIcon_NoDescription"
@@ -148,28 +148,28 @@
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
-                        <com.mingpinmall.me.ui.widget.SettingItemView
+                        <com.goldze.common.dmvvm.widget.SettingItemView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                             app:subTitle="@{data.detail_array.refund_code}"
                             app:title="支付方式" />
 
-                        <com.mingpinmall.me.ui.widget.SettingItemView
+                        <com.goldze.common.dmvvm.widget.SettingItemView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                             app:subTitle="@{data.detail_array.pay_amount}"
                             app:title="在线退款金额" />
 
-                        <com.mingpinmall.me.ui.widget.SettingItemView
+                        <com.goldze.common.dmvvm.widget.SettingItemView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                             app:subTitle="@{data.detail_array.pd_amount}"
                             app:title="预存款返回金额" />
 
-                        <com.mingpinmall.me.ui.widget.SettingItemView
+                        <com.goldze.common.dmvvm.widget.SettingItemView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:mode="NoLeftImage_NoMoreIcon_NoDescription"
