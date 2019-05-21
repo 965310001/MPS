@@ -60,6 +60,7 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /*添加，删除收藏*/
+    // TODO: 2019/4/2 收藏
     public void favorites(String goodsId, boolean isLike, Object eventKey) {
         Map<String, Object> map = new HashMap<>();
         map.put(isLike ? "fav_id" : "goods_id", goodsId);
@@ -81,8 +82,9 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getOrderInfo(cartId, addressId, ifcart, eventKey);
     }
 
-    public void getMemberVrBuy(String goodsId, String quantity, Object eventKey) {
-        mRepository.getMemberVrBuy(goodsId, quantity, eventKey);
+    /*获取订单信息*/
+    public void getOrderInfo2(String cartId, String addressId, String ifcart, Object eventKey) {
+        mRepository.getOrderInfo2(cartId, addressId, ifcart, eventKey);
     }
 
     /*搜索列表*/
@@ -128,26 +130,21 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getBuyStep2(map, eventKey);
     }
 
-    /*提交虚拟订单*/
-    public void getBuyStep3(Map<String, Object> map, Object eventKey) {
-        mRepository.getBuyStep3(map, eventKey);
-    }
-
     /************************************* 店铺 ******************************/
     /*店铺信息*/
     public void getStoreInfo(String storeId, String key, Object eventKey) {
         mRepository.getStoreInfo(storeId, key, eventKey);
     }
 
-//    /*收藏排行*/
-//    public void getStoreGoodsRank(String storeId, String orderType, String num, Object eventKey) {
-//        mRepository.getStoreGoodsRank(storeId, orderType, num, eventKey);
-//    }
-//
-//    /*全部商品*/
-//    public void getStoreGoods(String storeId, long page, Object eventKey) {
-//        mRepository.getStoreGoods(storeId, page, eventKey);
-//    }
+    /*收藏排行*/
+    public void getStoreGoodsRank(String storeId, String orderType, String num, Object eventKey) {
+        mRepository.getStoreGoodsRank(storeId, orderType, num, eventKey);
+    }
+
+    /*全部商品*/
+    public void getStoreGoods(String storeId, long page, Object eventKey) {
+        mRepository.getStoreGoods(storeId, page, eventKey);
+    }
 
     public void getStoreGoods(String storeId, long page, String keyword,
                               String areaId, String priceFrom, String priceTo,
@@ -216,6 +213,11 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
 
     public void getPayNew(String paySn, String paymentCode, String pdPay, Object eventKey) {
         mRepository.getPayNew(paySn, paymentCode, pdPay, eventKey);
+    }
+
+    /*获取支付信息*/
+    public void getPayInfoNew(String paySn, String rcb_pay, String pd_pay, String password, String payment_code, Object eventKey) {
+        mRepository.getPayInfoNew(paySn, rcb_pay, pd_pay, password, payment_code, eventKey);
     }
 
     /************************************* end ******************************/

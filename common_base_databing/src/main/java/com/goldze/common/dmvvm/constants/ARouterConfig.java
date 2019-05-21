@@ -104,6 +104,8 @@ public interface ARouterConfig {
 
         /*提交订单*/
         String CONFIRMORDERACTIVITY = "/clasz/ConfirmOrderActivity";
+        /*提交订单*/
+        String CONFIRMORDERACTIVITY2 = "/clasz/ConfirmOrderActivity2";
         /*管理发票信息*/
         String INVOICEACTIVITY = "/clasz/InvoiceActivity";
         /*店铺*/

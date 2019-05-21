@@ -1,4 +1,4 @@
-package com.mingpinmall.me.ui.widget;
+package com.goldze.common.dmvvm.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,7 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.mingpinmall.me.R;
+import com.goldze.common.dmvvm.R;
 
 /**
  * 功能描述：
@@ -141,7 +141,7 @@ public class SettingItemView extends FrameLayout {
         setSubTitle(subTitle);
         setDescription(description);
         setImageIcon(drawable);
-        if (theme < 0 || theme > 6) {
+        if (theme < 0 || theme > 7) {
             theme = 0;
         }
         setThemeMode();

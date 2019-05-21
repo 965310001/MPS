@@ -20,56 +20,56 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
+            <com.goldze.common.dmvvm.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_sn}"
                 app:title="申请单号" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
+            <com.goldze.common.dmvvm.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_amount}"
                 app:title="提现金额" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
+            <com.goldze.common.dmvvm.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_bank_name}"
                 app:title="收款银行" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
+            <com.goldze.common.dmvvm.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_bank_no}"
                 app:title="收款账号" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
+            <com.goldze.common.dmvvm.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_payment_admin}"
                 app:title="开户人姓名" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
+            <com.goldze.common.dmvvm.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_add_time_text}"
                 app:title="创建时间" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
+            <com.goldze.common.dmvvm.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"
                 app:subTitle="@{data.info.pdc_payment_state_text}"
                 app:title="提现状态" />
 
-            <com.mingpinmall.me.ui.widget.SettingItemView
+            <com.goldze.common.dmvvm.widget.SettingItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mode="NoLeftImage_NoMoreIcon_NoDescription"

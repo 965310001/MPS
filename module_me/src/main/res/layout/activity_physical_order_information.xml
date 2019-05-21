@@ -189,7 +189,7 @@
 
                     </FrameLayout>
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:id="@+id/siv_item2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                         app:smallIcon="true"
                         app:title='@{@string/text_phsi_16 + data.reciver_name + " " + data.reciver_phone}' />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:id="@+id/siv_item3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
                         app:smallIcon="true"
                         app:title="@string/text_phsi_1" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:id="@+id/siv_item4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -225,7 +225,7 @@
                         app:smallIcon="true"
                         app:title="@string/text_phsi_2" />
 
-                    <com.mingpinmall.me.ui.widget.SettingItemView
+                    <com.goldze.common.dmvvm.widget.SettingItemView
                         android:id="@+id/siv_item5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

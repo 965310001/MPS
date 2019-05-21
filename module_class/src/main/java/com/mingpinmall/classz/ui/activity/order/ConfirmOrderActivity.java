@@ -1,5 +1,6 @@
 package com.mingpinmall.classz.ui.activity.order;
 
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,15 +17,14 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
-import com.mingpinmall.apppay.UserPaySheet;
-import com.mingpinmall.apppay.pay.Context;
-import com.mingpinmall.apppay.pay.JPayListener;
 import com.mingpinmall.apppay.pay.PayLayoutBean;
-import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
-import com.mingpinmall.apppay.pay.ZhiFuBaoStrategy;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ActivityConfirmOrderBinding;
+import com.mingpinmall.apppay.pay.Context;
+import com.mingpinmall.apppay.pay.JPayListener;
+import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
+import com.mingpinmall.apppay.pay.ZhiFuBaoStrategy;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
@@ -63,13 +63,8 @@ public class ConfirmOrderActivity extends
     @Autowired
     String ifcart;/*是否是购物车*/
 
-    @Autowired
-    String quantity;/*是否是虚拟*/
-
     /*地址id  是否选择发票*/
     private String addressId, invoice_id = "", mVatHash, mOffpayHash, mOffpayHashBatch;
-
-//    private List<BuyStepInfo.PayInfoBean.PaymentListBean> mPaymentList;
 
     private List<PayLayoutBean.PayInfoBean.PaymentListBean> mPaymentList;
 
@@ -101,214 +96,102 @@ public class ConfirmOrderActivity extends
     @Override
     protected void initData() {
         super.initData();
-        /*KLog.i(cartId);*/
-
-        showLoading();
-        // TODO: 2019/5/16 虚拟
-        binding.setIsVr(isVr());
-        if (isVr()) {
-            /*是虚拟*/
-            mViewModel.getMemberVrBuy(id, quantity, Constants.CONFIRMORDER_KEY[0]);
-        } else {
-            mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
-        }
-    }
-
-    /*是否是虚拟产品*/
-    boolean isVr() {
-        return !TextUtils.isEmpty(quantity);
+        KLog.i(cartId);
+        mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
 
-        registerObserver(Constants.CONFIRMORDER_KEY[1] + "Error", String.class)
-                .observe(this, s -> ToastUtils.showLong(s));
-
-        registerObserver(Constants.CONFIRMORDER_KEY[0], OrderInfo.class)
-                .observeForever(response -> {
-                    showSuccess();
-                    try {
-                        List<GoodsInfo> goods_list = new ArrayList<>();
-                        String name = "";
-                        List<OrderInfo.StoreCartListBean> storeCartList = response.getStore_cart_list();
-                        if (null != storeCartList) {
-                            for (OrderInfo.StoreCartListBean storeCartListBean : storeCartList) {
-                                for (GoodsInfo goodsInfo : storeCartListBean.getGoods_list()) {
-                                    if (!name.equals(storeCartListBean.getStore_name())) {
-                                        name = storeCartListBean.getStore_name();
-                                        goodsInfo.setStoreName(true);
+        registerObserver(Constants.CONFIRMORDER_KEY[0], BaseResponse.class)
+                .observeForever(new Observer<BaseResponse>() {
+                    @Override
+                    public void onChanged(@Nullable BaseResponse response) {
+                        BaseResponse<OrderInfo> data = response;
+                        if (data.isData()) {
+                            KLog.i(data.getData().toString());
+                            if (data.isSuccess()) {
+                                try {
+                                    binding.setAddress(data.getData().getAddress_info());
+                                    binding.setTotal(data.getData().getOrder_amount());
+                                    List<GoodsInfo> goods_list = new ArrayList<>();
+                                    String name = "";
+                                    for (OrderInfo.StoreCartListBean storeCartListBean : data.getData().getStore_cart_list()) {
+                                        for (GoodsInfo goodsInfo : storeCartListBean.getGoods_list()) {
+                                            if (!name.equals(storeCartListBean.getStore_name())) {
+                                                name = storeCartListBean.getStore_name();
+                                                goodsInfo.setStoreName(true);
+                                            }
+                                            goods_list.add(goodsInfo);
+                                        }
                                     }
-                                    goods_list.add(goodsInfo);
+                                    addressId = data.getData().getAddress_info()
+                                            .getAddress_id();
+                                    OrderInfo.AddressApiBean addressApi = data.getData().getAddress_api();
+                                    mVatHash = data.getData().getVat_hash();
+                                    mOffpayHash = addressApi.getOffpay_hash();
+                                    mOffpayHashBatch = addressApi.getOffpay_hash_batch();
+                                    binding.setData(goods_list);
+                                    binding.setAdapter(AdapterPool.newInstance().getConfirmOrder(activity)
+                                            .build());
+                                    binding.setPayment("在线付款");
+                                    binding.setInvoice(data.getData().getInv_info().getContent());
+                                    binding.executePendingBindings();
+                                } catch (Exception e) {
+                                    KLog.i(e.toString());
                                 }
-                            }
-                            addressId = response.getAddress_info()
-                                    .getAddress_id();
-                            OrderInfo.AddressApiBean addressApi = response.getAddress_api();
-                            mOffpayHash = addressApi.getOffpay_hash();
-                            mOffpayHashBatch = addressApi.getOffpay_hash_batch();
-                            mVatHash = response.getVat_hash();
-                            binding.setInvoice(response.getInv_info().getContent());
-                            binding.setAddress(response.getAddress_info());
-                            binding.setTotal(response.getOrder_amount());
-                        } else {
-                            if (isVr()) {
-                                GoodsInfo goodsInfo = response.getGoodsInfo();
-                                goodsInfo.setStoreName(true);
-                                goods_list.add(goodsInfo);
-                                binding.setTotal(goodsInfo.getOrder_amount());
-
-                                String memberMobile = response.getMember_info().getMember_mobile();
-                                binding.setContent(memberMobile);
-                                binding.setPhone(memberMobile);
+                            } else {
+                                ToastUtils.showLong(data.getMessage());
                             }
                         }
-                        binding.setData(goods_list);
-                        binding.setAdapter(AdapterPool.newInstance().getConfirmOrder(activity)
-                                .build());
-                        binding.setPayment("在线付款");
-                        binding.executePendingBindings();
-                    } catch (Exception e) {
-                        KLog.i(e.toString());
-                        ToastUtils.showLong(e.toString());
                     }
                 });
 
         /*支付sn的返回*/
         registerObserver(Constants.CONFIRMORDER_KEY[2], BaseResponse.class)
-                .observe(this, response -> {
-                    BaseResponse<PayLayoutBean> data = response;
-                    if (data.isSuccess()) {
-                        PayLayoutBean.PayInfoBean payInfo = data.getData().getPay_info();
-                        showPaySheet(payInfo);
+                .observe(this, new Observer<BaseResponse>() {
+                    @Override
+                    public void onChanged(@Nullable BaseResponse response) {
+                        BaseResponse<BuyStepInfo> data = response;
+                        if (data.isSuccess()) {
+                            if (null == mPayPopupWindow) {
+                                mPayPopupWindow = new PayPopupWindow.Builder(activity)
+                                        .setData(data.getData())
+                                        .build().createPop();
+                            }
+                            mPayPopupWindow.showAsDropDown(baseBinding.rlTitleContent);
 
-//                        BuyStepInfo stepInfo = data.getData();
-                        mPaySn = payInfo.getPay_sn();
-                        mPaymentCode = data.getData().getPayment_code();
-//                        BuyStepInfo.PayInfoBean payInfo = info.getPay_info();
-                        if (null != payInfo) {
-                            mPaymentList = payInfo.getPayment_list();
+                            BuyStepInfo stepInfo = data.getData();
+                            mPaySn = stepInfo.getPay_sn();
+                            mPaymentCode = stepInfo.getPayment_code();
+                            /*KLog.i(data.getData().getPay_sn());*/
+                            PayLayoutBean.PayInfoBean payInfo = stepInfo.getPay_info();
+                            if (null != payInfo) {
+                                mPaymentList = payInfo.getPayment_list();
+                            }
+                        } else {
+                            ToastUtils.showLong(data.getMessage());
                         }
-//                        if (null == mPayPopupWindow) {
-//                            mPayPopupWindow = new PayPopupWindow.Builder(activity)
-//                                    .setData(data.getData())
-//                                    .build().createPop();
-//                        }
-//                        mPayPopupWindow.showAsDropDown(baseBinding.rlTitleContent);
-//
-//                        BuyStepInfo stepInfo = data.getData();
-//                        mPaySn = stepInfo.getPay_sn();
-//                        mPaymentCode = stepInfo.getPayment_code();
-//                        /*KLog.i(data.getData().getPay_sn());*/
-//                        BuyStepInfo.PayInfoBean payInfo = stepInfo.getPay_info();
-//                        if (null != payInfo) {
-//                            mPaymentList = payInfo.getPayment_list();
-//                        }
-                    } else {
-                        ToastUtils.showLong(data.getMessage());
                     }
-                    /*BaseResponse<BuyStepInfo> data = response;
-                    if (data.isSuccess()) {
-                        if (null == mPayPopupWindow) {
-                            mPayPopupWindow = new PayPopupWindow.Builder(activity)
-                                    .setData(data.getData())
-                                    .build().createPop();
-                        }
-                        mPayPopupWindow.showAsDropDown(baseBinding.rlTitleContent);
-
-                        BuyStepInfo stepInfo = data.getData();
-                        mPaySn = stepInfo.getPay_sn();
-                        mPaymentCode = stepInfo.getPayment_code();
-                        *//*KLog.i(data.getData().getPay_sn());*//*
-                        BuyStepInfo.PayInfoBean payInfo = stepInfo.getPay_info();
-                        if (null != payInfo) {
-                            mPaymentList = payInfo.getPayment_list();
-                        }
-                    } else {
-                        ToastUtils.showLong(data.getMessage());
-                    }*/
                 });
 
         registerObserver(Constants.CONFIRMORDER_KEY[3] + "Success", PayMessageInfo.class)
-                .observe(this, response -> {
-                    KLog.i(response);
-//                    PayLayoutBean data = new PayLayoutBean();
-//                    PayLayoutBean.PayInfoBean payInfo = new PayLayoutBean.PayInfoBean();
-//                    response.getAppid();
-//                    data.setPay_info(payInfo);
-                    switch (mPayFun) {
-                        case 0:
-                            aLiPay(response.getParam());
-                            break;
-                        case 1:
-                            weixinPay(response.getPay_code());
-                            break;
+                .observe(this, new Observer<PayMessageInfo>() {
+                    @Override
+                    public void onChanged(@Nullable PayMessageInfo response) {
+                        KLog.i(response);
+                        switch (mPayFun) {
+                            case 0:
+                                aLiPay(response.getParam());
+                                break;
+                            case 1:
+                                weixinPay(response.getPay_code());
+                                break;
+                        }
                     }
                 });
     }
-
-    private UserPaySheet userPaySheet;
-
-    private void showPaySheet(PayLayoutBean.PayInfoBean payInfo) {
-        userPaySheet = new UserPaySheet.PayViewSheetBuilder(activity)
-                .setData(payInfo)
-                .setmOnPayMethodListener(new UserPaySheet.OnPayMethodListener() {
-                    @Override
-                    public void onAlipay(UserPaySheet dialog) {
-                        //支付宝支付方式
-                        dialog.getSheetBuilder().onPaying("");
-                        mPayFun=0;
-                        mViewModel.getPayNew(mPaySn, mPaymentCode, String.valueOf(mPayFun), Constants.CONFIRMORDER_KEY[3]);
-                      /*  method = 2;
-                        mViewModel.getPayInfo2(
-                                payInfo.getPay_sn(),
-                                "0",
-                                "0",
-                                "",
-                                "alipay_sdk",
-                                eventKey,
-                                Constants.PAY_METHOD
-                        );*/
-                    }
-
-                    @Override
-                    public void onWxpay(UserPaySheet dialog) {
-                        //微信支付方式
-                        dialog.getSheetBuilder().onPaying("");
-                        mPayFun=1;
-                        mViewModel.getPayNew(mPaySn, mPaymentCode, String.valueOf(mPayFun), Constants.CONFIRMORDER_KEY[3]);
-                      /*  method = 3;
-                        mViewModel.getPayInfo2(
-                                payInfo.getPay_sn(),
-                                "0",
-                                "0",
-                                "",
-                                "wxpay_sdk",
-                                eventKey,
-                                Constants.PAY_METHOD
-                        );*/
-                    }
-
-                    @Override
-                    public void onPcd(UserPaySheet dialog, int type, String password) {
-                        dialog.getSheetBuilder().onPaying("");
-                        mViewModel.getPayNew(mPaySn, mPaymentCode, String.valueOf(mPayFun), Constants.CONFIRMORDER_KEY[3]);
-                      /*  method = type;
-                        mViewModel.getPayInfo2(
-                                payInfo.getPay_sn(),
-                                type == 0 ? "1" : "0",
-                                type == 1 ? "1" : "0",
-                                password,
-                                "",
-                                eventKey,
-                                Constants.PAY_METHOD
-                        );*/
-                    }
-                }).build();
-        userPaySheet.show();
-    }
-
 
     private void aLiPay(final String param) {
         Context context = new Context(ZhiFuBaoStrategy.getInstance(this));
@@ -357,12 +240,6 @@ public class ConfirmOrderActivity extends
 
     private String getPaymentCode(String name) {
         if (null != mPaymentList && mPaymentList.size() > 0) {
-          /*  for (BuyStepInfo.PayInfoBean.PaymentListBean paymentListBean : mPaymentList) {
-                if (paymentListBean.getPayment_name().contains(name)) {
-                    return paymentListBean.getPayment_codeX();
-                }
-            }*/
-
             for (PayLayoutBean.PayInfoBean.PaymentListBean paymentListBean : mPaymentList) {
                 if (paymentListBean.getPayment_name().contains(name)) {
                     return paymentListBean.getPayment_code();
@@ -392,35 +269,33 @@ public class ConfirmOrderActivity extends
         ARouter.getInstance().build(ARouterConfig.classify.INVOICEACTIVITY)
                 .navigation(this,
                         400);
+
     }
 
     public void sublimit(View view) {
+        String payment = binding.getPayment();
+        KLog.i("提交订单" + binding.getContent() + payment);
         Map<String, Object> map = new HashMap<>();
-        if (isVr()) {
-            map.put("goods_id", id);
-            map.put("quantity", quantity);
-            map.put("buyer_phone", binding.getPhone());
-            map.put("buyer_msg", binding.getContent());
-            mViewModel.getBuyStep3(map, Constants.CONFIRMORDER_KEY[2]);
-        } else {
-            String payment = binding.getPayment();
-            KLog.i("提交订单" + binding.getContent() + payment);
-            if (!TextUtils.isEmpty(ifcart)) map.put("ifcart", ifcart);
-            map.put("cart_id", cartId);
-            map.put("address_id", addressId);
-            map.put("vat_hash", mVatHash);
-            map.put("offpay_hash", mOffpayHash);
-            map.put("offpay_hash_batch", mOffpayHashBatch);
-            map.put("pay_name", "online");
-            map.put("invoice_id", invoice_id);
-            map.put("rpt", "");
-            map.put("pay_message", binding.getContent());//store_id+binding.getContent()|store_id+binding.getContent()
-            mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
+
+        if (!TextUtils.isEmpty(ifcart)) {
+            map.put("ifcart", ifcart);
         }
+        map.put("cart_id", cartId);
+        map.put("address_id", addressId);
+        map.put("vat_hash", mVatHash);
+        map.put("offpay_hash", mOffpayHash);
+        map.put("offpay_hash_batch", mOffpayHashBatch);
+        map.put("pay_name", "online");
+        map.put("invoice_id", invoice_id);
+        map.put("rpt", "");
+        map.put("pay_message", binding.getContent());//store_id+binding.getContent()|store_id+binding.getContent()
+        mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
     }
 
     public void onFinishClick(View view) {
-        if (mPayPopupWindow.isShowing()) mPayPopupWindow.dismiss();
+        if (mPayPopupWindow.isShowing()) {
+            mPayPopupWindow.dismiss();
+        }
     }
 
     public void selectAddress(View view) {
@@ -454,7 +329,6 @@ public class ConfirmOrderActivity extends
     @Override
     public void onPaySuccess() {
         ToastUtils.showLong("支付成功");
-        KLog.i("支付成功");
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.mingpinmall.apppay.pay;
 
+import android.databinding.Bindable;
+
+import com.goldze.common.dmvvm.base.bean.BaseBean;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,17 +11,9 @@ import java.util.List;
  * @author 小斌
  * @data 2019/5/14
  **/
-public class PayLayoutBean implements Serializable {
-    private String payment_code;
+public class PayLayoutBean extends BaseBean {
+
     private PayInfoBean pay_info;
-
-    public String getPayment_code() {
-        return payment_code;
-    }
-
-    public void setPayment_code(String payment_code) {
-        this.payment_code = payment_code;
-    }
 
     public PayInfoBean getPay_info() {
         return pay_info;
@@ -27,7 +23,7 @@ public class PayLayoutBean implements Serializable {
         this.pay_info = pay_info;
     }
 
-    public static class PayInfoBean {
+    public static class PayInfoBean extends BaseBean{
 
         private String pay_amount;
         private String member_available_pd;
@@ -91,6 +87,33 @@ public class PayLayoutBean implements Serializable {
 
         public void setPayment_list(List<PaymentListBean> payment_list) {
             this.payment_list = payment_list;
+        }
+
+        @Bindable
+        public String getPayAmout() {
+            return String.format("本次交易需在线支付<font size='3' color='#ED5564'><b>%s</b></font>元", pay_amount);
+        }
+
+        /*是否显示微信*/
+        @Bindable
+        public boolean isWeiXin() {
+            for (PaymentListBean paymentListBean : getPayment_list()) {
+                if (paymentListBean.getPayment_name().contains("微信")) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /*是否显示支付宝*/
+        @Bindable
+        public boolean isAliPay() {
+            for (PaymentListBean paymentListBean : getPayment_list()) {
+                if (paymentListBean.getPayment_name().contains("支付宝")) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static class PaymentListBean {

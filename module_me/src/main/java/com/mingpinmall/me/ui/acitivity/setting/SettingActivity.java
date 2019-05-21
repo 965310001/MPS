@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -22,7 +21,7 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.mingpinmall.me.ui.widget.SettingItemView;
+import com.goldze.common.dmvvm.widget.SettingItemView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,7 +1,7 @@
 package com.mingpinmall.me.ui.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.mingpinmall.me.ui.widget.SettingItemView;
+import com.goldze.common.dmvvm.widget.SettingItemView;
 
 /**
  * 功能描述：
