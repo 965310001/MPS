@@ -1,0 +1,49 @@
+apply plugin: 'com.android.library'
+
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(rootProject.file("constants.properties")))
+
+android {
+    compileSdkVersion rootProject.ext.versions.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.versions.minSdkVersion
+        targetSdkVersion rootProject.ext.versions.targetSdkVersion
+        versionCode rootProject.ext.versions.versionCode
+        versionName rootProject.ext.versions.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [APP_ID     : keystoreProperties['APP_ID'],
+                                APP_VERSION: rootProject.ext.versions.versionName,
+                                APP_CHANNEL: keystoreProperties['APP_CHANNEL'],
+                                ISDEBUG    : keystoreProperties['ISDEBUG']]
+
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "BUGLY_APP_ID", keystoreProperties['APP_ID']
+        }
+        debug {
+            buildConfigField "String", "BUGLY_APP_ID", keystoreProperties['APP_ID']
+        }
+    }
+
+    sourceSets {
+        main.jniLibs.srcDirs = ['libs']
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+}

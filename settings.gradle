@@ -1,1 +1,1 @@
-include ':app', ':common_base', ':module_home', ':module_class', ':module_cart', ':module_me', ':common_base_databing', ':module_pay'
+include ':app', ':common_base', ':module_home', ':module_class', ':module_cart', ':module_me', ':common_base_databing', ':module_pay', ':bugly'

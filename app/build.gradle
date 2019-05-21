@@ -90,7 +90,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation project(':common_base_databing')
     implementation project(':module_pay')
     if (!Boolean.valueOf(rootProject.ext.isModule)) {
@@ -100,8 +99,7 @@ dependencies {
         implementation project(':module_cart')
         implementation project(':module_me')
     }
-
     /*微信支付*/
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-
+    implementation project(':bugly')
 }

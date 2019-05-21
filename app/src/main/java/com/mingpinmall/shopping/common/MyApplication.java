@@ -3,6 +3,7 @@ package com.mingpinmall.shopping.common;
 import android.support.v4.content.ContextCompat;
 
 import com.goldze.common.dmvvm.base.BaseApplication;
+import com.guofeng.bugly.utils.BuglyUtils;
 import com.mingpinmall.shopping.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -37,5 +38,6 @@ public class MyApplication extends BaseApplication {
     @Override
     public void run() {
         XUI.init(this);
+        BuglyUtils.init(getApplicationContext());
     }
 }
