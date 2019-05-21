@@ -208,7 +208,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 binding.llGoodsSpecification.addView(textBinding.getRoot());
             }
         }
-        KLog.i(dataBean.isVoucher() + "==");
+//        KLog.i(dataBean.isVoucher() + "==");
         binding.setIsVoucher(dataBean.isVoucher());
     }
 
@@ -356,6 +356,15 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     }
 
     protected void updateSpecificationPop() {
+        if (null == goodsInfo) {
+            goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
+            if (null != goodsDetailInfo) {
+                dataBean = goodsDetailInfo.getDatas();
+                if (null != dataBean) {
+                    goodsInfo = dataBean.getGoods_info();
+                }
+            }
+        }
         specificationPop.setGoodsInfo(goodsInfo);
         specificationPop.loadData();
     }

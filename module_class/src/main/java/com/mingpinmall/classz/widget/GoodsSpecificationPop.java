@@ -3,6 +3,7 @@ package com.mingpinmall.classz.widget;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,7 +123,6 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                         KLog.i(newsSpecListDataBean.getVal());
                         LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
                                 newsSpecListDataBean.getVal());
-                        KLog.i(newsSpecListDataBean.getVal());
                         break;
                     }
                 }
@@ -149,11 +149,13 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         bind.setListener(this);
         bind.setDismissListener(this);
         bind.executePendingBindings();
+
+        String clickGoodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
+        bind.ccvClick.setCurrCount(TextUtils.isEmpty(clickGoodsNum) ? 1 : Integer.valueOf(clickGoodsNum));
     }
 
     @Override
     public void onAfter(int value) {
-        KLog.i(value + "");
         SharePreferenceUtil.saveKeyValue("click_goods_num", String.valueOf(value));
     }
 

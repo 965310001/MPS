@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
 import com.socks.library.KLog;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -124,7 +123,6 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getStoreShappingList(bId, curpage, keyword, typeId, areaId, priceFrom, priceTo, key, order, ci, st);
     }
 
-
     /*提交订单*/
     public void getBuyStep2(Map<String, Object> map, Object eventKey) {
         mRepository.getBuyStep2(map, eventKey);
@@ -134,16 +132,6 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     /*店铺信息*/
     public void getStoreInfo(String storeId, String key, Object eventKey) {
         mRepository.getStoreInfo(storeId, key, eventKey);
-    }
-
-    /*收藏排行*/
-    public void getStoreGoodsRank(String storeId, String orderType, String num, Object eventKey) {
-        mRepository.getStoreGoodsRank(storeId, orderType, num, eventKey);
-    }
-
-    /*全部商品*/
-    public void getStoreGoods(String storeId, long page, Object eventKey) {
-        mRepository.getStoreGoods(storeId, page, eventKey);
     }
 
     public void getStoreGoods(String storeId, long page, String keyword,
@@ -196,20 +184,6 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     public void picUpload(String goodsId, String fId, String tId, String tName, String image, Object eventKey) {
         mRepository.picUpload(goodsId, fId, tId, tName, image, eventKey);
     }
-//    public void picUpload(String goodsId, String fId, String tId, String tName, File file, Object eventKey) {
-//        mRepository.picUpload(goodsId, fId, tId, tName, file, eventKey);
-//    }
-
-
-//    /*阿里支付*/
-//    public void getAli(Map<String, Object> map, Object eventKey) {
-//        mRepository.getAli(map, eventKey);
-//    }
-//
-//    /*微信支付*/
-//    public void getWeiXin(Map<String, Object> map, Object eventKey) {
-//        mRepository.getWeiXin(map, eventKey);
-//    }
 
     public void getPayNew(String paySn, String paymentCode, String pdPay, Object eventKey) {
         mRepository.getPayNew(paySn, paymentCode, pdPay, eventKey);
@@ -221,4 +195,26 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /************************************* end ******************************/
+
+    //    public void picUpload(String goodsId, String fId, String tId, String tName, File file, Object eventKey) {
+//        mRepository.picUpload(goodsId, fId, tId, tName, file, eventKey);
+//    }
+//    /*阿里支付*/
+//    public void getAli(Map<String, Object> map, Object eventKey) {
+//        mRepository.getAli(map, eventKey);
+//    }
+//
+//    /*微信支付*/
+//    public void getWeiXin(Map<String, Object> map, Object eventKey) {
+//        mRepository.getWeiXin(map, eventKey);
+//    }
+//     /*收藏排行*/
+//    public void getStoreGoodsRank(String storeId, String orderType, String num, Object eventKey) {
+//        mRepository.getStoreGoodsRank(storeId, orderType, num, eventKey);
+//    }
+//
+//    /*全部商品*/
+//    public void getStoreGoods(String storeId, long page, Object eventKey) {
+//        mRepository.getStoreGoods(storeId, page, eventKey);
+//    }
 }

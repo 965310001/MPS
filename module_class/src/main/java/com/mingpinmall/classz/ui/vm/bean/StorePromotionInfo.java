@@ -383,7 +383,7 @@ public class StorePromotionInfo extends BaseBean {
                 private String xianshi_name;
                 private String xianshi_title;
                 private String xianshi_explain;
-                private String quota_id;
+                //                private String quota_id;
                 private String start_time;
                 private String end_time;
                 private String member_id;
@@ -392,16 +392,16 @@ public class StorePromotionInfo extends BaseBean {
                 private String store_name;
                 private String lower_limit;
                 private String state;
-                private String xianshi_image;
-                private String xianshi_image1;
-                private String class_id;
-                private String xianshi_intro;
-                private String xianshi_image2;
-                private String recommended;
-                private String xianshi_state_text;
-                private boolean editable;
-                private String start_time_text;
-                private String end_time_text;
+//                private String xianshi_image;
+//                private String xianshi_image1;
+//                private String class_id;
+//                private String xianshi_intro;
+//                private String xianshi_image2;
+//                private String recommended;
+//                private String xianshi_state_text;
+//                private boolean editable;
+//                private String start_time_text;
+//                private String end_time_text;
 
 
                 private String time;
@@ -461,14 +461,15 @@ public class StorePromotionInfo extends BaseBean {
                     this.xianshi_explain = xianshi_explain;
                 }
 
-                public String getQuota_id() {
-                    return quota_id;
-                }
-
-                public void setQuota_id(String quota_id) {
-                    this.quota_id = quota_id;
-                }
-
+                //
+//                public String getQuota_id() {
+//                    return quota_id;
+//                }
+//
+//                public void setQuota_id(String quota_id) {
+//                    this.quota_id = quota_id;
+//                }
+//
                 public String getStart_time() {
                     return start_time;
                 }
@@ -533,85 +534,85 @@ public class StorePromotionInfo extends BaseBean {
                     this.state = state;
                 }
 
-                public String getXianshi_image() {
-                    return xianshi_image;
-                }
+//                public String getXianshi_image() {
+//                    return xianshi_image;
+//                }
+//
+//                public void setXianshi_image(String xianshi_image) {
+//                    this.xianshi_image = xianshi_image;
+//                }
 
-                public void setXianshi_image(String xianshi_image) {
-                    this.xianshi_image = xianshi_image;
-                }
+//                public String getXianshi_image1() {
+//                    return xianshi_image1;
+//                }
+//
+//                public void setXianshi_image1(String xianshi_image1) {
+//                    this.xianshi_image1 = xianshi_image1;
+//                }
+//
+//                public String getClass_id() {
+//                    return class_id;
+//                }
+//
+//                public void setClass_id(String class_id) {
+//                    this.class_id = class_id;
+//                }
+//
+//                public String getXianshi_intro() {
+//                    return xianshi_intro;
+//                }
+//
+//                public void setXianshi_intro(String xianshi_intro) {
+//                    this.xianshi_intro = xianshi_intro;
+//                }
 
-                public String getXianshi_image1() {
-                    return xianshi_image1;
-                }
+//                public String getXianshi_image2() {
+//                    return xianshi_image2;
+//                }
+//
+//                public void setXianshi_image2(String xianshi_image2) {
+//                    this.xianshi_image2 = xianshi_image2;
+//                }
 
-                public void setXianshi_image1(String xianshi_image1) {
-                    this.xianshi_image1 = xianshi_image1;
-                }
+//                public String getRecommended() {
+//                    return recommended;
+//                }
+//
+//                public void setRecommended(String recommended) {
+//                    this.recommended = recommended;
+//                }
+//
+//                public String getXianshi_state_text() {
+//                    return xianshi_state_text;
+//                }
+//
+//                public void setXianshi_state_text(String xianshi_state_text) {
+//                    this.xianshi_state_text = xianshi_state_text;
+//                }
+//
+//                public boolean isEditable() {
+//                    return editable;
+//                }
+//
+//                public void setEditable(boolean editable) {
+//                    this.editable = editable;
+//                }
+//
+//                public String getStart_time_text() {
+//                    return start_time_text;
+//                }
+//
+//                public void setStart_time_text(String start_time_text) {
+//                    this.start_time_text = start_time_text;
+//                }
 
-                public String getClass_id() {
-                    return class_id;
-                }
-
-                public void setClass_id(String class_id) {
-                    this.class_id = class_id;
-                }
-
-                public String getXianshi_intro() {
-                    return xianshi_intro;
-                }
-
-                public void setXianshi_intro(String xianshi_intro) {
-                    this.xianshi_intro = xianshi_intro;
-                }
-
-                public String getXianshi_image2() {
-                    return xianshi_image2;
-                }
-
-                public void setXianshi_image2(String xianshi_image2) {
-                    this.xianshi_image2 = xianshi_image2;
-                }
-
-                public String getRecommended() {
-                    return recommended;
-                }
-
-                public void setRecommended(String recommended) {
-                    this.recommended = recommended;
-                }
-
-                public String getXianshi_state_text() {
-                    return xianshi_state_text;
-                }
-
-                public void setXianshi_state_text(String xianshi_state_text) {
-                    this.xianshi_state_text = xianshi_state_text;
-                }
-
-                public boolean isEditable() {
-                    return editable;
-                }
-
-                public void setEditable(boolean editable) {
-                    this.editable = editable;
-                }
-
-                public String getStart_time_text() {
-                    return start_time_text;
-                }
-
-                public void setStart_time_text(String start_time_text) {
-                    this.start_time_text = start_time_text;
-                }
-
-                public String getEnd_time_text() {
-                    return end_time_text;
-                }
-
-                public void setEnd_time_text(String end_time_text) {
-                    this.end_time_text = end_time_text;
-                }
+//                public String getEnd_time_text() {
+//                    return end_time_text;
+//                }
+//
+//                public void setEnd_time_text(String end_time_text) {
+//                    this.end_time_text = end_time_text;
+//                }
             }
         }
     }

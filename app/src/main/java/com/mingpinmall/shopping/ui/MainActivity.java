@@ -107,12 +107,13 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
                 index = position == null ? -1 : position;
             }
         });
+//        int i=10/0;
 
         // TODO: 2019/4/19 测试
 //        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
 //        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
 //        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
-//        ActivityToActivity.goShoppingDetails("110349"); //虚拟
+//        ActivityToActivity.goShoppingDetails("110150"); //虚拟
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
     }
 

@@ -2,7 +2,6 @@ package com.mingpinmall.classz.ui.activity.details;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -45,7 +44,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     @Autowired
     String id;
 
-
     private GoodsInfo mGoodsInfo;
     private GoodsDetailInfo mGoodsDetailInfo;
 
@@ -56,13 +54,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     @Override
     protected boolean isActionBar() {
         return false;
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        id = intent.getStringExtra("id");
-        initData();
     }
 
     @Override
@@ -85,7 +76,8 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     @Override
     protected void initData() {
         super.initData();
-
+        SharePreferenceUtil.saveKeyValue("SHOPPINGDETAILSACTIVITY_ID", id);
+        SharePreferenceUtil.saveKeyValue("click_goods_num", "1");
         mViewModel.getGoodsDetail(id);
     }
 
@@ -93,6 +85,88 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     protected void dataObserver() {
         super.dataObserver();
 
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + id, GoodsDetailInfo.class)
+                .observeForever(response -> {
+                    KLog.i(response.isSuccess() + " 刷新数据");
+                    if (response.isSuccess()) {
+                        mGoodsDetailInfo = response;
+                        mGoodsInfo = response.getDatas().getGoods_info();
+                        mGoodsInfo.news_spec_list_data = response.getDatas().getNews_spec_list_data();
+                        mGoodsInfo.setfavorate(response.getDatas().isIs_favorate());
+
+                        mGoodsInfo.setMember_id(mGoodsDetailInfo.getDatas().getStore_info().getMember_id());
+
+                        if (mGoodsInfoMainFragment == null) {
+                            List<HorizontalTabTitle> title = new ArrayList<>();
+                            HorizontalTabTitle horizontalTabTitle;
+                            for (String s : Arrays.asList("商品", "详情", "评价")) {
+                                horizontalTabTitle = new HorizontalTabTitle(s);
+                                title.add(horizontalTabTitle);
+                            }
+
+                            List<BaseFragment> fragmentList = new ArrayList<>();
+                            fragmentList.add(mGoodsInfoMainFragment = GoodsInfoMainFragment.newInstance());
+                            fragmentList.add(mGoodsInfoDetailMainFragment = GoodsInfoDetailMainFragment.newInstance());
+                            fragmentList.add(mGoodsCommentFragment = GoodsCommentFragment.newInstance());
+
+                            binding.vpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), title, fragmentList));
+                            binding.vpContent.setOffscreenPageLimit(3);
+                            binding.tabs.setViewPager(binding.vpContent);
+                        } else {
+                            if (mGoodsInfoMainFragment.isVisible()) {
+                                mGoodsInfoMainFragment.update();
+                            }
+                            if (mGoodsInfoDetailMainFragment.isVisible()) {
+                                mGoodsInfoDetailMainFragment.setData();
+                            }
+                            if (mGoodsCommentFragment.isVisible()) {
+                                mGoodsCommentFragment.onRefresh();
+                            }
+                            if (!TextUtils.isEmpty(SharePreferenceUtil.getKeyValue("SPECIFICATIONPOP"))) {
+                                mGoodsInfoMainFragment.updateSpecificationPop();
+                            }
+                        }
+                        if (mGoodsInfo.isVirtual()) {
+                            binding.tvBuyNow.setAlpha(1.0f);
+                            binding.tvBuyNow.setClickable(true);
+                        } else if (mGoodsInfo.isShop()) {
+                            binding.tvBuyNow.setAlpha(0.5f);
+                            binding.tvBuyNow.setClickable(false);
+                        } else {
+                            binding.tvBuyNow.setAlpha(1.0f);
+                            binding.tvBuyNow.setClickable(true);
+                        }
+                        setCartNumber();
+                        binding.setData(mGoodsInfo);
+                        KLog.i("刷新数据");
+                    } else {
+                        showErrorState();
+                    }
+                });
+
+        /*商品规格*/
+        registerObserver("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL")
+                .observe(this, s -> {
+                    id = s.toString();
+                    KLog.i(s.toString() + " ===");
+                    registerObserver();
+                    initData();
+                });
+
+        /*显示对话框 正在加载*/
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + id + "LOADING", Object.class)
+                .observe(this, obj -> {
+                    boolean isLoad = (boolean) obj;
+                    if (isLoad) {
+                        showLoading();
+                    } else {
+                        /*加载框*/
+                        // TODO: 2019/5/13  加载框
+                    }
+                });
+    }
+
+    void registerObserver() {
         registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + id, GoodsDetailInfo.class)
                 .observeForever(response -> {
                     if (response.isSuccess()) {
@@ -150,54 +224,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                     }
                 });
 
-        /*添加到购物车*/
-//        registerObserver(Constants.CART_EVENT_KEY, ResultBean.class)
-//                .observeForever(new Observer<ResultBean>() {
-//                    @Override
-//                    public void onChanged(@Nullable ResultBean response) {
-//                        /*if (!response.isSuccess() || response.isLogin()) {
-//                            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-//                            ToastUtils.showLong(response.getError());
-//                        } else {
-//                            ShoppingCartUtils.addCartGoods(goodsInfo);
-//                            setCartNumber();
-//                            ToastUtils.showLong("添加购物车成功");
-//                        }*/
-//                        if (response.isSuccess()) {
-//                            ShoppingCartUtils.addCartGoods(goodsInfo);
-//                            setCartNumber();
-//                            ToastUtils.showLong("添加购物车成功");
-//                        } else {
-//                            if (response.isLogin()) {
-//                                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-//                                ToastUtils.showLong(response.getError());
-//                            } else {
-//                                ToastUtils.showLong(response.getError());
-//                            }
-//                        }
-//                        KLog.i(response);
-//                    }
-//                });
-
-        /*商品规格*/
-        registerObserver("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL")
-                .observe(this, s -> {
-                    id = s.toString();
-                    KLog.i(s.toString());
-                    initData();
-                });
-
-        /*显示对话框 正在加载*/
-        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + id + "LOADING", Object.class)
-                .observe(this, obj -> {
-                    boolean isLoad = (boolean) obj;
-                    if (isLoad) {
-                        showLoading();
-                    } else {
-                        /*加载框*/
-                        // TODO: 2019/5/13  加载框
-                    }
-                });
     }
 
     @Override
@@ -227,6 +253,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     public void buyNow(View view) {
         /*判断是否是虚拟*/
+        id = SharePreferenceUtil.getKeyValue("SHOPPINGDETAILSACTIVITY_ID");
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             mGoodsInfoMainFragment.popWindowDismiss();
             Map<String, Object> map = new HashMap<>();

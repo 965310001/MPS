@@ -108,7 +108,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                 .observeForever(response -> {
                     BaseResponse<ConfirmOrderBean> data = response;
                     if (data.isData()) {
-                        KLog.i(data.getData().toString());
+                        /*KLog.i(data.getData().toString());*/
                         if (data.isSuccess()) {
                             try {
                                 binding.setAddress(data.getData().getAddress_info());
