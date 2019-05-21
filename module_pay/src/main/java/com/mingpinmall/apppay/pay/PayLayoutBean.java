@@ -8,8 +8,16 @@ import java.util.List;
  * @data 2019/5/14
  **/
 public class PayLayoutBean implements Serializable {
-
+    private String payment_code;
     private PayInfoBean pay_info;
+
+    public String getPayment_code() {
+        return payment_code;
+    }
+
+    public void setPayment_code(String payment_code) {
+        this.payment_code = payment_code;
+    }
 
     public PayInfoBean getPay_info() {
         return pay_info;

@@ -375,6 +375,15 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     KLog.i(response.isSuccess() + " " + response.getError());
                     if (response.isSuccess()) {
                         /*ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏成功" : "添加收藏成功");*/
+                        if (null == goodsInfo) {
+                            goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
+                            if (null != goodsDetailInfo) {
+                                dataBean = goodsDetailInfo.getDatas();
+                                if (null != dataBean) {
+                                    goodsInfo = dataBean.getGoods_info();
+                                }
+                            }
+                        }
                         binding.ivLike.setBackgroundResource(goodsInfo.isfavorate() ? R.drawable.ic_me_favorite : R.drawable.ic_me_favorite_red);
                         goodsInfo.setfavorate(!goodsInfo.isfavorate());
                         binding.executePendingBindings();

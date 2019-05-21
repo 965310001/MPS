@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.api;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
@@ -123,9 +124,13 @@ public interface ClassifyService {
     Flowable<BaseResponse<VoucherInfo>> getVoucherTplList(@FieldMap Map<String, Object> map);
 
     /*提交订单*/
+//    @FormUrlEncoded
+//    @POST(BASEURL)
+//    Flowable<BaseResponse<BuyStepInfo>> getBuyStep2(@FieldMap Map<String, Object> map);
+
     @FormUrlEncoded
     @POST(BASEURL)
-    Flowable<BaseResponse<BuyStepInfo>> getBuyStep2(@FieldMap Map<String, Object> map);
+    Flowable<BaseResponse<PayLayoutBean>> getBuyStep2(@FieldMap Map<String, Object> map);
 
     /*消息列表*/
     @GET(BASEURL)

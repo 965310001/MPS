@@ -8,6 +8,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
+import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
@@ -743,11 +744,32 @@ public class ClassifyRepository extends BaseRepository {
     public void getBuyStep2(Map<String, Object> map, final Object eventKey) {
         map = parames(map, "member_buy", "buy_step2");
         map.put("key", getUserKey());
+//        addDisposable(apiService.getBuyStep2(map)
+//                .compose(RxSchedulers.io_main())
+//                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
+//                    @Override
+//                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
+//                        sendData(eventKey, result);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(String msg) {
+//                        KLog.i(msg);
+//                    }
+//
+//                    @Override
+//                    protected void onNoNetWork() {
+//                        super.onNoNetWork();
+//                    }
+//                })
+//        );
+
+        /*修改*/
         addDisposable(apiService.getBuyStep2(map)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
+                .subscribeWith(new RxSubscriber<BaseResponse<PayLayoutBean>>() {
                     @Override
-                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
+                    public void onSuccess(BaseResponse<PayLayoutBean> result) {
                         sendData(eventKey, result);
                     }
 
@@ -762,6 +784,7 @@ public class ClassifyRepository extends BaseRepository {
                     }
                 })
         );
+
 
     }
 
@@ -770,9 +793,9 @@ public class ClassifyRepository extends BaseRepository {
         map.put("key", getUserKey());
         addDisposable(apiService.getBuyStep2(map)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
+                .subscribeWith(new RxSubscriber<BaseResponse<PayLayoutBean>>() {
                     @Override
-                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
+                    public void onSuccess(BaseResponse<PayLayoutBean> result) {
                         sendData(eventKey, result);
                     }
 
@@ -787,6 +810,25 @@ public class ClassifyRepository extends BaseRepository {
                     }
                 })
         );
+//        addDisposable(apiService.getBuyStep2(map)
+//                .compose(RxSchedulers.io_main())
+//                .subscribeWith(new RxSubscriber<BaseResponse<BuyStepInfo>>() {
+//                    @Override
+//                    public void onSuccess(BaseResponse<BuyStepInfo> result) {
+//                        sendData(eventKey, result);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(String msg) {
+//                        KLog.i(msg);
+//                    }
+//
+//                    @Override
+//                    protected void onNoNetWork() {
+//                        super.onNoNetWork();
+//                    }
+//                })
+//        );
 
     }
 

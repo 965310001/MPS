@@ -16,8 +16,10 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
+import com.mingpinmall.apppay.UserPaySheet;
 import com.mingpinmall.apppay.pay.Context;
 import com.mingpinmall.apppay.pay.JPayListener;
+import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
 import com.mingpinmall.apppay.pay.ZhiFuBaoStrategy;
 import com.mingpinmall.classz.R;
@@ -67,7 +69,9 @@ public class ConfirmOrderActivity extends
     /*地址id  是否选择发票*/
     private String addressId, invoice_id = "", mVatHash, mOffpayHash, mOffpayHashBatch;
 
-    private List<BuyStepInfo.PayInfoBean.PaymentListBean> mPaymentList;
+//    private List<BuyStepInfo.PayInfoBean.PaymentListBean> mPaymentList;
+
+    private List<PayLayoutBean.PayInfoBean.PaymentListBean> mPaymentList;
 
     private int mPayFun = -1;
 
@@ -174,7 +178,37 @@ public class ConfirmOrderActivity extends
         /*支付sn的返回*/
         registerObserver(Constants.CONFIRMORDER_KEY[2], BaseResponse.class)
                 .observe(this, response -> {
-                    BaseResponse<BuyStepInfo> data = response;
+                    BaseResponse<PayLayoutBean> data = response;
+                    if (data.isSuccess()) {
+                        PayLayoutBean.PayInfoBean payInfo = data.getData().getPay_info();
+                        showPaySheet(payInfo);
+
+//                        BuyStepInfo stepInfo = data.getData();
+                        mPaySn = payInfo.getPay_sn();
+                        mPaymentCode = data.getData().getPayment_code();
+//                        BuyStepInfo.PayInfoBean payInfo = info.getPay_info();
+                        if (null != payInfo) {
+                            mPaymentList = payInfo.getPayment_list();
+                        }
+//                        if (null == mPayPopupWindow) {
+//                            mPayPopupWindow = new PayPopupWindow.Builder(activity)
+//                                    .setData(data.getData())
+//                                    .build().createPop();
+//                        }
+//                        mPayPopupWindow.showAsDropDown(baseBinding.rlTitleContent);
+//
+//                        BuyStepInfo stepInfo = data.getData();
+//                        mPaySn = stepInfo.getPay_sn();
+//                        mPaymentCode = stepInfo.getPayment_code();
+//                        /*KLog.i(data.getData().getPay_sn());*/
+//                        BuyStepInfo.PayInfoBean payInfo = stepInfo.getPay_info();
+//                        if (null != payInfo) {
+//                            mPaymentList = payInfo.getPayment_list();
+//                        }
+                    } else {
+                        ToastUtils.showLong(data.getMessage());
+                    }
+                    /*BaseResponse<BuyStepInfo> data = response;
                     if (data.isSuccess()) {
                         if (null == mPayPopupWindow) {
                             mPayPopupWindow = new PayPopupWindow.Builder(activity)
@@ -186,19 +220,23 @@ public class ConfirmOrderActivity extends
                         BuyStepInfo stepInfo = data.getData();
                         mPaySn = stepInfo.getPay_sn();
                         mPaymentCode = stepInfo.getPayment_code();
-                        /*KLog.i(data.getData().getPay_sn());*/
+                        *//*KLog.i(data.getData().getPay_sn());*//*
                         BuyStepInfo.PayInfoBean payInfo = stepInfo.getPay_info();
                         if (null != payInfo) {
                             mPaymentList = payInfo.getPayment_list();
                         }
                     } else {
                         ToastUtils.showLong(data.getMessage());
-                    }
+                    }*/
                 });
 
         registerObserver(Constants.CONFIRMORDER_KEY[3] + "Success", PayMessageInfo.class)
                 .observe(this, response -> {
                     KLog.i(response);
+//                    PayLayoutBean data = new PayLayoutBean();
+//                    PayLayoutBean.PayInfoBean payInfo = new PayLayoutBean.PayInfoBean();
+//                    response.getAppid();
+//                    data.setPay_info(payInfo);
                     switch (mPayFun) {
                         case 0:
                             aLiPay(response.getParam());
@@ -209,6 +247,68 @@ public class ConfirmOrderActivity extends
                     }
                 });
     }
+
+    private UserPaySheet userPaySheet;
+
+    private void showPaySheet(PayLayoutBean.PayInfoBean payInfo) {
+        userPaySheet = new UserPaySheet.PayViewSheetBuilder(activity)
+                .setData(payInfo)
+                .setmOnPayMethodListener(new UserPaySheet.OnPayMethodListener() {
+                    @Override
+                    public void onAlipay(UserPaySheet dialog) {
+                        //支付宝支付方式
+                        dialog.getSheetBuilder().onPaying("");
+                        mPayFun=0;
+                        mViewModel.getPayNew(mPaySn, mPaymentCode, String.valueOf(mPayFun), Constants.CONFIRMORDER_KEY[3]);
+                      /*  method = 2;
+                        mViewModel.getPayInfo2(
+                                payInfo.getPay_sn(),
+                                "0",
+                                "0",
+                                "",
+                                "alipay_sdk",
+                                eventKey,
+                                Constants.PAY_METHOD
+                        );*/
+                    }
+
+                    @Override
+                    public void onWxpay(UserPaySheet dialog) {
+                        //微信支付方式
+                        dialog.getSheetBuilder().onPaying("");
+                        mPayFun=1;
+                        mViewModel.getPayNew(mPaySn, mPaymentCode, String.valueOf(mPayFun), Constants.CONFIRMORDER_KEY[3]);
+                      /*  method = 3;
+                        mViewModel.getPayInfo2(
+                                payInfo.getPay_sn(),
+                                "0",
+                                "0",
+                                "",
+                                "wxpay_sdk",
+                                eventKey,
+                                Constants.PAY_METHOD
+                        );*/
+                    }
+
+                    @Override
+                    public void onPcd(UserPaySheet dialog, int type, String password) {
+                        dialog.getSheetBuilder().onPaying("");
+                        mViewModel.getPayNew(mPaySn, mPaymentCode, String.valueOf(mPayFun), Constants.CONFIRMORDER_KEY[3]);
+                      /*  method = type;
+                        mViewModel.getPayInfo2(
+                                payInfo.getPay_sn(),
+                                type == 0 ? "1" : "0",
+                                type == 1 ? "1" : "0",
+                                password,
+                                "",
+                                eventKey,
+                                Constants.PAY_METHOD
+                        );*/
+                    }
+                }).build();
+        userPaySheet.show();
+    }
+
 
     private void aLiPay(final String param) {
         Context context = new Context(ZhiFuBaoStrategy.getInstance(this));
@@ -257,9 +357,15 @@ public class ConfirmOrderActivity extends
 
     private String getPaymentCode(String name) {
         if (null != mPaymentList && mPaymentList.size() > 0) {
-            for (BuyStepInfo.PayInfoBean.PaymentListBean paymentListBean : mPaymentList) {
+          /*  for (BuyStepInfo.PayInfoBean.PaymentListBean paymentListBean : mPaymentList) {
                 if (paymentListBean.getPayment_name().contains(name)) {
                     return paymentListBean.getPayment_codeX();
+                }
+            }*/
+
+            for (PayLayoutBean.PayInfoBean.PaymentListBean paymentListBean : mPaymentList) {
+                if (paymentListBean.getPayment_name().contains(name)) {
+                    return paymentListBean.getPayment_code();
                 }
             }
         }

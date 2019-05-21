@@ -48,6 +48,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         return this;
     }
 
+    // TODO: 2019/5/21 修改
     public void show(View parent) {
         bind = DataBindingUtil.bind(LayoutInflater.from(mContext).inflate(R.layout.market_pop_goods_specification, null));
         if (mGoodsInfo.isVirtual()) {
@@ -109,6 +110,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                     stringBuilder.append(ints[i]).append("|");
                 }
                 int i;
+                KLog.i(ints.length);
                 for (GoodsInfo.NewsSpecListDataBean newsSpecListDataBean : mGoodsInfo.news_spec_list_data) {
                     i = 0;
                     for (int anInt : ints) {
