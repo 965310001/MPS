@@ -2,7 +2,6 @@ package com.mingpinmall.classz.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.goldze.common.dmvvm.adapter.BaseRecyclerAdapter;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseViewHolder;
@@ -21,10 +20,17 @@ public class GoodsCommentAdapter extends BaseRecyclerAdapter<GoodsComment> {
 
     @Override
     protected void convert(BaseViewHolder holder, GoodsComment data, int position, List<Object> payloads) {
-        holder.setText(R.id.tv_name, data.getGeval_frommembername());
-        holder.setText(R.id.tv_comment, data.getGeval_content());
-        holder.setText(R.id.tv_time, data.getGeval_addtime_date());
+        holder.setText(R.id.tv_name, data.getGeval_frommembername())
+                .setText(R.id.tv_comment, data.getGeval_content())
+                .setText(R.id.tv_time, data.getGeval_addtime_date());
+
+//        holder.setText(R.id.tv_name, data.getGeval_frommembername());
+//        holder.setText(R.id.tv_comment, data.getGeval_content());
+//        holder.setText(R.id.tv_time, data.getGeval_addtime_date());
+
         /*holder.getView(R.id.iv_head).setVisibility(View.GONE);*/
         ((MaterialRatingBar) holder.getView(R.id.rb_evaluate)).setRating(Float.parseFloat(data.getGeval_scores()));
+
+
     }
 }

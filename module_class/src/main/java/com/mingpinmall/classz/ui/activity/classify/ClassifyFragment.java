@@ -1,11 +1,8 @@
 package com.mingpinmall.classz.ui.activity.classify;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
-import android.widget.TextView;
 
 import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity;
@@ -36,10 +33,10 @@ import java.util.List;
 public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBinding, ClassifyViewModel>
         implements OnItemClickListener, View.OnClickListener {
 
-    private int leftPostion = 0;
+    private int leftPosition = 0;
     private DelegateAdapter rightAdapter;
     private ClassificationBean.ClassListBean data;
-    private final ItemData rightData = new ItemData();
+    private ItemData rightData;
 
     public ClassifyFragment() {
     }
@@ -62,6 +59,8 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     public void initView(Bundle state) {
         super.initView(state);
 
+        rightData = new ItemData();
+
         getViewById(R.id.sv_search).setOnClickListener(this);
         getViewById(R.id.iv_scan).setOnClickListener(this);
         getViewById(R.id.iv_msg).setOnClickListener(this);
@@ -78,11 +77,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int i) {
-                if (rightAdapter.getItems().get(i) instanceof String) {
-                    return 3;
-                } else {
-                    return 1;
-                }
+                return rightAdapter.getItems().get(i) instanceof String ? 3 : 1;
             }
         });
         rightAdapter = AdapterPool.newInstance()
@@ -123,21 +118,18 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 });
 
         registerObserver(Constants.EVENT_KEY_CLASSIFY_MORE[2], Object.class)
-                .observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object object) {
-                        rightData.clear();
-                        if (object instanceof ClassificationRighitBean) {
-                            ClassificationRighitBean data = (ClassificationRighitBean) object;
-                            rightData.add("热门推荐");
-                            rightData.addAll(data.getDatas().getClass_list());
-                        } else if (object instanceof BrandListInfo) {
-                            BrandListInfo data = (BrandListInfo) object;
-                            rightData.add("热门品牌");
-                            rightData.addAll(data.getDatas().getBrand_list());
-                        }
-                        binding.setRightdata(rightData);
+                .observeForever(object -> {
+                    rightData.clear();
+                    if (object instanceof ClassificationRighitBean) {
+                        ClassificationRighitBean data = (ClassificationRighitBean) object;
+                        rightData.add("热门推荐");
+                        rightData.addAll(data.getDatas().getClass_list());
+                    } else if (object instanceof BrandListInfo) {
+                        BrandListInfo data = (BrandListInfo) object;
+                        rightData.add("热门品牌");
+                        rightData.addAll(data.getDatas().getBrand_list());
                     }
+                    binding.setRightdata(rightData);
                 });
     }
 
@@ -147,9 +139,9 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
     }
 
     @Override
-    public void onItemClick(View view, int postion, Object object) {
+    public void onItemClick(View view, int position, Object object) {
         if (object instanceof ClassificationBean.ClassListBean) {
-            if (leftPostion != postion) {
+            if (leftPosition != position) {
                 data.setSelect(false);
                 data = (ClassificationBean.ClassListBean) object;
                 data.setSelect(true);
@@ -158,7 +150,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                 } else {
                     mViewModel.getRight(data.getGc_id());
                 }
-                leftPostion = postion;
+                leftPosition = position;
             }
         }
     }

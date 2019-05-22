@@ -258,13 +258,14 @@ public class ClassifyRepository extends BaseRepository {
 
     /*搜索列表*/
     public void getHotKeys() {
-//        addDisposable(apiService.getHotKeys(parames(ClassifyService.HOTKEY[0], ClassifyService.HOTKEY[1]))
         addDisposable(apiService.getHotKeys(parames("index", "search_key_list"))
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<HotKeyInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<HotKeyInfo> result) {
-                        sendData(Constants.SEARCH_EVENT_KEY[0], result);
+                        if (result.isData()) {
+                            sendData(Constants.SEARCH_EVENT_KEY[0], result.getData());
+                        }
                         showPageState(Constants.SEARCH_EVENT_KEY[1], StateConstants.SUCCESS_STATE);
                     }
 

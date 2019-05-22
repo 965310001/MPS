@@ -3,7 +3,7 @@ package com.mingpinmall.shopping.common;
 import android.support.v4.content.ContextCompat;
 
 import com.goldze.common.dmvvm.base.BaseApplication;
-import com.guofeng.bugly.utils.BuglyUtils;
+import com.goldze.bugly.BuglyUtils;
 import com.mingpinmall.shopping.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;

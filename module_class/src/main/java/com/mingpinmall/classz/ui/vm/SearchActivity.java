@@ -1,12 +1,12 @@
 package com.mingpinmall.classz.ui.vm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -39,6 +39,14 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
     @Override
     protected int getLayoutId() {
         return R.layout.activity_search;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        edSearch.setText("");
+        edSearch.clearFocus();
     }
 
     @Override
@@ -85,25 +93,39 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver(Constants.SEARCH_EVENT_KEY[0], BaseResponse.class)
-                .observe(this, baseResponse -> {
-                    BaseResponse<HotKeyInfo> response = baseResponse;
-                    if (response.isData()) {
-                        HotKeyInfo data = response.getData();
-                        if (data.getList() != null) {
-                            addHotKey(response.getData().getList());
-                        }
-//                        if (data.getHis_list() != null && data.getHis_list().size() > 0) {
-//                            items.addAll(data.getHis_list());
-//                            binding.layoutFlowHistory.setLabels(items);
-////                            adapter.notifyDataSetChanged();
-//                        } else {
-//                            loadSearchHistory();
+//        registerObserver(Constants.SEARCH_EVENT_KEY[0], BaseResponse.class)
+//                .observe(this, baseResponse -> {
+//                    BaseResponse<HotKeyInfo> response = baseResponse;
+//                    if (response.isData()) {
+//                        HotKeyInfo data = response.getData();
+//                        if (data.getList() != null) {
+//                            addHotKey(response.getData().getList());
 //                        }
-                    } else {
-                        ToastUtils.showLong(response.getMessage());
+////                        if (data.getHis_list() != null && data.getHis_list().size() > 0) {
+////                            items.addAll(data.getHis_list());
+////                            binding.layoutFlowHistory.setLabels(items);
+//////                            adapter.notifyDataSetChanged();
+////                        } else {
+////                            loadSearchHistory();
+////                        }
+//                    } else {
+//                        ToastUtils.showLong(response.getMessage());
+//                    }
+//                });
+
+        registerObserver(Constants.SEARCH_EVENT_KEY[0], HotKeyInfo.class)
+                .observe(this, response -> {
+                    if (response.getList() != null) {
+                        addHotKey(response.getList());
                     }
+                   /* if (response.getHis_list() != null && response.getHis_list().size() > 0) {
+                        items.addAll(response.getHis_list());
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        loadSearchHistory();
+                    }*/
                 });
+
 
         /*点击搜索*/
         registerObserver(Constants.SEARCH_EVENT_KEY[2], String.class)

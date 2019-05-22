@@ -1,4 +1,4 @@
-package com.guofeng.bugly.utils;
+package com.goldze.bugly;
 
 import android.content.Context;
 
@@ -6,7 +6,7 @@ import com.guofeng.bugly.BuildConfig;
 import com.tencent.bugly.crashreport.CrashReport;
 
 /**
- * Bugly的添加
+ * Bugly Bug的添加
  */
 public class BuglyUtils {
 

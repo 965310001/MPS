@@ -6,6 +6,9 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 
+import com.goldze.common.dmvvm.adapter.BaseRecyclerAdapter;
+import com.socks.library.KLog;
+
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
@@ -18,6 +21,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private final SparseArray<View> views;
     private final LinkedHashSet<Integer> childClickViewIds;
+    private BaseRecyclerAdapter adapter;
 
     public View convertView;
 
@@ -27,6 +31,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         this.childClickViewIds = new LinkedHashSet<>();
 
         this.convertView = view;
+    }
+
+    public BaseViewHolder(final View view, BaseRecyclerAdapter adapter) {
+        this(view);
+        this.adapter = adapter;
     }
 
     @SuppressWarnings("unchecked")
@@ -40,8 +49,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     public BaseViewHolder setText(@IdRes int viewId, CharSequence value) {
-        TextView view = getView(viewId);
-        view.setText(value);
+        ((TextView) getView(viewId)).setText(value);
         return this;
     }
 
@@ -49,19 +57,37 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return childClickViewIds;
     }
 
-    public void addOnClickListener(@IdRes final int viewId) {
+    public BaseViewHolder addOnClickListener(@IdRes final int viewId) {
         childClickViewIds.add(viewId);
         final View view = getView(viewId);
         if (view != null) {
             if (!view.isClickable()) {
                 view.setClickable(true);
             }
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
+            view.setOnClickListener(v -> {
+                if (null != adapter.getOnItemClickListener()) {
+                    adapter.getOnItemClickListener().onItemClickListener(v, getLayoutPosition());
                 }
             });
         }
+        return this;
+    }
+
+    public BaseViewHolder OnLongClickListener(@IdRes final int viewId) {
+        childClickViewIds.add(viewId);
+        final View view = getView(viewId);
+        if (view != null) {
+            if (!view.isClickable()) {
+                view.setClickable(true);
+            }
+            view.setOnLongClickListener(v -> {
+                if (null != adapter.getOnItemLongClickListener()) {
+                    adapter.getOnItemLongClickListener().onItemLongClickListener(v, getLayoutPosition());
+                }
+                return true;
+            });
+        }
+        return this;
     }
 }

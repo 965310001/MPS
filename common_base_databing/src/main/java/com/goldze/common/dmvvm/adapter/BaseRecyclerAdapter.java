@@ -58,44 +58,32 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(mItemLayoutId, parent, false);
-        return new BaseViewHolder(view);
-
+        return new BaseViewHolder(view, this);
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, final int position, List<Object> payloads) {
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position);
-
         } else {
             convert(holder, dataList.get(position), position, payloads);
         }
-
-
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, final int position) {
         List list = new ArrayList();
         convert(holder, dataList.get(position), position, list);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClickListener(v, position);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClickListener(v, position);
             }
-
         });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (onItemLongClickListener != null) {
-                    onItemLongClickListener.onItemLongClickListener(v, position);
-                }
-
-                return true;
+        holder.itemView.setOnLongClickListener(v -> {
+            if (onItemLongClickListener != null) {
+                onItemLongClickListener.onItemLongClickListener(v, position);
             }
+            return true;
         });
     }
 
@@ -110,8 +98,16 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         this.onItemClickListener = onItemClickListener;
     }
 
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+    public OnItemLongClickListener getOnItemLongClickListener() {
+        return onItemLongClickListener;
     }
 
     public interface OnItemClickListener {
@@ -120,5 +116,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
 
     public interface OnItemLongClickListener {
         void onItemLongClickListener(View v, int position);
+    }
+
+    public T getData(int position) {
+        return dataList.get(position);
     }
 }

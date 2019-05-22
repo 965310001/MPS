@@ -12,7 +12,7 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.classiflist.ProductsActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTask" />
         <activity android:name=".ui.activity.details.ShoppingDetailsActivity" />
         <activity
             android:name=".ui.activity.order.ConfirmOrderActivity"

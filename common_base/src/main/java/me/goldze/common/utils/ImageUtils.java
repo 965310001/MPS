@@ -43,7 +43,7 @@ public class ImageUtils {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(imageView.getContext())
+        Glide.with(Utils.getApplication())
                 .load(url)
                 .apply(new RequestOptions()
                         .placeholder(R.drawable.ic_loading_image)
@@ -59,7 +59,7 @@ public class ImageUtils {
      * @param resId
      */
     public static void loadImage(ImageView imageView, int resId) {
-        Glide.with(imageView.getContext())
+        Glide.with(Utils.getApplication())
                 .load(resId)
                 .apply(new RequestOptions()
                         .placeholder(R.drawable.ic_loading_image)
@@ -78,7 +78,7 @@ public class ImageUtils {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(imageView.getContext())
+        Glide.with(Utils.getApplication())
                 .load(url)
                 .apply(RequestOptions.circleCropTransform()
                         .placeholder(R.drawable.ic_loading_image)
@@ -97,7 +97,7 @@ public class ImageUtils {
         Glide.with(imageView)
                 .load(url)
                 .apply(RequestOptions.bitmapTransform(
-                        new BlurTransformation(imageView.getContext())))
+                        new BlurTransformation(Utils.getApplication())))
                 .into(imageView);
     }
 

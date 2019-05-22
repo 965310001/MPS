@@ -29,5 +29,4 @@ public class HotKeyInfo extends BaseBean {
     public void setHis_list(List<String> his_list) {
         this.his_list = his_list;
     }
-
 }
