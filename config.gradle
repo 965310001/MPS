@@ -10,7 +10,7 @@ ext {
     versions = [
             applicationId              : "com.mingpinmall.shopping",        //应用ID
             versionCode                : 1,                    //版本号
-            versionName                : "1.0.1",              //版本名称
+            versionName                : "1.0.0.0",              //版本名称
 
             compileSdkVersion          : 28,
             buildToolsVersion          : "27.0.3",

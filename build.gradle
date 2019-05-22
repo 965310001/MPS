@@ -24,7 +24,7 @@ buildscript {
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
 
         //bugtags
-        classpath 'com.bugtags.library:bugtags-gradle:latest.integration'
+//        classpath 'com.bugtags.library:bugtags-gradle:latest.integration'
 
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
     }

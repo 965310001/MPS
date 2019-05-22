@@ -121,15 +121,15 @@ public abstract class BaseApplication extends Application implements Runnable {
     }
 
     private void initBugtags() {
-        BugtagsOptions options = new BugtagsOptions.Builder().
-                trackingLocation(true).//是否获取位置
-                trackingCrashLog(true).//是否收集crash
-                trackingConsoleLog(true).//是否收集console log
-                trackingUserSteps(true).//是否收集用户操作步骤
-                enableCapturePlus(true).
-                build();
-        Bugtags.addUserStep("custom step");
-        Bugtags.start(BuildConfig.BUGTAGS_APPKEY, this, Bugtags.BTGInvocationEventNone, options);
+//        BugtagsOptions options = new BugtagsOptions.Builder().
+//                trackingLocation(true).//是否获取位置
+//                trackingCrashLog(true).//是否收集crash
+//                trackingConsoleLog(true).//是否收集console log
+//                trackingUserSteps(true).//是否收集用户操作步骤
+//                enableCapturePlus(true).
+//                build();
+//        Bugtags.addUserStep("custom step");
+//        Bugtags.start(BuildConfig.BUGTAGS_APPKEY, this, Bugtags.BTGInvocationEventNone, options);
     }
 
     private void initLoadState() {

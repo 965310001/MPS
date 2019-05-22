@@ -158,31 +158,31 @@ public abstract class BaseActivity extends FragmentActivity implements ILoadMana
 
     /************************************************** Bugtags start *****************************************************/
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Bugtags.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Bugtags.onPause(this);
-    }
-
-    @SuppressLint("RestrictedApi")
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        Bugtags.onDispatchKeyEvent(this, event);
-        return super.dispatchKeyEvent(event);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        //注：回调 3
-        Bugtags.onDispatchTouchEvent(this, ev);
-        return super.dispatchTouchEvent(ev);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+////        Bugtags.onResume(this);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+////        Bugtags.onPause(this);
+//    }
+//
+//    @SuppressLint("RestrictedApi")
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+////        Bugtags.onDispatchKeyEvent(this, event);
+//        return super.dispatchKeyEvent(event);
+//    }
+//
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        //注：回调 3
+//        Bugtags.onDispatchTouchEvent(this, ev);
+//        return super.dispatchTouchEvent(ev);
+//    }
 
     /************************************************** Bugtags end *****************************************************/
 

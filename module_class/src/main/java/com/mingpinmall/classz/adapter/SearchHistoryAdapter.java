@@ -27,21 +27,15 @@ public class SearchHistoryAdapter extends BaseRecyclerAdapter<String> {
     protected void convert(BaseViewHolder holder, final String item, final int position, List<Object> payloads) {
         holder.setText(R.id.tv_item, item);
 
-        holder.getView(R.id.tv_item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LiveBus.getDefault().postEvent(Constants.SEARCH_EVENT_KEY[2], item);
-                KLog.i("setOnClickListener");
-            }
+        holder.getView(R.id.tv_item).setOnClickListener(v -> {
+            LiveBus.getDefault().postEvent(Constants.SEARCH_EVENT_KEY[2], item);
+            KLog.i("setOnClickListener");
         });
 
-        holder.getView(R.id.img_delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LiveBus.getDefault().postEvent(Constants.SEARCH_EVENT_KEY[3], position);
+        holder.getView(R.id.img_delete).setOnClickListener(v -> {
+            LiveBus.getDefault().postEvent(Constants.SEARCH_EVENT_KEY[3], position);
 
-                KLog.i("img_delete");
-            }
+            KLog.i("img_delete");
         });
 
 

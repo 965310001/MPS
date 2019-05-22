@@ -44,13 +44,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
+//            buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
 
             buildConfigField "String", "APP_URL", keystoreProperties['RELEASE_APP_URL']
         }
 
         debug {
-            buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
+//            buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
 
             buildConfigField "String", "APP_URL", keystoreProperties['DEBUG_APP_URL']
         }
@@ -62,8 +62,6 @@ android {
     }
 
 }
-
-
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -132,7 +130,7 @@ dependencies {
     }
     implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
     //bugtags
-    implementation rootProject.ext.dependencies['bugtags-lib']
+//    implementation rootProject.ext.dependencies['bugtags-lib']
     api rootProject.ext.dependencies['lsettingviewlibrary']
     //leakcanary
     debugImplementation rootProject.ext.dependencies["leakCanaryDebug"]

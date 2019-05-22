@@ -12,15 +12,15 @@ keystoreProperties.load(new FileInputStream(rootProject.file("constants.properti
 
 //Bugtags
 //应用 Bugtags 插件，插件只支持 2.1.3 及以下的 ios 版本
-apply plugin: 'com.bugtags.library.plugin'
+//apply plugin: 'com.bugtags.library.plugin'
 
 //Bugtags 插件配置
-bugtags {
-    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
-    appKey keystoreProperties['BUGTAGS_APPKEY']  //这里是你的 appKey
-    appSecret keystoreProperties['BUGTAGS_APPSECRET']    //这里是你的 appSecret，管理员在设置页可以查看
-    mappingUploadEnabled true
-}
+//bugtags {
+//    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
+//    appKey keystoreProperties['BUGTAGS_APPKEY']  //这里是你的 appKey
+//    appSecret keystoreProperties['BUGTAGS_APPSECRET']    //这里是你的 appSecret，管理员在设置页可以查看
+//    mappingUploadEnabled true
+//}
 
 android {
 
