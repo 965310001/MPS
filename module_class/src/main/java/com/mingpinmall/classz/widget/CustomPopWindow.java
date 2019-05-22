@@ -1,15 +1,24 @@
 package com.mingpinmall.classz.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -40,7 +49,8 @@ public class CustomPopWindow extends PopupWindow {
     }
 
     private void initViews() {
-        setAnimationStyle(R.style.popwin_anim_style);
+        setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContentView().getContext(), R.color.transparent)));
+        setAnimationStyle(R.style.popwin_anim_style_alpha);
         setFocusable(true);
         setOutsideTouchable(true);
     }
@@ -75,7 +85,7 @@ public class CustomPopWindow extends PopupWindow {
         }
 
         public CustomPopWindow.Builder setColorBg(int color) {
-            colorBg = context.getResources().getColor(color);
+            colorBg = ContextCompat.getColor(context, color);
             return this;
         }
 
@@ -92,7 +102,6 @@ public class CustomPopWindow extends PopupWindow {
                 private RecyclerHolder(View itemView) {
                     super(itemView);
                     textView = itemView.findViewById(R.id.text);
-                    textView.setTextSize(context.getResources().getDimensionPixelSize(R.dimen.text_8));
                 }
             }
 
@@ -101,25 +110,22 @@ public class CustomPopWindow extends PopupWindow {
                 @NonNull
                 @Override
                 public RecyclerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_text, viewGroup, false);
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_text1, viewGroup, false);
                     return new RecyclerHolder(view);
                 }
 
                 @Override
                 public void onBindViewHolder(@NonNull final RecyclerHolder holder, final int position) {
                     holder.textView.setText(listData.get(position));
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (null != listener) {
-                                listener.onClick(mCustomPopWindow, holder.itemView, position, listData.get(position));
-                            }else{
-                                KLog.i("你还没有初始化 listener");
-                            }
+                    holder.itemView.setOnClickListener(v -> {
+                        if (null != listener) {
+                            listener.onClick(mCustomPopWindow, holder.itemView, position, listData.get(position));
+                        }else{
+                            KLog.i("你还没有初始化 listener");
+                        }
 //                            KLog.i(listData.get(position));
 //                            LiveBus.getDefault().postEvent(Constants.CUSTOMPOPWINDOW_KEY[0], listData.get(position));
 //                            mCustomPopWindow.dismiss();
-                        }
                     });
                 }
 
@@ -136,13 +142,10 @@ public class CustomPopWindow extends PopupWindow {
         private void newItemLayout() {
             contextll = new LinearLayout(context);
             contextll.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            contextll.setBackgroundColor(context.getResources().getColor(R.color.color_33000000));
-            contextll.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mCustomPopWindow != null) {
-                        mCustomPopWindow.dismiss();
-                    }
+            contextll.setBackgroundColor(ContextCompat.getColor(context, R.color.color_33000000));
+            contextll.setOnClickListener(v -> {
+                if (mCustomPopWindow != null) {
+                    mCustomPopWindow.dismiss();
                 }
             });
             View contentView = LayoutInflater.from(context).inflate(R.layout.recyclerview_base, null,
@@ -168,5 +171,20 @@ public class CustomPopWindow extends PopupWindow {
             return mCustomPopWindow;
         }
 
+    }
+
+    @Override
+    public void showAsDropDown(View anchor) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            Rect visibleFrame = new Rect();
+            anchor.getGlobalVisibleRect(visibleFrame);
+            int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+            setHeight(height);
+            super.showAsDropDown(anchor);
+        } else {
+            super.showAsDropDown(anchor);
+        }
+        Animation animation = AnimationUtils.loadAnimation(getContentView().getContext(), R.anim.pop_arrow_in);
+        getContentView().findViewById(R.id.recycler_view).startAnimation(animation);
     }
 }

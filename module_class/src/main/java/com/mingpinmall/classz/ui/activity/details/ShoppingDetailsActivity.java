@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -66,6 +67,49 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
         setTitlePadding(binding.rlTop);
+        addListener();
+    }
+
+    private void addListener() {
+        //ViewPager的滑动监听，改变顶部tabbar状态的。
+        binding.vpContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+                if (i == 0) {
+                    int alpha;
+                    if (!mGoodsInfoMainFragment.trans) {
+                        //80%不透明
+                        alpha = (int) (v * (255 - 204)) + 204;
+                        binding.tabs.setVisibility(View.VISIBLE);
+                        binding.line.setVisibility(View.VISIBLE);
+                    } else {
+                        alpha = (int) (v * 255);
+                        binding.tabs.setVisibility(v > 0.1 ? View.VISIBLE : View.GONE);
+                        binding.line.setVisibility(v > 0.1 ? View.VISIBLE : View.GONE);
+                        binding.tabs.setAlpha(v);
+                        binding.line.setAlpha(v);
+                    }
+                    binding.rlTop.setBackgroundColor(Color.argb(alpha, 255, 255, 255));
+                }
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (i == 0) {
+                    if (mGoodsInfoMainFragment.trans) {
+                        binding.tabs.setVisibility(View.GONE);
+                        binding.line.setVisibility(View.GONE);
+                    }
+                } else {
+                    binding.tabs.setVisibility(View.VISIBLE);
+                    binding.line.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
     }
 
     @Override

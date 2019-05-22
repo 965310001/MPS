@@ -80,7 +80,7 @@ public class ProductsActivity2 extends BaseListActivity<ClassifyViewModel>
         filterTab0.setFilterTabSelected(true);
         curressView = filterTab0;
 
-        edSearch.setVisibility(View.VISIBLE);
+        clSearch.setVisibility(View.VISIBLE);
         edSearch.setFocusable(false);
         edSearch.setFocusableInTouchMode(false);
         edSearch.setOnClickListener(this);

@@ -35,14 +35,11 @@ public class ShopClassActivity extends AbsLifecycleActivity<ActivityShopclassBin
         setTitle(R.string.title_ShopClassActivity);
         stringList = new ArrayList<>();
 
-        binding.stackLabelView.setOnLabelClickListener(new OnLabelClickListener() {
-            @Override
-            public void onClick(int index, View v, String s) {
-                Intent intent = new Intent();
-                intent.putExtra("sc_id", index == 0 ? "0" : shopClassBean.getClass_list().get(index - 1).getSc_id());
-                setResult(RESULT_OK, intent);
-                finish();
-            }
+        binding.stackLabelView.setOnLabelClickListener((index, v, s) -> {
+            Intent intent = new Intent();
+            intent.putExtra("sc_id", index == 0 ? "0" : shopClassBean.getClass_list().get(index - 1).getSc_id());
+            setResult(RESULT_OK, intent);
+            finish();
         });
     }
 

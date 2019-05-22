@@ -1,33 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         style="@style/width_match_height_match"
-        android:orientation="vertical"
+        android:background="#F3F3F3"
+        android:fillViewport="true"
+        android:overScrollMode="never"
         tools:context=".ui.vm.SearchActivity">
 
-        <TextView
-            style="@style/TextStyle_16"
-            android:padding="@dimen/dp_12"
-            android:text="热搜"
-            android:textColor="@color/black" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <android.support.design.internal.FlowLayout
-            android:id="@+id/layout_flow"
-            style="@style/width_match_height_warp"
-            android:paddingLeft="@dimen/dp_12"
-            android:paddingRight="@dimen/dp_12" />
+            <TextView
+                style="@style/TextStyle_16"
+                android:padding="@dimen/dp_12"
+                android:text="热搜"
+                android:textColor="@color/black" />
 
-        <TextView
-            style="@style/TextStyle_16"
-            android:padding="@dimen/dp_12"
-            android:text="历史搜索"
-            android:textColor="@color/black" />
+            <android.support.design.internal.FlowLayout
+                android:id="@+id/layout_flow"
+                style="@style/width_match_height_warp"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingRight="@dimen/dp_12" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_search_history"
-            style="@style/width_match_height_match"
-            android:overScrollMode="never" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextStyle_16"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="@dimen/dp_12"
+                    android:text="历史搜索"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_12"
+                    android:text="清空历史"
+                    android:textColor="@color/app_theme_d61619"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <com.kongzue.stacklabelview.StackLabel
+                android:id="@+id/layout_flow_history"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/dp_12"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:layout_weight="1"
+                app:deleteButton="false"
+                app:itemMargin="4dp"
+                app:maxSelectNum="1"
+                app:paddingHorizontal="12dp"
+                app:paddingVertical="8dp"
+                app:selectMode="true"
+                app:textColor="#e6000000"
+                app:textSize="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical|end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="删除模式"
+                    android:textSize="14sp" />
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/swb_delMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="1px"
+                android:layout_height="12dp" />
+
+
+            <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/recycler_search_history"-->
+            <!--style="@style/width_match_height_match"-->
+            <!--android:layout_marginStart="12dp"-->
+            <!--android:layout_marginEnd="12dp"-->
+            <!--android:overScrollMode="never"-->
+            <!--android:visibility="gone" />-->
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
 </layout>

@@ -13,7 +13,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_margin="3dp"
         android:background="@color/white"
         android:foreground="@drawable/button_foreground"
         android:onClick="@{(view)->data.click(view)}">
@@ -28,12 +28,14 @@
                 sqSpan="3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="8dp"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_launcher" />
 
             <TextView
                 style="@style/TextStyle_12"
+                android:layout_margin="8dp"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"

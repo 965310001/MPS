@@ -1,9 +1,6 @@
 package com.mingpinmall.classz.ui.vm;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -16,11 +13,11 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ColorUtil;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.adapter.SearchHistoryAdapter;
-import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.databinding.ActivitySearchBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
+import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 import com.socks.library.KLog;
 
@@ -37,7 +34,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
 
     private List<String> items = new ArrayList<>();
 
-    private SearchHistoryAdapter adapter;
+//    private SearchHistoryAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -47,13 +44,34 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
     @Override
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
-        edSearch.setVisibility(View.VISIBLE);
+        clSearch.setVisibility(View.VISIBLE);
         ivSearch.setVisibility(View.VISIBLE);
         tvTitle.setVisibility(View.GONE);
 
-        binding.recyclerSearchHistory.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new SearchHistoryAdapter(this, items);
-        binding.recyclerSearchHistory.setAdapter(adapter);
+//        binding.recyclerSearchHistory.setLayoutManager(new LinearLayoutManager(this));
+//        adapter = new SearchHistoryAdapter(this, items);
+//        binding.recyclerSearchHistory.setAdapter(adapter);
+
+        binding.layoutFlowHistory.setLabels(items);
+        binding.layoutFlowHistory.setOnLabelClickListener((index, v, s) -> {
+            if (binding.layoutFlowHistory.isDeleteButton()) {
+                items.remove(index);
+                binding.layoutFlowHistory.setLabels(items);
+            } else {
+                edSearch.setText(s);
+                search();
+            }
+        });
+        binding.swbDelMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.layoutFlowHistory.setDeleteButton(isChecked);
+        });
+        binding.tvClear.setOnClickListener(v ->
+                TextDialog.showBaseDialog(activity, "", "确认删除全部历史记录？", () -> {
+                    items.clear();
+                    binding.layoutFlowHistory.setLabels(items);
+                    SharePreferenceUtil.saveSearchList(items);
+                }).show());
+
     }
 
     @Override
@@ -66,53 +84,47 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        registerObserver(Constants.SEARCH_EVENT_KEY[0], BaseResponse.class).observe(this, new Observer<BaseResponse>() {
-            @Override
-            public void onChanged(@Nullable BaseResponse baseResponse) {
-                BaseResponse<HotKeyInfo> response = baseResponse;
-                if (response.isData()) {
-                    HotKeyInfo data = response.getData();
-                    if (data.getList() != null) {
-                        addHotKey(response.getData().getList());
-                    }
-                    if (data.getHis_list() != null && data.getHis_list().size() > 0) {
-                        items.addAll(data.getHis_list());
-                        adapter.notifyDataSetChanged();
+        registerObserver(Constants.SEARCH_EVENT_KEY[0], BaseResponse.class)
+                .observe(this, baseResponse -> {
+                    BaseResponse<HotKeyInfo> response = baseResponse;
+                    if (response.isData()) {
+                        HotKeyInfo data = response.getData();
+                        if (data.getList() != null) {
+                            addHotKey(response.getData().getList());
+                        }
+                        if (data.getHis_list() != null && data.getHis_list().size() > 0) {
+                            items.addAll(data.getHis_list());
+                            binding.layoutFlowHistory.setLabels(items);
+//                            adapter.notifyDataSetChanged();
+                        } else {
+                            loadSearchHistory();
+                        }
                     } else {
-                        loadSearchHistory();
+                        ToastUtils.showLong(response.getMessage());
                     }
-                } else {
-                    ToastUtils.showLong(response.getMessage());
-                }
-            }
-        });
+                });
 
         /*点击搜索*/
         registerObserver(Constants.SEARCH_EVENT_KEY[2], String.class)
-                .observe(this, new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String content) {
-                        edSearch.setText(content);
-                        search();
-                    }
+                .observe(this, content -> {
+                    edSearch.setText(content);
+                    search();
                 });
 
         /*删除*/
-        registerObserver(Constants.SEARCH_EVENT_KEY[3], Integer.class)
-                .observe(this, new Observer<Integer>() {
-                    @Override
-                    public void onChanged(@Nullable Integer position) {
-                        items.remove((int) position);
-                        adapter.notifyDataSetChanged();
-                        SharePreferenceUtil.saveSearchList(items);
-                    }
-                });
+//        registerObserver(Constants.SEARCH_EVENT_KEY[3], Integer.class)
+//                .observe(this, position -> {
+//                    items.remove((int) position);
+//                    adapter.notifyDataSetChanged();
+//                    SharePreferenceUtil.saveSearchList(items);
+//                });
     }
 
     private void loadSearchHistory() {
         items.clear();
         items.addAll(SharePreferenceUtil.getSearchList());
-        adapter.notifyDataSetChanged();
+        binding.layoutFlowHistory.setLabels(items);
+//        adapter.notifyDataSetChanged();
     }
 
     private void addHotKey(List<String> data) {
@@ -126,12 +138,9 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
             textView.setTextColor(ColorUtil.getRandomColor(random));
 //            textView.setBackgroundColor(getResources().getColor(R.color.white));
             textView.setBackgroundResource(R.drawable.item_lable_bg_shape_radius);
-            child.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    edSearch.setText(entity);
-                    search();
-                }
+            child.setOnClickListener(v -> {
+                edSearch.setText(entity);
+                search();
             });
             binding.layoutFlow.addView(child);
         }
@@ -179,7 +188,8 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
             }
         }
         items.add(0, searchKey);
-        adapter.notifyDataSetChanged();
+        binding.layoutFlowHistory.setLabels(items);
+//        adapter.notifyDataSetChanged();
         SharePreferenceUtil.saveSearchList(items);
     }
 }

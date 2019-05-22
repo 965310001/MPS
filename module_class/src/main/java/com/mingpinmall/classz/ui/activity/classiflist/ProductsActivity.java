@@ -3,10 +3,13 @@ package com.mingpinmall.classz.ui.activity.classiflist;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.Editable;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
@@ -71,11 +74,14 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        edSearch.setVisibility(View.VISIBLE);
+        clSearch.setVisibility(View.VISIBLE);
         edSearch.setFocusable(false);
         edSearch.setFocusableInTouchMode(false);
+        edSearch.setInputType(InputType.TYPE_NULL);
+        edSearch.setCursorVisible(false);
+        edSearch.setTextIsSelectable(false);
         edSearch.setOnClickListener(this);
-        edSearch.setText(keyword);
+        edSearch.setText("".equals(keyword) ? "请输入搜索内容" : keyword);
         ivSearch.setVisibility(View.GONE);
         tvTitle.setVisibility(View.GONE);
 
@@ -180,7 +186,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                             new CustomPopWindow.Builder(ProductsActivity.this)
                                     .setDataSource(Arrays.asList("综合排序", "价格从高到低", "价格从低到高", "人气排序"))
                                     .setListener(this)
-                                    .setColorBg(R.color.color_f8f8f8).build().createPop();
+                                    .setColorBg(R.color.white).build().createPop();
                 }
                 customPopWindow.showAsDropDown(filterTab0);
             } else if (i == R.id.filter_tab1) {

@@ -27,7 +27,7 @@ public class SearchHistoryAdapter extends BaseRecyclerAdapter<String> {
     protected void convert(BaseViewHolder holder, final String item, final int position, List<Object> payloads) {
         holder.setText(R.id.tv_item, item);
 
-        holder.getView(R.id.tv_item).setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v -> {
             LiveBus.getDefault().postEvent(Constants.SEARCH_EVENT_KEY[2], item);
             KLog.i("setOnClickListener");
         });

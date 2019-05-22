@@ -11,8 +11,10 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +51,8 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends AppCompat
     protected Activity activity;
 
     protected ImageView ivBack, ivSearch;
-    protected MaterialEditText edSearch;
+    protected AppCompatEditText edSearch;
+    protected ConstraintLayout clSearch;
     protected TextView tvTitle, tvRight;
     private RelativeLayout rlTitleBar;
     protected TabControlView tabControlView;
@@ -89,6 +92,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends AppCompat
             rlTitleBar = findViewById(R.id.rl_title_bar);
             tvRight = findViewById(R.id.tv_right);
             ivSearch = findViewById(R.id.iv_search);
+            clSearch = findViewById(R.id.cl_search);
             edSearch = findViewById(R.id.ed_search);
             tabControlView = findViewById(R.id.tab_control);
             rlTitleBar.setVisibility(View.VISIBLE);
