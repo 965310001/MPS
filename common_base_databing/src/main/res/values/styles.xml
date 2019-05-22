@@ -1,7 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--应用主题-->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:windowBackground">@color/white</item>
+    </style>
 
     <style name="HorizontalLine">
         <item name="android:background">@color/gray</item>

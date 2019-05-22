@@ -415,7 +415,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                         LiveBus.getDefault().postEvent("SHOP_CART_REFRESH", true);
                         popWindowDismiss();
                     } else {
-                        if (response.isLogin()) {
+                        if (!response.isLogin()) {
                             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
                             ToastUtils.showLong(response.getError());
                         } else {

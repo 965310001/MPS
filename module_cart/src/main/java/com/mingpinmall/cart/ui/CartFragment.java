@@ -454,13 +454,14 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         binding.clPayContent.setVisibility(SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
         if (!SharePreferenceUtil.isLogin() && shopCartAdapter.getItemCount() > 0) {
             shopCartAdapter.setNewData(new ArrayList<>());
+        } else {
+            binding.clPayContent.setVisibility(shopCartAdapter.getItemCount() > 0 ? View.VISIBLE : View.GONE);
         }
     }
 
     @Override
     protected void onInVisible() {
         super.onInVisible();
-
     }
 
     @Override

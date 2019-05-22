@@ -65,7 +65,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
         binding.swbDelMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
             binding.layoutFlowHistory.setDeleteButton(isChecked);
         });
-        binding.tvClear.setOnClickListener(v ->
+        binding.btnClear.setOnClickListener(v ->
                 TextDialog.showBaseDialog(activity, "", "确认删除全部历史记录？", () -> {
                     items.clear();
                     binding.layoutFlowHistory.setLabels(items);
@@ -79,6 +79,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
         super.initData();
         showLoading();
         mViewModel.getHotKeys();
+        loadSearchHistory();
     }
 
     @Override
@@ -92,13 +93,13 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
                         if (data.getList() != null) {
                             addHotKey(response.getData().getList());
                         }
-                        if (data.getHis_list() != null && data.getHis_list().size() > 0) {
-                            items.addAll(data.getHis_list());
-                            binding.layoutFlowHistory.setLabels(items);
-//                            adapter.notifyDataSetChanged();
-                        } else {
-                            loadSearchHistory();
-                        }
+//                        if (data.getHis_list() != null && data.getHis_list().size() > 0) {
+//                            items.addAll(data.getHis_list());
+//                            binding.layoutFlowHistory.setLabels(items);
+////                            adapter.notifyDataSetChanged();
+//                        } else {
+//                            loadSearchHistory();
+//                        }
                     } else {
                         ToastUtils.showLong(response.getMessage());
                     }

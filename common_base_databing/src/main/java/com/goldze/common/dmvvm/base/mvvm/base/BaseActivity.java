@@ -72,7 +72,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends AppCompat
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        XUI.initTheme(this);
+//        XUI.initTheme(this);
         StatusBarUtils.immersive(this, darkMode);
         /*竖屏*/
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
