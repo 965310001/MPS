@@ -1,5 +1,6 @@
 package com.mingpinmall.classz.ui.activity.details;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -51,6 +52,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
 import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
+import com.xuexiang.xui.XUI;
 
 import java.util.Arrays;
 import java.util.List;
@@ -107,6 +109,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 
     @Override
     public void initView(Bundle state) {
+        XUI.initTheme(activity);
         super.initView(state);
         bannerHeight = ScreenUtil.getScreenWidth(activity) / 2;
         setTitlePadding(binding.rlEmpty);

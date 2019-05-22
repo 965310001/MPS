@@ -123,7 +123,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
 
         binding.tvPayNow.setOnClickListener(v -> {
             // 立即支付
-            if(!SharePreferenceUtil.isLogin()) {
+            if (!SharePreferenceUtil.isLogin()) {
                 ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
                 return;
             }
@@ -143,7 +143,8 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                     cartId.append(String.format("%s|%s,", gId, TextUtils.isEmpty(gNum) ? "1" : gNum));
                 }
             }
-            String cartInfo = cartId.toString().substring(0, cartId.lastIndexOf(","));
+            String cartInfo = cartId.toString().contains(",") ?
+                    cartId.toString().substring(0, cartId.lastIndexOf(",")) : cartId.toString();
             Log.d("立即购买", "setListener: " + cartInfo);
             Map<String, Object> params = new HashMap<>(2);
             params.put("cartId", cartInfo);
