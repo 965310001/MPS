@@ -95,10 +95,6 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
         //item内部子View点击
         listAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             //item上的View点击事件
-            if (!SharePreferenceUtil.isLogin()) {
-                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                return;
-            }
             // 2 4 5
             HomeItemBean.DatasBean datasBean = listAdapter.getItem(position);
             routerBus(datasBean, datasBean.getItemType(), view.getId());
@@ -106,10 +102,6 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
         //item点击
         listAdapter.setOnItemClickListener((adapter, view, position) -> {
             //item点击事件
-            if (!SharePreferenceUtil.isLogin()) {
-                ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
-                return;
-            }
             HomeItemBean.DatasBean datasBean = listAdapter.getItem(position);
             routerBus(datasBean, datasBean.getItemType(), view.getId());
         });

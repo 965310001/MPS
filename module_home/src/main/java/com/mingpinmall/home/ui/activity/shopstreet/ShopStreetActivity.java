@@ -26,6 +26,7 @@ import com.mingpinmall.home.ui.constants.Constants;
 
 /**
  * 功能描述：
+ *
  * @author 小斌
  * @date 2019/4/15
  **/
@@ -173,6 +174,8 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
                     sc_id = data.getStringExtra("sc_id");
                     initData();
                 }
+                break;
+            default:
                 break;
         }
     }
