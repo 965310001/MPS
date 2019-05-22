@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,6 +29,7 @@ import com.mingpinmall.apppay.pay.ZhiFuBaoStrategy;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.ConfirmOrderAdapter;
 import com.mingpinmall.classz.databinding.ActivityConfirmOrder2Binding;
+import com.mingpinmall.classz.ui.activity.fcode.FCodeDialog;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
@@ -59,6 +61,8 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
      */
     @Autowired
     String ifcart;
+
+    private FCodeDialog fCodeDialog;
 
     private ConfirmOrderAdapter adapter;
 
@@ -103,7 +107,16 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     @Override
     protected void dataObserver() {
         super.dataObserver();
-
+        registerObserver(Constants.CONFIRMORDER_KEY[4], String.class).observeForever(result -> {
+            if ("success".equals(result)) {
+                //验证成功
+                ToastUtils.showShort("验证成功");
+                fCodeDialog.dismiss();
+            } else {
+                //验证失败
+                ToastUtils.showShort("该F码似乎是无效的");
+            }
+        });
         registerObserver(Constants.CONFIRMORDER_KEY[0], BaseResponse.class)
                 .observeForever(response -> {
                     BaseResponse<ConfirmOrderBean> data = response;
@@ -123,6 +136,14 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                                 binding.setPayment("在线付款");
                                 binding.setInvoice(data.getData().getInv_info().getContent());
                                 binding.executePendingBindings();
+
+                                ConfirmOrderBean.StoreCartListNewsBean.GoodsListBean goodsListBean
+                                        = data.getData().getStore_cart_list_news().get(0).getGoods_list().get(0);
+                                if (goodsListBean.isFCode()) {
+                                    showFCodeDialog(goodsListBean.getGoods_id());
+                                } else {
+                                    Log.e(TAG, "dataObserver: 不是F码商品");
+                                }
                             } catch (Exception e) {
                                 KLog.i(e.toString());
                             }
@@ -167,6 +188,25 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                     }
                 });
 
+    }
+
+    /**
+     * F 码商品，显示输入F码的弹窗
+     */
+    private void showFCodeDialog(String goodsId) {
+        if (fCodeDialog == null) {
+            fCodeDialog = new FCodeDialog();
+            fCodeDialog.setOnViewClickListener((view, str) -> {
+                if (view.getId() == R.id.iv_close) {
+                    // 取消验证
+                    finish();
+                } else {
+                    // 提交验证
+                    mViewModel.checkFCode(str, goodsId);
+                }
+            });
+        }
+        fCodeDialog.showNow(getSupportFragmentManager(), "ConfirmOrder");
     }
 
     private void aLiPay(final String param) {

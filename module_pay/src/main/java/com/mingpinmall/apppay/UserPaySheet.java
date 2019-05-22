@@ -314,27 +314,27 @@ public class UserPaySheet extends Dialog {
                 bind.scbPmoney.setEnabled(false);
                 bind.scbPmoney.setChecked(false);
             } else {
-                bind.flPayMoney.setVisibility(View.VISIBLE);
-                bind.flPayMoney.setOnClickListener(v -> bind.scbPmoney.toggle());
-                bind.scbPmoney.setOnCheckedChangeListener((checkBox, isChecked) -> {
-                    if (isChecked) {
-                        metodType = 1;
-                        if (bind.scbPcard.isChecked()) {
-                            bind.scbPcard.setChecked(false, bind.scbPcard.isChecked());
-                        }
-                        bind.llPsd.setVisibility(View.VISIBLE);
-                    } else {
-                        if (!bind.scbPcard.isChecked()) {
-                            bind.llPsd.setVisibility(View.GONE);
-                            bind.edPassword.setText("");
-                            if (metodType < 2) {
-                                metodType = -1;
-                            }
-                        }
-                    }
-                    bind.ivWechat.setAlpha((float) 0.5);
-                    bind.ivAlipay.setAlpha((float) 0.5);
-                });
+//                bind.flPayMoney.setVisibility(View.VISIBLE);
+//                bind.flPayMoney.setOnClickListener(v -> bind.scbPmoney.toggle());
+//                bind.scbPmoney.setOnCheckedChangeListener((checkBox, isChecked) -> {
+//                    if (isChecked) {
+//                        metodType = 1;
+//                        if (bind.scbPcard.isChecked()) {
+//                            bind.scbPcard.setChecked(false, bind.scbPcard.isChecked());
+//                        }
+//                        bind.llPsd.setVisibility(View.VISIBLE);
+//                    } else {
+//                        if (!bind.scbPcard.isChecked()) {
+//                            bind.llPsd.setVisibility(View.GONE);
+//                            bind.edPassword.setText("");
+//                            if (metodType < 2) {
+//                                metodType = -1;
+//                            }
+//                        }
+//                    }
+//                    bind.ivWechat.setAlpha((float) 0.5);
+//                    bind.ivAlipay.setAlpha((float) 0.5);
+//                });
             }
             if (rcb < pay_amount) {
                 //充值卡余额 不够支付
@@ -343,27 +343,27 @@ public class UserPaySheet extends Dialog {
                 bind.scbPcard.setEnabled(false);
                 bind.scbPcard.setChecked(false);
             } else {
-                bind.flPayCard.setVisibility(View.VISIBLE);
-                bind.flPayCard.setOnClickListener(v -> bind.scbPcard.toggle());
-                bind.scbPcard.setOnCheckedChangeListener((checkBox, isChecked) -> {
-                    if (isChecked) {
-                        metodType = 0;
-                        if (bind.scbPmoney.isChecked()) {
-                            bind.scbPmoney.setChecked(false, bind.scbPmoney.isChecked());
-                        }
-                        bind.llPsd.setVisibility(View.VISIBLE);
-                    } else {
-                        if (!bind.scbPmoney.isChecked()) {
-                            bind.llPsd.setVisibility(View.GONE);
-                            bind.edPassword.setText("");
-                            if (metodType < 2) {
-                                metodType = -1;
-                            }
-                        }
-                    }
-                    bind.ivWechat.setAlpha((float) 0.5);
-                    bind.ivAlipay.setAlpha((float) 0.5);
-                });
+//                bind.flPayCard.setVisibility(View.VISIBLE);
+//                bind.flPayCard.setOnClickListener(v -> bind.scbPcard.toggle());
+//                bind.scbPcard.setOnCheckedChangeListener((checkBox, isChecked) -> {
+//                    if (isChecked) {
+//                        metodType = 0;
+//                        if (bind.scbPmoney.isChecked()) {
+//                            bind.scbPmoney.setChecked(false, bind.scbPmoney.isChecked());
+//                        }
+//                        bind.llPsd.setVisibility(View.VISIBLE);
+//                    } else {
+//                        if (!bind.scbPmoney.isChecked()) {
+//                            bind.llPsd.setVisibility(View.GONE);
+//                            bind.edPassword.setText("");
+//                            if (metodType < 2) {
+//                                metodType = -1;
+//                            }
+//                        }
+//                    }
+//                    bind.ivWechat.setAlpha((float) 0.5);
+//                    bind.ivAlipay.setAlpha((float) 0.5);
+//                });
             }
             // 支付宝支付 和 微信支付 按钮
             for (PayLayoutBean.PayInfoBean.PaymentListBean item :

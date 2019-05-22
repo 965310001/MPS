@@ -1,5 +1,6 @@
 package com.mingpinmall.classz.ui.api;
 
+import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.ResultBean;
@@ -47,6 +48,15 @@ public interface ClassifyService {
 
     /*商品评价*/
     String EVALUATE = "/mo_bile/index.php?app=goods&wwi=goods_evaluate";
+
+    /**
+     * 检查F码
+     * @param map
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<BaseNothingBean> checkFCode(@FieldMap Map<String, Object> map);
 
     /*左边*/
     @GET(BASEURL)

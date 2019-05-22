@@ -113,6 +113,9 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
                 TextDialog.showBaseDialog(activity, "提示", "确定取消订单？",
                         () -> mViewModel.cancelVirtualOrder(EVENT_KEY, orderListBean.getOrder_id()))
                         .show();
+            } else if (view.getId() == R.id.bt_payOrder) {
+                // TODO 订单支付
+
             }
         });
     }

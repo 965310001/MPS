@@ -15,6 +15,11 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         super(application);
     }
 
+    /*检查F码*/
+    public void checkFCode(String fcode, String goods_id) {
+        mRepository.checkFCode(fcode, goods_id);
+    }
+
     /*商品分类*/
     public void getLeft() {
         mRepository.getLeft();
