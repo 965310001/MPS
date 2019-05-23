@@ -8,12 +8,6 @@
     android:orientation="vertical"
     >
 
-    <View
-        android:id="@+id/v_line"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_hight"
-        android:background="@color/line_color" />
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
@@ -100,5 +94,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_hight"
+        android:background="@color/line_color" />
 
 </LinearLayout>

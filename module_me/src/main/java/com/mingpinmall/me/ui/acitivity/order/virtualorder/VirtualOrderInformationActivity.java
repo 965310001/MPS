@@ -1,19 +1,26 @@
 package com.mingpinmall.me.ui.acitivity.order.virtualorder;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
@@ -25,11 +32,15 @@ import com.mingpinmall.me.ui.bean.VirtualInformationBean;
 import com.mingpinmall.me.ui.bean.VirtualStoreAddrsBean;
 import com.mingpinmall.me.ui.constants.Constants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：订单详情
  * *@author 小斌
+ *
  * @date 2019/4/16
  **/
 @Route(path = ARouterConfig.Me.VIRTUALORDERINFORMATIONACTIVITY)
@@ -49,19 +60,36 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
         setRecyclverView(binding.recyclerView);
         setRecyclverView(binding.recyclerView2);
 
+        binding.refreshLayout.setEnableLoadMore(false);
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> initData());
+
         listAdapter = new VirtualGoodsCodeAdapter();
         binding.recyclerView.setAdapter(listAdapter);
 
         addrsAdapter = new VirtualStoreAddrsAdapter();
         binding.recyclerView2.setAdapter(addrsAdapter);
 
-        binding.btCancelOrder.setOnClickListener(this);
         binding.btnSendCode.setOnClickListener(this);
         binding.sivGoMaps.setOnClickListener(this);
         binding.clGoods.setOnClickListener(this);
-        listAdapter.setOnItemClickListener((adapter, view, position) -> {
-            //店铺 信息列表点击
 
+        listAdapter.setOnItemClickListener((adapter, view, position) -> {
+            // TODO 虚拟订单 详情 - 店铺 信息列表点击
+
+        });
+        addrsAdapter.setOnItemClickListener((adapter, view, position) -> {
+            // TODO 虚拟订单 详情 - 店铺地址item点击
+            VirtualStoreAddrsBean.AddrListBean data = addrsAdapter.getItem(position);
+        });
+        addrsAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //店铺地址item子控件点击
+            VirtualStoreAddrsBean.AddrListBean data = addrsAdapter.getItem(position);
+            if (view.getId() == R.id.iv_callPhone) {
+                //拨打电话
+                if (PermissionsUtils.checkPermissions(activity, Manifest.permission.CALL_PHONE)) {
+                    callPhone(data.getPhone_info());
+                }
+            }
         });
     }
 
@@ -81,8 +109,10 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
                 data = resultData.getOrder_info();
                 mViewModel.getVitrualOrderStoreAddrs(data.getStore_id());
                 showDataInfo();
+                binding.refreshLayout.finishRefresh();
             } else {
                 ToastUtils.showShort(result.toString());
+                binding.refreshLayout.finishRefresh(false);
             }
         });
         registerObserver(Constants.VIRTUAL_ORDER_ADDRS, Object.class).observeForever(result -> {
@@ -92,6 +122,7 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
             } else {
                 ToastUtils.showShort(result.toString());
             }
+            binding.setHasAddress(addrsAdapter.getItemCount() > 0);
         });
         registerObserver(EVENT_KEY_CANCEL, "RECEVIE_ORDER", String.class).observeForever(msg -> {
             if (msg.equals(SUCCESS)) {
@@ -110,27 +141,39 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
         if (data == null) {
             return;
         }
-        /*交易状态*/
-        binding.tvSublabel.setText(data.getState_desc());
-        /*买家手机号*/
-        binding.sivItem2.setDescription(data.getBuyer_phone());
-        binding.btnSendCode.setVisibility(TextUtils.equals("20", data.getOrder_state()) || TextUtils.equals("40",data.getOrder_state()) ? View.VISIBLE : View.GONE);
-        /*买家留言*/
-        binding.sivItem3.setDescription(data.getBuyer_msg());
-        /*虚拟兑换码 有效期*/
-        binding.sivItem4.setDescription(data.getVr_indate());
+        binding.setData(data);
+        binding.btnSendCode.setVisibility(data.isIf_resend() ? View.VISIBLE : View.GONE);
         listAdapter.setNewData(data.getCode_list());
 
-        /*商品名，价格，数量，商品图片*/
-        binding.tvGoodsName.setText(data.getGoods_name());
-        binding.tvPayMoney.setText(String.format("¥%s", data.getGoods_price()));
-        binding.tvCount.setText(String.format("x%s", data.getGoods_num()));
-        ImageUtils.loadImage(binding.ivImage, data.getGoods_image_url());
-
-        /*订单编号*/
-        binding.tvOrderNum.setText(String.format("订单编号：%s", data.getOrder_sn()));
-        /*创建时间*/
-        binding.tvOrderCreateTime.setText(String.format("创建时间：%s", data.getAdd_time()));
+        /*最下面的按钮*/
+        LinearLayout buttonContent = binding.llButtonContent;
+        buttonContent.removeAllViews();
+        AppCompatTextView tvBtn = null;
+        if (data.isIf_evaluation()) {
+            //评价订单
+            tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_border_red, null);
+            tvBtn.setId(R.id.order_evaluation);
+            tvBtn.setText("评价订单");
+        }
+        if (data.isIf_cancel()) {
+            //取消订单
+            tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_default, null);
+            tvBtn.setId(R.id.order_buyer_cancel);
+            tvBtn.setText("取消订单");
+        }
+        if (data.isIf_refund()) {
+            //订单退款
+            tvBtn = (AppCompatTextView) View.inflate(activity, R.layout.button_layout_default, null);
+            tvBtn.setId(R.id.order_refund_cancel);
+            tvBtn.setText("订单退款");
+        }
+        if (tvBtn != null) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.leftMargin = ScreenUtil.dip2px(activity, 6);
+            buttonContent.addView(tvBtn);
+            tvBtn.setLayoutParams(params);
+            tvBtn.setOnClickListener(this);
+        }
 
     }
 
@@ -141,20 +184,25 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
 
     @Override
     public void onViewClicked(int viewId) {
-        if (viewId == R.id.bt_cancelOrder) {
+        if (viewId == R.id.order_buyer_cancel) {
             //取消订单
-            if (data != null) {
-                TextDialog.showBaseDialog(activity, "提示", "确定取消订单？",
-                        () -> mViewModel.cancelVirtualOrder(EVENT_KEY_CANCEL, data.getOrder_id()))
-                        .show();
-            }
+            TextDialog.showBaseDialog(activity, "提示", "确定取消订单？",
+                    () -> mViewModel.cancelVirtualOrder(EVENT_KEY_CANCEL, data.getOrder_id()))
+                    .show();
+        } else if (viewId == R.id.order_evaluation) {
+            //订单评价
+            ARouter.getInstance().build(ARouterConfig.Me.ORDEREVALUATEACTIVITY)
+                    .withString("id", data.getOrder_id())
+                    .navigation(activity, 1);
         } else if (viewId == R.id.cl_goods) {
             //点击商品 跳转到商品详情
             if (data != null) {
                 ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data.getGoods_id());
             }
-        }
+        } else if (viewId ==R.id.siv_goMaps) {
+            //查看所有商家地址
 
+        }
     }
 
     /**

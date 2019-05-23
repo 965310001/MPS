@@ -7,6 +7,8 @@
     <string name="text_no">否</string>
     <string name="text_isLoginOut">是否退出该账号？</string>
     <string name="text_submit">提交</string>
+    <string name="text_x">x</string>
+    <string name="text_rmb">¥</string>
 
     <!-- OrderRefundActivity ApplyRefundActivity & ApplyReturnActivity -->
     <string name="title_OrderRefundActivity">订单退款</string>
@@ -59,6 +61,10 @@
     <!-- OrderActivity -->
     <string name="tabs_text_physical">实物订单</string>
     <string name="tabs_text_virtual">虚拟订单</string>
+    <string name="tabs_text_buyer">买家手机</string>
+
+    <string name="tips_text_virtual">有效期至</string>
+
     <string name="tabs_text_all">全部</string>
     <string name="tabs_text_pay">待付款</string>
     <string name="tabs_text_haverst">待收货</string>
@@ -93,7 +99,6 @@
     <string name="text_phsi_14">完成时间：</string>
     <string name="text_phsi_15">收货地址：</string>
     <string name="text_phsi_16">收货人：</string>
-    <string name="text_rmb">¥</string>
     <!-- PhysicalOrderInformationActivity Over -->
 
     <!-- CollectionActivity -->

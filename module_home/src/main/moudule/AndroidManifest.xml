@@ -14,10 +14,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity"
-            android:screenOrientation="fullSensor" />
     </application>
 
 </manifest>

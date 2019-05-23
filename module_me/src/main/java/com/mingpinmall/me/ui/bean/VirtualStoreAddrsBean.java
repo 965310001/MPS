@@ -1,6 +1,7 @@
 package com.mingpinmall.me.ui.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class VirtualStoreAddrsBean implements Serializable {
     private List<AddrListBean> addr_list;
 
     public List<AddrListBean> getAddr_list() {
-        return addr_list;
+        return addr_list == null ? new ArrayList<>() : addr_list;
     }
 
     public void setAddr_list(List<AddrListBean> addr_list) {

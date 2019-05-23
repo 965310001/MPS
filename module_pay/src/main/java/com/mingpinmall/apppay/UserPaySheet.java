@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -200,7 +201,7 @@ public class UserPaySheet extends Dialog {
          * 2：支付宝
          * 3：微信
          */
-        private int metodType = -1;
+        private int metodType = 3;
 
         private UserPaySheet.OnPayMethodListener mOnPayMethodListener;
         private OnDismissListener mOnBottomDialogDismissListener;
@@ -230,8 +231,10 @@ public class UserPaySheet extends Dialog {
         public void onPaying(String label) {
             mDialog.setCancelable(false);
             mDialog.setCanceledOnTouchOutside(false);
+            bind.ivClose.setVisibility(View.GONE);
             bind.flStateContent.setVisibility(View.VISIBLE);
             bind.csvStatus.loadLoading();
+            bind.tvState.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             bind.tvState.setText(TextUtils.isEmpty(label) ? "等待支付结果" : label);
         }
 
@@ -241,9 +244,11 @@ public class UserPaySheet extends Dialog {
         public void onPayFail(String label) {
             bind.flStateContent.setVisibility(View.VISIBLE);
             bind.csvStatus.loadFailure();
+            bind.tvState.setTextColor(ContextCompat.getColor(mContext, R.color.load_failure));
             bind.tvState.setText(TextUtils.isEmpty(label) ? "支付失败" : label);
             new Handler().postDelayed(() -> {
                 bind.flStateContent.setVisibility(View.GONE);
+                bind.ivClose.setVisibility(View.VISIBLE);
                 mDialog.setCancelable(true);
                 mDialog.setCanceledOnTouchOutside(true);
             }, 2000);
@@ -255,6 +260,7 @@ public class UserPaySheet extends Dialog {
         public void onPaySuccess(String label) {
             bind.flStateContent.setVisibility(View.VISIBLE);
             bind.csvStatus.loadSuccess();
+            bind.tvState.setTextColor(ContextCompat.getColor(mContext, R.color.load_success));
             bind.tvState.setText(TextUtils.isEmpty(label) ? "支付成功" : label);
             new Handler().postDelayed(() -> mDialog.dismiss(), 2000);
         }
@@ -275,12 +281,12 @@ public class UserPaySheet extends Dialog {
             bind.scbPcard.setChecked(false, bind.scbPcard.isChecked());
             bind.scbPmoney.setChecked(false, bind.scbPmoney.isChecked());
             iv.setAlpha((float) 1);
-            if (iv == bind.ivAlipay) {
+            if (iv == bind.llAlipay) {
                 metodType = 2;
-                bind.ivWechat.setAlpha((float) 0.5);
+                bind.rgRadio.check(bind.rbAlipay.getId());
             } else {
                 metodType = 3;
-                bind.ivAlipay.setAlpha((float) 0.5);
+                bind.rgRadio.check(bind.rbWeixin.getId());
             }
         }
 
@@ -293,6 +299,7 @@ public class UserPaySheet extends Dialog {
 
             bind.flStateContent.setOnClickListener(v -> {
             });
+            bind.ivClose.setOnClickListener(v -> mDialog.dismiss());
             bind.setData(data);
 
             /**
@@ -369,11 +376,11 @@ public class UserPaySheet extends Dialog {
             for (PayLayoutBean.PayInfoBean.PaymentListBean item :
                     data.getPayment_list()) {
                 if (item.getPayment_code().equals("alipay_sdk")) {
-                    bind.ivAlipay.setVisibility(View.VISIBLE);
-                    bind.ivAlipay.setOnClickListener(this::onIVClick);
+                    bind.llAlipay.setVisibility(View.VISIBLE);
+                    bind.llAlipay.setOnClickListener(this::onIVClick);
                 } else if (item.getPayment_code().equals("wxpay_sdk")) {
-                    bind.ivWechat.setVisibility(View.VISIBLE);
-                    bind.ivWechat.setOnClickListener(this::onIVClick);
+                    bind.llWeixin.setVisibility(View.VISIBLE);
+                    bind.llWeixin.setOnClickListener(this::onIVClick);
                 }
             }
             bind.btnSubmit.setOnClickListener(v -> {

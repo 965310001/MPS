@@ -1,5 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.order.physicalorder;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
@@ -215,17 +217,9 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
     public void onViewClicked(int viewId) {
         if (viewId == R.id.order_buyer_cancel) {
             //取消订单
-            if (data == null) {
-                return;
-            }
             TextDialog.showBaseDialog(activity, "提示", "确定取消订单？",
                     () -> mViewModel.cancelOrder("INFORMATION_CANCEL_ORDER", data.getOrder_id()))
                     .show();
-        } else if (viewId == R.id.order_pay) {
-            //立即支付
-
-        } else if (viewId == R.id.order_lock) {
-            //退货/退款 tips
         } else if (viewId == R.id.order_refund_cancel) {
             //订单退款
             ARouter.getInstance().build(ARouterConfig.Me.ORDERREFUNDACTIVITY)
@@ -256,10 +250,12 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
             if (data == null || data.getStore_phone().isEmpty()) {
                 return;
             }
-            callPhone(data.getStore_phone());
+            if (PermissionsUtils.checkPermissions(activity, Manifest.permission.CALL_PHONE)) {
+                callPhone(data.getStore_phone());
+            }
         } else if (viewId == R.id.fl_service) {
-            // TODO 联系客服
-            Map<String, Object> map = new HashMap<>();
+            // 联系客服
+            Map<String, Object> map = new HashMap<>(2);
             map.put("goodsId", "");
             map.put("tId", mStoreId);
             ActivityToActivity.toActivity(ARouterConfig.classify.CHATACTIVITY, map);

@@ -164,6 +164,7 @@
                     app:layout_constraintTop_toBottomOf="@id/line1"
                     tools:visibility="visible" />
 
+
                 <LinearLayout
                     android:id="@+id/ll_buttonContent"
                     android:layout_width="0dp"
@@ -175,65 +176,10 @@
                     app:layout_constraintStart_toEndOf="@id/tv_removeOrder"
                     app:layout_constraintTop_toBottomOf="@id/line1">
 
-                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                        android:id="@+id/bt_appraiseOrder"
-                        style="@style/RoundButton.Auto"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/btn_text_appraiseOrder"
-                        android:textColor="@color/app_theme_d61619"
-                        android:textSize="14sp"
-                        android:visibility="gone"
-                        app:rb_backgroundColor="@color/transparent"
-                        app:rb_borderColor="@color/app_theme_d61619"
-                        app:rb_borderWidth="1dp"
-                        app:rb_radius="5dp"
-                        tools:visibility="visible" />
-
-                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                        android:id="@+id/bt_harvestOrder"
-                        style="@style/RoundButton.Auto"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/btn_text_harvestOrder"
-                        android:textColor="@color/dark"
-                        android:textSize="14sp"
-                        android:visibility="gone"
-                        app:rb_backgroundColor="@color/transparent"
-                        app:rb_borderColor="@color/dark"
-                        app:rb_borderWidth="1dp"
-                        app:rb_radius="5dp"
-                        tools:visibility="visible" />
-
-                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                        android:id="@+id/bt_cancelOrder"
-                        style="@style/RoundButton.Auto"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/btn_text_cancelOrder"
-                        android:textColor="@color/dark"
-                        android:textSize="14sp"
-                        android:visibility="gone"
-                        app:rb_backgroundColor="@color/transparent"
-                        app:rb_borderColor="@color/dark"
-                        app:rb_borderWidth="1dp"
-                        app:rb_radius="5dp"
-                        tools:visibility="visible" />
-
-                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                        android:id="@+id/bt_payOrder"
-                        style="@style/RoundButton.Auto"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/btn_text_payOrder"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:visibility="gone"
-                        app:rb_backgroundColor="@color/app_theme_d61619"
-                        app:rb_borderColor="@color/app_theme_d61619"
-                        app:rb_borderWidth="1dp"
-                        app:rb_radius="5dp"
-                        tools:visibility="visible" />
+                        tools:text="这里是功能按钮布局，动态addView。" />
 
                 </LinearLayout>
 
