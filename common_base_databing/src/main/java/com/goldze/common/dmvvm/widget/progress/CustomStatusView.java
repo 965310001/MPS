@@ -262,13 +262,13 @@ public class CustomStatusView extends View {
     private void startFailAnim() {
         ValueAnimator failLeft = ValueAnimator.ofFloat(0f, 1.0f);
         failLeft.addUpdateListener(animation -> {
-            Log.i("动画", "startFailAnim: failLeft");
+//            Log.i("动画", "startFailAnim: failLeft");
             failValueRight = (float) animation.getAnimatedValue();
             invalidate();
         });
         ValueAnimator failRight = ValueAnimator.ofFloat(0f, 1.0f);
         failRight.addUpdateListener(animation -> {
-            Log.i("动画", "startFailAnim: failRight");
+//            Log.i("动画", "startFailAnim: failRight");
             failValueLeft = (float) animation.getAnimatedValue();
             invalidate();
         });

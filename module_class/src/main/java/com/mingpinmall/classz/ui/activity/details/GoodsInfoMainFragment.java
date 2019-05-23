@@ -1,6 +1,5 @@
 package com.mingpinmall.classz.ui.activity.details;
 
-import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -425,7 +424,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                             ToastUtils.showLong(response.getError());
                         }
                     }
-                    KLog.i(response);
+                    /*KLog.i(response);*/
                 });
 
         registerObserver(Constants.VOUCHER[2], ResultBean.class)
@@ -457,6 +456,15 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     public void showBuyPopWindow() {
         if (null == specificationPop) {
             specificationPop = GoodsSpecificationPop.getInstance(getContext());
+        }
+        if (null == goodsInfo) {
+            goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
+            if (null != goodsDetailInfo) {
+                dataBean = goodsDetailInfo.getDatas();
+                if (null != dataBean) {
+                    goodsInfo = dataBean.getGoods_info();
+                }
+            }
         }
         specificationPop.setGoodsInfo(goodsInfo);
         specificationPop.show(binding.getRoot());

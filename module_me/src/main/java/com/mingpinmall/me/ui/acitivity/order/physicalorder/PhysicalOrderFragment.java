@@ -17,7 +17,7 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 public class PhysicalOrderFragment extends BaseFragment<FragmentDefaultTabviewpagerBinding> {
 
     int pageIndex = 0;
-    private BasePagerAdapter pagerAdapter;
+//    private BasePagerAdapter pagerAdapter;
 
     public PhysicalOrderFragment() {
     }
@@ -55,7 +55,7 @@ public class PhysicalOrderFragment extends BaseFragment<FragmentDefaultTabviewpa
     public void initView(Bundle state) {
         LiveBus.getDefault().subscribe("PAGER", "ORDER", Integer.class).observeForever(integer -> pageIndex = integer);
 
-        pagerAdapter = new BasePagerAdapter(getChildFragmentManager(), activity);
+        BasePagerAdapter pagerAdapter = new BasePagerAdapter(getChildFragmentManager(), activity);
         pagerAdapter.addFragment(//实物订单
                 PhysicalOrderListFragment.newInstance("", "ALL_PHYSICAL"),
                 R.string.tabs_text_all

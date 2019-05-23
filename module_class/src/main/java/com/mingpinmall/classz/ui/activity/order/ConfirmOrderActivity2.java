@@ -260,7 +260,9 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
             itemData = adapter.getItem(i);
             payMsg.append(itemData.getStore_id()).append("|").append(((AppCompatEditText) item.getView(R.id.ed_message)).getText().toString()).append(",");
         }
-        map.put("pay_message", payMsg.substring(0, payMsg.lastIndexOf(",")));
+        if (null != payMsg && payMsg.toString().contains(",")) {
+            map.put("pay_message", payMsg.substring(0, payMsg.lastIndexOf(",")));
+        }
         mViewModel.getBuyStep2(map, Constants.CONFIRMORDER_KEY[2]);
     }
 

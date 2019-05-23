@@ -422,7 +422,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     }
 
     protected void setDrawerImage(Bitmap bitmap) {
-        mGoodsInfoMainFragment.setDrawerImage(bitmap);
+        if (null != mGoodsInfoMainFragment) mGoodsInfoMainFragment.setDrawerImage(bitmap);
     }
 
     /**

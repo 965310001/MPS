@@ -26,6 +26,8 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.OrderDeliverBean;
 import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.constants.Constants;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +57,10 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
         binding.recyclerView.setAdapter(listAdapter);
 
         binding.refreshLayout.setEnableLoadMore(false);
-        binding.refreshLayout.setOnRefreshListener(refreshLayout -> initData());
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            initData();
+            binding.refreshLayout.finishRefresh();
+        });
         binding.llShopContent.setOnClickListener(this);
         binding.flCall.setOnClickListener(this);
         binding.flService.setOnClickListener(this);

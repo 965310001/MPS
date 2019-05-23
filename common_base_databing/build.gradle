@@ -44,14 +44,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
 
             buildConfigField "String", "APP_URL", keystoreProperties['RELEASE_APP_URL']
         }
-
         debug {
-//            buildConfigField "String", "BUGTAGS_APPKEY", keystoreProperties['BUGTAGS_APPKEY']
-
             buildConfigField "String", "APP_URL", keystoreProperties['DEBUG_APP_URL']
         }
     }
@@ -129,8 +125,7 @@ dependencies {
         all*.exclude group: 'com.android.support', module: 'support-v13'
     }
     implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
-    //bugtags
-//    implementation rootProject.ext.dependencies['bugtags-lib']
+
     api rootProject.ext.dependencies['lsettingviewlibrary']
     //leakcanary
     debugImplementation rootProject.ext.dependencies["leakCanaryDebug"]
