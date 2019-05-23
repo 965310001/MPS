@@ -209,6 +209,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 textBinding.setData("默认");
                 binding.llGoodsSpecification.addView(textBinding.getRoot());
             }
+            binding.setIsHolo(TextUtils.isEmpty(goodsInfo.getTryon_url()));
         }
 //        KLog.i(dataBean.isVoucher() + "==");
         binding.setIsVoucher(dataBean.isVoucher());

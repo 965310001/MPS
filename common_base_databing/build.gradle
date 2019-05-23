@@ -46,8 +46,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             buildConfigField "String", "APP_URL", keystoreProperties['RELEASE_APP_URL']
+
+            buildConfigField "Boolean", "ISDEBUG", "false"
         }
         debug {
+            buildConfigField "Boolean", "ISDEBUG", "true"
+
             buildConfigField "String", "APP_URL", keystoreProperties['DEBUG_APP_URL']
         }
     }

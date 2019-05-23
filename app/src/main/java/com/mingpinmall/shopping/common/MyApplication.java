@@ -2,14 +2,18 @@ package com.mingpinmall.shopping.common;
 
 import android.support.v4.content.ContextCompat;
 
+import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.BaseApplication;
 import com.goldze.bugly.BuglyUtils;
+import com.goldze.common.dmvvm.http.HttpHelper;
 import com.mingpinmall.shopping.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.xuexiang.xui.XUI;
+
+import java.net.URL;
 
 public class MyApplication extends BaseApplication {
 

@@ -6,6 +6,7 @@ import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
+import com.goldze.common.dmvvm.http.HttpHelper;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;

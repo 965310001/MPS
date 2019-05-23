@@ -70,6 +70,10 @@ public class GoodsInfo extends BaseBean {
     @Transient
     public String virtual_indate;/*有效期*/
 
+
+    @Transient
+    private String tryon_url;/*试戴*/
+
     @Transient
     private int cart;
 
@@ -179,6 +183,14 @@ public class GoodsInfo extends BaseBean {
     public void setCart(int cart) {
         this.cart = cart;
         notifyPropertyChanged(BR.cart);
+    }
+
+    public String getTryon_url() {
+        return tryon_url;
+    }
+
+    public void setTryon_url(String tryon_url) {
+        this.tryon_url = tryon_url;
     }
 
     @Bindable

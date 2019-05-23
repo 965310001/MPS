@@ -117,6 +117,8 @@ public interface ARouterConfig {
         /*聊天*/
         String CHATACTIVITY = "/clasz/ChatActivity";
 
+        /*试戴*/
+        String HOLOACTIVITY = "/clasz/HoloActivity";
 //        String DISTRIBUTIONACTIVITY = "/clasz/DistributionActivity";
     }
 

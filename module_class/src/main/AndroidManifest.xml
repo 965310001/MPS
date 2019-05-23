@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
+        <activity android:name=".ui.activity.holo.HoloActivity"></activity>
         <activity
             android:name=".ui.vm.SearchActivity"
             android:launchMode="singleTop" />
@@ -35,9 +36,10 @@
         <activity
             android:name=".ui.activity.chat.ChatActivity"
             android:launchMode="singleTask" />
-
-        <!--   android:process=":aidl"  android:enabled="true"
-            android:exported="true"  android:process=":aidl"  -->
+        <!--
+   android:process=":aidl"  android:enabled="true"
+            android:exported="true"  android:process=":aidl"
+        -->
         <service
             android:name=".ui.service.SocketIoService"
             android:enabled="true"
