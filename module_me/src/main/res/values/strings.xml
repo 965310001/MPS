@@ -239,7 +239,7 @@
     <!-- ResetPasswordActivity Over -->
 
     <!-- FeedBackActivity -->
-    <string name="title_feedBackActivity">修改手机验证</string>
+    <string name="title_feedBackActivity">反馈建议</string>
     <string name="hint_feedback">请描述下您遇到的问题</string>
     <!-- FeedBackActivity Over -->
 

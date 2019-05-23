@@ -34,6 +34,7 @@ import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
+import com.xuexiang.xui.XUI;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -72,6 +73,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        XUI.initTheme(this);
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
         clSearch.setVisibility(View.VISIBLE);

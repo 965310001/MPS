@@ -6,5 +6,7 @@
             android:name="com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity"
             android:screenOrientation="fullSensor" />
         <activity android:name=".ui.activity.SpecialActivity" />
+        <activity android:name=".ui.activity.shopstreet.ShopStreetActivity" />
+        <activity android:name=".ui.activity.shopstreet.ShopClassActivity" />
     </application>
 </manifest>

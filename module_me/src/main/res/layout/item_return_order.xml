@@ -254,18 +254,19 @@
                     app:layout_constraintStart_toEndOf="@id/tv_removeOrder"
                     app:layout_constraintTop_toBottomOf="@id/line1">
 
-                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                    <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/bt_refundInformation"
-                        style="@style/RoundButton.Auto"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/shape_border_corner_ccc_4dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
                         android:text="@string/text_refundInformation"
-                        android:textColor="@color/dark"
-                        android:textSize="14sp"
-                        app:rb_backgroundColor="@color/transparent"
-                        app:rb_borderColor="@color/dark"
-                        app:rb_borderWidth="1dp"
-                        app:rb_radius="5dp" />
+                        android:textColor="#555"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
