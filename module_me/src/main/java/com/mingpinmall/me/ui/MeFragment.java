@@ -4,6 +4,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,7 @@ import java.util.List;
 
 /**
  * 我的
+ *
  * @author 小斌
  */
 public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewModel> implements View.OnClickListener {
@@ -156,7 +158,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText("");
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText("");
 
-        ImageUtils.loadImageCircle(headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
+        ((AppCompatImageView) headView.findViewById(R.id.iv_headImage)).setImageResource(R.drawable.ic_user_head);
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
                 0, 0, 0, 0, 0
         });
@@ -179,7 +181,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         meItemAdapter.addHeaderView(headView);
         meItemAdapter.bindToRecyclerView(binding.recyclerView);
         //拿到头部 View
-        ImageUtils.loadImageCircle(headView.findViewById(R.id.iv_headImage), R.drawable.ic_user_head);
+        ((AppCompatImageView) headView.findViewById(R.id.iv_headImage)).setImageResource(R.drawable.ic_user_head);
         //开始自动变换背景色
         autoColorView = headView.findViewById(R.id.iv_bg);
         autoColorView.setColors(colorIds);
