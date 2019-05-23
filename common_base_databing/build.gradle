@@ -106,7 +106,7 @@ dependencies {
     /*material-dialogs*/
     api 'com.afollestad.material-dialogs:core:0.9.4.5'
     api 'com.afollestad.material-dialogs:commons:0.9.4.5'
-    api 'com.github.xuexiangjys:XUI:latest.integration'
+    api 'com.github.xuexiangjys:XUI:1.0.1'
     api 'org.greenrobot:greendao:3.2.2'
     // add library
     api 'org.greenrobot:greendao-generator:3.2.2'
