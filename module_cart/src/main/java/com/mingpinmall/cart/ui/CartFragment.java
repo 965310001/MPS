@@ -143,13 +143,17 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                     cartId.append(String.format("%s|%s,", gId, TextUtils.isEmpty(gNum) ? "1" : gNum));
                 }
             }
-            String cartInfo = cartId.toString().contains(",") ?
-                    cartId.toString().substring(0, cartId.lastIndexOf(",")) : cartId.toString();
-            Log.d("立即购买", "setListener: " + cartInfo);
-            Map<String, Object> params = new HashMap<>(2);
-            params.put("cartId", cartInfo);
-            params.put("ifcart", "1");
-            ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY2, params);
+            if (cartId.toString().length() > 0) {
+                String cartInfo = cartId.toString().contains(",") ?
+                        cartId.toString().substring(0, cartId.lastIndexOf(",")) : cartId.toString();
+                Log.d("立即购买", "setListener: " + cartInfo);
+                Map<String, Object> params = new HashMap<>(2);
+                params.put("cartId", cartInfo);
+                params.put("ifcart", "1");
+                ActivityToActivity.toActivity(ARouterConfig.classify.CONFIRMORDERACTIVITY2, params);
+            } else {
+                ToastUtils.showLong("请选择商品");
+            }
         });
         binding.cbSelectAll.setOnClickListener(v -> {
             /*全选购物车或者全反选购物车*/
@@ -295,7 +299,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         if (!SharePreferenceUtil.isLogin()) {
             return;
         }
-        binding.clPayContent.setVisibility(View.VISIBLE);
+        /*binding.clPayContent.setVisibility(View.VISIBLE);*/
         mViewModel.getCartList(EVENT_KEY);
     }
 
@@ -451,12 +455,13 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     protected void onVisible() {
         super.onVisible();
         setDarkMode(true);
+
         binding.clNoLogin.setVisibility(!SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
-        binding.clPayContent.setVisibility(SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
+//        binding.clPayContent.setVisibility(SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
         if (!SharePreferenceUtil.isLogin() && shopCartAdapter.getItemCount() > 0) {
             shopCartAdapter.setNewData(new ArrayList<>());
         } else {
-            binding.clPayContent.setVisibility(shopCartAdapter.getItemCount() > 0 ? View.VISIBLE : View.GONE);
+            binding.clPayContent.setVisibility(shopCartAdapter.getItemCount() > 1 ? View.VISIBLE : View.GONE);
         }
     }
 

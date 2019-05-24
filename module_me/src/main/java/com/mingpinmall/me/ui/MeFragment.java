@@ -29,12 +29,14 @@ import com.mingpinmall.me.ui.bean.MeItemBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.AutoColorView;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 我的
+ *
  * @author 小斌
  */
 public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewModel> implements View.OnClickListener {
@@ -101,6 +103,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
 
     @Override
     protected void dataObserver() {
+        super.dataObserver();
         LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_SUCCESS).observeForever(isLogin -> mViewModel.getUserInfo());
 
         LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_OUT).observeForever(isLogin -> clearnDatas());
@@ -144,9 +147,13 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     }
 
     private void clearnDatas() {
-        headView.findViewById(R.id.iv_headItem1).setBackgroundResource(R.drawable.ic_me_favorite);
-        headView.findViewById(R.id.iv_headItem2).setBackgroundResource(R.drawable.ic_me_store);
-        headView.findViewById(R.id.tv_level).setVisibility(View.GONE);
+        try {
+            headView.findViewById(R.id.iv_headItem1).setBackgroundResource(R.drawable.ic_me_favorite);
+            headView.findViewById(R.id.iv_headItem2).setBackgroundResource(R.drawable.ic_me_store);
+            headView.findViewById(R.id.tv_level).setVisibility(View.GONE);
+        } catch (Exception e) {
+            KLog.i(e.toString());
+        }
 
         SharePreferenceUtil.saveKeyValue("USER_INFO", null);
 

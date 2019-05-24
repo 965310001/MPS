@@ -298,6 +298,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     public void buyNow(View view) {
         /*判断是否是虚拟*/
         id = SharePreferenceUtil.getKeyValue("SHOPPINGDETAILSACTIVITY_ID");
+        KLog.i(id+" ==");
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             mGoodsInfoMainFragment.popWindowDismiss();
             Map<String, Object> map = new HashMap<>();

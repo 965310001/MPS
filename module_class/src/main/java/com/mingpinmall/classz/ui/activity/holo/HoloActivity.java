@@ -33,7 +33,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
         super.initViews(savedInstanceState);
 
         setTitle("试戴");
-
+        KLog.i(url);
         webview = binding.wv;
         WebSettings settings = webview.getSettings();
         webview.getSettings().setJavaScriptEnabled(true);

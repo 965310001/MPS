@@ -116,12 +116,11 @@ public class CartRepository extends BaseRepository {
                         if (result.isSuccess()) {
                             data.setMsg("成功");
                             data.setSuccess(true);
-                            sendData(Constants.CART_QUANTITY, data);
                         } else {
                             data.setMsg(result.getMessage());
                             data.setSuccess(false);
-                            sendData(Constants.CART_QUANTITY, data);
                         }
+                        sendData(Constants.CART_QUANTITY, data);
                     }
 
                     @Override
