@@ -31,6 +31,7 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.VirtualInformationBean;
 import com.mingpinmall.me.ui.bean.VirtualStoreAddrsBean;
 import com.mingpinmall.me.ui.constants.Constants;
+import com.mingpinmall.me.ui.widget.BottomSheet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +52,7 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
     private VirtualStoreAddrsAdapter addrsAdapter;
     private VirtualInformationBean.OrderInfoBean data;
     private final String EVENT_KEY_CANCEL = "VR_INFORMATION";
+    private BottomSheet bottomSheet;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -132,6 +134,19 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
                 ToastUtils.showShort(msg);
             }
         });
+        registerObserver(Constants.SEND_VIRTUALCODE, String.class).observeForever(s -> {
+            if ("success".equals(s)) {
+                if (bottomSheet.isShowing() && bottomSheet != null) {
+                    bottomSheet.dismiss();
+                }
+                ToastUtils.showShort("成功发送");
+            } else {
+                if (bottomSheet.isShowing() && bottomSheet != null) {
+                    bottomSheet.setFail();
+                }
+                ToastUtils.showShort(s);
+            }
+        });
     }
 
     /**
@@ -143,6 +158,18 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
         }
         binding.setData(data);
         binding.btnSendCode.setVisibility(data.isIf_resend() ? View.VISIBLE : View.GONE);
+        if (data.isIf_resend()) {
+            binding.btnSendCode.setOnClickListener(v -> {
+                bottomSheet = new BottomSheet.SendCodeSheetBuilder(activity)
+                        .setData(data.getBuyer_phone())
+                        .setOnSubmitClickListener(phone -> {
+                            // 重新发送兑换码
+                            mViewModel.sendVirtualCode(phone, orderId);
+                        })
+                        .build();
+                bottomSheet.show();
+            });
+        }
         listAdapter.setNewData(data.getCode_list());
 
         /*最下面的按钮*/
@@ -199,7 +226,7 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
             if (data != null) {
                 ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", data.getGoods_id());
             }
-        } else if (viewId ==R.id.siv_goMaps) {
+        } else if (viewId == R.id.siv_goMaps) {
             //查看所有商家地址
 
         }

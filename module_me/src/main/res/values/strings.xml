@@ -10,6 +10,9 @@
     <string name="text_x">x</string>
     <string name="text_rmb">¥</string>
 
+    <string name="text_sendcode_tips">如果您没有收到虚拟商品兑换码或更改其他手机接收信息，请正确输入接收用手机号码并确认发送。</string>
+    <string name="text_sendcode_tips0">系统最多可重新发送5次兑换码提示信息。</string>
+
     <!-- OrderRefundActivity ApplyRefundActivity & ApplyReturnActivity -->
     <string name="title_OrderRefundActivity">订单退款</string>
     <string name="title_ApplyRefundActivity">商品退款</string>
