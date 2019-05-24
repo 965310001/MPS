@@ -22,6 +22,7 @@ import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.goldze.common.dmvvm.widget.SettingItemView;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,7 +134,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
             switch (position) {
                 case 0:
                     //修改密码   登录密码
-                    if (!checkPhoneState.isState()) {
+                    if (null != checkPhoneState && !checkPhoneState.isState()) {
                         toBindPhone();
                         break;
                     }
@@ -145,7 +146,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                     break;
                 case 1:
                     //手机验证
-                    if (!checkPhoneState.isState()) {
+                    if (null != checkPhoneState && !checkPhoneState.isState()) {
                         ActivityToActivity.toActivity(ARouterConfig.Me.BINDPHONEACTIVITY);
                         break;
                     }
@@ -157,7 +158,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                     break;
                 case 2:
                     //支付密码
-                    if (!checkPhoneState.isState()) {
+                    if (null != checkPhoneState && !checkPhoneState.isState()) {
                         toBindPhone();
                         break;
                     }

@@ -4,13 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.xiaobin.apppay.R;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -110,6 +120,49 @@ public class WeiXinBaoStrategy implements Strategy {
         request.timeStamp = timeStamp;
         request.sign = sign;
         mIWXAPI.sendReq(request);
+    }
+
+    /**
+     * 微信分享
+     *
+     * @param appId
+     * @param flag  0:分享到微信好友，1：分享到微信朋友圈
+     */
+    public void wechatShare(String appId, int flag, Map<String, String> map) {
+        if (null != map) {
+            try {
+               new Thread(){
+                   @Override
+                   public void run() {
+                       super.run();
+                       init(appId);
+                       WXWebpageObject webpageObject = new WXWebpageObject();
+                       webpageObject.webpageUrl = map.get("url");
+                       WXMediaMessage msg = new WXMediaMessage(webpageObject);
+                       msg.title = TextUtils.isEmpty(map.get("title")) ? "" : map.get("title");
+                       msg.description = TextUtils.isEmpty(map.get("description")) ? "" : map.get("title");
+                       String imageurl = TextUtils.isEmpty(map.get("imageurl")) ? "" : map.get("imageurl");
+                       //                这里替换一张自己工程里的图片资源
+                       Bitmap thumb = null;
+                       try {
+                           thumb = BitmapFactory.decodeStream(new URL(imageurl).openStream());
+                       } catch (IOException e) {
+                           e.printStackTrace();
+                       }
+                       thumb = Bitmap.createScaledBitmap(thumb, 120, 150, true);
+                       thumb.recycle();
+                       msg.setThumbImage(thumb);
+                       SendMessageToWX.Req req = new SendMessageToWX.Req();
+                       req.transaction = String.valueOf(System.currentTimeMillis());
+                       req.message = msg;
+                       req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+                       mIWXAPI.sendReq(req);
+                   }
+               }.start();
+            } catch (Exception e) {
+                Log.i("TAG", e.toString());
+            }
+        }
     }
 
     //检测微信客户端是否支持微信支付

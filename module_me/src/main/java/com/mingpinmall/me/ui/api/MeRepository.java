@@ -58,6 +58,7 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：
+ *
  * @author 小斌
  * @date 2019/4/1
  **/
@@ -483,6 +484,12 @@ public class MeRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         sendData(Constants.VIP_POINT_LOG, msg == null ? "获取失败" : msg);
                     }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.VIP_POINT_LOG, "没有网络");
+                    }
                 })
         );
     }
@@ -504,6 +511,12 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         sendData(Constants.PACKET_LIST, msg == null ? "获取失败" : msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.PACKET_LIST, "没有网络");
                     }
                 })
         );
@@ -594,6 +607,12 @@ public class MeRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         sendData(Constants.RCCHARGE_LIST, msg == null ? "获取失败" : msg);
                     }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.RCCHARGE_LIST, "没有网络");
+                    }
                 })
         );
     }
@@ -617,6 +636,12 @@ public class MeRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         sendData(Constants.RCBALANCE, msg == null ? "获取失败" : msg);
                     }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.RCBALANCE, "没有网络");
+                    }
                 })
         );
     }
@@ -639,6 +664,12 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         sendData(Constants.COUPONLISTBEAN, msg == null ? "获取失败" : msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.COUPONLISTBEAN, "没有网络");
                     }
                 })
         );
@@ -684,6 +715,12 @@ public class MeRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         sendData(Constants.PREDPOSITLOG, msg == null ? "获取失败" : msg);
                     }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.PREDPOSITLOG, "没有网络");
+                    }
                 })
         );
     }
@@ -706,6 +743,12 @@ public class MeRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         sendData(Constants.PDRECHARGE, msg == null ? "获取失败" : msg);
                     }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.PDRECHARGE, "没有网络");
+                    }
                 })
         );
     }
@@ -727,6 +770,12 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         sendData(Constants.PDCASH, msg == null ? "获取失败" : msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.PDCASH, "没有网络");
                     }
                 })
         );
@@ -1027,6 +1076,12 @@ public class MeRepository extends BaseRepository {
                         KLog.i(msg);
                         sendData(Constants.ADDRESS_LIST, msg == null ? "获取失败" : msg);
                     }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.ADDRESS_LIST, "没有网络");
+                    }
                 })
         );
     }
@@ -1055,7 +1110,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     protected void onNoNetWork() {
-
+                        super.onNoNetWork();
                     }
                 })
         );
@@ -1187,6 +1242,12 @@ public class MeRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         KLog.i(msg);
                         sendData(Constants.GET_USER_INFO, msg == null ? "获取失败" : msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.GET_USER_INFO, "没有网络");
                     }
                 })
         );

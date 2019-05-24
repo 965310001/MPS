@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -19,7 +20,10 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
 import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.adapter.FragmentPagerAdapter;
 import com.mingpinmall.classz.databinding.ActivityShoppingDetailsBinding;
 import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
@@ -28,13 +32,19 @@ import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.utils.ArgbEvaluator;
+import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
+import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheet;
+import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheetItemView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.mingpinmall.classz.widget.XBottomSheet.BottomGridSheetBuilder.FIRST_LINE;
+import static com.mingpinmall.classz.widget.XBottomSheet.BottomGridSheetBuilder.SECOND_LINE;
 
 /**
  * 商品详情
@@ -280,12 +290,51 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         onClick(view);
     }
 
+    public void share(View view) {
+//        if (null != mGoodsInfo) {
+//            WeiXinBaoStrategy weiXinBaoStrategy = WeiXinBaoStrategy.getInstance(this);
+//            Map<String, String> map = new HashMap<>();
+//            String url = String.format("https://www.mingpinmall.cn/wap/tmpl/product_detail.html?goods_id=%s", mGoodsInfo.getGoods_id());
+//            map.put("url", url);
+//            map.put("title", mGoodsInfo.getGoods_name());
+//            map.put("description", mGoodsInfo.getGoods_jingle());
+//            map.put("imageurl", mGoodsInfo.getGoods_image_url());
+//            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 0, map);
+//        }
+
+        XBottomSheet bottomSheet = new XBottomSheet.BottomGridSheetBuilder(activity)
+//                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
+//                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
+//                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
+                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
+                .addItem(R.drawable.ic_loading_image, "微信", BottomSheet.BottomGridSheetBuilder.SECOND_LINE)
+                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
+//                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
+                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
+                .setOnSheetItemClickListener((dialog, itemView) -> {
+                    KLog.i("TAG");
+                    dialog.dismiss();
+                })
+                .build();
+        bottomSheet.show();
+//                .setItemData(voucher_list)
+//                .setAdapter(AdapterPool.newInstance()
+//                        .getVoucherInfoAdapter(activity)
+//                        .build())
+//                .setLayoutManager(new LinearLayoutManager(activity))
+//                .setOnSheetItemClickListener((dialog, itemView, position, tag) -> {
+////                    dialog.dismiss();
+//                    ToastUtils.showLong("Item " + (position + 1));
+
+    }
+
     public void goCart(View view) {
         ActivityToActivity.toActivity(ARouterConfig.cart.SHOPCARTACTIVITY);
     }
 
     public void addCart(View view) {
         KLog.i("添加到购物车");
+        id = SharePreferenceUtil.getKeyValue("SHOPPINGDETAILSACTIVITY_ID");
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
             mGoodsInfo.setNum(TextUtils.isEmpty(goodsNum) ? 1 : Integer.parseInt(goodsNum));
@@ -298,7 +347,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     public void buyNow(View view) {
         /*判断是否是虚拟*/
         id = SharePreferenceUtil.getKeyValue("SHOPPINGDETAILSACTIVITY_ID");
-        KLog.i(id+" ==");
+        KLog.i(id + " ==");
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             mGoodsInfoMainFragment.popWindowDismiss();
             Map<String, Object> map = new HashMap<>();

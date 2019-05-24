@@ -3,6 +3,7 @@ package com.mingpinmall.classz.adapter;
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 /**
  * 提交订单
+ *
  * @author 小斌
  * @data 2019/5/20
  **/
@@ -38,6 +40,18 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
                 .setText(R.id.tv_money, item.getStore_goods_total())
                 .addOnClickListener(R.id.ll_shopContent);
 
+        /*店铺代金卷*/
+        ConfirmOrderBean.StoreCartListNewsBean.StoreVoucherInfoBean storeVoucherInfo = item.getStore_voucher_info();
+        if (null != storeVoucherInfo) {
+            if (!TextUtils.isEmpty(storeVoucherInfo.getVoucher_price())) {
+                helper.setText(R.id.tv_tips1, String.format("节省%s元", storeVoucherInfo.getVoucher_price()));
+                helper.setGone(R.id.ll_voucherPrice, true);
+            } else {
+                helper.setGone(R.id.ll_voucherPrice, false);
+            }
+        } else {
+            helper.setGone(R.id.ll_voucherPrice, false);
+        }
         LinearLayout shopsList = helper.getView(R.id.ll_shopList);
         shopsList.removeAllViews();
         for (int i = 0; i < item.getGoods_list().size(); i++) {
@@ -65,11 +79,11 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
                 //手机专享
                 state = "手机专享";
                 childView.findViewById(R.id.iv_tips).setVisibility(View.VISIBLE);
-                ((AppCompatImageView)childView.findViewById(R.id.iv_tips)).setImageResource(R.drawable.ic_mobile_white);
+                ((AppCompatImageView) childView.findViewById(R.id.iv_tips)).setImageResource(R.drawable.ic_mobile_white);
             } else {
                 childView.findViewById(R.id.ll_tips).setVisibility(View.GONE);
             }
-            ((AppCompatTextView)childView.findViewById(R.id.tv_state)).setText(state);
+            ((AppCompatTextView) childView.findViewById(R.id.tv_state)).setText(state);
 
             ImageUtils.loadImageCorners(childView.findViewById(R.id.iv_image),
                     ScreenUtil.dip2px(context, 4), shops.getGoods_image_url());
@@ -82,19 +96,19 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
             LinearLayout llList = childView.findViewById(R.id.ll_giftList);
             llList.removeAllViews();
             if (shops.isHaveGifts()) {
-                Log.d("提交订单", "convert: 商品 " + i +" 有赠品");
+                Log.d("提交订单", "convert: 商品 " + i + " 有赠品");
                 //add 商品 附带的 赠品
                 llList.setVisibility(View.VISIBLE);
                 if (shops.getGift_list() != null) {
                     for (int j = 0; j < shops.getGift_list().size(); j++) {
-                        Log.d("提交订单", "convert: 商品 " + i +", 赠品 " + j);
+                        Log.d("提交订单", "convert: 商品 " + i + ", 赠品 " + j);
                         ConfirmOrderBean.StoreCartListNewsBean.GoodsListBean.GiftBean giftListBean = shops.getGift_list().get(j);
                         View view = View.inflate(context, R.layout.item_tips_textview_14sp, null);
                         TextView textView = view.findViewById(R.id.tv_label);
                         textView.setText(giftListBean.getGift_goodsname());
                         llList.addView(view);
                         if (i < shops.getGift_list().size() - 1) {
-                            Log.d("提交订单", "convert: 商品 " + i +", 分割线 " + j);
+                            Log.d("提交订单", "convert: 商品 " + i + ", 分割线 " + j);
                             View line2 = new View(context);
                             line2.setBackgroundResource(R.color.line_color);
                             llList.addView(line2, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtil.px2dip(context, 1));

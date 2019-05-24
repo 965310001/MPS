@@ -87,15 +87,15 @@
                         leon:canLoop="true" />
 
                     <ImageView
+                        android:layout_width="@dimen/image_height"
+                        android:layout_height="@dimen/image_height"
+                        android:layout_margin="@dimen/dp_20"
                         android:onClick="goHolo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mobile"
+                        android:src="@drawable/icon_holo"
                         android:visibility="@{isHolo?View.GONE:View.VISIBLE}"
                         bind:layout_constraintBottom_toBottomOf="parent"
                         bind:layout_constraintRight_toRightOf="parent" />
                 </android.support.constraint.ConstraintLayout>
-
 
                 <View style="@style/HorizontalLine" />
 

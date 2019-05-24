@@ -37,7 +37,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
         webview = binding.wv;
         WebSettings settings = webview.getSettings();
         webview.getSettings().setJavaScriptEnabled(true);
-        webview.getSettings().setUserAgentString("GZDZWL");
+        webview.getSettings().setUserAgentString(String.format("%s %s", webview.getSettings().getUserAgentString(), "GZDZWL"));
         settings.setBuiltInZoomControls(false);
         KLog.i(webview.getSettings().getUserAgentString());
         webview.setWebViewClient(new MyWebClient());

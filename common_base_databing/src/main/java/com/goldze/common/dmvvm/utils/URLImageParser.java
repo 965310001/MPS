@@ -59,7 +59,7 @@ public class URLImageParser {
                 Drawable d = Drawable.createFromStream(con.getInputStream(), "");
 //                d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
 //                return d;
-                KLog.i(source + "网络图片" + d.getIntrinsicHeight());
+                /*KLog.i(source + "网络图片" + d.getIntrinsicHeight());*/
 //                return Picasso.with(context).load(source).get();
                 // 使用Glide获取网络图片Bitmap(使用Glide获取图片bitmap还有待研究)
 //                textView.setTag(source);

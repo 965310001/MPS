@@ -225,23 +225,28 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
      * @param quantity 增量
      */
     private void changeGoodsCount(int position, int quantity) {
-        AvailableCartBean data = shopCartAdapter.getItem(position);
-        int count = Integer.parseInt(data.getGoods().getGoods_num());
-        boolean isAdd = quantity > count;
-        count += quantity - count;
-        if (count < 1) {
-            count = 1;
+        AvailableCartBean data = null;
+        if (null != shopCartAdapter) {
+            data = shopCartAdapter.getItem(position);
         }
-        data.getGoods().setGoods_num(String.valueOf(count));
-        shopCartAdapter.setData(position, data);
-        if (data.isCheck()) {
-            //获得当前总价
-            double money = Double.parseDouble(binding.tvMoney.getText().toString());
-            //获得单价
-            double price = Double.parseDouble(data.getGoods().getGoods_price());
-            //总价 加上 这次的单价
-            money = money + (isAdd ? price : -price);
-            binding.tvMoney.setText(getMoney(money));
+        if (null != data) {
+            int count = Integer.parseInt(data.getGoods().getGoods_num());
+            boolean isAdd = quantity > count;
+            count += quantity - count;
+            if (count < 1) {
+                count = 1;
+            }
+            data.getGoods().setGoods_num(String.valueOf(count));
+            shopCartAdapter.setData(position, data);
+            if (data.isCheck()) {
+                //获得当前总价
+                double money = Double.parseDouble(binding.tvMoney.getText().toString());
+                //获得单价
+                double price = Double.parseDouble(data.getGoods().getGoods_price());
+                //总价 加上 这次的单价
+                money = money + (isAdd ? price : -price);
+                binding.tvMoney.setText(getMoney(money));
+            }
         }
     }
 

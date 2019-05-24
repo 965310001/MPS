@@ -83,7 +83,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintBottom_toTopOf="@id/ll_orderInfo"
+                    app:layout_constraintBottom_toTopOf="@id/ll_voucherPrice"
                     app:layout_constraintEnd_toEndOf="@id/tv_orderState"
                     app:layout_constraintStart_toStartOf="@id/ll_shopContent"
                     app:layout_constraintTop_toBottomOf="@id/line">
@@ -95,18 +95,58 @@
                         android:layout_margin="12dp"
                         android:gravity="center"
                         tools:text="这是一个商品列表。这个textview会被remove" />
-
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/ll_orderInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
+
+                <FrameLayout
+                    android:id="@+id/ll_voucherPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_marginRight="12dp"
                     app:layout_constraintEnd_toEndOf="@id/ll_shopList"
                     app:layout_constraintStart_toStartOf="@id/ll_shopList"
                     app:layout_constraintTop_toBottomOf="@id/ll_shopList">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_40"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="店铺代金卷"
+                            android:textColor="@color/dark"
+                            android:textSize="14sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_tips1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/dark"
+                            android:textSize="14sp"
+                            tools:text="节省0.00元" />
+                    </LinearLayout>
+
+                </FrameLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_orderInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_marginRight="12dp"
+
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="@id/ll_voucherPrice"
+                    app:layout_constraintStart_toStartOf="@id/ll_voucherPrice"
+                    app:layout_constraintTop_toBottomOf="@id/ll_voucherPrice">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="0dp"

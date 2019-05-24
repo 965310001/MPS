@@ -4,7 +4,6 @@ import android.text.TextUtils;
 
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -223,6 +222,8 @@ public class ConfirmOrderBean extends BaseBean {
         private String yf_price;
         private String store_id;
         private List<GoodsListBean> goods_list;
+        private StoreVoucherInfoBean store_voucher_info;
+
 
         public String getYf_price() {
             return yf_price == null ? "" : yf_price;
@@ -286,6 +287,14 @@ public class ConfirmOrderBean extends BaseBean {
 
         public void setGoods_list(List<GoodsListBean> goods_list) {
             this.goods_list = goods_list;
+        }
+
+        public StoreVoucherInfoBean getStore_voucher_info() {
+            return store_voucher_info;
+        }
+
+        public void setStore_voucher_info(StoreVoucherInfoBean store_voucher_info) {
+            this.store_voucher_info = store_voucher_info;
         }
 
         public static class StoreMansongRuleListBean {
@@ -717,6 +726,18 @@ public class ConfirmOrderBean extends BaseBean {
                 public void setGoods_storage(String goods_storage) {
                     this.goods_storage = goods_storage == null ? "" : goods_storage;
                 }
+            }
+        }
+
+        public static class StoreVoucherInfoBean extends BaseBean {
+            private String voucher_price;
+
+            public String getVoucher_price() {
+                return voucher_price;
+            }
+
+            public void setVoucher_price(String voucher_price) {
+                this.voucher_price = voucher_price;
             }
         }
     }

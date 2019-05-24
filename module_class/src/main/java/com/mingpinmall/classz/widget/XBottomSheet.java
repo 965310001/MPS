@@ -4,14 +4,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +30,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mingpinmall.apppay.UserPaySheet;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.DialogBottomSelectVoucherBinding;
 import com.trecyclerview.TRecyclerView;
@@ -37,7 +44,10 @@ import com.xuexiang.xui.logs.UILog;
 import com.xuexiang.xui.utils.ThemeUtils;
 import com.xuexiang.xui.utils.Utils;
 import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheet;
+import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheetItemView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -652,278 +662,278 @@ public class XBottomSheet extends Dialog {
     }
 
     /*生成宫格类型的 {@link BottomSheet} 对话框。*/
-//    public static class BottomGridSheetBuilder {
-//
-//        /**
-//         * item 出现在第一行
-//         */
-//        public static final int FIRST_LINE = 0;
-//        /**
-//         * item 出现在第二行
-//         */
-//        public static final int SECOND_LINE = 1;
-//        private Context mContext;
-//        private UserPaySheet mDialog;
-//        private SparseArray<View> mFirstLineViews;
-//        private SparseArray<View> mSecondLineViews;
-//        private int mMiniItemWidth = -1;
-//        private UserPaySheet.BottomGridSheetBuilder.OnSheetItemClickListener mOnSheetItemClickListener;
-//        private Typeface mItemTextTypeFace = null;
-//        private ViewGroup mBottomButtonContainer;
-//        private TextView mBottomButton;
-//        private Typeface mBottomButtonTypeFace = null;
-//        private boolean mIsShowButton = true;
-//        private CharSequence mButtonText = null;
-//        private View.OnClickListener mButtonClickListener = null;
-//
-//        public BottomGridSheetBuilder(Context context) {
-//            mContext = context;
-//            mFirstLineViews = new SparseArray<>();
-//            mSecondLineViews = new SparseArray<>();
-//        }
-//
-//        public BottomSheet.BottomGridSheetBuilder addItem(int imageRes, CharSequence textAndTag, @UserPaySheet.BottomGridSheetBuilder.Style int style) {
-//            return addItem(imageRes, textAndTag, textAndTag, style, 0);
-//        }
-//
-//        public BottomSheet.BottomGridSheetBuilder addItem(int imageRes, CharSequence text, Object tag, @UserPaySheet.BottomGridSheetBuilder.Style int style) {
-//            return addItem(imageRes, text, tag, style, 0);
-//        }
-//
-//        public BottomSheet.BottomGridSheetBuilder setIsShowButton(boolean isShowButton) {
-//            mIsShowButton = isShowButton;
-//            return this;
-//        }
-//
-//        public UserPaySheet.BottomGridSheetBuilder setButtonText(CharSequence buttonText) {
-//            mButtonText = buttonText;
-//            return this;
-//        }
-//
-//        public UserPaySheet.BottomGridSheetBuilder setButtonClickListener(View.OnClickListener buttonClickListener) {
-//            mButtonClickListener = buttonClickListener;
-//            return this;
-//        }
-//
-//        public UserPaySheet.BottomGridSheetBuilder setItemTextTypeFace(Typeface itemTextTypeFace) {
-//            mItemTextTypeFace = itemTextTypeFace;
-//            return this;
-//        }
-//
-//        public UserPaySheet.BottomGridSheetBuilder setBottomButtonTypeFace(Typeface bottomButtonTypeFace) {
-//            mBottomButtonTypeFace = bottomButtonTypeFace;
-//            return this;
-//        }
-//
-//        public BottomSheet.BottomGridSheetBuilder addItem(int imageRes, CharSequence text, Object tag, @BottomSheet.BottomGridSheetBuilder.Style int style, int subscriptRes) {
-//            BottomSheetItemView itemView = createItemView(AppCompatResources.getDrawable(mContext, imageRes), text, tag, subscriptRes);
-//            return addItem(itemView, style);
-//        }
-//
-//        public BottomSheet.BottomGridSheetBuilder addItem(View view, @BottomSheet.BottomGridSheetBuilder.Style int style) {
-//            switch (style) {
-//                case FIRST_LINE:
-//                    mFirstLineViews.append(mFirstLineViews.size(), view);
-//                    break;
-//                case SECOND_LINE:
-//                    mSecondLineViews.append(mSecondLineViews.size(), view);
-//                    break;
-//            }
-//            return this;
-//        }
-//
-//        public BottomSheetItemView createItemView(Drawable drawable, CharSequence text, Object tag, int subscriptRes) {
-//            LayoutInflater inflater = LayoutInflater.from(mContext);
-//            BottomSheetItemView itemView = (BottomSheetItemView) inflater.inflate(getItemViewLayoutId(), null, false);
-//            TextView titleTV = itemView.findViewById(R.id.grid_item_title);
-//            if (mItemTextTypeFace != null) {
-//                titleTV.setTypeface(mItemTextTypeFace);
-//            }
-//            titleTV.setText(text);
-//
-//            itemView.setTag(tag);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (mOnSheetItemClickListener != null) {
-//                        mOnSheetItemClickListener.onClick(mDialog, (BottomSheetItemView) v);
-//                    }
-//                }
-//            });
-//            AppCompatImageView imageView = itemView.findViewById(R.id.grid_item_image);
-//            imageView.setImageDrawable(drawable);
-//
-//            if (subscriptRes != 0) {
-//                ViewStub stub = itemView.findViewById(R.id.grid_item_subscript);
-//                View inflated = stub.inflate();
-//                ((ImageView) inflated).setImageResource(subscriptRes);
-//            }
-//            return itemView;
-//        }
-//
-//        public void setItemVisibility(Object tag, int visibility) {
-//            View foundView = null;
-//            for (int i = 0; i < mFirstLineViews.size(); i++) {
-//                View view = mFirstLineViews.get(i);
-//                if (view != null && view.getTag().equals(tag)) {
-//                    foundView = view;
-//                }
-//            }
-//            for (int i = 0; i < mSecondLineViews.size(); i++) {
-//                View view = mSecondLineViews.get(i);
-//                if (view != null && view.getTag().equals(tag)) {
-//                    foundView = view;
-//                }
-//            }
-//            if (foundView != null) {
-//                foundView.setVisibility(visibility);
-//            }
-//        }
-//
-//        public BottomSheet.BottomGridSheetBuilder setOnSheetItemClickListener(BottomSheet.BottomGridSheetBuilder.OnSheetItemClickListener onSheetItemClickListener) {
-//            mOnSheetItemClickListener = onSheetItemClickListener;
-//            return this;
-//        }
-//
-//        public BottomSheet build() {
-//            mDialog = new BottomSheet(mContext);
-//            View contentView = buildViews();
-//            mDialog.setContentView(contentView,
-//                    new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//            return mDialog;
-//        }
-//
-//        private View buildViews() {
-//            LinearLayout baseLinearLayout;
-//            baseLinearLayout = (LinearLayout) View.inflate(mContext, getContentViewLayoutId(), null);
-//            LinearLayout firstLine = baseLinearLayout.findViewById(R.id.bottom_sheet_first_linear_layout);
-//            LinearLayout secondLine = baseLinearLayout.findViewById(R.id.bottom_sheet_second_linear_layout);
-//            mBottomButtonContainer = baseLinearLayout.findViewById(R.id.bottom_sheet_button_container);
-//            mBottomButton = baseLinearLayout.findViewById(R.id.bottom_sheet_close_button);
-//
-//            int maxItemCountEachLine = Math.max(mFirstLineViews.size(), mSecondLineViews.size());
-//            int screenWidth = Utils.getScreenWidth(mContext);
-//            int screenHeight = Utils.getScreenHeight(mContext);
-//            int width = screenWidth < screenHeight ? screenWidth : screenHeight;
-//            int itemWidth = calculateItemWidth(width, maxItemCountEachLine, firstLine.getPaddingLeft(), firstLine.getPaddingRight());
-//
-//            addViewsInSection(mFirstLineViews, firstLine, itemWidth);
-//            addViewsInSection(mSecondLineViews, secondLine, itemWidth);
-//
-//            boolean hasFirstLine = mFirstLineViews.size() > 0;
-//            boolean hasSecondLine = mSecondLineViews.size() > 0;
-//            if (!hasFirstLine) {
-//                firstLine.setVisibility(View.GONE);
-//            }
-//            if (!hasSecondLine) {
-//                if (hasFirstLine) {
-//                    firstLine.setPadding(
-//                            firstLine.getPaddingLeft(),
-//                            firstLine.getPaddingTop(),
-//                            firstLine.getPaddingRight(),
-//                            0);
-//                }
-//                secondLine.setVisibility(View.GONE);
-//            }
-//
-//            // button 在用户自定义了contentView的情况下可能不存在
-//            if (mBottomButtonContainer != null) {
-//                if (mIsShowButton) {
-//                    mBottomButtonContainer.setVisibility(View.VISIBLE);
-//                    baseLinearLayout.setPadding(baseLinearLayout.getPaddingLeft(),
-//                            baseLinearLayout.getPaddingTop(),
-//                            baseLinearLayout.getPaddingRight(),
-//                            0);
-//                } else {
-//                    mBottomButtonContainer.setVisibility(View.GONE);
-//                }
-//                if (mBottomButtonTypeFace != null) {
-//                    mBottomButton.setTypeface(mBottomButtonTypeFace);
-//                }
-//                if (mButtonText != null) {
-//                    mBottomButton.setText(mButtonText);
-//                }
-//
-//                if (mButtonClickListener != null) {
-//                    mBottomButton.setOnClickListener(mButtonClickListener);
-//                } else {
-//                    mBottomButton.setOnClickListener(new View.OnClickListener() {
-//
-//                        @Override
-//                        public void onClick(View v) {
-//                            mDialog.dismiss();
-//                        }
-//                    });
-//                }
-//            }
-//
-//            return baseLinearLayout;
-//        }
-//
-//        protected int getContentViewLayoutId() {
-//            return R.layout.xui_bottom_sheet_grid;
-//        }
-//
-//        protected int getItemViewLayoutId() {
-//            return R.layout.xui_bottom_sheet_grid_item;
-//        }
-//
-//        /**
-//         * 拿个数最多的一行，去决策item的平铺/拉伸策略
-//         *
-//         * @return item 宽度
-//         */
-//        private int calculateItemWidth(int width, int maxItemCountInEachLine, int paddingLeft, int paddingRight) {
-//            if (mMiniItemWidth == -1) {
-//                mMiniItemWidth = ThemeUtils.resolveDimension(mContext, R.attr.xui_bottom_sheet_grid_item_mini_width);
-//            }
-//
-//            final int parentSpacing = width - paddingLeft - paddingRight;
-//            int itemWidth = mMiniItemWidth;
-//            // 看是否需要把 Item 拉伸平分 parentSpacing
-//            if (maxItemCountInEachLine >= 3
-//                    && parentSpacing - maxItemCountInEachLine * itemWidth > 0
-//                    && parentSpacing - maxItemCountInEachLine * itemWidth < itemWidth) {
-//                int count = parentSpacing / itemWidth;
-//                itemWidth = parentSpacing / count;
-//            }
-//            // 看是否需要露出半个在屏幕边缘
-//            if (itemWidth * maxItemCountInEachLine > parentSpacing) {
-//                int count = (width - paddingLeft) / itemWidth;
-//                itemWidth = (int) ((width - paddingLeft) / (count + .5f));
-//            }
-//            return itemWidth;
-//        }
-//
-//        private void addViewsInSection(SparseArray<View> items, LinearLayout parent, int itemWidth) {
-//
-//            for (int i = 0; i < items.size(); i++) {
-//                View itemView = items.get(i);
-//                setItemWidth(itemView, itemWidth);
-//                parent.addView(itemView);
-//            }
-//        }
-//
-//        private void setItemWidth(View itemView, int itemWidth) {
-//            LinearLayout.LayoutParams itemLp;
-//            if (itemView.getLayoutParams() != null) {
-//                itemLp = (LinearLayout.LayoutParams) itemView.getLayoutParams();
-//                itemLp.width = itemWidth;
-//            } else {
-//                itemLp = new LinearLayout.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                itemView.setLayoutParams(itemLp);
-//            }
-//            itemLp.gravity = Gravity.TOP;
-//        }
-//
-//        public interface OnSheetItemClickListener {
-//            void onClick(BottomSheet dialog, BottomSheetItemView itemView);
-//        }
-//
-//        @Retention(RetentionPolicy.SOURCE)
-//        @IntDef({FIRST_LINE, SECOND_LINE})
-//        public @interface Style {
-//        }
-//    }
+    public static class BottomGridSheetBuilder {
+
+        /**
+         * item 出现在第一行
+         */
+        public static final int FIRST_LINE = 0;
+        /**
+         * item 出现在第二行
+         */
+        public static final int SECOND_LINE = 1;
+        private Context mContext;
+        private XBottomSheet mDialog;
+        private SparseArray<View> mFirstLineViews;
+        private SparseArray<View> mSecondLineViews;
+        private int mMiniItemWidth = -1;
+        private BottomGridSheetBuilder.OnSheetItemClickListener mOnSheetItemClickListener;
+        private Typeface mItemTextTypeFace = null;
+        private ViewGroup mBottomButtonContainer;
+        private TextView mBottomButton;
+        private Typeface mBottomButtonTypeFace = null;
+        private boolean mIsShowButton = true;
+        private CharSequence mButtonText = null;
+        private View.OnClickListener mButtonClickListener = null;
+
+        public BottomGridSheetBuilder(Context context) {
+            mContext = context;
+            mFirstLineViews = new SparseArray<>();
+            mSecondLineViews = new SparseArray<>();
+        }
+
+        public BottomGridSheetBuilder addItem(int imageRes, CharSequence textAndTag, @BottomSheet.BottomGridSheetBuilder.Style int style) {
+            return addItem(imageRes, textAndTag, textAndTag, style, 0);
+        }
+
+        public BottomGridSheetBuilder addItem(int imageRes, CharSequence text, Object tag, @BottomSheet.BottomGridSheetBuilder.Style int style) {
+            return addItem(imageRes, text, tag, style, 0);
+        }
+
+        public BottomGridSheetBuilder setIsShowButton(boolean isShowButton) {
+            mIsShowButton = isShowButton;
+            return this;
+        }
+
+        public BottomGridSheetBuilder setButtonText(CharSequence buttonText) {
+            mButtonText = buttonText;
+            return this;
+        }
+
+        public BottomGridSheetBuilder setButtonClickListener(View.OnClickListener buttonClickListener) {
+            mButtonClickListener = buttonClickListener;
+            return this;
+        }
+
+        public BottomGridSheetBuilder setItemTextTypeFace(Typeface itemTextTypeFace) {
+            mItemTextTypeFace = itemTextTypeFace;
+            return this;
+        }
+
+        public BottomGridSheetBuilder setBottomButtonTypeFace(Typeface bottomButtonTypeFace) {
+            mBottomButtonTypeFace = bottomButtonTypeFace;
+            return this;
+        }
+
+        public BottomGridSheetBuilder addItem(int imageRes, CharSequence text, Object tag, @BottomSheet.BottomGridSheetBuilder.Style int style, int subscriptRes) {
+            BottomSheetItemView itemView = createItemView(AppCompatResources.getDrawable(mContext, imageRes), text, tag, subscriptRes);
+            return addItem(itemView, style);
+        }
+
+        public BottomGridSheetBuilder addItem(View view, @BottomSheet.BottomGridSheetBuilder.Style int style) {
+            switch (style) {
+                case FIRST_LINE:
+                    mFirstLineViews.append(mFirstLineViews.size(), view);
+                    break;
+                case SECOND_LINE:
+                    mSecondLineViews.append(mSecondLineViews.size(), view);
+                    break;
+            }
+            return this;
+        }
+
+        public BottomSheetItemView createItemView(Drawable drawable, CharSequence text, Object tag, int subscriptRes) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            BottomSheetItemView itemView = (BottomSheetItemView) inflater.inflate(getItemViewLayoutId(), null, false);
+            TextView titleTV = itemView.findViewById(R.id.grid_item_title);
+            if (mItemTextTypeFace != null) {
+                titleTV.setTypeface(mItemTextTypeFace);
+            }
+            titleTV.setText(text);
+
+            itemView.setTag(tag);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnSheetItemClickListener != null) {
+                        mOnSheetItemClickListener.onClick(mDialog, (BottomSheetItemView) v);
+                    }
+                }
+            });
+            AppCompatImageView imageView = itemView.findViewById(R.id.grid_item_image);
+            imageView.setImageDrawable(drawable);
+
+            if (subscriptRes != 0) {
+                ViewStub stub = itemView.findViewById(R.id.grid_item_subscript);
+                View inflated = stub.inflate();
+                ((ImageView) inflated).setImageResource(subscriptRes);
+            }
+            return itemView;
+        }
+
+        public void setItemVisibility(Object tag, int visibility) {
+            View foundView = null;
+            for (int i = 0; i < mFirstLineViews.size(); i++) {
+                View view = mFirstLineViews.get(i);
+                if (view != null && view.getTag().equals(tag)) {
+                    foundView = view;
+                }
+            }
+            for (int i = 0; i < mSecondLineViews.size(); i++) {
+                View view = mSecondLineViews.get(i);
+                if (view != null && view.getTag().equals(tag)) {
+                    foundView = view;
+                }
+            }
+            if (foundView != null) {
+                foundView.setVisibility(visibility);
+            }
+        }
+
+        public BottomGridSheetBuilder setOnSheetItemClickListener(BottomGridSheetBuilder.OnSheetItemClickListener onSheetItemClickListener) {
+            mOnSheetItemClickListener = onSheetItemClickListener;
+            return this;
+        }
+
+        public XBottomSheet build() {
+            mDialog = new XBottomSheet(mContext);
+            View contentView = buildViews();
+            mDialog.setContentView(contentView,
+                    new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            return mDialog;
+        }
+
+        private View buildViews() {
+            LinearLayout baseLinearLayout;
+            baseLinearLayout = (LinearLayout) View.inflate(mContext, getContentViewLayoutId(), null);
+            LinearLayout firstLine = baseLinearLayout.findViewById(R.id.bottom_sheet_first_linear_layout);
+            LinearLayout secondLine = baseLinearLayout.findViewById(R.id.bottom_sheet_second_linear_layout);
+            mBottomButtonContainer = baseLinearLayout.findViewById(R.id.bottom_sheet_button_container);
+            mBottomButton = baseLinearLayout.findViewById(R.id.bottom_sheet_close_button);
+
+            int maxItemCountEachLine = Math.max(mFirstLineViews.size(), mSecondLineViews.size());
+            int screenWidth = Utils.getScreenWidth(mContext);
+            int screenHeight = Utils.getScreenHeight(mContext);
+            int width = screenWidth < screenHeight ? screenWidth : screenHeight;
+            int itemWidth = calculateItemWidth(width, maxItemCountEachLine, firstLine.getPaddingLeft(), firstLine.getPaddingRight());
+
+            addViewsInSection(mFirstLineViews, firstLine, itemWidth);
+            addViewsInSection(mSecondLineViews, secondLine, itemWidth);
+
+            boolean hasFirstLine = mFirstLineViews.size() > 0;
+            boolean hasSecondLine = mSecondLineViews.size() > 0;
+            if (!hasFirstLine) {
+                firstLine.setVisibility(View.GONE);
+            }
+            if (!hasSecondLine) {
+                if (hasFirstLine) {
+                    firstLine.setPadding(
+                            firstLine.getPaddingLeft(),
+                            firstLine.getPaddingTop(),
+                            firstLine.getPaddingRight(),
+                            0);
+                }
+                secondLine.setVisibility(View.GONE);
+            }
+
+            // button 在用户自定义了contentView的情况下可能不存在
+            if (mBottomButtonContainer != null) {
+                if (mIsShowButton) {
+                    mBottomButtonContainer.setVisibility(View.VISIBLE);
+                    baseLinearLayout.setPadding(baseLinearLayout.getPaddingLeft(),
+                            baseLinearLayout.getPaddingTop(),
+                            baseLinearLayout.getPaddingRight(),
+                            0);
+                } else {
+                    mBottomButtonContainer.setVisibility(View.GONE);
+                }
+                if (mBottomButtonTypeFace != null) {
+                    mBottomButton.setTypeface(mBottomButtonTypeFace);
+                }
+                if (mButtonText != null) {
+                    mBottomButton.setText(mButtonText);
+                }
+
+                if (mButtonClickListener != null) {
+                    mBottomButton.setOnClickListener(mButtonClickListener);
+                } else {
+                    mBottomButton.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                        }
+                    });
+                }
+            }
+
+            return baseLinearLayout;
+        }
+
+        protected int getContentViewLayoutId() {
+            return R.layout.xui_bottom_sheet_grid;
+        }
+
+        protected int getItemViewLayoutId() {
+            return R.layout.xui_bottom_sheet_grid_item;
+        }
+
+        /**
+         * 拿个数最多的一行，去决策item的平铺/拉伸策略
+         *
+         * @return item 宽度
+         */
+        private int calculateItemWidth(int width, int maxItemCountInEachLine, int paddingLeft, int paddingRight) {
+            if (mMiniItemWidth == -1) {
+                mMiniItemWidth = ThemeUtils.resolveDimension(mContext, R.attr.xui_bottom_sheet_grid_item_mini_width);
+            }
+
+            final int parentSpacing = width - paddingLeft - paddingRight;
+            int itemWidth = mMiniItemWidth;
+            // 看是否需要把 Item 拉伸平分 parentSpacing
+            if (maxItemCountInEachLine >= 3
+                    && parentSpacing - maxItemCountInEachLine * itemWidth > 0
+                    && parentSpacing - maxItemCountInEachLine * itemWidth < itemWidth) {
+                int count = parentSpacing / itemWidth;
+                itemWidth = parentSpacing / count;
+            }
+            // 看是否需要露出半个在屏幕边缘
+            if (itemWidth * maxItemCountInEachLine > parentSpacing) {
+                int count = (width - paddingLeft) / itemWidth;
+                itemWidth = (int) ((width - paddingLeft) / (count + .5f));
+            }
+            return itemWidth;
+        }
+
+        private void addViewsInSection(SparseArray<View> items, LinearLayout parent, int itemWidth) {
+
+            for (int i = 0; i < items.size(); i++) {
+                View itemView = items.get(i);
+                setItemWidth(itemView, itemWidth);
+                parent.addView(itemView);
+            }
+        }
+
+        private void setItemWidth(View itemView, int itemWidth) {
+            LinearLayout.LayoutParams itemLp;
+            if (itemView.getLayoutParams() != null) {
+                itemLp = (LinearLayout.LayoutParams) itemView.getLayoutParams();
+                itemLp.width = itemWidth;
+            } else {
+                itemLp = new LinearLayout.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+                itemView.setLayoutParams(itemLp);
+            }
+            itemLp.gravity = Gravity.TOP;
+        }
+
+        public interface OnSheetItemClickListener {
+            void onClick(XBottomSheet dialog, BottomSheetItemView itemView);
+        }
+
+        @Retention(RetentionPolicy.SOURCE)
+        @IntDef({FIRST_LINE, SECOND_LINE})
+        public @interface Style {
+        }
+    }
 }
 

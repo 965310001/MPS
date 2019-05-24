@@ -175,7 +175,7 @@ public class DatabingUtils {
             /*list.remove(list.get(list.size() - 1));*/
             flowTagLayout.setItems(list.subList(0, list.size() - 1));
 
-            KLog.i(Integer.valueOf(list.get(list.size() - 1).toString()) + "");
+            /*KLog.i(Integer.valueOf(list.get(list.size() - 1).toString()) + "");*/
 //            KLog.i(Integer.valueOf((Integer) list.get(list.size() - 1))+"");
             flowTagLayout.setOnTagSelectListener((parent, position, selectedList) -> {
                 if (null != eventkey) {

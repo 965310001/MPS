@@ -306,7 +306,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         //滑动监听
         binding.svGoodsInfo.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
                 (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                    Log.d(TAG, "initView: " + scrollY + " , " + bannerHeight);
+                    /*Log.d(TAG, "initView: " + scrollY + " , " + bannerHeight);*/
                     if (!isVisible()) {
                         return;
                     }

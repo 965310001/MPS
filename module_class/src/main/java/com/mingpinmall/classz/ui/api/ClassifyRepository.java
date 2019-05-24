@@ -97,6 +97,12 @@ public class ClassifyRepository extends BaseRepository {
                         KLog.i(msg);
                         showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                     }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.NET_WORK_STATE);
+                    }
                 })
         );
     }
@@ -815,6 +821,7 @@ public class ClassifyRepository extends BaseRepository {
     public void getVoucherFreeex(String storeId, final Object eventKey) {
         Map<String, Object> map = parames("member_voucher", "voucher_freeex");
         map.put("tid", storeId);
+        map.put("key", getUserKey());
         addDisposable(apiService.execute(map)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<ResultBean>() {
