@@ -141,6 +141,7 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                 //订单退款
                 ActivityToActivity.toActivity(ARouterConfig.Me.ORDERREFUNDACTIVITY, "id", orderBean.getOrder_id());
             } else if (view.getId() == R.id.order_pay) {
+                //订单支付
                 mViewModel.getPayInfo(orderBean.getPay_sn(), eventKey, Constants.PAY_INFO.toString());
             } else if (view.getId() == R.id.order_lock) {
                 //退款/退货中... tips

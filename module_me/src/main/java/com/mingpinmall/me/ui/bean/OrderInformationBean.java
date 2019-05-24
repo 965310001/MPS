@@ -3,7 +3,7 @@ package com.mingpinmall.me.ui.bean;
 import java.util.List;
 
 /**
- * 功能描述：订单详情
+ * 功能描述：实物订单详情
  * @author 小斌
  * @date 2019/4/16
  **/

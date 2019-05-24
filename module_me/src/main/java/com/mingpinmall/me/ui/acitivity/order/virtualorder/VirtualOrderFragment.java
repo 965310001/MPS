@@ -10,6 +10,7 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 
 /**
  * 功能描述：虚拟订单
+ *
  * @author 小斌
  * @date 2019/4/13
  **/
@@ -49,10 +50,10 @@ public class VirtualOrderFragment extends BaseFragment<FragmentDefaultTabviewpag
         );
         pagerAdapter.addFragment(//待付款
                 VirtualOrderListFragment.newInstance("state_new", "PAY_VIRTUAL"),
-                R.string.tabs_text_pay)
-        ;
+                R.string.tabs_text_pay
+        );
         pagerAdapter.addFragment(//待使用
-                VirtualOrderListFragment.newInstance("state_send", "USE_VIRTUAL"),
+                VirtualOrderListFragment.newInstance("state_pay", "USE_VIRTUAL"),
                 R.string.tabs_text_unuse
         );
         binding.viewPager.setAdapter(pagerAdapter);

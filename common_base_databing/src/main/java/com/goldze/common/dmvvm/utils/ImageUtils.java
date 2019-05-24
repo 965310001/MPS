@@ -117,6 +117,7 @@ public class ImageUtils {
                 .load(url)
                 .apply(new RequestOptions()
                         .fitCenter()
+                        .placeholder(R.drawable.ic_loading_image)
                         .override(width, hight)
                         .error(new ColorDrawable(Color.WHITE)))
                 .into(imageView);
@@ -138,6 +139,7 @@ public class ImageUtils {
                 .load(url)
                 .apply(new RequestOptions().transform(new GlideRoundTransform(radius))
                         .fitCenter()
+                        .placeholder(R.drawable.ic_loading_image)
                         .override(width, hight)
                         .error(new ColorDrawable(Color.WHITE)))
                 .into(imageView);
@@ -157,6 +159,7 @@ public class ImageUtils {
         Glide.with(imageView.getContext())
                 .load(url)
                 .apply(new RequestOptions().transform(new GlideRoundTransform(radius))
+                        .placeholder(R.drawable.ic_loading_image)
                         .override(300, 300)
                         .error(new ColorDrawable(Color.WHITE)))
                 .into(imageView);

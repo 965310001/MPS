@@ -474,22 +474,6 @@ public class VirtualInformationBean implements Serializable {
         }
 
         public static class CodeListBean {
-            /**
-             * rec_id : 1
-             * order_id : 1
-             * store_id : 3
-             * buyer_id : 6
-             * vr_code : 460001806239046667
-             * vr_state : 0
-             * vr_usetime : null
-             * pay_price : 0.01
-             * vr_indate : 1443628799
-             * commis_rate : 0
-             * refund_lock : 0
-             * vr_invalid_refund : 1
-             * vr_code_desc : 已过期，过期时间 2015-09-30
-             * vr_code_valid_count : 1
-             */
 
             private String rec_id;
             private String order_id;

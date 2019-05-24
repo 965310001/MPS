@@ -43,6 +43,22 @@ public interface MeApiService {
     );
 
     /**
+     * 描述：重新发送虚拟产品兑换码短信
+     * 请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=member_vr_order&wwi=resend
+     * 请求方式：POST
+     * 参数
+     */
+    String SEND_VIRTUALCODE = "/mo_bile/index.php?app=member_vr_order&wwi=resend";
+
+    @FormUrlEncoded
+    @POST(SEND_VIRTUALCODE)
+    Flowable<BaseNothingBean> sendVirtualCode(
+            @Field("key") String key,
+            @Field("buyer_phone") String buyerPhone,
+            @Field("order_id") String orderId
+    );
+
+    /**
      * 描述：获取支付信息2
      * 请求 URL: http://192.168.0.44/mo_bile/index.php?app=member_payment&wwi=pay_new
      * 请求方式：POST

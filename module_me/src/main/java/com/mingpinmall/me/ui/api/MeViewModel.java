@@ -27,6 +27,11 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
         mRepository.uploadFiles(file);
     }
 
+    /*重新发送虚拟产品兑换码短信*/
+    public void sendVirtualCode(String buyerPhone, String orderId) {
+        mRepository.sendVirtualCode(buyerPhone, orderId);
+    }
+
     /*获取支付信息*/
     public void getPayInfo(String paySn, Object eventKey, String tag) {
         mRepository.getPayInfo(paySn, eventKey, tag);

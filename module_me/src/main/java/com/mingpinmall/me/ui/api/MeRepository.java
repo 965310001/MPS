@@ -87,6 +87,28 @@ public class MeRepository extends BaseRepository {
         );
     }
 
+    /*重新发送虚拟产品兑换码短信*/
+    protected void sendVirtualCode(String buyerPhone, String orderId) {
+        addDisposable(apiService.sendVirtualCode(getUserKey(), buyerPhone, orderId)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                    @Override
+                    public void onSuccess(BaseNothingBean result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.SEND_VIRTUALCODE, "success");
+                        } else {
+                            sendData(Constants.SEND_VIRTUALCODE, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(Constants.SEND_VIRTUALCODE, msg == null ? "上传失败" : msg);
+                    }
+                })
+        );
+    }
+
     /*获取支付信息*/
     protected void getPayInfo(String paySn, Object eventKey, String tag) {
         addDisposable(apiService.getPayInfo(getUserKey(), paySn)

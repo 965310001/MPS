@@ -14,6 +14,7 @@ public interface Constants {
     Object BIND_PHONE = "BIND_PHONE";
 
     /*MeViewModel*/
+    Object SEND_VIRTUALCODE = "SEND_VIRTUALCODE";
     Object PAY_INFO = "PAY_INFO";
     String PAY_METHOD = "PAY_METHOD";
     Object UPLOAD_FILES = "UPLOAD_FILES";
