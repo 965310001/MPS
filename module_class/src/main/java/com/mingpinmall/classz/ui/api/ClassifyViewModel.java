@@ -15,6 +15,24 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         super(application);
     }
 
+    /**
+     * 获取筛选内容
+     * @param eventKey
+     */
+    public void getScreeningInfo(Object eventKey) {
+        mRepository.getScreeningInfo(eventKey);
+    }
+
+    /**
+     * 获取筛选内容
+     * @param eventKey
+     * @param childId ID
+     * @param classis 几级分类，如果不是分类，则给空字符串
+     */
+    public void getScreeningClassInfo(Object eventKey, String childId, String classis) {
+        mRepository.getScreeningClassInfo(eventKey, childId, classis);
+    }
+
     /*检查F码*/
     public void checkFCode(String fcode, String goods_id) {
         mRepository.checkFCode(fcode, goods_id);

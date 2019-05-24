@@ -1,213 +1,379 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
 
     <LinearLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="horizontal">
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:alpha="0.8"
-            android:background="@color/color_33000000" />
+        <include layout="@layout/item_title_layout" />
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:background="@color/white">
-
-            <android.support.v4.widget.NestedScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/content_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:orientation="vertical"
-                    android:padding="@dimen/dp_10">
-
-                    <include layout="@layout/item_title_layout" />
-
-                    <TextView
-                        style="@style/TextStyle_14"
-                        android:layout_gravity="start"
-                        android:paddingTop="@dimen/dp_10"
-                        android:paddingBottom="@dimen/dp_10"
-                        android:text="价格区间"
-                        android:textSize="@dimen/text_14" />
-
-                    <!--<com.xuexiang.xui.widget.flowlayout.FlowTagLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content">-->
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <!--areaId, priceFrom, priceTo-->
-                        <EditText
-                            android:id="@+id/et_price_from"
-                            style="@style/TextStyle.Explain"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
-                            android:background="@drawable/bg_rect_round_gray"
-                            android:hint="最低价"
-                            android:inputType="number"
-                            android:paddingLeft="15dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="15dp"
-                            android:paddingBottom="5dp"
-                            android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/tv_select_text"
-                            android:textSize="@dimen/text_14" />
-
-                        <View
-                            style="@style/HorizontalLine"
-                            android:layout_width="@dimen/dp_20"
-                            android:layout_height="1dp"
-                            android:layout_gravity="center"
-                            android:background="@color/gray" />
-
-                        <EditText
-                            android:id="@+id/et_price_to"
-                            style="@style/TextStyle.Explain"
-                            android:layout_height="32dp"
-                            android:background="@drawable/bg_rect_round_gray"
-                            android:hint="最高价"
-                            android:inputType="number"
-                            android:paddingLeft="15dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="15dp"
-                            android:paddingBottom="5dp"
-                            android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/tv_select_text"
-                            android:textSize="@dimen/text_14" />
-                    </LinearLayout>
-
-
-                    <!--</com.xuexiang.xui.widget.flowlayout.FlowTagLayout>-->
-
-                    <TextView
-                        style="@style/TextStyle_14"
-                        android:layout_gravity="start"
-                        android:paddingTop="@dimen/dp_10"
-                        android:paddingBottom="@dimen/dp_10"
-                        android:text="商品属在地"
-                        android:textSize="@dimen/text_14" />
-
-                    <Spinner
-                        android:id="@+id/spinner_system"
-                        style="@style/SpinnerStyle"
-                        android:layout_width="match_parent"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
-                        android:spinnerMode="dialog" />
-
-                    <View style="@style/HorizontalLine" />
-
-                    <TextView
-                        style="@style/TextStyle_14"
-                        android:layout_gravity="start"
-                        android:paddingTop="@dimen/dp_10"
-                        android:paddingBottom="@dimen/dp_10"
-                        android:text="商品类型" />
-
-                    <com.xuexiang.xui.widget.flowlayout.FlowTagLayout
-                        android:id="@+id/ftl_good_type"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <View style="@style/HorizontalLine" />
-
-                    <TextView
-                        style="@style/TextStyle_14"
-                        android:layout_gravity="start"
-                        android:paddingTop="@dimen/dp_10"
-                        android:paddingBottom="@dimen/dp_10"
-                        android:text="店铺类型" />
-
-                    <com.xuexiang.xui.widget.flowlayout.FlowTagLayout
-                        android:id="@+id/ftl_shop_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="@dimen/dp_60" />
-
-                    <View style="@style/HorizontalLine" />
-
-                    <TextView
-                        style="@style/TextStyle_14"
-                        android:layout_gravity="start"
-                        android:paddingTop="@dimen/dp_10"
-                        android:paddingBottom="@dimen/dp_10"
-                        android:text="店铺服务" />
-
-                    <com.xuexiang.xui.widget.flowlayout.FlowTagLayout
-                        android:id="@+id/ftl_shop_server"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="60dp" />
-
-                    <View style="@style/HorizontalLine" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_20"
-                        android:background="@color/shallow_red"
-                        android:text="筛选商品"
-                        android:textColor="@color/white"
-                        android:visibility="gone" />
-
-                    <com.xuexiang.xui.widget.button.ButtonView
-                        style="@style/ButtonView.Blue"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="@dimen/dp_20"
-                        android:text="筛选商品"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-            </android.support.v4.widget.NestedScrollView>
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
-                android:layout_alignParentBottom="true"
-                android:background="#ffffff"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_10">
 
-                <Button
-                    android:id="@+id/btn_reset"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#F4F4F4"
-                    android:text="重置"
-                    android:textColor="#666666"
+                <TextView
+                    style="@style/TextStyle_14"
+                    android:layout_gravity="start"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:text="价格区间"
                     android:textSize="@dimen/text_14" />
 
-                <Button
-                    android:id="@+id/btn_ok"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/shallow_red"
-                    android:onClick="onClick"
-                    android:text="确定"
-                    android:textColor="#ffffff"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <!--areaId, priceFrom, priceTo-->
+                    <EditText
+                        android:id="@+id/et_price_from"
+                        style="@style/TextStyle.Explain"
+                        android:layout_height="32dp"
+                        android:background="@drawable/bg_rect_round_gray"
+                        android:hint="最低价"
+                        android:inputType="number"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="5dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textCursorDrawable="@drawable/tv_select_text"
+                        android:textSize="@dimen/text_14" />
+
+                    <View
+                        style="@style/HorizontalLine"
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:background="@color/gray" />
+
+                    <EditText
+                        android:id="@+id/et_price_to"
+                        style="@style/TextStyle.Explain"
+                        android:layout_height="32dp"
+                        android:background="@drawable/bg_rect_round_gray"
+                        android:hint="最高价"
+                        android:inputType="number"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="5dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textCursorDrawable="@drawable/tv_select_text"
+                        android:textSize="@dimen/text_14" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/TextStyle_14"
+                    android:layout_gravity="start"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:text="一级分类" />
+
+                <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+                    android:id="@+id/sl_sl_class_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:deleteButton="false"
+                    app:itemMargin="4dp"
+                    app:labelBackground="@drawable/bg_grid_white_unselect"
+                    app:maxSelectNum="1"
+                    app:selectBackground="@drawable/bg_grid_white_select"
+                    app:selectMode="true"
+                    app:selectTextColor="#FFFFFF"
+                    app:textColor="#5F5F5F"
+                    app:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        style="@style/TextStyle_14"
+                        android:layout_gravity="start"
+                        android:paddingTop="@dimen/dp_10"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:text="二级分类" />
+
+                    <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+                        android:id="@+id/sl_class_second"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:deleteButton="false"
+                        app:itemMargin="4dp"
+                        app:labelBackground="@drawable/bg_grid_white_unselect"
+                        app:maxSelectNum="1"
+                        app:selectBackground="@drawable/bg_grid_white_select"
+                        app:selectMode="true"
+                        app:selectTextColor="#FFFFFF"
+                        app:textColor="#5F5F5F"
+                        app:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_three"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        style="@style/TextStyle_14"
+                        android:layout_gravity="start"
+                        android:paddingTop="@dimen/dp_10"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:text="三级分类" />
+
+                    <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+                        android:id="@+id/sl_class_three"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:deleteButton="false"
+                        app:itemMargin="4dp"
+                        app:labelBackground="@drawable/bg_grid_white_unselect"
+                        app:maxSelectNum="99"
+                        app:selectBackground="@drawable/bg_grid_white_select"
+                        app:selectMode="true"
+                        app:selectTextColor="#FFFFFF"
+                        app:textColor="#5F5F5F"
+                        app:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        style="@style/TextStyle_14"
+                        android:layout_gravity="start"
+                        android:paddingTop="@dimen/dp_10"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:text="适用人群" />
+
+                    <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+                        android:id="@+id/sl_class_shiyong"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:deleteButton="false"
+                        app:itemMargin="4dp"
+                        app:labelBackground="@drawable/bg_grid_white_unselect"
+                        app:maxSelectNum="99"
+                        app:selectBackground="@drawable/bg_grid_white_select"
+                        app:selectMode="true"
+                        app:selectTextColor="#FFFFFF"
+                        app:textColor="#5F5F5F"
+                        app:textSize="12sp" />
+
+                    <TextView
+                        style="@style/TextStyle_14"
+                        android:layout_gravity="start"
+                        android:paddingTop="@dimen/dp_10"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:text="风格" />
+
+                    <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+                        android:id="@+id/sl_class_fengge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:deleteButton="false"
+                        app:itemMargin="4dp"
+                        app:labelBackground="@drawable/bg_grid_white_unselect"
+                        app:maxSelectNum="99"
+                        app:selectBackground="@drawable/bg_grid_white_select"
+                        app:selectMode="true"
+                        app:selectTextColor="#FFFFFF"
+                        app:textColor="#5F5F5F"
+                        app:textSize="12sp" />
+
+                    <TextView
+                        style="@style/TextStyle_14"
+                        android:layout_gravity="start"
+                        android:paddingTop="@dimen/dp_10"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:text="材质" />
+
+                    <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+                        android:id="@+id/sl_class_caizhi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:deleteButton="false"
+                        app:itemMargin="4dp"
+                        app:labelBackground="@drawable/bg_grid_white_unselect"
+                        app:maxSelectNum="99"
+                        app:selectBackground="@drawable/bg_grid_white_select"
+                        app:selectMode="true"
+                        app:selectTextColor="#FFFFFF"
+                        app:textColor="#5F5F5F"
+                        app:textSize="12sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/TextStyle_14"
+                    android:layout_gravity="start"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:text="商品属在地"
                     android:textSize="@dimen/text_14" />
+
+                <Spinner
+                    android:id="@+id/spinner_system"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:minHeight="42dp"
+                    android:spinnerMode="dropdown" />
+
+                <View style="@style/HorizontalLine" />
+
+                <TextView
+                    style="@style/TextStyle_14"
+                    android:layout_gravity="start"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:text="商品类型" />
+
+                <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+                    android:id="@+id/sl_good_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:deleteButton="false"
+                    app:itemMargin="4dp"
+                    app:labelBackground="@drawable/bg_grid_white_unselect"
+                    app:maxSelectNum="99"
+                    app:selectBackground="@drawable/bg_grid_white_select"
+                    app:selectMode="true"
+                    app:selectTextColor="#FFFFFF"
+                    app:textColor="#5F5F5F"
+                    app:textSize="12sp" />
+
+                <View style="@style/HorizontalLine" />
+
+                <TextView
+                    style="@style/TextStyle_14"
+                    android:layout_gravity="start"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:text="店铺类型" />
+
+                <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+                    android:id="@+id/sl_shop_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:deleteButton="false"
+                    app:itemMargin="4dp"
+                    app:labelBackground="@drawable/bg_grid_white_unselect"
+                    app:maxSelectNum="99"
+                    app:selectBackground="@drawable/bg_grid_white_select"
+                    app:selectMode="true"
+                    app:selectTextColor="#FFFFFF"
+                    app:textColor="#5F5F5F"
+                    app:textSize="12sp" />
+
+                <View style="@style/HorizontalLine" />
+
+                <TextView
+                    style="@style/TextStyle_14"
+                    android:layout_gravity="start"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:text="店铺服务" />
+
+                <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+                    android:id="@+id/sl_shop_server"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:deleteButton="false"
+                    app:itemMargin="4dp"
+                    app:labelBackground="@drawable/bg_grid_white_unselect"
+                    app:maxSelectNum="99"
+                    app:selectBackground="@drawable/bg_grid_white_select"
+                    app:selectMode="true"
+                    app:selectTextColor="#FFFFFF"
+                    app:textColor="#5F5F5F"
+                    app:textSize="12sp" />
+
+                <View style="@style/HorizontalLine" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:background="@drawable/button_shape"
+                    android:text="筛选商品"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
-        </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_reset"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F4F4F4"
+                android:text="重置"
+                android:textColor="#666666"
+                android:textSize="@dimen/text_14" />
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/shallow_red"
+                android:onClick="onClick"
+                android:text="确定"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/text_14" />
+        </LinearLayout>
 
     </LinearLayout>
+
 </layout>

@@ -18,6 +18,8 @@ import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
+import com.mingpinmall.classz.ui.vm.bean.ScreeningBean;
+import com.mingpinmall.classz.ui.vm.bean.ScreeningClassBean;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
@@ -48,6 +50,22 @@ public interface ClassifyService {
 
     /*商品评价*/
     String EVALUATE = "/mo_bile/index.php?app=goods&wwi=goods_evaluate";
+
+    /**
+     * 获取筛选 可选择 的信息
+     * @param map
+     * @return
+     */
+    @GET(BASEURL)
+    Flowable<BaseResponse<ScreeningBean>> getScreeningInfo(@QueryMap Map<String, Object> map);
+
+    /**
+     * 获取筛选 可选择 的信息
+     * @param map
+     * @return
+     */
+    @GET(BASEURL)
+    Flowable<BaseResponse<ScreeningClassBean>> getScreeningClassInfo(@QueryMap Map<String, Object> map);
 
     /**
      * 检查F码

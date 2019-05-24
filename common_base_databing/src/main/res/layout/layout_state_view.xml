@@ -37,8 +37,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:foreground="?selectableItemBackground"
         android:background="@drawable/bg_grid_white_corners_05dp"
-        android:padding="6dp"
         android:text="随便逛逛" />
 
 </LinearLayout>

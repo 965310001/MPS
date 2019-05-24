@@ -131,6 +131,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
 
         ((AppCompatTextView) headView.findViewById(R.id.tv_name)).setText(data.getUser_name());
         ((AppCompatTextView) headView.findViewById(R.id.tv_level)).setText(data.getLevel_name());
+        headView.findViewById(R.id.tv_level).setVisibility("".equals(data.getLevel_name()) ? View.GONE : View.VISIBLE);
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText(data.getFavorites_goods());
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText(data.getFavorites_store());
 
@@ -194,7 +195,6 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         headView.findViewById(R.id.ll_headItem2).setOnClickListener(this);
         headView.findViewById(R.id.ll_headItem3).setOnClickListener(this);
     }
-
 
     private void setListScrollListener() {
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -3,13 +3,11 @@ package com.mingpinmall.classz.ui.activity.classiflist;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.text.Editable;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
@@ -34,7 +32,6 @@ import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
-import com.xuexiang.xui.XUI;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -73,7 +70,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        XUI.initTheme(this);
+//        XUI.initTheme(this);
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
         clSearch.setVisibility(View.VISIBLE);
@@ -196,14 +193,15 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                 order = "2";
                 onRefresh();
             } else if (i == R.id.filter_tab3) {
-                if (null == screeningPopWindow) {
-                    screeningPopWindow = new ScreeningPopWindow
-                            .Builder(ProductsActivity.this)
-                            .setEventKey(Constants.CUSTOMPOPWINDOW_KEY[1])
-                            .setColorBg(R.color.color_f8f8f8).build().createPop();
-                }
-                screeningPopWindow.showAtLocation(filterTab0,
-                        Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
+                ActivityToActivity.toActivity(ARouterConfig.classify.SCREENINGACTIVITY);
+//                if (null == screeningPopWindow) {
+//                    screeningPopWindow = new ScreeningPopWindow
+//                            .Builder(ProductsActivity.this)
+//                            .setEventKey(Constants.CUSTOMPOPWINDOW_KEY[1])
+//                            .setColorBg(R.color.color_f8f8f8).build().createPop();
+//                }
+//                screeningPopWindow.showAtLocation(filterTab0,
+//                        Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
             }
         } else if (i == R.id.ed_search) {
             ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);

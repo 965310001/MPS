@@ -26,6 +26,8 @@ import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
+import com.mingpinmall.classz.ui.vm.bean.ScreeningBean;
+import com.mingpinmall.classz.ui.vm.bean.ScreeningClassBean;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
@@ -41,6 +43,64 @@ import okhttp3.RequestBody;
 public class ClassifyRepository extends BaseRepository {
 
     private final ClassifyService apiService = RetrofitClient.getInstance().create(ClassifyService.class);
+
+    /**
+     * 获取筛选内容
+     *
+     */
+    public void getScreeningInfo(Object eventKey) {
+        //请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=index&wwi=search_adv
+        Map<String, Object> params = parames("index", "search_adv");
+        addDisposable(apiService.getScreeningInfo(params)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ScreeningBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ScreeningBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, result.getData());
+                        } else {
+                            sendData(eventKey, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(eventKey, msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /**
+     * 获取筛选内容
+     *
+     */
+    public void getScreeningClassInfo(Object eventKey, String childId, String classis) {
+        //请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=index&wwi=search_adv
+        //gc_child_id: 427
+        Map<String, Object> params = parames("index", "search_adv");
+        if (!"".equals(classis)) {
+            params.put("gc_child_id", childId);
+        }
+        addDisposable(apiService.getScreeningClassInfo(params)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ScreeningClassBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ScreeningClassBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, result.getData());
+                        } else {
+                            sendData(eventKey, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(eventKey, msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
 
     /**
      * 检查F码

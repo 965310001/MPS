@@ -14,6 +14,7 @@ import com.goldze.common.dmvvm.utils.ColorUtil;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
+import com.goldze.common.dmvvm.widget.stackLabel.StackLabelAdapter;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ActivitySearchBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
@@ -34,6 +35,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
 
     private List<String> items = new ArrayList<>();
 
+    private StackLabelAdapter<String> adapter;
 //    private SearchHistoryAdapter adapter;
 
     @Override
@@ -56,17 +58,20 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
         ivSearch.setVisibility(View.VISIBLE);
         tvTitle.setVisibility(View.GONE);
 
-//        binding.recyclerSearchHistory.setLayoutManager(new LinearLayoutManager(this));
-//        adapter = new SearchHistoryAdapter(this, items);
-//        binding.recyclerSearchHistory.setAdapter(adapter);
-
-        binding.layoutFlowHistory.setLabels(items);
+        adapter = new StackLabelAdapter<String>() {
+            @Override
+            public String covert(String data, int position) {
+                return data;
+            }
+        };
+        adapter.setLabels(items);
+        binding.layoutFlowHistory.setAdapter(adapter);
         binding.layoutFlowHistory.setOnLabelClickListener((index, v, s) -> {
             if (binding.layoutFlowHistory.isDeleteButton()) {
                 items.remove(index);
-                binding.layoutFlowHistory.setLabels(items);
+                adapter.setLabels(items);
             } else {
-                edSearch.setText(s);
+                edSearch.setText(adapter.getText(index));
                 search();
             }
         });
@@ -76,7 +81,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
         binding.btnClear.setOnClickListener(v ->
                 TextDialog.showBaseDialog(activity, "", "确认删除全部历史记录？", () -> {
                     items.clear();
-                    binding.layoutFlowHistory.setLabels(items);
+                    adapter.setLabels(items);
                     SharePreferenceUtil.saveSearchList(items);
                 }).show());
 
@@ -146,7 +151,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
     private void loadSearchHistory() {
         items.clear();
         items.addAll(SharePreferenceUtil.getSearchList());
-        binding.layoutFlowHistory.setLabels(items);
+        adapter.setLabels(items);
 //        adapter.notifyDataSetChanged();
     }
 
@@ -211,7 +216,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
             }
         }
         items.add(0, searchKey);
-        binding.layoutFlowHistory.setLabels(items);
+        adapter.setLabels(items);
 //        adapter.notifyDataSetChanged();
         SharePreferenceUtil.saveSearchList(items);
     }

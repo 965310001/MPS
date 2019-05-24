@@ -8,9 +8,10 @@
             type="String" />
     </data>
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
         android:padding="@dimen/dp_6">
 
         <TextView
@@ -21,6 +22,6 @@
             android:textColor="@android:color/black"
             android:textSize="18sp"
             tools:text="首页" />
-    </LinearLayout>
+    </FrameLayout>
 </layout>
 

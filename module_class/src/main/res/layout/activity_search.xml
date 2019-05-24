@@ -62,8 +62,7 @@
 
                 </LinearLayout>
 
-
-                <com.kongzue.stacklabelview.StackLabel
+                <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
                     android:id="@+id/layout_flow_history"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

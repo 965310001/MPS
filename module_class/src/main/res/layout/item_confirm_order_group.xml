@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:foreground="@drawable/button_foreground">
+            android:foreground="?selectableItemBackground">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -84,8 +84,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toTopOf="@id/ll_orderInfo"
-                    app:layout_constraintEnd_toEndOf="@id/tv_orderState"
-                    app:layout_constraintStart_toStartOf="@id/ll_shopContent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/line">
 
                     <TextView
@@ -104,8 +104,8 @@
                     android:layout_height="@dimen/dp_40"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="@id/ll_shopList"
-                    app:layout_constraintStart_toStartOf="@id/ll_shopList"
+                    app:layout_constraintEnd_toEndOf="@id/tv_orderState"
+                    app:layout_constraintStart_toStartOf="@id/ll_shopContent"
                     app:layout_constraintTop_toBottomOf="@id/ll_shopList">
 
                     <android.support.v7.widget.AppCompatTextView
