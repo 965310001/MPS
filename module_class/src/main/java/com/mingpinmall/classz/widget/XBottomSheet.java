@@ -639,20 +639,17 @@ public class XBottomSheet extends Dialog {
                     holder.markView.setVisibility(View.GONE);
                 }
 
-                convertView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (data.hasRedPoint) {
-                            data.hasRedPoint = false;
-                            holder.redPoint.setVisibility(View.GONE);
-                        }
-                        if (mNeedRightMark) {
-                            setCheckedIndex(position);
-                            notifyDataSetChanged();
-                        }
-                        if (mOnSheetItemClickListener != null) {
-                            mOnSheetItemClickListener.onClick(mDialog, v, position, data.tag);
-                        }
+                convertView.setOnClickListener(v -> {
+                    if (data.hasRedPoint) {
+                        data.hasRedPoint = false;
+                        holder.redPoint.setVisibility(View.GONE);
+                    }
+                    if (mNeedRightMark) {
+                        setCheckedIndex(position);
+                        notifyDataSetChanged();
+                    }
+                    if (mOnSheetItemClickListener != null) {
+                        mOnSheetItemClickListener.onClick(mDialog, v, position, data.tag);
                     }
                 });
                 return convertView;
@@ -752,12 +749,9 @@ public class XBottomSheet extends Dialog {
             titleTV.setText(text);
 
             itemView.setTag(tag);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnSheetItemClickListener != null) {
-                        mOnSheetItemClickListener.onClick(mDialog, (BottomSheetItemView) v);
-                    }
+            itemView.setOnClickListener(v -> {
+                if (mOnSheetItemClickListener != null) {
+                    mOnSheetItemClickListener.onClick(mDialog, (BottomSheetItemView) v);
                 }
             });
             AppCompatImageView imageView = itemView.findViewById(R.id.grid_item_image);
@@ -810,7 +804,7 @@ public class XBottomSheet extends Dialog {
             LinearLayout secondLine = baseLinearLayout.findViewById(R.id.bottom_sheet_second_linear_layout);
             mBottomButtonContainer = baseLinearLayout.findViewById(R.id.bottom_sheet_button_container);
             mBottomButton = baseLinearLayout.findViewById(R.id.bottom_sheet_close_button);
-
+            mBottomButton.setVisibility(View.GONE);
             int maxItemCountEachLine = Math.max(mFirstLineViews.size(), mSecondLineViews.size());
             int screenWidth = Utils.getScreenWidth(mContext);
             int screenHeight = Utils.getScreenHeight(mContext);
@@ -875,7 +869,7 @@ public class XBottomSheet extends Dialog {
         }
 
         protected int getItemViewLayoutId() {
-            return R.layout.xui_bottom_sheet_grid_item;
+            return R.layout.bottom_sheet_grid_item;
         }
 
         /**

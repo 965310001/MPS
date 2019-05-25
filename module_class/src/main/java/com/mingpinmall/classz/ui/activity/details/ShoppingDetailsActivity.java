@@ -2,6 +2,8 @@ package com.mingpinmall.classz.ui.activity.details;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,10 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.bean.HorizontalTabTitle;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
@@ -290,29 +294,41 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         onClick(view);
     }
 
+    /*分享*/
     public void share(View view) {
-//        if (null != mGoodsInfo) {
-//            WeiXinBaoStrategy weiXinBaoStrategy = WeiXinBaoStrategy.getInstance(this);
-//            Map<String, String> map = new HashMap<>();
-//            String url = String.format("https://www.mingpinmall.cn/wap/tmpl/product_detail.html?goods_id=%s", mGoodsInfo.getGoods_id());
-//            map.put("url", url);
-//            map.put("title", mGoodsInfo.getGoods_name());
-//            map.put("description", mGoodsInfo.getGoods_jingle());
-//            map.put("imageurl", mGoodsInfo.getGoods_image_url());
-//            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 0, map);
-//        }
+        KLog.i(mGoodsInfo.getGoods_image_url() + " " + mGoodsInfo.getGoods_jingle());
 
         XBottomSheet bottomSheet = new XBottomSheet.BottomGridSheetBuilder(activity)
-//                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
-//                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
-//                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
-                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
-                .addItem(R.drawable.ic_loading_image, "微信", BottomSheet.BottomGridSheetBuilder.SECOND_LINE)
-                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
-//                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
-                .addItem(R.drawable.ic_loading_image, "微信", FIRST_LINE)
+                .addItem(R.drawable.icon_wx_logo, "微信", "微信", FIRST_LINE)
+                .addItem(R.drawable.icon_moments, "朋友圈", "朋友圈", FIRST_LINE)
+//                .addItem(R.drawable.weixin, "微信", "微信", FIRST_LINE)
+                .addItem(R.drawable.icon_collection, "收藏", "收藏", BottomSheet.BottomGridSheetBuilder.SECOND_LINE)
+                .addItem(R.drawable.icon_copy, "复制", "复制", BottomSheet.BottomGridSheetBuilder.SECOND_LINE)
                 .setOnSheetItemClickListener((dialog, itemView) -> {
-                    KLog.i("TAG");
+                    KLog.i("TAG" + itemView.getTag());
+                    WeiXinBaoStrategy weiXinBaoStrategy = WeiXinBaoStrategy.getInstance(this);
+                    Map<String, String> map = new HashMap<>();
+                    String url = String.format("%s/wap/tmpl/product_detail.html?goods_id=%s", BuildConfig.APP_URL, mGoodsInfo.getGoods_id());
+                    if (null != mGoodsInfo) {
+                        map.put("url", url);
+                        map.put("title", mGoodsInfo.getGoods_name());
+                        map.put("description", mGoodsInfo.getGoods_jingle());
+                        map.put("imageurl", mGoodsInfo.getGoods_image_url());
+                    }
+                    switch (itemView.getTag().toString()) {
+                        case "微信":
+                            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 0, map);
+                            break;
+                        case "朋友圈":
+                            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 1, map);
+                            break;
+                        case "复制":
+                            copy(url);
+                            break;
+                        case "收藏":
+                            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 2, map);
+                            break;
+                    }
                     dialog.dismiss();
                 })
                 .build();
@@ -326,6 +342,12 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 ////                    dialog.dismiss();
 //                    ToastUtils.showLong("Item " + (position + 1));
 
+    }
+
+    private void copy(String url) {
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        cm.setText(url);
+        Toast.makeText(this, "复制成功，可以发给朋友们了。", Toast.LENGTH_LONG).show();
     }
 
     public void goCart(View view) {

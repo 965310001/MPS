@@ -49,13 +49,13 @@
 
             <ImageView
                 android:id="@+id/iv_share"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/image_height"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_vertical"
                 android:onClick="share"
                 android:paddingEnd="10dp"
-                android:src="@drawable/back_icon" />
+                android:src="@drawable/icon_share" />
 
             <com.flyco.tablayout.SlidingTabLayout
                 android:id="@+id/tabs"

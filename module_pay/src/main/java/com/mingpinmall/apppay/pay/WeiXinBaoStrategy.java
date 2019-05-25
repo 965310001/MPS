@@ -126,39 +126,52 @@ public class WeiXinBaoStrategy implements Strategy {
      * 微信分享
      *
      * @param appId
-     * @param flag  0:分享到微信好友，1：分享到微信朋友圈
+     * @param flag  0:分享到微信好友，1：分享到微信朋友圈 2:收藏
      */
     public void wechatShare(String appId, int flag, Map<String, String> map) {
         if (null != map) {
             try {
-               new Thread(){
-                   @Override
-                   public void run() {
-                       super.run();
-                       init(appId);
-                       WXWebpageObject webpageObject = new WXWebpageObject();
-                       webpageObject.webpageUrl = map.get("url");
-                       WXMediaMessage msg = new WXMediaMessage(webpageObject);
-                       msg.title = TextUtils.isEmpty(map.get("title")) ? "" : map.get("title");
-                       msg.description = TextUtils.isEmpty(map.get("description")) ? "" : map.get("title");
-                       String imageurl = TextUtils.isEmpty(map.get("imageurl")) ? "" : map.get("imageurl");
-                       //                这里替换一张自己工程里的图片资源
-                       Bitmap thumb = null;
-                       try {
-                           thumb = BitmapFactory.decodeStream(new URL(imageurl).openStream());
-                       } catch (IOException e) {
-                           e.printStackTrace();
-                       }
-                       thumb = Bitmap.createScaledBitmap(thumb, 120, 150, true);
-                       thumb.recycle();
-                       msg.setThumbImage(thumb);
-                       SendMessageToWX.Req req = new SendMessageToWX.Req();
-                       req.transaction = String.valueOf(System.currentTimeMillis());
-                       req.message = msg;
-                       req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
-                       mIWXAPI.sendReq(req);
-                   }
-               }.start();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        init(appId);
+                        WXWebpageObject webpageObject = new WXWebpageObject();
+                        webpageObject.webpageUrl = map.get("url");
+                        WXMediaMessage msg = new WXMediaMessage(webpageObject);
+                        msg.title = TextUtils.isEmpty(map.get("title")) ? "" : map.get("title");
+                        msg.description = TextUtils.isEmpty(map.get("description")) ? "" : map.get("description");
+                        String imageurl = TextUtils.isEmpty(map.get("imageurl")) ? "" : map.get("imageurl");
+                        //这里替换一张自己工程里的图片资源
+                        Bitmap thumb = null;
+                        try {
+                            thumb = BitmapFactory.decodeStream(new URL(imageurl).openStream());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        thumb = Bitmap.createScaledBitmap(thumb, 120, 150, true);
+                        msg.setThumbImage(thumb);
+                        thumb.recycle();
+                        SendMessageToWX.Req req = new SendMessageToWX.Req();
+                        req.transaction = String.valueOf(System.currentTimeMillis());
+                        req.message = msg;
+                        switch (flag) {
+                            case 0:
+                                req.scene = SendMessageToWX.Req.WXSceneSession;
+                                break;
+                            case 1:
+                                req.scene = SendMessageToWX.Req.WXSceneTimeline;
+                                break;
+                            case 2:
+                                req.scene = SendMessageToWX.Req.WXSceneFavorite;
+                                break;
+                            default:
+                                req.scene = SendMessageToWX.Req.WXSceneSession;
+                                break;
+                        }
+                        mIWXAPI.sendReq(req);
+                    }
+                }.start();
             } catch (Exception e) {
                 Log.i("TAG", e.toString());
             }
