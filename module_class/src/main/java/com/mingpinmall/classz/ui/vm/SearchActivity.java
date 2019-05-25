@@ -35,7 +35,6 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
 
     private List<String> items = new ArrayList<>();
 
-    private StackLabelAdapter<String> adapter;
 //    private SearchHistoryAdapter adapter;
 
     @Override
@@ -58,14 +57,13 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
         ivSearch.setVisibility(View.VISIBLE);
         tvTitle.setVisibility(View.GONE);
 
-        adapter.setLabels(items);
         binding.layoutFlowHistory.setAdapter(new StackLabelAdapter<String>((data, position) -> data));
         binding.layoutFlowHistory.setOnLabelClickListener((index, v, s) -> {
             if (binding.layoutFlowHistory.isDeleteButton()) {
                 items.remove(index);
-                adapter.setLabels(items);
+                binding.layoutFlowHistory.setData(items);
             } else {
-                edSearch.setText(adapter.getText(index));
+                edSearch.setText(binding.layoutFlowHistory.getAdapter().getText(index));
                 search();
             }
         });
@@ -75,7 +73,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
         binding.btnClear.setOnClickListener(v ->
                 TextDialog.showBaseDialog(activity, "", "确认删除全部历史记录？", () -> {
                     items.clear();
-                    adapter.setLabels(items);
+                    binding.layoutFlowHistory.setData(items);
                     SharePreferenceUtil.saveSearchList(items);
                 }).show());
 
@@ -145,7 +143,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
     private void loadSearchHistory() {
         items.clear();
         items.addAll(SharePreferenceUtil.getSearchList());
-        adapter.setLabels(items);
+        binding.layoutFlowHistory.setData(items);
 //        adapter.notifyDataSetChanged();
     }
 
@@ -210,8 +208,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
             }
         }
         items.add(0, searchKey);
-        adapter.setLabels(items);
-//        adapter.notifyDataSetChanged();
+        binding.layoutFlowHistory.setData(items);
         SharePreferenceUtil.saveSearchList(items);
     }
 }
