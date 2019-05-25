@@ -6,6 +6,7 @@ import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
+import com.mingpinmall.classz.ui.vm.bean.ClassGoodsBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
@@ -86,6 +87,12 @@ public interface ClassifyService {
     Flowable<ClassificationRighitBean> getRight(@Query("app") String app,
                                                 @Query("wwi") String wwi,
                                                 @Query("gc_id") String id);
+
+    /*获取主分类ID*/
+    @GET(BASEURL)
+    Flowable<BaseResponse<ClassGoodsBean>> getGcParentId(@Query("app") String app,
+                                                         @Query("wwi") String wwi,
+                                                         @Query("gc_id") String id);
 
     /*品牌*/
     @GET(BRAND)

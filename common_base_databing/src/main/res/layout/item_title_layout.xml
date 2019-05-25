@@ -102,7 +102,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginRight="@dimen/list_margin_size"
         android:gravity="center"
-        android:text="1111"
+        android:text="按钮"
         android:visibility="gone" />
 
     <View

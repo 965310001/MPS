@@ -214,8 +214,8 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
             //跳转到搜索
             String id = url.split("b_id=")[1];
             Map<String, Object> params = new HashMap<>(2);
-            params.put("id", id);
-            params.put("type", 1);
+            params.put("gcId", id);
+            params.put("type", 0);
             ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
         } else if (url.contains("signin.html")) {
             //签到

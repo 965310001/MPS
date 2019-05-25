@@ -338,8 +338,8 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             //跳转到搜索指定id的商品
             String id = url.split("b_id=")[1];
             Map<String, Object> params = new HashMap<>(2);
-            params.put("id", id);
-            params.put("type", 1);
+            params.put("gcId", id);
+            params.put("type", 0);
             ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
         }
     }

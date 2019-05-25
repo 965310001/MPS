@@ -21,7 +21,6 @@ import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
-import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
@@ -100,24 +99,24 @@ public abstract class BaseProductsFragment<T extends ClassifyViewModel> extends 
                 });
 
         /*筛选*/
-        registerObserver(getCustompopWindowKey(), ScreenInfo.class)
-                .observe(this, reponse -> {
-                    areaId = reponse.areaId;
-                    priceFrom = reponse.priceFrom;
-                    priceTo = reponse.priceTo;
-                    for (String s : reponse.shoppingServer) {
-                        ci = ci.concat(s).concat("_");
-                    }
-                    for (String s : reponse.goodsType) {
-                        st = st.concat(s).concat("_");
-                    }
-                    keyword = "";
-//                        areaId="";
-                    order = "";
-                    key = "";
-                    id = "";
-                    onRefresh();
-                });
+//        registerObserver(getCustompopWindowKey(), ScreenInfo.class)
+//                .observe(this, reponse -> {
+//                    areaId = reponse.areaId;
+//                    priceFrom = reponse.priceFrom;
+//                    priceTo = reponse.priceTo;
+//                    for (String s : reponse.shoppingServer) {
+//                        ci = ci.concat(s).concat("_");
+//                    }
+//                    for (String s : reponse.goodsType) {
+//                        st = st.concat(s).concat("_");
+//                    }
+//                    keyword = "";
+////                        areaId="";
+//                    order = "";
+//                    key = "";
+//                    id = "";
+//                    onRefresh();
+//                });
     }
 
     /*筛选*/

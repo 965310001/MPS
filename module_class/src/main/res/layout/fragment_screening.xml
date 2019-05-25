@@ -338,7 +338,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_20"
-                    android:background="@drawable/button_shape"
+                    android:background="@drawable/button_shape_red"
                     android:text="筛选商品"
                     android:textColor="@color/white"
                     android:visibility="gone" />

@@ -1,10 +1,12 @@
 package com.mingpinmall.classz.ui.activity.classiflist;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.InputType;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,23 +20,25 @@ import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.DisplayUtil;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.ClassGoodsBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.mingpinmall.classz.widget.FilterTab;
-import com.mingpinmall.classz.widget.ScreeningPopWindow;
 import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 商品分类list
@@ -43,35 +47,41 @@ import java.util.Collection;
 public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         implements CustomPopWindow.Builder.OnCustomPopWindowClickListener {
     @Autowired
-    String id;
+    String gcId;
+    @Autowired
+    String gcName;
+
+    private ScreenInfo screenInfo;
 
     @Autowired
-    String gcIdType;
-
-    @Autowired
-    int type;
+    int type = 0;//0：默认搜索  1：待定搜索  2：二级搜索
 
     @Autowired
     String keyword;
 
     private View currentView;
     /*店铺服务*/
-    private String ci = "", st = "";
-    private String areaId = "", priceFrom = "", priceTo = "";//地区 价格区间最低范围 价格区间最高范围
-    private String key, order;/*排序条件*/
+//    private String ci = "", st = "";
+//    private String areaId = "", priceFrom = "", priceTo = "";//地区 价格区间最低范围 价格区间最高范围
+//    private String key, order;/*排序条件*/
     private FilterTab filterTab0;
-    private PopupWindow screeningPopWindow, customPopWindow;
+    private PopupWindow customPopWindow;
     private ImageView imageView;
     private String picPath = "";
     private GridLayoutManager gridLayoutManager;
     private DelegateAdapter gridAdapter;
     private boolean isGrid;
 
-
     @Override
     protected void initViews(Bundle savedInstanceState) {
-//        XUI.initTheme(this);
+        screenInfo = new ScreenInfo();
         ARouter.getInstance().inject(this);
+        screenInfo.keyword = keyword == null ? "" : keyword;
+        screenInfo.setType(type);
+        screenInfo.setId(gcId);
+        if (type == 2) {
+            screenInfo.setSecondName(gcName);
+        }
         super.initViews(savedInstanceState);
         clSearch.setVisibility(View.VISIBLE);
         edSearch.setFocusable(false);
@@ -105,6 +115,11 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                         itemTabsegmentBinding.filterTab3)) {
             tab.setOnClickListener(this);
         }
+
+        if (type == 2) {
+            //子分类进来的
+            mViewModel.getGcParentId(gcId);
+        }
     }
 
 
@@ -129,30 +144,21 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     @Override
     protected void dataObserver() {
         super.dataObserver();
-
-        registerObserver(Constants.PRODUCTS_EVENT_KEY[0], String.valueOf(type), GoodsListInfo.class)
+        registerObserver(Constants.PRODUCTS_EVENT_KEY[0], GoodsListInfo.class)
                 .observe(this, response -> {
                     picPath = response.getDatas().getBrand_bgpic();
                     setData(response.getDatas().getGoods_list());
                 });
-
-        /*筛选*/
-        registerObserver(Constants.CUSTOMPOPWINDOW_KEY[1], ScreenInfo.class)
+        registerObserver(Constants.PRODUCTS_EVENT_KEY[2], Object.class)
                 .observe(this, response -> {
-                    areaId = response.areaId;
-                    priceFrom = response.priceFrom;
-                    priceTo = response.priceTo;
-                    for (String s : response.shoppingServer) {
-                        ci = ci.concat(s).concat("_");
+                    Log.d(TAG, "dataObserver: 走进来了嘛？？？？");
+                    if (response instanceof ClassGoodsBean) {
+                        ClassGoodsBean data = (ClassGoodsBean) response;
+                        screenInfo.setMain_id(data.getGc_parent_id());
+                        screenInfo.setMainName(data.getGc_name());
+                    } else {
+                        ToastUtils.showShort(response.toString());
                     }
-                    for (String s : response.goodsType) {
-                        st = st.concat(s).concat("_");
-                    }
-//                        keyword = "";
-                    order = "";
-                    key = "";
-                    id = "";
-                    onRefresh();
                 });
     }
 
@@ -160,10 +166,10 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     @Override
     protected void getRemoteData() {
         super.getRemoteData();
+        Map<String, Object> params = screenInfo.getParams();
 
-        KLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
-
-        mViewModel.getShappingList(gcIdType, id, String.valueOf(page), keyword, String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
+        mViewModel.getShappingList(params, page);
+        mViewModel.getShappingList(screenInfo.getParams(), page);
     }
 
     @Override
@@ -189,19 +195,16 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                 }
                 customPopWindow.showAsDropDown(filterTab0);
             } else if (i == R.id.filter_tab1) {
-                key = "1";
-                order = "2";
+                screenInfo.setOrderKey("1", "2");
                 onRefresh();
             } else if (i == R.id.filter_tab3) {
-                ActivityToActivity.toActivity(ARouterConfig.classify.SCREENINGACTIVITY);
-//                if (null == screeningPopWindow) {
-//                    screeningPopWindow = new ScreeningPopWindow
-//                            .Builder(ProductsActivity.this)
-//                            .setEventKey(Constants.CUSTOMPOPWINDOW_KEY[1])
-//                            .setColorBg(R.color.color_f8f8f8).build().createPop();
-//                }
-//                screeningPopWindow.showAtLocation(filterTab0,
-//                        Gravity.TOP, 100, DisplayUtil.getStatusBarHeight(ProductsActivity.this));
+                Intent intent = new Intent();
+                if (type == 2) {
+                    intent.putExtra("screenInfo", screenInfo);
+                }
+                intent.setClass(activity, ScreeningActivity.class);
+                startActivityForResult(intent, 1);
+//                ARouter.getInstance().build(ARouterConfig.classify.SCREENINGACTIVITY).withSerializable("screenInfo", screenInfo).navigation(activity, 1);
             }
         } else if (i == R.id.ed_search) {
             ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
@@ -239,30 +242,40 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                //筛选
+                ScreenInfo newDatas = (ScreenInfo) data.getSerializableExtra("datas");
+                screenInfo.cloneScreeningDatas(newDatas);
+
+                Map<String, Object> params = screenInfo.getParams();
+                mViewModel.getShappingList(params, page);
+            }
+        }
+    }
+
+    @Override
     public void onClick(PopupWindow dialog, View itemView, int position, String content) {
         dialog.dismiss();
         filterTab0.setText(content);
         switch (position) {
             case 0:/*综合排序*/
-                key = "";
-                order = "";
+                screenInfo.setOrderKey("", "");
                 break;
             case 1:/*价格从高到低*/
-                key = "3";
-                order = "2";
+                screenInfo.setOrderKey("2", "3");
                 break;
             case 2:/*价格从低到高*/
-                key = "3";
-                order = "1";
+                screenInfo.setOrderKey("1", "3");
                 break;
-            case 3:/*综合排序*/
-                key = "2";
-                order = "2";
+            case 3:/*人气排序*/
+                screenInfo.setOrderKey("2", "2");
                 break;
             default:
                 break;
         }
-//        keyword = "";
         onRefresh();
     }
 }

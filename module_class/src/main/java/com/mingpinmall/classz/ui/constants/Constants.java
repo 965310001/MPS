@@ -10,7 +10,7 @@ public interface Constants {
 
     /*商品分类*/
 //    String[] PRODUCTS_TITLE = {"综合排序", "销量优先", "筛选"};
-    Object[] PRODUCTS_EVENT_KEY = {"PRODUCTS_EVENT_KEY", "PRODUCTS_EVENT_KEY_LIST_STATE"};
+    Object[] PRODUCTS_EVENT_KEY = {"PRODUCTS_EVENT_KEY", "PRODUCTS_EVENT_KEY_LIST_STATE", "PRODUCTS_GOODS_PARENT_KEY"};
 
     /*商品详情*/
     Object[] GOODSDETAIL_EVENT_KEY = {"GOODSDETAIL_EVENT_KEY", "GOODSDETAIL_EVENT_KEY_STATE"};

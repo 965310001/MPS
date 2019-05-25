@@ -58,14 +58,8 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
         ivSearch.setVisibility(View.VISIBLE);
         tvTitle.setVisibility(View.GONE);
 
-        adapter = new StackLabelAdapter<String>() {
-            @Override
-            public String covert(String data, int position) {
-                return data;
-            }
-        };
         adapter.setLabels(items);
-        binding.layoutFlowHistory.setAdapter(adapter);
+        binding.layoutFlowHistory.setAdapter(new StackLabelAdapter<String>((data, position) -> data));
         binding.layoutFlowHistory.setOnLabelClickListener((index, v, s) -> {
             if (binding.layoutFlowHistory.isDeleteButton()) {
                 items.remove(index);

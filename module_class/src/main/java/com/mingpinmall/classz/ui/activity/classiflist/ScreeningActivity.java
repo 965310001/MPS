@@ -1,11 +1,17 @@
 package com.mingpinmall.classz.ui.activity.classiflist;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -22,7 +28,9 @@ import com.mingpinmall.classz.utils.AssetsData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 小斌
@@ -31,131 +39,193 @@ import java.util.List;
 @Route(path = ARouterConfig.classify.SCREENINGACTIVITY)
 public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBinding, ClassifyViewModel> {
 
-    @Autowired
     ScreenInfo screenInfo;
 
+    private boolean isNone = false;
+
     /**
-     * 包含一级分类和通用
+     * 包含二级分类和其他隐藏的数据
      */
     private ScreeningBean mainData;
-    private StackLabelAdapter<ScreeningBean.GcListBean> classDataAdapter;
-    private StackLabelAdapter<ScreeningClassBean.GcListChildBean> class2DataAdapter, class3DataAdapter;
-
-    private StackLabelAdapter<ScreeningBean.GoodsTypeBean> goodTypeAdapter;
-    private StackLabelAdapter<ScreeningBean.StoreTypeBean> shopTypeAdapter;
-    private StackLabelAdapter<ScreeningBean.ContractListBean> shopServerAdapter;
     /**
-     * 包含二级分类和其他隐藏的
+     * 包含二级分类和其他隐藏的数据
      */
-    private ScreeningClassBean classData;
+    private ScreeningClassBean class2Data;
     /**
-     * 仅三级分类
+     * 仅三级分类的数据
      */
     private ScreeningClassBean class3Data;
+    /**
+     * 适配器 适用人群 风格 材质
+     */
+    private ScreeningAdapter screeningAdapter;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
+        screenInfo = (ScreenInfo) getIntent().getSerializableExtra("screenInfo");
         setTitle("商品筛选");
-
+        findViewById(R.id.tv_right).setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.tv_right)).setText("重置");
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        initAdapter();
+        setListener();
     }
 
-    private void formatDatas() {
-        List<String> areaList = new ArrayList<>();
-        for (ScreeningBean.AreaListBean item : mainData.getArea_list()) {
-            areaList.add(item.getArea_name());
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,
-                R.layout.item_text1,
-                R.id.text, areaList
-        );
-        binding.spinnerSystem.setAdapter(adapter);
+    protected void initAdapter() {
         /*类型*/
-        goodTypeAdapter = new StackLabelAdapter<ScreeningBean.GoodsTypeBean>() {
-            @Override
-            public String covert(ScreeningBean.GoodsTypeBean data, int position) {
-                return data.getName();
-            }
-        };
-        shopTypeAdapter = new StackLabelAdapter<ScreeningBean.StoreTypeBean>() {
-            @Override
-            public String covert(ScreeningBean.StoreTypeBean data, int position) {
-                return data.getName();
-            }
-        };
-        shopServerAdapter = new StackLabelAdapter<ScreeningBean.ContractListBean>() {
-            @Override
-            public String covert(ScreeningBean.ContractListBean data, int position) {
-                return data.getName();
-            }
-        };
-        classDataAdapter = new StackLabelAdapter<ScreeningBean.GcListBean>() {
-            @Override
-            public String covert(ScreeningBean.GcListBean data, int position) {
-                return data.getGc_name();
-            }
-        };
-        class2DataAdapter = new StackLabelAdapter<ScreeningClassBean.GcListChildBean>() {
-            @Override
-            public String covert(ScreeningClassBean.GcListChildBean data, int position) {
-                return data.getGc_name();
-            }
-        };
-        class3DataAdapter = new StackLabelAdapter<ScreeningClassBean.GcListChildBean>() {
-            @Override
-            public String covert(ScreeningClassBean.GcListChildBean data, int position) {
-                return data.getGc_name();
-            }
-        };
+        screeningAdapter = new ScreeningAdapter();
+        binding.recyclerView.setAdapter(screeningAdapter);
 
-        binding.slGoodType.setAdapter(goodTypeAdapter);
-        goodTypeAdapter.setLabels(mainData.getGoods_type());
+        binding.slGoodType.setAdapter(new StackLabelAdapter<ScreeningBean.GoodsTypeBean>((data, position) -> data.getName()));
+        binding.slShopType.setAdapter(new StackLabelAdapter<ScreeningBean.StoreTypeBean>((data, position) -> data.getName()));
+        binding.slShopServer.setAdapter(new StackLabelAdapter<ScreeningBean.ContractListBean>((data, position) -> data.getName()));
+        binding.slClassOne.setAdapter(new StackLabelAdapter<ScreeningBean.GcListBean>((data, position) -> data.getGc_name()));
+        for (StackLabel stackLabel : Arrays.asList(binding.slClassSecond, binding.slClassThree)) {
+            stackLabel.setAdapter(new StackLabelAdapter<ScreeningClassBean.GcListChildBean>((data, position) -> data.getGc_name()));
+        }
+    }
 
-        binding.slShopType.setAdapter(shopTypeAdapter);
-        shopTypeAdapter.setLabels(mainData.getStore_type());
-
-        binding.slShopServer.setAdapter(shopServerAdapter);
-        shopServerAdapter.setLabels(mainData.getContract_list());
-
-        binding.slSlClassOne.setAdapter(classDataAdapter);
-        classDataAdapter.setLabels(mainData.getGc_list());
-
-
-        /*点击事件*/
-        binding.btnReset.setOnClickListener(v -> {
-            for (EditText editText : Arrays.asList(binding.etPriceFrom, binding.etPriceTo)) {
-                editText.setText("");
+    protected void setListener() {
+        binding.slClassOne.setOnLabelClickListener((index, v, s) -> {
+            clearLabels(2);
+            if (synchroLock(binding.slClassOne.getSelectedIndexs().size() > 0)) {
+                mViewModel.getScreeningClassInfo(Constants.SCREENING_KEY[1], mainData.getGc_list().get(index).getGc_id());
+            } else {
+                if (isNone) {
+                    isNone = false;
+                    binding.slClassOne.setData(mainData.getGc_list());
+                }
+                clearLabels(1);
             }
-            for (StackLabel stackLabel : Arrays.asList(binding.slGoodType, binding.slShopType, binding.slShopServer)) {
-                stackLabel.notifyDataSetChanged();
+        });
+
+        binding.slClassSecond.setOnLabelClickListener((index, v, s) -> {
+            clearLabels(3);
+            if (synchroLock(binding.slClassSecond.getSelectedIndexs().size() > 0)) {
+                mViewModel.getScreeningClassInfo(Constants.SCREENING_KEY[2], class2Data.getGc_list_child().get(index).getGc_id());
+            } else {
+                binding.slClassSecond.setData(class2Data.getGc_list_child());
             }
-            binding.spinnerSystem.setSelection(0);
+        });
+
+        binding.slClassThree.setOnLabelClickListener((index, v, s) -> {
         });
         binding.btnOk.setOnClickListener(v -> {
-            ScreenInfo screenInfo = new ScreenInfo();
-            screenInfo.priceFrom = binding.etPriceFrom.getText().toString().trim();
-            screenInfo.priceTo = binding.etPriceTo.getText().toString().trim();
-            List<String> goodsType = screenInfo.goodsType = new ArrayList<>();
-            goodsType.clear();
-            for (Integer index : binding.slGoodType.getSelectedIndexs()) {
-                goodsType.add(goodTypeAdapter.getItem(index).getName());
-            }
-            for (Integer index : binding.slShopType.getSelectedIndexs()) {
-                screenInfo.shoppingType = true;
-            }
-            List<String> shoppingServer = screenInfo.shoppingServer = new ArrayList<>();
-            for (Integer index : binding.slShopServer.getSelectedIndexs()) {
-                shoppingServer.add(shopServerAdapter.getItem(index).getName());
-            }
-            screenInfo.areaId = AssetsData.getAreaByName(binding.spinnerSystem.getSelectedItem().toString());
-//            if (null != eventKey) {
-//                LiveBus.getDefault().postEvent(eventKey, screenInfo);
-//            } else if (null != listener) {
-//                listener.onClick(mScreeningPopWindow, screenInfo);
-//            } else {
-//                new NullPointerException("请设置eventKey");
-//            }
+            click2Result();
         });
+        findViewById(R.id.tv_right).setOnClickListener(v -> clearLabels(0));
+    }
+
+    private void click2Result() {
+        ScreenInfo screenInfo = new ScreenInfo();
+        //价格区间
+        screenInfo.priceFrom = binding.etPriceFrom.getText().toString().trim();
+        screenInfo.priceTo = binding.etPriceTo.getText().toString().trim();
+        /*
+         * gift: 赠品（1表示选中）
+         * groupbuy: 团购（1表示选中）
+         * xianshi: 限时折扣（1表示选中）
+         * virtual:虚拟（1表示选中）
+         **/
+        for (Integer index : binding.slGoodType.getSelectIndexArray()) {
+            switch (mainData.getGoods_type().get(index).getId()) {
+                case "gift":
+                    screenInfo.gift = "1";
+                    break;
+                case "groupbuy":
+                    screenInfo.groupbuy = "1";
+                    break;
+                case "xianshi":
+                    screenInfo.xianshi = "1";
+                    break;
+                case "virtual":
+                    screenInfo.virtual = "1";
+                    break;
+                default:
+                    break;
+            }
+        }
+        //店铺类型
+        for (Integer index : binding.slShopType.getSelectIndexArray()) {
+            if ("own_mall".equals(mainData.getStore_type().get(index).getId())) {
+                screenInfo.own_mall = "1";
+            }
+        }
+        //店铺服务
+        for (Integer index : binding.slShopServer.getSelectIndexArray()) {
+            screenInfo.ci = screenInfo.ci +
+                    mainData.getContract_list().get(index).getId() + "_";
+        }
+        //一级分类
+        for (Integer index : binding.slClassOne.getSelectIndexArray()) {
+            screenInfo.gc_id_1 = mainData.getGc_list().get(index).getGc_id();
+        }
+        //二级分类
+        for (Integer index : binding.slClassSecond.getSelectIndexArray()) {
+            screenInfo.gc_id_2 = class2Data.getGc_list_child().get(index).getGc_id();
+        }
+        //三级分类  多选
+        for (Integer index : binding.slClassThree.getSelectIndexArray()) {
+            screenInfo.gc_id_3 = screenInfo.gc_id_3 +
+                    class3Data.getGc_list_child().get(index).getGc_id() + "_";
+        }
+        //动态属性
+        List<ScreeningClassBean.GoodsAttrListBean> data = screeningAdapter.getData();
+        for (int i = 0; i < data.size(); i++) {
+            ScreeningClassBean.GoodsAttrListBean item = data.get(i);
+            BaseViewHolder helper = (BaseViewHolder) binding.recyclerView.findViewHolderForAdapterPosition(i);
+            StackLabel stackLabel = helper.getView(R.id.stl_view);
+            for (Integer index : stackLabel.getSelectIndexArray()) {
+                screenInfo.attrs = screenInfo.attrs +
+                        item.getValue().get(index).getAttr_value_id() + "_";
+            }
+        }
+        screenInfo.areaId = mainData.getArea_list().get(binding.spinnerSystem.getSelectedItemPosition() - 1).getArea_id();
+        Intent intent = new Intent();
+        intent.putExtra("datas", screenInfo);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    /**
+     * 重置条件，清除数据。
+     *
+     * @param i 3清除三级分类  2清除二级分类和三级分类  1重置一级分类为未选择，清除二级和三级分类  0重置所有
+     */
+    private void clearLabels(int i) {
+        if (i <= 3) {
+            binding.slClassThree.setData(new ArrayList<>());
+            binding.llThree.setVisibility(View.GONE);
+            if (i <= 2) {
+                binding.slClassSecond.setData(new ArrayList<>());
+                binding.llSecond.setVisibility(View.GONE);
+                if (i <= 1) {
+                    screeningAdapter.setNewData(new ArrayList<>());
+                    if (i <= 0) {
+                        for (EditText editText : Arrays.asList(binding.etPriceFrom, binding.etPriceTo)) {
+                            editText.setText("");
+                        }
+                        for (StackLabel stackLabel : Arrays.asList(binding.slClassOne, binding.slGoodType, binding.slShopType, binding.slShopServer)) {
+                            stackLabel.notifyDataSetChanged();
+                        }
+                        binding.spinnerSystem.setSelection(0);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 请求网络时，禁止点击
+     *
+     * @param lock
+     */
+    private boolean synchroLock(boolean lock) {
+        binding.slClassOne.setEnabled(!lock);
+        binding.slClassSecond.setEnabled(!lock);
+        binding.slClassThree.setEnabled(!lock);
+        return lock;
     }
 
     @Override
@@ -164,31 +234,114 @@ public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBin
         mViewModel.getScreeningInfo(Constants.SCREENING_KEY[0]);
     }
 
+    /**
+     * 初始化通用数据
+     */
+    private void formatMainDatas() {
+        List<String> areaList = new ArrayList<>();
+        areaList.add("不限");
+        for (ScreeningBean.AreaListBean item : mainData.getArea_list()) {
+            areaList.add(item.getArea_name());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,
+                R.layout.item_text1,
+                R.id.text, areaList
+        );
+        binding.spinnerSystem.setAdapter(adapter);
+
+        binding.slGoodType.setData(mainData.getGoods_type());
+        binding.slShopType.setData(mainData.getStore_type());
+        binding.slShopServer.setData(mainData.getContract_list());
+        if (screenInfo != null && screenInfo.getType() == 2) {
+            isNone = true;
+            List<ScreeningBean.GcListBean> datas = new ArrayList<>();
+            for (ScreeningBean.GcListBean item : mainData.getGc_list()) {
+                if (item.getGc_id().equals(screenInfo.getMainId())) {
+                    datas.add(item);
+                    break;
+                }
+            }
+            binding.slClassOne.setData(datas);
+            binding.slClassOne.setSelect(0);
+
+            binding.llSecond.setVisibility(View.VISIBLE);
+            List<ScreeningClassBean.GcListChildBean> datas2 = new ArrayList<>();
+            ScreeningClassBean.GcListChildBean none2 = new ScreeningClassBean.GcListChildBean();
+            none2.setGc_name(screenInfo.getSecondName());
+            none2.setGc_id(screenInfo.getSecondId());
+            datas2.add(none2);
+            binding.slClassSecond.setData(datas2);
+            binding.slClassSecond.setSelect(0);
+
+            mViewModel.getScreeningClassInfo(Constants.SCREENING_KEY[1], screenInfo.getMainId());
+            mViewModel.getScreeningClassInfo(Constants.SCREENING_KEY[2], screenInfo.getSecondId());
+        } else {
+            binding.slClassOne.setData(mainData.getGc_list());
+        }
+    }
+
+    /**
+     * 加载二级，三级分类 数据
+     *
+     * @param data
+     */
+    private void formatClassDatas(List<ScreeningClassBean.GoodsAttrListBean> data) {
+        if (data.size() > 0) {
+            for (ScreeningClassBean.GoodsAttrListBean item : data) {
+                if (item.getValue().size() > 0) {
+                    screeningAdapter.addData(item);
+                }
+            }
+        }
+    }
+
     @Override
     protected void dataObserver() {
         super.dataObserver();
         registerObserver(Constants.SCREENING_KEY[0], Object.class).observeForever(result -> {
+            synchroLock(false);
             if (result instanceof ScreeningBean) {
                 //成功获取筛选信息
                 mainData = (ScreeningBean) result;
-                formatDatas();
+                formatMainDatas();
             } else {
                 ToastUtils.showShort("获取失败");
             }
         });
         registerObserver(Constants.SCREENING_KEY[1], Object.class).observeForever(result -> {
+            synchroLock(false);
             if (result instanceof ScreeningClassBean) {
                 //成功获取 选择一级分类 后的数据 ：获取二级分类列表以及 适用人群、风格、材质列表
-                classData = (ScreeningClassBean) result;
+                class2Data = (ScreeningClassBean) result;
+                if (class2Data.getGoods_attr_list() != null) {
+                    formatClassDatas(class2Data.getGoods_attr_list());
+                }
+                if (isNone) {
+                    return;
+                }
+                binding.slClassSecond.setData(class2Data.getGc_list_child());
+                binding.llSecond.setVisibility(binding.slClassSecond.getAdapter().getItemCount() > 0 ? View.VISIBLE : View.GONE);
             } else {
                 ToastUtils.showShort("获取失败");
             }
         });
         registerObserver(Constants.SCREENING_KEY[2], Object.class).observeForever(result -> {
+            synchroLock(false);
             if (result instanceof ScreeningClassBean) {
                 //成功获取 选择二级分类 后的数据 ：获取三级分类列表
                 class3Data = (ScreeningClassBean) result;
-
+                binding.slClassThree.setData(class3Data.getGc_list_child());
+                binding.llThree.setVisibility(binding.slClassThree.getAdapter().getItemCount() > 0 ? View.VISIBLE : View.GONE);
+                formatClassDatas(class3Data.getGoods_attr_list());
+            } else {
+                ToastUtils.showShort("获取失败");
+            }
+        });
+        registerObserver(Constants.SCREENING_KEY[3], Object.class).observeForever(result -> {
+            synchroLock(false);
+            if (result instanceof ScreeningClassBean) {
+                //三级分类点击后 的数据
+                screeningAdapter.notifyDataSetChanged();
             } else {
                 ToastUtils.showShort("获取失败");
             }

@@ -28,19 +28,13 @@ public class ShopClassActivity extends AbsLifecycleActivity<ActivityShopclassBin
 
     private List<String> stringList;
     private ShopClassBean shopClassBean;
-    private StackLabelAdapter<String> adapter;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         setTitle(R.string.title_ShopClassActivity);
         stringList = new ArrayList<>();
-        adapter = new StackLabelAdapter<String>() {
-            @Override
-            public String covert(String data, int position) {
-                return data;
-            }
-        };
+        binding.stackLabelView.setAdapter((StackLabelAdapter.CovertData<String>) (data, position) -> data);
         binding.stackLabelView.setOnLabelClickListener((index, v, s) -> {
             Intent intent = new Intent();
             intent.putExtra("sc_id", index == 0 ? "0" : shopClassBean.getClass_list().get(index - 1).getSc_id());
@@ -59,7 +53,7 @@ public class ShopClassActivity extends AbsLifecycleActivity<ActivityShopclassBin
                 for (ShopClassBean.ClassListBean classListBean : shopClassBean.getClass_list()) {
                     stringList.add(classListBean.getSc_name());
                 }
-                adapter.setLabels(stringList);
+                binding.stackLabelView.setData(stringList);
             } else {
                 ToastUtils.showShort(result.toString());
             }

@@ -92,10 +92,6 @@ public class ScreeningPopWindow extends PopupWindow {
             return this;
         }
 
-        private StackLabelAdapter<String> goodTypeAdapter;
-        private StackLabelAdapter<String> shopTypeAdapter;
-        private StackLabelAdapter<String> shopServerAdapter;
-
         private void newItemLayout() {
             contextll = new LinearLayout(context);
             contextll.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -118,30 +114,14 @@ public class ScreeningPopWindow extends PopupWindow {
 //            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, AssetsData.getAreaListInfos());
             /*类型*/
 
-            goodTypeAdapter = new StackLabelAdapter<String>() {
-                @Override
-                public String covert(String data, int position) {
-                    return data;
-                }
-            };
-            shopTypeAdapter = new StackLabelAdapter<String>() {
-                @Override
-                public String covert(String data, int position) {
-                    return data;
-                }
-            };
-            shopServerAdapter = new StackLabelAdapter<String>() {
-                @Override
-                public String covert(String data, int position) {
-                    return data;
-                }
-            };
-            goodTypeAdapter.setLabels(Arrays.asList(context.getResources().getStringArray(R.array.tags_values_server)));
-            bind.slGoodType.setAdapter(goodTypeAdapter);
-            shopTypeAdapter.setLabels(Collections.singletonList("平台自营"));
-            bind.slShopType.setAdapter(shopTypeAdapter);
-            shopServerAdapter.setLabels(Arrays.asList(context.getResources().getStringArray(R.array.tags_values_type)));
-            bind.slShopServer.setAdapter(shopServerAdapter);
+            bind.slGoodType.setAdapter((StackLabelAdapter.CovertData<String>) (data, position) -> data);
+            bind.slGoodType.setData(Arrays.asList(context.getResources().getStringArray(R.array.tags_values_server)));
+
+            bind.slShopType.setAdapter((StackLabelAdapter.CovertData<String>) (data, position) -> data);
+            bind.slShopType.setData(Collections.singletonList("平台自营"));
+
+            bind.slShopServer.setAdapter((StackLabelAdapter.CovertData<String>) (data, position) -> data);
+            bind.slShopServer.setData(Arrays.asList(context.getResources().getStringArray(R.array.tags_values_type)));
 
             /*点击事件*/
             bind.btnReset.setOnClickListener(v -> {
@@ -157,8 +137,8 @@ public class ScreeningPopWindow extends PopupWindow {
                 ScreenInfo screenInfo = new ScreenInfo();
                 screenInfo.priceFrom = bind.etPriceFrom.getText().toString().trim();
                 screenInfo.priceTo = bind.etPriceTo.getText().toString().trim();
-                List<String> goodsType = screenInfo.goodsType = new ArrayList<>();
-                goodsType.clear();
+//                List<String> goodsType = screenInfo.goodsType = new ArrayList<>();
+//                goodsType.clear();
 //                for (Integer index : bind.slGoodType.getSelectedIndexs()) {
 //                    goodsType.add(context.getResources().getStringArray(R.array.tags_values_server_index)[index]);
 //                }

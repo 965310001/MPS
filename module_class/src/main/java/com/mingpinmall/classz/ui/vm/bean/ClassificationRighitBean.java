@@ -77,8 +77,9 @@ public class ClassificationRighitBean extends BaseBean {
 
             public void click(View view) {
                 Map<String, Object> params = new HashMap<>(2);
-                params.put("id", getGc_id());
-                params.put("gcIdType", "gc_id_2");
+                params.put("gcId", getGc_id());
+                params.put("type", 2);
+                params.put("gcName", getGc_name());
                 ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
             }
 
