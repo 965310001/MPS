@@ -78,6 +78,7 @@ public class ScreenInfo implements Serializable {
     }
 
     public void setId(String id) {
+        if (id == null) id = "";
         gc_id = id;
         b_id = id;
     }

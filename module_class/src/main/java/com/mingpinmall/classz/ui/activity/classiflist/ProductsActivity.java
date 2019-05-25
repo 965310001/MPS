@@ -47,9 +47,9 @@ import java.util.Map;
 public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         implements CustomPopWindow.Builder.OnCustomPopWindowClickListener {
     @Autowired
-    String gcId;
+    String gcId = "";
     @Autowired
-    String gcName;
+    String gcName = "";
 
     private ScreenInfo screenInfo;
 
@@ -57,13 +57,9 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     int type = 0;//0：默认搜索  1：待定搜索  2：二级搜索
 
     @Autowired
-    String keyword;
+    String keyword = "";
 
     private View currentView;
-    /*店铺服务*/
-//    private String ci = "", st = "";
-//    private String areaId = "", priceFrom = "", priceTo = "";//地区 价格区间最低范围 价格区间最高范围
-//    private String key, order;/*排序条件*/
     private FilterTab filterTab0;
     private PopupWindow customPopWindow;
     private ImageView imageView;
@@ -71,6 +67,16 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     private GridLayoutManager gridLayoutManager;
     private DelegateAdapter gridAdapter;
     private boolean isGrid;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        keyword = intent.getStringExtra("keyword");
+        Log.i(TAG, "onNewIntent: " + keyword);
+        screenInfo.keyword = keyword;
+        edSearch.setText("".equals(keyword) ? "请输入搜索内容" : keyword);
+        onRefresh();
+    }
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -146,12 +152,12 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         super.dataObserver();
         registerObserver(Constants.PRODUCTS_EVENT_KEY[0], GoodsListInfo.class)
                 .observe(this, response -> {
+                    Log.d(TAG, "dataObserver: 走进来了嘛？？？？");
                     picPath = response.getDatas().getBrand_bgpic();
                     setData(response.getDatas().getGoods_list());
                 });
         registerObserver(Constants.PRODUCTS_EVENT_KEY[2], Object.class)
                 .observe(this, response -> {
-                    Log.d(TAG, "dataObserver: 走进来了嘛？？？？");
                     if (response instanceof ClassGoodsBean) {
                         ClassGoodsBean data = (ClassGoodsBean) response;
                         screenInfo.setMain_id(data.getGc_parent_id());
@@ -167,9 +173,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     protected void getRemoteData() {
         super.getRemoteData();
         Map<String, Object> params = screenInfo.getParams();
-
         mViewModel.getShappingList(params, page);
-        mViewModel.getShappingList(screenInfo.getParams(), page);
     }
 
     @Override
@@ -204,7 +208,6 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                 }
                 intent.setClass(activity, ScreeningActivity.class);
                 startActivityForResult(intent, 1);
-//                ARouter.getInstance().build(ARouterConfig.classify.SCREENINGACTIVITY).withSerializable("screenInfo", screenInfo).navigation(activity, 1);
             }
         } else if (i == R.id.ed_search) {
             ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
