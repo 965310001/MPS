@@ -5,7 +5,11 @@
 
     <data>
 
+        <import type="com.goldze.common.dmvvm.utils.SharePreferenceUtil" />
+
         <import type="android.view.View" />
+
+        <import type="com.mingpinmall.classz.db.utils.ShoppingCartUtils" />
 
         <import type="com.goldze.common.dmvvm.widget.CountClickView.OnClickAfterListener" />
 
@@ -41,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_buy_now">
+            app:layout_constraintBottom_toTopOf="@id/rl_bottom">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,10 +99,11 @@
                             android:layout_marginStart="15dp"
                             android:layout_toLeftOf="@id/iv_close"
                             android:gravity="left"
-                            android:maxLines="3"
+                            android:maxLines="2"
+                            android:singleLine="false"
                             android:text="@{data.goods_name}"
                             android:textStyle="bold"
-                            tools:text="夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼" />
+                            tools:text="夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼夏莫尼 " />
 
                         <ImageView
                             android:id="@+id/iv_close"
@@ -231,37 +236,146 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-        <TextView
-            android:id="@+id/tv_buy_now"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:id="@+id/rl_bottom"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
-            android:background="@drawable/bg_of_red_gradient"
-            android:gravity="center"
-            android:onClick="buyNow"
-            android:text="@string/market_buy_now"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toRightOf="@id/tv_add_cart"
-            app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_add_cart"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_50"
-            android:background="@drawable/bg_of_orange_gradient"
-            android:clickable="@{data.shop?false:true}"
-            android:gravity="center"
-            android:onClick="addCart"
-            android:text="@string/market_add_to_cart"
-            android:textColor="@color/white"
-            android:visibility="@{data.cart?View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/tv_buy_now" />
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/rl_cart"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:gravity="center"
+                android:onClick="contactService"
+                android:paddingTop="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_kefu"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/icon_kefu" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_below="@id/iv_kefu"
+                    android:layout_centerInParent="true"
+                    android:text="客服"
+                    android:textSize="@dimen/text_12" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_cart1"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/rl_cart"
+                android:background="@color/white"
+                android:onClick="goCart"
+                android:paddingTop="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_cart"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/market_icon_shopping_cart" />
+
+                <!--      android:text="@{String.valueOf(SharePreferenceUtil.login?ShoppingCartUtils.cartCount:0)}"
+                 android:visibility="@{SharePreferenceUtil.login?View.VISIBLE:View.GONE}"-->
+                <TextView
+                    android:id="@+id/tv_count"
+                    style="@style/TextStyle"
+                    android:layout_marginStart="35dp"
+                    android:background="@drawable/market_shape_round_red"
+                    android:gravity="center"
+                    android:minWidth="15dp"
+                    android:minHeight="15dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_below="@id/iv_cart"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="购物车"
+                    android:textSize="@dimen/text_12" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/rl_cart1">
+
+                <TextView
+                    android:id="@+id/tv_buy_now"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_of_red_gradient"
+                    android:gravity="center"
+                    android:onClick="buyNow"
+                    android:text="@string/market_buy_now"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_add_cart"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:alpha="@{data.shop?0.5f:1f}"
+                    android:background="@drawable/bg_of_orange_gradient"
+                    android:clickable="@{data.shop?false:true}"
+                    android:gravity="center"
+                    android:onClick="addCart"
+                    android:text="@string/market_add_to_cart"
+                    android:textColor="@color/white"
+                    android:visibility="@{data.cart?View.VISIBLE:View.GONE}" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalLine" />
+        </RelativeLayout>
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_buy_now"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="@dimen/dp_50"-->
+        <!--android:background="@drawable/bg_of_red_gradient"-->
+        <!--android:gravity="center"-->
+        <!--android:onClick="buyNow"-->
+        <!--android:text="@string/market_buy_now"-->
+        <!--android:textColor="@color/white"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintHorizontal_chainStyle="spread"-->
+        <!--app:layout_constraintHorizontal_weight="1"-->
+        <!--app:layout_constraintLeft_toRightOf="@id/tv_add_cart"-->
+        <!--app:layout_constraintRight_toRightOf="parent" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_add_cart"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="@dimen/dp_50"-->
+        <!--android:background="@drawable/bg_of_orange_gradient"-->
+        <!--android:clickable="@{data.shop?false:true}"-->
+        <!--android:gravity="center"-->
+        <!--android:onClick="addCart"-->
+        <!--android:text="@string/market_add_to_cart"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:visibility="@{data.cart?View.VISIBLE:View.GONE}"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintHorizontal_chainStyle="spread"-->
+        <!--app:layout_constraintHorizontal_weight="1"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toLeftOf="@id/tv_buy_now" />-->
     </android.support.constraint.ConstraintLayout>
 </layout>
 

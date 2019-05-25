@@ -3,8 +3,10 @@ package com.mingpinmall.classz.ui.activity.details;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,10 +18,13 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.ReplacementSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -213,6 +218,50 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         }
 //        KLog.i(dataBean.isVoucher() + "==");
         binding.setIsVoucher(dataBean.isVoucher());
+
+        /*设置商品名字*/
+//        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+//        String[] strings = {"虚拟", "F码", "预"};
+//        for (String string : strings) {
+//            SpannableString sp = new SpannableString(string);
+//            RoundBackgroundColorSpan span = new RoundBackgroundColorSpan(R.color.shallow_red, R.color.white);
+//            sp.setSpan(span, 0, sp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            stringBuilder.append(sp).append(",");
+//        }
+//        SpannableString spannableString=new SpannableString(goodsInfo.getGoods_name());
+//        spannableString.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#12DBD1"),
+//                Color.parseColor("#FFFFFF")), 0, spannableString.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//
+////        stringBuilder.append(goodsInfo.getGoods_name());
+////        binding.tvGoodsName.setText(stringBuilder);
+//
+//        binding.tvGoodsName.setText(spannableString);
+    }
+
+    class RoundBackgroundColorSpan extends ReplacementSpan {
+
+        private int bgColor;
+        private int textColor;
+
+        public RoundBackgroundColorSpan(int bgColor, int textColor) {
+            this.bgColor = bgColor;
+            this.textColor = textColor;
+        }
+
+        @Override
+        public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
+            return ((int) paint.measureText(text, start, end) + 60);
+        }
+
+        @Override
+        public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
+            int color1 = paint.getColor();
+            paint.setColor(this.bgColor);
+            canvas.drawRoundRect(new RectF(x, top + 1, x + ((int) paint.measureText(text, start, end) + 40), bottom - 1), 15, 15, paint);
+            paint.setColor(this.textColor);
+            canvas.drawText(text, start, end, x + 20, y, paint);
+            paint.setColor(color1);
+        }
     }
 
     /**

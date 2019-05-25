@@ -6,6 +6,7 @@ import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
+import com.mingpinmall.classz.ui.vm.bean.CartCountInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
@@ -51,6 +52,7 @@ public interface ClassifyService {
 
     /**
      * 检查F码
+     *
      * @param map
      * @return
      */
@@ -171,6 +173,11 @@ public interface ClassifyService {
     /*getPayNew*/
     @GET(BASEURL)
     Flowable<PayMessageInfo> getPayNew(@QueryMap Map<String, Object> map);
+
+    /*获取购物车数量*/
+    @FormUrlEncoded
+    @POST(BASEURL)
+    Flowable<BaseResponse<CartCountInfo>> getMemberCart(@FieldMap Map<String, Object> map);
 
     /***************************************封装通用******************************/
     /*封装通用*/

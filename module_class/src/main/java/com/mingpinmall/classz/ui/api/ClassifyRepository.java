@@ -15,6 +15,7 @@ import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
+import com.mingpinmall.classz.ui.vm.bean.CartCountInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
@@ -1089,6 +1090,35 @@ public class ClassifyRepository extends BaseRepository {
                             sendData(eventKey + "Success", result);
                         } else {
                             sendData(Constants.CHAT[0] + "Error", result.getErr_code_des());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
+    }
+
+    /*获取购物车数量*/
+    public void getMemberCart(Object eventKey) {
+        Map<String, Object> map = parames("member_cart", "cart_count");
+        map.put("key", getUserKey());
+        addDisposable(apiService.getMemberCart(map)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<CartCountInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<CartCountInfo> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, result.getData());
+                        } else {
+                            sendData(eventKey + "Error", result.getMessage());
                         }
                     }
 

@@ -282,17 +282,35 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (resultCode == requestCode && requestCode == 100) {
-            /*选择地址*/
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 100:
+                    AddressDataBean.AddressListBean data = (AddressDataBean.AddressListBean) intent.getSerializableExtra("addressData");
+                    binding.setAddress(data);
+                    addressId = data.getAddress_id();
+                    break;
+                case 400:
+                    InvoiceListInfo.InvoiceListBean bean = (InvoiceListInfo.InvoiceListBean) intent.getSerializableExtra("invoicelistbean");
+                    invoice_id = bean.getInv_idX();
+                    binding.setInvoice(String.format("%s %s", bean.getInv_title(), bean.getInv_content()));
+                    break;
+                default:
+                    ToastUtils.showLong("是否是传错了");
+                    break;
+            }
+        }
+
+        /* if (resultCode == RESULT_OK && requestCode == 100) {
+         *//*选择地址*//*
             AddressDataBean.AddressListBean data = (AddressDataBean.AddressListBean) intent.getSerializableExtra("addressData");
             binding.setAddress(data);
             addressId = data.getAddress_id();
-        } else if (resultCode == requestCode && requestCode == 400) {
-            /*选择发票*/
+        } else if (resultCode == RESULT_OK && requestCode == 400) {
+            *//*选择发票*//*
             InvoiceListInfo.InvoiceListBean bean = (InvoiceListInfo.InvoiceListBean) intent.getSerializableExtra("invoicelistbean");
             invoice_id = bean.getInv_idX();
             binding.setInvoice(String.format("%s %s", bean.getInv_title(), bean.getInv_content()));
-        }
+        }*/
 
     }
 

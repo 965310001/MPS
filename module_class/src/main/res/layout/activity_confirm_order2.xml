@@ -78,7 +78,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{address.area_info}"
+                            android:text="@{String.format(`%s %s`,address.area_info,address.address)}"
                             tools:text="北京	北京市	东城区114645" />
                     </LinearLayout>
 
@@ -166,8 +166,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="¥"
-                android:textSize="14sp"
                 android:textColor="@color/app_theme_d61619"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tv_tips2"
                 app:layout_constraintStart_toEndOf="@id/tv_tips0"

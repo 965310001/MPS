@@ -199,6 +199,11 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getPayInfoNew(paySn, rcb_pay, pd_pay, password, payment_code, eventKey);
     }
 
+    /*获取购物车数量*/
+    public void getMemberCart(Object eventKey) {
+        mRepository.getMemberCart(eventKey);
+    }
+
     /************************************* end ******************************/
 
     //    public void picUpload(String goodsId, String fId, String tId, String tName, File file, Object eventKey) {

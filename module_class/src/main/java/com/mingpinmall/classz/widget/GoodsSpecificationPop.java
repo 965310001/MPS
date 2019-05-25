@@ -136,7 +136,19 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                         });*/
             });
         }
+
+        setCartNumber(SharePreferenceUtil.getIntKeyValue("CART_NUMBER", 0));
     }
+
+    private void setCartNumber(int count) {
+        if (SharePreferenceUtil.isLogin() && count > 0) {
+            bind.tvCount.setVisibility(View.VISIBLE);
+            bind.tvCount.setText(String.valueOf(count));
+        } else {
+            bind.tvCount.setVisibility(View.GONE);
+        }
+    }
+
 
     @Override
     public void dismiss() {

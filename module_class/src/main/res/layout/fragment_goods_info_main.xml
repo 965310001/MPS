@@ -89,12 +89,29 @@
                     <ImageView
                         android:layout_width="@dimen/image_height"
                         android:layout_height="@dimen/image_height"
-                        android:layout_margin="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:layout_marginBottom="@dimen/dp_60"
                         android:onClick="goHolo"
                         android:src="@drawable/icon_holo"
                         android:visibility="@{isHolo?View.GONE:View.VISIBLE}"
                         bind:layout_constraintBottom_toBottomOf="parent"
                         bind:layout_constraintRight_toRightOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_like"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:layout_marginBottom="@dimen/dp_20"
+                        android:onClick="favorites"
+                        android:src="@{@drawable/ic_me_favorite}"
+                        android:tint="@color/shallow_red"
+                        android:visibility="@{data.shop?View.GONE:View.VISIBLE}"
+                        bind:layout_constraintBottom_toBottomOf="parent"
+                        bind:layout_constraintRight_toRightOf="parent"
+                        tools:src="@drawable/ic_me_favorite" />
+
                 </android.support.constraint.ConstraintLayout>
 
                 <View style="@style/HorizontalLine" />
@@ -183,22 +200,12 @@
                             android:ellipsize="end"
                             android:gravity="start"
                             android:maxLines="2"
-                            android:paddingEnd="@dimen/dp_10"
+                            android:singleLine="false"
                             android:text="@{data.goods_name}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_16"
                             tools:text="正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表" />
 
-                        <ImageView
-                            android:id="@+id/iv_like"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentEnd="true"
-                            android:onClick="favorites"
-                            android:src="@{@drawable/ic_me_favorite}"
-                            android:tint="@color/shallow_red"
-                            android:visibility="@{data.shop?View.GONE:View.VISIBLE}"
-                            tools:src="@drawable/ic_me_favorite" />
                     </LinearLayout>
 
                     <TextView

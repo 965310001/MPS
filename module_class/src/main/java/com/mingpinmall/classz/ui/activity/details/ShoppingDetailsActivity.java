@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -24,22 +23,20 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
-import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.adapter.FragmentPagerAdapter;
 import com.mingpinmall.classz.databinding.ActivityShoppingDetailsBinding;
 import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.CartCountInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.utils.ArgbEvaluator;
 import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
 import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheet;
-import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheetItemView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +45,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.mingpinmall.classz.widget.XBottomSheet.BottomGridSheetBuilder.FIRST_LINE;
-import static com.mingpinmall.classz.widget.XBottomSheet.BottomGridSheetBuilder.SECOND_LINE;
 
 /**
  * 商品详情
@@ -222,6 +218,17 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                         // TODO: 2019/5/13  加载框
                     }
                 });
+
+        /*获取购物车数量*/
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[2], CartCountInfo.class)
+                .observe(this, obj -> {
+                    setCartNumber(obj.getCart_count());
+                    /*购物车的数量*/
+                    SharePreferenceUtil.saveIntKeyValue("CART_NUMBER", obj.getCart_count());
+                });
+
+        registerObserver(Constants.GOODSDETAIL_EVENT_KEY[2] + "Error", String.class)
+                .observe(this, s -> setCartNumber(SharePreferenceUtil.isLogin() ? ShoppingCartUtils.getCartCount() : 0));
     }
 
     void registerObserver() {
@@ -281,13 +288,14 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                         showErrorState();
                     }
                 });
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setCartNumber();
+
+//        mViewModel.getMemberCart(Constants.GOODSDETAIL_EVENT_KEY[2]);
     }
 
     public void finish(View view) {
@@ -301,9 +309,8 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         XBottomSheet bottomSheet = new XBottomSheet.BottomGridSheetBuilder(activity)
                 .addItem(R.drawable.icon_wx_logo, "微信", "微信", FIRST_LINE)
                 .addItem(R.drawable.icon_moments, "朋友圈", "朋友圈", FIRST_LINE)
-//                .addItem(R.drawable.weixin, "微信", "微信", FIRST_LINE)
-                .addItem(R.drawable.icon_collection, "收藏", "收藏", BottomSheet.BottomGridSheetBuilder.SECOND_LINE)
-                .addItem(R.drawable.icon_copy, "复制", "复制", BottomSheet.BottomGridSheetBuilder.SECOND_LINE)
+                .addItem(R.drawable.icon_collection, "收藏", "收藏", BottomSheet.BottomGridSheetBuilder.FIRST_LINE)
+                .addItem(R.drawable.icon_copy, "复制", "复制", BottomSheet.BottomGridSheetBuilder.FIRST_LINE)
                 .setOnSheetItemClickListener((dialog, itemView) -> {
                     KLog.i("TAG" + itemView.getTag());
                     WeiXinBaoStrategy weiXinBaoStrategy = WeiXinBaoStrategy.getInstance(this);
@@ -333,15 +340,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                 })
                 .build();
         bottomSheet.show();
-//                .setItemData(voucher_list)
-//                .setAdapter(AdapterPool.newInstance()
-//                        .getVoucherInfoAdapter(activity)
-//                        .build())
-//                .setLayoutManager(new LinearLayoutManager(activity))
-//                .setOnSheetItemClickListener((dialog, itemView, position, tag) -> {
-////                    dialog.dismiss();
-//                    ToastUtils.showLong("Item " + (position + 1));
-
     }
 
     private void copy(String url) {
@@ -424,11 +422,11 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
      * 设置购物车数量
      */
     public void setCartNumber() {
-        setCartNumber(SharePreferenceUtil.isLogin() ? ShoppingCartUtils.getCartCount() : 0);
+        mViewModel.getMemberCart(Constants.GOODSDETAIL_EVENT_KEY[2]);
     }
 
     private void setCartNumber(int count) {
-        if (count > 1) {
+        if (count > 0) {
             binding.tvCount.setVisibility(View.VISIBLE);
             binding.tvCount.setText(String.valueOf(count));
         } else {
