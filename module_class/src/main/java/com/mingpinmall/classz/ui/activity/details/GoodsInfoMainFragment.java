@@ -24,6 +24,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.ReplacementSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.goldze.common.dmvvm.utils.HtmlFromUtils;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
@@ -220,49 +222,106 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         binding.setIsVoucher(dataBean.isVoucher());
 
         /*设置商品名字*/
-//        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-//        String[] strings = {"虚拟", "F码", "预"};
-//        for (String string : strings) {
-//            SpannableString sp = new SpannableString(string);
-//            RoundBackgroundColorSpan span = new RoundBackgroundColorSpan(R.color.shallow_red, R.color.white);
-//            sp.setSpan(span, 0, sp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            stringBuilder.append(sp).append(",");
-//        }
-//        SpannableString spannableString=new SpannableString(goodsInfo.getGoods_name());
-//        spannableString.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#12DBD1"),
-//                Color.parseColor("#FFFFFF")), 0, spannableString.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//
-////        stringBuilder.append(goodsInfo.getGoods_name());
-////        binding.tvGoodsName.setText(stringBuilder);
-//
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+        String[] strings = {"虚拟", "F码", "预"};
+        for (String string : strings) {
+            SpannableString sp = new SpannableString(string);
+            RoundBackgroundColorSpan span = new RoundBackgroundColorSpan(R.color.shallow_red, R.color.white);
+            sp.setSpan(span, 0, sp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            stringBuilder.append(sp).append(",");
+        }
+        SpannableString spannableString = new SpannableString(goodsInfo.getGoods_name());
+        spannableString.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#12DBD1"),
+                Color.parseColor("#FFFFFF")), 0, spannableString.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+//        stringBuilder.append(goodsInfo.getGoods_name());
+//        binding.tvGoodsName.setText(stringBuilder);
+
 //        binding.tvGoodsName.setText(spannableString);
+
+//        SpannableString spannedString = new SpannableString("你好世界同一个世界同一个梦想你好世界同一个世界同一个梦想你好世界同一个世界同一个梦想");
+//        spannedString.setSpan(new RoundBackgroundColorSpan(getResources().getColor(R.color.shallow_red), getResources().getColor(R.color.white)),
+//                0, 5, SpannableString.SPAN_COMPOSING);
+//        binding.tvGoodsName.setText(spannedString);
+
+
+        // TODO: 2019/5/25 修改商品名字
+        List<String> goodsTags = Arrays.asList("虚拟", "F码");
+        SpannableStringBuilder goodsName = new SpannableStringBuilder(goodsInfo.getGoods_name());
+        for (int i = 0; i < goodsTags.size(); i++) {
+            //为了显示效果在每个标签文字前加两个空格,后面加三个空格(前两个和后两个填充背景,最后一个作标签分割)
+            goodsName.insert(0, "  " + goodsTags.get(i) + "   ");
+            int start = 0;
+            int end = 5;
+            //稍微设置标签文字小一点
+            goodsName.setSpan(new RelativeSizeSpan(0.9f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //设置圆角背景
+            goodsName.setSpan(new RoundBackgroundColorSpan(getContext().getResources().getColor(R.color.shallow_red),Color.WHITE), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+//        binding.tvGoodsName.setText(goodsName);
     }
 
-    class RoundBackgroundColorSpan extends ReplacementSpan {
-
+    public class RoundBackgroundColorSpan extends ReplacementSpan {
         private int bgColor;
         private int textColor;
 
         public RoundBackgroundColorSpan(int bgColor, int textColor) {
+            super();
             this.bgColor = bgColor;
             this.textColor = textColor;
         }
 
         @Override
         public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
-            return ((int) paint.measureText(text, start, end) + 60);
+            //设置宽度为文字宽度加16dp
+            return ((int) paint.measureText(text, start, end) + DisplayUtil.px2dp(getContext(), 16));
         }
 
         @Override
         public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
-            int color1 = paint.getColor();
+            int originalColor = paint.getColor();
             paint.setColor(this.bgColor);
-            canvas.drawRoundRect(new RectF(x, top + 1, x + ((int) paint.measureText(text, start, end) + 40), bottom - 1), 15, 15, paint);
+            //画圆角矩形背景
+            canvas.drawRoundRect(new RectF(x,
+                            top + DisplayUtil.px2dp(getContext(), 6),
+                            x + ((int) paint.measureText(text, start, end) + DisplayUtil.px2dp(getContext(), 16)),
+                            bottom - DisplayUtil.px2dp(getContext(), 6)),
+                    DisplayUtil.px2dp(getContext(), 4),
+                    DisplayUtil.px2dp(getContext(), 4),
+                    paint);
             paint.setColor(this.textColor);
-            canvas.drawText(text, start, end, x + 20, y, paint);
-            paint.setColor(color1);
+            //画文字,两边各增加8dp
+            canvas.drawText(text, start, end, x + DisplayUtil.px2dp(getContext(), 8), y, paint);
+            //将paint复原
+            paint.setColor(originalColor);
         }
     }
+
+//    class RoundBackgroundColorSpan extends ReplacementSpan {
+//
+//        private int bgColor;
+//        private int textColor;
+//
+//        public RoundBackgroundColorSpan(int bgColor, int textColor) {
+//            this.bgColor = bgColor;
+//            this.textColor = textColor;
+//        }
+//
+//        @Override
+//        public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
+//            return ((int) paint.measureText(text, start, end) + 60);
+//        }
+//
+//        @Override
+//        public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
+//            int color1 = paint.getColor();
+//            paint.setColor(this.bgColor);
+//            canvas.drawRoundRect(new RectF(x, top + 1, x + ((int) paint.measureText(text, start, end) + 15), bottom - 1), 8, 8, paint);
+//            paint.setColor(this.textColor);
+//            canvas.drawText(text, start, end, x + 10, y, paint);
+//            paint.setColor(color1);
+//        }
+//    }
 
     /**
      * 设置商品头图 轮播

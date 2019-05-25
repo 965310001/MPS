@@ -204,7 +204,7 @@
                             android:text="@{data.goods_name}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_16"
-                            tools:text="正品瑞士邦顿(Bestdon)手表BD7108G男士大表盘全自动针机械表精钢军表夜光防水户外运动腕表" />
+                            tools:text="新款Montblanc万宝龙蛤蟆太阳镜 时尚磨砂质感枪色墨镜MB717S Sliver(银)14A" />
 
                     </LinearLayout>
 
