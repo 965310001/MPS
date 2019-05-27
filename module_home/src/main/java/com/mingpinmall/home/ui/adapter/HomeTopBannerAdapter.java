@@ -40,7 +40,7 @@ public class HomeTopBannerAdapter extends BaseBannerAdapter<String, ViewHomeItem
                 .load(url)
                 .apply(new RequestOptions()
                         .fitCenter()
-                        .placeholder(com.goldze.common.dmvvm.R.drawable.ic_loading_image)
+                        .placeholder(R.drawable.ic_loading_image)
                         .error(new ColorDrawable(Color.WHITE)))
                 .into(new SimpleTarget<Drawable>() {
                     @Override

@@ -134,9 +134,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
 
     private void initItemType11(BaseViewHolder helper, HomeItemBean.DatasBean.Goods1Bean data) {
         UltraViewPager banner2 = helper.getView(R.id.view_banner);
-        if (banner2.getAdapter() != null) {
-            ((HomeSecondsBannerAdapter) banner2.getAdapter()).setData(data.getItem());
-        } else {
+        if (banner2.getAdapter() == null) {
             HomeSecondsBannerAdapter homeSecondsBannerAdapter = new HomeSecondsBannerAdapter();
             homeSecondsBannerAdapter.setData(data.getItem());
             homeSecondsBannerAdapter.setOnPagerClickListener(position -> bannerClickListener.onItemClick(helper.getAdapterPosition(), position));
@@ -234,14 +232,12 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
     }
 
     private void initItemType0(BaseViewHolder helper, HomeItemBean.DatasBean.AdvListBean data) {
-        List<String> urls = new ArrayList<>();
-        for (HomeItemBean.DatasBean.AdvListBean.ItemBean itemBean : data.getItem()) {
-            urls.add(itemBean.getImage());
-        }
         UltraViewPager banner = helper.getView(R.id.view_banner);
-        if (banner.getAdapter() != null) {
-            ((HomeTopBannerAdapter) banner.getAdapter()).setData(urls);
-        } else {
+        if (banner.getAdapter() == null) {
+            List<String> urls = new ArrayList<>();
+            for (HomeItemBean.DatasBean.AdvListBean.ItemBean itemBean : data.getItem()) {
+                urls.add(itemBean.getImage());
+            }
             HomeTopBannerAdapter homeTopBannerAdapter = new HomeTopBannerAdapter();
             homeTopBannerAdapter.setData(urls);
             homeTopBannerAdapter.setOnPagerClickListener(position -> bannerClickListener.onItemClick(helper.getAdapterPosition(), position));
