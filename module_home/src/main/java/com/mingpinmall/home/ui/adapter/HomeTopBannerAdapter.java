@@ -27,6 +27,8 @@ import com.mingpinmall.home.databinding.ViewHomeItemTopbannerBinding;
  **/
 public class HomeTopBannerAdapter extends BaseBannerAdapter<String, ViewHomeItemTopbannerBinding> {
 
+    float maxDbi = -1;
+
     @Override
     protected int getLayoutId() {
         return R.layout.view_home_item_topbanner;
@@ -43,11 +45,20 @@ public class HomeTopBannerAdapter extends BaseBannerAdapter<String, ViewHomeItem
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.iv0.setImageDrawable(resource);
                         int imageWidth = resource.getIntrinsicWidth();
                         int imageHeight = resource.getIntrinsicHeight();
                         float dbis = (float) imageWidth / (float) imageHeight;
-                        LiveBus.getDefault().postEvent("banner_w_h", dbis);
-                        binding.iv0.setImageDrawable(resource);
+                        if (dbis >= maxDbi) {
+                            if (maxDbi < 0) {
+                                maxDbi = dbis;
+                                LiveBus.getDefault().postEvent("banner_w_h", dbis);
+                            }
+                            return;
+                        } else {
+                            maxDbi = dbis;
+                            LiveBus.getDefault().postEvent("banner_w_h", dbis);
+                        }
                     }
                 });
     }
