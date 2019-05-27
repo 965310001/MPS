@@ -7,8 +7,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -21,9 +23,11 @@ import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
 import com.goldze.common.dmvvm.adapter.BaseBannerAdapter;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.manage.BlurTransformation;
 import com.tmall.ultraviewpager.UltraViewPager;
 
@@ -138,9 +142,14 @@ public class ImageUtils {
                 .load(url)
                 .apply(new RequestOptions()
                         .fitCenter()
-                        .override(width, hight)
+//                        .override(width, hight)
                         .error(new ColorDrawable(Color.WHITE)))
-                .into(imageView);
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        imageView.setImageDrawable(resource);
+                    }
+                });
     }
 
     /**

@@ -104,7 +104,7 @@ public class RetrofitClient {
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(true) //是否开启日志打印 BuildConfig.DEBUG
-                        .setLevel(Level.BODY) //打印的等级
+                        .setLevel(Level.BASIC) //打印的等级
                         .log(Platform.INFO) // 打印类型
                         .request("Request") // request的Tag
                         .response("Response")// Response的Tag

@@ -18,6 +18,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListActivity;
+import com.goldze.common.dmvvm.base.mvvm.stateview.EmptyState;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -152,9 +153,12 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         super.dataObserver();
         registerObserver(Constants.PRODUCTS_EVENT_KEY[0], GoodsListInfo.class)
                 .observe(this, response -> {
-                    Log.d(TAG, "dataObserver: 走进来了嘛？？？？");
                     picPath = response.getDatas().getBrand_bgpic();
                     setData(response.getDatas().getGoods_list());
+                    if (response.getDatas().getGoods_list().size() == 0) {
+                        showError(EmptyState.class);
+//                        showErrorState();
+                    }
                 });
         registerObserver(Constants.PRODUCTS_EVENT_KEY[2], Object.class)
                 .observe(this, response -> {
@@ -250,9 +254,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                 //筛选
                 ScreenInfo newDatas = (ScreenInfo) data.getSerializableExtra("datas");
                 screenInfo.cloneScreeningDatas(newDatas);
-
-                Map<String, Object> params = screenInfo.getParams();
-                mViewModel.getShappingList(params, page);
+                onRefresh();
             }
         }
     }

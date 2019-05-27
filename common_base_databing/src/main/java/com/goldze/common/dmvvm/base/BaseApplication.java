@@ -12,6 +12,7 @@ import android.util.Log;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.goldze.common.dmvvm.BuildConfig;
+import com.goldze.common.dmvvm.base.mvvm.stateview.EmptyState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.LoadingState;
 import com.goldze.common.dmvvm.manage.AppManager;
@@ -134,6 +135,7 @@ public abstract class BaseApplication extends Application implements Runnable {
         new LoadState.Builder()
                 .register(new ErrorState())
                 .register(new LoadingState())
+                .register(new EmptyState())
                 .setDefaultCallback(LoadingState.class)
                 .build();
     }

@@ -3,11 +3,16 @@ package com.mingpinmall.home.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -22,6 +27,7 @@ import com.mingpinmall.home.ui.adapter.HomeListAdapter;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.constants.Constants;
+import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -352,6 +358,17 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     @Override
     protected void dataObserver() {
+        registerObserver("banner_w_h", Float.class).observeForever(result -> {
+            Log.d(TAG, "banner_w_h: 设置高度咯~");
+            if (homeListAdapter.getItemCount() == 0) {
+                return;
+            }
+            BaseViewHolder baseViewHolder = (BaseViewHolder) binding.recyclerView.findViewHolderForAdapterPosition(0);
+            View itemView = baseViewHolder.itemView;
+            ViewGroup.LayoutParams params =  itemView.getLayoutParams();
+            params.height = (int) (ScreenUtil.getScreenWidth(activity) / result);
+            itemView.setLayoutParams(params);
+        });
         registerObserver(Constants.HOME_DATA_JSON, Object.class).observeForever(result -> {
             if (result instanceof HomeItemBean) {
                 HomeItemBean data = (HomeItemBean) result;

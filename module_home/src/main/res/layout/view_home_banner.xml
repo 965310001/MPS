@@ -13,8 +13,7 @@
         <com.tmall.ultraviewpager.UltraViewPager
             android:id="@+id/view_banner"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="32:15"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:upv_scrollmode="horizontal" />
 
