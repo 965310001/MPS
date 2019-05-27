@@ -3,6 +3,8 @@ package com.mingpinmall.home.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,19 +13,21 @@ import android.view.ViewGroup;
 
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentHomeBinding;
+import com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity;
 import com.mingpinmall.home.ui.adapter.HomeListAdapter;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.constants.Constants;
+import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +36,6 @@ import java.util.Map;
 
 /**
  * 首页
- *
  * @author 小斌
  * @date 2019/4/3
  */
@@ -204,7 +207,6 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     /**
      * 动作路由
-     *
      * @param datasBean
      * @param type
      * @param id
@@ -363,11 +365,8 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             BaseViewHolder baseViewHolder = (BaseViewHolder) binding.recyclerView.findViewHolderForAdapterPosition(0);
             View itemView = baseViewHolder.itemView;
             ViewGroup.LayoutParams params = itemView.getLayoutParams();
-            int maxHei = (int) (ScreenUtil.getScreenWidth(activity) / result);
-            if (params.height < maxHei) {
-                params.height = (int) (ScreenUtil.getScreenWidth(activity) / result);
-                itemView.setLayoutParams(params);
-            }
+            params.height = (int) (ScreenUtil.getScreenWidth(activity) / result);
+            itemView.setLayoutParams(params);
         });
         registerObserver(Constants.HOME_DATA_JSON, Object.class).observeForever(result -> {
             if (result instanceof HomeItemBean) {
