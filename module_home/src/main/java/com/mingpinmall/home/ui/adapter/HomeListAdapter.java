@@ -83,7 +83,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 break;
             case 3:
                 //单张图片占一行的一半
-                ImageUtils.loadImage(helper.getView(R.id.iv_0), item.getImage(),
+                ImageUtils.loadHomeListImage(helper.getView(R.id.iv_0), item.getImage(),
                         ScreenUtil.dip2px(context, 320), ScreenUtil.dip2px(context, 160));
                 break;
             case 4:
@@ -96,7 +96,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 break;
             case 6:
                 //单张图片导航
-                ImageUtils.loadImage(helper.getView(R.id.image), item.getImage(),
+                ImageUtils.loadHomeListImage(helper.getView(R.id.image), item.getImage(),
                         ScreenUtil.dip2px(context, 160), ScreenUtil.dip2px(context, 160));
                 break;
             case 10:
@@ -164,19 +164,19 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 .addOnClickListener(R.id.iv_rectangle3)
                 .setGone(R.id.tv_label, !TextUtils.isEmpty(data.getTitle()))
                 .setGone(R.id.tv_sub_label, !TextUtils.isEmpty(data.getStitle()));
-        ImageUtils.loadImage(helper.getView(R.id.iv_square), data.getSquare_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_square), data.getSquare_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320)
         );
-        ImageUtils.loadImage(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 160)
         );
-        ImageUtils.loadImage(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 160),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 160)
         );
-        ImageUtils.loadImage(helper.getView(R.id.iv_rectangle3), data.getRectangle3_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_rectangle3), data.getRectangle3_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 160),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 160)
         );
@@ -189,13 +189,13 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 .addOnClickListener(R.id.iv_rectangle2)
                 .setGone(R.id.tv_label, !TextUtils.isEmpty(data.getTitle()))
                 .setGone(R.id.v_0, !TextUtils.isEmpty(data.getTitle()));
-        ImageUtils.loadImage(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_rectangle1), data.getRectangle1_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 160));
-        ImageUtils.loadImage(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_rectangle2), data.getRectangle2_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 160));
-        ImageUtils.loadImage(helper.getView(R.id.iv_square), data.getSquare_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_square), data.getSquare_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320));
     }
@@ -213,13 +213,13 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
                 .addOnClickListener(R.id.iv_rectangle2)
                 .setGone(R.id.tv_label, !TextUtils.isEmpty(home2.getTitle()))
                 .setGone(R.id.v_0, !TextUtils.isEmpty(home2.getTitle()));
-        ImageUtils.loadImage(helper.getView(R.id.iv_square), home2.getSquare_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_square), home2.getSquare_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320));
-        ImageUtils.loadImage(helper.getView(R.id.iv_rectangle1), home2.getRectangle1_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_rectangle1), home2.getRectangle1_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 160));
-        ImageUtils.loadImage(helper.getView(R.id.iv_rectangle2), home2.getRectangle2_image(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_rectangle2), home2.getRectangle2_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 160));
     }
@@ -228,7 +228,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
         helper.setText(R.id.tv_label, data.getTitle())
                 .setGone(R.id.tv_label, !TextUtils.isEmpty(data.getTitle()))
                 .setGone(R.id.v_0, !TextUtils.isEmpty(data.getTitle()));
-        ImageUtils.loadImage(helper.getView(R.id.iv_0), data.getImage(),
+        ImageUtils.loadHomeListImage(helper.getView(R.id.iv_0), data.getImage(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 640),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 260));
     }

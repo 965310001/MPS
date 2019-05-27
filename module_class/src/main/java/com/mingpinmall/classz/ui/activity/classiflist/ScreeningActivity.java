@@ -181,7 +181,8 @@ public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBin
                         item.getValue().get(index).getAttr_value_id() + "_";
             }
         }
-        screenInfo.areaId = mainData.getArea_list().get(binding.spinnerSystem.getSelectedItemPosition() - 1).getArea_id();
+        int areaIndex = binding.spinnerSystem.getSelectedItemPosition() - 1;
+        screenInfo.areaId = areaIndex < 0 ? "" : mainData.getArea_list().get(areaIndex).getArea_id();
         Intent intent = new Intent();
         intent.putExtra("datas", screenInfo);
         setResult(RESULT_OK, intent);

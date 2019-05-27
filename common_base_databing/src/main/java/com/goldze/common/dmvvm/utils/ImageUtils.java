@@ -124,6 +124,26 @@ public class ImageUtils {
     }
 
     /**
+     * 加载网络图片,首页专用
+     *
+     * @param url       url
+     * @param imageView imageView
+     * @param imageView transformation 转换器
+     */
+    public static void loadHomeListImage(ImageView imageView, String url, int width, int hight) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(imageView.getContext())
+                .load(url)
+                .apply(new RequestOptions()
+                        .fitCenter()
+                        .override(width, hight)
+                        .error(new ColorDrawable(Color.WHITE)))
+                .into(imageView);
+    }
+
+    /**
      * 加载网络图片,带圆角
      *
      * @param url       url
