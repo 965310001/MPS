@@ -366,8 +366,11 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             BaseViewHolder baseViewHolder = (BaseViewHolder) binding.recyclerView.findViewHolderForAdapterPosition(0);
             View itemView = baseViewHolder.itemView;
             ViewGroup.LayoutParams params =  itemView.getLayoutParams();
-            params.height = (int) (ScreenUtil.getScreenWidth(activity) / result);
-            itemView.setLayoutParams(params);
+            int maxHei = (int) (ScreenUtil.getScreenWidth(activity) / result);
+            if (params.height < maxHei) {
+                params.height = (int) (ScreenUtil.getScreenWidth(activity) / result);
+                itemView.setLayoutParams(params);
+            }
         });
         registerObserver(Constants.HOME_DATA_JSON, Object.class).observeForever(result -> {
             if (result instanceof HomeItemBean) {

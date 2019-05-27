@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -42,6 +43,7 @@ public class HomeTopBannerAdapter extends BaseBannerAdapter<String, ViewHomeItem
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        Log.d("convert", "banner_w_h: convert --- " + position);
                         int imageWidth = resource.getIntrinsicWidth();
                         int imageHeight = resource.getIntrinsicHeight();
                         float dbis = (float) imageWidth / (float) imageHeight;
