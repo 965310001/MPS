@@ -1,9 +1,19 @@
 package com.goldze.common.dmvvm.base.mvvm.base;
 
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.adapter.BaseRecyclerAdapter;
@@ -50,6 +60,47 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public BaseViewHolder setText(@IdRes int viewId, CharSequence value) {
         ((TextView) getView(viewId)).setText(value);
+        return this;
+    }
+
+    public BaseViewHolder setGravity(@IdRes int viewId, int gravity) {
+        if (getView(viewId) instanceof LinearLayout) {
+            ((LinearLayout) getView(viewId)).setGravity(gravity);
+        } else if (getView(viewId) instanceof RelativeLayout) {
+            ((RelativeLayout) getView(viewId)).setGravity(gravity);
+        }
+        return this;
+    }
+
+
+    public BaseViewHolder setTextColor(@IdRes int viewId, @ColorInt int textColor) {
+        TextView view = getView(viewId);
+        view.setTextColor(textColor);
+        return this;
+    }
+
+
+    public BaseViewHolder setImageResource(@IdRes int viewId, @DrawableRes int imageResId) {
+        ImageView view = getView(viewId);
+        view.setImageResource(imageResId);
+        return this;
+    }
+
+    public BaseViewHolder setImageResource(@IdRes int viewId, @Nullable Drawable imageResId) {
+        ImageView view = getView(viewId);
+        view.setImageDrawable(imageResId);
+        return this;
+    }
+
+    public BaseViewHolder setColorFilter(@IdRes int viewId, @ColorInt int color) {
+        ImageView view = getView(viewId);
+        view.setColorFilter(color);
+        return this;
+    }
+
+    public BaseViewHolder setBackgroundColor(@IdRes int viewId, @ColorInt int color) {
+        View view = getView(viewId);
+        view.setBackgroundColor(color);
         return this;
     }
 

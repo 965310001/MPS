@@ -8,6 +8,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.socks.library.KLog;
@@ -135,7 +136,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 break;
         }
 
-        Toast.makeText(this, getString(result) + ", type=" + resp.getType(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, getString(result) + ", type=" + resp.getType(), Toast.LENGTH_SHORT).show();
+
+        ToastUtils.showLong(getString(result));
 
 
         if (resp.getType() == ConstantsAPI.COMMAND_SUBSCRIBE_MESSAGE) {

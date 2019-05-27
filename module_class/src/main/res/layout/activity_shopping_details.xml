@@ -53,9 +53,20 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/dp_40"
                 android:onClick="share"
                 android:paddingEnd="10dp"
                 android:src="@drawable/icon_share" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_points"
+                android:layout_width="@dimen/image_height"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="10dp"
+                android:onClick="points"
+                android:padding="2dp"
+                app:srcCompat="@drawable/ic_icon_points" />
 
             <com.flyco.tablayout.SlidingTabLayout
                 android:id="@+id/tabs"

@@ -17,6 +17,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.BuildConfig;
+import com.goldze.common.dmvvm.adapter.BaseRecyclerAdapter;
 import com.goldze.common.dmvvm.base.bean.HorizontalTabTitle;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
@@ -34,9 +35,12 @@ import com.mingpinmall.classz.ui.vm.bean.CartCountInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.utils.ArgbEvaluator;
+import com.mingpinmall.classz.widget.MenuPopupWindow;
 import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
+import com.xuexiang.xui.adapter.simple.AdapterItem;
 import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheet;
+import com.xuexiang.xui.widget.popupwindow.popup.XUISimplePopup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -294,13 +298,68 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     protected void onResume() {
         super.onResume();
         setCartNumber();
-
 //        mViewModel.getMemberCart(Constants.GOODSDETAIL_EVENT_KEY[2]);
     }
 
     public void finish(View view) {
         onClick(view);
     }
+
+    XUISimplePopup mMenuPopup;
+
+    /*三个点*/
+    public void points(View view) {
+        KLog.i("三个点");
+        if (null == mMenuPopup) {
+            mMenuPopup = new XUISimplePopup(this, new AdapterItem[]{
+                    new AdapterItem("搜  索", R.drawable.search),
+                    new AdapterItem("购物车", R.drawable.icon_cart),
+                    new AdapterItem("消  息", R.drawable.ic_message)})
+                    .create((adapter, item, position) -> {
+                        /*ToastUtils.showLong(item.getTitle().toString());*/
+                        switch (item.getTitle().toString()) {
+                            case "搜  索":
+                                ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
+                                break;
+                            case "购物车":
+                                ActivityToActivity.toActivity(SharePreferenceUtil.isLogin() ? ARouterConfig.cart.SHOPCARTACTIVITY : ARouterConfig.LOGINACTIVITY);
+                                break;
+                            case "消  息":
+                                ActivityToActivity.toActivity(SharePreferenceUtil.isLogin() ? ARouterConfig.Me.MESSAGEACTIVITY : ARouterConfig.LOGINACTIVITY);
+                                break;
+                        }
+                    });
+        }
+//        mMenuPopup.showDown(view);
+
+        if (null == menuPopupWindow) {
+            List<AdapterItem> items = Arrays.asList(
+                    new AdapterItem("搜   索", R.drawable.search),
+                    new AdapterItem("购物车", R.drawable.icon_cart),
+                    new AdapterItem("消   息", R.drawable.ic_message));
+            menuPopupWindow = new MenuPopupWindow
+                    .Builder(this)
+                    .setItem(items)
+                    .setOnItemClickListener((v, position) -> {
+                        menuPopupWindow.dismiss();
+                        switch (position) {
+                            case 0:
+                                ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
+                                break;
+                            case 1:
+                                ActivityToActivity.toActivity(SharePreferenceUtil.isLogin() ? ARouterConfig.cart.SHOPCARTACTIVITY : ARouterConfig.LOGINACTIVITY);
+                                break;
+                            case 2:
+                                ActivityToActivity.toActivity(SharePreferenceUtil.isLogin() ? ARouterConfig.Me.MESSAGEACTIVITY : ARouterConfig.LOGINACTIVITY);
+                                break;
+                        }
+                    })
+                    .build().createPop(view);
+        }
+        menuPopupWindow.showAsDropDown(view);
+    }
+
+    MenuPopupWindow menuPopupWindow;
 
     /*分享*/
     public void share(View view) {

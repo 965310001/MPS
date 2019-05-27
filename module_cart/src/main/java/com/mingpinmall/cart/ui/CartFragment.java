@@ -74,6 +74,13 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        lazyLoad();
+        KLog.i("onStart");
+    }
+
+    @Override
     public void initView(Bundle state) {
         super.initView(state);
         if (EVENT_KEY.isEmpty()) {

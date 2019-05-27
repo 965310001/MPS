@@ -1,5 +1,5 @@
-package com.mingpinmall.classz.adapter;
 
+package com.mingpinmall.classz.adapter;
 import android.content.Context;
 import android.support.annotation.Nullable;
 

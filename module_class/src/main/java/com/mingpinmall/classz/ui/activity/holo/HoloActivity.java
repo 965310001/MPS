@@ -56,15 +56,15 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
                 super.onProgressChanged(view, newProgress);
             }
         });
-//        webview.loadUrl(url);        // 打印结果
+        webview.loadUrl(url);        // 打印结果
         KLog.i(url);
 //        webview.loadUrl("https://www.feeai.cn/wxapi/h5/fitting/demo.php?goods_id=37&cat_id=7");
 
 //        webview.loadUrl("https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/");
 //        webview.loadUrl("https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/");
 //        webview.loadUrl("http://www.feeai.cn/fitting/");
-        webview.loadUrl("https://www.feeai.cn/fitting?version=2");
-        ToastUtils.showLong("测试");
+//        webview.loadUrl("https://www.feeai.cn/fitting?version=2");
+//        ToastUtils.showLong("测试");
         webview.addJavascriptInterface(new AndroidToJs(), "app");
     }
 

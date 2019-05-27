@@ -13,6 +13,7 @@ import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
+import com.mingpinmall.classz.ui.vm.bean.CartCountInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassGoodsBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
