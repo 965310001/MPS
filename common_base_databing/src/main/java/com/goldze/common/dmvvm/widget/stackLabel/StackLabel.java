@@ -161,8 +161,31 @@ public class StackLabel<T> extends RelativeLayout {
         }
     }
 
+    public void setSelect(List<Integer> selectIndexs) {
+        if (selectIndexs.size() <= 0) {
+            return;
+        }
+        this.selectIndexs = selectIndexs;
+        if (selectMode) {
+            for (View item1 : items) {
+                LinearLayout boxLabel1 = item1.findViewById(R.id.box_label);
+                boxLabel1.setBackgroundResource(labelBackground);
+                TextView textView1 = item1.findViewById(R.id.txt_label);
+                textView1.setTextColor(textColor);
+            }
+            for (int index1 : selectIndexs) {
+                View item1 = items.get(index1);
+                LinearLayout boxLabel1 = item1.findViewById(R.id.box_label);
+                boxLabel1.setBackgroundResource(selectBackground);
+                TextView textView1 = item1.findViewById(R.id.txt_label);
+                textView1.setTextColor(selectTextColor);
+            }
+        }
+    }
+
     /**
      * 选中某个item
+     *
      * @param index
      */
     public void setSelect(int index) {
@@ -200,6 +223,51 @@ public class StackLabel<T> extends RelativeLayout {
                     boxLabel1.setBackgroundResource(selectBackground);
                     TextView textView1 = item1.findViewById(R.id.txt_label);
                     textView1.setTextColor(selectTextColor);
+                }
+            }
+        }
+    }
+
+    /**
+     * 取消选中某个item
+     *
+     * @param index
+     */
+    public void setUnSelect(int index) {
+        if (selectIndexs.contains(index)) {
+            if (index < getChildCount()) {
+                if (selectMode) {
+                    selectIndexs.remove((Object) index);
+                    for (View item1 : items) {
+                        LinearLayout boxLabel1 = item1.findViewById(R.id.box_label);
+                        boxLabel1.setBackgroundResource(labelBackground);
+                        TextView textView1 = item1.findViewById(R.id.txt_label);
+                        textView1.setTextColor(textColor);
+                    }
+                    if (selectIndexs.contains(index)) {
+                        int ind = 0;
+                        for (int i1 = 0; i1 < selectIndexs.size(); i1++) {
+                            if (selectIndexs.get(i1) == index) {
+                                ind = i1;
+                                break;
+                            }
+                        }
+                        selectIndexs.remove(ind);
+                    } else {
+                        if (maxSelectNum == 1) {
+                            selectIndexs.clear();
+                        }
+                        if (maxSelectNum <= 0 || (maxSelectNum > 0 && selectIndexs.size() < maxSelectNum)) {
+                            selectIndexs.add(index);
+                        }
+                    }
+                    for (int index1 : selectIndexs) {
+                        View item1 = items.get(index1);
+                        LinearLayout boxLabel1 = item1.findViewById(R.id.box_label);
+                        boxLabel1.setBackgroundResource(selectBackground);
+                        TextView textView1 = item1.findViewById(R.id.txt_label);
+                        textView1.setTextColor(selectTextColor);
+                    }
                 }
             }
         }

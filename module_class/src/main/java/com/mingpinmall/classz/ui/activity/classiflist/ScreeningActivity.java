@@ -64,6 +64,9 @@ public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBin
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         screenInfo = (ScreenInfo) getIntent().getSerializableExtra("screenInfo");
+        if (screenInfo == null) {
+            screenInfo = new ScreenInfo();
+        }
         setTitle("商品筛选");
         findViewById(R.id.tv_right).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.tv_right)).setText("重置");
@@ -117,6 +120,9 @@ public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBin
         findViewById(R.id.tv_right).setOnClickListener(v -> clearLabels(0));
     }
 
+    /**
+     * 保存筛选信息返回
+     */
     private void click2Result() {
         ScreenInfo screenInfo = new ScreenInfo();
         //价格区间
@@ -241,18 +247,99 @@ public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBin
     private void formatMainDatas() {
         List<String> areaList = new ArrayList<>();
         areaList.add("不限");
-        for (ScreeningBean.AreaListBean item : mainData.getArea_list()) {
-            areaList.add(item.getArea_name());
+        //开始~
+        int areaIndex = 0;
+        ScreeningBean.AreaListBean areaListBean;
+        for (int i = 0; i < mainData.getArea_list().size(); i++) {
+            areaListBean = mainData.getArea_list().get(i);
+            areaList.add(areaListBean.getArea_name());
+            if (!screenInfo.areaId.isEmpty() && areaListBean.getArea_id().equals(screenInfo.areaId)) {
+                areaIndex = i + 1;
+            }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,
                 R.layout.item_text1,
                 R.id.text, areaList
         );
         binding.spinnerSystem.setAdapter(adapter);
+        //地区已选择
+        binding.spinnerSystem.setSelection(areaIndex);
+
+        //如果已填写价格区间
+        if (!"".equals(screenInfo.priceFrom)) {
+            binding.etPriceFrom.setText(screenInfo.priceFrom);
+        }
+        if (!"".equals(screenInfo.priceTo)) {
+            binding.etPriceTo.setText(screenInfo.priceTo);
+        }
 
         binding.slGoodType.setData(mainData.getGoods_type());
+        //商品类型已选择
+        List<Integer> goodTypeSelected = new ArrayList<>();
+        for (int i = 0; i < mainData.getGoods_type().size(); i++) {
+            ScreeningBean.GoodsTypeBean goodsTypeBean = mainData.getGoods_type().get(i);
+            switch (goodsTypeBean.getId()) {
+                case "gift":
+                    if ("1".equals(screenInfo.gift)) {
+                        goodTypeSelected.add(i);
+                    }
+                    break;
+                case "groupbuy":
+                    if ("1".equals(screenInfo.groupbuy)) {
+                        goodTypeSelected.add(i);
+                    }
+                    break;
+                case "xianshi":
+                    if ("1".equals(screenInfo.xianshi)) {
+                        goodTypeSelected.add(i);
+                    }
+                    break;
+                case "virtual":
+                    if ("1".equals(screenInfo.virtual)) {
+                        goodTypeSelected.add(i);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        binding.slGoodType.setSelect(goodTypeSelected);
+
         binding.slShopType.setData(mainData.getStore_type());
+        //店铺类型已选择
+        if (!screenInfo.own_mall.isEmpty()) {
+            List<Integer> shopTypeSelected = new ArrayList<>();
+            ScreeningBean.StoreTypeBean storeTypeBean;
+            for (int i = 0; i < mainData.getStore_type().size(); i++) {
+                storeTypeBean = mainData.getStore_type().get(i);
+                if ("own_mall".equals(storeTypeBean.getId()) && "1".equals(screenInfo.own_mall)) {
+                    shopTypeSelected.add(i);
+                }
+            }
+            binding.slShopType.setSelect(shopTypeSelected);
+        }
+
         binding.slShopServer.setData(mainData.getContract_list());
+        //店铺服务已选择
+        if (!screenInfo.ci.isEmpty()) {
+            String[] cis = new String[]{screenInfo.ci};
+            if (screenInfo.ci.contains("_")) {
+                cis = screenInfo.ci.split("_");
+            }
+            List<Integer> shopServerSelected = new ArrayList<>();
+            ScreeningBean.ContractListBean storeTypeBean;
+            for (int i = 0; i < mainData.getContract_list().size(); i++) {
+                storeTypeBean = mainData.getContract_list().get(i);
+                for (String ciStr : cis) {
+                    if (ciStr.equals(storeTypeBean.getId())) {
+                        shopServerSelected.add(i);
+                    }
+                }
+            }
+            binding.slShopServer.setSelect(shopServerSelected);
+        }
+
+        //一级分类，二级分类等已选择
         if (screenInfo != null && screenInfo.getType() == 2) {
             isNone = true;
             List<ScreeningBean.GcListBean> datas = new ArrayList<>();

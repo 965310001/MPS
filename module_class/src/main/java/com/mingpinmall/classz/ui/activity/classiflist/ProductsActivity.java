@@ -203,9 +203,7 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                 onRefresh();
             } else if (i == R.id.filter_tab3) {
                 Intent intent = new Intent();
-                if (type == 2) {
-                    intent.putExtra("screenInfo", screenInfo);
-                }
+                intent.putExtra("screenInfo", screenInfo);
                 intent.setClass(activity, ScreeningActivity.class);
                 startActivityForResult(intent, 1);
             }
