@@ -43,7 +43,6 @@ public class HomeTopBannerAdapter extends BaseBannerAdapter<String, ViewHomeItem
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        Log.d("convert", "banner_w_h: convert --- " + position);
                         int imageWidth = resource.getIntrinsicWidth();
                         int imageHeight = resource.getIntrinsicHeight();
                         float dbis = (float) imageWidth / (float) imageHeight;

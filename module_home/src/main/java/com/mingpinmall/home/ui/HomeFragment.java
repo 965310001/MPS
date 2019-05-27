@@ -359,7 +359,6 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
     @Override
     protected void dataObserver() {
         registerObserver("banner_w_h", Float.class).observeForever(result -> {
-            Log.d(TAG, "banner_w_h: 设置高度咯~");
             if (homeListAdapter.getItemCount() == 0) {
                 return;
             }
