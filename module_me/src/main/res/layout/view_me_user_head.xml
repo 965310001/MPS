@@ -18,14 +18,14 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_headImage"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
         android:background="@drawable/shape_translucence_ra"
-        app:srcCompat="@drawable/ic_user_head"
         app:layout_constraintBottom_toTopOf="@id/v_space"
         app:layout_constraintEnd_toEndOf="@id/iv_bg"
         app:layout_constraintStart_toStartOf="@id/iv_bg"
-        app:layout_constraintTop_toTopOf="@id/top_btn_content" />
+        app:layout_constraintTop_toTopOf="@id/top_btn_content"
+        app:srcCompat="@drawable/ic_user_head" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/top_btn_content"
@@ -41,9 +41,9 @@
             android:layout_height="38dp"
             android:layout_margin="8dp"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_setting_white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_setting_white" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_message"
@@ -51,9 +51,9 @@
             android:layout_height="38dp"
             android:layout_margin="8dp"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_message_white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_message_white" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -64,7 +64,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/label_click_login"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@id/iv_bg"
         app:layout_constraintStart_toStartOf="@id/iv_bg"
         app:layout_constraintTop_toBottomOf="@id/iv_headImage" />
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:background="@drawable/shape_red_unfocused"
+        android:background="@drawable/shape_red_corners_2dp"
         android:paddingStart="2dp"
         android:paddingEnd="2dp"
         android:textColor="@color/white"
@@ -90,7 +90,7 @@
         android:layout_height="0dp"
         android:background="#2A665353"
         app:layout_constraintBottom_toBottomOf="@id/iv_bg"
-        app:layout_constraintDimensionRatio="h, 11:2"
+        app:layout_constraintDimensionRatio="h, 6:1"
         app:layout_constraintEnd_toEndOf="@id/iv_bg"
         app:layout_constraintStart_toStartOf="@id/iv_bg" />
 
@@ -107,8 +107,8 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/iv_headItem1"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:background="@drawable/ic_me_favorite"
             android:gravity="center"
             android:textColor="@color/white"
@@ -126,6 +126,7 @@
             android:layout_marginTop="4dp"
             android:text="@string/me_headitem_item1"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_headItem1" />
@@ -144,8 +145,8 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/iv_headItem2"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:background="@drawable/ic_me_store"
             android:gravity="center"
             android:textColor="@color/white"
@@ -163,6 +164,7 @@
             android:layout_marginTop="4dp"
             android:text="@string/me_headitem_item2"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_headItem2" />
@@ -182,8 +184,8 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_headItem3"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:src="@drawable/ic_me_goods_browse"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -197,6 +199,7 @@
             android:layout_marginTop="4dp"
             android:text="@string/me_headitem_item3"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_headItem3" />

@@ -7,7 +7,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
@@ -29,6 +32,7 @@ import java.util.Map;
 
 /**
  * 首页
+ *
  * @author 小斌
  * @date 2019/4/3
  */
@@ -200,6 +204,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     /**
      * 动作路由
+     *
      * @param datasBean
      * @param type
      * @param id
@@ -337,8 +342,8 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             //跳转到搜索指定id的商品
             String id = url.split("b_id=")[1];
             Map<String, Object> params = new HashMap<>(2);
-            params.put("id", id);
-            params.put("type", 1);
+            params.put("gcId", id);
+            params.put("type", 0);
             ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
         }
     }
@@ -351,6 +356,19 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     @Override
     protected void dataObserver() {
+        registerObserver("banner_w_h", Float.class).observeForever(result -> {
+            if (homeListAdapter.getItemCount() == 0) {
+                return;
+            }
+            BaseViewHolder baseViewHolder = (BaseViewHolder) binding.recyclerView.findViewHolderForAdapterPosition(0);
+            View itemView = baseViewHolder.itemView;
+            ViewGroup.LayoutParams params = itemView.getLayoutParams();
+            int maxHei = (int) (ScreenUtil.getScreenWidth(activity) / result);
+            if (params.height < maxHei) {
+                params.height = (int) (ScreenUtil.getScreenWidth(activity) / result);
+                itemView.setLayoutParams(params);
+            }
+        });
         registerObserver(Constants.HOME_DATA_JSON, Object.class).observeForever(result -> {
             if (result instanceof HomeItemBean) {
                 HomeItemBean data = (HomeItemBean) result;

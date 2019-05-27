@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
         android:background="@color/white"
-        android:foreground="@drawable/button_foreground"
+        android:foreground="?selectableItemBackground"
         android:onClick="@{(view)->data.click(view)}">
 
         <android.support.constraint.ConstraintLayout

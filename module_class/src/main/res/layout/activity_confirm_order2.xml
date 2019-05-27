@@ -49,48 +49,56 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:onClick="selectAddress"
-                    android:padding="@dimen/dp_10">
+                    android:foreground="?selectableItemBackground"
+                    android:onClick="selectAddress">
 
-                    <ImageView
-                        android:layout_width="@dimen/image_height_litter"
-                        android:layout_height="@dimen/image_height_litter"
-                        android:layout_marginTop="@dimen/dp_1"
-                        android:src="@drawable/icon_add" />
-
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/dp_30"
-                        android:orientation="vertical">
+                        android:layout_height="60dp"
+                        android:padding="@dimen/dp_12">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <android.support.v7.widget.AppCompatImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="@dimen/dp_1"
+                            app:srcCompat="@drawable/ic_gps" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text='@{address.userName}'
-                            tools:text="收货人" />
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/dp_30"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{String.format(`%s %s`,address.area_info,address.address)}"
-                            tools:text="北京	北京市	东城区114645" />
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text='@{address.userName}'
+                                android:textColor="@color/black"
+                                tools:text="收货人" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{address.area_info}"
+                                tools:text="北京	北京市	东城区114645" />
+                        </LinearLayout>
 
 
-                    <ImageView
-                        android:layout_width="@dimen/image_height_litter"
-                        android:layout_height="@dimen/image_height_litter"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        app:srcCompat="@drawable/ic_svg_more" />
+                        <ImageView
+                            android:layout_width="@dimen/dp_16"
+                            android:layout_height="@dimen/dp_16"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/icon_more" />
 
-                </RelativeLayout>
+                    </RelativeLayout>
+
+                </FrameLayout>
 
                 <com.goldze.common.dmvvm.widget.SettingItemView
                     android:layout_width="match_parent"
@@ -105,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:foreground="@drawable/button_foreground"
+                    android:foreground="?selectableItemBackground"
                     android:onClick="invoiceInfo"
                     app:image="@drawable/mcc_08_b"
                     app:mode="NoDescription"

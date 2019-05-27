@@ -167,10 +167,10 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
         registerObserver(Constants.LOGIN, Object.class).observeForever(result -> {
             if (result instanceof UserBean) {
                 SharePreferenceUtil.saveUser(result);
-                progressDialog.onComplete("", () -> {
-                    LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_SUCCESS, true);
-                    finish();
-                });
+                ToastUtils.showShort("登陆成功");
+                LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_SUCCESS, true);
+                progressDialog.dismiss();
+                finish();
             } else {
                 progressDialog.onFail(result.toString());
             }

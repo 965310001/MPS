@@ -15,6 +15,23 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         super(application);
     }
 
+    /**
+     * 获取筛选内容
+     * @param eventKey
+     */
+    public void getScreeningInfo(Object eventKey) {
+        mRepository.getScreeningInfo(eventKey);
+    }
+
+    /**
+     * 获取筛选内容
+     * @param eventKey
+     * @param childId ID
+     */
+    public void getScreeningClassInfo(Object eventKey, String childId) {
+        mRepository.getScreeningClassInfo(eventKey, childId);
+    }
+
     /*检查F码*/
     public void checkFCode(String fcode, String goods_id) {
         mRepository.checkFCode(fcode, goods_id);
@@ -35,11 +52,14 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         mRepository.getRight(gcId);
     }
 
+    /*获得主分类ID*/
+    public void getGcParentId(String gcId) {
+        mRepository.getGcParentId(gcId);
+    }
+
     /*商品列表*/
-    public void getShappingList(String gcIdType, String bId, String curpage, String keyword, String typeId,
-                                String areaId, String priceFrom, String priceTo,
-                                String key, String order, String ci, String st) {
-        mRepository.getShappingList(gcIdType, bId, curpage, keyword, typeId, areaId, priceFrom, priceTo, key, order, ci, st);
+    public void getShappingList(Map<String, Object> params, long curpage) {
+        mRepository.getShappingList(params, curpage);
     }
 
     /*商品详情*/

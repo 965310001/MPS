@@ -6,6 +6,7 @@ import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
+import com.mingpinmall.classz.ui.vm.bean.ClassGoodsBean;
 import com.mingpinmall.classz.ui.vm.bean.CartCountInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
@@ -19,6 +20,8 @@ import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
+import com.mingpinmall.classz.ui.vm.bean.ScreeningBean;
+import com.mingpinmall.classz.ui.vm.bean.ScreeningClassBean;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
@@ -51,6 +54,22 @@ public interface ClassifyService {
     String EVALUATE = "/mo_bile/index.php?app=goods&wwi=goods_evaluate";
 
     /**
+     * 获取筛选 可选择 的信息
+     * @param map
+     * @return
+     */
+    @GET(BASEURL)
+    Flowable<BaseResponse<ScreeningBean>> getScreeningInfo(@QueryMap Map<String, Object> map);
+
+    /**
+     * 获取筛选 可选择 的信息
+     * @param map
+     * @return
+     */
+    @GET(BASEURL)
+    Flowable<BaseResponse<ScreeningClassBean>> getScreeningClassInfo(@QueryMap Map<String, Object> map);
+
+    /**
      * 检查F码
      *
      * @param map
@@ -70,6 +89,12 @@ public interface ClassifyService {
     Flowable<ClassificationRighitBean> getRight(@Query("app") String app,
                                                 @Query("wwi") String wwi,
                                                 @Query("gc_id") String id);
+
+    /*获取主分类ID*/
+    @GET(BASEURL)
+    Flowable<BaseResponse<ClassGoodsBean>> getGcParentId(@Query("app") String app,
+                                                         @Query("wwi") String wwi,
+                                                         @Query("gc_id") String id);
 
     /*品牌*/
     @GET(BRAND)

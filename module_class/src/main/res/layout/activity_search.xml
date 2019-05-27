@@ -62,8 +62,7 @@
 
                 </LinearLayout>
 
-
-                <com.kongzue.stacklabelview.StackLabel
+                <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
                     android:id="@+id/layout_flow_history"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -88,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_margin="12dp"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button_shape_red"
             android:gravity="center"
             android:text="清空历史"
             android:textColor="@color/white"

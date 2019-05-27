@@ -74,8 +74,8 @@ public class BrandListInfo extends BaseBean {
 
             public void click(View view) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("type", 1);
-                map.put("id", brand_id);
+                map.put("type", 0);
+                map.put("gcId", brand_id);
                 ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, map);
             }
         }

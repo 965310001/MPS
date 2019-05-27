@@ -8,7 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.kongzue.stacklabelview.interfaces.OnLabelClickListener;
+import com.goldze.common.dmvvm.widget.stackLabel.StackLabelAdapter;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.ActivityShopclassBinding;
 import com.mingpinmall.home.ui.api.HomeViewModel;
@@ -34,7 +34,7 @@ public class ShopClassActivity extends AbsLifecycleActivity<ActivityShopclassBin
         super.initViews(savedInstanceState);
         setTitle(R.string.title_ShopClassActivity);
         stringList = new ArrayList<>();
-
+        binding.stackLabelView.setAdapter((StackLabelAdapter.CovertData<String>) (data, position) -> data);
         binding.stackLabelView.setOnLabelClickListener((index, v, s) -> {
             Intent intent = new Intent();
             intent.putExtra("sc_id", index == 0 ? "0" : shopClassBean.getClass_list().get(index - 1).getSc_id());
@@ -53,7 +53,7 @@ public class ShopClassActivity extends AbsLifecycleActivity<ActivityShopclassBin
                 for (ShopClassBean.ClassListBean classListBean : shopClassBean.getClass_list()) {
                     stringList.add(classListBean.getSc_name());
                 }
-                binding.stackLabelView.setLabels(stringList);
+                binding.stackLabelView.setData(stringList);
             } else {
                 ToastUtils.showShort(result.toString());
             }

@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="StackLabel">
+        <attr name="textColor" format="color" />
+        <attr name="selectTextColor" format="color" />
+        <attr name="textSize" format="dimension"/>
+        <attr name="paddingVertical" format="dimension"/>
+        <attr name="paddingHorizontal" format="dimension"/>
+        <attr name="itemMargin" format="dimension"/>
+        <attr name="deleteButton" format="boolean" />
+
+        <attr name="deleteButtonImage" format="reference" />
+        <attr name="labelBackground" format="reference" />
+
+        <attr name="selectMode" format="boolean" />
+        <attr name="selectBackground" format="reference" />
+        <attr name="maxSelectNum" format="integer" />
+    </declare-styleable>
+
     <declare-styleable name="SettingItemView" >
         <attr name="mode" >
             <enum name="Default" value="0" />

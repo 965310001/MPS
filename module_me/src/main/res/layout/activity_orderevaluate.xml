@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button_shape_red"
             android:gravity="center"
             android:text="@string/button_text_submitEvaluate"
             android:textColor="@color/white"

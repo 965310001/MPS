@@ -101,6 +101,8 @@ public interface ARouterConfig {
 
         /*商品分类list*/
         String PRODUCTSACTIVITY = "/clasz/ProductsActivity";
+        /*商品分类list*/
+        String SCREENINGACTIVITY = "/clasz/ScreeningActivity";
 
         /*提交订单*/
         String CONFIRMORDERACTIVITY = "/clasz/ConfirmOrderActivity";

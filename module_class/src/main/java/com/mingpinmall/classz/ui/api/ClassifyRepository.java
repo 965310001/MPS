@@ -6,16 +6,14 @@ import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
-import com.goldze.common.dmvvm.http.HttpHelper;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
-import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
-import com.mingpinmall.classz.ui.vm.bean.CartCountInfo;
+import com.mingpinmall.classz.ui.vm.bean.ClassGoodsBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
@@ -28,6 +26,8 @@ import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
+import com.mingpinmall.classz.ui.vm.bean.ScreeningBean;
+import com.mingpinmall.classz.ui.vm.bean.ScreeningClassBean;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
@@ -43,6 +43,60 @@ import okhttp3.RequestBody;
 public class ClassifyRepository extends BaseRepository {
 
     private final ClassifyService apiService = RetrofitClient.getInstance().create(ClassifyService.class);
+
+    /**
+     * 获取筛选内容
+     */
+    public void getScreeningInfo(Object eventKey) {
+        //请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=index&wwi=search_adv
+        Map<String, Object> params = parames("index", "search_adv");
+        addDisposable(apiService.getScreeningInfo(params)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ScreeningBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ScreeningBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, result.getData());
+                        } else {
+                            sendData(eventKey, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(eventKey, msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /**
+     * 获取筛选内容
+     */
+    public void getScreeningClassInfo(Object eventKey, String childId) {
+        //请求 URL: https://www.mingpinmall.cn/mo_bile/index.php?app=index&wwi=search_adv
+        //gc_child_id: 427
+        Map<String, Object> params = parames("index", "search_adv");
+        params.put("gc_child_id", childId);
+        addDisposable(apiService.getScreeningClassInfo(params)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ScreeningClassBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ScreeningClassBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, result.getData());
+                        } else {
+                            sendData(eventKey, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(eventKey, msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
 
     /**
      * 检查F码
@@ -132,6 +186,35 @@ public class ClassifyRepository extends BaseRepository {
 
     }
 
+    /*获取主分类ID*/
+    public void getGcParentId(String gcId) {
+        addDisposable(apiService.getGcParentId("goods_class", "getGoodsClassInfo", gcId)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<ClassGoodsBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ClassGoodsBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(Constants.PRODUCTS_EVENT_KEY[2], result.getData());
+                        } else {
+                            sendData(Constants.PRODUCTS_EVENT_KEY[2], result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    protected void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(Constants.PRODUCTS_EVENT_KEY[2], msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+
+    }
+
     /*获取品牌的数据*/
     public void getRightByBrand() {
         addDisposable(apiService.getRightByBrand()
@@ -160,71 +243,28 @@ public class ClassifyRepository extends BaseRepository {
     }
 
     /*商品列表*/
-
-    /**
-     * @param gcIdType 搜索类别，第几级搜索，配合bId搜索
-     * @param bId      搜索ID
-     */
-    public void getShappingList(String gcIdType, String bId, String curpage, String keyword, final String typeId,
-                                String areaId, String priceFrom, String priceTo,
-                                String key, String order, String ci, String st) {
-        Map<String, Object> map = new HashMap<>();
-        if (!TextUtils.isEmpty(bId)) {
-            if (!TextUtils.isEmpty(gcIdType)) {
-                //二级搜索
-                map.put(gcIdType, bId);
-            } else {
-                map.put("0".equals(typeId) ? "gc_id" : "b_id", bId);
-            }
-        } else if (!TextUtils.isEmpty(keyword)) {
-            map.put("keyword", keyword);
-        }
-        if (!TextUtils.isEmpty(ci)) {
-            map.put("ci", ci);
-        }
-        if (!TextUtils.isEmpty(st)) {
-            map.put("st", st);
-        }
-        if (!TextUtils.isEmpty(areaId)) {
-            //地区
-            map.put("area_id", areaId);
-        }
-        //价格区间最低范围
-        map.put("price_from", priceFrom);
-        // 价格区间最高范围
-        map.put("price_to", priceTo);
-        if (!TextUtils.isEmpty(key)) {
-            /*使用排序*/
-            map.put("key", key);
-        }
-        if (!TextUtils.isEmpty(order)) {
-            /*使用排序*/
-            map.put("order", order);
-        }
-        for (String s : st.split("_")) {
-            map.put(s, "1");
-        }
-        map.put("page", Constants.PAGE_RN);
-        map.put("curpage", curpage);
-        addDisposable(apiService.getShappingList(map)
+    public void getShappingList(Map<String, Object> params, long curpage) {
+        params.put("page", Constants.PAGE_RN);
+        params.put("curpage", curpage);
+        addDisposable(apiService.getShappingList(params)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsListInfo>() {
                     @Override
                     public void onSuccess(GoodsListInfo result) {
-                        sendData(Constants.PRODUCTS_EVENT_KEY[0], typeId, result);
-                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.SUCCESS_STATE);
+                        sendData(Constants.PRODUCTS_EVENT_KEY[0], result);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], StateConstants.SUCCESS_STATE);
                     }
 
                     @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
-                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.ERROR_STATE);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
-                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], typeId, StateConstants.NET_WORK_STATE);
+                        showPageState(Constants.PRODUCTS_EVENT_KEY[1], StateConstants.NET_WORK_STATE);
                     }
                 })
         );

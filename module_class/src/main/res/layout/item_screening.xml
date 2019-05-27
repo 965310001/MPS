@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        style="@style/TextStyle_14"
+        android:layout_gravity="start"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        tools:text="标题" />
+
+    <com.goldze.common.dmvvm.widget.stackLabel.StackLabel
+        android:id="@+id/stl_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:deleteButton="false"
+        app:itemMargin="4dp"
+        app:labelBackground="@drawable/bg_grid_white_unselect"
+        app:maxSelectNum="99"
+        app:selectBackground="@drawable/bg_grid_white_select"
+        app:selectMode="true"
+        app:selectTextColor="#FFFFFF"
+        app:textColor="#5F5F5F"
+        app:textSize="12sp" />
+
+</LinearLayout>

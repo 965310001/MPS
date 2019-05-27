@@ -397,7 +397,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="46dp"
                     android:layout_margin="25dp"
-                    android:background="@drawable/button_shape"
+                    android:background="@drawable/button_shape_red"
                     android:text="确认支付"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp" />
