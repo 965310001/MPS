@@ -1,11 +1,11 @@
 package com.mingpinmall.classz.ui.activity.invoice;
 
-import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -33,8 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.annotations.Nullable;
-
 /**
  * 管理发票信息
  */
@@ -53,6 +51,7 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
     @Override
     public void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
+        /*XUI.initTheme(activity);*/
         super.initViews(savedInstanceState);
         setTitle("管理发票信息");
         setTitlePadding(baseBinding.rlTitleContent);
@@ -112,9 +111,15 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                         BaseResponse<InvoiceListInfo> data = response;
                         KLog.i(data.getData());
                         try {
-                            binding.spinnerSystem.setSelection(0);
+                           /* binding.spinnerSystem.setSelection(0);
                             WidgetUtils.initSpinnerStyle(binding.spinnerSystem, data.getData().getInvoice_content_list().toArray(
-                                    new String[data.getData().getInvoice_content_list().size()]));
+                                    new String[data.getData().getInvoice_content_list().size()]));*/
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,
+                                    R.layout.item_text1,
+                                    R.id.text, data.getData().getInvoice_content_list()
+                            );
+                            binding.spinnerSystem.setAdapter(adapter);
                         } catch (Exception e) {
                             KLog.i(e.toString());
                         }

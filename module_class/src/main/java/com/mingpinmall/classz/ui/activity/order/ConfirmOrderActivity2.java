@@ -85,7 +85,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     public void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        setTitle("提交订单");
+        setTitle("确认订单");
         setTitlePadding(baseBinding.rlTitleContent);
 
         adapter = new ConfirmOrderAdapter();

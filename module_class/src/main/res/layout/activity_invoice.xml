@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.activity.invoice.InvoiceActivity">
 
     <data>
 
@@ -59,8 +60,7 @@
             style="@style/width_match_height_warp"
             android:background="@color/white"
             android:orientation="vertical"
-            android:padding="@dimen/dp_10"
-            tools:context=".ui.activity.invoice.InvoiceActivity">
+            android:padding="@dimen/dp_10">
 
             <TextView
                 style="@style/width_warp_height_warp"
@@ -305,13 +305,30 @@
                         android:paddingRight="@dimen/dp_4"
                         android:text="发票内容" />
 
-                    <Spinner
-                        android:id="@+id/spinner_system"
-                        style="@style/SpinnerStyle"
+                    <!--<Spinner-->
+                    <!--android:id="@+id/spinner_system"-->
+                    <!--style="@style/SpinnerStyle"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_marginStart="15dp"-->
+                    <!--android:layout_marginTop="?attr/xui_config_content_spacing_vertical"-->
+                    <!--android:spinnerMode="dialog" />-->
+
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
-                        android:spinnerMode="dialog" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/bg_grid_gray_edit">
+
+                        <Spinner
+                            android:id="@+id/spinner_system"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="42dp"
+                            android:spinnerMode="dropdown" />
+                    </FrameLayout>
 
                 </LinearLayout>
             </LinearLayout>
