@@ -731,6 +731,9 @@ public class ConfirmOrderBean extends BaseBean {
 
         public static class StoreVoucherInfoBean extends BaseBean {
             private String voucher_price;
+            private String voucher_id;
+            private String voucher_t_id;
+            private String voucher_store_id;
 
             public String getVoucher_price() {
                 return voucher_price;
@@ -738,6 +741,30 @@ public class ConfirmOrderBean extends BaseBean {
 
             public void setVoucher_price(String voucher_price) {
                 this.voucher_price = voucher_price;
+            }
+
+            public String getVoucher_id() {
+                return voucher_id;
+            }
+
+            public void setVoucher_id(String voucher_id) {
+                this.voucher_id = voucher_id;
+            }
+
+            public String getVoucher_t_id() {
+                return voucher_t_id;
+            }
+
+            public void setVoucher_t_id(String voucher_t_id) {
+                this.voucher_t_id = voucher_t_id;
+            }
+
+            public String getVoucher_store_id() {
+                return voucher_store_id;
+            }
+
+            public void setVoucher_store_id(String voucher_store_id) {
+                this.voucher_store_id = voucher_store_id;
             }
         }
     }

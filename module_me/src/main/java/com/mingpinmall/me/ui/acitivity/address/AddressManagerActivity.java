@@ -16,11 +16,13 @@ import com.mingpinmall.me.databinding.ActivityAddressmanagerBinding;
 import com.mingpinmall.me.ui.adapter.AddressListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.constants.Constants;
+import com.socks.library.KLog;
 
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：
+ *
  * @author 小斌
  * @date 2019/3/29
  **/
@@ -99,12 +101,17 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
 
     @Override
     protected void dataObserver() {
+        super.dataObserver();
         registerObserver(Constants.ADDRESS_LIST, Object.class).observeForever(result -> {
             if (result instanceof AddressDataBean) {
                 AddressDataBean data = (AddressDataBean) result;
                 //获取成功
                 binding.refreshLayout.finishRefresh();
-                addressListAdapter.setNewData(data.getAddress_list());
+                try {
+                    addressListAdapter.setNewData(data.getAddress_list());
+                } catch (Exception e) {
+                    KLog.i(e.toString());
+                }
             } else {
                 //获取失败
                 binding.refreshLayout.finishRefresh(false);

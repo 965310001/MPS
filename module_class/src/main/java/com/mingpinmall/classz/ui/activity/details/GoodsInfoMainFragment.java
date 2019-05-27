@@ -60,6 +60,7 @@ import com.mingpinmall.classz.widget.XBottomSheet;
 import com.socks.library.KLog;
 import com.xuexiang.xui.XUI;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -217,22 +218,56 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 binding.llGoodsSpecification.addView(textBinding.getRoot());
             }
             binding.setIsHolo(TextUtils.isEmpty(goodsInfo.getTryon_url()));
+
+
+            List<String> goodsTags = new ArrayList<>();
+
+            if ("1".equals(goodsInfo.getHave_gift())) {
+                goodsTags.add("赠");
+            }
+            if (goodsInfo.getGroup_flag() || goodsInfo.getXianshi_flag()) {
+                goodsTags.add("降");
+            }
+            if ("1".equals(goodsInfo.getIs_presell())) {
+                goodsTags.add("预");
+            }
+            if ("1".equals(goodsInfo.getIs_fcode())) {
+                goodsTags.add("F码");
+            }
+            if ("1".equals(goodsInfo.getIs_virtual())) {
+                goodsTags.add("虚拟");
+            }
+            SpannableStringBuilder goodsName = new SpannableStringBuilder(goodsInfo.getGoods_name());
+            int length = goodsTags.size();
+            if (length > 0) {
+                for (int i = 0; i < length; i++) {
+                    //为了显示效果在每个标签文字前加两个空格,后面加三个空格(前两个和后两个填充背景,最后一个作标签分割)
+                    goodsName.insert(0, "  " + goodsTags.get(i) + "   ");
+                    int start = 0;
+                    int end = 5;
+                    //稍微设置标签文字小一点
+                    goodsName.setSpan(new RelativeSizeSpan(0.9f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    //设置圆角背景
+                    goodsName.setSpan(new RoundBackgroundColorSpan(getContext().getResources().getColor(R.color.shallow_red), Color.WHITE), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+            binding.tvGoodsName.setText(goodsName);
         }
 //        KLog.i(dataBean.isVoucher() + "==");
         binding.setIsVoucher(dataBean.isVoucher());
 
         /*设置商品名字*/
-        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        String[] strings = {"虚拟", "F码", "预"};
-        for (String string : strings) {
-            SpannableString sp = new SpannableString(string);
-            RoundBackgroundColorSpan span = new RoundBackgroundColorSpan(R.color.shallow_red, R.color.white);
-            sp.setSpan(span, 0, sp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            stringBuilder.append(sp).append(",");
-        }
-        SpannableString spannableString = new SpannableString(goodsInfo.getGoods_name());
-        spannableString.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#12DBD1"),
-                Color.parseColor("#FFFFFF")), 0, spannableString.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+//        String[] strings = {"虚拟", "F码", "预"};
+//        for (String string : strings) {
+//            SpannableString sp = new SpannableString(string);
+//            RoundBackgroundColorSpan span = new RoundBackgroundColorSpan(R.color.shallow_red, R.color.white);
+//            sp.setSpan(span, 0, sp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            stringBuilder.append(sp).append(",");
+//        }
+//        SpannableString spannableString = new SpannableString(goodsInfo.getGoods_name());
+//        spannableString.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#12DBD1"),
+//                Color.parseColor("#FFFFFF")), 0, spannableString.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 //        stringBuilder.append(goodsInfo.getGoods_name());
 //        binding.tvGoodsName.setText(stringBuilder);
@@ -246,19 +281,8 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 
 
         // TODO: 2019/5/25 修改商品名字
-        List<String> goodsTags = Arrays.asList("虚拟", "F码");
-        SpannableStringBuilder goodsName = new SpannableStringBuilder(goodsInfo.getGoods_name());
-        for (int i = 0; i < goodsTags.size(); i++) {
-            //为了显示效果在每个标签文字前加两个空格,后面加三个空格(前两个和后两个填充背景,最后一个作标签分割)
-            goodsName.insert(0, "  " + goodsTags.get(i) + "   ");
-            int start = 0;
-            int end = 5;
-            //稍微设置标签文字小一点
-            goodsName.setSpan(new RelativeSizeSpan(0.9f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            //设置圆角背景
-            goodsName.setSpan(new RoundBackgroundColorSpan(getContext().getResources().getColor(R.color.shallow_red),Color.WHITE), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-//        binding.tvGoodsName.setText(goodsName);
+
+
     }
 
     public class RoundBackgroundColorSpan extends ReplacementSpan {

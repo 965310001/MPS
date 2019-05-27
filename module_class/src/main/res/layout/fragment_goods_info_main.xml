@@ -123,90 +123,101 @@
                     android:padding="10dp">
 
                     <!--商品名称-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="horizontal">-->
 
-                        <TextView
-                            style="@style/width_warp_height_warp"
-                            android:background="@drawable/bg_of_red_gradient_radius"
-                            android:paddingLeft="@dimen/dp_6"
-                            android:paddingTop="@dimen/dp_4"
-                            android:paddingRight="@dimen/dp_6"
-                            android:paddingBottom="@dimen/dp_4"
-                            android:text="虚拟"
-                            android:textColor="@color/white"
-                            android:tint="@color/shallow_red"
-                            android:visibility="@{data.is_virtual.equals(`1`)?View.VISIBLE:View.GONE}" />
+                    <!--<TextView-->
+                    <!--style="@style/width_warp_height_warp"-->
+                    <!--android:background="@drawable/bg_of_red_gradient_radius"-->
+                    <!--android:paddingLeft="@dimen/dp_6"-->
+                    <!--android:paddingTop="@dimen/dp_4"-->
+                    <!--android:paddingRight="@dimen/dp_6"-->
+                    <!--android:paddingBottom="@dimen/dp_4"-->
+                    <!--android:text="虚拟"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:tint="@color/shallow_red"-->
+                    <!--android:visibility="@{data.is_virtual.equals(`1`)?View.VISIBLE:View.GONE}" />-->
 
-                        <TextView
-                            style="@style/width_warp_height_warp"
-                            android:layout_marginLeft="@dimen/dp_6"
-                            android:layout_marginRight="@dimen/dp_6"
-                            android:background="@drawable/bg_of_red_gradient_radius"
-                            android:paddingLeft="@dimen/dp_6"
-                            android:paddingTop="@dimen/dp_4"
-                            android:paddingRight="@dimen/dp_6"
-                            android:paddingBottom="@dimen/dp_4"
-                            android:text="F码"
-                            android:textColor="@color/white"
-                            android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />
+                    <!--<TextView-->
+                    <!--style="@style/width_warp_height_warp"-->
+                    <!--android:layout_marginLeft="@dimen/dp_6"-->
+                    <!--android:layout_marginRight="@dimen/dp_6"-->
+                    <!--android:background="@drawable/bg_of_red_gradient_radius"-->
+                    <!--android:paddingLeft="@dimen/dp_6"-->
+                    <!--android:paddingTop="@dimen/dp_4"-->
+                    <!--android:paddingRight="@dimen/dp_6"-->
+                    <!--android:paddingBottom="@dimen/dp_4"-->
+                    <!--android:text="F码"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:visibility="@{data.is_fcode.equals(`1`)?View.VISIBLE:View.GONE}" />-->
 
-                        <TextView
-                            style="@style/width_warp_height_warp"
-                            android:layout_marginLeft="@dimen/dp_6"
-                            android:layout_marginRight="@dimen/dp_6"
-                            android:background="@drawable/bg_of_red_gradient_radius"
-                            android:paddingLeft="@dimen/dp_6"
-                            android:paddingTop="@dimen/dp_4"
-                            android:paddingRight="@dimen/dp_6"
-                            android:paddingBottom="@dimen/dp_4"
-                            android:text="预"
-                            android:textColor="@color/white"
-                            android:visibility="@{data.is_presell.equals(`1`)?View.VISIBLE:View.GONE}" />
+                    <!--<TextView-->
+                    <!--style="@style/width_warp_height_warp"-->
+                    <!--android:layout_marginLeft="@dimen/dp_6"-->
+                    <!--android:layout_marginRight="@dimen/dp_6"-->
+                    <!--android:background="@drawable/bg_of_red_gradient_radius"-->
+                    <!--android:paddingLeft="@dimen/dp_6"-->
+                    <!--android:paddingTop="@dimen/dp_4"-->
+                    <!--android:paddingRight="@dimen/dp_6"-->
+                    <!--android:paddingBottom="@dimen/dp_4"-->
+                    <!--android:text="预"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:visibility="@{data.is_presell.equals(`1`)?View.VISIBLE:View.GONE}" />-->
 
-                        <TextView
-                            style="@style/width_warp_height_warp"
-                            android:layout_marginLeft="@dimen/dp_6"
-                            android:layout_marginRight="@dimen/dp_6"
-                            android:background="@drawable/bg_of_red_gradient_radius"
-                            android:paddingLeft="@dimen/dp_6"
-                            android:paddingTop="@dimen/dp_4"
-                            android:paddingRight="@dimen/dp_6"
-                            android:paddingBottom="@dimen/dp_4"
-                            android:text="降"
-                            android:textColor="@color/white"
-                            android:visibility="@{data.group_flag||data.xianshi_flag?View.VISIBLE:View.GONE}" />
+                    <!--<TextView-->
+                    <!--style="@style/width_warp_height_warp"-->
+                    <!--android:layout_marginLeft="@dimen/dp_6"-->
+                    <!--android:layout_marginRight="@dimen/dp_6"-->
+                    <!--android:background="@drawable/bg_of_red_gradient_radius"-->
+                    <!--android:paddingLeft="@dimen/dp_6"-->
+                    <!--android:paddingTop="@dimen/dp_4"-->
+                    <!--android:paddingRight="@dimen/dp_6"-->
+                    <!--android:paddingBottom="@dimen/dp_4"-->
+                    <!--android:text="降"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:visibility="@{data.group_flag||data.xianshi_flag?View.VISIBLE:View.GONE}" />-->
 
-                        <TextView
-                            style="@style/width_warp_height_warp"
-                            android:layout_marginLeft="@dimen/dp_6"
-                            android:layout_marginRight="@dimen/dp_6"
-                            android:background="@drawable/bg_of_red_gradient_radius"
-                            android:paddingLeft="@dimen/dp_6"
-                            android:paddingTop="@dimen/dp_4"
-                            android:paddingRight="@dimen/dp_6"
-                            android:paddingBottom="@dimen/dp_4"
-                            android:text="赠"
-                            android:textColor="@color/white"
-                            android:visibility="@{data.have_gift.equals(`1`)?View.VISIBLE:View.GONE}" />
+                    <!--<TextView-->
+                    <!--style="@style/width_warp_height_warp"-->
+                    <!--android:layout_marginLeft="@dimen/dp_6"-->
+                    <!--android:layout_marginRight="@dimen/dp_6"-->
+                    <!--android:background="@drawable/bg_of_red_gradient_radius"-->
+                    <!--android:paddingLeft="@dimen/dp_6"-->
+                    <!--android:paddingTop="@dimen/dp_4"-->
+                    <!--android:paddingRight="@dimen/dp_6"-->
+                    <!--android:paddingBottom="@dimen/dp_4"-->
+                    <!--android:text="赠"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:visibility="@{data.have_gift.equals(`1`)?View.VISIBLE:View.GONE}" />-->
 
-                        <TextView
-                            android:id="@+id/tv_goods_name"
-                            style="@style/TextStyle"
-                            android:layout_weight="1"
-                            android:ellipsize="end"
-                            android:gravity="start"
-                            android:maxLines="2"
-                            android:singleLine="false"
-                            android:text="@{data.goods_name}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_16"
-                            tools:text="新款Montblanc万宝龙蛤蟆太阳镜 时尚磨砂质感枪色墨镜MB717S Sliver(银)14A" />
+                    <!--<TextView-->
+                    <!--android:id="@+id/tv_goods_name"-->
+                    <!--style="@style/TextStyle"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:gravity="start"-->
+                    <!--android:maxLines="2"-->
+                    <!--android:singleLine="false"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="@dimen/text_16"-->
+                    <!--android:text="新款Montblanc万宝龙蛤蟆太阳镜 时尚磨砂质感枪色墨镜MB717S Sliver(银)14A" />-->
+                    <!--</LinearLayout>-->
 
-                    </LinearLayout>
+                    <TextView
+                        android:paddingTop="@dimen/dp_4"
+                        android:paddingBottom="@dimen/dp_4"
+                        android:id="@+id/tv_goods_name"
+                        style="@style/TextStyle"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="2"
+                        android:singleLine="false"
+                        tools:text="新款Montblanc万宝龙蛤蟆太阳镜 时尚磨砂质感枪色墨镜MB717S Sliver(银)14A"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16" />
 
                     <TextView
                         android:layout_width="match_parent"

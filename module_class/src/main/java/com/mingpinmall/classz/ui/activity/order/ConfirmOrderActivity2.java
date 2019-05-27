@@ -39,6 +39,7 @@ import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
 import com.socks.library.KLog;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,6 +57,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     @Autowired
     String cartId;
 
+    private List<ConfirmOrderBean.StoreCartListNewsBean> mStoreCartListNews;
     /**
      * 是否是购物车
      */
@@ -126,7 +128,8 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                             try {
                                 binding.setAddress(data.getData().getAddress_info());
                                 binding.setTotal(data.getData().getOrder_amount());
-                                adapter.setNewData(data.getData().getStore_cart_list_news());
+                                mStoreCartListNews = data.getData().getStore_cart_list_news();
+                                adapter.setNewData(mStoreCartListNews);
                                 addressId = data.getData().getAddress_info()
                                         .getAddress_id();
                                 ConfirmOrderBean.AddressApiBean addressApi = data.getData().getAddress_api();
@@ -252,6 +255,24 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         map.put("pay_name", "online");
         map.put("invoice_id", invoice_id);
         map.put("rpt", "");
+
+        if (null != mStoreCartListNews && mStoreCartListNews.size() > 0) {
+            ConfirmOrderBean.StoreCartListNewsBean.StoreVoucherInfoBean storeVoucherInfo;
+            StringBuilder sVoucher = new StringBuilder();
+            for (ConfirmOrderBean.StoreCartListNewsBean mStoreCartListNew : mStoreCartListNews) {
+                storeVoucherInfo = mStoreCartListNew.getStore_voucher_info();
+                if (null != storeVoucherInfo) {
+                    sVoucher.append(String.format("%s|%s|%s,", storeVoucherInfo.getVoucher_t_id(),
+                            storeVoucherInfo.getVoucher_store_id(),
+                            storeVoucherInfo.getVoucher_price()));
+                }
+            }
+            KLog.i(sVoucher.toString());
+            if (sVoucher.length() > 0) {
+                map.put("voucher", sVoucher.toString());/*代金卷*/
+            }
+        }
+
         BaseViewHolder item;
         ConfirmOrderBean.StoreCartListNewsBean itemData;
         StringBuilder payMsg = new StringBuilder();
@@ -273,7 +294,8 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     }
 
     @Override
-    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence
+            text) {
         KLog.i("支付方式" + text);
         binding.setPayment(text.toString());
         return true;
