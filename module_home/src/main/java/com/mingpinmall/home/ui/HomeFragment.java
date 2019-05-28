@@ -288,6 +288,13 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
      **/
     private void navigationRouter(String data, String type) {
         switch (type) {
+            case "brand":
+                //跳转到搜索专题页面
+                Map<String, Object> params = new HashMap<>(2);
+                params.put("gcId", data);
+                params.put("type", 0);
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
+                break;
             case "url":
                 //跳转到指定页面
                 route2Url(data);
@@ -342,13 +349,6 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
         } else if (url.contains("signin.html")) {
             //签到
             ToastUtils.showShort("签到");
-        } else if (url.contains("product_list.html?b_id")) {
-            //跳转到搜索指定id的商品
-            String id = url.split("b_id=")[1];
-            Map<String, Object> params = new HashMap<>(2);
-            params.put("gcId", id);
-            params.put("type", 0);
-            ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
         }
     }
 

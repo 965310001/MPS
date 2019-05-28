@@ -18,7 +18,7 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SelectPhotosTools;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityRefundApplyOrderBinding;
 import com.mingpinmall.me.ui.adapter.OrderRefundListAdapter;
@@ -48,7 +48,6 @@ public class OrderRefundActivity extends AbsLifecycleActivity<ActivityRefundAppl
 
     private SelectPhotosTools photosTools;
     private OrderRefundListAdapter listAdapter;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -67,10 +66,7 @@ public class OrderRefundActivity extends AbsLifecycleActivity<ActivityRefundAppl
     }
 
     private void uploadRefundOrder() {
-        if (progressDialog == null) {
-            progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
-        }
-        progressDialog.onLoading("");
+        CustomProgressDialog.show(activity);
         Map<String, RequestBody> params = new HashMap<>();
         params.put("key", RequestBody.create(MediaType.parse("text/plain"), ((UserBean) SharePreferenceUtil.getUser(UserBean.class)).getKey()));
         params.put("order_id", RequestBody.create(MediaType.parse("text/plain"), id));
@@ -108,12 +104,14 @@ public class OrderRefundActivity extends AbsLifecycleActivity<ActivityRefundAppl
         });
         registerObserver(Constants.POST_REFUND_ALL, String.class).observeForever(result -> {
             if (result.equals(SUCCESS)) {
-                progressDialog.onComplete("");
+                ToastUtils.showShort("提交成功");
+                CustomProgressDialog.stop();
                 ActivityToActivity.toActivity(ARouterConfig.Me.REFUNDACTIVITY);
                 setResult(RESULT_OK);
                 finish();
             } else {
-                progressDialog.onFail(result);
+                ToastUtils.showShort(result);
+                CustomProgressDialog.stop();
             }
         });
     }

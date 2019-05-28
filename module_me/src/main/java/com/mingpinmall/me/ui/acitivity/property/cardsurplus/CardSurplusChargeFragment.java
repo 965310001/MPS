@@ -1,11 +1,11 @@
 package com.mingpinmall.me.ui.acitivity.property.cardsurplus;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentCardChargeBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
@@ -15,14 +15,14 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：充值卡充值
+ *
  * @author 小斌
  * @date 2019/4/13
  **/
 public class CardSurplusChargeFragment extends AbsLifecycleFragment<FragmentCardChargeBinding, MeViewModel> {
 
-    private ProgressDialog progressDialog;
-
-    public CardSurplusChargeFragment() {}
+    public CardSurplusChargeFragment() {
+    }
 
     public static CardSurplusChargeFragment newFragment() {
         return new CardSurplusChargeFragment();
@@ -31,10 +31,9 @@ public class CardSurplusChargeFragment extends AbsLifecycleFragment<FragmentCard
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        progressDialog = ProgressDialog.initNewDialog(getChildFragmentManager());
         binding.btnSubmit.setOnClickListener(v -> {
             if (binding.edCardNum.length() > 0) {
-                progressDialog.onLoading("");
+                CustomProgressDialog.show(activity);
                 mViewModel.rcCharge(binding.edCardNum.getText().toString());
             }
         });
@@ -44,12 +43,13 @@ public class CardSurplusChargeFragment extends AbsLifecycleFragment<FragmentCard
     protected void dataObserver() {
         registerObserver(Constants.RCARD_CHARGE, String.class).observeForever(msg -> {
             if (msg.equals(SUCCESS)) {
-                progressDialog.onComplete("", () -> {
-                    binding.edCardNum.setText("");
-                    LiveBus.getDefault().postEvent("REFRESH_RCARD", "true");
-                });
+                ToastUtils.showShort("充值成功");
+                CustomProgressDialog.stop();
+                binding.edCardNum.setText("");
+                LiveBus.getDefault().postEvent("REFRESH_RCARD", "true");
             } else {
-                progressDialog.onFail(msg);
+                ToastUtils.showShort(msg);
+                CustomProgressDialog.stop();
             }
         });
     }

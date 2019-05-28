@@ -296,7 +296,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.ADD_PDCASH, SUCCESS);
+                            sendData(Constants.ADD_PDCASH, "您的提现申请已成功提交，请等待系统处理");
                         } else {
                             sendData(Constants.ADD_PDCASH, result.getMessage());
                         }
@@ -318,7 +318,7 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseNothingBean result) {
                         if (result.isSuccess()) {
-                            sendData(Constants.BIND_USER_CODE, SUCCESS);
+                            sendData(Constants.BIND_USER_CODE, "绑定推荐码成功");
                         } else {
                             sendData(Constants.BIND_USER_CODE, result.getMessage());
                         }

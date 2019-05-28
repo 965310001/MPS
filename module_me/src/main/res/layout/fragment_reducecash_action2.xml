@@ -38,6 +38,7 @@
                     android:background="@drawable/bg_edittext_default"
                     android:gravity="center_vertical"
                     android:hint="@string/hint_text_reduce2_ed1"
+                    android:inputType="numberDecimal"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp" />
 
@@ -66,6 +67,7 @@
                     android:background="@drawable/bg_edittext_default"
                     android:gravity="center_vertical"
                     android:hint="@string/hint_text_reduce2_ed3"
+                    android:inputType="number"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp" />
 
@@ -94,6 +96,7 @@
                     android:background="@drawable/bg_edittext_default"
                     android:gravity="center_vertical"
                     android:hint="@string/hint_text_reduce2_ed5"
+                    android:inputType="textPassword"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp" />
 

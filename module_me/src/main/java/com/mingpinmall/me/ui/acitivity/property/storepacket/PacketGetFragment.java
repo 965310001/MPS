@@ -4,7 +4,8 @@ import android.os.Bundle;
 
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentPacketGetBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
@@ -19,8 +20,6 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
  **/
 public class PacketGetFragment extends AbsLifecycleFragment<FragmentPacketGetBinding, MeViewModel> {
 
-    private ProgressDialog progressDialog;
-
     public static PacketGetFragment newFragment() {
         return new PacketGetFragment();
     }
@@ -28,10 +27,9 @@ public class PacketGetFragment extends AbsLifecycleFragment<FragmentPacketGetBin
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        progressDialog = ProgressDialog.initNewDialog(getChildFragmentManager());
         binding.btnSubmit.setOnClickListener(v -> {
             if (binding.edCardNum.length() > 0) {
-                progressDialog.onLoading("");
+                CustomProgressDialog.show(activity);
                 mViewModel.packetCharge(binding.edCardNum.getText().toString().trim());
             }
         });
@@ -41,12 +39,13 @@ public class PacketGetFragment extends AbsLifecycleFragment<FragmentPacketGetBin
     protected void dataObserver() {
         registerObserver(Constants.PACKET_CHARGE, String.class).observeForever(msg -> {
             if (msg.equals(SUCCESS)) {
-                progressDialog.onComplete("", () -> {
+                ToastUtils.showShort("领取成功");
+                CustomProgressDialog.stop();
                     binding.edCardNum.setText("");
                     LiveBus.getDefault().postEvent("REFRESH_PACKET", "true");
-                });
             } else {
-                progressDialog.onFail(msg);
+                ToastUtils.showShort(msg);
+                CustomProgressDialog.stop();
             }
         });
     }

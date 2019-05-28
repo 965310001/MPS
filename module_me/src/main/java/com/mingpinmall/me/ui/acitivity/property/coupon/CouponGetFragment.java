@@ -4,7 +4,8 @@ import android.os.Bundle;
 
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentCouponGetBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
@@ -19,8 +20,6 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
  **/
 public class CouponGetFragment extends AbsLifecycleFragment<FragmentCouponGetBinding, MeViewModel> {
 
-    private ProgressDialog progressDialog;
-
     public static CouponGetFragment newFragment() {
         return new CouponGetFragment();
     }
@@ -28,10 +27,9 @@ public class CouponGetFragment extends AbsLifecycleFragment<FragmentCouponGetBin
     @Override
     public void initView(Bundle state) {
         super.initView(state);
-        progressDialog = ProgressDialog.initNewDialog(getChildFragmentManager());
         binding.btnSubmit.setOnClickListener(v -> {
             if (binding.edCardNum.length() > 0) {
-                progressDialog.onLoading("");
+                CustomProgressDialog.show(activity);
                 mViewModel.cpCharge(binding.edCardNum.getText().toString().trim());
             }
         });
@@ -41,12 +39,12 @@ public class CouponGetFragment extends AbsLifecycleFragment<FragmentCouponGetBin
     protected void dataObserver() {
         registerObserver(Constants.COUPON_CHARGE, String.class).observeForever(msg -> {
             if (msg.equals(SUCCESS)) {
-                progressDialog.onComplete("", () -> {
+                CustomProgressDialog.stop();
                     binding.edCardNum.setText("");
                     LiveBus.getDefault().postEvent("REFRESH_COUPON", "true");
-                });
             } else {
-                progressDialog.onFail(msg);
+                ToastUtils.showShort(msg);
+                CustomProgressDialog.stop();
             }
         });
     }

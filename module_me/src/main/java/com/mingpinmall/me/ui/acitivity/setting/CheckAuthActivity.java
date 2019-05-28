@@ -12,7 +12,7 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityResetCheckBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
@@ -35,7 +35,6 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
     public final static int RESET_PASSWORD = 1;
     public final static int RESET_PAY_PASSWORD = 2;
 
-    private ProgressDialog progressDialog;
     private CountDownButtonHelper buttonHelper;
 
     @Autowired
@@ -55,7 +54,6 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
     public void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         switch (type) {
             case 0:
                 setTitle(R.string.title_resetPhoneActivity);
@@ -120,14 +118,13 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
     @Override
     protected void dataObserver() {
         registerObserver(Constants.CHECK_PAY_PASSWORD, String.class).observeForever(result -> {
+            CustomProgressDialog.stop();
             if (result.equals(SUCCESS)) {
-                //设置了支付密码，跳转到使用支付密码设置手机
-                progressDialog.close();
+                //  设置了支付密码，跳转到使用支付密码设置手机
             } else if ("获取设置失败".equals(result)) {
-                progressDialog.onFail(result);
+                CustomProgressDialog.stop();
             } else {
                 //没设置支付密码，跳转到设置支付密码
-                progressDialog.close();
                 TextDialog.showBaseDialog(activity,
                         "提示",
                         getString(R.string.dialog_text_tips),
@@ -182,7 +179,7 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
         } else if (viewId == R.id.tv_change) {
             //通过支付密码修改手机
             //检查是否设置了支付密码
-            progressDialog.onLoading("");
+            CustomProgressDialog.show(activity);
             mViewModel.checkPayPassword();
         } else if (viewId == R.id.btn_sublimt) {
             //点击下一步

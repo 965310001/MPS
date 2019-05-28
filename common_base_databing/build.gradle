@@ -121,7 +121,8 @@ dependencies {
     /*相册图片选择/拍照*/
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     /*WebView*/
-    api 'com.just.agentweb:agentweb:4.0.3-alpha@aar'
+    api 'com.just.agentweb:agentweb:4.0.3-beta@aar'
+    api 'com.github.lzyzsd:jsbridge:1.0.4'
     /*二维码扫描*/
     api 'com.journeyapps:zxing-android-embedded:3.6.0'
 //    api 'com.kongzue.stacklabel:stacklabelview:1.1.3'

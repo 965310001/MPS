@@ -12,6 +12,8 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        /*svg*/
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
