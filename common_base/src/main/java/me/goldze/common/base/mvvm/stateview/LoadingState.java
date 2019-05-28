@@ -16,8 +16,8 @@ public class LoadingState extends BaseStateControl {
         return R.layout.stateview_loading_view;
     }
 
-    @Override
-    public boolean isVisible() {
-        return super.isVisible();
-    }
+//    @Override
+//    public boolean isVisible() {
+//        return super.isVisible();
+//    }
 }

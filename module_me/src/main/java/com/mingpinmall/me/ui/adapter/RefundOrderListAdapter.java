@@ -2,8 +2,6 @@ package com.mingpinmall.me.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -12,7 +10,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 import com.mingpinmall.me.ui.bean.RefundBean;
 
 import java.util.ArrayList;

@@ -18,17 +18,17 @@ import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：我的财产-账户余额
+ *
  * @author 小斌
  * @date 2019/3/28
  **/
 @Route(path = ARouterConfig.Me.ACCOUNTSURPLUSACTIVITY)
 public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccountSurplusBinding, MeViewModel> {
 
-    private PredepositLogFragment predepositLogFragment;
-    private PdrechargeFragment pdrechargeFragment;
-    private PdcashFragment pdcashFragment;
-
-    private BasePagerAdapter pagerAdapter;
+//    private PredepositLogFragment predepositLogFragment;
+//    private PdrechargeFragment pdrechargeFragment;
+//    private PdcashFragment pdcashFragment;
+//    private BasePagerAdapter pagerAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -39,11 +39,11 @@ public class AccountSurplusActivity extends AbsLifecycleActivity<ActivityAccount
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         setTitle(R.string.title_accountSurplusActivity);
-        pagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), this);
+        BasePagerAdapter pagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), this);
 
-        predepositLogFragment = new PredepositLogFragment();
-        pdrechargeFragment = new PdrechargeFragment();
-        pdcashFragment = new PdcashFragment();
+        PredepositLogFragment predepositLogFragment = new PredepositLogFragment();
+        PdrechargeFragment pdrechargeFragment = new PdrechargeFragment();
+        PdcashFragment pdcashFragment = new PdcashFragment();
 
         pagerAdapter.addFragment(predepositLogFragment, R.string.tabs_text_surplus1);
         pagerAdapter.addFragment(pdrechargeFragment, R.string.tabs_text_surplus2);

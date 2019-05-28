@@ -4,7 +4,6 @@ import android.databinding.Bindable;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

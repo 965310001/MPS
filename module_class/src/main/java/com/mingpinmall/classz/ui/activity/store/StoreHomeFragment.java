@@ -49,14 +49,21 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                             ItemData itemData = new ItemData();
                             itemData.add(new TypeInfo("店铺排行榜"));
                             GoodsListInfo goodsListInfo = new GoodsListInfo();
-                            goodsListInfo.setCollectdesc_goods_list(data.getData().getCollectdesc_goods_list());
-                            goodsListInfo.setSalenumdesc_goods_list(data.getData().getSalenumdesc_goods_list());
+                            StoreInfo storeInfo = data.getData();
+                            if (null != storeInfo) {
+                                goodsListInfo.setCollectdesc_goods_list(storeInfo.getCollectdesc_goods_list());
+                                goodsListInfo.setSalenumdesc_goods_list(storeInfo.getSalenumdesc_goods_list());
+                            }
                             goodsListInfo.setList(goodsListInfo.getCollectdesc_goods_list());
                             itemData.add(goodsListInfo);
                             itemData.add(new TypeInfo("店主推荐"));
-                            itemData.addAll(data.getData().getRec_goods_list());
+                            if (null != storeInfo) {
+                                itemData.addAll(storeInfo.getRec_goods_list());
+                            }
                             setData(itemData);
-                            ((StoreActivity) getActivity()).setStoreInfo(data.getData().getStore_info());
+                            if (null != storeInfo) {
+                                ((StoreActivity) getActivity()).setStoreInfo(storeInfo.getStore_info());
+                            }
                         } catch (Exception e) {
                             KLog.i(e.toString());
                         }

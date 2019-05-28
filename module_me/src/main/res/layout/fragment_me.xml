@@ -62,7 +62,7 @@
 
             <View
                 android:layout_width="0dp"
-                android:layout_height="@dimen/line_hight"
+                android:layout_height="@dimen/line_height"
                 android:background="@color/line_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.socks.library.KLog;
@@ -30,11 +29,11 @@ public abstract class AbsLifecycleFragment<T extends AbsViewModel> extends BaseF
 
     protected T mViewModel;
 
-    protected Object mStateEventKey;
+    private Object mStateEventKey;
 
-    protected String mStateEventTag;
+    private String mStateEventTag;
 
-    private List<Object> eventKeys = new ArrayList<>();
+    private final List<Object> eventKeys = new ArrayList<>();
 
     @Override
     public void initView(Bundle state) {

@@ -5,7 +5,7 @@
         android:radius="19dp" />
 
     <stroke
-        android:width="@dimen/line_hight"
+        android:width="@dimen/line_height"
         android:color="@color/dark" />
 
     <solid android:color="#CEEBEBEB" />

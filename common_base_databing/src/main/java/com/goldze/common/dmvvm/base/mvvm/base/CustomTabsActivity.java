@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.goldze.common.dmvvm.R;
-import com.goldze.common.dmvvm.databinding.ActivityBaseTabsBinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;

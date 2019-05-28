@@ -1,7 +1,5 @@
 package com.mingpinmall.me.ui.adapter;
 
-import android.widget.ImageView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;

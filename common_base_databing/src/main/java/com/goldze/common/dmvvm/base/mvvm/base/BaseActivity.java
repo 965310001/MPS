@@ -33,8 +33,6 @@ import com.goldze.common.dmvvm.xutils.ViewUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
-import com.xuexiang.xui.XUI;
-import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 import com.xuexiang.xui.widget.tabbar.TabControlView;
 
 /**
@@ -54,7 +52,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends AppCompat
     protected AppCompatEditText edSearch;
     protected ConstraintLayout clSearch;
     protected TextView tvTitle, tvRight;
-    private RelativeLayout rlTitleBar;
+    //    private RelativeLayout rlTitleBar;
     protected TabControlView tabControlView;
 
     private ImmersionBar mImmersionBar;
@@ -89,7 +87,7 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends AppCompat
         if (isActionBar()) {
             ivBack = findViewById(R.id.iv_back);
             tvTitle = findViewById(R.id.tv_title);
-            rlTitleBar = findViewById(R.id.rl_title_bar);
+            RelativeLayout rlTitleBar = findViewById(R.id.rl_title_bar);
             tvRight = findViewById(R.id.tv_right);
             ivSearch = findViewById(R.id.iv_search);
             clSearch = findViewById(R.id.cl_search);

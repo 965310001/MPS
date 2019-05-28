@@ -23,6 +23,8 @@ public class TUtil {
                 e.printStackTrace();
             } catch (ClassCastException e) {
                 e.printStackTrace();
+            }catch (Exception e){
+                e.printStackTrace();
             }
 
         }

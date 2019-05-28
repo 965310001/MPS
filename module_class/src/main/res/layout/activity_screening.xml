@@ -96,7 +96,7 @@
                     app:maxSelectNum="1"
                     app:selectBackground="@drawable/bg_grid_white_select"
                     app:selectMode="true"
-                    app:selectTextColor="#FFFFFF"
+                    app:selectTextColor="@color/white"
                     app:textColor="#5F5F5F"
                     app:textSize="12sp" />
 
@@ -126,7 +126,7 @@
                         app:maxSelectNum="1"
                         app:selectBackground="@drawable/bg_grid_white_select"
                         app:selectMode="true"
-                        app:selectTextColor="#FFFFFF"
+                        app:selectTextColor="@color/white"
                         app:textColor="#5F5F5F"
                         app:textSize="12sp" />
 
@@ -158,7 +158,7 @@
                         app:maxSelectNum="99"
                         app:selectBackground="@drawable/bg_grid_white_select"
                         app:selectMode="true"
-                        app:selectTextColor="#FFFFFF"
+                        app:selectTextColor="@color/white"
                         app:textColor="#5F5F5F"
                         app:textSize="12sp" />
 
@@ -217,7 +217,7 @@
                     app:maxSelectNum="99"
                     app:selectBackground="@drawable/bg_grid_white_select"
                     app:selectMode="true"
-                    app:selectTextColor="#FFFFFF"
+                    app:selectTextColor="@color/white"
                     app:textColor="#5F5F5F"
                     app:textSize="12sp" />
 
@@ -241,7 +241,7 @@
                     app:maxSelectNum="99"
                     app:selectBackground="@drawable/bg_grid_white_select"
                     app:selectMode="true"
-                    app:selectTextColor="#FFFFFF"
+                    app:selectTextColor="@color/white"
                     app:textColor="#5F5F5F"
                     app:textSize="12sp" />
 
@@ -265,7 +265,7 @@
                     app:maxSelectNum="99"
                     app:selectBackground="@drawable/bg_grid_white_select"
                     app:selectMode="true"
-                    app:selectTextColor="#FFFFFF"
+                    app:selectTextColor="@color/white"
                     app:textColor="#5F5F5F"
                     app:textSize="12sp" />
 
@@ -275,7 +275,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
+            android:layout_height="@dimen/line_height"
             android:background="@color/line_color" />
 
         <Button

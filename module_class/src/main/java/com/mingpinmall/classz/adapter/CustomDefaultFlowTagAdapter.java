@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.mingpinmall.classz.R;
-import com.socks.library.KLog;
 import com.xuexiang.xui.widget.flowlayout.DefaultFlowTagAdapter;
 
 /**

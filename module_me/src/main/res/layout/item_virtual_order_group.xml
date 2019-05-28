@@ -70,7 +70,7 @@
                 <View
                     android:id="@+id/line"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/line_hight"
+                    android:layout_height="@dimen/line_height"
                     android:background="@color/line_color"
                     app:layout_constraintBottom_toTopOf="@id/cl_shopsContent"
                     app:layout_constraintEnd_toEndOf="@id/tv_orderState"
@@ -140,7 +140,7 @@
                 <View
                     android:id="@+id/line1"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/line_hight"
+                    android:layout_height="@dimen/line_height"
                     android:background="@color/line_color"
                     app:layout_constraintEnd_toEndOf="@id/cl_shopsContent"
                     app:layout_constraintStart_toStartOf="@id/cl_shopsContent"
@@ -185,7 +185,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_hight"
+                    android:layout_height="@dimen/line_height"
                     android:background="@color/line_color"
                     app:layout_constraintBottom_toBottomOf="parent" />
 

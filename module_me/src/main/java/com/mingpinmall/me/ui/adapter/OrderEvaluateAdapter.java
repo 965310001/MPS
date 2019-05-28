@@ -6,10 +6,9 @@ import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
-import com.mingpinmall.me.R;
-import com.goldze.common.dmvvm.base.bean.BaseSelectPhotos;
-import com.mingpinmall.me.ui.bean.OrderEvaluateBean;
 import com.goldze.common.dmvvm.utils.SelectPhotosTools;
+import com.mingpinmall.me.R;
+import com.mingpinmall.me.ui.bean.OrderEvaluateBean;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,6 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
-import com.mingpinmall.classz.R;
 
 import java.util.List;
 

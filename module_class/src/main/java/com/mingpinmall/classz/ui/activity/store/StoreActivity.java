@@ -169,7 +169,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
         /*领取代金券*/
         registerObserver(Constants.VOUCHER[2], ResultBean.class)
                 .observe(this, response -> {
-                    xBottomSheet.dismiss();
+                    if (null != xBottomSheet && xBottomSheet.isShowing()) xBottomSheet.dismiss();
                     if (response.isSuccess()) {
                         ToastUtils.showLong("领取成功");
                     } else {
@@ -207,7 +207,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
 
     /*联系客服*/
     public void getContactService(View view) {
-        if (null!=storeInfo) {
+        if (null != storeInfo) {
             Map<String, Object> map = new HashMap<>();
             map.put("goodsId", "");
             map.put("tId", storeInfo.getMember_id());

@@ -33,7 +33,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:background="@drawable/bg_grid_white_corners_05dp"
-                    android:padding="@dimen/line_hight"
+                    android:padding="@dimen/line_height"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -163,7 +163,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_hight"
+                android:layout_height="@dimen/line_height"
                 android:background="@color/line_color"
                 app:layout_constraintTop_toTopOf="parent" />
 

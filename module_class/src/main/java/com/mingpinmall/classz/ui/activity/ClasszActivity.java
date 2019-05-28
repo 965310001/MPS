@@ -32,7 +32,7 @@ public class ClasszActivity extends BaseActivity {
     protected void initViews(Bundle savedInstanceState) {
         setTitle("分类");
         getSupportFragmentManager().beginTransaction().add(R.id.fl_content, ClassifyFragment.newInstance()).commit();
-        KLog.i(title + " " + strings+areaListInfo);
+//        KLog.i(title + " " + strings+areaListInfo);
 //        ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", "109928");
         /*店铺商家*/
         ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);

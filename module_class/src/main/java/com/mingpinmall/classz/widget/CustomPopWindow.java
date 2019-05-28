@@ -1,9 +1,7 @@
 package com.mingpinmall.classz.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -15,19 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.goldze.common.dmvvm.base.event.LiveBus;
-
 import com.mingpinmall.classz.R;
-import com.mingpinmall.classz.ui.constants.Constants;
 import com.socks.library.KLog;
 
 import java.util.List;

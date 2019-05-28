@@ -120,6 +120,7 @@ public class GoodsInfo extends BaseBean {
         if (userBean == null) {
             return false;
         }
+        KLog.i(userBean.getUserid().equals(member_id)+"true：自己 false:别人");
         return userBean.getUserid().equals(member_id);
     }
 

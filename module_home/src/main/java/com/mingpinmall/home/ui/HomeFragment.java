@@ -3,31 +3,28 @@ package com.mingpinmall.home.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentHomeBinding;
-import com.goldze.common.dmvvm.activity.qrcode.ScanQrCodeActivity;
 import com.mingpinmall.home.ui.adapter.HomeListAdapter;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.constants.Constants;
-import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -322,33 +319,43 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
      * @param url 地址
      */
     private void route2Url(String url) {
-        if (url.contains("mall.html")) {
-            //店铺街
-            ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
-        } else if (url.contains("member_asset.html")) {
-            //资产管理
-            ActivityToActivity.toActivity(ARouterConfig.Me.PROPERTYACTIVITY);
-        } else if (url.contains("views_list.html")) {
-            //我的足迹
-            ActivityToActivity.toActivity(ARouterConfig.Me.FOOTPRINTACTIVITY);
-        } else if (url.contains("member_invite.html")) {
-            //分销管理 DISRTIBUTIONACTIVITY
-            ActivityToActivity.toActivity(ARouterConfig.Me.DISRTIBUTIONACTIVITY);
-        } else if (url.contains("product_first_categroy.html")) {
-            //分类 跳转底部导航
-            LiveBus.getDefault().postEvent("Main", "tab", 1);
-        } else if (url.contains("famous_teacher.html")) {
-            //名师 跳转底部导航
-            LiveBus.getDefault().postEvent("Main", "tab", 2);
-        } else if (url.contains("cart_list.html")) {
-            //购物车 跳转底部导航
-            LiveBus.getDefault().postEvent("Main", "tab", 3);
-        } else if (url.contains("member.html")) {
-            //我的 跳转底部导航
-            LiveBus.getDefault().postEvent("Main", "tab", 4);
-        } else if (url.contains("signin.html")) {
-            //签到
-            ToastUtils.showShort("签到");
+        if (!TextUtils.isEmpty(url)) {
+            if (url.contains("mall.html")) {
+                //店铺街
+                ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
+            } else if (url.contains("member_asset.html")) {
+                //资产管理
+                ActivityToActivity.toActivity(ARouterConfig.Me.PROPERTYACTIVITY);
+            } else if (url.contains("views_list.html")) {
+                //我的足迹
+                ActivityToActivity.toActivity(ARouterConfig.Me.FOOTPRINTACTIVITY);
+            } else if (url.contains("member_invite.html")) {
+                //分销管理 DISRTIBUTIONACTIVITY
+                ActivityToActivity.toActivity(ARouterConfig.Me.DISRTIBUTIONACTIVITY);
+            } else if (url.contains("product_first_categroy.html")) {
+                //分类 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 1);
+            } else if (url.contains("famous_teacher.html")) {
+                //名师 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 2);
+            } else if (url.contains("cart_list.html")) {
+                //购物车 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 3);
+            } else if (url.contains("member.html")) {
+                //我的 跳转底部导航
+                LiveBus.getDefault().postEvent("Main", "tab", 4);
+            } else if (url.contains("signin.html")) {
+                //签到
+                ToastUtils.showShort("签到");
+            }
+//            else if (url.contains("product_list.html?b_id")) {
+//                跳转到搜索指定id的商品
+//                String id = url.split("b_id=")[1];
+//                Map<String, Object> params = new HashMap<>(2);
+//                params.put("gcId", id);
+//                params.put("type", 0);
+//                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
+//            }
         }
     }
 

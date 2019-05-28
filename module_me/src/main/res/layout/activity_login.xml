@@ -15,7 +15,7 @@
             android:background="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:tl_divider_color="@color/line_color"
-            app:tl_divider_width="@dimen/line_hight"
+            app:tl_divider_width="@dimen/line_height"
             app:tl_iconGravity="LEFT"
             app:tl_iconHeight="18dp"
             app:tl_iconWidth="18dp"
@@ -33,7 +33,7 @@
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
+            android:layout_height="@dimen/line_height"
             android:background="@color/line_color"
             app:layout_constraintBottom_toTopOf="@id/ll_panel"
             app:layout_constraintTop_toBottomOf="@id/tabs" />
@@ -90,7 +90,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_hight"
+                    android:layout_height="@dimen/line_height"
                     android:background="@color/line_color" />
 
                 <LinearLayout
@@ -148,7 +148,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_hight"
+                android:layout_height="@dimen/line_height"
                 android:background="@color/line_color" />
 
             <LinearLayout
@@ -201,7 +201,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_hight"
+                android:layout_height="@dimen/line_height"
                 android:background="@color/line_color" />
 
         </LinearLayout>

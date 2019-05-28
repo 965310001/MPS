@@ -1,24 +1,18 @@
 package com.mingpinmall.classz.ui.activity.details;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoDetailMainBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;

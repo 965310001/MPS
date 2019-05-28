@@ -71,6 +71,8 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     /*地址id  是否选择发票*/
     private String addressId, invoice_id = "", mVatHash, mOffpayHash, mOffpayHashBatch;
 
+    private String mPySn;
+
     /**
      * 支付窗口
      */
@@ -161,6 +163,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                 .observe(this, response -> {
                     BaseResponse<BuyStepInfo> data = response;
                     if (data.isSuccess()) {
+                        mPySn = data.getData().getPay_sn();
                         showPaySheet(data.getData().getPay_info());
                     } else {
                         ToastUtils.showLong(data.getMessage());
@@ -231,9 +234,9 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         context.pay(map, this);
     }
 
-    public void merchant(View view) {
-        // TODO: 2019/4/11 商家界面
-    }
+//    public void merchant(View view) {
+//        // TODO: 2019/4/11 商家界面
+//    }
 
     public void invoiceInfo(View view) {
         ARouter.getInstance().build(ARouterConfig.classify.INVOICEACTIVITY)
@@ -255,7 +258,9 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         map.put("pay_name", "online");
         map.put("invoice_id", invoice_id);
         map.put("rpt", "");
-
+        if (!TextUtils.isEmpty(mPySn)) {
+            map.put("pay_sn", mPySn);
+        }
         if (null != mStoreCartListNews && mStoreCartListNews.size() > 0) {
             ConfirmOrderBean.StoreCartListNewsBean.StoreVoucherInfoBean storeVoucherInfo;
             StringBuilder sVoucher = new StringBuilder();

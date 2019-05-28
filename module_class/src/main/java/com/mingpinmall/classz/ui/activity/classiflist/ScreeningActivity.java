@@ -3,13 +3,11 @@ package com.mingpinmall.classz.ui.activity.classiflist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
@@ -24,13 +22,10 @@ import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.ui.vm.bean.ScreeningBean;
 import com.mingpinmall.classz.ui.vm.bean.ScreeningClassBean;
-import com.mingpinmall.classz.utils.AssetsData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author 小斌
@@ -112,8 +107,8 @@ public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBin
             }
         });
 
-        binding.slClassThree.setOnLabelClickListener((index, v, s) -> {
-        });
+//        binding.slClassThree.setOnLabelClickListener((index, v, s) -> {
+//        });
         binding.btnOk.setOnClickListener(v -> {
             click2Result();
         });
@@ -181,10 +176,12 @@ public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBin
         for (int i = 0; i < data.size(); i++) {
             ScreeningClassBean.GoodsAttrListBean item = data.get(i);
             BaseViewHolder helper = (BaseViewHolder) binding.recyclerView.findViewHolderForAdapterPosition(i);
-            StackLabel stackLabel = helper.getView(R.id.stl_view);
-            for (Integer index : stackLabel.getSelectIndexArray()) {
-                screenInfo.attrs = screenInfo.attrs +
-                        item.getValue().get(index).getAttr_value_id() + "_";
+            if (null!=helper) {
+                StackLabel stackLabel = helper.getView(R.id.stl_view);
+                for (Integer index : stackLabel.getSelectIndexArray()) {
+                    screenInfo.attrs = screenInfo.attrs +
+                            item.getValue().get(index).getAttr_value_id() + "_";
+                }
             }
         }
         int areaIndex = binding.spinnerSystem.getSelectedItemPosition() - 1;

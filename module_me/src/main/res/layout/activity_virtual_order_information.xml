@@ -130,7 +130,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/line_hight"
+                        android:layout_height="@dimen/line_height"
                         android:layout_marginTop="12dp"
                         android:visibility='@{data.buyer_msg.equals("") ? View.GONE : View.VISIBLE}'
                         android:background="@color/line_color" />
@@ -149,7 +149,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/line_hight"
+                        android:layout_height="@dimen/line_height"
                         android:layout_marginTop="12dp"
                         android:background="@color/line_color" />
 
@@ -172,7 +172,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/line_hight"
+                        android:layout_height="@dimen/line_height"
                         android:layout_marginTop="12dp"
                         android:background="@color/line_color"
                         android:visibility="@{hasAddress ? View.VISIBLE : View.GONE}" />
@@ -206,7 +206,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/line_hight"
+                        android:layout_height="@dimen/line_height"
                         android:layout_marginStart="@dimen/dp_12"
                         android:layout_marginEnd="@dimen/dp_12"
                         android:background="@color/line_color" />
@@ -340,7 +340,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_hight"
+                android:layout_height="@dimen/line_height"
                 android:background="@color/line_color"
                 app:layout_constraintTop_toTopOf="parent" />
 

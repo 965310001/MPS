@@ -5,10 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
 
-import java.util.List;
 import java.util.Map;
 
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**

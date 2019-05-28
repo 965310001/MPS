@@ -1,17 +1,11 @@
 package com.mingpinmall.me.ui.widget;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
-
-import com.mingpinmall.me.R;
 
 /**
  * Created by Jason_周 on 2019/4/20.

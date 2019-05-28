@@ -9,7 +9,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.ActivitySpecialBinding;

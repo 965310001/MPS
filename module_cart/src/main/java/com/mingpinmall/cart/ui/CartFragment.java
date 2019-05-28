@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -356,7 +355,12 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             dataList.add(itemSpace);
         }
         binding.clPayContent.setVisibility(dataList.size() > 0 ? View.VISIBLE : View.GONE);
-        shopCartAdapter.setNewData(dataList);
+        if (dataList.size() > 0) {
+            shopCartAdapter.setNewData(dataList);
+        } else {
+            shopCartAdapter.getData().clear();
+            shopCartAdapter.notifyDataSetChanged();
+        }
         binding.cbSelectAll.setChecked(checkedSize == goodsSize, false);
         binding.tvMoney.setText(getMoney(money));
     }

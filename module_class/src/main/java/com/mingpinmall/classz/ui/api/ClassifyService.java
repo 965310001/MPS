@@ -2,12 +2,11 @@ package com.mingpinmall.classz.ui.api;
 
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
-import com.mingpinmall.classz.ui.vm.bean.ClassGoodsBean;
 import com.mingpinmall.classz.ui.vm.bean.CartCountInfo;
+import com.mingpinmall.classz.ui.vm.bean.ClassGoodsBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;

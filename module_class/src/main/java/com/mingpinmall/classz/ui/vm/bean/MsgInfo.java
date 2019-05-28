@@ -1,10 +1,7 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
-import com.google.gson.annotations.SerializedName;
 import com.socks.library.KLog;
-
-import java.util.List;
 
 public class MsgInfo extends BaseBean {
 

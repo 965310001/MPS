@@ -30,10 +30,10 @@ public class EmptyState extends BaseStateControl {
         view.findViewById(R.id.btn_action).setVisibility(View.GONE);
     }
 
-    @Override
-    public boolean isVisible() {
-        return super.isVisible();
-    }
+//    @Override
+//    public boolean isVisible() {
+//        return super.isVisible();
+//    }
 
     @Override
     protected boolean onReloadEvent(Context context, View view) {

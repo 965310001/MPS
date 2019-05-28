@@ -56,7 +56,7 @@
 
             <View
                 android:id="@+id/line0"
-                android:layout_width="@dimen/line_hight"
+                android:layout_width="@dimen/line_height"
                 android:layout_height="0dp"
                 android:background="@color/line_color"
                 app:layout_constraintBottom_toBottomOf="@id/iv_square"
@@ -79,7 +79,7 @@
             <View
                 android:id="@+id/line1"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/line_hight"
+                android:layout_height="@dimen/line_height"
                 android:background="@color/line_color"
                 app:layout_constraintBottom_toTopOf="@id/iv_rectangle2"
                 app:layout_constraintEnd_toEndOf="@id/iv_rectangle1"
@@ -101,13 +101,13 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
+            android:layout_height="@dimen/line_height"
             android:background="@color/line_color"
             app:layout_constraintBottom_toTopOf="@id/cl_content" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
+            android:layout_height="@dimen/line_height"
             android:background="@color/line_color"
             app:layout_constraintTop_toBottomOf="@id/cl_content" />
 

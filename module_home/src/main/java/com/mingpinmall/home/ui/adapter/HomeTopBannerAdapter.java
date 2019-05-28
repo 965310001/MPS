@@ -5,9 +5,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -15,7 +12,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.adapter.BaseBannerAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
-import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.ViewHomeItemTopbannerBinding;
 

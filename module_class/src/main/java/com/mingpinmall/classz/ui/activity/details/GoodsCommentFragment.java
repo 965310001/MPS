@@ -50,7 +50,7 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
 
     int index;
 
-    ItemData itemData = new ItemData();
+    private final ItemData itemData = new ItemData();
 
     @Override
     protected void dataObserver() {

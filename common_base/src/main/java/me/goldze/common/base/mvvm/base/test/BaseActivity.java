@@ -45,7 +45,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
 
     private Unbinder unBinder;
     private ImmersionBar mImmersionBar;
-    private ViewGroup contentLayout;
+//    private ViewGroup contentLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
 
         setContentView(R.layout.activity_base);
 
-        contentLayout = findViewById(R.id.fl_content);
+        ViewGroup contentLayout = findViewById(R.id.fl_content);
         contentLayout.addView(getLayoutInflater().inflate(getLayoutId(), null));
 
         loadManager = new LoadManager.Builder().setViewParams(contentLayout)

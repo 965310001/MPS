@@ -141,7 +141,7 @@ public final class AssetsUtils {
                     getFolderName = (filePosi == -1) ? "" : parentPath.substring(0, filePosi);
                 }
 
-                Boolean makeDirs = false;
+                Boolean makeDirs;
                 if (getFolderName == null || getFolderName.length() == 0) {
                     makeDirs = false;
                 } else {

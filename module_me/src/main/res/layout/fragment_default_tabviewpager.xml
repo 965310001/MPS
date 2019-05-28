@@ -19,7 +19,7 @@
             app:layout_constraintBottom_toTopOf="@id/ll_panel"
             app:layout_constraintTop_toTopOf="parent"
             app:tl_divider_color="@color/line_color"
-            app:tl_divider_width="@dimen/line_hight"
+            app:tl_divider_width="@dimen/line_height"
             app:tl_indicator_anim_duration="300"
             app:tl_indicator_bounce_enable="true"
             app:tl_indicator_color="@color/app_theme_d61619"
@@ -33,7 +33,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
+            android:layout_height="@dimen/line_height"
             android:background="@color/line_color" />
 
         <RelativeLayout

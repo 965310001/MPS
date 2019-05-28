@@ -23,7 +23,7 @@ public abstract class BaseTabsLifecycleActivity<T extends ViewDataBinding, D ext
 
     private Fragment currentFrament;
     private List<String> titles;
-    private List<Class> classes;
+//    private List<Class> classes;
     private List<Fragment> fragments;
 
     protected Fragment getFragments(int index) {
@@ -57,7 +57,7 @@ public abstract class BaseTabsLifecycleActivity<T extends ViewDataBinding, D ext
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         titles = Arrays.asList(initTabs());
-        classes = Arrays.asList(initFragments());
+        List<Class> classes = Arrays.asList(initFragments());
         fragments = new ArrayList<>();
         Fragment fragment;
         for (Class clx : classes) {

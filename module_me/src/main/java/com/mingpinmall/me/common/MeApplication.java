@@ -66,8 +66,8 @@ public class MeApplication extends BaseApplication {
 
     }
 
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-    }
+//    @Override
+//    public void onTerminate() {
+//        super.onTerminate();
+//    }
 }

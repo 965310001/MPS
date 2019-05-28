@@ -26,7 +26,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.ReplacementSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -267,7 +266,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 //        }
 //        SpannableString spannableString = new SpannableString(goodsInfo.getGoods_name());
 //        spannableString.setSpan(new RoundBackgroundColorSpan(Color.parseColor("#12DBD1"),
-//                Color.parseColor("#FFFFFF")), 0, spannableString.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                Color.parseColor("@color/white")), 0, spannableString.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 //        stringBuilder.append(goodsInfo.getGoods_name());
 //        binding.tvGoodsName.setText(stringBuilder);

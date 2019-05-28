@@ -22,7 +22,7 @@ public abstract class BaseTabsActivity extends BaseActivity<ActivityBaseTabsBind
 
     private Fragment currentFrament;
     private List<String> titles;
-    private List<Class> classes;
+//    private List<Class> classes;
     private List<Fragment> fragments;
 
     protected Fragment getFragments(int index) {
@@ -62,7 +62,7 @@ public abstract class BaseTabsActivity extends BaseActivity<ActivityBaseTabsBind
     @Override
     protected void initViews(Bundle savedInstanceState) {
         titles = Arrays.asList(initTabs());
-        classes = Arrays.asList(initFragments());
+        List<Class> classes = Arrays.asList(initFragments());
         fragments = new ArrayList<>();
         Fragment fragment;
         for (Class clx : classes) {

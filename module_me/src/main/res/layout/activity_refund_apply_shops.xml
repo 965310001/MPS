@@ -86,7 +86,7 @@
                         <View
                             android:id="@+id/line"
                             android:layout_width="0dp"
-                            android:layout_height="@dimen/line_hight"
+                            android:layout_height="@dimen/line_height"
                             android:background="@color/line_color"
                             app:layout_constraintBottom_toTopOf="@id/cl_goods"
                             app:layout_constraintEnd_toEndOf="@id/tv_orderState"
@@ -111,7 +111,7 @@
                                 android:layout_marginTop="6dp"
                                 android:layout_marginBottom="6dp"
                                 android:background="@drawable/bg_grid_white_corners_05dp"
-                                android:padding="@dimen/line_hight"
+                                android:padding="@dimen/line_height"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@id/tv_label"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +176,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/line_hight"
+                            android:layout_height="@dimen/line_height"
                             android:background="@color/line_color"
                             app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -232,7 +232,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_hight"
+                    android:layout_height="@dimen/line_height"
                     android:background="@color/line_color" />
 
                 <LinearLayout
@@ -293,7 +293,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_hight"
+                    android:layout_height="@dimen/line_height"
                     android:background="@color/line_color" />
 
                 <LinearLayout
@@ -328,7 +328,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_hight"
+                    android:layout_height="@dimen/line_height"
                     android:background="@color/line_color" />
 
                 <LinearLayout

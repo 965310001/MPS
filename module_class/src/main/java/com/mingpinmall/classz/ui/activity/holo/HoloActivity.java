@@ -1,11 +1,9 @@
 package com.mingpinmall.classz.ui.activity.holo;
 
 import android.net.http.SslError;
-import android.os.Build;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -15,7 +13,6 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.just.agentweb.WebViewClient;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ActivityHoloBinding;
@@ -30,7 +27,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
 
     @Autowired
     String url;
-    WebView webview;
+    private WebView webview;
 //    private AgentWeb mAgentWeb;
 
     @Override
@@ -46,6 +43,8 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
         settings.setAllowFileAccess(true);
         settings.setDomStorageEnabled(true);//打开DOM存储API
         settings.setBlockNetworkImage(false);//同步请求图片
+        settings.setDefaultTextEncodingName("UTF-8");
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 设置缓存模式
 
         settings.setBuiltInZoomControls(true);
 
@@ -60,21 +59,21 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
         settings.setUserAgentString(String.format("%s %s", webview.getSettings().getUserAgentString(), "GZDZWL"));
         KLog.i();
         webview.setWebViewClient(new MyWebClient());
-        int version = Build.VERSION.SDK_INT;
-        if (version < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            webview.loadUrl("javascript:callJS()");
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webview.getSettings().setMixedContentMode(
-                    WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
-        } else {
-
-        }
-        webview.evaluateJavascript("javascript:callJS()", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-                //此处为 js 返回的结果
-            }
-        });
+//        int version = Build.VERSION.SDK_INT;
+//        if (version < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//            webview.loadUrl("javascript:callJS()");
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            webview.getSettings().setMixedContentMode(
+//                    WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+//        } else {
+//
+//        }
+//        webview.evaluateJavascript("javascript:callJS()", new ValueCallback<String>() {
+//            @Override
+//            public void onReceiveValue(String value) {
+//                //此处为 js 返回的结果
+//            }
+//        });
 
 
         url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";

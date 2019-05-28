@@ -14,8 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import me.goldze.common.R;
 import me.goldze.common.utils.PxUtils;
 

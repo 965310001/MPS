@@ -13,8 +13,6 @@ import com.mingpinmall.cart.ui.bean.ShopVoucherInfo;
 import com.mingpinmall.cart.ui.constants.Constants;
 import com.socks.library.KLog;
 
-import java.util.Map;
-
 /**
  * 功能描述：
  * *@author 小斌

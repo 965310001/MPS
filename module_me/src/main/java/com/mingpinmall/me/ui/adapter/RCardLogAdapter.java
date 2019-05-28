@@ -5,7 +5,6 @@ import android.graphics.Color;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mingpinmall.me.R;
-import com.mingpinmall.me.ui.bean.PredepoitLogBean;
 import com.mingpinmall.me.ui.bean.RCardLogBean;
 
 import java.util.ArrayList;

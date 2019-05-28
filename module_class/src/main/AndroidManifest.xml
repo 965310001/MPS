@@ -9,7 +9,7 @@
     <application>
         <activity
             android:name=".ui.activity.holo.HoloActivity"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.vm.SearchActivity"
             android:launchMode="singleTop" />
@@ -32,9 +32,9 @@
         <activity
             android:name=".ui.activity.store.StoreIntroActivity"
             android:launchMode="singleTop" />
-        <activity
-            android:name=".ui.activity.store.ProductsActivity2"
-            android:launchMode="singleTop" />
+        <!--<activity-->
+        <!--android:name=".ui.activity.store.ProductsActivity2"-->
+        <!--android:launchMode="singleTop" />-->
         <activity
             android:name=".ui.activity.chat.ChatActivity"
             android:launchMode="singleTask" />

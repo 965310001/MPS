@@ -13,6 +13,7 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
+import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityResetCheckBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
@@ -77,7 +78,7 @@ public class CheckAuthActivity extends AbsLifecycleActivity<ActivityResetCheckBi
      * 设置监听
      */
     private void setListener() {
-        buttonHelper = new CountDownButtonHelper(binding.tvGetPsdCode, 60);
+        CountDownButtonHelper buttonHelper = new CountDownButtonHelper(binding.tvGetPsdCode, 60);
         buttonHelper.setOnCountDownListener(new CountDownButtonHelper.OnCountDownListener() {
             @Override
             public void onCountDown(int time) {

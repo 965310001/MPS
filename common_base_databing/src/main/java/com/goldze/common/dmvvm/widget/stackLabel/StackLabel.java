@@ -100,6 +100,7 @@ public class StackLabel<T> extends RelativeLayout {
             }
             typedArray.recycle();
         } catch (Exception e) {
+            Log.i("TAG", e.toString());
         }
     }
 

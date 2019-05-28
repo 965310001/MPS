@@ -1138,10 +1138,10 @@ public class MeRepository extends BaseRepository {
                         sendData(Constants.EDIT_ADDRESS, msg == null ? "保存失败" : msg);
                     }
 
-                    @Override
-                    protected void onNoNetWork() {
-
-                    }
+//                    @Override
+//                    protected void onNoNetWork() {
+//
+//                    }
                 })
         );
     }

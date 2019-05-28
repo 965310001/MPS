@@ -3,7 +3,6 @@ package com.mingpinmall.shopping.ui;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;

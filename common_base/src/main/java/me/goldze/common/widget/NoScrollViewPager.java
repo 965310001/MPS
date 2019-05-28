@@ -27,10 +27,10 @@ public class NoScrollViewPager  extends ViewPager {
         this.noScroll = noScroll;
     }
 
-    @Override
-    public void scrollTo(int x, int y) {
-        super.scrollTo(x, y);
-    }
+//    @Override
+//    public void scrollTo(int x, int y) {
+//        super.scrollTo(x, y);
+//    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -43,14 +43,14 @@ public class NoScrollViewPager  extends ViewPager {
         return !noScroll && super.onInterceptTouchEvent(arg0);
     }
 
-    @Override
-    public void setCurrentItem(int item, boolean smoothScroll) {
-        super.setCurrentItem(item, smoothScroll);
-    }
-
-    @Override
-    public void setCurrentItem(int item) {
-        super.setCurrentItem(item);
-    }
+//    @Override
+//    public void setCurrentItem(int item, boolean smoothScroll) {
+//        super.setCurrentItem(item, smoothScroll);
+//    }
+//
+//    @Override
+//    public void setCurrentItem(int item) {
+//        super.setCurrentItem(item);
+//    }
 
 }

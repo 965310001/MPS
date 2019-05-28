@@ -84,6 +84,7 @@ public class BasePagerAdapter extends FragmentPagerAdapter {
     public void clearAllFragment() {
         mFragments.removeAll(mFragments);
         mFragmentTitles.removeAll(mFragmentTitles);
+
     }
 
 }

@@ -46,7 +46,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
+            android:layout_height="@dimen/line_height"
             android:background="@color/line_color" />
 
         <LinearLayout
@@ -82,7 +82,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
+            android:layout_height="@dimen/line_height"
             android:background="@color/line_color" />
 
         <LinearLayout
@@ -117,7 +117,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
+            android:layout_height="@dimen/line_height"
             android:background="@color/line_color" />
 
         <LinearLayout
@@ -153,7 +153,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_hight"
+            android:layout_height="@dimen/line_height"
             android:background="@color/line_color" />
 
         <LinearLayout

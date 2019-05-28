@@ -17,7 +17,6 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.BuildConfig;
-import com.goldze.common.dmvvm.adapter.BaseRecyclerAdapter;
 import com.goldze.common.dmvvm.base.bean.HorizontalTabTitle;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
@@ -482,7 +481,9 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
      * 设置购物车数量
      */
     public void setCartNumber() {
-        mViewModel.getMemberCart(Constants.GOODSDETAIL_EVENT_KEY[2]);
+        if (SharePreferenceUtil.isLogin()) {
+            mViewModel.getMemberCart(Constants.GOODSDETAIL_EVENT_KEY[2]);
+        }
     }
 
     private void setCartNumber(int count) {

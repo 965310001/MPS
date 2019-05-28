@@ -1,6 +1,5 @@
 package com.mingpinmall.me.ui.bean;
 
-import com.goldze.common.dmvvm.base.bean.BaseBean;
 import com.google.gson.annotations.SerializedName;
 
 /**

@@ -3,7 +3,6 @@ package com.mingpinmall.me.ui.acitivity.distribution;
 import android.os.Bundle;
 
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.BaseRecyclerviewBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;

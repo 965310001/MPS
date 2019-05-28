@@ -40,9 +40,9 @@ public class HomeRepository extends BaseRepository {
                         sendData(Constants.GET_STORE_CLASS, msg == null ? "获取失败" : msg);
                     }
 
-                    @Override
-                    protected void onNoNetWork() {
-                    }
+//                    @Override
+//                    protected void onNoNetWork() {
+//                    }
                 })
         );
     }
@@ -68,9 +68,9 @@ public class HomeRepository extends BaseRepository {
                         sendData(Constants.GET_STORE_LIST, msg == null ? "获取失败" : msg);
                     }
 
-                    @Override
-                    protected void onNoNetWork() {
-                    }
+//                    @Override
+//                    protected void onNoNetWork() {
+//                    }
                 })
         );
     }

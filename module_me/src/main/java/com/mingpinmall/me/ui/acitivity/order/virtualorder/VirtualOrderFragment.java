@@ -22,14 +22,15 @@ public class VirtualOrderFragment extends BaseFragment<FragmentDefaultTabviewpag
     }
 
     public static VirtualOrderFragment newInstance() {
-        VirtualOrderFragment fragment = new VirtualOrderFragment();
-        return fragment;
+//        VirtualOrderFragment fragment = new VirtualOrderFragment();
+//        return fragment;
+        return new VirtualOrderFragment();
     }
 
-    @Override
-    public void setArguments(@Nullable Bundle args) {
-        super.setArguments(args);
-    }
+//    @Override
+//    public void setArguments(@Nullable Bundle args) {
+//        super.setArguments(args);
+//    }
 
     @Override
     protected int getLayoutResId() {

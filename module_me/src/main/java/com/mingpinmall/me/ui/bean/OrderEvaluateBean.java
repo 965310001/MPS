@@ -1,7 +1,6 @@
 package com.mingpinmall.me.ui.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

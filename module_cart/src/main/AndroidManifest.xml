@@ -6,7 +6,6 @@
         <activity
             android:name=".ui.activity.ShopCartActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".ui.activity.PayStepOneActivity" />
     </application>
 
 </manifest>

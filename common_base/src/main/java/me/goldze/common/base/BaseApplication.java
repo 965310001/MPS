@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.bugtags.library.Bugtags;
-import com.bugtags.library.BugtagsOptions;
 import com.bumptech.glide.Glide;
 import com.socks.library.KLog;
 import com.squareup.leakcanary.LeakCanary;

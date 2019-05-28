@@ -8,7 +8,6 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -19,7 +18,6 @@ import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
@@ -32,9 +30,6 @@ import com.mingpinmall.me.ui.bean.VirtualInformationBean;
 import com.mingpinmall.me.ui.bean.VirtualStoreAddrsBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.BottomSheet;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 

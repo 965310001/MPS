@@ -13,7 +13,7 @@ import com.goldze.common.dmvvm.utils.TUtil;
  */
 public class AbsViewModel<T extends AbsRepository> extends AndroidViewModel {
 
-    public T mRepository;
+    public final T mRepository;
 
     public AbsViewModel(@NonNull Application application) {
         super(application);

@@ -3,7 +3,6 @@ package com.mingpinmall.classz.ui.vm.bean;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 商品评价

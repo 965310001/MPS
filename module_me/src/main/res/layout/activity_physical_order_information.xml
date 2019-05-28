@@ -103,7 +103,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/line_hight"
+                        android:layout_height="@dimen/line_height"
                         android:background="@color/line_color" />
 
                     <FrameLayout
@@ -181,7 +181,7 @@
 
                             <View
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/line_hight"
+                                android:layout_height="@dimen/line_height"
                                 android:background="@color/line_color"
                                 app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -302,7 +302,7 @@
                             <View
                                 android:id="@+id/line"
                                 android:layout_width="0dp"
-                                android:layout_height="@dimen/line_hight"
+                                android:layout_height="@dimen/line_height"
                                 android:background="@color/line_color"
                                 app:layout_constraintBottom_toTopOf="@id/recyclerView"
                                 app:layout_constraintEnd_toEndOf="@id/tv_orderState"
@@ -321,7 +321,7 @@
 
                             <View
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/line_hight"
+                                android:layout_height="@dimen/line_height"
                                 android:background="@color/line_color"
                                 app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -355,7 +355,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/line_hight"
+                        android:layout_height="@dimen/line_height"
                         android:background="@color/line_color" />
 
                     <!-- 优惠 运费 实付款 -->
@@ -464,7 +464,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/line_hight"
+                        android:layout_height="@dimen/line_height"
                         android:background="@color/line_color" />
 
                     <!-- 联系客服 与 拨打电话 -->
@@ -502,7 +502,7 @@
                         </FrameLayout>
 
                         <View
-                            android:layout_width="@dimen/line_hight"
+                            android:layout_width="@dimen/line_height"
                             android:layout_height="30dp"
                             android:layout_gravity="center_vertical"
                             android:background="@color/line_color" />
@@ -602,7 +602,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_hight"
+                android:layout_height="@dimen/line_height"
                 android:background="@color/line_color"
                 app:layout_constraintTop_toTopOf="parent" />
 

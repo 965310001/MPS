@@ -37,7 +37,7 @@
                     android:layout_height="74dp"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/bg_grid_white_corners_05dp"
-                    android:padding="@dimen/line_hight" />
+                    android:padding="@dimen/line_height" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -195,7 +195,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_hight"
+                android:layout_height="@dimen/line_height"
                 android:background="@color/line_color"
                 app:layout_constraintTop_toTopOf="parent" />
 

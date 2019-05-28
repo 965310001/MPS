@@ -97,11 +97,11 @@ public class TextDialog extends AppCompatDialog implements View.OnClickListener 
         return this;
     }
 
-    @Nullable
-    @Override
-    public Window getWindow() {
-        return super.getWindow();
-    }
+//    @Nullable
+//    @Override
+//    public Window getWindow() {
+//        return super.getWindow();
+//    }
 
     /**
      * 确定按钮点击监听

@@ -13,9 +13,9 @@ import java.util.Stack;
  */
 public final class AppManager {
 
-    static Stack<Activity> activityStack;
-    static Stack<Fragment> fragmentStack;
-    static AppManager sInstance;
+    private static Stack<Activity> activityStack;
+    private static Stack<Fragment> fragmentStack;
+    private static AppManager sInstance;
 
     private AppManager() {
     }

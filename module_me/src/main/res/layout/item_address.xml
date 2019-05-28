@@ -61,7 +61,7 @@
                 <View
                     android:id="@+id/line"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/line_hight"
+                    android:layout_height="@dimen/line_height"
                     android:layout_marginTop="8dp"
                     android:background="@color/line_color"
                     app:layout_constraintEnd_toEndOf="parent"

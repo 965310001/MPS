@@ -2,7 +2,6 @@ package com.mingpinmall.home.ui.activity.shopstreet;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
