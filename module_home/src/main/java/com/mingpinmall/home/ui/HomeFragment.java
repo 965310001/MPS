@@ -36,6 +36,7 @@ import java.util.Map;
 
 /**
  * 首页
+ *
  * @author 小斌
  * @date 2019/4/3
  */
@@ -207,6 +208,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 
     /**
      * 动作路由
+     *
      * @param datasBean
      * @param type
      * @param id
@@ -363,10 +365,12 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 return;
             }
             BaseViewHolder baseViewHolder = (BaseViewHolder) binding.recyclerView.findViewHolderForAdapterPosition(0);
-            View itemView = baseViewHolder.itemView;
-            ViewGroup.LayoutParams params = itemView.getLayoutParams();
-            params.height = (int) (ScreenUtil.getScreenWidth(activity) / result);
-            itemView.setLayoutParams(params);
+            if (null != baseViewHolder) {
+                View itemView = baseViewHolder.itemView;
+                ViewGroup.LayoutParams params = itemView.getLayoutParams();
+                params.height = (int) (ScreenUtil.getScreenWidth(activity) / result);
+                itemView.setLayoutParams(params);
+            }
         });
         registerObserver(Constants.HOME_DATA_JSON, Object.class).observeForever(result -> {
             if (result instanceof HomeItemBean) {
