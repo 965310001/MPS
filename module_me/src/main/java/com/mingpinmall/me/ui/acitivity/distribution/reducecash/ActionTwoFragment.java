@@ -1,11 +1,16 @@
 package com.mingpinmall.me.ui.acitivity.distribution.reducecash;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
+import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentReducecashAction2Binding;
 import com.mingpinmall.me.ui.api.MeViewModel;
+import com.mingpinmall.me.ui.constants.Constants;
 
 /**
  * 功能描述：提现申请
@@ -22,13 +27,24 @@ public class ActionTwoFragment extends AbsLifecycleFragment<FragmentReducecashAc
     public void initView(Bundle state) {
         super.initView(state);
         binding.btnSubmit2.setOnClickListener(v -> {
-
+            CustomProgressDialog.show(activity);
+            mViewModel.addPdCash(
+                    binding.edUserName.getText().toString(),
+                    binding.edShouKuanAccount.getText().toString(),
+                    binding.edShouKuan.getText().toString(),
+                    binding.edMoney.getText().toString(),
+                    binding.edPayPassword.getText().toString()
+            );
         });
     }
 
     @Override
     protected void dataObserver() {
         super.dataObserver();
+        registerObserver(Constants.ADD_PDCASH, String.class).observeForever(s -> {
+            CustomProgressDialog.stop();
+            ToastUtils.showShort(s);
+        });
     }
 
     @Override

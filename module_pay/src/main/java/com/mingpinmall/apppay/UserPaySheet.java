@@ -233,7 +233,8 @@ public class UserPaySheet extends Dialog {
             mDialog.setCanceledOnTouchOutside(false);
             bind.ivClose.setVisibility(View.GONE);
             bind.flStateContent.setVisibility(View.VISIBLE);
-            bind.csvStatus.loadLoading();
+            bind.pbLoading.setVisibility(View.VISIBLE);
+            bind.ivState.setVisibility(View.GONE);
             bind.tvState.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             bind.tvState.setText(TextUtils.isEmpty(label) ? "等待支付结果" : label);
         }
@@ -243,7 +244,9 @@ public class UserPaySheet extends Dialog {
          */
         public void onPayFail(String label) {
             bind.flStateContent.setVisibility(View.VISIBLE);
-            bind.csvStatus.loadFailure();
+            bind.pbLoading.setVisibility(View.GONE);
+            bind.ivState.setImageResource(R.drawable.ic_alert);
+            bind.ivState.setVisibility(View.VISIBLE);
             bind.tvState.setTextColor(ContextCompat.getColor(mContext, R.color.load_failure));
             bind.tvState.setText(TextUtils.isEmpty(label) ? "支付失败" : label);
             new Handler().postDelayed(() -> {
@@ -259,7 +262,9 @@ public class UserPaySheet extends Dialog {
          */
         public void onPaySuccess(String label) {
             bind.flStateContent.setVisibility(View.VISIBLE);
-            bind.csvStatus.loadSuccess();
+            bind.pbLoading.setVisibility(View.GONE);
+            bind.ivState.setImageResource(R.drawable.ic_success);
+            bind.ivState.setVisibility(View.VISIBLE);
             bind.tvState.setTextColor(ContextCompat.getColor(mContext, R.color.load_success));
             bind.tvState.setText(TextUtils.isEmpty(label) ? "支付成功" : label);
             new Handler().postDelayed(() -> mDialog.dismiss(), 2000);
@@ -278,8 +283,6 @@ public class UserPaySheet extends Dialog {
         }
 
         private void onIVClick(View iv) {
-            bind.scbPcard.setChecked(false, bind.scbPcard.isChecked());
-            bind.scbPmoney.setChecked(false, bind.scbPmoney.isChecked());
             iv.setAlpha((float) 1);
             if (iv == bind.llAlipay) {
                 metodType = 2;

@@ -15,7 +15,7 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityLoginBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
@@ -34,7 +34,6 @@ import java.util.ArrayList;
 @Route(path = ARouterConfig.LOGINACTIVITY)
 public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, UserViewModel> implements TextWatcher {
 
-    private ProgressDialog progressDialog;
     private CountDownButtonHelper buttonHelper;
 
     @Override
@@ -46,7 +45,6 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         setTitle(R.string.title_loginActivity);
-        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
 
         ArrayList<CustomTabEntity> tabEntityList = new ArrayList<>(2);
         CustomTabEntity tabs1 = new CustomTabEntity() {
@@ -142,7 +140,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_sublimt) {
             /*登陆*/
-            progressDialog.onLoading("");
+            CustomProgressDialog.show(activity, "请稍后...");
             mViewModel.login(
                     //用户名
                     binding.edPhone.getText().toString().trim(),
@@ -169,10 +167,11 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                 SharePreferenceUtil.saveUser(result);
                 ToastUtils.showShort("登陆成功");
                 LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_SUCCESS, true);
-                progressDialog.dismiss();
+                CustomProgressDialog.stop();
                 finish();
             } else {
-                progressDialog.onFail(result.toString());
+                CustomProgressDialog.stop();
+                ToastUtils.showShort(result.toString());
             }
         });
         registerObserver(Constants.GET_SMS_CODE, Object.class).observeForever(result -> {

@@ -39,6 +39,7 @@
             android:name=".ui.activity.chat.ChatActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.activity.classiflist.ScreeningActivity" />
+        <activity android:name=".ui.activity.holo.Holo2Activity" />
 
         <!--   android:process=":aidl"  android:enabled="true"
             android:exported="true"  android:process=":aidl"  -->

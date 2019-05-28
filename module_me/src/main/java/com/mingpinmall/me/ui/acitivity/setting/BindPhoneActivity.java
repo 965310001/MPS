@@ -12,7 +12,7 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityResetPhoneBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
@@ -35,7 +35,6 @@ public class BindPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneBi
     @Autowired
     String phoneNumber;
 
-    private ProgressDialog progressDialog;
     private CountDownButtonHelper buttonHelper;
 
     @Override
@@ -48,8 +47,6 @@ public class BindPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneBi
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
         setTitle(R.string.title_resetPhoneActivity);
-
-        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
 
         binding.edPhone.addTextChangedListener(this);
         binding.edMsgCode.addTextChangedListener(this);
@@ -90,12 +87,12 @@ public class BindPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneBi
         });
         registerObserver(Constants.BIND_PHONE, String.class).observeForever(result -> {
             if (result.equals(SUCCESS)) {
-                progressDialog.onComplete("", () -> {
-                    LiveBus.getDefault().postEvent(ARouterConfig.REFRESH_DATA, "SettingActivity", "");
-                    finish();
-                });
+                CustomProgressDialog.stop();
+                LiveBus.getDefault().postEvent(ARouterConfig.REFRESH_DATA, "SettingActivity", "");
+                finish();
             } else {
-                progressDialog.onFail(result);
+                ToastUtils.showShort(result);
+                CustomProgressDialog.stop();
             }
         });
     }
@@ -107,7 +104,7 @@ public class BindPhoneActivity extends AbsLifecycleActivity<ActivityResetPhoneBi
             mViewModel.getSmsCode(4, binding.edPhone.getText().toString());
         } else if (viewId == R.id.btn_submit) {
             //提交
-            progressDialog.onLoading("");
+            CustomProgressDialog.show(activity);
             mViewModel.bindPhone(binding.edMsgCode.getText().toString());
         }
     }

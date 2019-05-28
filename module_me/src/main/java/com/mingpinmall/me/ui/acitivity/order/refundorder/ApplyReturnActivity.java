@@ -15,7 +15,7 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityReturnApplyShopsBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
@@ -49,7 +49,6 @@ public class ApplyReturnActivity extends AbsLifecycleActivity<ActivityReturnAppl
 
     private SelectPhotosTools photosTools;
     private ShopsApplyRefundBean data;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
@@ -75,10 +74,7 @@ public class ApplyReturnActivity extends AbsLifecycleActivity<ActivityReturnAppl
             }
         });
         binding.btnSubmit.setOnClickListener(v -> {
-            if (progressDialog == null) {
-                progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
-            }
-            progressDialog.onLoading("");
+            CustomProgressDialog.show(activity);
             Map<String, RequestBody> params = new HashMap<>();
             params.put("key", RequestBody.create(MediaType.parse("text/plain"), ((UserBean) SharePreferenceUtil.getUser(UserBean.class)).getKey()));
             params.put("order_id", RequestBody.create(MediaType.parse("text/plain"), id));
@@ -130,12 +126,13 @@ public class ApplyReturnActivity extends AbsLifecycleActivity<ActivityReturnAppl
         });
         registerObserver(Constants.POST_REFUND, String.class).observeForever(result -> {
             if (result.equals(SUCCESS)) {
-                progressDialog.onComplete("");
+                ToastUtils.showShort("提交成功");
+                CustomProgressDialog.stop();
                 ActivityToActivity.toActivity(ARouterConfig.Me.REFUNDACTIVITY, "pageIndex", 1);
                 setResult(RESULT_OK);
                 finish();
             } else {
-                progressDialog.onFail(result);
+                CustomProgressDialog.stop();
             }
         });
     }

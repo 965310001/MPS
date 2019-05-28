@@ -16,7 +16,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityOrderevaluateBinding;
 import com.mingpinmall.me.ui.adapter.OrderEvaluateAdapter;
@@ -40,6 +40,7 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：订单评价
+ *
  * @author 小斌
  * @date 2019/4/30
  **/
@@ -49,7 +50,6 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
     @Autowired
     String id;
 
-    private ProgressDialog progressDialog;
     private OrderEvaluateAdapter evaluateAdapter;
     private List<OrderEvaluateBean.OrderGoodsBean> data;
 
@@ -58,7 +58,6 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
         super.initViews(savedInstanceState);
         ARouter.getInstance().inject(this);
         setTitle(R.string.title_OrderEvaluateActivity);
-        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         evaluateAdapter = new OrderEvaluateAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recyclerView.setAdapter(evaluateAdapter);
@@ -72,7 +71,7 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
         if (viewId == R.id.btn_submit) {
             //提交评价
             try {
-                progressDialog.onLoading("");
+                CustomProgressDialog.show(activity);
                 String key = ((UserBean) SharePreferenceUtil.getUser(UserBean.class)).getKey();
                 JSONObject jsonObject = new JSONObject();
                 JSONObject jsonObject1 = new JSONObject();
@@ -138,12 +137,13 @@ public class OrderEvaluateActivity extends AbsLifecycleActivity<ActivityOrdereva
         });
         registerObserver(Constants.SEND_EVALUATE, String.class).observeForever(s -> {
             if (s.equals(SUCCESS)) {
-                progressDialog.onComplete("", () -> {
-                    setResult(RESULT_OK);
-                    finish();
-                });
+                ToastUtils.showShort("评价完成");
+                CustomProgressDialog.stop();
+                setResult(RESULT_OK);
+                finish();
             } else {
-                progressDialog.onFail(s);
+                ToastUtils.showShort(s);
+                CustomProgressDialog.stop();
             }
         });
     }

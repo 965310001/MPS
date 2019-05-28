@@ -34,7 +34,7 @@
         <item>我的订单</item>
         <item>我的财产</item>
         <!--<item>我的分销管理</item>-->
-        <!--<item>我的推广码</item>-->
+        <item>我的推广码</item>
         <item>收货地址管理</item>
         <item>用户设置</item>
     </string-array>
@@ -50,7 +50,7 @@
         <item>@drawable/mc_01</item>
         <item>@drawable/mc_02</item>
         <!--<item>@drawable/mc_05</item>-->
-        <!--<item>@drawable/mc_05</item>-->
+        <item>@drawable/mc_05</item>
         <item>@drawable/mc_03</item>
         <item>@drawable/mc_04</item>
     </integer-array>
@@ -72,7 +72,7 @@
         <item>0</item>
         <item>1</item>
         <!--<item>2</item>-->
-        <!--<item>3</item>-->
+        <item>3</item>
         <item>4</item>
         <item>5</item>
     </integer-array>

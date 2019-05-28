@@ -183,6 +183,13 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
      **/
     private void navigationRouter(String data, String type) {
         switch (type) {
+            case "brand":
+                //跳转到搜索专题页面
+                Map<String, Object> params = new HashMap<>(2);
+                params.put("gcId", data);
+                params.put("type", 0);
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
+                break;
             case "url":
                 //跳转到指定页面
                 route2Url(data);

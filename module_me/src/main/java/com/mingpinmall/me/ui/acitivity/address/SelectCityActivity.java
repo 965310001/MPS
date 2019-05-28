@@ -1,20 +1,15 @@
 package com.mingpinmall.me.ui.acitivity.address;
 
-import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.widget.SpacesItemDecoration;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivitySelectCityBinding;
 import com.mingpinmall.me.ui.adapter.SelectCityAdapter;
@@ -33,7 +28,6 @@ import java.util.List;
 public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityBinding, MeViewModel> {
 
     private SelectCityAdapter selectCityAdapter;
-    private ProgressDialog progressDialog;
     /**
      * 几级地区
      */
@@ -57,7 +51,6 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         setTitle("选择地区");
-        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         selectCityAdapter = new SelectCityAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(this,
@@ -160,7 +153,7 @@ public class SelectCityActivity extends AbsLifecycleActivity<ActivitySelectCityB
                 }
             } else {
                 //获取失败
-                progressDialog.onFail(result.toString());
+                ToastUtils.showShort(result.toString());
                 level--;
             }
         });

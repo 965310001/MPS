@@ -10,7 +10,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityResetPasswordBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;
@@ -27,8 +28,6 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 @Route(path = ARouterConfig.Me.RESETPASSWORDACTIVITY)
 public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPasswordBinding, UserViewModel> implements TextWatcher {
 
-    private ProgressDialog progressDialog;
-
     @Autowired
     String phoneNumber;
 
@@ -44,7 +43,6 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
     public void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         switch (type) {
             case 0:
                 //重设登陆密码
@@ -76,14 +74,15 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
             //重设密码成功
             switch (o) {
                 case SUCCESS:
-                    progressDialog.onComplete("", () -> {
-                        //发起更新数据
-                        LiveBus.getDefault().postEvent(ARouterConfig.REFRESH_DATA, "SettingActivity", "");
-                        finish();
-                    });
+                    ToastUtils.showShort("密码已重设");
+                    CustomProgressDialog.stop();
+                    //发起更新数据
+                    LiveBus.getDefault().postEvent(ARouterConfig.REFRESH_DATA, "SettingActivity", "");
+                    finish();
                     break;
                 default:
-                    progressDialog.onFail(o);
+                    ToastUtils.showShort(o);
+                    CustomProgressDialog.stop();
                     break;
             }
         });
@@ -99,7 +98,7 @@ public class ResetPasswordActivity extends AbsLifecycleActivity<ActivityResetPas
                 return;
             }
             binding.btnSublimt.setEnabled(false);
-            progressDialog.onLoading("");
+            CustomProgressDialog.show(activity);
             String password0 = binding.edPassword.getText().toString();
             String password1 = binding.edPassword2.getText().toString();
 

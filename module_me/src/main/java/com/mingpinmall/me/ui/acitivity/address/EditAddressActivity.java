@@ -1,5 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.address;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,8 +10,9 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
+import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityEditaddressBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
@@ -20,13 +22,12 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
 /**
  * 功能描述：编辑 / 新增 收货地址
+ *
  * @author 小斌
  * @date 2019/3/29
  **/
 @Route(path = ARouterConfig.Me.EDITADDRESSACTIVITY)
 public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddressBinding, MeViewModel> {
-
-    private ProgressDialog progressDialog;
 
     /**
      * city_id:市级id   2级
@@ -52,7 +53,6 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
         super.initViews(savedInstanceState);
         isAdd = getIntent().getBooleanExtra("isAdd", true);
         setTitle(isAdd ? R.string.title_addAddressActivity : R.string.title_editAddressActivity);
-        progressDialog = ProgressDialog.initNewDialog(getSupportFragmentManager());
         binding.tvSelectBlock.setOnClickListener(this);
         binding.btnSubmit.setOnClickListener(this);
 
@@ -79,20 +79,22 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
      * 保存提交
      */
     private void submit() {
+        CustomProgressDialog.stop();
+        String label = "";
         if (binding.edAddress.length() <= 3) {
-            progressDialog.onFail("请输入正确的地址");
-            return;
+            label = "请输入正确的地址";
         } else if (binding.edName.length() == 0) {
-            progressDialog.onFail("请输入收件人姓名");
-            return;
+            label = "请输入收件人姓名";
         } else if (binding.edPhone.length() < 11) {
-            progressDialog.onFail("请输入11位手机号");
-            return;
+            label = "请输入11位手机号";
         } else if (binding.tvSelectBlock.length() == 0) {
-            progressDialog.onFail("请选择地区");
+            label = "请选择地区";
+        }
+        if ("".equals(label)) {
+            TextDialog.showBaseDialog(activity, label, "", dialog -> {
+            });
             return;
         }
-        progressDialog.onLoading("");
         if (isAdd) {
             /**
              * int id_default, String name, String city_id, String area_id, String area_info,
@@ -138,13 +140,14 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
         registerObserver(Constants.EDIT_ADDRESS, String.class).observeForever(msg -> {
             if (msg.equals(SUCCESS)) {
                 //保存成功
-                progressDialog.onComplete("", () -> {
-                    setResult(RESULT_OK);
-                    finish();
-                });
+                ToastUtils.showShort("保存成功");
+                CustomProgressDialog.stop();
+                setResult(RESULT_OK);
+                finish();
             } else {
                 //保存失败
-                progressDialog.onFail(msg);
+                ToastUtils.showShort(msg);
+                CustomProgressDialog.stop();
             }
         });
     }

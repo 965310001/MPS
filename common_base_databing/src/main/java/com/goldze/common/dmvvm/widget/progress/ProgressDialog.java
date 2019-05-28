@@ -1,6 +1,7 @@
 package com.goldze.common.dmvvm.widget.progress;
 
 import android.os.Handler;
+import android.support.annotation.IntRange;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.TextView;
@@ -113,7 +114,7 @@ public class ProgressDialog extends BaseDialog {
      * @param title
      * @param delayMillis
      */
-    public void onComplete(String title, int delayMillis) {
+    public void onComplete(String title, @IntRange(from = 0) int delayMillis) {
         onComplete(title, delayMillis, null);
     }
 
@@ -134,7 +135,7 @@ public class ProgressDialog extends BaseDialog {
      * @param delayMillis       保持显示时长
      * @param onDismissListener 销毁时的回调
      */
-    public void onComplete(String title, int delayMillis, OnDismissListener onDismissListener) {
+    public void onComplete(String title, @IntRange(from = 0) int delayMillis, OnDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
         complete(title, delayMillis);
     }
@@ -154,7 +155,7 @@ public class ProgressDialog extends BaseDialog {
      * @param title
      * @param delayMillis
      */
-    public void onFail(String title, int delayMillis) {
+    public void onFail(String title, @IntRange(from = 0) int delayMillis) {
         onFail(title, delayMillis, null);
     }
 
@@ -175,7 +176,7 @@ public class ProgressDialog extends BaseDialog {
      * @param delayMillis
      * @param onDismissListener
      */
-    public void onFail(String title, int delayMillis, OnDismissListener onDismissListener) {
+    public void onFail(String title, @IntRange(from = 0) int delayMillis, OnDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
         fail(title, delayMillis);
     }
@@ -196,7 +197,8 @@ public class ProgressDialog extends BaseDialog {
      * @param title
      * @param delayMillis
      */
-    private void complete(String title, int delayMillis) {
+    private void complete(String title, @IntRange(from = 0) int delayMillis) {
+        handler.removeCallbacks(wait);
         if (getDialog() == null) {
             show(fragmentManager, TAG);
         }
@@ -228,7 +230,8 @@ public class ProgressDialog extends BaseDialog {
      * @param title
      * @param delayMillis
      */
-    private void fail(String title, int delayMillis) {
+    private void fail(String title, @IntRange(from = 0) int delayMillis) {
+        handler.removeCallbacks(wait);
         if (getDialog() == null) {
             show(fragmentManager, TAG);
         }
@@ -250,6 +253,7 @@ public class ProgressDialog extends BaseDialog {
      * @param title
      */
     private void londing(String title) {
+        handler.removeCallbacks(wait);
         if (getDialog() == null) {
             show(fragmentManager, TAG);
         }
@@ -262,7 +266,21 @@ public class ProgressDialog extends BaseDialog {
         customStatusView.loadLoading();
         label.setVisibility(title.isEmpty() ? View.GONE : View.VISIBLE);
         label.setText(title);
+        handler.postDelayed(wait, waiMillis);
     }
+
+    private int waiMillis = 10000;
+
+    public void setWaiMillis(@IntRange(from = 0) int waiMillis) {
+        this.waiMillis = waiMillis;
+    }
+
+    Runnable wait = () -> {
+        if (getDialog() == null) {
+            return;
+        }
+        onFail("等待超时");
+    };
 
     public interface OnDismissListener {
         void onDismiss();
