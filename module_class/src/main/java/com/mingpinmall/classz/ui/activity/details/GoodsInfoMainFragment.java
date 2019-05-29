@@ -251,11 +251,19 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 }
             }
             binding.tvGoodsName.setText(goodsName);
+
         }
 //        KLog.i(dataBean.isVoucher() + "==");
         binding.setIsVoucher(dataBean.isVoucher());
+        if (!dataBean.isVoucher()) {
+            SpannableStringBuilder voucherName = new SpannableStringBuilder("券 点击领取店铺代金券");
+            voucherName.setSpan(new RelativeSizeSpan(0.9f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            voucherName.setSpan(new RoundBackgroundColorSpan(getContext().getResources().getColor(R.color.shallow_red), Color.WHITE),
+                    0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.tvVoucher.setText(voucherName);
+        }
 
-        /*设置商品名字*/
+//        设置商品名字
 //        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
 //        String[] strings = {"虚拟", "F码", "预"};
 //        for (String string : strings) {
@@ -280,7 +288,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 
 
         // TODO: 2019/5/25 修改商品名字
-
 
     }
 
@@ -454,7 +461,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     }
                 });
         /*领取代金券*/
-        binding.llVoucher.setOnClickListener(v -> {
+        binding.tvVoucher.setOnClickListener(v -> {
             // TODO: 2019/4/29 测试
             if (null != dataBean.getVoucher()) {
                 if (null == xBottomSheet) {
