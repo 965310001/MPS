@@ -113,7 +113,7 @@ public class CustomPopWindow extends PopupWindow {
                     holder.itemView.setOnClickListener(v -> {
                         if (null != listener) {
                             listener.onClick(mCustomPopWindow, holder.itemView, position, listData.get(position));
-                        }else{
+                        } else {
                             KLog.i("你还没有初始化 listener");
                         }
 //                            KLog.i(listData.get(position));
@@ -178,6 +178,6 @@ public class CustomPopWindow extends PopupWindow {
             super.showAsDropDown(anchor);
         }
         Animation animation = AnimationUtils.loadAnimation(getContentView().getContext(), R.anim.pop_arrow_in);
-        getContentView().findViewById(R.id.recycler_view).startAnimation(animation);
+        ((ViewGroup) getContentView().findViewById(R.id.recycler_view).getParent()).startAnimation(animation);
     }
 }
