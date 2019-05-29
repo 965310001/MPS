@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.ui.bean.CouponListBean;
-import com.mingpinmall.me.ui.widget.CouponDisplayView;
+import com.goldze.common.dmvvm.widget.CouponDisplayView;
 
 import java.util.ArrayList;
 

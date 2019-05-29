@@ -1,4 +1,4 @@
-package com.mingpinmall.me.ui.widget;
+package com.goldze.common.dmvvm.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;

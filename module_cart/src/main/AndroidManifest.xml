@@ -6,6 +6,9 @@
         <activity
             android:name=".ui.activity.ShopCartActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.activity.VoucherActivity"
+            android:launchMode="singleTop"
+            />
     </application>
 
 </manifest>

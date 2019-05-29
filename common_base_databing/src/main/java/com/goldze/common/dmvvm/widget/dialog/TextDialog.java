@@ -66,6 +66,12 @@ public class TextDialog extends AppCompatDialog implements View.OnClickListener 
         return textDialog;
     }
 
+    public static TextDialog showBaseDialog(Context context, String label, String msg) {
+        TextDialog textDialog = new TextDialog(context);
+        textDialog.setLabel(label).setMessage(msg).setOnceButtonMode();
+        return textDialog;
+    }
+
     public TextDialog(Context context) {
         super(context, R.style.dialogTheme);
         this.context = context;
