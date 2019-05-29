@@ -1,9 +1,12 @@
 package com.mingpinmall.me.ui.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -13,7 +16,9 @@ import android.view.View;
 public class CouponDisplayView extends View {
 
     private Paint mPaint;
-    private Paint mPaint2;
+    private Paint mPaint0;
+    private Bitmap mBitmap;
+    private Canvas mCanvas;
     /**
      * 圆间距
      */
@@ -29,36 +34,51 @@ public class CouponDisplayView extends View {
 
     private float remain;
 
+    private int rightColor = Color.WHITE;
     int width, hight;
 
     public CouponDisplayView(Context context) {
         super(context);
-        initView();
+        initPaint();
     }
 
 
     public CouponDisplayView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
+        initPaint();
     }
 
     public CouponDisplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView();
+        initPaint();
+    }
+
+    private void initPaint() {
+        //边缘锯齿画笔
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setDither(true);
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+        mPaint.setStyle(Paint.Style.FILL);
+
+        mPaint0 = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint0.setDither(true);
+        mPaint0.setColor(Color.WHITE);
+        mPaint0.setStyle(Paint.Style.FILL);
     }
 
     private void initView() {
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setDither(true);
-        mPaint.setColor(Color.WHITE);
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setTextSize(30);
+        if (getBackground() == null) {
+            //背景未设置情况下，设置为透明背景
+            setBackgroundColor(Color.TRANSPARENT);
+        }
 
-        mPaint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint2.setDither(true);
-        mPaint2.setColor(Color.parseColor("#ed5564"));
-        mPaint2.setStyle(Paint.Style.FILL);
-        mPaint2.setTextSize(30);
+        // 初始化锯齿遮盖图层
+        mBitmap = Bitmap.createBitmap(width, hight, Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mBitmap);
+        // 绘制图层颜色
+        mCanvas.drawRect(0, 0, width / 8 * 5, hight, mPaint0);
+        mPaint0.setColor(rightColor);
+        mCanvas.drawRect(width / 8 * 5, 0, width, hight, mPaint0);
     }
 
     @Override
@@ -70,25 +90,27 @@ public class CouponDisplayView extends View {
         circleNum = (int) ((h - gap) / (2 * radius + gap));
         this.width = w;
         this.hight = h;
+        initView();
     }
 
+    /**
+     * 有效和无效俩状态设置
+     * @param state
+     */
     public void setState(boolean state) {
-        mPaint2.setColor(state ? Color.parseColor("#ed5564") : Color.parseColor("#aab2bd"));
+        rightColor = state ? Color.parseColor("#ed5564") : Color.parseColor("#aab2bd");
         invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mPaint.setColor(Color.parseColor("#FFFFFF"));
-        canvas.drawRect(0, 0, width / 8 * 5, hight, mPaint);
-        canvas.drawRect(width / 8 * 5, 0, width, hight, mPaint2);
-
-        mPaint.setColor(Color.parseColor("#F3F3F3"));
+        //绘制图层
+        canvas.drawBitmap(mBitmap, 0, 0, null);
         for (int i = 0; i < circleNum; i++) {
             float y = gap + radius + remain / 2 + ((gap + radius * 2) * i);
-            canvas.drawCircle(0, y, radius, mPaint);
-            canvas.drawCircle(width, y, radius, mPaint);
+            mCanvas.drawCircle(0, y, radius, mPaint);
+            mCanvas.drawCircle(width, y, radius, mPaint);
         }
     }
 }

@@ -90,10 +90,10 @@ public class CouponListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
         if (isLoadmore) {
             listAdapter.loadMoreComplete();
             pageIndex++;
-            int typeCount = 0;
+            int typeCount = listAdapter.getItemCount() - 1;
             for (int i = 0; i < listAdapter.getItemCount(); i++) {
                 if (listAdapter.getItem(i).getType() != 1) {
-                    typeCount = i - 1;
+                    typeCount = i;
                     break;
                 }
             }
