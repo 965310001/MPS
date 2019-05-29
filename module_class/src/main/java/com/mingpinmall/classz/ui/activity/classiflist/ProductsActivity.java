@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,10 +18,11 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
-import com.goldze.common.dmvvm.base.mvvm.base.BaseListActivity;
+import com.goldze.common.dmvvm.base.mvvm.base.BaseRecyclerActivity;
 import com.goldze.common.dmvvm.base.mvvm.stateview.EmptyState;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
@@ -33,19 +35,17 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.mingpinmall.classz.widget.FilterTab;
-import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 商品分类list
  */
 @Route(path = ARouterConfig.classify.PRODUCTSACTIVITY)
-public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
+public class ProductsActivity extends BaseRecyclerActivity<ClassifyViewModel>
         implements CustomPopWindow.Builder.OnCustomPopWindowClickListener {
     @Autowired
     String gcId = "";
@@ -54,8 +54,13 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
 
     private ScreenInfo screenInfo;
 
+    /**
+     * 0：默认搜索
+     * 1：特殊搜索
+     * 2：二级搜索
+     */
     @Autowired
-    int type = 0;//0：默认搜索  1：待定搜索  2：二级搜索
+    int type = 0;
 
     @Autowired
     String keyword = "";
@@ -65,9 +70,6 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     private PopupWindow customPopWindow;
     private ImageView imageView;
     private String picPath = "";
-    private GridLayoutManager gridLayoutManager;
-    private DelegateAdapter gridAdapter;
-    private boolean isGrid;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -77,6 +79,16 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         screenInfo.keyword = keyword;
         edSearch.setText("".equals(keyword) ? "请输入搜索内容" : keyword);
         onRefresh();
+    }
+
+    @Override
+    protected boolean isItemDecoration() {
+        return false;
+    }
+
+    @Override
+    protected AdapterType getDefaultAdapterType() {
+        return AdapterType.Grid;
     }
 
     @Override
@@ -112,6 +124,8 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         filterTab0 = itemTabsegmentBinding.filterTab0;
         imageView = itemTabsegmentBinding.filterTab4;
         imageView.setOnClickListener(this);
+        imageView.setImageResource(getAdapterType() != AdapterType.Grid ? R.drawable.icon_list_32 : R.drawable.icon_grid_32);
+
         filterTab0.setFilterTabSelected(true);
         currentView = filterTab0;
 
@@ -129,7 +143,6 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         }
     }
 
-
     @Override
     protected void onRefreshSuccess(Collection<?> collection) {
         oldItems.clear();
@@ -142,10 +155,35 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
     }
 
     @Override
-    protected DelegateAdapter createAdapter() {
+    protected DelegateAdapter createLinearAdapter() {
         return AdapterPool.newInstance()
                 .getProductsAdapter(this)
                 .build();
+    }
+
+    @Override
+    protected DelegateAdapter createGridAdapter() {
+        return AdapterPool.newInstance()
+                .getProductsGridAdapter(this)
+                .build();
+    }
+
+    @Override
+    protected DelegateAdapter createStaggerAdapter() {
+        return null;
+    }
+
+    @Override
+    protected GridLayoutManager.SpanSizeLookup getSpanSizeLookup() {
+        return new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int i) {
+                if (gridAdapter.getItems().get(i) instanceof GoodsInfo) {
+                    return 1;
+                }
+                return 2;
+            }
+        };
     }
 
     @Override
@@ -157,7 +195,6 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                     setData(response.getDatas().getGoods_list());
                     if (response.getDatas().getGoods_list().size() == 0) {
                         showError(EmptyState.class);
-//                        showErrorState();
                     }
                 });
         registerObserver(Constants.PRODUCTS_EVENT_KEY[2], Object.class)
@@ -172,7 +209,9 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
                 });
     }
 
-    /*获取更多数据*/
+    /**
+     * 获取更多数据
+     */
     @Override
     protected void getRemoteData() {
         super.getRemoteData();
@@ -214,35 +253,8 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         } else if (i == R.id.ed_search) {
             ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
         } else if (i == R.id.filter_tab4) {
-            if (!isGrid) {
-                if (null == gridLayoutManager) {
-                    gridLayoutManager = new GridLayoutManager(this, 2);
-                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                        @Override
-                        public int getSpanSize(int i) {
-                            if (adapter.getItems().get(i) instanceof GoodsInfo) {
-                                return 1;
-                            }
-                            return 2;
-                        }
-                    });
-                    gridAdapter = AdapterPool.newInstance()
-                            .getProductsGridAdapter(this)
-                            .build();
-                }
-                mRecyclerView.setLayoutManager(gridLayoutManager);
-                isGrid = !isGrid;
-                imageView.setImageResource(R.drawable.icon_grid_32);
-                gridAdapter.setDatas(adapter.getItems());
-                mRecyclerView.setAdapter(gridAdapter);
-            } else {
-                isGrid = !isGrid;
-                mRecyclerView.setLayoutManager(layoutManager);
-                imageView.setImageResource(R.drawable.icon_list_32);
-                adapter.setDatas(gridAdapter.getItems());
-                mRecyclerView.setAdapter(adapter);
-            }
-            adapter.notifyDataSetChanged();
+            changerManager(getAdapterType() != AdapterType.Grid ? AdapterType.Grid : AdapterType.Linear);
+            imageView.setImageResource(getAdapterType() != AdapterType.Grid ? R.drawable.icon_list_32 : R.drawable.icon_grid_32);
         }
     }
 
@@ -264,16 +276,20 @@ public class ProductsActivity extends BaseListActivity<ClassifyViewModel>
         dialog.dismiss();
         filterTab0.setText(content);
         switch (position) {
-            case 0:/*综合排序*/
+            case 0:
+                /*综合排序*/
                 screenInfo.setOrderKey("", "");
                 break;
-            case 1:/*价格从高到低*/
+            case 1:
+                /*价格从高到低*/
                 screenInfo.setOrderKey("2", "3");
                 break;
-            case 2:/*价格从低到高*/
+            case 2:
+                /*价格从低到高*/
                 screenInfo.setOrderKey("1", "3");
                 break;
-            case 3:/*人气排序*/
+            case 3:
+                /*人气排序*/
                 screenInfo.setOrderKey("2", "2");
                 break;
             default:
