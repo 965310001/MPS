@@ -92,7 +92,7 @@ public class PacketListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
             int typeCount = 0;
             for (int i = 0; i < listAdapter.getItemCount(); i++) {
                 if (!TextUtils.equals("1", listAdapter.getItem(i).getRpacket_state())) {
-                    typeCount = i - 1;
+                    typeCount = i;
                     break;
                 }
             }

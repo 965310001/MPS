@@ -2,6 +2,7 @@ package com.mingpinmall.cart.ui.api;
 
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.mingpinmall.cart.ui.bean.AllVoucherBean;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
 import com.mingpinmall.cart.ui.bean.ShopVoucherInfo;
 
@@ -38,7 +39,21 @@ public interface CartApiService {
 
     /**
      * 获取店铺优惠券
-     * https://www.mingpinmall.cn/mo_bile/index.php?app=member_voucher&wwi=voucher_freeex
+     * 请求网址:https://www.mingpinmall.cn/mo_bile/index.php?app=voucher&wwi=voucher_list_all
+     * GET
+     * 参数
+     * store_id
+     * gettype
+     */
+    String ALL_VOUCHERTPL = "/mo_bile/index.php?app=voucher&wwi=voucher_list_all";
+
+    @GET(ALL_VOUCHERTPL)
+    Flowable<BaseResponse<AllVoucherBean>> getAllVoucherList(@Query("page") int page,
+                                                             @Query("curpage") int curpage);
+
+    /**
+     * 获取店铺优惠券
+     * 请求网址:https://www.mingpinmall.cn/mo_bile/index.php?app=member_voucher&wwi=voucher_freeex
      * POST
      * 参数
      * tid

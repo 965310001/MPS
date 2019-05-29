@@ -1,11 +1,13 @@
 package com.mingpinmall.me.ui.adapter;
 
+import android.util.Log;
+
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.ui.bean.CouponListBean;
-import com.mingpinmall.me.ui.widget.CouponDisplayView;
+import com.goldze.common.dmvvm.widget.CouponDisplayView;
 
 import java.util.ArrayList;
 
@@ -38,7 +40,8 @@ public class CouponListAdapter extends BaseMultiItemQuickAdapter<CouponListBean.
                         .setGone(R.id.iv_stateImage, item.getType() > 1)
                         .setImageResource(R.id.iv_stateImage, item.getType() == 2 ? R.drawable.ticket_ysy : R.drawable.ticket_ysx);
                 CouponDisplayView displayView = helper.getView(R.id.cdv_view);
-                displayView.setState(item.getType() == 1);
+                displayView.setState(item.getType() < 2);
+                Log.d(TAG, "convert: " + item.getType() + " - " + helper.getAdapterPosition());
                 break;
         }
     }

@@ -50,12 +50,12 @@
 
         <Button
             android:id="@+id/btn_receive"
-            android:layout_width="60dp"
-            android:layout_height="34dp"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:textColor="@drawable/default_flow_tag_text_rect_round_red"
-            android:background="@drawable/default_flow_tag_bg_rect_round_red"
+            android:textColor="@color/black"
+            android:background="@drawable/bg_grid_gray_edit"
             android:tag="@{data.voucher_t_id}"
             android:text="领取"
             android:textSize="@dimen/text_14" />

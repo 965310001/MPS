@@ -347,15 +347,17 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
             } else if (url.contains("signin.html")) {
                 //签到
                 ToastUtils.showShort("签到");
+            } else if (url.contains("product_list.html?b_id")) {
+                //跳转到搜索指定id的商品
+                String id = url.split("b_id=")[1];
+                Map<String, Object> params = new HashMap<>(2);
+                params.put("gcId", id);
+                params.put("type", 0);
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
+            } else if (url.contains("app=voucher_list")) {
+                //跳转到所有店铺优惠券领取页面
+                ActivityToActivity.toActivity(ARouterConfig.cart.VOUCHERACTIVITY);
             }
-//            else if (url.contains("product_list.html?b_id")) {
-//                跳转到搜索指定id的商品
-//                String id = url.split("b_id=")[1];
-//                Map<String, Object> params = new HashMap<>(2);
-//                params.put("gcId", id);
-//                params.put("type", 0);
-//                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params);
-//            }
         }
     }
 

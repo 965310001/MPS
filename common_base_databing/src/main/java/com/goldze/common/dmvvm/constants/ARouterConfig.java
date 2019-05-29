@@ -62,6 +62,10 @@ public interface ARouterConfig {
          */
         String SHOPCARTACTIVITY = "/cart/ShopCartActivity";
         /**
+         * 全部店铺代金券
+         */
+        String VOUCHERACTIVITY = "/cart/VoucherActivity";
+        /**
          * 提交订单
          */
         String PAYSTEPONEACTIVITY = "/cart/PayStepOneActivity";

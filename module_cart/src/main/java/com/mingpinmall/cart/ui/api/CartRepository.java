@@ -7,6 +7,7 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
+import com.mingpinmall.cart.ui.bean.AllVoucherBean;
 import com.mingpinmall.cart.ui.bean.CartQuantityState;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
 import com.mingpinmall.cart.ui.bean.ShopVoucherInfo;
@@ -76,7 +77,30 @@ public class CartRepository extends BaseRepository {
                     }
                 })
         );
+    }
 
+    /*全部店铺代金券*/
+    public void getAllVoucherList(int pageIndex, final Object eventKey) {
+        addDisposable(apiService.getAllVoucherList(10, pageIndex)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<AllVoucherBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<AllVoucherBean> result) {
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        sendData(eventKey, msg == null ? "获取失败" : msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                    }
+                })
+        );
     }
 
     /*购物车列表*/

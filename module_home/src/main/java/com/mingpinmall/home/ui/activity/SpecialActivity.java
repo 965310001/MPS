@@ -108,6 +108,7 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
 
     /**
      * 动作路由
+     *
      * @param datasBean
      * @param type
      * @param id
@@ -226,6 +227,9 @@ public class SpecialActivity extends AbsLifecycleActivity<ActivitySpecialBinding
         } else if (url.contains("signin.html")) {
             //签到
             ToastUtils.showShort("签到");
+        } else if (url.contains("app=voucher_list")) {
+            //跳转到所有店铺优惠券领取页面
+            ActivityToActivity.toActivity(ARouterConfig.cart.VOUCHERACTIVITY);
         }
     }
 

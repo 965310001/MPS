@@ -11,4 +11,5 @@ public interface Constants {
     Object CART_DELETE = "CART_DELETE";
     Object CART_VOUCHERTPL = "CART_VOUCHERTPL";
     Object CART_GETVOUCHERTPL = "CART_GETVOUCHERTPL";
+    Object[] VOUCHER_ALL = {"VOUCHER_ALL", "VOUCHER_ALL_GET"};
 }
