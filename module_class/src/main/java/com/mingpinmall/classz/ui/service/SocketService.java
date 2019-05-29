@@ -175,7 +175,7 @@ public class SocketService extends Service {
     private void initSocket() {//初始化Socket
         try {
             Socket so = new Socket(HOST, PORT);
-            mSocket = new WeakReference<Socket>(so);
+            mSocket = new WeakReference<>(so);
             mReadThread = new ReadThread(so);
             mReadThread.start();
             mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//初始化成功后，就准备发送心跳包
@@ -222,7 +222,7 @@ public class SocketService extends Service {
         private boolean isStart = true;
 
         public ReadThread(Socket socket) {
-            mWeakSocket = new WeakReference<Socket>(socket);
+            mWeakSocket = new WeakReference<>(socket);
         }
 
         public void release() {

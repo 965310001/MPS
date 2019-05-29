@@ -88,14 +88,23 @@
                                 tools:text="北京	北京市	东城区114645" />
                         </LinearLayout>
 
-
-                        <ImageView
+                        <android.support.v7.widget.AppCompatImageView
                             android:layout_width="@dimen/dp_16"
                             android:layout_height="@dimen/dp_16"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/icon_more" />
+                            android:rotation="180"
+                            app:srcCompat="@drawable/ic_svg_back"
+                            tools:src="@drawable/ic_svg_back" />
 
+                        <!--<android.support.v7.widget.AppCompatImageView-->
+                        <!--android:layout_width="@dimen/image_height_litter"-->
+                        <!--android:layout_height="@dimen/image_height_litter"-->
+                        <!--android:layout_alignParentEnd="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:rotation="180"-->
+                        <!--app:srcCompat="@drawable/ic_svg_back"-->
+                        <!--tools:src="@drawable/ic_svg_back" />-->
                     </RelativeLayout>
 
                 </FrameLayout>

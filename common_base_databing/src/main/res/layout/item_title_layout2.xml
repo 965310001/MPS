@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_title_bar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
@@ -9,15 +10,16 @@
     android:focusableInTouchMode="true"
     android:visibility="gone">
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_back"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:scaleType="centerInside"
-        android:src="@drawable/back_icon"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_svg_back"
+        tools:src="@drawable/ic_svg_back" />
 
     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
         android:id="@+id/ed_search"

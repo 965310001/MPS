@@ -14,6 +14,7 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.utils.TUtil;
+import com.socks.library.KLog;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
 
     @Override
     public void initView(Bundle state) {
-        mViewModel = VMProviders(this, (Class<T>) TUtil.getInstance(this, 1));
+        mViewModel = VMProviders(this, TUtil.getInstance(this, 1));
         if (null != mViewModel) {
             dataObserver();
             mStateEventKey = getStateEventKey();
@@ -159,6 +160,7 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
     @Override
     public void onDetach() {
         super.onDetach();
+        KLog.i("onDetach");
         if (eventKeys != null && eventKeys.size() > 0) {
             for (int i = 0; i < eventKeys.size(); i++) {
                 LiveBus.getDefault().clear(eventKeys.get(i));

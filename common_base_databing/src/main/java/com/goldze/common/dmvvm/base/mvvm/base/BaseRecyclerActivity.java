@@ -17,7 +17,6 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
 import com.goldze.common.dmvvm.databinding.FragmentListBinding;
 import com.goldze.common.dmvvm.utils.ShareCacheUtil;
-import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.Utils;
 import com.socks.library.KLog;

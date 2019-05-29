@@ -25,8 +25,8 @@ import okio.BufferedSource;
  */
 public class TokenInterceptor implements Interceptor {
 
-    private JSONObject jsonObject;
-    private static final Charset UTF8 = Charset.forName("UTF-8");
+//    private JSONObject jsonObject;
+//    private static final Charset UTF8 = Charset.forName("UTF-8");
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -37,6 +37,7 @@ public class TokenInterceptor implements Interceptor {
         BufferedSource source = responseBody.source();
         source.request(Long.MAX_VALUE);
         Buffer buffer = source.buffer();
+        Charset UTF8 = Charset.forName("UTF-8");
         Charset charset = UTF8;
         MediaType contentType = responseBody.contentType();
         if (contentType != null) {
@@ -47,7 +48,7 @@ public class TokenInterceptor implements Interceptor {
 //        KLog.i(request.url());
         KLog.i(bodyString);
         try {
-            jsonObject = new JSONObject(bodyString);
+            JSONObject   jsonObject = new JSONObject(bodyString);
             if (jsonObject.has("error_desc") &&
                     jsonObject.get("error_desc").toString().contains("Token 无效")) {
                 response.body().close();

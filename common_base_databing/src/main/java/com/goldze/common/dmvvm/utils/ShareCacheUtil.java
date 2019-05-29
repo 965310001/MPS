@@ -55,7 +55,7 @@ public class ShareCacheUtil {
 	public static final int TIME_DAY = TIME_HOUR * 24;
 	private static final int MAX_SIZE = 1000 * 1000 * 50; // 50 mb
 	private static final int MAX_COUNT = Integer.MAX_VALUE; // 不限制存放数据的数量
-	private static Map<String, ShareCacheUtil> mInstanceMap = new HashMap<String, ShareCacheUtil>();
+	private static Map<String, ShareCacheUtil> mInstanceMap = new HashMap<>();
 	private ACacheManager mCache;
 
 	public static ShareCacheUtil get(Context ctx) {
@@ -612,7 +612,7 @@ public class ShareCacheUtil {
 		private final long sizeLimit;
 		private final int countLimit;
 		private final Map<File, Long> lastUsageDates = Collections
-				.synchronizedMap(new HashMap<File, Long>());
+				.synchronizedMap(new HashMap<>());
 		protected File cacheDir;
 
 		private ACacheManager(File cacheDir, long sizeLimit, int countLimit) {
@@ -773,9 +773,10 @@ public class ShareCacheUtil {
 				}
 				long saveTime = Long.valueOf(saveTimeStr);
 				long deleteAfter = Long.valueOf(strs[1]);
-				if (System.currentTimeMillis() > saveTime + deleteAfter * 1000) {
-					return true;
-				}
+//				if (System.currentTimeMillis() > saveTime + deleteAfter * 1000) {
+//					return true;
+//				}
+				return System.currentTimeMillis() > saveTime + deleteAfter * 1000;
 			}
 			return false;
 		}

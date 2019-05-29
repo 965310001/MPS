@@ -111,19 +111,19 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
     }
 
     private class MyWebClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            KLog.i("shouldOverrideUrlLoading");
-
-//            Map<String, String> extraHeaders = new HashMap<String, String>();
-//            webview.loadUrl(url);
-//            extraHeaders.put("Referer", "http://wxpay.wxutil.com");
-//            view.loadUrl(url);
-
-            view.loadUrl("javascript:innerChooseModelImage()");
-
-            return false;
-        }
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            KLog.i("shouldOverrideUrlLoading");
+//
+////            Map<String, String> extraHeaders = new HashMap<String, String>();
+////            webview.loadUrl(url);
+////            extraHeaders.put("Referer", "http://wxpay.wxutil.com");
+////            view.loadUrl(url);
+//
+//            view.loadUrl("javascript:innerChooseModelImage()");
+//
+//            return false;
+//        }
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {

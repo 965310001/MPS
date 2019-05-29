@@ -9,13 +9,10 @@ import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mingpinmall.classz.R;
-import com.socks.library.KLog;
 
 /**
  * 自定义bar

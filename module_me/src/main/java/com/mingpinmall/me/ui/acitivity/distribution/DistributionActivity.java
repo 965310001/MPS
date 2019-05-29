@@ -15,17 +15,18 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 
 /**
  * 功能描述：我的分销管理
+ *
  * @author 小斌
  * @date 2019/3/29
  **/
 @Route(path = ARouterConfig.Me.DISRTIBUTIONACTIVITY)
 public class DistributionActivity extends BaseActivity<ActivityDistributionBinding> {
 
-    private DistributionFragment oneFragment;
-    private DistributionFragment twoFragment;
-    private DistributionFragment threeFragment;
+//    private DistributionFragment oneFragment;
+//    private DistributionFragment twoFragment;
+//    private DistributionFragment threeFragment;
 
-    private BasePagerAdapter pagerAdapter;
+//    private BasePagerAdapter pagerAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -36,14 +37,24 @@ public class DistributionActivity extends BaseActivity<ActivityDistributionBindi
     protected void initViews(Bundle savedInstanceState) {
         setTitle(R.string.title_text_distributionActivity);
 
-        oneFragment = new DistributionFragment();
-        twoFragment = new DistributionFragment();
-        threeFragment = new DistributionFragment();
+//        oneFragment = new DistributionFragment();
+//        twoFragment = new DistributionFragment();
+//        threeFragment = new DistributionFragment();
+//
+//        pagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), this);
+//        pagerAdapter.addFragment(oneFragment, R.string.tabs_text_one);
+//        pagerAdapter.addFragment(twoFragment, R.string.tabs_text_two);
+//        pagerAdapter.addFragment(threeFragment, R.string.tabs_text_three);
 
-        pagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), this);
-        pagerAdapter.addFragment(oneFragment, R.string.tabs_text_one);
-        pagerAdapter.addFragment(twoFragment, R.string.tabs_text_two);
-        pagerAdapter.addFragment(threeFragment, R.string.tabs_text_three);
+        BasePagerAdapter pagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), this);
+        DistributionFragment fragment = new DistributionFragment();
+        pagerAdapter.addFragment(fragment, R.string.tabs_text_one);
+
+        fragment = new DistributionFragment();
+        pagerAdapter.addFragment(fragment, R.string.tabs_text_two);
+
+        fragment = new DistributionFragment();
+        pagerAdapter.addFragment(fragment, R.string.tabs_text_three);
 
         binding.viewPager.setAdapter(pagerAdapter);
         binding.tabs.setupWithViewPager(binding.viewPager);

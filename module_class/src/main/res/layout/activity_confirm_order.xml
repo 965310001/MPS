@@ -106,12 +106,14 @@
                             tools:text="北京	北京市	东城区114645" />
                     </LinearLayout>
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:layout_width="@dimen/image_height_litter"
                         android:layout_height="@dimen/image_height_litter"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/icon_more" />
+                        android:rotation="180"
+                        bind:srcCompat="@drawable/ic_svg_back"
+                        tools:src="@drawable/ic_svg_back" />
                 </RelativeLayout>
 
                 <!--虚拟订单-->
@@ -265,8 +267,8 @@
             android:text="¥"
             android:textColor="@color/app_theme_d61619"
             bind:layout_constraintBottom_toBottomOf="parent"
-            bind:layout_constraintStart_toEndOf="@id/tv_tips0"
             bind:layout_constraintEnd_toStartOf="@id/tv_tips2"
+            bind:layout_constraintStart_toEndOf="@id/tv_tips0"
             tools:text="¥" />
 
         <TextView
@@ -277,20 +279,19 @@
             android:gravity="end|center"
             android:paddingEnd="@dimen/dp_10"
             android:text="@{total}"
-            android:textSize="20sp"
             android:textColor="@color/app_theme_d61619"
+            android:textSize="20sp"
             bind:layout_constraintBaseline_toBaselineOf="@id/tv_tips1"
             bind:layout_constraintBottom_toBottomOf="parent"
-            bind:layout_constraintStart_toEndOf="@id/tv_tips1"
             bind:layout_constraintEnd_toStartOf="@id/sublimit"
+            bind:layout_constraintStart_toEndOf="@id/tv_tips1"
             tools:text="500" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_height"
             android:background="@color/line_color"
-            bind:layout_constraintTop_toTopOf="@id/sublimit"
-            />
+            bind:layout_constraintTop_toTopOf="@id/sublimit" />
 
     </android.support.constraint.ConstraintLayout>
 

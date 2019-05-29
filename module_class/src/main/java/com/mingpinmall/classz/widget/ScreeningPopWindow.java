@@ -20,13 +20,10 @@ import com.goldze.common.dmvvm.widget.stackLabel.StackLabelAdapter;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentScreeningBinding;
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
-import com.mingpinmall.classz.ui.vm.bean.ScreeningBean;
 import com.mingpinmall.classz.utils.AssetsData;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * @author GuoFeng
@@ -109,7 +106,7 @@ public class ScreeningPopWindow extends PopupWindow {
 //            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, ResUtils.getStringArray(R.array.tags_values_type));
 //            bind.spinnerSystem.getSelectedItem().toString();
 //            KLog.i(bind.spinnerSystem.getSelectedItem().toString());
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.item_text1, R.id.text, AssetsData.getAreaListInfos());
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.item_text1, R.id.text, AssetsData.getAreaListInfos());
             bind.spinnerSystem.setAdapter(adapter);
 //            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, AssetsData.getAreaListInfos());
             /*类型*/

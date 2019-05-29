@@ -16,7 +16,7 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
  **/
 public class VirtualOrderFragment extends BaseFragment<FragmentDefaultTabviewpagerBinding> {
 
-    private BasePagerAdapter pagerAdapter;
+//    private BasePagerAdapter pagerAdapter;
 
     public VirtualOrderFragment() {
     }
@@ -44,7 +44,7 @@ public class VirtualOrderFragment extends BaseFragment<FragmentDefaultTabviewpag
 
     @Override
     public void initView(Bundle state) {
-        pagerAdapter = new BasePagerAdapter(getChildFragmentManager(), activity);
+        BasePagerAdapter pagerAdapter = new BasePagerAdapter(getChildFragmentManager(), activity);
         pagerAdapter.addFragment(//全部虚拟订单
                 VirtualOrderListFragment.newInstance("", "ALL_VIRTUAL"),
                 R.string.tabs_text_all

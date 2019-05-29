@@ -9,7 +9,6 @@ import com.goldze.common.dmvvm.xutils.BindAssets;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.activity.classify.ClassifyFragment;
 import com.mingpinmall.classz.ui.vm.bean.AreaListInfo;
-import com.socks.library.KLog;
 
 
 //@ContentView(R.layout.brvah_quick_view_load_more)

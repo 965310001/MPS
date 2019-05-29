@@ -1,8 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.distribution.reducecash;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.utils.ToastUtils;

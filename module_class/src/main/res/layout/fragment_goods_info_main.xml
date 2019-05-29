@@ -357,6 +357,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
@@ -370,12 +371,10 @@
                         android:textSize="@dimen/text_14" />
 
                     <LinearLayout
-                        android:background="@color/shallow_red"
                         android:id="@+id/ll_goods_specification"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
                         android:orientation="vertical"
                         android:paddingLeft="@dimen/dp_6" />
 

@@ -3,7 +3,6 @@ package com.mingpinmall.classz.ui.activity.classiflist;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.widget.stackLabel.StackLabel;
-import com.goldze.common.dmvvm.widget.stackLabel.StackLabelAdapter;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.vm.bean.ScreeningClassBean;
 

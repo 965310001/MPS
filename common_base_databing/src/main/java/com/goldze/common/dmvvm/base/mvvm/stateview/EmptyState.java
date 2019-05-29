@@ -1,7 +1,6 @@
 package com.goldze.common.dmvvm.base.mvvm.stateview;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.ImageView;

@@ -1,5 +1,6 @@
 package com.mingpinmall.classz.ui.activity.details;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -30,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
@@ -41,12 +43,15 @@ import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.SlideLayout;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoMainBinding;
 import com.mingpinmall.classz.databinding.ItemGoodsDescBinding;
+import com.mingpinmall.classz.databinding.ItemText3Binding;
 import com.mingpinmall.classz.databinding.ItemTextBinding;
 import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
@@ -165,9 +170,9 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 binding.setLayout(new GridLayoutManager(getContext(), 4));
             }
             // TODO: 2019/4/1  全国 有货 免运费
-            KLog.i(dataBean.getGoods_hair_info().content + " " +
-                    dataBean.getGoods_hair_info().if_store_cn +
-                    dataBean.getGoods_hair_info().area_name);
+//            KLog.i(dataBean.getGoods_hair_info().content + " " +
+//                    dataBean.getGoods_hair_info().if_store_cn +
+//                    dataBean.getGoods_hair_info().area_name);
             binding.setData(goodsInfo);
 
             List<GoodsInfo.NewsContractlistBean> newsContractlist = goodsInfo.getNews_contractlist();
@@ -194,12 +199,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 binding.llService.setVisibility(View.GONE);
             }
 
-            ItemTextBinding textBinding;
+            ItemText3Binding textBinding;
             int size = goodsInfo.news_goods_spec_name.size();
             binding.llGoodsSpecification.removeAllViews();
             if (size > 0) {
                 for (int i = 0; i < size; i++) {
-                    textBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_text, null, false);
+                    textBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_text3, null, false);
                     textBinding.text.setTextSize(14f);
                     textBinding.text.setPadding(4, 4, 4, 4);
                     textBinding.text.setTextColor(getResources().getColor(R.color.gray));
@@ -208,7 +213,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     binding.llGoodsSpecification.addView(textBinding.getRoot());
                 }
             } else {
-                textBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_text, null, false);
+                textBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_text3, null, false);
                 textBinding.text.setTextSize(14f);
                 textBinding.text.setPadding(8, 6, 8, 6);
                 textBinding.text.setTextColor(getResources().getColor(R.color.black));
@@ -356,10 +361,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     /**
      * 设置商品头图 轮播
      */
+    private List<String> list;
+
     private void setGoodsHeadImg() {
         String goods_image = dataBean.getGoods_image();
         if (!TextUtils.isEmpty(goods_image)) {
-            List<String> list;
+
             if (goods_image.contains(",")) {
                 goodsInfo.setGoods_image_url(goods_image.split(",")[0]);
                 list = Arrays.asList(goods_image.split(","));
@@ -489,6 +496,18 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             KLog.i("点击");
             ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", dataBean.getStore_info().getStore_id());
         });
+        // TODO: 2019/5/29 待优化
+        binding.vpItemGoodsImg.setOnItemClickListener(position -> {
+            List<LocalMedia> selectList = new ArrayList<>();
+            if (null != list && list.size() > 0) {
+                for (String s : list) {
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setPath(s);
+                    selectList.add(localMedia);
+                }
+                PictureSelector.create(activity).themeStyle(R.style.picture_default_style).openExternalPreview(position, selectList);
+            }
+        });
 
     }
 
@@ -505,6 +524,9 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     goodsInfo = dataBean.getGoods_info();
                 }
             }
+        }
+        if (null == specificationPop) {
+            specificationPop = GoodsSpecificationPop.getInstance(getContext());
         }
         specificationPop.setGoodsInfo(goodsInfo);
         specificationPop.loadData();
@@ -545,7 +567,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         /*添加购物车*/
         registerObserver(Constants.CART_EVENT_KEY, ResultBean.class)
                 .observeForever(response -> {
-                    KLog.i(response.isSuccess() + " " + response.getError());
+                    /*KLog.i(response.isSuccess() + " " + response.getError());*/
                     if (response.isSuccess()) {
                         /*String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");*/
 //                        goodsInfo.setNum(Integer.valueOf(goodsNum));

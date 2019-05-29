@@ -16,7 +16,7 @@ import java.util.ArrayList;
  **/
 public class PredepositLogAdapter extends BaseQuickAdapter<PredepoitLogBean.ListBean, BaseViewHolder> {
     public PredepositLogAdapter() {
-        super(R.layout.item_predepositlog, new ArrayList<PredepoitLogBean.ListBean>());
+        super(R.layout.item_predepositlog, new ArrayList<>());
     }
 
     @Override

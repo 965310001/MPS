@@ -13,7 +13,6 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
-import com.goldze.common.dmvvm.widget.progress.ProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityResetCheckBinding;
 import com.mingpinmall.me.ui.api.UserViewModel;

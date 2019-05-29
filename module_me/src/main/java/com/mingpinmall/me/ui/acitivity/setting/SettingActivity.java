@@ -12,6 +12,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.widget.SettingItemView;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
@@ -21,8 +22,6 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseItemBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.goldze.common.dmvvm.widget.SettingItemView;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,13 +75,17 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
     @Override
     protected void dataObserver() {
         registerObserver(Constants.USER_PAYPWD_INFO, BaseCheckBean.class).observeForever(result -> {
-            settingAdapter.getData().get(2).setSubTitle(result.isState() ? "已验证" : "未验证");
-            settingAdapter.notifyDataSetChanged();
+            if (null != settingAdapter.getData()) {
+                settingAdapter.getData().get(2).setSubTitle(result.isState() ? "已验证" : "未验证");
+                settingAdapter.notifyDataSetChanged();
+            }
         });
         registerObserver(Constants.USER_PHONE_INFO, BaseCheckBean.class).observeForever(result -> {
             checkPhoneState = result;
-            settingAdapter.getData().get(1).setSubTitle(result.isState() ? result.getMobile() : "未绑定");
-            settingAdapter.notifyDataSetChanged();
+            if (null != settingAdapter.getData()) {
+                settingAdapter.getData().get(1).setSubTitle(result.isState() ? result.getMobile() : "未绑定");
+                settingAdapter.notifyDataSetChanged();
+            }
         });
         registerObserver(Constants.ERR_USER_INFO, String.class).observeForever(result -> TextDialog.showBaseDialog(activity, "获取内容失败", result, new DialogInterface.OnDismissListener() {
             @Override

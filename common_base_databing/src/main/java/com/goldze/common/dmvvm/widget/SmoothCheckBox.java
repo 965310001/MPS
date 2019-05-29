@@ -324,12 +324,7 @@ public class SmoothCheckBox extends View implements Checkable {
 
         // invalidate
         if (mDrewDistance < mLeftLineDistance + mRightLineDistance) {
-            postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    postInvalidate();
-                }
-            }, 10);
+            postDelayed(() -> postInvalidate(), 10);
         }
     }
 

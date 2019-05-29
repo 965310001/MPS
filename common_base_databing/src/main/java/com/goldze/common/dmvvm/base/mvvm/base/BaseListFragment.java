@@ -254,11 +254,12 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
     protected void onRefreshSuccess(Collection<?> collection) {
         oldItems.clear();
         oldItems.addAll(collection);
-        if (null != collection && collection.size() < 10) {
-            mRecyclerView.refreshComplete(oldItems, true);
-        } else {
-            mRecyclerView.refreshComplete(oldItems, false);
-        }
+//        if (null != collection && collection.size() < 10) {
+//            mRecyclerView.refreshComplete(oldItems, true);
+//        } else {
+//            mRecyclerView.refreshComplete(oldItems, false);
+//        }
+        mRecyclerView.refreshComplete(oldItems, null != collection && collection.size() < 10);
         isRefresh = false;
 
     }
@@ -267,11 +268,11 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         isLoading = true;
 //        isLoadMore = false;
         oldItems.addAll(collection);
-        if (null != collection && collection.size() < 10) {
-            mRecyclerView.loadMoreComplete(collection, true);
-        } else {
-            mRecyclerView.loadMoreComplete(collection, false);
-        }
+//        if (null != collection && collection.size() < 10) {
+//            mRecyclerView.loadMoreComplete(collection, true);
+//        } else {
+//        }
+        mRecyclerView.loadMoreComplete(collection, null != collection && collection.size() < 10);
     }
 
     /**

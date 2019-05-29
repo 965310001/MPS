@@ -3,7 +3,6 @@ package com.mingpinmall.classz.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.goldze.common.dmvvm.adapter.BaseRecyclerAdapter;
 import com.goldze.common.dmvvm.base.event.LiveBus;

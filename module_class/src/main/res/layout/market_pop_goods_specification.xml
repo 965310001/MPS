@@ -315,12 +315,25 @@
                 android:layout_height="match_parent"
                 android:layout_toEndOf="@+id/rl_cart1">
 
+                <!--<TextView-->
+                <!--android:id="@+id/tv_buy_now"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/bg_of_red_gradient"-->
+                <!--android:gravity="center"-->
+                <!--android:onClick="buyNow"-->
+                <!--android:text="@string/market_buy_now"-->
+                <!--android:textColor="@color/white" />-->
+
                 <TextView
                     android:id="@+id/tv_buy_now"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:alpha="@{data.goods_storage.equals(`0`)?0.5f:1f}"
                     android:background="@drawable/bg_of_red_gradient"
+                    android:clickable="@{!data.goods_storage.equals(`0`)}"
                     android:gravity="center"
                     android:onClick="buyNow"
                     android:text="@string/market_buy_now"
@@ -331,14 +344,28 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:alpha="@{data.shop?0.5f:1f}"
+                    android:alpha="@{data.goods_storage.equals(`0`)||data.shop?0.5f:1f}"
                     android:background="@drawable/bg_of_orange_gradient"
-                    android:clickable="@{data.shop?false:true}"
+                    android:clickable='@{!data.shop &amp;&amp;!data.goods_storage.equals(`0`)}'
                     android:gravity="center"
                     android:onClick="addCart"
                     android:text="@string/market_add_to_cart"
                     android:textColor="@color/white"
                     android:visibility="@{data.cart?View.VISIBLE:View.GONE}" />
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_add_cart"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:alpha="@{data.shop?0.5f:1f}"-->
+                <!--android:background="@drawable/bg_of_orange_gradient"-->
+                <!--android:clickable="@{data.shop?false:true}"-->
+                <!--android:gravity="center"-->
+                <!--android:onClick="addCart"-->
+                <!--android:text="@string/market_add_to_cart"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:visibility="@{data.cart?View.VISIBLE:View.GONE}" />-->
 
             </LinearLayout>
 

@@ -52,8 +52,8 @@
                             android:layout_height="28dp"
                             android:onClick="finish"
                             android:padding="3dp"
-                            android:src="@drawable/ic_back"
-                            android:tint="@color/black" />
+                            app:srcCompat="@drawable/ic_svg_back"
+                            tools:src="@drawable/ic_svg_back" />
                     </LinearLayout>
 
                     <android.support.v7.widget.AppCompatTextView

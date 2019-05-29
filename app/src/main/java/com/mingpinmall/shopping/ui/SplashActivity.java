@@ -29,8 +29,8 @@ import java.util.Objects;
 public class SplashActivity extends AppCompatActivity {
 
     //启动时间间隔为2.5s
-    private final int LOAD_DISPLAY_TIME = 2500;
-    private ActivitySplashBinding binding;
+//    private final int LOAD_DISPLAY_TIME = 2500;
+//    private ActivitySplashBinding binding;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -54,9 +54,9 @@ public class SplashActivity extends AppCompatActivity {
                 return; //finish()之后该活动会继续执行后面的代码，你可以logCat验证，加return避免可能的exception
             }
         }
-        binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_splash, null, false);
+        ActivitySplashBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_splash, null, false);
         setContentView(binding.getRoot());
-        new Handler().postDelayed(this::toNextActivity, LOAD_DISPLAY_TIME);
+        new Handler().postDelayed(this::toNextActivity, 2500);
     }
 
     private void toNextActivity() {

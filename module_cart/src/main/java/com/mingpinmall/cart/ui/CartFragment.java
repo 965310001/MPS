@@ -138,12 +138,19 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             String gNum;
             for (AvailableCartBean cartBean : shopCartAdapter.getData()) {
                 //遍历一次列表
-                if (cartBean.getItemType() == 1) {
-                    //只处理商品类型的 item
-                    if (!cartBean.isCheck()) {
-                        //如果没有勾选这个商品，则不添加
-                        continue;
-                    }
+//                if (1 == cartBean.getItemType()) {
+//                    //只处理商品类型的 item
+//                    if (!cartBean.isCheck()) {
+//                        //如果没有勾选这个商品，则不添加
+//                        continue;
+//                    }
+//                    gId = cartBean.getGoods().getCart_id();
+//                    gNum = cartBean.getGoods().getGoods_num();
+//                    cartId.append(String.format("%s|%s,", gId, TextUtils.isEmpty(gNum) ? "1" : gNum));
+//                }
+
+                /*优化*/
+                if (cartBean.isCheck() && 1 == cartBean.getItemType()) {
                     gId = cartBean.getGoods().getCart_id();
                     gNum = cartBean.getGoods().getGoods_num();
                     cartId.append(String.format("%s|%s,", gId, TextUtils.isEmpty(gNum) ? "1" : gNum));
@@ -152,7 +159,6 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             if (cartId.toString().length() > 0) {
                 String cartInfo = cartId.toString().contains(",") ?
                         cartId.toString().substring(0, cartId.lastIndexOf(",")) : cartId.toString();
-                Log.d("立即购买", "setListener: " + cartInfo);
                 Map<String, Object> params = new HashMap<>(2);
                 params.put("cartId", cartInfo);
                 params.put("ifcart", "1");
@@ -166,12 +172,13 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             binding.cbSelectAll.toggle();
             boolean isCheck = binding.cbSelectAll.isChecked();
             checkedSize = isCheck ? goodsSize : 0;
-            double money = 0.0;
+            double money = 0.0, price;
+            int count;
             for (AvailableCartBean item : shopCartAdapter.getData()) {
                 item.setCheck(isCheck);
-                if (item.getItemType() == 1 && isCheck) {
-                    double price = Double.parseDouble(item.getGoods().getGoods_price());
-                    int count = Integer.parseInt(item.getGoods().getGoods_num());
+                if (isCheck && item.getItemType() == 1) {
+                    price = Double.parseDouble(item.getGoods().getGoods_price());
+                    count = Integer.parseInt(item.getGoods().getGoods_num());
                     price = price * count;
                     money += isCheck ? price : -price;
                 }
@@ -268,13 +275,16 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         }
         if (data.getItemType() == 0) {
             //group
+            AvailableCartBean itemData;
+            double price;
+            int count;
             for (int i = position; i < shopCartAdapter.getData().size(); i++) {
-                AvailableCartBean itemData = shopCartAdapter.getData().get(i);
+                itemData = shopCartAdapter.getData().get(i);
                 if (itemData.getStore_id().equals(data.getStore_id())) {
-                    if (itemData.getItemType() == 1 && itemData.isCheck() != isCheck) {
+                    if (itemData.isCheck() != isCheck && itemData.getItemType() == 1) {
                         checkedSize = isCheck ? checkedSize + 1 : checkedSize - 1;
-                        double price = Double.parseDouble(itemData.getGoods().getGoods_price());
-                        int count = Integer.parseInt(itemData.getGoods().getGoods_num());
+                        price = Double.parseDouble(itemData.getGoods().getGoods_price());
+                        count = Integer.parseInt(itemData.getGoods().getGoods_num());
                         price = price * count;
                         money += isCheck ? price : -price;
                     }
@@ -290,7 +300,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             checkedSize = isCheck ? checkedSize + 1 : checkedSize - 1;
             for (int i = 0; i < shopCartAdapter.getData().size(); i++) {
                 AvailableCartBean itemBean = shopCartAdapter.getData().get(i);
-                if (itemBean.getStore_id() == storeId && itemBean.getItemType() == 0) {
+                if (itemBean.getStore_id().equals(storeId) && itemBean.getItemType() == 0) {
                     itemBean.changeCheckedCount(isCheck);
                     shopCartAdapter.notifyItemChanged(i);
                     break;
@@ -316,8 +326,6 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
 
     /**
      * 处理数据内容
-     *
-     * @param data
      */
     private void formatData(ShopCartBean data) {
         double money = 0.00;
@@ -482,11 +490,6 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     }
 
     @Override
-    protected void onInVisible() {
-        super.onInVisible();
-    }
-
-    @Override
     protected int getLayoutResId() {
         return R.layout.fragment_cart;
     }
@@ -495,6 +498,4 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     protected int getContentResId() {
         return R.id.content_layout;
     }
-
-
 }

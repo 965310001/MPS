@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -12,7 +11,6 @@ import android.text.style.ImageSpan;
 
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.mingpinmall.classz.R;
-import com.socks.library.KLog;
 import com.xuexiang.xui.utils.ResUtils;
 
 /**

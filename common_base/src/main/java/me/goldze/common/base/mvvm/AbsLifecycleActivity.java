@@ -29,7 +29,7 @@ public abstract class AbsLifecycleActivity<T extends AbsViewModel> extends BaseA
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        mViewModel = VMProviders(this, (Class<T>) TUtil.getInstance(this, 0));
+        mViewModel = VMProviders(this, TUtil.getInstance(this, 0));
         dataObserver();
     }
 

@@ -17,7 +17,7 @@ import java.util.ArrayList;
  **/
 public class ShopsStreetAdapter extends BaseQuickAdapter<ShopStreetBean.StoreListBean, BaseViewHolder> {
     public ShopsStreetAdapter() {
-        super(R.layout.item_shops, new ArrayList<ShopStreetBean.StoreListBean>());
+        super(R.layout.item_shops, new ArrayList<>());
     }
 
     @Override

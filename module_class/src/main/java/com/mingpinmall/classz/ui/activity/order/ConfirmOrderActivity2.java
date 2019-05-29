@@ -104,7 +104,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     @Override
     protected void initData() {
         super.initData();
-        KLog.i(cartId);
+        /*KLog.i(cartId);*/
         mViewModel.getOrderInfo2(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 

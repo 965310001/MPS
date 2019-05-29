@@ -3,6 +3,7 @@ package com.goldze.common.dmvvm.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -110,8 +111,10 @@ public class ActionBar extends RelativeLayout {
         llLeft.setVisibility(VISIBLE);
         llLeft.setVisibility(VISIBLE);
         llLeft.removeAllViews();
-        ImageView ivLeft = new ImageView(getContext());
+//        ImageView ivLeft = new ImageView(getContext());
+        AppCompatImageView ivLeft=new AppCompatImageView(getContext());
         ivLeft.setImageResource(res);
+//        ivLeft.setImageResource(res);
         llLeft.addView(ivLeft);
         llLeft.setOnClickListener(l);
     }
@@ -309,7 +312,7 @@ public class ActionBar extends RelativeLayout {
      */
     public void showBackImg(boolean show) {
         if (show) {
-            setLeftIcon(R.drawable.ic_back, new OnClickListener() {
+            setLeftIcon(R.drawable.ic_svg_back, new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context ctx = ActionBar.this.getContext();

@@ -37,7 +37,7 @@ public abstract class AbsLifecycleFragment<T extends AbsViewModel> extends BaseF
 
     @Override
     public void initView(Bundle state) {
-        mViewModel = VMProviders(this, (Class<T>) TUtil.getInstance(this, 0));
+        mViewModel = VMProviders(this, TUtil.getInstance(this, 0));
 
         if (null != mViewModel) {
             dataObserver();
