@@ -1,5 +1,6 @@
 package com.mingpinmall.shopping.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
@@ -13,8 +14,11 @@ import android.view.LayoutInflater;
 import android.view.Window;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.baidu.mobstat.StatService;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.shopping.R;
 import com.mingpinmall.shopping.databinding.ActivitySplashBinding;
 
@@ -43,6 +47,20 @@ public class SplashActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         StatusBarUtils.immersive(this, true);
         super.onCreate(savedInstanceState);
+        //*****************
+        //百度应用统计服务
+        StatService.start(this);
+        //设置打开Crash日志收集。
+        // 仅收集java crash，flag = StatService.JAVA_EXCEPTION_LOG
+        // 同时收集java 和 native crash，flag = StatService.EXCEPTION_LOG
+        StatService.setOn(this, StatService.EXCEPTION_LOG);
+        //设置启动后日志发送延时时间 默认值0，启动时刻立即load数据发送日志
+        StatService.setLogSenderDelayed(5);
+        //设置应用进入后台再回到前台为同一次启动的最大间隔时间，有效值范围0～600s，例如设置值30s，则应用进入后台后，30s内唤醒为同一次启动
+        StatService.setSessionTimeOut(30);
+        //正式版本中，为避免影响APP性能，请关闭调试。
+        StatService.setDebugOn(true);
+        //*****************
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         if (!this.isTaskRoot()) {
             //判断该Activity是不是任务空间的源Activity，“非”也就是说是被系统重新实例化出来
@@ -56,6 +74,16 @@ public class SplashActivity extends AppCompatActivity {
         }
         ActivitySplashBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_splash, null, false);
         setContentView(binding.getRoot());
+        if (PermissionsUtils.checkPermissions(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE)) {
+
+        } else {
+            ToastUtils.showShort("没有权限");
+        }
+
         new Handler().postDelayed(this::toNextActivity, 2500);
     }
 

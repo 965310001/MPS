@@ -91,8 +91,7 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
             label = "请选择地区";
         }
         if ("".equals(label)) {
-            TextDialog.showBaseDialog(activity, label, "", dialog -> {
-            });
+            TextDialog.showBaseDialog(activity, "", label);
             return;
         }
         if (isAdd) {
