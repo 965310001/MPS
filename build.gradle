@@ -9,10 +9,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.4.1'
 //        classpath 'com.android.tools.build:gradle:3.2.0'
 //        classpath "com.android.tools.build:gradle:3.0.1"
 
+        //百度应用分析
+//        classpath 'com.baidu.mobstat:mtj-circle-plugin:latest.integration'
 
         //Arouter
         classpath 'com.chenenyu.router:gradle-plugin:latest.integration'

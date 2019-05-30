@@ -5,10 +5,20 @@ tasks.whenTaskAdded { task ->
 }
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
+//apply plugin: 'mtj-circle-plugin'
 
 /*引入自定义的文件*/
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(rootProject.file("constants.properties")))
+//
+//MtjCirclePluginConfig {
+//    // 设置appkey，必须设置，否则插件使用无效
+//    appkey = 'df5ce2b8f2'
+//    // 设置debug 开关，默认关闭，如果需要查看日志则打开开关（true），建议正式版关闭以避免影响性能
+//    debug = true
+//    // 默认启动此插件，如果开发者不需要可以禁用（false）
+//    enabled = true
+//}
 
 android {
 
@@ -100,5 +110,7 @@ dependencies {
     }
     /*微信支付*/
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    implementation project(':bugly')
+    implementation 'com.baidu.mobstat:mtj-sdk:latest.integration'
+
+//    implementation project(':bugly')
 }

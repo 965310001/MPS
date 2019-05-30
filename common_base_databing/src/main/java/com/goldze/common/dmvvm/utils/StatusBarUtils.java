@@ -350,25 +350,25 @@ public class StatusBarUtils {
         try {
             mSetStatusBarColorIcon = Activity.class.getMethod("setStatusBarDarkIcon", int.class);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         try {
             mSetStatusBarDarkIcon = Activity.class.getMethod("setStatusBarDarkIcon", boolean.class);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         try {
             mStatusBarColorFiled = WindowManager.LayoutParams.class.getField("statusBarColor");
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         try {
             Field field = View.class.getField("SYSTEM_UI_FLAG_LIGHT_STATUS_BAR");
             SYSTEM_UI_FLAG_LIGHT_STATUS_BAR = field.getInt(null);
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
