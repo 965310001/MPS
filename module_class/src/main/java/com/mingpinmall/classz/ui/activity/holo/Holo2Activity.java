@@ -2,11 +2,14 @@ package com.mingpinmall.classz.ui.activity.holo;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -18,9 +21,14 @@ import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.BridgeWebViewClient;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.FileUtils;
 import com.goldze.common.dmvvm.utils.Img2Base64Util;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -30,6 +38,8 @@ import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ActivityHoloBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.socks.library.KLog;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.List;
@@ -43,6 +53,7 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
     @Autowired
     String url;
 
+    private final String holoSavePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + "MPS" + File.separator + "holo";
     private AgentWeb mAgentWeb;
     private BridgeWebView mBridgeWebView;
     private String picPath = "";
@@ -58,6 +69,19 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
                 .setAgentWebParent(findViewById(R.id.fl_content), new FrameLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
                 .setWebViewClient(getWebViewClient())
+                .setWebChromeClient(new WebChromeClient() {
+                    @Override
+                    public void onConsoleMessage(String message, int lineNumber, String sourceID) {
+                        Log.i("console", message + "(" + sourceID + ":" + lineNumber + ")");
+                        super.onConsoleMessage(message, lineNumber, sourceID);
+                    }
+
+                    @Override
+                    public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                        Log.i("console", "[" + consoleMessage.messageLevel() + "] " + consoleMessage.message() + "(" + consoleMessage.sourceId() + ":" + consoleMessage.lineNumber() + ")");
+                        return super.onConsoleMessage(consoleMessage);
+                    }
+                })
                 .setWebView(mBridgeWebView)
                 .createAgentWeb()
                 .ready()
@@ -91,7 +115,6 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
                 super.onPageFinished(view, url);
                 mBridgeWebViewClient.onPageFinished(view, url);
             }
-
         };
     }
 
@@ -99,50 +122,75 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
     class AndroidToJs extends Object {
         @JavascriptInterface
         public boolean backHost() {
-            Log.d(TAG, "AndroidToJs: 返回首页");
+            Log.d(TAG, "AndroidToJs: backHost 首页");
             runOnUiThread(() -> mAgentWeb.getUrlLoader().loadUrl(url));
             return true;
         }
 
         @JavascriptInterface
         public boolean customizeCamera() {
-            Log.d(TAG, "AndroidToJs: 自定摄像头");
+            Log.d(TAG, "AndroidToJs: customizeCamera 这是什么？");
             return true;
         }
 
         @JavascriptInterface
         public boolean goProduct(String sku_id) {
-            Log.d(TAG, "AndroidToJs: 查看商品详情");
+            Log.d(TAG, "AndroidToJs: goProduct 查看商品详情");
+            ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", sku_id);
             return true;
         }
 
         @JavascriptInterface
         public boolean chooseModelImage() {
-            Log.d(TAG, "AndroidToJs: 选择摄像头");
-            runOnUiThread(() -> {
-                PictureSelector.create(activity)
-                        .openGallery(PictureMimeType.ofImage())
-                        .maxSelectNum(1)// 最大图片选择数量 int
-                        .minSelectNum(1)// 最小选择数量 int
-                        .imageSpanCount(3)// 每行显示个数 int
-                        .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
-                        .previewImage(true)// 是否可预览图片 true or false
-                        .isCamera(true)// 是否显示拍照按钮 true or false
-                        .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
-                        .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
-                        .compress(true)// 是否压缩 true or false
-                        .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示 true or false
-                        .isGif(false)// 是否显示gif图片 true or false
-                        .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
-                        .minimumCompressSize(100)// 小于100kb的图片不压缩
-                        .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
-            });
+            Log.d(TAG, "AndroidToJs: chooseModelImage 选择照片/拍照");
+            runOnUiThread(() -> PictureSelector.create(activity)
+                    .openGallery(PictureMimeType.ofImage())
+                    // 每行显示个数 int
+                    .imageSpanCount(3)
+                    // 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                    .selectionMode(PictureConfig.SINGLE)
+                    // glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                    .sizeMultiplier(0.5f)
+                    // 是否压缩 true or false
+                    .compress(true)
+                    // 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                    .previewEggs(true)
+                    // 小于100kb的图片不压缩
+                    .minimumCompressSize(100)
+                    //结果回调onActivityResult code
+                    .forResult(PictureConfig.CHOOSE_REQUEST));
             return true;
         }
 
         @JavascriptInterface
         public boolean customizePhotoSaving(String base64img) {
-            Log.d(TAG, "AndroidToJs: 保存图片");
+            Log.d(TAG, "AndroidToJs: customizePhotoSaving 保存图片");
+            CustomProgressDialog.show(activity);
+            String defType = "jpeg";
+            if (base64img.contains(";base64,")) {
+                String[] strs = base64img.split(";base64,");
+                base64img = strs[1];
+
+                defType = "." + strs[0].split("/")[1];
+            }
+            //保存到相册,查询路径是否存在，如果不存在则创建
+            File basePath = new File(holoSavePath);
+            if (!basePath.exists()) {
+                basePath.mkdirs();
+            }
+            String path = holoSavePath + File.separator + "mps_save_holo_" + System.currentTimeMillis() + defType;
+            Log.d(TAG, "AndroidToJs: customizePhotoSaving 图片路径 -> (" + path + ")");
+            boolean isOK = Img2Base64Util.base64ToFile(base64img, path);
+
+            if (isOK) {
+                Uri contentUri = Uri.fromFile(new File(path));
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri);
+                sendBroadcast(mediaScanIntent);
+                CustomProgressDialog.stop();
+                TextDialog.showBaseDialog(activity, "", "已保存到系统相册").show();
+            } else {
+                TextDialog.showBaseDialog(activity, "", "保存失败").show();
+            }
             return true;
         }
     }
@@ -174,7 +222,8 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
                         ToastUtils.showShort("图片未找到！");
                         return;
                     }
-                    String imageSrc = Img2Base64Util.imageToBase64(picPath);
+                    String imageSrc = "data:image/png;base64," + Img2Base64Util.imageToBase64(picPath);
+
                     mAgentWeb.getJsAccessEntrace().quickCallJs("previewImage", imageSrc);
                     break;
                 default:
@@ -187,7 +236,6 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
     protected void onPause() {
         mAgentWeb.getWebLifeCycle().onPause();
         super.onPause();
-
     }
 
     @Override
@@ -204,7 +252,7 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
 
     @Override
     protected Object getStateEventKey() {
-        return "";
+        return "Holo2Activity";
     }
 
     @Override
