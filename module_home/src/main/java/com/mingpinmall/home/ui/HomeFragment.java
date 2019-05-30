@@ -17,7 +17,9 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.databinding.FragmentHomeBinding;
@@ -25,6 +27,7 @@ import com.mingpinmall.home.ui.adapter.HomeListAdapter;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.constants.Constants;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -387,12 +390,25 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 if (data.getCode() == 200) {
                     binding.refreshLayout.finishRefresh();
                     homeListAdapter.setNewData(formatDatas(data.getDatas()));
+//                    SharePreferenceUtil.saveKeyValue("homedata", new Gson().toJson(data));
                 } else {
                     binding.refreshLayout.finishRefresh(false);
                 }
             } else {
+                if (!TextUtils.isEmpty(result.toString())) {
+                    ToastUtils.showShort(result.toString());
+                }
+//                try {
+//                    HomeItemBean data = new Gson().fromJson(SharePreferenceUtil.getKeyValue("homedata"), HomeItemBean.class);
+//                    if (data.getCode() == 200) {
+//                        binding.refreshLayout.finishRefresh();
+//                        homeListAdapter.setNewData(formatDatas(data.getDatas()));
+//                        SharePreferenceUtil.saveKeyValue("homedata", new Gson().toJson(data));
+//                    }
+//                }catch (Exception e){
+//                    KLog.i(e.toString());
+//                }
                 binding.refreshLayout.finishRefresh(false);
-                ToastUtils.showShort(result.toString());
             }
         });
     }

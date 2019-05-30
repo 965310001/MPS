@@ -13,6 +13,7 @@ import com.mingpinmall.home.ui.constants.Constants;
 
 /**
  * 功能描述：
+ *
  * @author 小斌
  * @date 2019/4/3
  **/
@@ -24,26 +25,26 @@ public class HomeRepository extends BaseRepository {
      */
     protected void getStoreClass() {
         addDisposable(apiService.getStoreClass(getUserKey())
-                .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<ShopClassBean>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<ShopClassBean> homeItemBean) {
-                        if (homeItemBean.isSuccess()) {
-                            sendData(Constants.GET_STORE_CLASS, homeItemBean.getData());
-                        } else {
-                            sendData(Constants.GET_STORE_CLASS, homeItemBean.getMessage());
-                        }
-                    }
+                        .compose(RxSchedulers.io_main())
+                        .subscribeWith(new RxSubscriber<BaseResponse<ShopClassBean>>() {
+                            @Override
+                            public void onSuccess(BaseResponse<ShopClassBean> homeItemBean) {
+                                if (homeItemBean.isSuccess()) {
+                                    sendData(Constants.GET_STORE_CLASS, homeItemBean.getData());
+                                } else {
+                                    sendData(Constants.GET_STORE_CLASS, homeItemBean.getMessage());
+                                }
+                            }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        sendData(Constants.GET_STORE_CLASS, msg == null ? "获取失败" : msg);
-                    }
+                            @Override
+                            public void onFailure(String msg) {
+                                sendData(Constants.GET_STORE_CLASS, msg == null ? "获取失败" : msg);
+                            }
 
 //                    @Override
 //                    protected void onNoNetWork() {
 //                    }
-                })
+                        })
         );
     }
 
@@ -52,26 +53,26 @@ public class HomeRepository extends BaseRepository {
      */
     protected void getStoreStreet(String keyword, String areaInfo, String scId, int curPage) {
         addDisposable(apiService.getStoreStreet(keyword, areaInfo, scId, getUserKey(), 10, curPage)
-                .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<ShopStreetBean>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<ShopStreetBean> homeItemBean) {
-                        if (homeItemBean.isSuccess()) {
-                            sendData(Constants.GET_STORE_LIST, homeItemBean);
-                        } else {
-                            sendData(Constants.GET_STORE_LIST, homeItemBean.getMessage());
-                        }
-                    }
+                        .compose(RxSchedulers.io_main())
+                        .subscribeWith(new RxSubscriber<BaseResponse<ShopStreetBean>>() {
+                            @Override
+                            public void onSuccess(BaseResponse<ShopStreetBean> homeItemBean) {
+                                if (homeItemBean.isSuccess()) {
+                                    sendData(Constants.GET_STORE_LIST, homeItemBean);
+                                } else {
+                                    sendData(Constants.GET_STORE_LIST, homeItemBean.getMessage());
+                                }
+                            }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        sendData(Constants.GET_STORE_LIST, msg == null ? "获取失败" : msg);
-                    }
+                            @Override
+                            public void onFailure(String msg) {
+                                sendData(Constants.GET_STORE_LIST, msg == null ? "获取失败" : msg);
+                            }
 
 //                    @Override
 //                    protected void onNoNetWork() {
 //                    }
-                })
+                        })
         );
     }
 
@@ -90,6 +91,12 @@ public class HomeRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         sendData(Constants.HOME_DATA_JSON, msg == null ? "获取失败" : msg);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.HOME_DATA_JSON, "");
                     }
                 })
         );

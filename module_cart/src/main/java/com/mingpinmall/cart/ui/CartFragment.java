@@ -76,7 +76,6 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     public void onStart() {
         super.onStart();
         lazyLoad();
-        KLog.i("onStart");
     }
 
     @Override
@@ -438,7 +437,9 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 formatData((ShopCartBean) result);
                 binding.refreshLayout.finishRefresh();
             } else {
-                ToastUtils.showShort(result.toString());
+                if (!TextUtils.isEmpty(result.toString())) {
+                    ToastUtils.showShort(result.toString());
+                }
                 binding.refreshLayout.finishRefresh(false);
             }
         });

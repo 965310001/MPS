@@ -284,7 +284,7 @@ public class DatabingUtils {
 //////                    layout = new GridLayoutManager(context, 4);
 //                    break;
                 default:
-                    KLog.i("必须个TRecyclerView 设置TAG");
+                    /*KLog.i("必须个TRecyclerView 设置TAG");*/
                     break;
             }
             if (!isDecoration) {

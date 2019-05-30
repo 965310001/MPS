@@ -6,6 +6,7 @@ import com.goldze.common.dmvvm.http.NetworkUtil;
 import com.goldze.common.dmvvm.http.ServerException;
 import com.goldze.common.dmvvm.utils.Utils;
 import com.google.gson.JsonParseException;
+import com.socks.library.KLog;
 
 import org.json.JSONException;
 
@@ -29,12 +30,12 @@ public abstract class RxSubscriber<T> extends DisposableSubscriber<T> {
     protected void onStart() {
         super.onStart();
         showLoading();
-
         if (!NetworkUtil.isNetworkAvailable(Utils.getApplication())) {
             onNoNetWork();
             cancel();
             return;
         }
+
     }
 
     @Override

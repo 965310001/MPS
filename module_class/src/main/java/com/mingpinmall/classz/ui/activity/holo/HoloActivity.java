@@ -87,17 +87,15 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
         webview.addJavascriptInterface(new AndroidToJs(), "app");
 
         webview.setWebChromeClient(new WebChromeClient());
+        settings.setAppCacheEnabled(true);// 设置缓存
 
 //        settings.setBuiltInZoomControls(true);
 //        settings.setDefaultTextEncodingName("UTF-8");
 //        settings.setUseWideViewPort(true);
 //        settings.setLoadWithOverviewMode(true);
 //        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
-        settings.setAppCacheEnabled(true);// 设置缓存
 //        settings.setJavaScriptCanOpenWindowsAutomatically(true); //设置允许js弹出alert对话框。
 //        settings.setGeolocationEnabled(true); //设置可以定位
-
-
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView webView, WebResourceRequest webResourceRequest, WebResourceError webResourceError) {
@@ -105,14 +103,55 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
             }
         });
 
-        webview.setWebChromeClient(new WebChromeClient() {
+        webview.setWebChromeClient(getWebChromeClient());
+
+//        webview.setWebViewClient(new MyWebClient());
+
+//        int version = Build.VERSION.SDK_INT;
+//        if (version < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//            webview.loadUrl("javascript:callJS()");
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            webview.getSettings().setMixedContentMode(
+//                    WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+//        } else {
+//
+//        }
+//        webview.evaluateJavascript("javascript:callJS()", new ValueCallback<String>() {
+//            @Override
+//            public void onReceiveValue(String value) {
+//                //此处为 js 返回的结果
+//            }
+//        });
+
+//        KLog.i(url);
+//        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
+//        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
+        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
+
+//        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
+//        url="https://www.feeai.cn/wxapi/h5/fitting/demo.php?goods_id=37&cat_id=7";
+        webview.loadUrl(url);
+
+        KLog.i(webview.getSettings().getUserAgentString() + url);
+
+//        webview.loadUrl("https://www.feeai.cn/wxapi/h5/fitting/demo.php?goods_id=37&cat_id=7");
+//        webview.loadUrl("https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/");
+//        webview.loadUrl("https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/");
+//        webview.loadUrl("http://www.feeai.cn/fitting/");
+//        webview.loadUrl("https://www.feeai.cn/fitting?version=2");
+//        ToastUtils.showLong("测试");
+
+    }
+
+    private WebChromeClient getWebChromeClient() {
+        return new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 return super.onJsAlert(view, url, message, result);
             }
 
             // For Android 5.0
-            public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePath, WebChromeClient.FileChooserParams fileChooserParams) {
+            public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePath, FileChooserParams fileChooserParams) {
                 // Double check that we don't have any existing callbacks
                 if (mFilePathCallback != null) {
                     mFilePathCallback.onReceiveValue(null);
@@ -177,7 +216,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
                 mCapturedImageURI = Uri.fromFile(file);
                 // Camera capture image intent
                 final Intent captureIntent = new Intent(
-                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        MediaStore.ACTION_IMAGE_CAPTURE);
                 captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
                 Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                 i.addCategory(Intent.CATEGORY_OPENABLE);
@@ -202,49 +241,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
                                         String capture) {
                 openFileChooser(uploadMsg, acceptType);
             }
-        });
-
-        KLog.i();
-//        webview.setWebViewClient(new MyWebClient());
-
-//        int version = Build.VERSION.SDK_INT;
-//        if (version < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-//            webview.loadUrl("javascript:callJS()");
-//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            webview.getSettings().setMixedContentMode(
-//                    WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
-//        } else {
-//
-//        }
-//        webview.evaluateJavascript("javascript:callJS()", new ValueCallback<String>() {
-//            @Override
-//            public void onReceiveValue(String value) {
-//                //此处为 js 返回的结果
-//            }
-//        });
-
-        KLog.i(url);
-        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
-
-        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
-        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
-
-//        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
-//        url="https://www.feeai.cn/wxapi/h5/fitting/demo.php?goods_id=37&cat_id=7";
-        webview.loadUrl(url);
-
-        KLog.i(webview.getSettings().
-
-                getUserAgentString() + url);
-//        webview.loadUrl("https://www.feeai.cn/wxapi/h5/fitting/demo.php?goods_id=37&cat_id=7");
-
-//        webview.loadUrl("https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/");
-//        webview.loadUrl("https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/");
-//        webview.loadUrl("http://www.feeai.cn/fitting/");
-//        webview.loadUrl("https://www.feeai.cn/fitting?version=2");
-//        ToastUtils.showLong("测试");
-
-
+        };
     }
 
     private File createImageFile() throws IOException {
@@ -340,35 +337,35 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
 
     }
 
-    private class MyWebClient extends WebViewClient {
+//    private class MyWebClient extends WebViewClient {
+////        @Override
+////        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+////            KLog.i("shouldOverrideUrlLoading");
+////
+//////            Map<String, String> extraHeaders = new HashMap<String, String>();
+//////            webview.loadUrl(url);
+//////            extraHeaders.put("Referer", "http://wxpay.wxutil.com");
+//////            view.loadUrl(url);
+////
+////            view.loadUrl("javascript:innerChooseModelImage()");
+////
+////            return false;
+////        }
+//
 //        @Override
-//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            KLog.i("shouldOverrideUrlLoading");
-//
-////            Map<String, String> extraHeaders = new HashMap<String, String>();
-////            webview.loadUrl(url);
-////            extraHeaders.put("Referer", "http://wxpay.wxutil.com");
-////            view.loadUrl(url);
-//
-//            view.loadUrl("javascript:innerChooseModelImage()");
-//
-//            return false;
+//        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//            KLog.i("onReceivedSslError");
+//            handler.proceed(); // 接受所有网站的证书
 //        }
-
-        @Override
-        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            KLog.i("onReceivedSslError");
-            handler.proceed(); // 接受所有网站的证书
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-//            tvTitle.setText(view.getTitle());
-            showSuccess();
-        }
-
-    }
+//
+//        @Override
+//        public void onPageFinished(WebView view, String url) {
+//            super.onPageFinished(view, url);
+////            tvTitle.setText(view.getTitle());
+//            showSuccess();
+//        }
+//
+//    }
 
 //    private WebViewClient client = new WebViewClient() {
 //        /**

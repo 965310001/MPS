@@ -56,6 +56,11 @@ public abstract class BaseApplication extends Application implements Runnable {
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 Log.i("生命周期监听", "Created:" + activity.getLocalClassName());
                 AppManager.getInstance().addActivity(activity);
+                KLog.i("==================================== Activity ============================================");
+                for (Activity activity1 : AppManager.getActivityStack()) {
+                    KLog.i(activity1.getLocalClassName());
+                }
+                KLog.i("==================================== Activity ============================================");
             }
 
             @Override

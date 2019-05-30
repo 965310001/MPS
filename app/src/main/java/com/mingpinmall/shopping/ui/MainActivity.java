@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 //        ActivityToActivity.goShoppingDetails("110030"); //虚拟
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
-        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", " ");
+//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", " ");
     }
 
     @Override

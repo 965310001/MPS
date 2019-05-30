@@ -32,7 +32,7 @@ public class HtmlFromUtils {
      */
     public static void setImageFromNetWork(Context context, TextView textView, String text, boolean isAppend) {
         SpannableString spannableString = new SpannableString(text);
-        KLog.i(text);
+        /*KLog.i(text);*/
         /*匹配图片*/
         Matcher matcher = Pattern.compile("\\[[^\\]]+\\]").matcher(text);
         ImageSpan imageSpan;

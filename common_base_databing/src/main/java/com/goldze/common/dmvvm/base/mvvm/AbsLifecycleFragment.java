@@ -160,7 +160,7 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
     @Override
     public void onDetach() {
         super.onDetach();
-        KLog.i("onDetach");
+        /*KLog.i("onDetach");*/
         if (eventKeys != null && eventKeys.size() > 0) {
             for (int i = 0; i < eventKeys.size(); i++) {
                 LiveBus.getDefault().clear(eventKeys.get(i));

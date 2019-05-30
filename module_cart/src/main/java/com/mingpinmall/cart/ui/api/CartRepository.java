@@ -121,6 +121,12 @@ public class CartRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         sendData(event_key + Constants.SHOP_CART_LIST, msg == null ? "获取失败" : msg);
                     }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(event_key + Constants.SHOP_CART_LIST,"");
+                    }
                 })
         );
     }

@@ -143,12 +143,6 @@ public class ClassifyRepository extends BaseRepository {
                     }
 
                     @Override
-                    protected void onStart() {
-                        super.onStart();
-                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.LOADING_STATE);
-                    }
-
-                    @Override
                     public void onFailure(String msg) {
                         KLog.i(msg);
                         showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
@@ -171,11 +165,6 @@ public class ClassifyRepository extends BaseRepository {
                     @Override
                     public void onSuccess(ClassificationRighitBean result) {
                         sendData(Constants.EVENT_KEY_CLASSIFY_MORE[2], result);
-                    }
-
-                    @Override
-                    protected void onStart() {
-                        super.onStart();
                     }
 
                     @Override
@@ -283,11 +272,11 @@ public class ClassifyRepository extends BaseRepository {
                         showPageState(Constants.GOODSDETAIL_EVENT_KEY[1] + goodsId, StateConstants.SUCCESS_STATE);
                     }
 
-                    @Override
+                 /*   @Override
                     protected void onStart() {
                         super.onStart();
                         sendData(Constants.GOODSDETAIL_EVENT_KEY[0] + goodsId + "LOADING", true);
-                    }
+                    }*/
 
                     @Override
                     public void onFailure(String msg) {

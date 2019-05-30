@@ -144,7 +144,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
         registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + id, GoodsDetailInfo.class)
                 .observeForever(response -> {
-                    KLog.i(response.isSuccess() + " 刷新数据");
+                    /*KLog.i(response.isSuccess() + " 刷新数据");*/
                     if (response.isSuccess()) {
                         mGoodsDetailInfo = response;
                         mGoodsInfo = response.getDatas().getGoods_info();
@@ -195,7 +195,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                         }
                         setCartNumber();
                         binding.setData(mGoodsInfo);
-                        KLog.i("刷新数据");
+                        /*KLog.i("刷新数据");*/
                     } else {
                         showErrorState();
                     }

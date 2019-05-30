@@ -188,7 +188,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     HtmlFromUtils.setImageFromNetWork(activity, binding.tvService,
                             stringBuilder.toString(), false);
                     binding.llService.setVisibility(View.VISIBLE);
-                    KLog.i(stringBuilder.toString());
+                    /*KLog.i(stringBuilder.toString());*/
                     if (null == newsContractlist || newsContractlist.size() == 0) {
                         binding.llService.setVisibility(View.GONE);
                     }
@@ -378,6 +378,18 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     list,
                     position -> {
                     });
+            // TODO: 2019/5/29 待优化
+            binding.vpItemGoodsImg.setOnItemClickListener(position -> {
+                List<LocalMedia> selectList = new ArrayList<>();
+                if (null != list && list.size() > 0) {
+                    for (String s : list) {
+                        LocalMedia localMedia = new LocalMedia();
+                        localMedia.setPath(s);
+                        selectList.add(localMedia);
+                    }
+                    PictureSelector.create(activity).themeStyle(R.style.picture_default_style).openExternalPreview(position, selectList);
+                }
+            });
         }
     }
 
@@ -496,18 +508,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             KLog.i("点击");
             ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", dataBean.getStore_info().getStore_id());
         });
-        // TODO: 2019/5/29 待优化
-        binding.vpItemGoodsImg.setOnItemClickListener(position -> {
-            List<LocalMedia> selectList = new ArrayList<>();
-            if (null != list && list.size() > 0) {
-                for (String s : list) {
-                    LocalMedia localMedia = new LocalMedia();
-                    localMedia.setPath(s);
-                    selectList.add(localMedia);
-                }
-                PictureSelector.create(activity).themeStyle(R.style.picture_default_style).openExternalPreview(position, selectList);
-            }
-        });
+
 
     }
 
@@ -544,7 +545,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         // TODO: 2019/4/2 收藏
         registerObserver(Constants.FAVORITES, ResultBean.class)
                 .observeForever(response -> {
-                    KLog.i(response.isSuccess() + " " + response.getError());
+                    /*KLog.i(response.isSuccess() + " " + response.getError());*/
                     if (response.isSuccess()) {
                         /*ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏成功" : "添加收藏成功");*/
                         if (null == goodsInfo) {

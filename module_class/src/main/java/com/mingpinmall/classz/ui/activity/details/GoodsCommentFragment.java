@@ -39,9 +39,9 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     protected void getRemoteData() {
         super.getRemoteData();
 
-        KLog.i("EVALUATE_EVENT_KEY" + adapter.getItems().size());
+        /*KLog.i("EVALUATE_EVENT_KEY" + adapter.getItems().size());*/
         if (itemData.size() == 0) {
-            KLog.i("EVALUATE_EVENT_KEY");
+            /*KLog.i("EVALUATE_EVENT_KEY");*/
             itemData.add(0, new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价", String.valueOf(index))));
             setData(itemData);
         }

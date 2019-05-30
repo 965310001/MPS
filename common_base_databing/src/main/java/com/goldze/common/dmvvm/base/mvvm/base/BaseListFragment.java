@@ -231,7 +231,7 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 
     @Override
     public void onRefresh() {
-        KLog.i("onRefresh");
+        /*KLog.i("onRefresh");*/
         page = 1;
         lastId = null;
         isRefresh = true;
