@@ -231,11 +231,12 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
         Log.i(this.getClass().getSimpleName(), "This Fragment is visible to user --->> " + isVisibleToUser);
         if (isVisibleToUser) {
             // 对用户可见
-            if (mIsFirstVisible && isResumed()) {
+            if (mIsFirstVisible) {
                 lazyLoad();
                 mIsFirstVisible = false;
+            } else {
+                onVisible();
             }
-            onVisible();
         } else {
             // 对用户不可见
             onInVisible();
