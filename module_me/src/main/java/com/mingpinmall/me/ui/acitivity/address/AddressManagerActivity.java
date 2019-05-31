@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -63,10 +64,10 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
             //子Item点击
             AddressDataBean.AddressListBean bean = addressListAdapter.getItem(position);
             if (view.getId() == R.id.tv_edit) {
-                Intent intent = new Intent(AddressManagerActivity.this, EditAddressActivity.class);
-                intent.putExtra("isAdd", false);
-                intent.putExtra("addressData", bean);
-                startActivityForResult(intent, 1);
+                ARouter.getInstance().build(ARouterConfig.Me.EDITADDRESSACTIVITY)
+                        .withBoolean("isAdd", false)
+                        .withSerializable("addressData", bean)
+                        .navigation(activity, 1);
             } else if (view.getId() == R.id.tv_delete) {
                 deleteAddress(bean.getAddress_id());
             }
@@ -136,7 +137,9 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
     @Override
     public void onViewClicked(int viewId) {
         if (viewId == R.id.btn_submit) {
-            ActivityToActivity.toActivity(ARouterConfig.Me.EDITADDRESSACTIVITY, "isAdd", true);
+            ARouter.getInstance().build(ARouterConfig.Me.EDITADDRESSACTIVITY)
+                    .withBoolean("isAdd", true)
+                    .navigation(activity, 1);
         }
     }
 }
