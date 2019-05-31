@@ -1,7 +1,9 @@
 package com.mingpinmall.home.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -10,6 +12,8 @@ import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.home.R;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.tmall.ultraviewpager.UltraViewPager;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +128,10 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeItemBean.Data
     private void initItemType12(BaseViewHolder helper, HomeItemBean.DatasBean.Goods2Bean.Goods2BeanItem data) {
         helper.setText(R.id.tv_label, data.getGoods_name())
                 .setText(R.id.tv_money, data.getGoods_promotion_price())
-                .setVisible(R.id.tv_tips, true);
+                .setText(R.id.tv_promotion_price, "¥" + data.getGoods_promotion_price())
+                .setVisible(R.id.tv_tips, true)
+                .setVisible(R.id.tv_promotion_price, true);
+        ((TextView) helper.getView(R.id.tv_promotion_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         ImageUtils.loadImageCorners(helper.getView(R.id.iv_image), data.getGoods_image(),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
                 ScreenUtil.dip2px(helper.itemView.getContext(), 320),
