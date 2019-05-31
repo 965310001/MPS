@@ -247,6 +247,7 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
         });
         //这个是点击搜索时，当前显示的页面根据搜索条件更新数据
         registerObserver("SEARCH", "ORDER", String.class).observeForever(s -> {
+            orderKey = s;
             if (this.isVisibleToUser()) {
                 lazyLoad();
             }
@@ -382,12 +383,13 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
         if (userPaySheet != null && userPaySheet.isShowing()) {
             return;
         }
-        lazyLoad();
+        LiveBus.getDefault().postEvent("ORDER", "SEARCH", "GET");
     }
 
+    private String orderKey = "";
+
     private String getOrderKey() {
-        AppCompatEditText editText = getActivity().findViewById(R.id.ed_search);
-        return editText == null ? "" : editText.getText().toString();
+        return orderKey;
     }
 
     @Override

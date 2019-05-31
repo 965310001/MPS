@@ -6,6 +6,7 @@
     <application>
         <activity android:name=".activity.WebViewActivity" />
         <activity android:name=".activity.qrcode.ScanQrCodeActivity" />
+        <activity android:name=".activity.SmartWebActivity" />
     </application>
 
 </manifest>

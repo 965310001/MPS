@@ -94,8 +94,13 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 
         //检查文件权限
         if (PermissionsUtils.checkPermissions(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE)) {
             checkUpdate();
+        } else {
+            ToastUtils.showShort("没有权限");
         }
 
         /*监听切换Fragment*/

@@ -1,6 +1,8 @@
 package com.mingpinmall.me.ui.acitivity.order;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -29,6 +31,8 @@ public class OrderActivity extends CustomTabsActivity<ActivityOrderBinding> {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
         ((PhysicalOrderFragment) getFragments(0)).setPageIndex(pageIndex);
+        LiveBus.getDefault().subscribe("ORDER", "SEARCH").observeForever(object ->
+                LiveBus.getDefault().postEvent("SEARCH", "ORDER", binding.edSearch.getText().toString()));
     }
 
     @Override
@@ -38,7 +42,8 @@ public class OrderActivity extends CustomTabsActivity<ActivityOrderBinding> {
 
     @Override
     protected String[] initTabs() {
-        binding.ivSearch.setOnClickListener(v -> LiveBus.getDefault().postEvent("SEARCH", "ORDER", binding.edSearch.getText().toString()));
+        binding.ivSearch.setOnClickListener(v ->
+                LiveBus.getDefault().postEvent("SEARCH", "ORDER", binding.edSearch.getText().toString()));
         return new String[]{getString(R.string.tabs_text_physical), getString(R.string.tabs_text_virtual)};
     }
 
@@ -56,5 +61,6 @@ public class OrderActivity extends CustomTabsActivity<ActivityOrderBinding> {
     public void onDestroy() {
         super.onDestroy();
         LiveBus.getDefault().clear("SEARCH", "ORDER");
+        LiveBus.getDefault().clear("ORDER", "SEARCH");
     }
 }

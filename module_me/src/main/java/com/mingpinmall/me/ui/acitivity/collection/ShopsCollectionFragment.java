@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -52,8 +53,11 @@ public class ShopsCollectionFragment extends AbsLifecycleFragment<FragmentDefaul
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_title)).setText(R.string.text_title_collect_empty);
         ((AppCompatTextView) emptyView.findViewById(R.id.tv_sub_title)).setText(R.string.text_sub_title_collect_empty);
         emptyView.findViewById(R.id.btn_action).setOnClickListener(v -> {
+            //返回首页
+            activity.onBackPressed();
+            LiveBus.getDefault().postEvent("Main", "tab", 0);
             //前往店铺街
-            ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
+//            ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
         });
         collectionAdapter.setEmptyView(emptyView);
         binding.recyclerView.setAdapter(collectionAdapter);

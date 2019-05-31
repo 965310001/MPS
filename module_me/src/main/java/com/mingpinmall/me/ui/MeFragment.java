@@ -1,5 +1,6 @@
 package com.mingpinmall.me.ui;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,6 +22,10 @@ import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.google.gson.Gson;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentMeBinding;
 import com.mingpinmall.me.ui.adapter.MeItemAdapter;
@@ -33,6 +38,8 @@ import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * 我的
@@ -465,6 +472,64 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             ActivityToActivity.toActivity(ARouterConfig.Me.FOOTPRINTACTIVITY);
         } else if (i == R.id.iv_headImage) {
             //点击了 头像
+            PictureSelector.create(this).openGallery(PictureMimeType.ofImage())
+                    .imageSpanCount(3)
+                    .selectionMode(PictureConfig.SINGLE)
+                    .previewImage(true)
+                    .isCamera(true)
+                    .sizeMultiplier(0.5f)
+                    .compress(true)
+                    .hideBottomControls(false)
+                    .isGif(true)
+                    .enableCrop(true)
+                    // int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                    .withAspectRatio(1, 1)
+                    // 裁剪框是否可拖拽
+                    .freeStyleCropEnabled(false)
+                    // 是否显示裁剪矩形边框 圆形裁剪时建议设为false
+                    .showCropFrame(true)
+                    // 是否显示裁剪矩形网格 圆形裁剪时建议设为false
+                    .showCropGrid(false)
+                    // 是否圆形裁剪 true or false
+                    .circleDimmedLayer(true)
+                    .minimumCompressSize(100)
+                    // 裁剪是否可旋转图片
+                    .rotateEnabled(true)
+                    // 裁剪是否可放大缩小图片
+                    .scaleEnabled(true)
+                    .forResult(PictureConfig.CHOOSE_REQUEST);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择结果回调
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    // 例如 LocalMedia 里面返回三种path
+                    // 1.media.getPath(); 为原图path
+                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
+                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
+                    // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
+                    String headImagePath = "";
+                    for (LocalMedia lm : selectList) {
+                        if (lm.isCompressed()) {
+                            headImagePath = lm.getCompressPath();
+                        } else if (lm.isCut()) {
+                            headImagePath = lm.getCutPath();
+                        } else {
+                            headImagePath = lm.getPath();
+                        }
+                    }
+                    //TODO 上传头像 headImagePath
+//                    PictureSelector.create(this).themeStyle(R.style.picture_default_style).openExternalPreview(0, selectList);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

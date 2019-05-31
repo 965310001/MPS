@@ -297,6 +297,11 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 break;
             case "url":
                 //跳转到指定页面
+                if (!data.isEmpty() && !data.contains("www.mingpinmall.cn/wap")) {
+                    //跳外链
+                    ActivityToActivity.toActivity(ARouterConfig.SMARTWEBACTIVITY, "url", data);
+                    return;
+                }
                 route2Url(data);
                 break;
             case "keyword":

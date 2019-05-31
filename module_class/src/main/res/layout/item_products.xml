@@ -27,11 +27,12 @@
             <ImageView
                 android:id="@+id/iv_icon"
                 image="@{data.goods_image_url}"
-                android:layout_width="110dp"
+                android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_margin="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@id/tv_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@drawable/ic_launcher" />
@@ -44,7 +45,7 @@
                 android:maxLines="2"
                 android:text="@{data.goods_name}"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_16"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@id/tv_spec"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_icon"
@@ -57,9 +58,9 @@
                 android:layout_height="wrap_content"
                 android:text="@{data.goods_jingle}"
                 android:textColor="#999"
-                android:textSize="@dimen/text_14"
+                android:textSize="13sp"
                 app:layout_constraintBottom_toTopOf="@id/tv_price"
-                app:layout_constraintStart_toEndOf="@id/iv_icon"
+                app:layout_constraintStart_toStartOf="@id/tv_name"
                 tools:text="描述" />
 
             <TextView
@@ -68,9 +69,9 @@
                 android:layout_height="wrap_content"
                 android:text="@{@string/price_holder(data.goods_price)}"
                 android:textColor="@color/shallow_red"
-                android:textSize="@dimen/text_16"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@id/tv_evaluation"
-                app:layout_constraintStart_toEndOf="@id/iv_icon"
+                app:layout_constraintStart_toStartOf="@id/tv_name"
                 tools:text="TextView" />
 
             <TextView
@@ -79,9 +80,9 @@
                 android:layout_height="wrap_content"
                 android:text="@{@string/salenum_holder(data.goods_salenum)}"
                 android:textColor="#999"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_icon"
-                app:layout_constraintStart_toEndOf="@id/iv_icon"
+                app:layout_constraintStart_toStartOf="@id/tv_name"
                 tools:text="销量 0" />
 
             <TextView
@@ -108,7 +109,7 @@
                 android:background="@color/line_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_icon" />
+                app:layout_constraintStart_toStartOf="@id/tv_name" />
 
         </android.support.constraint.ConstraintLayout>
     </FrameLayout>

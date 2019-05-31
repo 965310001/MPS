@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,8 +36,10 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, AvailableCartBean item) {
+    protected void convert(BaseViewHolder helper, AvailableCartBean item) {
         if (item.getItemType() == 11) {
+            Log.i(TAG, "convert: " + helper.getAdapterPosition());
+//            helper.itemView.setVisibility(View.GONE);
             return;
         }
         Context context = helper.itemView.getContext();
