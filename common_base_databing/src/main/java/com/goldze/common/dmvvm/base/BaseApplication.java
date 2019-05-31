@@ -16,6 +16,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.EmptyState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.LoadingState;
 import com.goldze.common.dmvvm.manage.AppManager;
+import com.goldze.common.dmvvm.utils.QLog;
 import com.goldze.common.dmvvm.utils.Utils;
 import com.socks.library.KLog;
 import com.squareup.leakcanary.LeakCanary;
@@ -132,6 +133,7 @@ public abstract class BaseApplication extends Application implements Runnable {
 
     private void initKLog() {
         KLog.init(BuildConfig.DEBUG, "TAG11");
+        QLog.init(BuildConfig.DEBUG, "TAG11");
     }
 
     private void initARouter() {

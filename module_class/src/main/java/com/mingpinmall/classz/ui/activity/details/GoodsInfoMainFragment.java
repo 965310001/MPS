@@ -659,7 +659,10 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 itemGoodsDescBinding = DataBindingUtil.bind(LayoutInflater.from(activity).inflate(R.layout.item_goods_desc, null));
                 itemGoodsDescBinding.setText(data.text);
                 itemGoodsDescBinding.setCredit(data.credit);
-                itemGoodsDescBinding.setPercentText(data.percent_text);
+                if (!TextUtils.isEmpty(data.percent_text)) {
+                    itemGoodsDescBinding.setPercentText(data.percent_text);
+                }
+                itemGoodsDescBinding.setIsCredit(TextUtils.isEmpty(data.percent_text));
                 itemGoodsDescBinding.executePendingBindings();
                 binding.llAddDesc.addView(itemGoodsDescBinding.getRoot());
             }

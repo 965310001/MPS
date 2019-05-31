@@ -32,8 +32,7 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
     protected void getRemoteData() {
         super.getRemoteData();
 
-        String storeId = ((StoreActivity) activity).getStoreId();
-        mViewModel.getStoreInfo(storeId, "",
+        mViewModel.getStoreInfo(((StoreActivity) activity).getStoreId(), "",
                 Constants.STORE_GOODS_RANK_KEY[0]);
     }
 

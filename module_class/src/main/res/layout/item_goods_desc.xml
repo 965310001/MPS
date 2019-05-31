@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="text"
             type="String" />
@@ -15,6 +17,10 @@
         <variable
             name="credit"
             type="String" />
+
+        <variable
+            name="isCredit"
+            type="Boolean" />
     </data>
 
     <LinearLayout
@@ -48,6 +54,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_14"
             android:textStyle="bold"
+            android:visibility="@{isCredit?View.GONE:View.VISIBLE}"
             tools:text="平" />
     </LinearLayout>
 

@@ -49,7 +49,6 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
 
     private StoreInfo.StoreInfoBean storeInfo;
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_store;
@@ -140,27 +139,6 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                         } else {
                             ToastUtils.showLong("暂时没有代金券");
                         }
-                       /* if (null != voucher_list && voucher_list.size() > 0) {
-                            if (null == xBottomSheet) {
-                                xBottomSheet = new UserPaySheet.BottomListSheetBuilder(activity)
-                                        .setItemData(voucher_list)
-                                        .setAdapter(AdapterPool.newInstance()
-                                                .getVoucherInfoAdapter(activity)
-                                                .build())
-                                        .setLayoutManager(new LinearLayoutManager(activity))
-                                        .setOnSheetItemClickListener(new UserPaySheet.BottomListSheetBuilder.OnSheetItemClickListener() {
-                                            @Override
-                                            public void onClick(UserPaySheet dialog, View itemView, int position, String tag) {
-                                                dialog.dismiss();
-                                                ToastUtils.showLong("Item " + (position + 1));
-                                            }
-                                        })
-                                        .build();
-                            }
-                            xBottomSheet.show();
-                        } else {
-                            ToastUtils.showLong("暂时没有代金券");
-                        }*/
                     } else {
                         ToastUtils.showLong(data.getMessage());
                     }
@@ -224,7 +202,6 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
     }
 
     public String getStoreId() {
-        /*storeId="10";*/
         return storeId;
     }
 }

@@ -561,8 +561,13 @@ public class ClassifyRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<BaseResponse<StoreInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<StoreInfo> result) {
-                        sendData(eventKey, result);
-                        showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.SUCCESS_STATE);
+
+                        if (result.isSuccess()) {
+                            sendData(eventKey, result);
+                            showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.SUCCESS_STATE);
+                        } else {
+                            showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.ERROR_STATE);
+                        }
                     }
 
                     @Override
