@@ -184,7 +184,13 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
                 }
             }
         });
-
+        //这个是点击搜索时，当前显示的页面根据搜索条件更新数据
+        registerObserver("SEARCH", "ORDER", String.class).observeForever(s -> {
+            orderKey = s;
+            if (this.isVisibleToUser()) {
+                lazyLoad();
+            }
+        });
         registerObserver(EVENT_KEY, Constants.PAY_INFO.toString(), Object.class).observeForever(result -> {
             if (result instanceof PayLayoutBean) {
                 PayLayoutBean data = (PayLayoutBean) result;
@@ -231,12 +237,14 @@ public class VirtualOrderListFragment extends AbsLifecycleFragment<FragmentDefau
         if (userPaySheet != null && userPaySheet.isShowing()) {
             return;
         }
-        lazyLoad();
+        //每次显示的时候，都取得一次搜索框内容
+        LiveBus.getDefault().postEvent("ORDER", "SEARCH", "GET");
     }
 
+    private String orderKey = "";
+
     private String getOrderKey() {
-        AppCompatEditText editText = getActivity().findViewById(R.id.ed_search);
-        return editText == null ? "" : editText.getText().toString();
+        return orderKey;
     }
 
     @Override

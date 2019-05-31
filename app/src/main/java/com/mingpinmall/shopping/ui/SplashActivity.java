@@ -74,16 +74,6 @@ public class SplashActivity extends AppCompatActivity {
         }
         ActivitySplashBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_splash, null, false);
         setContentView(binding.getRoot());
-        if (PermissionsUtils.checkPermissions(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.READ_PHONE_STATE)) {
-
-        } else {
-            ToastUtils.showShort("没有权限");
-        }
-
         new Handler().postDelayed(this::toNextActivity, 2500);
     }
 

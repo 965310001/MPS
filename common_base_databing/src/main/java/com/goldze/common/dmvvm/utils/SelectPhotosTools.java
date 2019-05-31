@@ -18,6 +18,7 @@ import com.luck.picture.lib.tools.PictureFileUtils;
 import com.goldze.common.dmvvm.adapter.SelectPhotoImageAdapter;
 import com.goldze.common.dmvvm.base.bean.BaseSelectPhotos;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import static android.app.Activity.RESULT_OK;
  */
 public class SelectPhotosTools {
 
-    private Object context;
+    private WeakReference<Object> context;
     private RecyclerView imageRecycler;
     private SelectPhotoImageAdapter imageAdapter;
     private OnCall onCallListener;
@@ -48,13 +49,13 @@ public class SelectPhotosTools {
     private int spanCount = 3;//横向排列几张
 
     public SelectPhotosTools(Activity activity, RecyclerView recyclerView) {
-        this.context = activity;
+        this.context = new WeakReference<>(activity);
         this.imageRecycler = recyclerView;
         init();
     }
 
     public SelectPhotosTools(Fragment fragment, RecyclerView recyclerView) {
-        this.context = fragment;
+        this.context = new WeakReference<>(fragment);
         this.imageRecycler = recyclerView;
         init();
     }
@@ -130,10 +131,10 @@ public class SelectPhotosTools {
         //点击事件  点击打开选择图片或预览图片
         imageAdapter.setOpenListener((view, position) -> {
             PictureSelector selector;
-            if (context instanceof Activity) {
-                selector = PictureSelector.create((Activity) context);
-            } else if (context instanceof Fragment) {
-                selector = PictureSelector.create((Fragment) context);
+            if (context.get() instanceof Activity) {
+                selector = PictureSelector.create((Activity) context.get());
+            } else if (context.get() instanceof Fragment) {
+                selector = PictureSelector.create((Fragment) context.get());
             } else {
                 Log.i("SelectPhotosTools", "init:没有传入activity或者fragment");
                 return;
@@ -242,9 +243,9 @@ public class SelectPhotosTools {
     }
 
     private Context getContxt() {
-        return context instanceof Activity ?
-                (Activity) context :
-                ((Fragment) context).getContext();
+        return context.get() instanceof Activity ?
+                (Activity) context.get() :
+                ((Fragment) context.get()).getContext();
     }
 
     public void onDestroy() {

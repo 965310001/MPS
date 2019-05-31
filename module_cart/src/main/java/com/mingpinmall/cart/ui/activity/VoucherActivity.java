@@ -99,8 +99,8 @@ public class VoucherActivity extends AbsLifecycleActivity<ActivityBaseRefreshRec
         registerObserver(Constants.VOUCHER_ALL[1], String.class).observeForever(result -> {
             CustomProgressDialog.stop();
             TextDialog.showBaseDialog(activity,
-                    "success".equals(result) ? "领取成功" : "领取失败",
-                    "success".equals(result) ? "" : result
+                    ARouterConfig.SUCCESS.equals(result) ? "" : "领取失败",
+                    ARouterConfig.SUCCESS.equals(result) ? "领取成功" : result
             ).show();
         });
     }

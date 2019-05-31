@@ -1,7 +1,5 @@
 package com.mingpinmall.cart.ui.adapter;
 
-import android.util.Log;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.utils.ImageUtils;
@@ -25,7 +23,7 @@ public class VoucherListAdapter extends BaseQuickAdapter<AllVoucherBean.VoucherL
     @Override
     protected void convert(BaseViewHolder helper, AllVoucherBean.VoucherListBean item) {
         ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getVoucher_t_customimg());
-        helper.setText(R.id.tv_storeName, item.getVoucher_t_storename())
+        helper.setText(R.id.tv_storeName, item.getVoucher_t_title())
                 .setText(R.id.tv_time, "有效期至:\n" + item.getVoucher_t_end_date_text())
                 .setText(R.id.tv_money, "¥" + item.getVoucher_t_price())
                 .setText(R.id.tv_use, "满" + item.getVoucher_t_limit() + "可用")

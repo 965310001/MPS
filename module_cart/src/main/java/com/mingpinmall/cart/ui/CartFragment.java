@@ -73,12 +73,6 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        lazyLoad();
-    }
-
-    @Override
     public void initView(Bundle state) {
         super.initView(state);
         if (EVENT_KEY.isEmpty()) {
@@ -331,7 +325,9 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         List<AvailableCartBean> dataList = new ArrayList<>();
         goodsSize = 0;
         checkedSize = 0;
+
         for (ShopCartBean.CartListBean cartListBean : data.getCart_list()) {
+            Log.i(TAG, "formatData: 添加店铺 + " + data.getCart_list().size());
             AvailableCartBean item = new AvailableCartBean();
             item.setItemType(0);
             item.setCheck(true);
@@ -355,6 +351,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 childItem.setGoods(goodsBean);
                 dataList.add(childItem);
             }
+            Log.i(TAG, "formatData: 添加分割线");
             AvailableCartBean itemSpace = new AvailableCartBean();
             itemSpace.setItemType(11);
             itemSpace.setStore_id(cartListBean.getStore_id());
@@ -433,6 +430,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
         });
         registerObserver(EVENT_KEY + Constants.SHOP_CART_LIST, Object.class).observeForever(result -> {
             //获取购物车数据并处理
+            Log.i(TAG, "dataObserver: CART");
             if (result instanceof ShopCartBean) {
                 formatData((ShopCartBean) result);
                 binding.refreshLayout.finishRefresh();
@@ -480,7 +478,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     protected void onVisible() {
         super.onVisible();
         setDarkMode(true);
-
+        lazyLoad();
         binding.clNoLogin.setVisibility(!SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
 //        binding.clPayContent.setVisibility(SharePreferenceUtil.isLogin() ? View.VISIBLE : View.GONE);
         if (!SharePreferenceUtil.isLogin() && shopCartAdapter.getItemCount() > 0) {

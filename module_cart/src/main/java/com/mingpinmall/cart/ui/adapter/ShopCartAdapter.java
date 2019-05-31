@@ -16,7 +16,6 @@ import com.goldze.common.dmvvm.widget.SmoothCheckBox;
 import com.mingpinmall.cart.R;
 import com.mingpinmall.cart.ui.bean.AvailableCartBean;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 
@@ -38,7 +37,6 @@ public class ShopCartAdapter extends BaseMultiItemQuickAdapter<AvailableCartBean
     @Override
     protected void convert(final BaseViewHolder helper, AvailableCartBean item) {
         if (item.getItemType() == 11) {
-            helper.itemView.setVisibility(View.GONE);
             return;
         }
         Context context = helper.itemView.getContext();

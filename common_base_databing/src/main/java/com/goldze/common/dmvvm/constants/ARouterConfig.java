@@ -54,6 +54,11 @@ public interface ARouterConfig {
      */
     String LOGINACTIVITY = "/me/LoginActivity";
 
+    /**
+     * WebView
+     */
+    String SMARTWEBACTIVITY = "/app/SmartWebActivity";
+
 
     /***************************************************************************首页***********************************************************************/
     interface cart {

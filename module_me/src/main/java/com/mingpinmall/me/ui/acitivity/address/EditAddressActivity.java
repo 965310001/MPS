@@ -1,10 +1,10 @@
 package com.mingpinmall.me.ui.acitivity.address;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
@@ -39,9 +39,11 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
     /**
      * 是否是新增， false则是编辑模式
      */
+    @Autowired
     boolean isAdd = true;
 
-    private AddressDataBean.AddressListBean addressData;
+    @Autowired
+    AddressDataBean.AddressListBean addressData;
 
     @Override
     protected int getLayoutId() {
@@ -90,8 +92,8 @@ public class EditAddressActivity extends AbsLifecycleActivity<ActivityEditaddres
         } else if (binding.tvSelectBlock.length() == 0) {
             label = "请选择地区";
         }
-        if ("".equals(label)) {
-            TextDialog.showBaseDialog(activity, "", label);
+        if (!"".equals(label)) {
+            TextDialog.showBaseDialog(activity, "", label).show();
             return;
         }
         if (isAdd) {

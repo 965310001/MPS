@@ -345,13 +345,18 @@ public class BottomBar extends View {
         invalidate();
     }
 
-    //注意 这里是只支持AppCompatActivity 需要支持其他老版的 自行修改
-    //为该项目适配，已修改为FragmentActivity
+    /**
+     * 注意 这里是只支持AppCompatActivity 需要支持其他老版的 自行修改
+     * @param whichFragment
+     */
     private void switchFragment(int whichFragment) {
         Fragment fragment = fragmentList.get(whichFragment);
         int frameLayoutId = containerId;
 
         if (fragment != null) {
+            if (currentFragment == fragment) {
+                return;
+            }
             FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
             if (fragment.isAdded()) {
                 if (currentFragment != null) {
