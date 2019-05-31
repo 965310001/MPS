@@ -158,6 +158,7 @@
                 android:background="@drawable/bg_rect_round_gray"
                 android:cacheColorHint="@android:color/transparent"
                 android:paddingLeft="@dimen/dp_4"
+                android:textSize="@dimen/text_12"
                 android:singleLine="true" />
 
             <!--<ImageView-->
@@ -173,9 +174,9 @@
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_32"
                 android:layout_margin="@dimen/dp_10"
-                android:background="@drawable/bg_rect_round_gray"
+                android:background="@drawable/bg_grid_gray_edit"
                 android:onClick="sendMsgClick"
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingTop="@dimen/dp_6"

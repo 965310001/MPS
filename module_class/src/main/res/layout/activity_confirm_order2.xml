@@ -84,7 +84,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@{address.area_info}"
+                                android:text="@{address.area_info+address.address}"
                                 tools:text="北京	北京市	东城区114645" />
                         </LinearLayout>
 

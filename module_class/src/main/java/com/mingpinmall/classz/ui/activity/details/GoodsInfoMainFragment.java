@@ -207,7 +207,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     textBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_text3, null, false);
                     textBinding.text.setTextSize(14f);
                     textBinding.text.setPadding(4, 4, 4, 4);
-                    textBinding.text.setTextColor(getResources().getColor(R.color.gray));
+                    textBinding.text.setTextColor(getResources().getColor(R.color.color_666666));
                     textBinding.text.setBackgroundResource(R.drawable.shape_bg_solid_attr);
                     textBinding.setData(String.format("%s %s", goodsInfo.news_goods_spec_name.get(i), goodsInfo.news_goods_spec.get(i)));
                     binding.llGoodsSpecification.addView(textBinding.getRoot());
@@ -547,7 +547,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 .observeForever(response -> {
                     /*KLog.i(response.isSuccess() + " " + response.getError());*/
                     if (response.isSuccess()) {
-                        /*ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏成功" : "添加收藏成功");*/
+                        ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏" : "收藏成功");
                         if (null == goodsInfo) {
                             goodsDetailInfo = ((ShoppingDetailsActivity) activity).getGoodsDetailInfo();
                             if (null != goodsDetailInfo) {

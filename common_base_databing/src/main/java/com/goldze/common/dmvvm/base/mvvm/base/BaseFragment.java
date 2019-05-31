@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -168,11 +169,6 @@ public abstract class BaseFragment<VD extends ViewDataBinding> extends Fragment 
     /*数据懒加载*/
     protected void lazyLoad() {
     }
-
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//    }
 
     @Override
     public void onAttach(Context context) {

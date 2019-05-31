@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
+import com.goldze.common.dmvvm.base.mvvm.stateview.EmptyState;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.activity.store.StoreActivity;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
@@ -33,16 +34,23 @@ public class StoreNewGoodsFragment extends BaseListFragment<ClassifyViewModel> {
     }
 
     @Override
+    protected void onVisible() {
+        super.onVisible();
+        if (isTAg) {
+            showError(EmptyState.class, "1");
+        }
+    }
+
+    boolean isTAg;
+
+    @Override
     protected void dataObserver() {
         super.dataObserver();
 
         registerObserver(Constants.STORE_GOODS_RANK_KEY[3], GoodsListInfo.class)
                 .observe(this, response -> {
-                    KLog.i("TAG123", "新品" + response.getDatas().getGoods_list().size());
-
                     ItemData itemData = new ItemData();
                     String s = "";
-
                     for (GoodsInfo goodsInfo : response.getDatas().getGoods_list()) {
                         if (!s.equals(goodsInfo.getGoods_addtime_text())) {
                             s = goodsInfo.getGoods_addtime_text();
@@ -50,8 +58,12 @@ public class StoreNewGoodsFragment extends BaseListFragment<ClassifyViewModel> {
                         }
                         itemData.add(goodsInfo);
                     }
-                    KLog.i(itemData);
-                    setData(itemData);
+                    if (itemData.size() > 0) {
+                        setData(itemData);
+                    } else {
+                        isTAg = true;
+                        showError(EmptyState.class, "1");
+                    }
                 });
     }
 

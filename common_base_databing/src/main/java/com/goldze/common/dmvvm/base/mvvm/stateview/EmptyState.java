@@ -1,9 +1,10 @@
 package com.goldze.common.dmvvm.base.mvvm.stateview;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.goldze.common.dmvvm.R;
 import com.tqzhang.stateview.stateview.BaseStateControl;
@@ -23,19 +24,31 @@ public class EmptyState extends BaseStateControl {
     @Override
     protected void onViewCreate(Context context, View view) {
         super.onViewCreate(context, view);
-        ((ImageView) view.findViewById(R.id.iv_image)).setImageResource(R.drawable.ic_order_empty_white);
-        ((AppCompatTextView) view.findViewById(R.id.tv_title)).setText("没有找到任何相关信息");
-        ((AppCompatTextView) view.findViewById(R.id.tv_sub_title)).setText("选择或搜索其他商品分类/名称...");
+        AppCompatImageView ivImage = view.findViewById(R.id.iv_image);
+        AppCompatTextView tvTitle = view.findViewById(R.id.tv_title), tvSubTitle = view.findViewById(R.id.tv_sub_title);
+
+        ivImage.setImageResource(R.drawable.ic_order_empty_white);
+        tvTitle.setText("没有找到任何相关信息");
+        tvSubTitle.setText("选择或搜索其他商品分类/名称...");
         view.findViewById(R.id.btn_action).setVisibility(View.GONE);
-    }
 
-//    @Override
-//    public boolean isVisible() {
-//        return super.isVisible();
-//    }
+        Object tag = view.getTag();
+        if (tag != null) {
+            String title = "", subTitle = "";
+            if ("1".equals(tag) || "2".equals(tag)) {
+                ivImage.setImageResource(R.drawable.ic_svg_cearch);
+                ivImage.setColorFilter(Color.WHITE);
+                ivImage.setPadding(10, 10, 10, 10);
+                subTitle = "收藏店铺经常来逛一逛";
+            }
 
-    @Override
-    protected boolean onReloadEvent(Context context, View view) {
-        return false;
+            if ("1".equals(tag)) {/*商品上新*/
+                title = "商铺最近没有新品上架";
+            } else if ("2".equals(tag)) {/*店铺活动*/
+                title = "商铺最近没有促销活动";
+            }
+            tvTitle.setText(title);
+            tvSubTitle.setText(subTitle);
+        }
     }
 }

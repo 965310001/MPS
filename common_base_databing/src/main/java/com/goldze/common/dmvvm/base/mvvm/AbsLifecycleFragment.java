@@ -129,10 +129,6 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
         showError(stateView, null);
     }
 
-//    protected void showSuccess() {
-//        showSuccess();
-//    }
-
     protected void showLoading() {
         showLoadingState();
     }
@@ -152,25 +148,13 @@ public abstract class AbsLifecycleFragment<VD extends ViewDataBinding, T extends
         }
     };
 
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//    }
-
     @Override
     public void onDetach() {
         super.onDetach();
-        /*KLog.i("onDetach");*/
         if (eventKeys != null && eventKeys.size() > 0) {
             for (int i = 0; i < eventKeys.size(); i++) {
                 LiveBus.getDefault().clear(eventKeys.get(i));
             }
         }
     }
-
-   /* @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }*/
 }

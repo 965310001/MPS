@@ -172,25 +172,22 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 //                KLog.i("是否到顶部" + isSlideToBottom(recyclerView));
             }
         });
-        floatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mRecyclerView.smoothScrollToPosition(0);
+        floatBtn.setOnClickListener(view -> {
+            mRecyclerView.smoothScrollToPosition(0);
 //                floatBtn.hide();
-            }
         });
     }
 
     /*是否到顶部*/
-    protected boolean isSlideToBottom(RecyclerView recyclerView) {
-        if (recyclerView == null) return false;
-//        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
-//                >= recyclerView.computeVerticalScrollRange())
-//            return true;
-//        return false;
-        return recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
-                >= recyclerView.computeVerticalScrollRange();
-    }
+//    protected boolean isSlideToBottom(RecyclerView recyclerView) {
+//        if (recyclerView == null) return false;
+////        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
+////                >= recyclerView.computeVerticalScrollRange())
+////            return true;
+////        return false;
+//        return recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
+//                >= recyclerView.computeVerticalScrollRange();
+//    }
 
     protected boolean isItemDecoration() {
         return true;
@@ -288,7 +285,6 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
      * @return LayoutManager
      */
     protected RecyclerView.LayoutManager createLayoutManager() {
-//        layoutManager = new LinearLayoutManager(getContext());
         return new LinearLayoutManager(getContext());
     }
 

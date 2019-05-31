@@ -93,7 +93,7 @@ public abstract class BaseProductsFragment<T extends ClassifyViewModel> extends 
                 .observe(this, new Observer<GoodsListInfo>() {
                     @Override
                     public void onChanged(@Nullable GoodsListInfo response) {
-                        KLog.i("77777" + type);
+                        /*KLog.i("77777" + type);*/
                         setData(response.getDatas().getGoods_list());
                     }
                 });

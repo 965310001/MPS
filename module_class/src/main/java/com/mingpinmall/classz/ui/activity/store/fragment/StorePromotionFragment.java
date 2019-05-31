@@ -3,6 +3,7 @@ package com.mingpinmall.classz.ui.activity.store.fragment;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
+import com.goldze.common.dmvvm.base.mvvm.stateview.EmptyState;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.mingpinmall.classz.adapter.AdapterPool;
@@ -14,6 +15,8 @@ import com.socks.library.KLog;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
+
+import java.util.List;
 
 /**
  * 店铺活动
@@ -34,6 +37,16 @@ public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> 
     }
 
     @Override
+    protected void onVisible() {
+        super.onVisible();
+        if (isTAg) {
+            showError(EmptyState.class, "2");
+        }
+    }
+
+    boolean isTAg;
+
+    @Override
     protected void dataObserver() {
         super.dataObserver();
 
@@ -41,9 +54,17 @@ public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> 
                 .observe(this, response -> {
                     try {
                         ItemData itemData = new ItemData();
-                        itemData.add(response.getDatas().getPromotion().getMansong());
-                        itemData.add(response.getDatas().getPromotion().getXianshi());
-                        setData(itemData);
+                        List<StorePromotionInfo.NewdataBean> newdata = response.getNewdata();
+                        if (null != newdata && newdata.size() > 0) {
+                            itemData.add(newdata.get(0).getMansong());
+                            itemData.add(newdata.get(0).getXianshi());
+                        }
+                        if (itemData.size() > 0) {
+                            setData(itemData);
+                        } else {
+                            isTAg = true;
+                            showError(EmptyState.class, "2");
+                        }
                     } catch (Exception e) {
                         KLog.i(e.toString());
                     }

@@ -6,6 +6,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextUtils" />
+
         <variable
             name="data"
             type="com.mingpinmall.classz.ui.vm.bean.StoreInfo.StoreInfoBean" />
@@ -207,7 +209,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="@{TextUtils.isEmpty(data.store_company_name)?View.GONE:View.VISIBLE}">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -236,7 +239,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="@{TextUtils.isEmpty(data.area_info)?View.GONE:View.VISIBLE}">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -265,7 +269,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="@{TextUtils.isEmpty(data.store_time_text)?View.GONE:View.VISIBLE}">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -295,8 +300,8 @@
             android:background="@color/white"
             android:orientation="horizontal"
             android:padding="10dp"
-            android:visibility="@{data.is_own_mall?View.GONE:View.VISIBLE}">
-
+            android:visibility="@{TextUtils.isEmpty(data.store_zy) ?View.GONE:View.VISIBLE}">
+            <!--|| !data.is_own_mall-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -318,7 +323,7 @@
             android:layout_height="2dp"
             android:alpha="0.1"
             android:padding="10dp"
-            android:visibility="@{data.is_own_mall?View.GONE:View.VISIBLE}" />
+            android:visibility="@{TextUtils.isEmpty(data.store_workingtime)?View.GONE:View.VISIBLE}" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -326,8 +331,8 @@
             android:background="@color/white"
             android:orientation="horizontal"
             android:padding="10dp"
-            android:visibility="@{data.is_own_mall?View.GONE:View.VISIBLE}">
-
+            android:visibility="@{TextUtils.isEmpty(data.store_workingtime) ?View.GONE:View.VISIBLE}">
+            <!--|| !data.is_own_mall-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -345,337 +350,3 @@
 
     </LinearLayout>
 </layout>
-
-    <!--    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <ImageView
-                    image="@{data.store_avatar}"
-                    android:layout_width="@dimen/image_height_big"
-                    android:layout_height="@dimen/image_height_big"
-                    android:src="@drawable/ic_launcher" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/image_height_big"
-                    android:orientation="vertical"
-                    android:paddingLeft="@dimen/dp_10">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@{data.store_name}"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_16"
-                        tools:text="商家名字商家名字商家名字商家名字商家名字商家名字商家名字" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:maxLines="1"
-                            android:text="@{`类型：`+data.sc_name}"
-                            android:textColor="@color/gray"
-                            android:textSize="@dimen/text_14"
-                            android:visibility="@{data.is_own_mall?View.INVISIBLE:View.VISIBLE}"
-                            tools:text="商家" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@{data.is_favorate?@color/gray:@color/shallow_red}"
-                            android:onClick="favorites"
-                            android:paddingLeft="@dimen/dp_12"
-                            android:paddingTop="@dimen/dp_5"
-                            android:paddingRight="@dimen/dp_12"
-                            android:paddingBottom="@dimen/dp_5"
-                            android:text="收藏" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/shallow_red"
-                            android:padding="@dimen/dp_4"
-                            android:text="@{!data.is_own_mall?@stringArray/store_type[0]:@stringArray/store_type[1]}"
-                            android:textColor="@color/white"
-                            tools:text="普通店铺" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/dp_12"
-                            android:paddingTop="@dimen/dp_5"
-                            android:paddingRight="@dimen/dp_12"
-                            android:paddingBottom="@dimen/dp_5"
-                            android:text="@{data.store_collect+`粉丝`}"
-                            android:textColor="@color/gray"
-                            tools:text="0粉丝" />
-                    </RelativeLayout>
-                </LinearLayout>
-
-            </RelativeLayout>
-
-
-        </RelativeLayout>
-
-
-        <View
-            style="@style/HorizontalLine"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:alpha="0.1"
-            android:padding="10dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="@{data.is_own_mall?View.GONE:View.VISIBLE}">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="描述相符"
-                android:textColor="#888" />
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
-                android:text="@{data.store_credit_new.get(0).context}"
-                android:textColor="@color/shallow_red"
-                tools:text="公司名称" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="@{data.is_own_mall?View.GONE:View.VISIBLE}">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="服务态度"
-                android:textColor="#888" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
-                android:text="@{data.store_credit_new.get(1).context}"
-                android:textColor="@color/shallow_red"
-                tools:text="公司名称" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="@{data.is_own_mall?View.GONE:View.VISIBLE}">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="物流服务"
-                android:textColor="#888" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
-                android:text="@{data.store_credit_new.get(2).context}"
-                android:textColor="@color/shallow_red"
-                tools:text="公司名称" />
-        </LinearLayout>
-
-        <View
-            style="@style/HorizontalLine"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:alpha="0.1"
-            android:padding="10dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="公司名称"
-                android:textColor="#888" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
-                android:text="@{data.store_company_name}"
-                android:textColor="@color/black"
-                tools:text="公司名称" />
-        </LinearLayout>
-
-        <View
-            style="@style/HorizontalLine"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:alpha="0.1"
-            android:padding="10dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="所在地    "
-                android:textColor="#888" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
-                android:text="@{data.area_info}"
-                android:textColor="@color/black"
-                tools:text="公司名称" />
-        </LinearLayout>
-
-        <View
-            style="@style/HorizontalLine"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:alpha="0.1"
-            android:padding="10dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="开店时间"
-                android:textColor="#888" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
-                android:text="@{data.store_time_text}"
-                android:textColor="@color/black"
-                tools:text="公司名称" />
-        </LinearLayout>
-
-        <View
-            style="@style/HorizontalLine"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:alpha="0.1"
-            android:padding="10dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="@{data.is_own_mall?View.GONE:View.VISIBLE}">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="主营商品"
-                android:textColor="#888" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
-                android:text="@{data.store_zy}"
-                android:textColor="@color/black"
-                tools:text="公司名称" />
-        </LinearLayout>
-
-        <View
-            style="@style/HorizontalLine"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:alpha="0.1"
-            android:padding="10dp"
-            android:visibility="@{data.is_own_mall?View.GONE:View.VISIBLE}" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="@{data.is_own_mall?View.GONE:View.VISIBLE}">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="工作时间"
-                android:textColor="#888" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_10"
-                android:text="@{data.store_workingtime}"
-                android:textColor="@color/black"
-                tools:text="公司名称" />
-        </LinearLayout>
-
-    </LinearLayout>
--->

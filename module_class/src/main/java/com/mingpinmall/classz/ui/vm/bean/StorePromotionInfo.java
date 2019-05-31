@@ -9,8 +9,6 @@ import java.util.List;
  * 店铺活动
  */
 public class StorePromotionInfo extends BaseBean {
-
-
     /**
      * code : 200
      * newdata : []
@@ -20,7 +18,7 @@ public class StorePromotionInfo extends BaseBean {
 
     private int code;
     private String error;
-    private DatasBean datas;
+    private List<NewdataBean> newdata;
 
     public int getCode() {
         return code;
@@ -38,12 +36,12 @@ public class StorePromotionInfo extends BaseBean {
         this.error = error;
     }
 
-    public DatasBean getDatas() {
-        return datas;
+    public List<NewdataBean> getNewdata() {
+        return newdata;
     }
 
-    public void setDatas(DatasBean datas) {
-        this.datas = datas;
+    public void setNewdata(List<NewdataBean> newdata) {
+        this.newdata = newdata;
     }
 
 
@@ -392,17 +390,6 @@ public class StorePromotionInfo extends BaseBean {
                 private String store_name;
                 private String lower_limit;
                 private String state;
-//                private String xianshi_image;
-//                private String xianshi_image1;
-//                private String class_id;
-//                private String xianshi_intro;
-//                private String xianshi_image2;
-//                private String recommended;
-//                private String xianshi_state_text;
-//                private boolean editable;
-//                private String start_time_text;
-//                private String end_time_text;
-
 
                 private String time;
 
@@ -461,15 +448,6 @@ public class StorePromotionInfo extends BaseBean {
                     this.xianshi_explain = xianshi_explain;
                 }
 
-                //
-//                public String getQuota_id() {
-//                    return quota_id;
-//                }
-//
-//                public void setQuota_id(String quota_id) {
-//                    this.quota_id = quota_id;
-//                }
-//
                 public String getStart_time() {
                     return start_time;
                 }
@@ -533,87 +511,33 @@ public class StorePromotionInfo extends BaseBean {
                 public void setState(String state) {
                     this.state = state;
                 }
-
-//                public String getXianshi_image() {
-//                    return xianshi_image;
-//                }
-//
-//                public void setXianshi_image(String xianshi_image) {
-//                    this.xianshi_image = xianshi_image;
-//                }
-
-//                public String getXianshi_image1() {
-//                    return xianshi_image1;
-//                }
-//
-//                public void setXianshi_image1(String xianshi_image1) {
-//                    this.xianshi_image1 = xianshi_image1;
-//                }
-//
-//                public String getClass_id() {
-//                    return class_id;
-//                }
-//
-//                public void setClass_id(String class_id) {
-//                    this.class_id = class_id;
-//                }
-//
-//                public String getXianshi_intro() {
-//                    return xianshi_intro;
-//                }
-//
-//                public void setXianshi_intro(String xianshi_intro) {
-//                    this.xianshi_intro = xianshi_intro;
-//                }
-
-//                public String getXianshi_image2() {
-//                    return xianshi_image2;
-//                }
-//
-//                public void setXianshi_image2(String xianshi_image2) {
-//                    this.xianshi_image2 = xianshi_image2;
-//                }
-
-//                public String getRecommended() {
-//                    return recommended;
-//                }
-//
-//                public void setRecommended(String recommended) {
-//                    this.recommended = recommended;
-//                }
-//
-//                public String getXianshi_state_text() {
-//                    return xianshi_state_text;
-//                }
-//
-//                public void setXianshi_state_text(String xianshi_state_text) {
-//                    this.xianshi_state_text = xianshi_state_text;
-//                }
-//
-//                public boolean isEditable() {
-//                    return editable;
-//                }
-//
-//                public void setEditable(boolean editable) {
-//                    this.editable = editable;
-//                }
-//
-//                public String getStart_time_text() {
-//                    return start_time_text;
-//                }
-//
-//                public void setStart_time_text(String start_time_text) {
-//                    this.start_time_text = start_time_text;
-//                }
-
-//                public String getEnd_time_text() {
-//                    return end_time_text;
-//                }
-//
-//                public void setEnd_time_text(String end_time_text) {
-//                    this.end_time_text = end_time_text;
-//                }
             }
+        }
+    }
+
+    public static class NewdataBean {
+        /**
+         * mansong : {"mansong_id":"4","mansong_name":"满送","quota_id":"0","start_time":"1559292420","end_time":"1561737600","member_id":"3","store_id":"3","member_name":"mingpin","store_name":"名品网自营","state":"1","remark":"","mansong_state_text":"正常","editable":true,"rules":[{"rule_id":"5","mansong_id":"4","price":"1000.00","discount":"1.00","mansong_goods_name":"","goods_id":"0","goods_image_url":"https://www.mingpinmall.cn/data/upload/mall/common/default_goods_image_60.gif"}],"start_time_text":"2019-05-31","end_time_text":"2019-06-29"}
+         * xianshi : {"xianshi_id":"15","xianshi_name":"限时折扣","xianshi_title":"","xianshi_explain":"","quota_id":"0","start_time":"1559292480","end_time":"1561737600","member_id":"3","store_id":"3","member_name":"mingpin","store_name":"名品网自营","lower_limit":"1","state":"1","xianshi_image":"","xianshi_image1":"","class_id":"6","xianshi_intro":"","xianshi_image2":"","recommended":"0","xianshi_state_text":"正常","editable":true,"start_time_text":"2019-05-31","end_time_text":"2019-06-29"}
+         */
+
+        private DatasBean.PromotionBean.MansongBean mansong;
+        private DatasBean.PromotionBean.XianshiBean xianshi;
+
+        public DatasBean.PromotionBean.MansongBean getMansong() {
+            return mansong;
+        }
+
+        public void setMansong(DatasBean.PromotionBean.MansongBean mansong) {
+            this.mansong = mansong;
+        }
+
+        public DatasBean.PromotionBean.XianshiBean getXianshi() {
+            return xianshi;
+        }
+
+        public void setXianshi(DatasBean.PromotionBean.XianshiBean xianshi) {
+            this.xianshi = xianshi;
         }
     }
 }

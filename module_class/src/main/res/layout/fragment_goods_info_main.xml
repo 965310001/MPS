@@ -222,7 +222,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{data.goods_jingle}"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/color_666666"
                         android:textSize="@dimen/text_14"
                         android:visibility="@{TextUtils.isEmpty(data.goods_jingle)?View.GONE:View.VISIBLE}"
                         tools:text="型号BD7108G    100米防水 终身保修 全国包邮 邦顿正品  专柜同款" />

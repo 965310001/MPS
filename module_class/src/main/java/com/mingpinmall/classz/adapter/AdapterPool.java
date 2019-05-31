@@ -109,7 +109,8 @@ public class AdapterPool {
     public DelegateAdapter.Builder getStoreHomeAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
                 .bind(TypeInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_type, BR.data))
-                .bind(GoodsListInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_list_info, BR.data))
+//                .bind(GoodsListInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_list_info2, BR.data))
+                .bind(GoodsListInfo.class, new GoodsListInfoAdapter(context))
                 .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_store, BR.data));
     }
 

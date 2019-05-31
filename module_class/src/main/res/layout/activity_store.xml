@@ -213,7 +213,8 @@
                     android:gravity="center"
                     android:onClick="getStoreIntro"
                     android:padding="@dimen/dp_12"
-                    android:text="店铺介绍" />
+                    android:text="店铺介绍"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -222,7 +223,8 @@
                     android:gravity="center"
                     android:onClick="getVoucherTplList"
                     android:padding="@dimen/dp_12"
-                    android:text="免费领劵" />
+                    android:text="免费领劵"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -231,7 +233,8 @@
                     android:gravity="center"
                     android:onClick="getContactService"
                     android:padding="@dimen/dp_12"
-                    android:text="联系客服" />
+                    android:text="联系客服"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -240,7 +243,8 @@
                     android:gravity="center"
                     android:onClick="getGoodsClassif"
                     android:padding="@dimen/dp_12"
-                    android:text="商品分类" />
+                    android:text="商品分类"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
         </RelativeLayout>

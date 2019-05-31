@@ -34,14 +34,4 @@ public class ErrorState extends BaseStateControl {
 
         }
     }
-
-//    @Override
-//    public boolean isVisible() {
-//        return super.isVisible();
-//    }
-
-    @Override
-    protected boolean onReloadEvent(Context context, View view) {
-        return false;
-    }
 }

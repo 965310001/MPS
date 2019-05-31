@@ -10,6 +10,7 @@ import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
@@ -18,11 +19,12 @@ import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 
+import java.util.List;
+
 /**
  * 店铺首页
  */
 public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
-
 
     public static StoreHomeFragment newInstance() {
         return new StoreHomeFragment();
@@ -49,12 +51,23 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                             itemData.add(new TypeInfo("店铺排行榜"));
                             GoodsListInfo goodsListInfo = new GoodsListInfo();
                             StoreInfo storeInfo = data.getData();
+                            List<GoodsInfo> goodsList;
                             if (null != storeInfo) {
-                                goodsListInfo.setCollectdesc_goods_list(storeInfo.getCollectdesc_goods_list());
-                                goodsListInfo.setSalenumdesc_goods_list(storeInfo.getSalenumdesc_goods_list());
+                                goodsList = storeInfo.getCollectdesc_goods_list();
+                                if (null != goodsList) {
+                                    goodsListInfo.setCollectdesc_goods_list(goodsList);
+                                }
+                                goodsList = storeInfo.getSalenumdesc_goods_list();
+                                if (null != goodsList) {
+                                    goodsListInfo.setSalenumdesc_goods_list(goodsList);
+                                }
                             }
-                            goodsListInfo.setList(goodsListInfo.getCollectdesc_goods_list());
+                            goodsList = goodsListInfo.getCollectdesc_goods_list();
+                            if (null != goodsList) {
+                                goodsListInfo.setList(goodsList);
+                            }
                             itemData.add(goodsListInfo);
+
                             itemData.add(new TypeInfo("店主推荐"));
                             if (null != storeInfo) {
                                 itemData.addAll(storeInfo.getRec_goods_list());
@@ -86,9 +99,15 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                                     goodsListInfo.setList(goodsListInfo.getSalenumdesc_goods_list());
                                     break;
                             }
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 });
+    }
+
+    @Override
+    protected boolean isItemDecoration() {
+        return false;
     }
 
     @Override

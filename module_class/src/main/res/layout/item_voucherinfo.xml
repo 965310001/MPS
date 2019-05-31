@@ -23,7 +23,8 @@
                 html="@{data.voucher_t_price}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginBottom="5dp"
+                android:paddingStart="10dp"
                 android:textColor="@color/shallow_red"
                 android:textSize="@dimen/text_16"
                 tools:text="面额50元" />
@@ -33,7 +34,6 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:paddingLeft="10dp"
-                android:paddingBottom="@dimen/dp_4"
                 android:text="@{data.voucher_t_limit}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_14"
@@ -44,17 +44,16 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:text="@{data.voucher_t_end_date_text}"
-                android:textSize="@dimen/text_14"
+                android:textSize="@dimen/text_12"
                 tools:text="至2020年有用" />
         </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="@drawable/default_flow_tag_text_rect_round_red"
-            android:background="@drawable/default_flow_tag_bg_rect_round_red"
+            android:background="@drawable/bg_grid_gray_edit"
             android:onClick="getReceive"
             android:tag="@{data.voucher_t_id}"
             android:text="领取"

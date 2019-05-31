@@ -79,7 +79,6 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
         /*收藏*/
         registerObserver("Constants.STORE_FAVORITES", ResultBean.class)
                 .observeForever(response -> {
-                    /*KLog.i(response.isSuccess() + " " + response.getError());*/
                     if (response.isSuccess()) {
                         int store_collect = storeInfo.getStore_collect();
                         storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);
@@ -93,7 +92,7 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
     }
 
     public void favorites(View view) {
-        KLog.i("店铺收藏");
+        /*KLog.i("店铺收藏");*/
         if (!SharePreferenceUtil.isLogin()) {
             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {
