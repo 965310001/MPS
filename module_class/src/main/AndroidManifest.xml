@@ -44,6 +44,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".ui.activity.classiflist.ScreeningActivity" />
         <activity android:name=".ui.activity.holo.Holo2Activity" />
+        <activity android:name=".ui.activity.holo.Holo3Activity" />
 
         <!--   android:process=":aidl"  android:enabled="true"
             android:exported="true"  android:process=":aidl"  -->
