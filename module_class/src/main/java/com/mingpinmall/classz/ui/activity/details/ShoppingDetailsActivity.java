@@ -468,8 +468,9 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     /*试戴*/
     public void goHolo(View view) {
-//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO2ACTIVITY, "url", mGoodsInfo.getTryon_url());
-        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", mGoodsInfo.getTryon_url());
+        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO3ACTIVITY);
+//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", mGoodsInfo.getTryon_url());
+//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", mGoodsInfo.getTryon_url());
     }
 
     /*领取代金券*/
