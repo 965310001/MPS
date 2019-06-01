@@ -78,6 +78,56 @@
                     app:layout_constraintStart_toStartOf="@id/ll_shopContent"
                     app:layout_constraintTop_toBottomOf="@id/ll_shopContent" />
 
+                <!--新增-->
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cl_free_freight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:minHeight="22dp"
+                    app:layout_constraintBottom_toTopOf="@id/line"
+                    app:layout_constraintTop_toBottomOf="@id/ll_shopContent"
+                    tools:visibility="gone">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_height"
+                        android:background="@color/line_color"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_tips2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/shape_red_radius_4dp"
+                        android:paddingStart="3dp"
+                        android:paddingTop="1dp"
+                        android:paddingEnd="3dp"
+                        android:paddingBottom="1dp"
+                        android:text="免运费"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_free_freight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:textColor="@color/color_text"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_tips2"
+                        app:layout_constraintStart_toEndOf="@id/tv_tips2"
+                        app:layout_constraintTop_toTopOf="@id/tv_tips2"
+                        tools:text="满300免运费" />
+
+                </android.support.constraint.ConstraintLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_shopList"
                     android:layout_width="0dp"

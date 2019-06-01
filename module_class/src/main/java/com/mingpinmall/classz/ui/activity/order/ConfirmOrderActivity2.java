@@ -128,22 +128,30 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                         /*KLog.i(data.getData().toString());*/
                         if (data.isSuccess()) {
                             try {
-                                binding.setAddress(data.getData().getAddress_info());
-                                binding.setTotal(data.getData().getOrder_amount());
-                                mStoreCartListNews = data.getData().getStore_cart_list_news();
+                                ConfirmOrderBean orderBean = data.getData();
+                                binding.setAddress(orderBean.getAddress_info());
+                                binding.setTotal(orderBean.getOrder_amount());
+                                mStoreCartListNews = orderBean.getStore_cart_list_news();
+                                for (ConfirmOrderBean.NewStoreFinalTotalListBean newStoreFinalTotalListBean : orderBean.getNew_store_final_total_list()) {
+                                    for (ConfirmOrderBean.StoreCartListNewsBean mStoreCartListNew : mStoreCartListNews) {
+                                        if (mStoreCartListNew.getStore_id().equals(String.valueOf(newStoreFinalTotalListBean.getKey()))) {
+                                            mStoreCartListNew.setStore_goods_total(newStoreFinalTotalListBean.getValue());
+                                        }
+                                    }
+                                }
                                 adapter.setNewData(mStoreCartListNews);
-                                addressId = data.getData().getAddress_info()
+                                addressId = orderBean.getAddress_info()
                                         .getAddress_id();
-                                ConfirmOrderBean.AddressApiBean addressApi = data.getData().getAddress_api();
-                                mVatHash = data.getData().getVat_hash();
+                                ConfirmOrderBean.AddressApiBean addressApi = orderBean.getAddress_api();
+                                mVatHash = orderBean.getVat_hash();
                                 mOffpayHash = addressApi.getOffpay_hash();
                                 mOffpayHashBatch = addressApi.getOffpay_hash_batch();
                                 binding.setPayment("在线付款");
-                                binding.setInvoice(data.getData().getInv_info().getContent());
+                                binding.setInvoice(orderBean.getInv_info().getContent());
                                 binding.executePendingBindings();
 
                                 ConfirmOrderBean.StoreCartListNewsBean.GoodsListBean goodsListBean
-                                        = data.getData().getStore_cart_list_news().get(0).getGoods_list().get(0);
+                                        = orderBean.getStore_cart_list_news().get(0).getGoods_list().get(0);
                                 if (goodsListBean.isFCode()) {
                                     showFCodeDialog(goodsListBean.getGoods_id());
                                 } else {

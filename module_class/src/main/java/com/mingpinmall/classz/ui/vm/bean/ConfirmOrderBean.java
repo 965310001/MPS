@@ -19,6 +19,8 @@ public class ConfirmOrderBean extends BaseBean {
     private String order_amount;
     private String vat_hash;
     private List<StoreCartListNewsBean> store_cart_list_news;
+    /*使用优惠券之后的价格*/
+    private List<NewStoreFinalTotalListBean> new_store_final_total_list;
 
     public String getVat_hash() {
         return vat_hash == null ? "" : vat_hash;
@@ -66,6 +68,14 @@ public class ConfirmOrderBean extends BaseBean {
 
     public void setStore_cart_list_news(List<StoreCartListNewsBean> store_cart_list_news) {
         this.store_cart_list_news = store_cart_list_news;
+    }
+
+    public List<NewStoreFinalTotalListBean> getNew_store_final_total_list() {
+        return new_store_final_total_list;
+    }
+
+    public void setNew_store_final_total_list(List<NewStoreFinalTotalListBean> new_store_final_total_list) {
+        this.new_store_final_total_list = new_store_final_total_list;
     }
 
     public static class AddressApiBean {
@@ -769,4 +779,29 @@ public class ConfirmOrderBean extends BaseBean {
         }
     }
 
+    public static class NewStoreFinalTotalListBean extends BaseBean{
+        /**
+         * key : 17
+         * value : 5.01
+         */
+
+        private int key;
+        private String value;
+
+        public int getKey() {
+            return key;
+        }
+
+        public void setKey(int key) {
+            this.key = key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
 }

@@ -11,10 +11,11 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="42dp">
+        android:layout_height="@dimen/dp_42">
 
         <TextView
             android:id="@+id/text"
+            android:layout_margin="@dimen/dp_4"
             style="@style/TextStyle_14"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="12dp"

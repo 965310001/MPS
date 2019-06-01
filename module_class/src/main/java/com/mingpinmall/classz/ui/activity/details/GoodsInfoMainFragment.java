@@ -1,6 +1,5 @@
 package com.mingpinmall.classz.ui.activity.details;
 
-import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -31,7 +30,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
@@ -52,7 +50,6 @@ import com.mingpinmall.classz.adapter.GoodsCommentAdapter;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoMainBinding;
 import com.mingpinmall.classz.databinding.ItemGoodsDescBinding;
 import com.mingpinmall.classz.databinding.ItemText3Binding;
-import com.mingpinmall.classz.databinding.ItemTextBinding;
 import com.mingpinmall.classz.db.utils.ShoppingCartUtils;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
