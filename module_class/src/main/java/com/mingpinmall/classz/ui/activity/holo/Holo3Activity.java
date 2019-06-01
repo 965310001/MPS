@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ActivityHolo3Binding;
 import com.mingpinmall.classz.ui.activity.holo.tools.BitmapUtil;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
+import com.socks.library.KLog;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.mingpinmall.classz.R;
+import com.socks.library.KLog;
 
 public class StickerView extends View {
 
@@ -72,9 +73,9 @@ public class StickerView extends View {
                 0, Color.parseColor("#33000000"));
 
 //        mControllerBitmap = BitmapFactory.decodeResource(getResources(),
-//                R.drawable.ic_sticker_control);
-        mControllerWidth = mControllerBitmap.getWidth();
-        mControllerHeight = mControllerBitmap.getHeight();
+//                R.drawable.ic_launcher);
+//        mControllerWidth = mControllerBitmap.getWidth();
+//        mControllerHeight = mControllerBitmap.getHeight();
     }
 
     public void setWaterMark(Bitmap bitmap) {
@@ -264,6 +265,7 @@ public class StickerView extends View {
 //				break;
 //			}
 
+
                 if (mContentRect.contains(x, y)) {
                     mLastPointY = y;
                     mLastPointX = x;
@@ -307,8 +309,8 @@ public class StickerView extends View {
                             mStickerScaleSize = nowsc;
                         }
                     }
-
                     invalidate();
+
                     mLastPointX = x;
                     mLastPointY = y;
                     break;
@@ -333,10 +335,35 @@ public class StickerView extends View {
                 }
 
                 return true;
+
+            case MotionEvent.ACTION_POINTER_2_DOWN:
+                KLog.i("ACTION_POINTER_2_DOWN");
+                break;
+            case MotionEvent.ACTION_POINTER_3_DOWN:
+                KLog.i("ACTION_POINTER_3_DOWN");
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                KLog.i("ACTION_POINTER_UP");
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                startRotation = getRotation(event);
+                /*计入点击事件*/
+//                float endRotate = getRotation(event);
+//                float rotate = endRotate - startRotation;
+//                KLog.i("旋转的角度" + rotate);
             default:
                 break;
         }
         return true;
+    }
+
+    float startRotation, rotate;
+
+    private float getRotation(MotionEvent event) {
+        double delta_x = (event.getX(0) - event.getX(1));
+        double delta_y = (event.getY(0) - event.getY(1));
+        double radians = Math.atan2(delta_y, delta_x);
+        return (float) Math.toDegrees(radians);
     }
 
     private void doDeleteSticker() {

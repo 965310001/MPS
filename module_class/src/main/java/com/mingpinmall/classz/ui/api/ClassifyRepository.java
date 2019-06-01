@@ -639,6 +639,32 @@ public class ClassifyRepository extends BaseRepository {
                 }));
     }
 
+    public void getStoreGoods(Map<String, Object> map, final Object eventKey) {
+        map = parames(map, "store", "store_goods");
+        addDisposable(apiService.getStoreGoods(map)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<GoodsListInfo>() {
+                    @Override
+                    public void onSuccess(GoodsListInfo result) {
+                        /*showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.SUCCESS_STATE);*/
+                        sendData(eventKey, result);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        KLog.i(msg);
+                        showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.ERROR_STATE);
+                    }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.NET_WORK_STATE);
+                    }
+                }));
+
+    }
+
     public void getStoreGoods(String storeId, long page, String key, final String areaId, String priceFrom, String priceTo,
                               String order, String ci, String st, final Object eventKey) {
         Map<String, Object> map = parames("store", "store_goods");

@@ -19,14 +19,12 @@
     <FrameLayout
         style="@style/width_match_height_warp"
         android:layout_margin="2dp"
-        android:background="@color/white"
         android:foreground="?selectableItemBackground"
         android:onClick="@{(view)->data.click(view)}">
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            style="@style/width_match_height_warp"
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/iv_icon"
@@ -41,12 +39,12 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="38dp"
                 android:layout_marginStart="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_marginEnd="@dimen/dp_10"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:minHeight="38dp"
                 android:text="@{data.goods_name}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_14"
@@ -56,13 +54,11 @@
 
             <TextView
                 android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TextStyle_16"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="6dp"
                 android:text="@{@string/price_holder(data.goods_price)}"
                 android:textColor="@color/shallow_red"
-                android:textSize="@dimen/text_16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,8 +67,7 @@
 
             <TextView
                 android:id="@+id/tv_evaluation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TextStyle_14"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_6"
                 android:layout_marginBottom="10dp"
@@ -87,14 +82,12 @@
                 tools:text="销量 0" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TextStyle_12"
                 android:layout_margin="10dp"
                 android:background="@color/app_theme_d61619"
                 android:padding="2dp"
                 android:text="自营"
                 android:textColor="@color/white"
-                android:textSize="12sp"
                 android:visibility='@{TextUtils.equals("1", data.is_own_mall) ? View.VISIBLE : View.GONE}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

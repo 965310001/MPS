@@ -17,6 +17,7 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
 
     /**
      * 获取筛选内容
+     *
      * @param eventKey
      */
     public void getScreeningInfo(Object eventKey) {
@@ -25,8 +26,9 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
 
     /**
      * 获取筛选内容
+     *
      * @param eventKey
-     * @param childId ID
+     * @param childId  ID
      */
     public void getScreeningClassInfo(Object eventKey, String childId) {
         mRepository.getScreeningClassInfo(eventKey, childId);
@@ -157,6 +159,10 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     /*店铺信息*/
     public void getStoreInfo(String storeId, String key, Object eventKey) {
         mRepository.getStoreInfo(storeId, key, eventKey);
+    }
+
+    public void getStoreGoods(Map<String, Object> map, final Object eventKey) {
+        mRepository.getStoreGoods(map, eventKey);
     }
 
     public void getStoreGoods(String storeId, long page, String keyword,

@@ -21,6 +21,7 @@ public class ScreenInfo implements Serializable {
     private String main_id = "";
     private String gc_id = "";
     private String b_id = "";
+    private String store_id = "";
     String gc_name = "";
 
     public String keyword = "";
@@ -72,6 +73,8 @@ public class ScreenInfo implements Serializable {
                 return gc_id;
             case 2:
                 return gc_id;
+            case 3:/*店铺id*/
+                return store_id;
             default:
                 return gc_id;
         }
@@ -81,6 +84,7 @@ public class ScreenInfo implements Serializable {
         if (id == null) id = "";
         gc_id = id;
         b_id = id;
+        store_id = id;
     }
 
     /**
@@ -106,19 +110,35 @@ public class ScreenInfo implements Serializable {
     public String gc_id_1 = "", gc_id_2 = "", gc_id_3 = "";
 
     public void cloneScreeningDatas(ScreenInfo screenInfo) {
-        areaId = screenInfo.areaId;
-        priceFrom = screenInfo.priceFrom;
-        priceTo = screenInfo.priceTo;
-        own_mall = screenInfo.own_mall;
-        gift = screenInfo.gift;
-        groupbuy = screenInfo.groupbuy;
-        xianshi = screenInfo.xianshi;
-        virtual = screenInfo.virtual;
-        ci = screenInfo.ci;
-        attrs = screenInfo.attrs;
-        gc_id_1 = screenInfo.gc_id_1;
-        gc_id_2 = screenInfo.gc_id_2;
-        gc_id_3 = screenInfo.gc_id_3;
+        if (null != screenInfo) {
+            areaId = screenInfo.areaId;
+            priceFrom = screenInfo.priceFrom;
+            priceTo = screenInfo.priceTo;
+            own_mall = screenInfo.own_mall;
+            gift = screenInfo.gift;
+            groupbuy = screenInfo.groupbuy;
+            xianshi = screenInfo.xianshi;
+            virtual = screenInfo.virtual;
+            ci = screenInfo.ci;
+            attrs = screenInfo.attrs;
+            gc_id_1 = screenInfo.gc_id_1;
+            gc_id_2 = screenInfo.gc_id_2;
+            gc_id_3 = screenInfo.gc_id_3;
+        } else {
+            areaId = "";
+            priceFrom = "";
+            priceTo = "";
+            own_mall = "";
+            gift = "";
+            groupbuy = "";
+            xianshi = "";
+            virtual = "";
+            ci = "";
+            attrs = "";
+            gc_id_1 = "";
+            gc_id_2 = "";
+            gc_id_3 = "";
+        }
     }
 
     public Map<String, Object> getParams() {
@@ -129,11 +149,13 @@ public class ScreenInfo implements Serializable {
             if (!"".equals(b_id)) map.put("b_id", b_id);
         } else if (type == 2) {
             if (!"".equals(gc_id)) map.put("gc_id_2", gc_id);
+        } else if (type == 3) {
+            if (!"".equals(store_id)) map.put("store_id", store_id);
         }
         if (!"".equals(keyword)) map.put("keyword", keyword);
         if (!"".equals(areaId)) map.put("area_id", areaId);
         if (!"".equals(priceFrom)) map.put("price_from", priceFrom);
-        if (!"".equals(priceTo)) map.put("own_mall", priceTo);
+        if (!"".equals(priceTo)) map.put("price_to", priceTo);
         if (!"".equals(own_mall)) map.put("own_mall", own_mall);
         if (!"".equals(gift)) map.put("gift", gift);
         if (!"".equals(groupbuy)) map.put("groupbuy", groupbuy);

@@ -1,14 +1,19 @@
 package com.mingpinmall.classz.ui.activity.store;
 
+import android.app.Activity;
+import android.arch.lifecycle.LiveData;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -26,6 +31,7 @@ import com.mingpinmall.classz.ui.activity.store.fragment.StoreProductsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StorePromotionFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
+import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 import com.mingpinmall.classz.widget.XBottomSheet;
@@ -204,4 +210,30 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
     public String getStoreId() {
         return storeId;
     }
+
+
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+////        keyword = intent.getStringExtra("keyword");
+////        Log.i(TAG, "onNewIntent: " + keyword);
+////        screenInfo.keyword = keyword;
+////        edSearch.setText("".equals(keyword) ? "请输入搜索内容" : keyword);
+////        onRefresh();
+//        KLog.i("aanihao ");
+//    }
+
+  /*  @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        KLog.i("返回");
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                //筛选
+                KLog.i("返回");
+                ScreenInfo newDatas = (ScreenInfo) data.getSerializableExtra("datas");
+                LiveBus.getDefault().postEvent("REFRESH_STOREPRODUCTSFRAGMENT", newDatas);
+            }
+        }
+    }*/
 }

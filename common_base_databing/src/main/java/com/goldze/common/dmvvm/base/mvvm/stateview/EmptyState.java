@@ -2,11 +2,13 @@ package com.goldze.common.dmvvm.base.mvvm.stateview;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.goldze.common.dmvvm.R;
+import com.socks.library.KLog;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
 /**
@@ -27,10 +29,7 @@ public class EmptyState extends BaseStateControl {
         AppCompatImageView ivImage = view.findViewById(R.id.iv_image);
         AppCompatTextView tvTitle = view.findViewById(R.id.tv_title), tvSubTitle = view.findViewById(R.id.tv_sub_title);
 
-        ivImage.setImageResource(R.drawable.ic_order_empty_white);
-        tvTitle.setText("没有找到任何相关信息");
-        tvSubTitle.setText("选择或搜索其他商品分类/名称...");
-        view.findViewById(R.id.btn_action).setVisibility(View.GONE);
+        AppCompatButton btnAction = view.findViewById(R.id.btn_action);
 
         Object tag = view.getTag();
         if (tag != null) {
@@ -40,12 +39,22 @@ public class EmptyState extends BaseStateControl {
                 ivImage.setColorFilter(Color.WHITE);
                 ivImage.setPadding(10, 10, 10, 10);
                 subTitle = "收藏店铺经常来逛一逛";
+                btnAction.setVisibility(View.GONE);
             }
-
             if ("1".equals(tag)) {/*商品上新*/
                 title = "商铺最近没有新品上架";
             } else if ("2".equals(tag)) {/*店铺活动*/
                 title = "商铺最近没有促销活动";
+            } else if ("3".equals(tag)) {
+                title = "没有找到任何相关信息";
+                subTitle = "搜索其它商品名称或筛选项...";
+                btnAction.setText("查看全部商品");
+                btnAction.setVisibility(View.VISIBLE);
+            } else {
+                ivImage.setImageResource(R.drawable.ic_order_empty_white);
+                tvTitle.setText("没有找到任何相关信息");
+                tvSubTitle.setText("选择或搜索其他商品分类/名称...");
+                btnAction.setVisibility(View.GONE);
             }
             tvTitle.setText(title);
             tvSubTitle.setText(subTitle);
