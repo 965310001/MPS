@@ -12,9 +12,12 @@ import android.widget.TextView;
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 
@@ -38,8 +41,17 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
                 .setText(R.id.tv_tips0, "运费" + item.getYf_price() + "元")
                 //总价
                 .setText(R.id.tv_money, item.getStore_goods_total())
+                //满即送
+                .setGone(R.id.cl_free_freight, item.isManSong())
                 .addOnClickListener(R.id.ll_shopContent);
 
+        if (item.isManSong()) {
+            try {
+                helper.setText(R.id.tv_free_freight, item.getStore_mansong_rule_list().getDesc().getDesc());
+            } catch (Exception e) {
+                KLog.i(e.toString());
+            }
+        }
         /*店铺代金卷*/
         ConfirmOrderBean.StoreCartListNewsBean.StoreVoucherInfoBean storeVoucherInfo = item.getStore_voucher_info();
         if (null != storeVoucherInfo) {
@@ -62,6 +74,7 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
             childView.setTag(i);
             childView.setOnClickListener(v -> {
                 //TODO 商品点击事件
+                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", shops.getGoods_id());
             });
             ((AppCompatTextView) childView.findViewById(R.id.tv_label)).setText(shops.getGoods_name());
             ((AppCompatTextView) childView.findViewById(R.id.tv_money)).setText(shops.getGoods_price());

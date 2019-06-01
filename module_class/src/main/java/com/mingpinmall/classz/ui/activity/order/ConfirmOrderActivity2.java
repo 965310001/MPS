@@ -93,7 +93,14 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         adapter = new ConfirmOrderAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recyclerView.setAdapter(adapter);
-
+        adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            int id = view.getId();
+            if (id == R.id.ll_shopContent) {
+                KLog.i("商家");
+                ConfirmOrderBean.StoreCartListNewsBean newsBean = (ConfirmOrderBean.StoreCartListNewsBean) adapter.getItem(position);
+                ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", newsBean.getStore_id());
+            }
+        });
     }
 
     @Override

@@ -297,6 +297,8 @@ public class UserPaySheet extends Dialog {
             bind = DataBindingUtil
                     .bind(LayoutInflater.from(mContext)
                             .inflate(R.layout.layout_bottom_pay_order, null));
+            /*默认选中微信支付*/
+            bind.rgRadio.check(bind.rbWeixin.getId());
             View wrapperView = bind.getRoot().getRootView();
             bind.executePendingBindings();
 

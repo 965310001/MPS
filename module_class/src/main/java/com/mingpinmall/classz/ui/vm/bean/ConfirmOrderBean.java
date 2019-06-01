@@ -235,6 +235,10 @@ public class ConfirmOrderBean extends BaseBean {
         private StoreVoucherInfoBean store_voucher_info;
 
 
+        public boolean isManSong() {
+            return null != getStore_mansong_rule_list();
+        }
+
         public String getYf_price() {
             return yf_price == null ? "" : yf_price;
         }
@@ -779,7 +783,7 @@ public class ConfirmOrderBean extends BaseBean {
         }
     }
 
-    public static class NewStoreFinalTotalListBean extends BaseBean{
+    public static class NewStoreFinalTotalListBean extends BaseBean {
         /**
          * key : 17
          * value : 5.01

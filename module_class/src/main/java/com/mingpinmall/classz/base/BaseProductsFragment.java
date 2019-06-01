@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.base;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,10 +18,12 @@ import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
+import com.mingpinmall.classz.ui.activity.classiflist.ScreeningActivity;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
+import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.mingpinmall.classz.widget.FilterTab;
 import com.mingpinmall.classz.widget.ScreeningPopWindow;
@@ -83,6 +86,7 @@ public abstract class BaseProductsFragment<T extends ClassifyViewModel> extends 
                         itemTabsegmentBinding.filterTab1, itemTabsegmentBinding.filterTab2, itemTabsegmentBinding.filterTab3)) {
             tab.setOnClickListener(this);
         }
+
     }
 
     @Override
