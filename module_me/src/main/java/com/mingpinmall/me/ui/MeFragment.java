@@ -26,6 +26,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.rxbus2.Subscribe;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentMeBinding;
 import com.mingpinmall.me.ui.adapter.MeItemAdapter;
@@ -36,8 +37,16 @@ import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.AutoColorView;
 import com.socks.library.KLog;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -52,6 +61,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     private AutoColorView autoColorView;
     private View headView;
     private boolean darkMode = false;
+    private AppCompatImageView headImgView;
 
     private final int[] colorIds = new int[]{
             R.color.bg_color_0,
@@ -102,7 +112,6 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         initSettingItem();
         setItemClickListener();
         setListScrollListener();
-
         if (SharePreferenceUtil.isLogin()) {
             mViewModel.getUserInfo();
         }
@@ -143,7 +152,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText(data.getFavorites_goods());
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText(data.getFavorites_store());
 
-        ImageUtils.loadImageCircle(headView.findViewById(R.id.iv_headImage), data.getAvatar());
+        ImageUtils.loadImageCircle(headImgView, data.getAvatar());
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
                 data.getOrder_nopay_count(),
                 data.getOrder_noreceipt_count(),
@@ -171,7 +180,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText("");
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText("");
 
-        ((AppCompatImageView) headView.findViewById(R.id.iv_headImage)).setImageResource(R.drawable.ic_user_head);
+        headImgView.setImageResource(R.drawable.ic_user_head);
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
                 0, 0, 0, 0, 0
         });
@@ -187,22 +196,23 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         //初始化适配器和头部
         meItemAdapter = new MeItemAdapter();
         headView = LayoutInflater.from(activity).inflate(R.layout.view_me_user_head, binding.recyclerView, false);
+        //拿到头部 View
+        headImgView = headView.findViewById(R.id.iv_headImage);
+        autoColorView = headView.findViewById(R.id.iv_bg);
         //设置控件上部增加一个状态栏的高度
         StatusBarUtils.setPaddingSmart(activity, headView.findViewById(R.id.top_btn_content));
-        StatusBarUtils.setMargin(activity, headView.findViewById(R.id.iv_headImage));
+        StatusBarUtils.setMargin(activity, headImgView);
+        headImgView.setImageResource(R.drawable.ic_user_head);
+        autoColorView.setColors(colorIds);
         //添加headview
         meItemAdapter.addHeaderView(headView);
         meItemAdapter.bindToRecyclerView(binding.recyclerView);
-        //拿到头部 View
-        ((AppCompatImageView) headView.findViewById(R.id.iv_headImage)).setImageResource(R.drawable.ic_user_head);
         //开始自动变换背景色
-        autoColorView = headView.findViewById(R.id.iv_bg);
-        autoColorView.setColors(colorIds);
         autoColorView.start();
         //设置监听
+        headImgView.setOnClickListener(this);
         headView.findViewById(R.id.iv_setting).setOnClickListener(this);
         headView.findViewById(R.id.iv_message).setOnClickListener(this);
-        headView.findViewById(R.id.iv_headImage).setOnClickListener(this);
         headView.findViewById(R.id.ll_headItem1).setOnClickListener(this);
         headView.findViewById(R.id.ll_headItem2).setOnClickListener(this);
         headView.findViewById(R.id.ll_headItem3).setOnClickListener(this);
@@ -485,11 +495,11 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
                     // int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
                     .withAspectRatio(1, 1)
                     // 裁剪框是否可拖拽
-                    .freeStyleCropEnabled(false)
+                    .freeStyleCropEnabled(true)
                     // 是否显示裁剪矩形边框 圆形裁剪时建议设为false
                     .showCropFrame(true)
                     // 是否显示裁剪矩形网格 圆形裁剪时建议设为false
-                    .showCropGrid(false)
+                    .showCropGrid(true)
                     // 是否圆形裁剪 true or false
                     .circleDimmedLayer(true)
                     .minimumCompressSize(100)

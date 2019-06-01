@@ -41,8 +41,6 @@ public class ShopStreetActivity extends AbsLifecycleActivity<ActivityShopstreetB
     @Override
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        AndroidBug5497Workaround.assistActivity(findViewById(android.R.id.content));
         setTitle(R.string.title_ShopStreetActivity);
         binding.ivClass.setOnClickListener(this);
         binding.tvSelectAddress.setOnClickListener(this);

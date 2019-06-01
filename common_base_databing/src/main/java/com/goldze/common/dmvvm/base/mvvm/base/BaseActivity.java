@@ -18,7 +18,6 @@ import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,6 +27,7 @@ import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.LoadingState;
 import com.goldze.common.dmvvm.databinding.ActivityBaseBinding;
+import com.goldze.common.dmvvm.utils.AndroidBug5497Workaround;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
 import com.goldze.common.dmvvm.xutils.ViewUtils;
 import com.gyf.barlibrary.ImmersionBar;
@@ -78,9 +78,11 @@ public abstract class BaseActivity<VD extends ViewDataBinding> extends AppCompat
         TAG = this.getClass().getSimpleName();
         activity = this;
         /*android软键盘挡住输入框问题*/
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         ViewUtils.inject(this);
         initViewDataBinding();
+        AndroidBug5497Workaround.assistActivity(this);
 
         initLoadManager();
 
