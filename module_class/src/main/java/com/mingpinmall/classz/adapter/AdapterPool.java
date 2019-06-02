@@ -142,6 +142,7 @@ public class AdapterPool {
     public DelegateAdapter.Builder getChatAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
                 .bind(ChatMessageInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_chat_message_list, BR.data))
+//                .bind(ChatMessageInfo.class, new ChatMessageInfoAdapter(context))
                 .bind(ChatEmojiInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_emoji_grid, BR.data))
                 .bind(GoodsInfo.class, new DataBindItemViewHolderManager(context, R.layout.item_goods_chat, BR.data));
     }

@@ -54,7 +54,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 商品分类list
+ * 聊天
  */
 @Route(path = ARouterConfig.classify.CHATACTIVITY, extras = ARouterConfig.LOGIN_NEEDED)
 public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, ClassifyViewModel> implements OnItemClickListener {
@@ -66,8 +66,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     String tId;/*店铺Id*/
 
     private final ItemData itemData = new ItemData();
-
-//    private String meIcon, mOtherIcon, tName, msg, mFid;
 
     private RecyclerView mRecyclerView;
 
@@ -101,11 +99,8 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
         binding.setAdapter(AdapterPool.newInstance()
                 .getChatAdapter(this)
+//                .setOnItemClickListener(this)
                 .build());
-
-//        binding.setSmileImg(String.format("%s/wap/images/smile_b.png", BuildConfig.APP_URL));
-//        binding.setAddImg(String.format("%s/wap/images/picture_add.png", BuildConfig.APP_URL));
-//        binding.setMsgLogB(String.format("%s/wap/images/msg_log_b.png", BuildConfig.APP_URL));
 
         binding.etMsg.setOnFocusChangeListener((v, hasFocus) -> hideTrvBottom(true));
     }
@@ -138,7 +133,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
         binding.setEmojiAdapter(AdapterPool.newInstance()
                 .getEmojiAdapter(this)
-                .setOnItemClickListener(this)
+//                .setOnItemClickListener(this)
                 .build());
 
         initChatEmoji();
@@ -347,8 +342,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         KLog.i("选择图片");
         PictureSelector.create(activity)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-//                .maxSelectNum(1)// 最大图片选择数量 int
-//                .minSelectNum(1)// 最小选择数量 int
                 .imageSpanCount(3)// 每行显示个数 int
                 .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
                 .previewImage(true)// 是否可预览图片 true or false
@@ -359,7 +352,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 .compress(true)// 是否压缩 true or false
                 .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示 true or false
                 .isGif(true)// 是否显示gif图片 true or false
-//                .selectionMedia(selectList)// 是否传入已选图片 List<LocalMedia> list
                 .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
                 .minimumCompressSize(100)// 小于100kb的图片不压缩
                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
@@ -418,6 +410,8 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
             ChatEmojiInfo chatEmojiInfo = (ChatEmojiInfo) object;
             binding.etMsg.getText().append(FaceConversionUtil.addFace(this, chatEmojiInfo.getId(), chatEmojiInfo.getCharacter()));
         }
+        KLog.i("点击");
+
     }
 
     @Override

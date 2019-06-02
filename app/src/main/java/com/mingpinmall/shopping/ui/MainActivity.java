@@ -122,6 +122,8 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 //        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", " ");
 //        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", "3");
 //        ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
+
+        ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);//消息列表
     }
 
     @Override

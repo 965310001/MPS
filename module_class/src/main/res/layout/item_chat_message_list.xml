@@ -49,6 +49,7 @@
                 android:src="@drawable/icon_msg_other" />
 
             <TextView
+                android:id="@+id/tv_other"
                 imageHtml="@{data.msg}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,6 +105,7 @@
                 android:src="@drawable/icon_msg_me" />
 
             <TextView
+                android:id="@+id/tv_me"
                 imageHtml="@{data.msg}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
