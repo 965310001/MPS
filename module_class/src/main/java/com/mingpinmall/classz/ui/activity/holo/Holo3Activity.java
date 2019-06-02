@@ -3,14 +3,12 @@ package com.mingpinmall.classz.ui.activity.holo;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,12 +22,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
@@ -37,6 +35,7 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.HolosAdapter;
 import com.mingpinmall.classz.databinding.ActivityHolo3Binding;
@@ -45,9 +44,8 @@ import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.HolosBean;
 import com.xiaopo.flying.sticker.BitmapStickerIcon;
 import com.xiaopo.flying.sticker.DrawableSticker;
-import com.xiaopo.flying.sticker.FlipHorizontallyEvent;
+import com.xiaopo.flying.sticker.ZoomIconEvent;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -124,11 +122,14 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
         binding.group.setDrawingCacheEnabled(true);
         binding.group.buildDrawingCache();
 
-        BitmapStickerIcon flipIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
+        BitmapStickerIcon zoomIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
                 com.xiaopo.flying.sticker.R.drawable.sticker_ic_scale_white_18dp),
-                BitmapStickerIcon.RIGHT_TOP);
-        flipIcon.setIconEvent(new FlipHorizontallyEvent());
-        binding.svSticker.setIcons(Arrays.asList(flipIcon));
+                BitmapStickerIcon.RIGHT_BOTOM);
+        zoomIcon.setIconEvent(new ZoomIconEvent());
+        binding.svSticker.setIcons(Arrays.asList(zoomIcon));
+        binding.svSticker.setLocked(false);
+        binding.svSticker.setConstrained(true);
+//        binding.svSticker.configDefaultIcons();
 
         surfaceViewCallback = new SurfaceViewCallback();
         surfaceHolder = binding.sfvSurface.getHolder();
@@ -159,28 +160,30 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
             mCamera.autoFocus(null);
             mCamera.release();
             if (isFront) {
-                mCamera = openBackFacingCameraGingerbread();
+                mCamera = openCamera(false);
                 ToastUtils.showShort("切换到后置相机");
             } else {
-                mCamera = openFrontFacingCameraGingerbread();
+                mCamera = openCamera(true);
                 ToastUtils.showShort("切换到前置相机");
             }
             startPreview(binding.sfvSurface.getHolder(), binding.sfvSurface.getHolder().getSurfaceFrame().width(),
                     binding.sfvSurface.getHolder().getSurfaceFrame().height());
-            isFront = !isFront;
         });
         binding.ivCamera.setOnClickListener(v -> {
             // 拍照
             if (previewing) {
+                CustomProgressDialog.show(activity);
                 mCamera.takePicture(shutterCallback, rawPictureCallback, jpegPictureCallback);
             }
         });
         binding.sfvSurface.setOnClickListener(v -> {
+            //点击对焦
             if (mCamera != null) {
                 mCamera.autoFocus(myAutoFocusCallback1);
             }
         });
         myAutoFocusCallback1 = (success, camera) -> {
+            //对焦监听
             if (success) {
                 //success表示对焦成功
                 issuccessfocus++;
@@ -199,6 +202,7 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
 
     /**
      * 添加覆盖层
+     *
      * @param goods_image
      */
     private void addSticker(String goods_image) {
@@ -249,82 +253,106 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
     };
 
     Camera.PictureCallback rawPictureCallback = (arg0, arg1) -> {
-
     };
 
     Camera.PictureCallback jpegPictureCallback = new Camera.PictureCallback() {
         @Override
-        public void onPictureTaken(byte[] arg0, Camera arg1) {
-            save(arg0);
-        }
+        public void onPictureTaken(byte[] bitmapdata, Camera arg1) {
+            Log.i("HOLO3", "onPictureTaken: ");
+            binding.ivPhoto.setVisibility(View.VISIBLE);
 
-        /**
-         * 保存图片
-         *
-         * @param data
-         */
-        private void save(byte[] data) {
-            String fileName = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DCIM).toString()
-                    + File.separator + System.currentTimeMillis() + ".jpg";
-            File file = new File(fileName);
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdir();
-            }
-            try {
-                BufferedOutputStream bos = new BufferedOutputStream(
-                        new FileOutputStream(file));
-                bos.write(data);
-                mCamera.stopPreview();
-                previewing = false;
-                bos.flush();
-                bos.close();
-                scanFileToPhotoAlbum(file.getAbsolutePath());
-                configPhoto(file);
-                saveNewPhoto();
-            } catch (Exception e) {
-            }
-            mCamera.startPreview();
-            previewing = true;
+            new Thread(() -> {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+                final Bitmap resultBitmap;
+                if (isFront) {
+                    Matrix scale = new Matrix();
+                    scale.setScale(-1, 1);//水平翻转
+                    bitmap = rotaingImageView(270, bitmap);
+                    resultBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), scale, true);
+                    bitmap.recycle();
+                } else {
+                    resultBitmap = rotaingImageView(90, bitmap);
+                }
+                runOnUiThread(() -> {
+                    binding.ivPhoto.setImageBitmap(resultBitmap);
+                    saveNewPhoto();
+                });
+
+            }).start();
         }
 
         /**
          * 保持合成后的图片
          */
         private void saveNewPhoto() {
-//            Bitmap bitmap = group.getDrawingCache();
-//            iv_show.setImageBitmap(bitmap);
-//            saveImageToGallery(MainActivity.this, bitmap);
-//            iv_show.setVisibility(View.INVISIBLE);
-//            to();
-        }
-
-        /**
-         * 配置照片
-         *
-         * @param file
-         */
-        private void configPhoto(File file) {
-//            Bitmap imagbitmap = null;
-//            setCameraDisplayOrientation(activity, mCurrentCamIndex, mCamera);
-//            if (cameraPosition == 1) {
-//                imagbitmap = BitmapUtil.convert(BitmapUtil.rotaingImageView(
-//                        270, BitmapFactory.decodeFile(file.getAbsolutePath())),
-//                        0);
-//            } else {
-//                imagbitmap = BitmapUtil.decodeSampledBitmapFromResource(file.getAbsolutePath(), 200, 300);
-//                imagbitmap = BitmapUtil.rotaingImageView(90, imagbitmap);
-//            }
-//            iv_show.setImageBitmap(imagbitmap);
-//            iv_show.setVisibility(View.VISIBLE);
+            new Thread(() -> {
+                Bitmap bitmap = binding.group.getDrawingCache();
+                saveImageToGallery(activity, bitmap);
+            }).start();
+            CustomProgressDialog.stop();
+            TextDialog.showBaseDialog(activity, "", "已保存到系统相册").show();
+            binding.ivPhoto.setVisibility(View.INVISIBLE);
+            mCamera.startPreview();
         }
     };
 
-    public void scanFileToPhotoAlbum(String path) {
-        MediaScannerConnection.scanFile(activity,
-                new String[]{path}, null,
-                (path1, uri) -> {
-                });
+    /**
+     * 旋转
+     *
+     * @param angle
+     * @param bitmap
+     * @return
+     */
+    private Bitmap rotaingImageView(int angle, Bitmap bitmap) {
+        // 旋转图片 动作
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        // 创建新的图片
+        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return resizedBitmap;
+    }
+
+    /**
+     * 保存合成后的图片
+     *
+     * @param context
+     * @param bmp
+     */
+    public void saveImageToGallery(Context context, Bitmap bmp) {
+        // 首先保存图片
+        String fileName = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM).toString()
+                + File.separator + System.currentTimeMillis() + ".jpg";
+        File file = new File(fileName);
+        Log.i("HOLO3", "saveImageToGallery: ");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        imagUrl = file.getAbsolutePath();
+        // 最后通知图库更新
+        Uri contentUri = Uri.fromFile(new File(imagUrl));
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri);
+        sendBroadcast(mediaScanIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private final class SurfaceViewCallback implements android.view.SurfaceHolder.Callback {
@@ -334,13 +362,12 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
                 mCamera.stopPreview();
                 previewing = false;
             }
-
             startPreview(holder, width, height);
         }
 
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
-            mCamera = openFrontFacingCameraGingerbread();
+            mCamera = openCamera(true);
         }
 
         @Override
@@ -369,78 +396,48 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
         Camera.Size size = getOptimalSize(parameters.getSupportedPreviewSizes(), width, height);
         parameters.setPreviewSize(size.width, size.height);
         mCamera.setParameters(parameters);
+        setCameraDisplayOrientation(activity, mCurrentCamIndex, mCamera);
         mCamera.startPreview();
         previewing = true;
-        setCameraDisplayOrientation(activity, mCurrentCamIndex, mCamera);
     }
 
     // 0表示后置，1表示前置
     private int cameraPosition = 1;
 
-    private Camera openBackFacingCameraGingerbread() {
+    private Camera openCamera(boolean change2Front) {
         int cameraCount = 0;
         Camera cam = null;
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         cameraCount = Camera.getNumberOfCameras();// 得到摄像头的个数
-        cameraPosition = 0;
-        for (int i = 0; i < cameraCount; i++) {
-            Camera.getCameraInfo(i, cameraInfo);// 得到每一个摄像头的信息
-            if (cameraPosition == 1) {
-                // 现在是后置，变更为前置
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    cam = Camera.open(i);
-                    break;
-                }
-            } else {
-                // 现在是前置， 变更为后置
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                    cam = Camera.open(i);
-                    break;
-                }
-            }
-
+        if (cameraCount < 1) {
+            TextDialog.showBaseDialog(activity, "错误", "手机不支持相机功能", dialog -> finish());
+            finish();
+            return mCamera;
         }
-
-        return cam;
-    }
-
-    private Camera openFrontFacingCameraGingerbread() {
-        int cameraCount = 0;
-        Camera cam = null;
-        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-        cameraCount = Camera.getNumberOfCameras();// 得到摄像头的个数
-        if (cameraCount > 1) {
-            cameraPosition = 1;
+        if (cameraCount == 1 && change2Front) {
+            ToastUtils.showShort("不支持切换相机");
+            return mCamera;
         } else {
-            cameraPosition = 0;
-        }
-        for (int i = 0; i < cameraCount; i++) {
-            Camera.getCameraInfo(i, cameraInfo);// 得到每一个摄像头的信息
-            if (cameraPosition == 1) {
-                // 现在是后置，变更为前置
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    cam = Camera.open(i);
-                    break;
-                }
+            if (change2Front) {
+                //切换到前置相机
+                cameraPosition = 1;
+                this.isFront = true;
             } else {
-                // 现在是前置， 变更为后置
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                    cam = Camera.open(i);
-                    break;
-                }
+                //切换到后置相机
+                cameraPosition = 0;
+                this.isFront = false;
             }
         }
+        Camera.getCameraInfo(cameraPosition, cameraInfo);// 得到每一个摄像头的信息
+        cam = Camera.open(cameraPosition);
         return cam;
     }
 
     // 根据横竖屏自动调节preview方向
-    private static void setCameraDisplayOrientation(Activity activity,
-                                                    int cameraId, Camera camera) {
+    private static void setCameraDisplayOrientation(Activity activity, int cameraId, Camera camera) {
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(cameraId, info);
-        int rotation = activity.getWindowManager().getDefaultDisplay()
-                .getRotation();
-
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         int degrees = 0;
         switch (rotation) {
             case Surface.ROTATION_0:
@@ -463,48 +460,9 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
             result = (info.orientation + degrees) % 360;
             result = (360 - result) % 360;
         } else {
-
             result = (info.orientation - degrees + 360) % 360;
         }
         camera.setDisplayOrientation(result);
-
-    }
-
-    /**
-     * 保存合成后的图片
-     *
-     * @param context
-     * @param bmp
-     */
-    public void saveImageToGallery(Context context, Bitmap bmp) {
-        // 首先保存图片
-        String fileName = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM).toString()
-                + File.separator + System.currentTimeMillis() + ".jpg";
-        File file = new File(fileName);
-
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // 其次把文件插入到系统图库
-        try {
-            MediaStore.Images.Media.insertImage(context.getContentResolver(),
-                    file.getAbsolutePath(), fileName, null);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        // 最后通知图库更新
-        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                Uri.parse(file.getAbsolutePath())));
-        imagUrl = file.getAbsolutePath();
     }
 
     private static Camera.Size getOptimalSize(@NonNull List<Camera.Size> sizes, int w, int h) {
@@ -512,9 +470,7 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
         double targetRatio = (double) h / w;
         Camera.Size optimalSize = null;
         double minDiff = Double.MAX_VALUE;
-
         int targetHeight = h;
-
         for (Camera.Size size : sizes) {
             double ratio = (double) size.width / size.height;
             if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) {
@@ -525,7 +481,6 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
                 minDiff = Math.abs(size.height - targetHeight);
             }
         }
-
         if (optimalSize == null) {
             minDiff = Double.MAX_VALUE;
             for (Camera.Size size : sizes) {
@@ -535,7 +490,6 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
                 }
             }
         }
-
         return optimalSize;
     }
 

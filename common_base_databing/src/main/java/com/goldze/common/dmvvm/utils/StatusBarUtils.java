@@ -62,13 +62,13 @@ public class StatusBarUtils {
      * 设置状态栏颜色 字体颜色(黑白切换。目前支持MIUI6以上,Flyme4以上,Android M以上)
      */
     public static void immersive(Activity activity, int color, @FloatRange(from = 0.0, to = 1.0) float alpha, boolean dark) {
-        if (isAndroidMOrAbove()) {
+        if (isFlyme()) {
+            setStatusBarDarkIcon(activity, dark, true);
+            alpha = 0;
+        } else if (isAndroidMOrAbove()) {
             darkModeForM(activity.getWindow(), dark);
         } else if (isMiUIV6OrAbove()) {
             darkModeForMIUI6(activity.getWindow(), dark);
-            alpha = 0;
-        } else if (isFlyme()) {
-            setStatusBarDarkIcon(activity, dark, true);
             alpha = 0;
         }
         immersive(activity.getWindow(), color, alpha);
