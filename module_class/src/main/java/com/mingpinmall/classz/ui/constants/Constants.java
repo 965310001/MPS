@@ -21,6 +21,9 @@ public interface Constants {
     /*收藏*/
     Object FAVORITES = "FAVORITES";
 
+    /*试戴*/
+    Object HOLO_IMAGES = "HOLO_IMAGES";
+
     String PAGE_RN = "10";
 
     /*评价列表*/

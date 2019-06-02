@@ -22,6 +22,9 @@ import com.mingpinmall.home.ui.TeacherFragment;
 import com.mingpinmall.me.ui.MeFragment;
 import com.mingpinmall.shopping.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Author: guofeng
  * @CreateDate:
@@ -122,6 +125,13 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 //        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", " ");
 
 //        ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
+
+        // TODO: 试戴测试 110376
+//        Map<String, Object> params = new HashMap<>(2);
+//        params.put("goods_id", "110381");
+//        params.put("cart_count", "3");
+//
+//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO3ACTIVITY, params);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.mingpinmall.classz.ui.api;
 
+import com.goldze.common.dmvvm.base.bean.BaseListResponse;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.mingpinmall.classz.ResultBean;
@@ -13,6 +14,7 @@ import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
+import com.mingpinmall.classz.ui.vm.bean.HolosBean;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
@@ -25,6 +27,7 @@ import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
@@ -59,6 +62,14 @@ public interface ClassifyService {
      */
     @GET(BASEURL)
     Flowable<BaseResponse<ScreeningBean>> getScreeningInfo(@QueryMap Map<String, Object> map);
+
+    /**
+     * 获取试戴图片列表
+     * @param map
+     * @return
+     */
+    @GET(BASEURL)
+    Flowable<BaseListResponse<HolosBean>> getHoloImages(@QueryMap Map<String, Object> map);
 
     /**
      * 获取筛选 可选择 的信息

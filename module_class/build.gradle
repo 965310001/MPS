@@ -68,6 +68,7 @@ dependencies {
     implementation project(':common_base_databing')
     //支付依赖
     implementation project(':module_pay')
+    implementation project(':module_sticker')
     implementation 'com.github.free46000:MultiItem:0.9.7'
     implementation 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
     //Arouter路由

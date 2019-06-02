@@ -16,6 +16,14 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /**
+     * 获取试戴图片内容
+     * @param eventKey
+     */
+    public void getHoloImages(String goodsId, Object eventKey) {
+        mRepository.getHoloImages(goodsId, eventKey);
+    }
+
+    /**
      * 获取筛选内容
      * @param eventKey
      */

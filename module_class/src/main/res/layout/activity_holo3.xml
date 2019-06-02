@@ -3,6 +3,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="count"
+            type="Integer" />
     </data>
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.mingpinmall.classz.ui.activity.holo.tools.StickerView
+            <com.xiaopo.flying.sticker.StickerView
                 android:id="@+id/sv_sticker"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -40,8 +45,8 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:layout_margin="4dp"
                 android:orientation="horizontal"
+                android:overScrollMode="never"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +92,7 @@
                 app:layout_constraintTop_toBottomOf="@id/recyclerView" />
 
             <LinearLayout
+                android:id="@+id/ll_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -110,6 +116,23 @@
                     android:textSize="12sp" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_count"
+                style="@style/TextStyle"
+                android:background="@drawable/market_shape_round_red"
+                android:gravity="center"
+                android:minWidth="15dp"
+                android:minHeight="15dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                android:text="@{String.valueOf(count)}"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="@{count > 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@id/ll_cart"
+                app:layout_constraintTop_toTopOf="@id/ll_cart"
+                tools:text="99" />
 
         </android.support.constraint.ConstraintLayout>
 
