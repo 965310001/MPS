@@ -129,7 +129,6 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
         binding.svSticker.setIcons(Arrays.asList(zoomIcon));
         binding.svSticker.setLocked(false);
         binding.svSticker.setConstrained(true);
-//        binding.svSticker.configDefaultIcons();
 
         surfaceViewCallback = new SurfaceViewCallback();
         surfaceHolder = binding.sfvSurface.getHolder();
@@ -149,7 +148,7 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
         binding.btnAction.setOnClickListener(v -> {
             // TODO 加入购物车
         });
-        binding.ivCart.setOnClickListener(v -> {
+        binding.llCart.setOnClickListener(v -> {
             // 跳转到购物车
             ActivityToActivity.toActivity(ARouterConfig.cart.SHOPCARTACTIVITY);
         });
@@ -169,7 +168,7 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
             startPreview(binding.sfvSurface.getHolder(), binding.sfvSurface.getHolder().getSurfaceFrame().width(),
                     binding.sfvSurface.getHolder().getSurfaceFrame().height());
         });
-        binding.ivCamera.setOnClickListener(v -> {
+        binding.llTakePicture.setOnClickListener(v -> {
             // 拍照
             if (previewing) {
                 CustomProgressDialog.show(activity);
@@ -292,6 +291,7 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
             CustomProgressDialog.stop();
             TextDialog.showBaseDialog(activity, "", "已保存到系统相册").show();
             binding.ivPhoto.setVisibility(View.INVISIBLE);
+            binding.ivPhoto.setImageDrawable(null);
             mCamera.startPreview();
         }
     };

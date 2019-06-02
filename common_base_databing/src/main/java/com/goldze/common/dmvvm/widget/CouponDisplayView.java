@@ -10,6 +10,8 @@ import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.bigkoo.convenientbanner.utils.ScreenUtil;
+
 /**
  * Created by Jason_周 on 2019/4/20.
  */
@@ -54,6 +56,7 @@ public class CouponDisplayView extends View {
     }
 
     private void initPaint() {
+        radius = ScreenUtil.dip2px(getContext(), 14);
         //边缘锯齿画笔
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setDither(true);

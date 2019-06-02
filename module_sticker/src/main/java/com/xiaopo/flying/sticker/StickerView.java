@@ -728,7 +728,7 @@ public class StickerView extends FrameLayout {
     scaleFactor = widthScaleFactor > heightScaleFactor ? heightScaleFactor : widthScaleFactor;
 
     sticker.getMatrix()
-        .postScale(scaleFactor / 2, scaleFactor / 2, getWidth() / 2, getHeight() / 2);
+        .postScale(scaleFactor / 5 * 3, scaleFactor / 5 * 3, getWidth() / 5 * 3, getHeight() / 5 * 3);
 
     handlingSticker = sticker;
     stickers.add(sticker);
