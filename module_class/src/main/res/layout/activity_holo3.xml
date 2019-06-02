@@ -32,6 +32,7 @@
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:visibility="invisible"/>
 
             <com.xiaopo.flying.sticker.StickerView
@@ -61,9 +62,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
+                android:id="@+id/ll_takePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:padding="8dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@id/btn_action"
@@ -74,7 +76,6 @@
                     android:id="@+id/iv_camera"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:padding="2dp"
                     app:srcCompat="@drawable/ic_svg_camera" />
 
                 <TextView
@@ -103,7 +104,7 @@
                 android:id="@+id/ll_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:padding="8dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@id/btn_action"
