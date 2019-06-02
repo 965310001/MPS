@@ -4,6 +4,7 @@
 
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera2" />
     <!--写入SD卡的权限：如果你希望保存相机拍照后的照片-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--读取SD卡的权限:打开相册选取图片所必须的权限-->
@@ -35,7 +36,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

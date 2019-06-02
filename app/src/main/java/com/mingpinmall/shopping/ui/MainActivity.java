@@ -22,6 +22,9 @@ import com.mingpinmall.home.ui.TeacherFragment;
 import com.mingpinmall.me.ui.MeFragment;
 import com.mingpinmall.shopping.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Author: guofeng
  * @CreateDate:
@@ -116,14 +119,19 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 //        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
 //        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
 //        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
-//        ActivityToActivity.goShoppingDetails("110351"); //虚拟
+//        ActivityToActivity.goShoppingDetails("110045"); //虚拟
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
 //        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", " ");
-//        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", "3");
+
 //        ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
 
-        ActivityToActivity.toActivity(ARouterConfig.Me.MESSAGEACTIVITY);//消息列表
+        // TODO: 试戴测试 110376
+//        Map<String, Object> params = new HashMap<>(2);
+//        params.put("goods_id", "110381");
+//        params.put("cart_count", "3");
+//
+//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO3ACTIVITY, params);
     }
 
     @Override

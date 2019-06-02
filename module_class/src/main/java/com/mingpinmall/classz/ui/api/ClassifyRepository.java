@@ -2,6 +2,7 @@ package com.mingpinmall.classz.ui.api;
 
 import android.text.TextUtils;
 
+import com.goldze.common.dmvvm.base.bean.BaseListResponse;
 import com.goldze.common.dmvvm.base.bean.BaseNothingBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
@@ -21,6 +22,7 @@ import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
 import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
+import com.mingpinmall.classz.ui.vm.bean.HolosBean;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
@@ -36,6 +38,7 @@ import com.socks.library.KLog;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -44,6 +47,33 @@ import okhttp3.RequestBody;
 public class ClassifyRepository extends BaseRepository {
 
     private final ClassifyService apiService = RetrofitClient.getInstance().create(ClassifyService.class);
+
+    /**
+     * 获取试戴图片内容
+     */
+    public void getHoloImages(String goodsId, Object eventKey) {
+        //请求 URL: https//www.mingpinmall.cn/mo_bile/index.php?app=goods&wwi=get_tryon_img
+        Map<String, Object> params = parames("goods", "get_tryon_img");
+        params.put("goods_id", goodsId);
+        addDisposable(apiService.getHoloImages(params)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseListResponse<HolosBean>>() {
+                    @Override
+                    public void onSuccess(BaseListResponse<HolosBean> result) {
+                        if (result.isSuccess()) {
+                            sendData(eventKey, result.getData());
+                        } else {
+                            sendData(eventKey, result.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData(eventKey, msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
 
     /**
      * 获取筛选内容
