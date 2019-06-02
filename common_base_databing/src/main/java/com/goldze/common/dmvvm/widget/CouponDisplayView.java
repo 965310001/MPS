@@ -56,7 +56,7 @@ public class CouponDisplayView extends View {
     }
 
     private void initPaint() {
-        radius = ScreenUtil.dip2px(getContext(), 14);
+        radius = ScreenUtil.dip2px(getContext(), 6);
         //边缘锯齿画笔
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setDither(true);
