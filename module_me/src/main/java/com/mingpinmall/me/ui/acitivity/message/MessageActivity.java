@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -19,7 +19,6 @@ import com.mingpinmall.me.ui.adapter.MessageListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.MessageListBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -86,7 +85,9 @@ public class MessageActivity extends AbsLifecycleActivity<ActivityMessageBinding
                 listAdapter.setNewData(bean.getList());
             } else {
                 binding.refreshLayout.finishRefresh(false);
-                ToastUtils.showShort(result.toString());
+                if (!TextUtils.isEmpty(result.toString())) {
+                    ToastUtils.showShort(result.toString());
+                }
             }
 
         });

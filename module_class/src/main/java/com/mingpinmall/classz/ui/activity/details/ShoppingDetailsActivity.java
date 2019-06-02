@@ -411,7 +411,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     }
 
     public void addCart(View view) {
-        KLog.i("添加到购物车");
+        /*KLog.i("添加到购物车");*/
         id = SharePreferenceUtil.getKeyValue("SHOPPINGDETAILSACTIVITY_ID");
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");

@@ -20,6 +20,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.apppay.UserPaySheet;
 import com.mingpinmall.apppay.pay.Context;
 import com.mingpinmall.apppay.pay.JPayListener;
@@ -112,6 +113,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     protected void initData() {
         super.initData();
         /*KLog.i(cartId);*/
+        showLoading();
         mViewModel.getOrderInfo2(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 
@@ -176,6 +178,8 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         /*支付sn的返回*/
         registerObserver(Constants.CONFIRMORDER_KEY[2], BaseResponse.class)
                 .observe(this, response -> {
+                    CustomProgressDialog.stop();
+
                     BaseResponse<BuyStepInfo> data = response;
                     if (data.isSuccess()) {
                         mPySn = data.getData().getPay_sn();
@@ -209,7 +213,9 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                     }
                 });
 
+
     }
+
 
     /**
      * F 码商品，显示输入F码的弹窗
@@ -261,6 +267,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     }
 
     public void sublimit(View view) {
+        CustomProgressDialog.show(activity);
         Map<String, Object> map = new HashMap<>(10);
         if (!TextUtils.isEmpty(ifcart)) {
             map.put("ifcart", ifcart);

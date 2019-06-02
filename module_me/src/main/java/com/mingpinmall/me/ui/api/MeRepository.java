@@ -372,6 +372,12 @@ public class MeRepository extends BaseRepository {
                     public void onFailure(String msg) {
                         sendData(Constants.MESSAGE_LIST, msg == null ? "获取失败" : msg);
                     }
+
+                    @Override
+                    protected void onNoNetWork() {
+                        super.onNoNetWork();
+                        sendData(Constants.MESSAGE_LIST, "");
+                    }
                 })
         );
     }
@@ -1120,29 +1126,29 @@ public class MeRepository extends BaseRepository {
     protected void editAddress(String address_id, int id_default, String name, String city_id, String area_id, String area_info,
                                String address, String phone) {
         addDisposable(apiService.editAddress(getUserKey(), address_id, id_default, name, city_id, area_id, area_info, address, phone)
-                .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
+                        .compose(RxSchedulers.io_main())
+                        .subscribeWith(new RxSubscriber<BaseNothingBean>() {
 
-                    @Override
-                    public void onSuccess(BaseNothingBean baseNothingBean) {
-                        if (baseNothingBean.getCode() == 200) {
-                            sendData(Constants.EDIT_ADDRESS, SUCCESS);
-                        } else {
-                            sendData(Constants.EDIT_ADDRESS, baseNothingBean.getMessage());
-                        }
-                    }
+                            @Override
+                            public void onSuccess(BaseNothingBean baseNothingBean) {
+                                if (baseNothingBean.getCode() == 200) {
+                                    sendData(Constants.EDIT_ADDRESS, SUCCESS);
+                                } else {
+                                    sendData(Constants.EDIT_ADDRESS, baseNothingBean.getMessage());
+                                }
+                            }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        KLog.i(msg);
-                        sendData(Constants.EDIT_ADDRESS, msg == null ? "保存失败" : msg);
-                    }
+                            @Override
+                            public void onFailure(String msg) {
+                                KLog.i(msg);
+                                sendData(Constants.EDIT_ADDRESS, msg == null ? "保存失败" : msg);
+                            }
 
 //                    @Override
 //                    protected void onNoNetWork() {
 //
 //                    }
-                })
+                        })
         );
     }
 

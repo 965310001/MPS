@@ -57,6 +57,10 @@ public class CustomProgressDialog extends Dialog implements DialogInterface.OnCa
         show(context, "请稍后...");
     }
 
+    public static void show(Context context, boolean cancelable) {
+        show(context, "请稍后...", cancelable);
+    }
+
     public static void show(Context context, CharSequence message) {
         show(context, message, true);
     }

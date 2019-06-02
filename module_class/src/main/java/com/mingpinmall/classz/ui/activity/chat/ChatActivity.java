@@ -99,7 +99,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
         binding.setAdapter(AdapterPool.newInstance()
                 .getChatAdapter(this)
-//                .setOnItemClickListener(this)
+                .setOnItemClickListener(this)
                 .build());
 
         binding.etMsg.setOnFocusChangeListener((v, hasFocus) -> hideTrvBottom(true));
@@ -133,7 +133,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 
         binding.setEmojiAdapter(AdapterPool.newInstance()
                 .getEmojiAdapter(this)
-//                .setOnItemClickListener(this)
+                .setOnItemClickListener(this)
                 .build());
 
         initChatEmoji();
@@ -410,7 +410,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
             ChatEmojiInfo chatEmojiInfo = (ChatEmojiInfo) object;
             binding.etMsg.getText().append(FaceConversionUtil.addFace(this, chatEmojiInfo.getId(), chatEmojiInfo.getCharacter()));
         }
-        KLog.i("点击");
+        /*KLog.i("点击");*/
 
     }
 

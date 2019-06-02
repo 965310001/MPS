@@ -15,6 +15,7 @@ import me.goldze.common.R;
  * @description: 自定义错误加载的样式
  */
 public class ErrorState extends BaseStateControl {
+
     @Override
     protected int onCreateView() {
         return R.layout.stateview_empty_view;
@@ -24,6 +25,7 @@ public class ErrorState extends BaseStateControl {
     protected void onViewCreate(Context context, View view) {
         TextView errorDesc = view.findViewById(R.id.tv_error_desc);
         ImageView errorIcon = view.findViewById(R.id.iv_error_icon);
+
         if (view.getTag() != null) {
             if (view.getTag().equals("1")) {
                 errorDesc.setText("网络不给力～_~");
@@ -34,15 +36,5 @@ public class ErrorState extends BaseStateControl {
             }
 
         }
-    }
-
-//    @Override
-//    public boolean isVisible() {
-//        return super.isVisible();
-//    }
-
-    @Override
-    protected boolean onReloadEvent(Context context, View view) {
-        return false;
     }
 }
