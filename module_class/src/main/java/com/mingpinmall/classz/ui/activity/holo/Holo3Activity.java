@@ -43,13 +43,16 @@ import com.mingpinmall.classz.databinding.ActivityHolo3Binding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.HolosBean;
+import com.xiaopo.flying.sticker.BitmapStickerIcon;
 import com.xiaopo.flying.sticker.DrawableSticker;
+import com.xiaopo.flying.sticker.FlipHorizontallyEvent;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -121,11 +124,11 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
         binding.group.setDrawingCacheEnabled(true);
         binding.group.buildDrawingCache();
 
-//        BitmapStickerIcon flipIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
-//                com.xiaopo.flying.sticker.R.drawable.sticker_ic_scale_white_18dp),
-//                BitmapStickerIcon.RIGHT_TOP);
-//        flipIcon.setIconEvent(new FlipHorizontallyEvent());
-//        binding.svSticker.setIcons(Arrays.asList(flipIcon));
+        BitmapStickerIcon flipIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
+                com.xiaopo.flying.sticker.R.drawable.sticker_ic_scale_white_18dp),
+                BitmapStickerIcon.RIGHT_TOP);
+        flipIcon.setIconEvent(new FlipHorizontallyEvent());
+        binding.svSticker.setIcons(Arrays.asList(flipIcon));
 
         surfaceViewCallback = new SurfaceViewCallback();
         surfaceHolder = binding.sfvSurface.getHolder();
@@ -139,7 +142,6 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
         holosAdapter.setOnItemClickListener((adapter, view, position) -> {
             //选择眼镜试戴
             holosAdapter.setSelIndex(position);
-            binding.svSticker.removeAllStickers();
             HolosBean itemBean = holosAdapter.getItem(position);
             addSticker(itemBean.getGoods_image());
         });
@@ -205,7 +207,11 @@ public class Holo3Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        binding.svSticker.addSticker(new DrawableSticker(resource));
+                        if (binding.svSticker.isNoneSticker()) {
+                            binding.svSticker.addSticker(new DrawableSticker(resource));
+                        } else {
+                            binding.svSticker.replace(new DrawableSticker(resource), true);
+                        }
                     }
                 });
     }
