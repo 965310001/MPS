@@ -203,7 +203,7 @@ public class CameraHelper implements Camera.PreviewCallback {
     //释放相机
     public void releaseCamera() {
         if (mCamera != null) {
-            // mCamera?.stopFaceDetection()
+            mCamera.stopFaceDetection();
             mCamera.stopPreview();
             mCamera.setPreviewCallback(null);
             mCamera.release();
