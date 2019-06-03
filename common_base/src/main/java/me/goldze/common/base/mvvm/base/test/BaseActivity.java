@@ -95,7 +95,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
 //            ActivityInfo info = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
 //            boolean isBack = Boolean.getBoolean(info.metaData.getString("back"));
 //            boolean isActionBar = Boolean.getBoolean(info.metaData.getString("isActionBar"));
-//            KLog.i(isBack + " " + isActionBar);
+//            QLog.i(isBack + " " + isActionBar);
 //
 //            if (isActionBar) {
 //                ivBack = findViewById(R.id.iv_back);

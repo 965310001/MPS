@@ -35,11 +35,12 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.goldze.common.dmvvm.utils.HtmlFromUtils;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.PxUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.SlideLayout;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -58,7 +59,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
 import com.mingpinmall.classz.widget.XBottomSheet;
-import com.socks.library.KLog;
+
 import com.xuexiang.xui.XUI;
 
 import java.util.ArrayList;
@@ -167,7 +168,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 binding.setLayout(new GridLayoutManager(getContext(), 4));
             }
             // TODO: 2019/4/1  全国 有货 免运费
-//            KLog.i(dataBean.getGoods_hair_info().content + " " +
+//            QLog.i(dataBean.getGoods_hair_info().content + " " +
 //                    dataBean.getGoods_hair_info().if_store_cn +
 //                    dataBean.getGoods_hair_info().area_name);
             binding.setData(goodsInfo);
@@ -185,12 +186,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     HtmlFromUtils.setImageFromNetWork(activity, binding.tvService,
                             stringBuilder.toString(), false);
                     binding.llService.setVisibility(View.VISIBLE);
-                    /*KLog.i(stringBuilder.toString());*/
+                    /*QLog.i(stringBuilder.toString());*/
                     if (null == newsContractlist || newsContractlist.size() == 0) {
                         binding.llService.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
-                    KLog.i(e.toString());
+                    QLog.i(e.toString());
                 }
             } else {
                 binding.llService.setVisibility(View.GONE);
@@ -255,7 +256,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             binding.tvGoodsName.setText(goodsName);
 
         }
-//        KLog.i(dataBean.isVoucher() + "==");
+//        QLog.i(dataBean.isVoucher() + "==");
         binding.setIsVoucher(dataBean.isVoucher());
         if (!dataBean.isVoucher()) {
             SpannableStringBuilder voucherName = new SpannableStringBuilder("券 点击领取店铺代金券");
@@ -306,7 +307,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         @Override
         public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
             //设置宽度为文字宽度加16dp
-            return ((int) paint.measureText(text, start, end) + DisplayUtil.px2dp(getContext(), 16));
+            return ((int) paint.measureText(text, start, end) + PxUtils.px2dp(getContext(), 16));
         }
 
         @Override
@@ -315,15 +316,15 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             paint.setColor(this.bgColor);
             //画圆角矩形背景
             canvas.drawRoundRect(new RectF(x,
-                            top + DisplayUtil.px2dp(getContext(), 6),
-                            x + ((int) paint.measureText(text, start, end) + DisplayUtil.px2dp(getContext(), 16)),
-                            bottom - DisplayUtil.px2dp(getContext(), 6)),
-                    DisplayUtil.px2dp(getContext(), 4),
-                    DisplayUtil.px2dp(getContext(), 4),
+                            top + PxUtils.px2dp(getContext(), 6),
+                            x + ((int) paint.measureText(text, start, end) + PxUtils.px2dp(getContext(), 16)),
+                            bottom - PxUtils.px2dp(getContext(), 6)),
+                    PxUtils.px2dp(getContext(), 4),
+                    PxUtils.px2dp(getContext(), 4),
                     paint);
             paint.setColor(this.textColor);
             //画文字,两边各增加8dp
-            canvas.drawText(text, start, end, x + DisplayUtil.px2dp(getContext(), 8), y, paint);
+            canvas.drawText(text, start, end, x + PxUtils.px2dp(getContext(), 8), y, paint);
             //将paint复原
             paint.setColor(originalColor);
         }
@@ -447,7 +448,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 }
             }
         } catch (Exception e) {
-            KLog.i(e.toString());
+            QLog.i(e.toString());
             ToastUtils.showLong(e.toString());
         }
     }
@@ -502,7 +503,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 
         binding.lsiItem.setmOnLSettingItemClick(isChecked -> {
             // TODO: 2019/4/2 品牌网自营
-            KLog.i("点击");
+            QLog.i("点击");
             ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", dataBean.getStore_info().getStore_id());
         });
 
@@ -542,7 +543,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         // TODO: 2019/4/2 收藏
         registerObserver(Constants.FAVORITES, ResultBean.class)
                 .observeForever(response -> {
-                    /*KLog.i(response.isSuccess() + " " + response.getError());*/
+                    /*QLog.i(response.isSuccess() + " " + response.getError());*/
                     if (response.isSuccess()) {
                         ToastUtils.showLong(goodsInfo.isfavorate() ? "取消收藏" : "收藏成功");
                         if (null == goodsInfo) {
@@ -565,7 +566,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         /*添加购物车*/
         registerObserver(Constants.CART_EVENT_KEY, ResultBean.class)
                 .observeForever(response -> {
-                    /*KLog.i(response.isSuccess() + " " + response.getError());*/
+                    /*QLog.i(response.isSuccess() + " " + response.getError());*/
                     if (response.isSuccess()) {
                         /*String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");*/
 //                        goodsInfo.setNum(Integer.valueOf(goodsNum));
@@ -583,7 +584,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                             ToastUtils.showLong(response.getError());
                         }
                     }
-                    /*KLog.i(response);*/
+                    /*QLog.i(response);*/
                 });
 
         registerObserver(Constants.VOUCHER[2], ResultBean.class)

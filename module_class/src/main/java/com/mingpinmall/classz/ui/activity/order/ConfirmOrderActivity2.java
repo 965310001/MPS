@@ -20,6 +20,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.apppay.UserPaySheet;
 import com.mingpinmall.apppay.pay.Context;
@@ -37,7 +38,7 @@ import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
-import com.socks.library.KLog;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -97,7 +98,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
             int id = view.getId();
             if (id == R.id.ll_shopContent) {
-                KLog.i("商家");
+                QLog.i("商家");
                 ConfirmOrderBean.StoreCartListNewsBean newsBean = (ConfirmOrderBean.StoreCartListNewsBean) adapter.getItem(position);
                 ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", newsBean.getStore_id());
             }
@@ -112,7 +113,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     @Override
     protected void initData() {
         super.initData();
-        /*KLog.i(cartId);*/
+        /*QLog.i(cartId);*/
         showLoading();
         mViewModel.getOrderInfo2(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
@@ -134,7 +135,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                 .observeForever(response -> {
                     BaseResponse<ConfirmOrderBean> data = response;
                     if (data.isData()) {
-                        /*KLog.i(data.getData().toString());*/
+                        /*QLog.i(data.getData().toString());*/
                         if (data.isSuccess()) {
                             try {
                                 ConfirmOrderBean orderBean = data.getData();
@@ -167,7 +168,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                                     Log.e(TAG, "dataObserver: 不是F码商品");
                                 }
                             } catch (Exception e) {
-                                KLog.i(e.toString());
+                                QLog.i(e.toString());
                             }
                         } else {
                             ToastUtils.showLong(data.getMessage());
@@ -193,7 +194,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                 .observe(this, response -> {
                     if (response instanceof PayMessageInfo) {
                         PayMessageInfo data = (PayMessageInfo) response;
-                        KLog.i(response);
+                        QLog.i(response);
                         switch (method) {
                             case 0:
                                 break;
@@ -294,7 +295,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                             storeVoucherInfo.getVoucher_price()));
                 }
             }
-            KLog.i(sVoucher.toString());
+            QLog.i(sVoucher.toString());
             if (sVoucher.length() > 0) {
                 map.put("voucher", sVoucher.toString());/*代金卷*/
             }
@@ -323,7 +324,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     @Override
     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence
             text) {
-        KLog.i("支付方式" + text);
+        QLog.i("支付方式" + text);
         binding.setPayment(text.toString());
         return true;
     }

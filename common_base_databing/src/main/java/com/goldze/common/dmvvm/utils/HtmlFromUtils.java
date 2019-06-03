@@ -10,7 +10,8 @@ import android.text.style.ImageSpan;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.socks.library.KLog;
+
+import com.goldze.common.dmvvm.utils.log.QLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class HtmlFromUtils {
      */
     public static void setImageFromNetWork(Context context, TextView textView, String text, boolean isAppend) {
         SpannableString spannableString = new SpannableString(text);
-        /*KLog.i(text);*/
+        /*QLog.i(text);*/
         /*匹配图片*/
         Matcher matcher = Pattern.compile("\\[[^\\]]+\\]").matcher(text);
         ImageSpan imageSpan;
@@ -70,7 +71,7 @@ public class HtmlFromUtils {
         /*字体的颜色*/
         matcher = Pattern.compile("\\<color=[^\\=](.*?)'>(.*?)\\</color>").matcher(text);
         while (matcher.find()) {
-            KLog.i(matcher.group(0) + "||" + matcher.group(1) + "||" + matcher.group(2));
+            QLog.i(matcher.group(0) + "||" + matcher.group(1) + "||" + matcher.group(2));
             spannableString.toString().replace(matcher.group(), matcher.group(2));
             spannableString.setSpan(new ForegroundColorSpan(Color.RED),
                     matcher.start(), matcher.end(),

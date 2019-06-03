@@ -8,7 +8,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.goldze.common.dmvvm.R;
-import com.socks.library.KLog;
+
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
 /**

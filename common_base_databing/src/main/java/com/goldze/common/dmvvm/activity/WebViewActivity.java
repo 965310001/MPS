@@ -18,7 +18,7 @@ import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.databinding.ActivityWebviewBinding;
-import com.socks.library.KLog;
+import com.goldze.common.dmvvm.utils.log.QLog;
 
 
 @Route(path = ARouterConfig.WEBVIEWACTIVITY)
@@ -50,7 +50,7 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> implem
         webView = binding.webview;
 
      /*   String url = getIntent().getStringExtra("URL");
-        KLog.i(url + " " + URL);*/
+        QLog.i(url + " " + URL);*/
 
         showLoadingState();
 
@@ -93,7 +93,7 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> implem
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            KLog.i(newProgress + "'");
+            QLog.i(newProgress + "'");
             if (newProgress == 100) {
                 showSuccess();
             }
@@ -103,21 +103,21 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> implem
     private class MyWebClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            KLog.i("shouldOverrideUrlLoading");
+            QLog.i("shouldOverrideUrlLoading");
             webView.loadUrl(url);
             return true;
         }
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            KLog.i("onReceivedSslError");
+            QLog.i("onReceivedSslError");
             handler.proceed(); // 接受所有网站的证书
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            KLog.i("onPageFinished");
+            QLog.i("onPageFinished");
             setTitle(view.getTitle());
             showSuccess();
         }

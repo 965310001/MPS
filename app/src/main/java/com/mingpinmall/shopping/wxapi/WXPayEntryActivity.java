@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
-import com.socks.library.KLog;
+
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -49,12 +50,12 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
 
     @Override
     public void onReq(BaseReq baseReq) {
-        KLog.i(baseReq.transaction + baseReq.openId);
+        QLog.i(baseReq.transaction + baseReq.openId);
     }
 
     @Override
     public void onResp(BaseResp resp) {
-        KLog.i(resp.getType() + " " + resp.errCode + " " + resp.errStr + " " + resp.transaction + " " + resp.openId);
+        QLog.i(resp.getType() + " " + resp.errCode + " " + resp.errStr + " " + resp.transaction + " " + resp.openId);
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (WeiXinBaoStrategy.getInstance(this) != null) {
                 if (resp.errStr != null) {
@@ -62,7 +63,7 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
                 }
                 switch (resp.errCode) {
                     case 0:
-                        KLog.i("成功");
+                        QLog.i("成功");
                         break;
                     case -1:
                         resp.errStr = String.format("%s", "可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。");
@@ -76,10 +77,10 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
             }
            /* switch (resp.errCode) {
                 case 0:
-                    KLog.i("成功");
+                    QLog.i("成功");
                     break;
                 case -1:
-                    KLog.i("可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。\n");
+                    QLog.i("可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。\n");
                     Toast.makeText(this, "可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。!", Toast.LENGTH_SHORT).show();
                     break;
                 case -2:

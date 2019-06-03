@@ -7,12 +7,13 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.cart.ui.bean.AllVoucherBean;
 import com.mingpinmall.cart.ui.bean.CartQuantityState;
 import com.mingpinmall.cart.ui.bean.ShopCartBean;
 import com.mingpinmall.cart.ui.bean.ShopVoucherInfo;
 import com.mingpinmall.cart.ui.constants.Constants;
-import com.socks.library.KLog;
+
 
 /**
  * 功能描述：
@@ -38,7 +39,7 @@ public class CartRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(eventKey, msg == null ? "领取失败" : msg);
                     }
 
@@ -67,7 +68,7 @@ public class CartRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(eventKey, msg == null ? "获取失败" : msg);
                     }
 
@@ -91,7 +92,7 @@ public class CartRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(eventKey, msg == null ? "获取失败" : msg);
                     }
 

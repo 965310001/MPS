@@ -145,24 +145,24 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 //                .subscribe(new Subscriber<AppInfo>() {
 //                    @Override
 //                    public void onSubscribe(Subscription s) {
-//                        KLog.i("onComplete" + s.toString());
+//                        QLog.i("onComplete" + s.toString());
 //                    }
 //
 //                    @Override
 //                    public void onNext(AppInfo result) {
 //
-//                        KLog.i("----------------------");
+//                        QLog.i("----------------------");
 //                    }
 //
 //                    @Override
 //                    public void onError(Throwable t) {
-//                        KLog.i(t.toString());
-//                        KLog.i("--------Throwable--------------");
+//                        QLog.i(t.toString());
+//                        QLog.i("--------Throwable--------------");
 //                    }
 //
 //                    @Override
 //                    public void onComplete() {
-//                        KLog.i("onComplete");
+//                        QLog.i("onComplete");
 //                    }
 //                });
     }

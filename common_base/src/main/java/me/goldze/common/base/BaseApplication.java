@@ -10,7 +10,8 @@ import android.support.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.socks.library.KLog;
+
+
 import com.squareup.leakcanary.LeakCanary;
 import com.tqzhang.stateview.core.LoadState;
 
@@ -19,6 +20,7 @@ import me.goldze.common.base.mvvm.stateview.ErrorState;
 import me.goldze.common.base.mvvm.stateview.LoadingState;
 import me.goldze.common.manage.AppManager;
 import me.goldze.common.utils.Utils;
+import me.goldze.common.utils.log.QLog;
 
 /**
  * @author GuoFeng
@@ -94,8 +96,8 @@ public abstract class BaseApplication extends Application implements Runnable {
         //ARouter
         initARouter();
 
-        //KLog
-        initKLog();
+        //QLog
+        initQLog();
 
         //CrashManage
         if (!BuildConfig.DEBUG) {
@@ -123,8 +125,8 @@ public abstract class BaseApplication extends Application implements Runnable {
                 .build();
     }
 
-    private void initKLog() {
-        KLog.init(BuildConfig.DEBUG, "TAG11");
+    private void initQLog() {
+        QLog.init(BuildConfig.DEBUG, "TAG11");
     }
 
     private void initARouter() {

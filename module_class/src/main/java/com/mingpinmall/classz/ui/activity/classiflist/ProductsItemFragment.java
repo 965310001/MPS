@@ -10,7 +10,7 @@
 //import com.mingpinmall.classz.ui.constants.Constants;
 //import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 //import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
-//import com.socks.library.KLog;
+//
 //import com.trecyclerview.adapter.DelegateAdapter;
 //import com.trecyclerview.listener.OnItemClickListener;
 //
@@ -79,7 +79,7 @@
 //                .observe(this, new Observer<GoodsListInfo>() {
 //                    @Override
 //                    public void onChanged(@Nullable GoodsListInfo response) {
-//                        KLog.i("" + typeId);
+//                        QLog.i("" + typeId);
 //                        setData(response.getDatas().getGoods_list());
 //                    }
 //                });

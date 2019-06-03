@@ -27,7 +27,7 @@ import com.mingpinmall.home.ui.adapter.HomeListAdapter;
 import com.mingpinmall.home.ui.api.HomeViewModel;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.mingpinmall.home.ui.constants.Constants;
-import com.socks.library.KLog;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -411,7 +411,7 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
 //                        SharePreferenceUtil.saveKeyValue("homedata", new Gson().toJson(data));
 //                    }
 //                }catch (Exception e){
-//                    KLog.i(e.toString());
+//                    QLog.i(e.toString());
 //                }
                 binding.refreshLayout.finishRefresh(false);
             }

@@ -1,61 +1,61 @@
-package com.goldze.common.dmvvm.utils;
-
-import android.content.Context;
-import android.util.DisplayMetrics;
-
-/**
- * @author GuoFeng
- * @date : 2019/1/24 18:14
- * @description: 屏幕像素转换工具类
- */
-public class DisplayUtil {
-    public static int px2dp(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
-
-    public static int dp2px(Context context, float dipValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
-    }
-
-    public static int px2sp(Context context, float pxValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (pxValue / fontScale + 0.5f);
-    }
-
-    public static int sp2px(Context context, float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
-    }
-
-    public static int getScreenWidth(Context context) {
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        return dm.widthPixels;
-    }
-
-    public static int getScreenHeight(Context context) {
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        return dm.heightPixels;
-    }
-
-    public static float getDisplayDensity(Context context) {
-        if (context == null) {
-            return -1;
-        }
-        return context.getResources().getDisplayMetrics().density;
-    }
-
-    /**
-     * 获取状态栏高度
-     *
-     * @param context
-     * @return
-     */
-    public static int getStatusBarHeight(Context context) {
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-//        int height = context.getResources().getDimensionPixelSize(resourceId);
-//        return height;
-        return context.getResources().getDimensionPixelSize(resourceId);
-    }
-}
+//package com.goldze.common.dmvvm.utils;
+//
+//import android.content.Context;
+//import android.util.DisplayMetrics;
+//
+///**
+// * @author GuoFeng
+// * @date : 2019/1/24 18:14
+// * @description: 屏幕像素转换工具类
+// */
+//public class DisplayUtil {
+//   /* public static int px2dp(Context context, float pxValue) {
+//        final float scale = context.getResources().getDisplayMetrics().density;
+//        return (int) (pxValue / scale + 0.5f);
+//    }*/
+//
+//   /* public static int dp2px(Context context, float dipValue) {
+//        final float scale = context.getResources().getDisplayMetrics().density;
+//        return (int) (dipValue * scale + 0.5f);
+//    }*/
+//
+////    public static int px2sp(Context context, float pxValue) {
+////        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+////        return (int) (pxValue / fontScale + 0.5f);
+////    }
+//
+////    public static int sp2px(Context context, float spValue) {
+////        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+////        return (int) (spValue * fontScale + 0.5f);
+////    }
+//
+//  /*  public static int getScreenWidth(Context context) {
+//        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+//        return dm.widthPixels;
+//    }*/
+//
+//   /* public static int getScreenHeight(Context context) {
+//        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+//        return dm.heightPixels;
+//    }*/
+//
+//  /*  public static float getDisplayDensity(Context context) {
+//        if (context == null) {
+//            return -1;
+//        }
+//        return context.getResources().getDisplayMetrics().density;
+//    }*/
+//
+////    /**
+////     * 获取状态栏高度
+////     *
+////     * @param context
+////     * @return
+////     */
+////    public static int getStatusBarHeight(Context context) {
+////        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+//////        int height = context.getResources().getDimensionPixelSize(resourceId);
+//////        return height;
+////        return context.getResources().getDimensionPixelSize(resourceId);
+////    }
+//}

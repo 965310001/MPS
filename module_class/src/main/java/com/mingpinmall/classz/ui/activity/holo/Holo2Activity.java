@@ -25,6 +25,7 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.FileUtils;
 import com.goldze.common.dmvvm.utils.Img2Base64Util;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.just.agentweb.AgentWeb;
@@ -37,7 +38,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ActivityHoloBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
-import com.socks.library.KLog;
+
 
 import org.w3c.dom.Text;
 
@@ -63,7 +64,7 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
         setTitle("试戴");
-        KLog.i(url);
+        QLog.i(url);
         url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
         mBridgeWebView = new BridgeWebView(activity);
         mAgentWeb = AgentWeb.with(this)

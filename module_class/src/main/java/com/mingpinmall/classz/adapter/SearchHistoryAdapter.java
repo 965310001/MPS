@@ -9,7 +9,7 @@
 //import com.goldze.common.dmvvm.base.mvvm.base.BaseViewHolder;
 //import com.mingpinmall.classz.R;
 //import com.mingpinmall.classz.ui.constants.Constants;
-//import com.socks.library.KLog;
+//
 //
 //import java.util.List;
 //
@@ -28,13 +28,13 @@
 //
 //        holder.itemView.setOnClickListener(v -> {
 //            LiveBus.getDefault().postEvent(Constants.SEARCH_EVENT_KEY[2], item);
-//            KLog.i("setOnClickListener");
+//            QLog.i("setOnClickListener");
 //        });
 //
 //        holder.getView(R.id.img_delete).setOnClickListener(v -> {
 //            LiveBus.getDefault().postEvent(Constants.SEARCH_EVENT_KEY[3], position);
 //
-//            KLog.i("img_delete");
+//            QLog.i("img_delete");
 //        });
 //
 //

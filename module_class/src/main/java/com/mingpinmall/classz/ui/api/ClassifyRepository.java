@@ -10,6 +10,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
@@ -34,7 +35,7 @@ import com.mingpinmall.classz.ui.vm.bean.ScreeningClassBean;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
-import com.socks.library.KLog;
+
 
 import java.io.File;
 import java.util.HashMap;
@@ -174,7 +175,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                     }
 
@@ -199,7 +200,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
                 })
         );
@@ -227,7 +228,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.PRODUCTS_EVENT_KEY[2], msg == null ? "获取失败" : msg);
                     }
                 })
@@ -254,7 +255,7 @@ public class ClassifyRepository extends BaseRepository {
 
                             @Override
                             public void onFailure(String msg) {
-                                KLog.i(msg);
+                                QLog.i(msg);
 //                        showPageState(Constants.EVENT_KEY_CLASSIFY_MORE[1], StateConstants.ERROR_STATE);
                             }
                         })
@@ -277,7 +278,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         showPageState(Constants.PRODUCTS_EVENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
@@ -310,7 +311,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         showPageState(Constants.GOODSDETAIL_EVENT_KEY[1] + goodsId, StateConstants.ERROR_STATE);
                     }
 
@@ -409,7 +410,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.ERROR_STATE);
                     }
 
@@ -442,7 +443,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.ERROR_STATE);
                     }
 
@@ -476,7 +477,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         showPageState(Constants.CONFIRMORDER_KEY[1], StateConstants.ERROR_STATE);
                     }
 
@@ -602,7 +603,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
 //                        showPageState(Constants.INVOICECONTENT_KEY[1], StateConstants.ERROR_STATE);
                     }
 
@@ -682,7 +683,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.ERROR_STATE);
                     }
 
@@ -722,7 +723,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         showPageState(Constants.STORE_GOODS_RANK_KEY[1], StateConstants.ERROR_STATE);
                     }
 
@@ -750,7 +751,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -776,7 +777,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -803,7 +804,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -827,7 +828,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -897,7 +898,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -924,7 +925,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -950,7 +951,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -976,7 +977,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -1009,7 +1010,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -1043,7 +1044,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.CHAT[0] + "Error", msg);
                     }
 
@@ -1081,7 +1082,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.CHAT[0] + "Error", msg);
                     }
 
@@ -1110,7 +1111,7 @@ public class ClassifyRepository extends BaseRepository {
                     @Override
                     public void onSuccess(BaseResponse<MsgInfo> result) {
                         if (result.isSuccess()) {
-                            KLog.i("发送图片");
+                            QLog.i("发送图片");
                             sendData(eventKey + "Success", result.getData());
                         } else {
                             sendData(Constants.CHAT[0] + "Error", result.getMessage());
@@ -1119,7 +1120,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.CHAT[0] + "Error", msg);
                     }
 
@@ -1186,7 +1187,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -1215,7 +1216,7 @@ public class ClassifyRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                     }
 
                     @Override
@@ -1244,14 +1245,14 @@ public class ClassifyRepository extends BaseRepository {
 //
 //                            @Override
 //                            public void onFailure(String msg) {
-//                                KLog.i(msg);
+//                                QLog.i(msg);
 ////                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
 //                            }
 //
 //                            @Override
 //                            protected void onNoNetWork() {
 //                                super.onNoNetWork();
-//                                KLog.i("onNoNetWork");
+//                                QLog.i("onNoNetWork");
 ////                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
 //                            }
 //                        })
@@ -1273,14 +1274,14 @@ public class ClassifyRepository extends BaseRepository {
 //
 //                            @Override
 //                            public void onFailure(String msg) {
-//                                KLog.i(msg);
+//                                QLog.i(msg);
 ////                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
 //                            }
 //
 //                            @Override
 //                            protected void onNoNetWork() {
 //                                super.onNoNetWork();
-//                                KLog.i("onNoNetWork");
+//                                QLog.i("onNoNetWork");
 ////                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
 //                            }
 //                        })
@@ -1299,14 +1300,14 @@ public class ClassifyRepository extends BaseRepository {
 
                             @Override
                             public void onFailure(String msg) {
-                                KLog.i(msg);
+                                QLog.i(msg);
 //                        showPageState(eventStateKey, StateConstants.ERROR_STATE);
                             }
 
                             @Override
                             protected void onNoNetWork() {
                                 super.onNoNetWork();
-                                KLog.i("onNoNetWork");
+                                QLog.i("onNoNetWork");
 //                        showPageState(eventStateKey, StateConstants.NET_WORK_STATE);
                             }
                         })
@@ -1347,7 +1348,7 @@ public class ClassifyRepository extends BaseRepository {
 //
 //                            @Override
 //                            public void onFailure(String msg) {
-//                                KLog.i(msg);
+//                                QLog.i(msg);
 ////                        showPageState(Constants.EVALUATE_EVENT_KEY[1], StateConstants.ERROR_STATE);
 //                            }
 //

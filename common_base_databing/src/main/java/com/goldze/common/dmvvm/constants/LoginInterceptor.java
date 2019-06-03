@@ -8,7 +8,8 @@ import com.alibaba.android.arouter.facade.callback.InterceptorCallback;
 import com.alibaba.android.arouter.facade.template.IInterceptor;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
-import com.socks.library.KLog;
+import com.goldze.common.dmvvm.utils.log.QLog;
+
 
 /**
  * @author GuoFeng
@@ -24,17 +25,17 @@ public class LoginInterceptor implements IInterceptor {
     @Override
     public void process(Postcard postcard, InterceptorCallback callback) {
         /*, extras = 200*/
-        KLog.i("LoginInterceptor 开始执行" + postcard.getExtra() + postcard.getPath());
-        /*KLog.i(mContext);*/
+        QLog.i("LoginInterceptor 开始执行" + postcard.getExtra() + postcard.getPath());
+        /*QLog.i(mContext);*/
         //给需要跳转的页面添加值为Constant.LOGIN_NEEDED的extra参数，用来标记是否需要用户先登录才可以访问该页面
         if (postcard.getExtra() == ARouterConfig.LOGIN_NEEDED) {
             boolean isLogin = null != SharePreferenceUtil.getUser(Object.class);
             isLogin = SharePreferenceUtil.isLogin();
-            KLog.i("是否已登录: " + isLogin);
+            QLog.i("是否已登录: " + isLogin);
             if (isLogin) {
                 callback.onContinue(postcard);
             } else {//没有登录,注意需要传入context
-                KLog.i("去登录");
+                QLog.i("去登录");
                 callback.onInterrupt(null);
                 ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
             }

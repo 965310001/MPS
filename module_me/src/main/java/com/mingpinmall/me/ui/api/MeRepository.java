@@ -9,6 +9,7 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.StateConstants;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
 import com.mingpinmall.me.ui.bean.CityBean;
@@ -48,7 +49,7 @@ import com.mingpinmall.me.ui.bean.VirtualInformationBean;
 import com.mingpinmall.me.ui.bean.VirtualOrderBean;
 import com.mingpinmall.me.ui.bean.VirtualStoreAddrsBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.socks.library.KLog;
+
 
 import java.util.Map;
 
@@ -872,7 +873,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.VIRTUAL_ORDER_INFORMATION, msg == null ? "获取失败" : msg);
                     }
                 })
@@ -896,7 +897,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.VIRTUAL_ORDER_ADDRS, msg == null ? "获取失败" : msg);
                     }
                 })
@@ -920,7 +921,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(eventKey, Constants.RECEVIE_ORDER, msg == null ? "确认收货失败" : msg);
                     }
                 })
@@ -944,7 +945,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(eventKey, Constants.REMOVE_ORDER, msg == null ? "删除订单失败" : msg);
                     }
                 })
@@ -968,7 +969,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(eventKey, Constants.CANCEL_ORDER, msg == null ? "取消订单失败" : msg);
                     }
                 })
@@ -992,7 +993,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(eventKey, Constants.CANCEL_ORDER, msg == null ? "取消订单失败" : msg);
                     }
                 })
@@ -1054,7 +1055,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.DEL_ADDRESS, msg == null ? "删除失败" : msg);
                     }
                 })
@@ -1079,7 +1080,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.ADDRESS_LIST, msg == null ? "获取失败" : msg);
                     }
 
@@ -1110,7 +1111,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.EDIT_ADDRESS, msg == null ? "保存失败" : msg);
                     }
 
@@ -1140,7 +1141,7 @@ public class MeRepository extends BaseRepository {
 
                             @Override
                             public void onFailure(String msg) {
-                                KLog.i(msg);
+                                QLog.i(msg);
                                 sendData(Constants.EDIT_ADDRESS, msg == null ? "保存失败" : msg);
                             }
 
@@ -1169,7 +1170,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.CITY_LIST, msg == null ? "获取失败" : msg);
                     }
 
@@ -1197,7 +1198,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.CLEAR_FOOTPRINT, msg == null ? "清空失败" : msg);
                     }
                 })
@@ -1220,7 +1221,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.GET_FOOTPRINT, msg == null ? "获取失败" : msg);
                     }
                 })
@@ -1246,7 +1247,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.GET_USER_INFO, msg == null ? "获取失败" : msg);
                     }
 
@@ -1275,7 +1276,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.GET_USER_INFO, msg);
                     }
                 })
@@ -1321,7 +1322,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.MY_ASSET, msg == null ? "获取失败" : msg);
                     }
                 })
@@ -1367,7 +1368,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.SHOPS_COLLECT_LIST, msg == null ? "获取失败" : msg);
                     }
                 })
@@ -1390,7 +1391,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.DEL_SHOP_COLLECT, msg == null ? "删除失败" : msg);
                     }
                 })
@@ -1413,7 +1414,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.DEL_GOODS_COLLECT, msg == null ? "删除失败" : msg);
                     }
                 })
@@ -1436,7 +1437,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.PRODUCT_COLLECT_LIST, msg == null ? "获取失败" : msg);
                     }
                 })
@@ -1531,7 +1532,7 @@ public class MeRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.ORDER_DELIVER_LIST, msg == null ? "获取失败" : msg);
                     }
                 })

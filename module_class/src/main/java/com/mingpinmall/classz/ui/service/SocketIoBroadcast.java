@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.goldze.common.dmvvm.base.event.LiveBus;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
-import com.socks.library.KLog;
+
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class SocketIoBroadcast extends BroadcastReceiver {
 
                     LiveBus.getDefault().postEvent("UPDATE_CHAT_LIST", "UPDATE_CHAT_LIST", msgBeans);
                 } catch (Exception e) {
-                    KLog.i(e.toString());
+                    QLog.i(e.toString());
                 }
             }
         }

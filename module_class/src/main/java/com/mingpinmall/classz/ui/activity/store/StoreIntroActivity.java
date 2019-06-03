@@ -12,13 +12,14 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.databinding.ActivityStoreIntroBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
-import com.socks.library.KLog;
+
 
 /**
  * 店铺介绍
@@ -69,7 +70,7 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
                             storeInfo = data.getData().getStore_info();
                             binding.setData(storeInfo);
                         } catch (Exception e) {
-                            KLog.i(e.toString());
+                            QLog.i(e.toString());
                         }
                     } else {
                         ToastUtils.showLong(response.getMessage());
@@ -92,7 +93,7 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
     }
 
     public void favorites(View view) {
-        /*KLog.i("店铺收藏");*/
+        /*QLog.i("店铺收藏");*/
         if (!SharePreferenceUtil.isLogin()) {
             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {

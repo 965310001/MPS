@@ -1,19 +1,14 @@
 package com.mingpinmall.classz.ui.activity.store;
 
-import android.app.Activity;
-import android.arch.lifecycle.LiveData;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
@@ -21,6 +16,7 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.heima.tabview.library.TabViewChild;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
@@ -31,11 +27,11 @@ import com.mingpinmall.classz.ui.activity.store.fragment.StoreProductsFragment;
 import com.mingpinmall.classz.ui.activity.store.fragment.StorePromotionFragment;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
-import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 import com.mingpinmall.classz.widget.XBottomSheet;
-import com.socks.library.KLog;
+
+import com.xuexiang.xui.utils.ResUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,7 +73,6 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
                 StoreNewGoodsFragment.newInstance(),
                 StorePromotionFragment.newInstance()
         };
-
         TypedArray tabIcon = ResourcesUtils.getInstance().obtainTypedArray(R.array.store_tab_icon);
         TypedArray tabIconDef = ResourcesUtils.getInstance().obtainTypedArray(R.array.store_tab_icon_def);
         String[] tabName = ResourcesUtils.getInstance().getStringArray(R.array.store_tab_name);
@@ -112,7 +107,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
         /*收藏*/
         registerObserver(Constants.STORE_FAVORITES, ResultBean.class)
                 .observeForever(response -> {
-                    /*KLog.i(response.isSuccess() + " " + response.getError());*/
+                    /*QLog.i(response.isSuccess() + " " + response.getError());*/
                     if (response.isSuccess()) {
                         int store_collect = storeInfo.getStore_collect();
                         storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);
@@ -164,7 +159,7 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
 
     // TODO: 2019/4/16 店铺收藏代码添加
     public void favorites(View view) {
-        KLog.i("店铺收藏");
+        QLog.i("店铺收藏");
         if (!SharePreferenceUtil.isLogin()) {
             ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
         } else {
@@ -185,7 +180,6 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
 
     /*领取代金券*/
     public void getReceive(View view) {
-        /*String tId = (String) view.getTag();*/
         mViewModel.getVoucherFreeex((String) view.getTag(), Constants.VOUCHER[2]);
     }
 
@@ -220,17 +214,17 @@ public class StoreActivity extends AbsLifecycleActivity<ActivityStoreBinding, Cl
 ////        screenInfo.keyword = keyword;
 ////        edSearch.setText("".equals(keyword) ? "请输入搜索内容" : keyword);
 ////        onRefresh();
-//        KLog.i("aanihao ");
+//        QLog.i("aanihao ");
 //    }
 
   /*  @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        KLog.i("返回");
+        QLog.i("返回");
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 //筛选
-                KLog.i("返回");
+                QLog.i("返回");
                 ScreenInfo newDatas = (ScreenInfo) data.getSerializableExtra("datas");
                 LiveBus.getDefault().postEvent("REFRESH_STOREPRODUCTSFRAGMENT", newDatas);
             }

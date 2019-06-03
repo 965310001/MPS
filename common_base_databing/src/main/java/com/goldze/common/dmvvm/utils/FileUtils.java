@@ -7,7 +7,8 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 
-import com.socks.library.KLog;
+
+import com.goldze.common.dmvvm.utils.log.QLog;
 
 import java.io.File;
 import java.util.Collections;
@@ -54,7 +55,7 @@ public class FileUtils {
 
     private static File create(String path) {
         if (!isExistExternalStore()) {
-            KLog.i("储存卡已拔出");
+            QLog.i("储存卡已拔出");
             return null;
         }
         File directory = new File(path);

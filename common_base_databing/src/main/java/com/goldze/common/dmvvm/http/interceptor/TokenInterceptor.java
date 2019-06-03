@@ -2,7 +2,8 @@ package com.goldze.common.dmvvm.http.interceptor;
 
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.socks.library.KLog;
+import com.goldze.common.dmvvm.utils.log.QLog;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +46,7 @@ public class TokenInterceptor implements Interceptor {
         }
         String bodyString = buffer.clone().readString(charset);
 
-//        KLog.i("\n" + bodyString);
+//        QLog.i("\n" + bodyString);
         try {
             JSONObject  jsonObject = new JSONObject(bodyString);
             if (jsonObject.has("login") &&
@@ -56,7 +57,7 @@ public class TokenInterceptor implements Interceptor {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            KLog.i(e.toString());
+            QLog.i(e.toString());
         }
         return response;
         /*******************/
@@ -64,7 +65,7 @@ public class TokenInterceptor implements Interceptor {
 
 //        Request request = chain.request();
 //        Response response = chain.proceed(request);
-//        /*KLog.i(response.body().string());*/
+//        /*QLog.i(response.body().string());*/
 //        try {
 //            jsonObject = new JSONObject(response.body().string());
 //            if (jsonObject.has("error_desc") &&
@@ -74,10 +75,10 @@ public class TokenInterceptor implements Interceptor {
 //            }
 //        } catch (JSONException e) {
 //            e.printStackTrace();
-//            KLog.i(e.toString());
+//            QLog.i(e.toString());
 //        }
 //        response.body().close();
-//        KLog.i("TOKEN");
+//        QLog.i("TOKEN");
 //        Request newRequest = request.newBuilder()
 //                .method(request.method(), request.body())
 //                .url(request.url())
@@ -86,7 +87,7 @@ public class TokenInterceptor implements Interceptor {
     }
 
     private void failed() {
-        KLog.i("请登录");
+        QLog.i("请登录");
         ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
     }
 }

@@ -16,6 +16,7 @@ import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.mingpinmall.apppay.pay.PayLayoutBean;
 import com.mingpinmall.classz.R;
@@ -33,7 +34,7 @@ import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.OrderInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
 import com.mingpinmall.classz.widget.PayPopupWindow;
-import com.socks.library.KLog;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,7 +97,7 @@ public class ConfirmOrderActivity extends
     @Override
     protected void initData() {
         super.initData();
-        KLog.i(cartId);
+        QLog.i(cartId);
         mViewModel.getOrderInfo(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
 
@@ -108,7 +109,7 @@ public class ConfirmOrderActivity extends
                 .observeForever(response -> {
                     BaseResponse<OrderInfo> data = response;
                     if (data.isData()) {
-                        KLog.i(data.getData().toString());
+                        QLog.i(data.getData().toString());
                         if (data.isSuccess()) {
                             try {
                                 binding.setAddress(data.getData().getAddress_info());
@@ -137,7 +138,7 @@ public class ConfirmOrderActivity extends
                                 binding.setInvoice(data.getData().getInv_info().getContent());
                                 binding.executePendingBindings();
                             } catch (Exception e) {
-                                KLog.i(e.toString());
+                                QLog.i(e.toString());
                             }
                         } else {
                             ToastUtils.showLong(data.getMessage());
@@ -160,7 +161,7 @@ public class ConfirmOrderActivity extends
                         BuyStepInfo stepInfo = data.getData();
                         mPaySn = stepInfo.getPay_sn();
                         mPaymentCode = stepInfo.getPayment_code();
-                        /*KLog.i(data.getData().getPay_sn());*/
+                        /*QLog.i(data.getData().getPay_sn());*/
                         PayLayoutBean.PayInfoBean payInfo = stepInfo.getPay_info();
                         if (null != payInfo) {
                             mPaymentList = payInfo.getPayment_list();
@@ -174,7 +175,7 @@ public class ConfirmOrderActivity extends
                 .observe(this, new Observer<PayMessageInfo>() {
                     @Override
                     public void onChanged(@Nullable PayMessageInfo response) {
-                        KLog.i(response);
+                        QLog.i(response);
                         switch (mPayFun) {
                             case 0:
                                 aLiPay(response.getParam());
@@ -211,7 +212,7 @@ public class ConfirmOrderActivity extends
 //    }
 
     public void paymentMethod(View view) {
-        KLog.i("支付方式");
+        QLog.i("支付方式");
         if (null == paymentDialog) {
             paymentDialog = MaterialDialogUtils.showSingleListDialog(this, "支付方式",
                     Arrays.asList("在线支付", "支付宝", "微信"), this);
@@ -268,7 +269,7 @@ public class ConfirmOrderActivity extends
 
     public void sublimit(View view) {
         String payment = binding.getPayment();
-        KLog.i("提交订单" + binding.getContent() + payment);
+        QLog.i("提交订单" + binding.getContent() + payment);
         Map<String, Object> map = new HashMap<>();
 
         if (!TextUtils.isEmpty(ifcart)) {
@@ -300,7 +301,7 @@ public class ConfirmOrderActivity extends
 
     @Override
     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-        KLog.i("支付方式" + text);
+        QLog.i("支付方式" + text);
         binding.setPayment(text.toString());
         return true;
     }
@@ -332,7 +333,7 @@ public class ConfirmOrderActivity extends
 
     @Override
     public void onPayCancel() {
-        KLog.i("支付取消");
+        QLog.i("支付取消");
         ToastUtils.showLong("支付取消");
     }
 

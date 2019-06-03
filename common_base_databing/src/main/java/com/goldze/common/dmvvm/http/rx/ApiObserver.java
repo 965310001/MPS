@@ -1,7 +1,8 @@
 package com.goldze.common.dmvvm.http.rx;
 
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.socks.library.KLog;
+import com.goldze.common.dmvvm.utils.log.QLog;
+
 
 /**
  * @author GuoFeng
@@ -22,7 +23,7 @@ public abstract class ApiObserver<T> extends BaseObserver<BaseResponse<T>> {
     }
 
     public void onFailure(int code, String msg) {
-        KLog.d("code:" + code + "->msg:" + msg);
+        QLog.d("code:" + code + "->msg:" + msg);
     }
 
     public abstract void onSuccess(BaseResponse<T> response);

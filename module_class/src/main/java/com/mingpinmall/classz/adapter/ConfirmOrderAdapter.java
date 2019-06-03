@@ -15,9 +15,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
-import com.socks.library.KLog;
+
 
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
             try {
                 helper.setText(R.id.tv_free_freight, item.getStore_mansong_rule_list().getDesc().getDesc());
             } catch (Exception e) {
-                KLog.i(e.toString());
+                QLog.i(e.toString());
             }
         }
         /*店铺代金卷*/

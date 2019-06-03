@@ -10,13 +10,14 @@ import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityAddressmanagerBinding;
 import com.mingpinmall.me.ui.adapter.AddressListAdapter;
 import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.socks.library.KLog;
+
 
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
@@ -110,7 +111,7 @@ public class AddressManagerActivity extends AbsLifecycleActivity<ActivityAddress
                 try {
                     addressListAdapter.setNewData(data.getAddress_list());
                 } catch (Exception e) {
-                    KLog.i(e.toString());
+                    QLog.i(e.toString());
                 }
             } else {
                 //获取失败

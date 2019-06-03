@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.socks.library.KLog;
+
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
@@ -26,6 +26,7 @@ import java.util.List;
 import me.goldze.common.R;
 import me.goldze.common.base.core.banner.BannerList;
 import me.goldze.common.utils.Utils;
+import me.goldze.common.utils.log.QLog;
 
 import static android.view.View.VISIBLE;
 
@@ -129,7 +130,7 @@ public abstract class BaseListActivity extends BaseActivity implements OnRefresh
                     if (lastItemPosition + 1 == adapter.getItemCount()
                             && isLoadMore) {
                         /*加载更多数据*/
-                        KLog.i("加载更多数据");
+                        QLog.i("加载更多数据");
                         if (isSlidingUpward) onLoadMore();
                     }
                 }

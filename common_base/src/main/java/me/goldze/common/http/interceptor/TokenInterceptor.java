@@ -1,6 +1,6 @@
 package me.goldze.common.http.interceptor;
 
-import com.socks.library.KLog;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +10,7 @@ import java.nio.charset.Charset;
 
 import me.goldze.common.constants.ARouterConfig;
 import me.goldze.common.utils.ActivityToActivity;
+import me.goldze.common.utils.log.QLog;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -45,8 +46,8 @@ public class TokenInterceptor implements Interceptor {
         }
         String bodyString = buffer.clone().readString(charset);
 
-//        KLog.i(request.url());
-        KLog.i(bodyString);
+//        QLog.i(request.url());
+        QLog.i(bodyString);
         try {
             JSONObject   jsonObject = new JSONObject(bodyString);
             if (jsonObject.has("error_desc") &&
@@ -57,7 +58,7 @@ public class TokenInterceptor implements Interceptor {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            KLog.i(e.toString());
+            QLog.i(e.toString());
         }
         return response;
         /*******************/
@@ -65,7 +66,7 @@ public class TokenInterceptor implements Interceptor {
 
 //        Request request = chain.request();
 //        Response response = chain.proceed(request);
-//        /*KLog.i(response.body().string());*/
+//        /*QLog.i(response.body().string());*/
 //        try {
 //            jsonObject = new JSONObject(response.body().string());
 //            if (jsonObject.has("error_desc") &&
@@ -75,10 +76,10 @@ public class TokenInterceptor implements Interceptor {
 //            }
 //        } catch (JSONException e) {
 //            e.printStackTrace();
-//            KLog.i(e.toString());
+//            QLog.i(e.toString());
 //        }
 //        response.body().close();
-//        KLog.i("TOKEN");
+//        QLog.i("TOKEN");
 //        Request newRequest = request.newBuilder()
 //                .method(request.method(), request.body())
 //                .url(request.url())

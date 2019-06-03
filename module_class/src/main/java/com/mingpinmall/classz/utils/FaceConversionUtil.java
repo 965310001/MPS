@@ -55,7 +55,7 @@ public class FaceConversionUtil {
                 msg = msg.replaceAll(stringArray[i], String.format("[%d]", intArray.getResourceId(i, 0)));
             }
         }
-        /*KLog.i(msg);*/
+        /*QLog.i(msg);*/
         return msg;
     }
 

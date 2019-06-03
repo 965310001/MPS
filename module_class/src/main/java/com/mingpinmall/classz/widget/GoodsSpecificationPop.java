@@ -13,12 +13,13 @@ import android.widget.TextView;
 
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.CountClickView;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.CustomDefaultFlowTagAdapter;
 import com.mingpinmall.classz.databinding.MarketPopGoodsSpecificationBinding;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
-import com.socks.library.KLog;
+
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
 
 import java.util.List;
@@ -111,7 +112,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                     stringBuilder.append(ints[i]).append("|");
                 }
                 int i;
-                KLog.i(ints.length);
+                QLog.i(ints.length);
                 for (GoodsInfo.NewsSpecListDataBean newsSpecListDataBean : mGoodsInfo.news_spec_list_data) {
                     i = 0;
                     for (int anInt : ints) {
@@ -120,7 +121,7 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                         }
                     }
                     if (i == size) {
-                        KLog.i(newsSpecListDataBean.getVal());
+                        QLog.i(newsSpecListDataBean.getVal());
                         LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
                                 newsSpecListDataBean.getVal());
                         break;
@@ -129,10 +130,10 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
                /* Observable.fromIterable(mGoodsInfo.news_spec_list_data)
                         .filter(newsSpecListDataBean -> stringBuilder.toString().contains(newsSpecListDataBean.getKey()))
                         .subscribe(newsSpecListDataBean -> {
-                            KLog.i(newsSpecListDataBean.getVal());
+                            QLog.i(newsSpecListDataBean.getVal());
                             LiveBus.getDefault().postEvent("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL",
                                     newsSpecListDataBean.getVal());
-                            KLog.i(newsSpecListDataBean.getVal());
+                            QLog.i(newsSpecListDataBean.getVal());
                         });*/
             });
         }

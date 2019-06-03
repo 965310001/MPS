@@ -4,8 +4,9 @@ import android.databinding.Bindable;
 import android.text.TextUtils;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.BR;
-import com.socks.library.KLog;
+
 
 import java.util.List;
 
@@ -196,7 +197,7 @@ public class StoreInfo extends BaseBean {
         }
 
         public String getStore_zy() {
-            KLog.i(store_zy);
+            QLog.i(store_zy);
             return store_zy;
         }
 

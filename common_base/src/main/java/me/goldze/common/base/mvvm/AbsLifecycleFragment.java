@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.socks.library.KLog;
+
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ import me.goldze.common.base.mvvm.base.BaseFragment;
 import me.goldze.common.base.mvvm.stateview.ErrorState;
 import me.goldze.common.base.mvvm.stateview.StateConstants;
 import me.goldze.common.utils.TUtil;
+import me.goldze.common.utils.log.QLog;
 
 /**
  * @author GuoFeng
@@ -142,7 +143,7 @@ public abstract class AbsLifecycleFragment<T extends AbsViewModel> extends BaseF
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        KLog.i("onDestroyView");
+        QLog.i("onDestroyView");
         if (eventKeys != null && eventKeys.size() > 0) {
             for (int i = 0; i < eventKeys.size(); i++) {
                 LiveBus.getDefault().clear(eventKeys.get(i));

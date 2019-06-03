@@ -6,12 +6,13 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.goldze.common.dmvvm.base.mvvm.stateview.EmptyState;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.activity.store.StoreActivity;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
-import com.socks.library.KLog;
+
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
@@ -66,7 +67,7 @@ public class StorePromotionFragment extends BaseListFragment<ClassifyViewModel> 
                             showError(EmptyState.class, "2");
                         }
                     } catch (Exception e) {
-                        KLog.i(e.toString());
+                        QLog.i(e.toString());
                     }
                 });
     }

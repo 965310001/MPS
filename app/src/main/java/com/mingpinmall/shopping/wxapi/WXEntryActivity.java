@@ -9,9 +9,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.constants.Constants;
-import com.socks.library.KLog;
+
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -129,7 +130,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 result = R.string.errcode_unsupported;
                 break;
             case ConstantsAPI.COMMAND_PAY_BY_WX:
-                KLog.i("微信支付");
+                QLog.i("微信支付");
                 break;
             default:
                 result = R.string.errcode_unknown;

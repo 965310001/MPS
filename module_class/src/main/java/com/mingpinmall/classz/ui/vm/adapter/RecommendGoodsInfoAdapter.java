@@ -11,7 +11,7 @@
 //import com.goldze.common.dmvvm.utils.ImageUtils;
 //import com.mingpinmall.classz.R;
 //import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
-//import com.socks.library.KLog;
+//
 //
 //import java.util.List;
 //
@@ -29,7 +29,7 @@
 //        holder.convertView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                KLog.i(data.getGoods_id() + "==");
+//                QLog.i(data.getGoods_id() + "==");
 //                ActivityToActivity.goShoppingDetails(data.getGoods_id());
 //            }
 //        });

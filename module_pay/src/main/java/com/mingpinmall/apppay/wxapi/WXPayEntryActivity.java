@@ -75,10 +75,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             }
            /* switch (resp.errCode) {
                 case 0:
-                    KLog.i("成功");
+                    QLog.i("成功");
                     break;
                 case -1:
-                    KLog.i("可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。\n");
+                    QLog.i("可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。\n");
                     Toast.makeText(this, "可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。!", Toast.LENGTH_SHORT).show();
                     break;
                 case -2:

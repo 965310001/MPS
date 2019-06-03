@@ -1,6 +1,8 @@
 package com.goldze.common.dmvvm.http.interceptor;
 
-import com.socks.library.KLog;
+
+
+import com.goldze.common.dmvvm.utils.log.QLog;
 
 import java.io.IOException;
 
@@ -37,7 +39,7 @@ public class ParameteInterceptor implements Interceptor {
                 .method(oldRequest.method(), oldRequest.body())
                 .url(builder.build())
                 .build();
-        KLog.i("------------ParameteInterceptor-----------------");
+        QLog.i("------------ParameteInterceptor-----------------");
         return chain.proceed(newRequest);
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
@@ -14,7 +15,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.TypeInfo;
-import com.socks.library.KLog;
+
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
@@ -77,7 +78,7 @@ public class StoreHomeFragment extends BaseListFragment<ClassifyViewModel> imple
                                 ((StoreActivity) getActivity()).setStoreInfo(storeInfo.getStore_info());
                             }
                         } catch (Exception e) {
-                            KLog.i(e.toString());
+                            QLog.i(e.toString());
                         }
                     } else {
                         ToastUtils.showLong(response.getMessage());

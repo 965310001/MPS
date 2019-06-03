@@ -7,11 +7,12 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseRepository;
 import com.goldze.common.dmvvm.http.RetrofitClient;
 import com.goldze.common.dmvvm.http.rx.RxSchedulers;
 import com.goldze.common.dmvvm.http.rx.RxSubscriber;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.me.ui.bean.DefaultCheckBean;
 import com.mingpinmall.me.ui.bean.SmsBean;
 import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.socks.library.KLog;
+
 
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 
@@ -44,7 +45,7 @@ public class UserRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.RESET_PASSWORD, msg == null ? "重设密码失败" : msg);
                     }
                 })
@@ -94,7 +95,7 @@ public class UserRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.LOGIN, msg == null ? "获取用户信息失败" : msg);
                     }
                 })
@@ -185,7 +186,7 @@ public class UserRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.GET_SMS_CODE, msg == null ? "短信验证码发送失败" : msg);
                     }
 
@@ -209,7 +210,7 @@ public class UserRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.CHECK_CODE, msg == null ? "" : msg);
                     }
 
@@ -233,7 +234,7 @@ public class UserRepository extends BaseRepository {
 
                     @Override
                     public void onFailure(String msg) {
-                        KLog.i(msg);
+                        QLog.i(msg);
                         sendData(Constants.BIND_PHONE, msg == null ? "" : msg);
                     }
 

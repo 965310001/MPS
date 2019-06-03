@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.goldze.common.dmvvm.utils.AssetsUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.google.gson.Gson;
-import com.socks.library.KLog;
+
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -111,7 +112,7 @@ public class ViewUtils {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            KLog.i(value + "");
+            QLog.i(value + "");
             return value;
         }
     }

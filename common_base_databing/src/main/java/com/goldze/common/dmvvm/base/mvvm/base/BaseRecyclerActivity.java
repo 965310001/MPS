@@ -19,7 +19,8 @@ import com.goldze.common.dmvvm.databinding.FragmentListBinding;
 import com.goldze.common.dmvvm.utils.ShareCacheUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.Utils;
-import com.socks.library.KLog;
+
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
@@ -143,11 +144,11 @@ public abstract class BaseRecyclerActivity<T extends AbsViewModel> extends AbsLi
                         ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(lastPositions);
                         lastItemPosition = findMax(lastPositions);
                     }
-                    /*KLog.i((lastItemPosition + 5) + " =" + adapter.getItemCount() + "=" + isLoadMore);*/
+                    /*QLog.i((lastItemPosition + 5) + " =" + adapter.getItemCount() + "=" + isLoadMore);*/
                     if (lastItemPosition + 5 == mRecyclerView.getAdapter().getItemCount()
                             && isLoadMore) {
                         /*加载更多数据*/
-                        KLog.i("加载更多数据");
+                        QLog.i("加载更多数据");
                         if (isSlidingUpward) {
                             onLoadMore();
                         }

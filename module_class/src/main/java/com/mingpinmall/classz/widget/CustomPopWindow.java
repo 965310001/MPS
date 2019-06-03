@@ -20,8 +20,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.R;
-import com.socks.library.KLog;
+
 
 import java.util.List;
 
@@ -114,9 +115,9 @@ public class CustomPopWindow extends PopupWindow {
                         if (null != listener) {
                             listener.onClick(mCustomPopWindow, holder.itemView, position, listData.get(position));
                         } else {
-                            KLog.i("你还没有初始化 listener");
+                            QLog.i("你还没有初始化 listener");
                         }
-//                            KLog.i(listData.get(position));
+//                            QLog.i(listData.get(position));
 //                            LiveBus.getDefault().postEvent(Constants.CUSTOMPOPWINDOW_KEY[0], listData.get(position));
 //                            mCustomPopWindow.dismiss();
                     });

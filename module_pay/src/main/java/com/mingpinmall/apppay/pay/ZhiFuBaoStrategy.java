@@ -62,15 +62,12 @@ public class ZhiFuBaoStrategy implements Strategy {
 
     public void startAliPay(final String orderInfo, JPayListener listener) {
         mJPayListener = listener;
-        Runnable payRunnable = new Runnable() {
-            @Override
-            public void run() {
-                PayTask alipay = new PayTask(mActivity);
-                Map<String, String> result = alipay.payV2(orderInfo, true);
-                Message msg = new Message();
-                msg.obj = result;
-                mHandler.sendMessage(msg);
-            }
+        Runnable payRunnable = () -> {
+            PayTask alipay = new PayTask(mActivity);
+            Map<String, String> result = alipay.payV2(orderInfo, true);
+            Message msg = new Message();
+            msg.obj = result;
+            mHandler.sendMessage(msg);
         };
         Thread payThread = new Thread(payRunnable);
         payThread.start();

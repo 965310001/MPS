@@ -9,7 +9,7 @@ import com.goldze.common.dmvvm.http.interceptor.CacheInterceptor;
 import com.goldze.common.dmvvm.http.interceptor.TokenInterceptor;
 import com.goldze.common.dmvvm.http.interceptor.logging.Level;
 import com.goldze.common.dmvvm.http.interceptor.logging.LoggingInterceptor;
-import com.socks.library.KLog;
+
 
 import java.io.File;
 import java.util.Map;

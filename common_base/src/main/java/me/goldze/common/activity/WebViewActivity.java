@@ -17,11 +17,12 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.socks.library.KLog;
+
 
 import me.goldze.common.R;
 import me.goldze.common.base.mvvm.base.BaseActivity;
 import me.goldze.common.constants.ARouterConfig;
+import me.goldze.common.utils.log.QLog;
 
 @Route(path = ARouterConfig.WEBVIEWACTIVITY)
 public class WebViewActivity extends BaseActivity implements View.OnClickListener {
@@ -54,7 +55,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         rlTitleBar=findViewById(R.id.rl_title_bar);
 
      /*   String url = getIntent().getStringExtra("URL");
-        KLog.i(url + " " + URL);*/
+        QLog.i(url + " " + URL);*/
 
         showLoadingState();
 
@@ -101,7 +102,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            KLog.i(newProgress + "'");
+            QLog.i(newProgress + "'");
             if (newProgress == 100) {
                 showSuccess();
             }
@@ -111,14 +112,14 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     private class MyWebClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            KLog.i("shouldOverrideUrlLoading");
+            QLog.i("shouldOverrideUrlLoading");
             webView.loadUrl(url);
             return true;
         }
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            KLog.i("onReceivedSslError");
+            QLog.i("onReceivedSslError");
             handler.proceed(); // 接受所有网站的证书
         }
 

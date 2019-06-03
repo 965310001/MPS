@@ -14,7 +14,7 @@
 //import com.mingpinmall.classz.adapter.AdapterPool;
 //import com.mingpinmall.classz.databinding.ClassifyItemOfRighitListBinding;
 //import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
-//import com.socks.library.KLog;
+//
 //import com.trecyclerview.adapter.DelegateAdapter;
 //import com.trecyclerview.holder.AbsHolder;
 //import com.trecyclerview.holder.AbsItemHolder;
@@ -51,7 +51,7 @@
 ////        binding.lsiItem.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
 ////            @Override
 ////            public void click(boolean isChecked) {
-////                KLog.i(dataBean.getGc_name() + " " + dataBean.getGc_id());
+////                QLog.i(dataBean.getGc_name() + " " + dataBean.getGc_id());
 ////                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(dataBean.getGc_id()));
 ////            }
 ////        });
@@ -61,7 +61,7 @@
 ////                    public void onItemClick(View view, int postion, Object object) {
 ////                        ClassificationRighitBean.DatasBean.ClassListBean.ChildBean data =
 ////                                dataBean.getChild().get(postion);
-////                        KLog.i(data.getGc_name() + " " + data.getGc_id());
+////                        QLog.i(data.getGc_name() + " " + data.getGc_id());
 ////                        ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(data.getGc_id()));
 ////                    }
 ////                }).build();

@@ -8,6 +8,14 @@ import android.content.Context;
  * @description: 尺寸工具类
  */
 public class PxUtils {
+
+    /**
+     * 得到设备的密度
+     */
+    public static float getScreenDensity(Context context) {
+        return context.getResources().getDisplayMetrics().density;
+    }
+
     /**
      * 得到设备屏幕的宽度
      */
@@ -22,12 +30,6 @@ public class PxUtils {
         return context.getResources().getDisplayMetrics().heightPixels;
     }
 
-    /**
-     * 得到设备的密度
-     */
-    public static float getScreenDensity(Context context) {
-        return context.getResources().getDisplayMetrics().density;
-    }
 
     /**
      * 把密度转换为像素
@@ -45,8 +47,20 @@ public class PxUtils {
      * @return
      */
     public static int px2dp(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+        float scale = getScreenDensity(context);
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    /**
+     * 将像素转换成sp
+     *
+     * @param context
+     * @param pxValue
+     * @return
+     */
+    public static int px2sp(Context context, float pxValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
     }
 
     /**
@@ -59,5 +73,17 @@ public class PxUtils {
     public static int sp2px(Context context, float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+
+    /**
+     * 获取状态栏高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getStatusBarHeight(Context context) {
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return context.getResources().getDimensionPixelSize(resourceId);
     }
 }

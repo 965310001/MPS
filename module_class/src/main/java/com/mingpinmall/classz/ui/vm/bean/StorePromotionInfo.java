@@ -1,7 +1,8 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
-import com.socks.library.KLog;
+import com.goldze.common.dmvvm.utils.log.QLog;
+
 
 import java.util.List;
 
@@ -128,7 +129,7 @@ public class StorePromotionInfo extends BaseBean {
                     try {
                         time = String.format("活动时间:%s至 %s", start_time, end_time);
                     } catch (Exception e) {
-                        KLog.i(e.toString());
+                        QLog.i(e.toString());
                         return "";
                     }
                     return time;
@@ -139,7 +140,7 @@ public class StorePromotionInfo extends BaseBean {
                         RulesBean rulesBean = getRules().get(0);
                         return String.format("单笔订单消费满%s，立减现金%s", rulesBean.getPrice(), rulesBean.getDiscount());
                     } catch (Exception e) {
-                        KLog.i(e.toString());
+                        QLog.i(e.toString());
                     }
                     return "";
                 }
@@ -397,7 +398,7 @@ public class StorePromotionInfo extends BaseBean {
                     try {
                         time = String.format("活动时间:%s至 %s", start_time, end_time);
                     } catch (Exception e) {
-                        KLog.i(e.toString());
+                        QLog.i(e.toString());
                         return "";
                     }
                     return time;
@@ -407,7 +408,7 @@ public class StorePromotionInfo extends BaseBean {
                     try {
                         return String.format("单件活动商品满%s，件即可享受折扣价。", lower_limit);
                     } catch (Exception e) {
-                        KLog.i(e.toString());
+                        QLog.i(e.toString());
                     }
                     return "";
                 }

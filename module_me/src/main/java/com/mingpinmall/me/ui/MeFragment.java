@@ -21,6 +21,7 @@ import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -35,7 +36,7 @@ import com.mingpinmall.me.ui.bean.MeItemBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.constants.Constants;
 import com.mingpinmall.me.ui.widget.AutoColorView;
-import com.socks.library.KLog;
+
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -169,7 +170,7 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
             headView.findViewById(R.id.iv_headItem2).setBackgroundResource(R.drawable.ic_me_store);
             headView.findViewById(R.id.tv_level).setVisibility(View.GONE);
         } catch (Exception e) {
-            KLog.i(e.toString());
+            QLog.i(e.toString());
         }
 
         SharePreferenceUtil.saveKeyValue("USER_INFO", null);

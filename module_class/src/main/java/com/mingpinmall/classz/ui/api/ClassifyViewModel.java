@@ -4,7 +4,8 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 
 import com.goldze.common.dmvvm.base.mvvm.AbsViewModel;
-import com.socks.library.KLog;
+import com.goldze.common.dmvvm.utils.log.QLog;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,7 +100,7 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
         Map<String, Object> map = new HashMap<>();
         map.put(isLike ? "fav_id" : "goods_id", goodsId);
         map.put("_client", "android");
-        KLog.i(isLike ? "取消收藏" : "添加收藏");
+        QLog.i(isLike ? "取消收藏" : "添加收藏");
 //        mRepository.execute(ClassifyService.ADDCOLLECTION_APP,
 //                isLike ? ClassifyService.DELCOLLECTION_WWI : ClassifyService.ADDCOLLECTION_WWI, eventKey, map);
         mRepository.execute("member_favorites",

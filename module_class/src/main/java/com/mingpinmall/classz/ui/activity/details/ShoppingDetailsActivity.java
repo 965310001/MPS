@@ -23,6 +23,7 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.FragmentPagerAdapter;
@@ -36,7 +37,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.utils.ArgbEvaluator;
 import com.mingpinmall.classz.widget.MenuPopupWindow;
 import com.mingpinmall.classz.widget.XBottomSheet;
-import com.socks.library.KLog;
+
 import com.xuexiang.xui.adapter.simple.AdapterItem;
 import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheet;
 import com.xuexiang.xui.widget.popupwindow.popup.XUISimplePopup;
@@ -144,7 +145,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
         registerObserver(Constants.GOODSDETAIL_EVENT_KEY[0] + id, GoodsDetailInfo.class)
                 .observeForever(response -> {
-                    /*KLog.i(response.isSuccess() + " 刷新数据");*/
+                    /*QLog.i(response.isSuccess() + " 刷新数据");*/
                     if (response.isSuccess()) {
                         mGoodsDetailInfo = response;
                         mGoodsInfo = response.getDatas().getGoods_info();
@@ -195,7 +196,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                         }
                         setCartNumber();
                         binding.setData(mGoodsInfo);
-                        /*KLog.i("刷新数据");*/
+                        /*QLog.i("刷新数据");*/
                     } else {
                         showErrorState();
                     }
@@ -205,7 +206,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         registerObserver("GOODSSPECIFICATIONPOP_VAL", "GOODSSPECIFICATIONPOP_VAL")
                 .observe(this, s -> {
                     id = s.toString();
-                    KLog.i(s.toString() + " ===");
+                    QLog.i(s.toString() + " ===");
                     registerObserver();
                     initData();
                 });
@@ -308,7 +309,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     /*三个点*/
     public void points(View view) {
-        KLog.i("三个点");
+        QLog.i("三个点");
         if (null == mMenuPopup) {
             mMenuPopup = new XUISimplePopup(this, new AdapterItem[]{
                     new AdapterItem("搜  索", R.drawable.search),
@@ -362,7 +363,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     /*分享*/
     public void share(View view) {
-        KLog.i(mGoodsInfo.getGoods_image_url() + " " + mGoodsInfo.getGoods_jingle());
+        QLog.i(mGoodsInfo.getGoods_image_url() + " " + mGoodsInfo.getGoods_jingle());
 
         XBottomSheet bottomSheet = new XBottomSheet.BottomGridSheetBuilder(activity)
                 .addItem(R.drawable.icon_wx_logo, "微信", "微信", FIRST_LINE)
@@ -370,7 +371,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                 .addItem(R.drawable.icon_collection, "收藏", "收藏", BottomSheet.BottomGridSheetBuilder.FIRST_LINE)
                 .addItem(R.drawable.icon_copy, "复制", "复制", BottomSheet.BottomGridSheetBuilder.FIRST_LINE)
                 .setOnSheetItemClickListener((dialog, itemView) -> {
-                    KLog.i("TAG" + itemView.getTag());
+                    QLog.i("TAG" + itemView.getTag());
                     WeiXinBaoStrategy weiXinBaoStrategy = WeiXinBaoStrategy.getInstance(this);
                     Map<String, String> map = new HashMap<>();
                     String url = String.format("%s/wap/tmpl/product_detail.html?goods_id=%s", BuildConfig.APP_URL, mGoodsInfo.getGoods_id());
@@ -411,7 +412,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     }
 
     public void addCart(View view) {
-        /*KLog.i("添加到购物车");*/
+        /*QLog.i("添加到购物车");*/
         id = SharePreferenceUtil.getKeyValue("SHOPPINGDETAILSACTIVITY_ID");
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
@@ -425,7 +426,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     public void buyNow(View view) {
         /*判断是否是虚拟*/
         id = SharePreferenceUtil.getKeyValue("SHOPPINGDETAILSACTIVITY_ID");
-        KLog.i(id + " ==");
+        QLog.i(id + " ==");
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             mGoodsInfoMainFragment.popWindowDismiss();
             Map<String, Object> map = new HashMap<>();
@@ -453,7 +454,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
             map.put("tId", storeInfo.getMember_id());
             ActivityToActivity.toActivity(ARouterConfig.classify.CHATACTIVITY, map);
         } catch (Exception e) {
-            KLog.i(e.toString());
+            QLog.i(e.toString());
         }
     }
 

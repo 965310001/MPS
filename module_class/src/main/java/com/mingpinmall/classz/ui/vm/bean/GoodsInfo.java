@@ -8,8 +8,9 @@ import com.goldze.common.dmvvm.base.bean.UserBean;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.DateUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.BR;
-import com.socks.library.KLog;
+
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
@@ -120,7 +121,7 @@ public class GoodsInfo extends BaseBean {
         if (userBean == null) {
             return false;
         }
-        /*KLog.i(userBean.getUserid().equals(member_id)+"true：自己 false:别人");*/
+        /*QLog.i(userBean.getUserid().equals(member_id)+"true：自己 false:别人");*/
         return userBean.getUserid().equals(member_id);
     }
 
@@ -217,7 +218,7 @@ public class GoodsInfo extends BaseBean {
 
     @Bindable
     public boolean isStoreName() {
-        KLog.i(isStoreName + "==");
+        QLog.i(isStoreName + "==");
         return isStoreName;
     }
 

@@ -1,12 +1,7 @@
-package com.goldze.common.dmvvm.utils;
+package com.goldze.common.dmvvm.utils.log;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-
-import com.socks.library.klog.BaseLog;
-import com.socks.library.klog.FileLog;
-import com.socks.library.klog.JsonLog;
-import com.socks.library.klog.XmlLog;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -23,7 +18,7 @@ public final class QLog {
     private static final String DEFAULT_MESSAGE = "execute";
     private static final String PARAM = "Param";
     private static final String NULL = "null";
-    private static final String TAG_DEFAULT = "KLog";
+    private static final String TAG_DEFAULT = "QLog";
     private static final String SUFFIX = ".java";
 
     public static final int JSON_INDENT = 4;
@@ -188,7 +183,7 @@ public final class QLog {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
         for (String trace : traceString) {
-            if (trace.contains("at com.socks.library.KLog")) {
+            if (trace.contains("at com.socks.library.QLog")) {
                 continue;
             }
             sb.append(trace).append("\n");

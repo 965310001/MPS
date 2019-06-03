@@ -15,6 +15,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.apppay.UserPaySheet;
 import com.mingpinmall.apppay.pay.Context;
@@ -29,7 +30,7 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.PayMessageInfo;
 import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 import com.mingpinmall.me.ui.constants.Constants;
-import com.socks.library.KLog;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -231,7 +232,7 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                         break;
                     case 2:
                         //支付宝支付方式
-                        KLog.i("支付宝");
+                        QLog.i("支付宝");
                         aLiPay(data.getParam());
                         break;
                     case 3:

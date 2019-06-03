@@ -29,11 +29,12 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.just.agentweb.WebViewClient;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ActivityHoloBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
-import com.socks.library.KLog;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +75,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
         super.initViews(savedInstanceState);
 
         setTitle("试戴");
-        KLog.i(url);
+        QLog.i(url);
         webview = binding.wv;
         WebSettings settings = webview.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -123,7 +124,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
 //            }
 //        });
 
-//        KLog.i(url);
+//        QLog.i(url);
 //        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
 //        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
         url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
@@ -132,7 +133,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
 //        url="https://www.feeai.cn/wxapi/h5/fitting/demo.php?goods_id=37&cat_id=7";
         webview.loadUrl(url);
 
-        KLog.i(webview.getSettings().getUserAgentString() + url);
+        QLog.i(webview.getSettings().getUserAgentString() + url);
 
 //        webview.loadUrl("https://www.feeai.cn/wxapi/h5/fitting/demo.php?goods_id=37&cat_id=7");
 //        webview.loadUrl("https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/");
@@ -314,25 +315,25 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
     class AndroidToJs extends Object {
         @JavascriptInterface
         public boolean customizeCamera() {
-            KLog.i("处理 customizeCamera");
+            QLog.i("处理 customizeCamera");
             return true;
         }
 
         @JavascriptInterface
         public boolean chooseModelImage() {
-            KLog.i("处理 chooseModelImage");
+            QLog.i("处理 chooseModelImage");
             return true;
         }
 
         @JavascriptInterface
         public void customizePhotoSaving(String imgSrc) {
-            KLog.i("自定义保存图像");
+            QLog.i("自定义保存图像");
             Log.i("Holo", "自定义保存");
         }
 
         @JavascriptInterface
         public void backHost() {
-            KLog.i("返回App");
+            QLog.i("返回App");
         }
 
     }
@@ -340,7 +341,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
 //    private class MyWebClient extends WebViewClient {
 ////        @Override
 ////        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-////            KLog.i("shouldOverrideUrlLoading");
+////            QLog.i("shouldOverrideUrlLoading");
 ////
 //////            Map<String, String> extraHeaders = new HashMap<String, String>();
 //////            webview.loadUrl(url);
@@ -354,7 +355,7 @@ public class HoloActivity extends AbsLifecycleActivity<ActivityHoloBinding, Clas
 //
 //        @Override
 //        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-//            KLog.i("onReceivedSslError");
+//            QLog.i("onReceivedSslError");
 //            handler.proceed(); // 接受所有网站的证书
 //        }
 //

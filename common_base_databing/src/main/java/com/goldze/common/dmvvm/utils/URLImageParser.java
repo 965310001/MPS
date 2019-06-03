@@ -6,7 +6,8 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.socks.library.KLog;
+import com.goldze.common.dmvvm.utils.log.QLog;
+
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -59,7 +60,7 @@ public class URLImageParser {
                 Drawable d = Drawable.createFromStream(con.getInputStream(), "");
 //                d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
 //                return d;
-                /*KLog.i(source + "网络图片" + d.getIntrinsicHeight());*/
+                /*QLog.i(source + "网络图片" + d.getIntrinsicHeight());*/
 //                return Picasso.with(context).load(source).get();
                 // 使用Glide获取网络图片Bitmap(使用Glide获取图片bitmap还有待研究)
 //                textView.setTag(source);
@@ -80,7 +81,7 @@ public class URLImageParser {
                         .into(d.getIntrinsicWidth(), d.getIntrinsicHeight())
                         .get();
             } catch (Exception e) {
-                KLog.i(e.toString());
+                QLog.i(e.toString());
                 return null;
             }
         }

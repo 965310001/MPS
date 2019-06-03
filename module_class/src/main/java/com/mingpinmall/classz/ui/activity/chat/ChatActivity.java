@@ -24,6 +24,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -43,7 +44,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.utils.FaceConversionUtil;
-import com.socks.library.KLog;
+
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 import com.xuexiang.xui.utils.ResUtils;
@@ -188,7 +189,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         registerBroadcastReceiver();
                     } else {
                         showErrorState();
-                        KLog.i("服务员异常");
+                        QLog.i("服务员异常");
                     }
                 });
         /*历史纪录*/
@@ -199,7 +200,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         itemData.clear();
                         binding.getAdapter().notifyDataSetChanged();
                         Collections.reverse(list);
-                        KLog.i(list);
+                        QLog.i(list);
 //                            for (MsgInfo.MsgBean msgBean : list) {
 //                            ChatMessageInfo info;
 ////                                info = resultMsg(new ChatMessageInfo(), msgBean);
@@ -213,14 +214,14 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         updateList(list);
                         binding.setList(itemData);
                     } else {
-                        KLog.i("服务器异常");
+                        QLog.i("服务器异常");
                     }
                 });
         /*发送聊天信息*/
         registerObserver(Constants.CHAT[0] + "Success", MsgInfo.class)
                 .observe(this, response -> {
                     binding.etMsg.setText("");
-                    KLog.i("发送聊天信息");
+                    QLog.i("发送聊天信息");
                     update(response.getMsg(), true);
                     /*发送消息*/
                     try {
@@ -238,7 +239,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 ////                            mRecyclerView.scrollToPosition(itemData.size() - 1);
 //                            update(msg, true);
 //                        } else {
-//                            KLog.i("1111");
+//                            QLog.i("1111");
 //                        }
                 });
 
@@ -250,7 +251,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     List<MsgInfo.MsgBean> msgBeans = (List<MsgInfo.MsgBean>) object;
                     updateList(msgBeans);
                     binding.setList(itemData);
-                    KLog.i("更新数据");
+                    QLog.i("更新数据");
                     try {
                         if (null != msgBeans) {
                             if (msgBeans.size() > 1) {
@@ -339,7 +340,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     /*选择图片*/
     public void addImgClick(View view) {
         hideTrvBottom(true);
-        KLog.i("选择图片");
+        QLog.i("选择图片");
         PictureSelector.create(activity)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .imageSpanCount(3)// 每行显示个数 int
@@ -375,7 +376,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         } else {
                             blockPhoto.setOriginalurl(lm.getPath());
                         }
-                        KLog.i(blockPhoto.getOriginalurl());
+                        QLog.i(blockPhoto.getOriginalurl());
                         File file = new File(blockPhoto.getOriginalurl());
                         if (file.exists()) {
                             mViewModel.picUpload(goodsId, memberInfo.getMember_id(), tId,
@@ -410,7 +411,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
             ChatEmojiInfo chatEmojiInfo = (ChatEmojiInfo) object;
             binding.etMsg.getText().append(FaceConversionUtil.addFace(this, chatEmojiInfo.getId(), chatEmojiInfo.getCharacter()));
         }
-        /*KLog.i("点击");*/
+        /*QLog.i("点击");*/
 
     }
 
@@ -433,7 +434,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mReceiver);
             }
         } catch (Exception e) {
-            KLog.i(e.toString());
+            QLog.i(e.toString());
         }
     }
 }
@@ -443,7 +444,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //        @Override
 //        public void onReceive(Context context, final Intent intent) {
 //            String action = intent.getAction();
-//            KLog.i("=");
+//            QLog.i("=");
 //            if (action.equals("com.broadcast.test")) {
 //                final String str = intent.getStringExtra("com.broadcast.test.string");
 //                if (!TextUtils.isEmpty(str) && !"{}".equals(str)) {
@@ -462,7 +463,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //                                }
 //                                binding.getAdapter().notifyDataSetChanged();
 //                                mRecyclerView.scrollToPosition(itemData.size() - 1);
-//                                KLog.i(msgBeans.size() + "条数" + msgBeans.get(0).getF_id());
+//                                QLog.i(msgBeans.size() + "条数" + msgBeans.get(0).getF_id());
 //
 //                                if (null != msgBeans) {
 //                                    if (msgBeans.size() > 1) {
@@ -474,7 +475,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //                            }
 //                        });
 //                    } catch (Exception e) {
-//                        KLog.i(e.toString());
+//                        QLog.i(e.toString());
 //                    }
 //                }
 //            }
@@ -490,7 +491,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //            try {
 //                mSocket = IO.socket(mServerUrl, opts);
 //            } catch (URISyntaxException e) {
-//                KLog.i(e.toString());
+//                QLog.i(e.toString());
 //            }
 //            mSocket.on(Socket.EVENT_CONNECT, onConnect)
 //                    .on(Socket.EVENT_DISCONNECT, onDisconnect)
@@ -542,7 +543,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //                                }
 //                                binding.getAdapter().notifyDataSetChanged();
 //                                mRecyclerView.scrollToPosition(itemData.size() - 1);
-//                                KLog.i(msgBeans.size() + "条数" + msgBeans.get(0).getF_id());
+//                                QLog.i(msgBeans.size() + "条数" + msgBeans.get(0).getF_id());
 //
 //                                if (null != msgBeans) {
 //                                    if (msgBeans.size() > 1) {
@@ -554,7 +555,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //                            }
 //                        });
 //                    } catch (Exception e) {
-//                        KLog.i(e.toString());
+//                        QLog.i(e.toString());
 //                    }
 //                }
 //            }
@@ -564,7 +565,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
 //    private final Emitter.Listener onDisconnect = new Emitter.Listener() {
 //        @Override
 //        public void call(Object... args) {
-//            KLog.i("断开连接");
+//            QLog.i("断开连接");
 //
 //            /*更新后台*/
 //            /*mSocket.connect();*/

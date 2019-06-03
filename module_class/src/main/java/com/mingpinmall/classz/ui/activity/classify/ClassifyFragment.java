@@ -11,6 +11,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
@@ -20,7 +21,7 @@ import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.BrandListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationBean;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
-import com.socks.library.KLog;
+
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
@@ -108,7 +109,7 @@ public class ClassifyFragment extends AbsLifecycleFragment<FragmentClassifyBindi
                             binding.setData(class_list);
                             mViewModel.getRightByBrand();
                         } catch (Exception e) {
-                            KLog.i(e.toString());
+                            QLog.i(e.toString());
                             ToastUtils.showLong("服务器出现问题，请稍后再试");
                         }
                     } else {

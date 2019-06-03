@@ -13,6 +13,7 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ColorUtil;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.stackLabel.StackLabelAdapter;
 import com.mingpinmall.classz.R;
@@ -20,7 +21,7 @@ import com.mingpinmall.classz.databinding.ActivitySearchBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.HotKeyInfo;
-import com.socks.library.KLog;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,7 +177,7 @@ public class SearchActivity extends AbsLifecycleActivity<ActivitySearchBinding,
         super.onClick(v);
         int i = v.getId();
         if (i == R.id.iv_search || i == R.id.ed_search) {
-            KLog.d("搜索");
+            QLog.d("搜索");
             search();
         }
     }

@@ -1,7 +1,6 @@
 package com.mingpinmall.me.ui.acitivity.order.virtualorder;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.mingpinmall.me.R;
@@ -16,21 +15,12 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
  **/
 public class VirtualOrderFragment extends BaseFragment<FragmentDefaultTabviewpagerBinding> {
 
-//    private BasePagerAdapter pagerAdapter;
-
     public VirtualOrderFragment() {
     }
 
     public static VirtualOrderFragment newInstance() {
-//        VirtualOrderFragment fragment = new VirtualOrderFragment();
-//        return fragment;
         return new VirtualOrderFragment();
     }
-
-//    @Override
-//    public void setArguments(@Nullable Bundle args) {
-//        super.setArguments(args);
-//    }
 
     @Override
     protected int getLayoutResId() {

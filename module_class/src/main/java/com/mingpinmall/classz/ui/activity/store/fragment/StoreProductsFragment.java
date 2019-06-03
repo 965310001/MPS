@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.goldze.common.dmvvm.base.mvvm.stateview.EmptyState;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.databinding.ItemTabsegmentBinding;
@@ -24,7 +25,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
 import com.mingpinmall.classz.ui.vm.bean.ScreenInfo;
 import com.mingpinmall.classz.widget.CustomPopWindow;
 import com.mingpinmall.classz.widget.FilterTab;
-import com.socks.library.KLog;
+
 import com.trecyclerview.adapter.DelegateAdapter;
 
 import java.util.Arrays;
@@ -89,7 +90,7 @@ public class StoreProductsFragment extends BaseListFragment<ClassifyViewModel> i
 //        if (type == 2) {
 //            screenInfo.setSecondName(gcName);
 //        }
-//        KLog.i(type);
+//        QLog.i(type);
 
         ItemTabsegmentBinding itemTabsegmentBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
                 R.layout.item_tabsegment, null, false);
@@ -132,11 +133,11 @@ public class StoreProductsFragment extends BaseListFragment<ClassifyViewModel> i
                             setData(response.getDatas().getGoods_list());
                             showSuccess();
                         } else {
-                            KLog.i("===goodslist");
+                            QLog.i("===goodslist");
                             showError(EmptyState.class, "3");
                         }
                     } catch (Exception e) {
-                        KLog.i(e.toString());
+                        QLog.i(e.toString());
                         showErrorState();
                     }
                 });

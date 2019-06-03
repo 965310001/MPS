@@ -28,7 +28,7 @@
 //import com.mingpinmall.classz.widget.CustomPopWindow;
 //import com.mingpinmall.classz.widget.FilterTab;
 //import com.mingpinmall.classz.widget.ScreeningPopWindow;
-//import com.socks.library.KLog;
+//
 //import com.trecyclerview.adapter.DelegateAdapter;
 //
 //import java.util.Arrays;
@@ -102,7 +102,7 @@
 //    protected void getRemoteData() {
 //        super.getRemoteData();
 //
-//        KLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
+//        QLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
 //
 //        mViewModel.getStoreShappingList(id, String.valueOf(page),
 //                keyword, String.valueOf(type), areaId, priceFrom, priceTo, key, order, ci, st);
@@ -120,7 +120,7 @@
 //                        try {
 //                            setData(response.getDatas().getGoods_list());
 //                        } catch (Exception e) {
-//                            KLog.i(e.toString());
+//                            QLog.i(e.toString());
 //                        }
 //                    }
 //                });
@@ -173,7 +173,7 @@
 //            }
 //
 //        } else if (i == R.id.filter_tab4) {
-//            KLog.i("===");
+//            QLog.i("===");
 //            if (!isGrid) {
 //                if (null == gridLayoutManager) {
 //                    gridLayoutManager = new GridLayoutManager(this, 2);

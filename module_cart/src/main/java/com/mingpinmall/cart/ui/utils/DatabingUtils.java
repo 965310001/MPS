@@ -11,7 +11,8 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.utils.HtmlFromUtils;
-import com.socks.library.KLog;
+
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 
@@ -90,7 +91,7 @@ public class DatabingUtils {
 //////                    layout = new GridLayoutManager(context, 4);
 //                    break;
                 default:
-                    KLog.i("必须个TRecyclerView 设置TAG");
+                    QLog.i("必须个TRecyclerView 设置TAG");
                     break;
             }
             if (!isDecoration) {

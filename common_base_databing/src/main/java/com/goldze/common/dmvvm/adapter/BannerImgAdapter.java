@@ -13,8 +13,8 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.R;
-import com.goldze.common.dmvvm.utils.DisplayUtil;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.PxUtils;
 import com.goldze.common.dmvvm.utils.Utils;
 
 
@@ -48,12 +48,12 @@ public class BannerImgAdapter implements CBViewHolderCreator {
 
             @Override
             public void updateUI(String data) {
-                /*KLog.i(data);*/
+                /*QLog.i(data);*/
                 ImageUtils.loadImage(Utils.getApplication(), data, new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         ViewGroup.LayoutParams params = imageView.getLayoutParams();
-                        params.width = DisplayUtil.getScreenWidth(Utils.getApplication());
+                        params.width = PxUtils.getScreenWidth(Utils.getApplication());
                         params.height = params.width * resource.getIntrinsicHeight() / resource.getIntrinsicWidth();
                         imageView.setImageDrawable(resource);
                         imageView.setLayoutParams(params);

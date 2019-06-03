@@ -1,9 +1,10 @@
 package me.goldze.common.http.rx;
 
 
-import com.socks.library.KLog;
+
 
 import me.goldze.common.base.bean.BaseResponse;
+import me.goldze.common.utils.log.QLog;
 
 /**
  * @author GuoFeng
@@ -24,7 +25,7 @@ public abstract class ApiObserver<T> extends BaseObserver<BaseResponse<T>> {
     }
 
     public void onFailure(int code, String msg) {
-        KLog.d("code:" + code + "->msg:" + msg);
+        QLog.d("code:" + code + "->msg:" + msg);
     }
 
     public abstract void onSuccess(BaseResponse<T> response);

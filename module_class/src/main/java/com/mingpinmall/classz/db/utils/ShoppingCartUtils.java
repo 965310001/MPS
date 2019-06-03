@@ -4,10 +4,11 @@ import android.text.TextUtils;
 
 import com.goldze.common.dmvvm.utils.BeanCopyUtils;
 import com.goldze.common.dmvvm.utils.GroupUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.db.ShoppingDBFactory;
 import com.mingpinmall.classz.db.bean.VendorInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
-import com.socks.library.KLog;
+
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -133,10 +134,10 @@ public class ShoppingCartUtils {
 //            BigDecimal bigDecimal2 = new BigDecimal(info.getGoodsPrice());
 //            price = bigDecimal1.multiply(bigDecimal2).doubleValue();
 //            price = Double.valueOf(String.format("%.2f", price));
-//            KLog.i("" + String.format("%.2f", bigDecimal1.multiply(bigDecimal2).doubleValue()));
+//            QLog.i("" + String.format("%.2f", bigDecimal1.multiply(bigDecimal2).doubleValue()));
         }
 
-        KLog.i(price + "");
+        QLog.i(price + "");
         return price;
     }
 

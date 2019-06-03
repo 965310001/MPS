@@ -10,8 +10,9 @@ import android.util.Log;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.google.gson.Gson;
-import com.socks.library.KLog;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,11 +44,11 @@ public class SocketIoService extends Service {
         @Override
         public boolean sendMessage(String message) {
             if (!TextUtils.isEmpty(message) && message.contains("|")) {
-                KLog.i("已经阅读信息");
+                QLog.i("已经阅读信息");
                 String[] strings = message.split("|");
                 mSocket.get().emit("delMsg", strings[0], strings[1]);
             } else {
-                KLog.i(message);
+                QLog.i(message);
                 mSocket.get().emit("send_msg", message);
             }
             return false;
@@ -127,7 +128,7 @@ public class SocketIoService extends Service {
 
             try {
                 if (null == iBackService.getUrl()) {
-                    KLog.i("iBackService.getUrl() is null");
+                    QLog.i("iBackService.getUrl() is null");
                     iBackService.setUrl("https://www.mingpinmall.cn:8091");
                 }
                 mSocket = new WeakReference<>(IO.socket(iBackService.getUrl(), opts));
@@ -139,9 +140,9 @@ public class SocketIoService extends Service {
             } catch (Exception e) {
                 e.printStackTrace();
                 try {
-                    KLog.i(e.toString() + iBackService.getUrl());
+                    QLog.i(e.toString() + iBackService.getUrl());
                 } catch (Exception e1) {
-                    KLog.i(e.toString());
+                    QLog.i(e.toString());
                 }
             }
         }
@@ -170,7 +171,7 @@ public class SocketIoService extends Service {
     private final Emitter.Listener onDisconnect = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            KLog.i("断开连接");
+            QLog.i("断开连接");
             /*更新后台*/
 //            mSocket.get().emit("", "");
         }
@@ -185,7 +186,7 @@ public class SocketIoService extends Service {
                 if (!TextUtils.isEmpty(str) && !"{}".equals(str)) {
                     try {
                         new Thread(() -> {
-                            KLog.i(arg.toString());
+                            QLog.i(arg.toString());
                             Gson gson = new Gson();
 //                            List<MsgInfo.MsgBean> msgBeans = gson.fromJson(arg.toString(), new TypeToken<List<MsgInfo.MsgBean>>() {
 //                            }.getType());
@@ -196,7 +197,7 @@ public class SocketIoService extends Service {
                             mLocalBroadcastManager.sendBroadcast(intent);
                         }).start();
                     } catch (Exception e) {
-                        KLog.i(e.toString());
+                        QLog.i(e.toString());
                     }
                 }
             }

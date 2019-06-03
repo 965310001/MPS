@@ -16,6 +16,7 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.MultipleItemView;
 import com.leon.lib.settingview.LSettingItem;
@@ -23,7 +24,7 @@ import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.adapter.CustomDefaultFlowTagAdapter;
 import com.mingpinmall.classz.ui.vm.bean.ClassificationRighitBean;
 import com.goldze.common.dmvvm.utils.HtmlFromUtils;
-import com.socks.library.KLog;
+
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.xuexiang.xui.widget.flowlayout.FlowTagLayout;
@@ -83,7 +84,7 @@ public class DatabingUtils {
             settingItem.setLeftText(data.getGc_name());
         }
         settingItem.setmOnLSettingItemClick(isChecked -> {
-            KLog.i(data.getGc_name() + " " + data.getGc_id());
+            QLog.i(data.getGc_name() + " " + data.getGc_id());
             ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "id", String.valueOf(data.getGc_id()));
         });
     }
@@ -93,7 +94,7 @@ public class DatabingUtils {
         if (null != data && !TextUtils.isEmpty(data)) {
             settingItem.setLeftText(data);
         }
-        settingItem.setOnClickListener(v -> KLog.i("商家界面"));
+        settingItem.setOnClickListener(v -> QLog.i("商家界面"));
     }
 
     @BindingAdapter({"prightText"})
@@ -106,7 +107,7 @@ public class DatabingUtils {
     @BindingAdapter("titles")
     public static void setTitles(TabLayout tabLayout,
                                  String titles) {
-        KLog.i(titles);
+        QLog.i(titles);
         if (!TextUtils.isEmpty(titles)) {
             String[] strings = titles.split(";");
             for (String string : strings) {
@@ -150,7 +151,7 @@ public class DatabingUtils {
                 ccvClick.setAfterClickListener(listener);
             }
         } catch (Exception e) {
-            KLog.i(e.toString() + "最好两个都设置");
+            QLog.i(e.toString() + "最好两个都设置");
         }
 
     }
@@ -175,8 +176,8 @@ public class DatabingUtils {
             /*list.remove(list.get(list.size() - 1));*/
             flowTagLayout.setItems(list.subList(0, list.size() - 1));
 
-            /*KLog.i(Integer.valueOf(list.get(list.size() - 1).toString()) + "");*/
-//            KLog.i(Integer.valueOf((Integer) list.get(list.size() - 1))+"");
+            /*QLog.i(Integer.valueOf(list.get(list.size() - 1).toString()) + "");*/
+//            QLog.i(Integer.valueOf((Integer) list.get(list.size() - 1))+"");
             flowTagLayout.setOnTagSelectListener((parent, position, selectedList) -> {
                 if (null != eventkey) {
                     LiveBus.getDefault().postEvent(eventkey, position);
@@ -208,7 +209,7 @@ public class DatabingUtils {
 //                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
 //                                d[0] = resource;
 //                                textView.invalidate();
-//                                KLog.i("网络图片" + source);
+//                                QLog.i("网络图片" + source);
 //                            }
 //                        });
 //                    } else {
@@ -217,7 +218,7 @@ public class DatabingUtils {
 //                            d[0].setBounds(0, 0, d[0].getIntrinsicWidth(), d[0].getIntrinsicHeight());
 //                            return d[0];
 //                        } catch (Exception e) {
-//                            KLog.i(e.toString());
+//                            QLog.i(e.toString());
 //                            return null;
 //                        }
 //
@@ -228,7 +229,7 @@ public class DatabingUtils {
 //            String source = FaceConversionUtil.dealExpression(image);
 //            textView.setText(Html.fromHtml(source, imgGetter, null));
 //            content="[http://hao.qudao.com/upload/article/20160120/82935299371453253610.jpg]";
-            /*KLog.i(image + "内容");*/
+            /*QLog.i(image + "内容");*/
             if (!TextUtils.isEmpty(image) &&
                     (image.endsWith(".jpg") || image.endsWith(".png"))) {
                 image = String.format("[%s]", image);
@@ -284,7 +285,7 @@ public class DatabingUtils {
 //////                    layout = new GridLayoutManager(context, 4);
 //                    break;
                 default:
-                    /*KLog.i("必须个TRecyclerView 设置TAG");*/
+                    /*QLog.i("必须个TRecyclerView 设置TAG");*/
                     break;
             }
             if (!isDecoration) {
@@ -326,7 +327,7 @@ public class DatabingUtils {
 //                    layout = new GridLayoutManager(context, 3);
 //                    break;
 //                case 1:
-//                    KLog.i("左边");
+//                    QLog.i("左边");
 //                    /*左边*/
 //                    adapter = AdapterPool.newInstance().getLeftAdapter(context)
 //                            .build();
@@ -371,7 +372,7 @@ public class DatabingUtils {
 //                    layout = new GridLayoutManager(context, 4);
 //                    break;
 //                default:
-//                    KLog.i("必须个TRecyclerView 设置TAG");
+//                    QLog.i("必须个TRecyclerView 设置TAG");
 //                    break;
 //            }
 //            rv.setLayoutManager(layout);

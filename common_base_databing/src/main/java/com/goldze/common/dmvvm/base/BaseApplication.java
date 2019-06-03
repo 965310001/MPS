@@ -16,9 +16,8 @@ import com.goldze.common.dmvvm.base.mvvm.stateview.EmptyState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.ErrorState;
 import com.goldze.common.dmvvm.base.mvvm.stateview.LoadingState;
 import com.goldze.common.dmvvm.manage.AppManager;
-import com.goldze.common.dmvvm.utils.QLog;
 import com.goldze.common.dmvvm.utils.Utils;
-import com.socks.library.KLog;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.squareup.leakcanary.LeakCanary;
 import com.tqzhang.stateview.core.LoadState;
 
@@ -57,11 +56,11 @@ public abstract class BaseApplication extends Application implements Runnable {
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 Log.i("生命周期监听", "Created:" + activity.getLocalClassName());
                 AppManager.getInstance().addActivity(activity);
-                KLog.i("==================================== Activity ============================================");
+                QLog.i("==================================== Activity ============================================");
                 for (Activity activity1 : AppManager.getActivityStack()) {
-                    KLog.i(activity1.getLocalClassName());
+                    QLog.i(activity1.getLocalClassName());
                 }
-                KLog.i("==================================== Activity ============================================");
+                QLog.i("==================================== Activity ============================================");
             }
 
             @Override
@@ -101,8 +100,8 @@ public abstract class BaseApplication extends Application implements Runnable {
         //ARouter
         initARouter();
 
-        //KLog
-        initKLog();
+        //QLog
+        initQLog();
 
         //CrashManage
         if (!BuildConfig.DEBUG) {
@@ -131,8 +130,8 @@ public abstract class BaseApplication extends Application implements Runnable {
                 .build();
     }
 
-    private void initKLog() {
-        KLog.init(BuildConfig.DEBUG, "TAG11");
+    private void initQLog() {
+        /*QLog.init(BuildConfig.DEBUG, "TAG11");*/
         QLog.init(BuildConfig.DEBUG, "TAG11");
     }
 

@@ -16,6 +16,7 @@ import com.goldze.common.dmvvm.base.bean.BaseResponse;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
@@ -24,7 +25,7 @@ import com.mingpinmall.classz.databinding.ActivityInvoiceBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
-import com.socks.library.KLog;
+
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -97,7 +98,7 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
             map.put("inv_jgcode", binding.getNumber());
             mViewModel.addInvoice(map, Constants.INVOICECONTENT_KEY[2]);
         } else {
-            KLog.i("不需要发票提交");
+            QLog.i("不需要发票提交");
             ToastUtils.showLong("请选择发票类型");
         }
     }
@@ -109,7 +110,7 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                 .observeForever(response -> {
                     if (response.isSuccess()) {
                         BaseResponse<InvoiceListInfo> data = response;
-                        KLog.i(data.getData());
+                        QLog.i(data.getData());
                         try {
                            /* binding.spinnerSystem.setSelection(0);
                             WidgetUtils.initSpinnerStyle(binding.spinnerSystem, data.getData().getInvoice_content_list().toArray(
@@ -121,7 +122,7 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                             );
                             binding.spinnerSystem.setAdapter(adapter);
                         } catch (Exception e) {
-                            KLog.i(e.toString());
+                            QLog.i(e.toString());
                         }
                     }
                 });
@@ -130,7 +131,7 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                 .observeForever(response -> {
                     if (response.isSuccess()) {
                         BaseResponse<InvoiceListInfo> data = response;
-                        KLog.i(data.getData());
+                        QLog.i(data.getData());
                         try {
                             invoiceList = data.getData().getInvoice_list();
                             adapter = AdapterPool.newInstance()
@@ -139,7 +140,7 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                             binding.setAdapter(adapter);
                             binding.setList(invoiceList);
                         } catch (Exception e) {
-                            KLog.i(e.toString());
+                            QLog.i(e.toString());
                         }
                     } else {
                         ToastUtils.showLong(response.getMessage());
@@ -151,7 +152,7 @@ public class InvoiceActivity extends AbsLifecycleActivity<ActivityInvoiceBinding
                     BaseResponse<InvoiceListInfo> data = response;
                     if (data.isSuccess()) {
                         ToastUtils.showLong("添加成功");
-                        KLog.i(data.getData().getInv_id());
+                        QLog.i(data.getData().getInv_id());
                         mViewModel.getInvoiceList(Constants.INVOICECONTENT_KEY[3]);
                     } else {
                         ToastUtils.showLong(data.getMessage());

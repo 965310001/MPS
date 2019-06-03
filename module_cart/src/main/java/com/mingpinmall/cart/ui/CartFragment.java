@@ -15,6 +15,7 @@ import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.SmoothCheckBox;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.cart.BR;
@@ -29,7 +30,7 @@ import com.mingpinmall.cart.ui.bean.ShopCartBean;
 import com.mingpinmall.cart.ui.bean.ShopVoucherInfo;
 import com.mingpinmall.cart.ui.constants.Constants;
 import com.mingpinmall.cart.widget.XBottomSheet;
-import com.socks.library.KLog;
+
 import com.trecyclerview.adapter.DelegateAdapter;
 
 import java.text.DecimalFormat;
@@ -413,11 +414,11 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 });
 
         LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_SUCCESS).observeForever(isLogin -> {
-            KLog.i("登陆成功，刷新数据");
+            QLog.i("登陆成功，刷新数据");
             reGetData();
         });
         LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_OUT).observeForever(isLogin -> {
-            KLog.i("退出登录，清除数据");
+            QLog.i("退出登录，清除数据");
             if (shopCartAdapter != null) {
                 shopCartAdapter.setNewData(new ArrayList<>());
             }

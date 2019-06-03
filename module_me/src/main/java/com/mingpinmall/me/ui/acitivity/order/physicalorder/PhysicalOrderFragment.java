@@ -11,13 +11,13 @@ import com.mingpinmall.me.ui.adapter.BasePagerAdapter;
 
 /**
  * 功能描述：实物订单
+ *
  * @author 小斌
  * @date 2019/4/13
  **/
 public class PhysicalOrderFragment extends BaseFragment<FragmentDefaultTabviewpagerBinding> {
 
-    int pageIndex = 0;
-//    private BasePagerAdapter pagerAdapter;
+    private int pageIndex = 0;
 
     public PhysicalOrderFragment() {
     }

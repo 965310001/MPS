@@ -105,7 +105,7 @@ public class ScreeningPopWindow extends PopupWindow {
 //            bind.msAddressSelect.setItems(ResUtils.getStringArray(R.array.tags_values_type));
 //            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, ResUtils.getStringArray(R.array.tags_values_type));
 //            bind.spinnerSystem.getSelectedItem().toString();
-//            KLog.i(bind.spinnerSystem.getSelectedItem().toString());
+//            QLog.i(bind.spinnerSystem.getSelectedItem().toString());
             ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.item_text1, R.id.text, AssetsData.getAreaListInfos());
             bind.spinnerSystem.setAdapter(adapter);
 //            WidgetUtils.initSpinnerStyle(bind.spinnerSystem, AssetsData.getAreaListInfos());

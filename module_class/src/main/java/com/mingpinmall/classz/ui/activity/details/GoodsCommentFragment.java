@@ -6,11 +6,12 @@ import android.view.View;
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
-import com.socks.library.KLog;
+
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
@@ -39,9 +40,9 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     protected void getRemoteData() {
         super.getRemoteData();
 
-        /*KLog.i("EVALUATE_EVENT_KEY" + adapter.getItems().size());*/
+        /*QLog.i("EVALUATE_EVENT_KEY" + adapter.getItems().size());*/
         if (itemData.size() == 0) {
-            /*KLog.i("EVALUATE_EVENT_KEY");*/
+            /*QLog.i("EVALUATE_EVENT_KEY");*/
             itemData.add(0, new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价", String.valueOf(index))));
             setData(itemData);
         }
@@ -68,7 +69,7 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
             }
             index = integer;
             onRefresh();
-            KLog.i(type);
+            QLog.i(type);
         });
     }
 

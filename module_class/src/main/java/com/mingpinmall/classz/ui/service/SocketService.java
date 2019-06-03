@@ -8,7 +8,8 @@ import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.socks.library.KLog;
+
+import com.goldze.common.dmvvm.utils.log.QLog;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -181,10 +182,10 @@ public class SocketService extends Service {
             mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//初始化成功后，就准备发送心跳包
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            KLog.i(e.toString());
+            QLog.i(e.toString());
         } catch (IOException e) {
             e.printStackTrace();
-            KLog.i(e.toString());
+            QLog.i(e.toString());
         }
     }
 

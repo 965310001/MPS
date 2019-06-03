@@ -74,7 +74,7 @@
 ////                .observe(this, new Observer<GoodsListInfo>() {
 ////                    @Override
 ////                    public void onChanged(@Nullable GoodsListInfo response) {
-////                        /*KLog.i("77777" + type);*/
+////                        /*QLog.i("77777" + type);*/
 ////                        setData(response.getDatas().getGoods_list());
 ////                    }
 ////                });
@@ -182,7 +182,7 @@
 ////    @Override
 ////    protected void getRemoteData() {
 ////        super.getRemoteData();
-////        KLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
+////        QLog.i(id + " " + page + " " + keyword + " " + key + " " + order);
 ////        mViewModel.getStoreGoods(getArguments().getString("id"), page, key, areaId, priceFrom, priceTo, order, ci, st, Constants.STORE_GOODS_RANK_KEY[2]);
 ////    }
 //
