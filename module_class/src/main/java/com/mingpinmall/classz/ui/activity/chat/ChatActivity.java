@@ -103,6 +103,11 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 .setOnItemClickListener(this)
                 .build());
 
+        binding.setEmojiAdapter(AdapterPool.newInstance()
+                .getEmojiAdapter(this)
+                .setOnItemClickListener(this)
+                .build());
+
         binding.etMsg.setOnFocusChangeListener((v, hasFocus) -> hideTrvBottom(true));
     }
 
@@ -118,6 +123,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         memberInfo.getStore_avatar());
             } catch (RemoteException e) {
                 e.printStackTrace();
+                QLog.i(e.toString());
             }
         }
 
@@ -131,11 +137,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
     protected void initData() {
         super.initData();
         mViewModel.getNodeInfo(goodsId, tId, Constants.CHAT[2]);
-
-        binding.setEmojiAdapter(AdapterPool.newInstance()
-                .getEmojiAdapter(this)
-                .setOnItemClickListener(this)
-                .build());
 
         initChatEmoji();
     }

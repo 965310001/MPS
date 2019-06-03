@@ -2,6 +2,8 @@ package com.goldze.common.dmvvm.http.interceptor.logging;
 
 import android.text.TextUtils;
 
+import com.goldze.common.dmvvm.utils.log.QLog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

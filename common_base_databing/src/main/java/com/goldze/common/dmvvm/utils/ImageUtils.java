@@ -27,7 +27,6 @@ import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
 import com.goldze.common.dmvvm.adapter.BaseBannerAdapter;
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.manage.BlurTransformation;
 import com.tmall.ultraviewpager.UltraViewPager;
 
@@ -36,7 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import static com.xuexiang.xui.utils.ResUtils.getResources;
+import static com.goldze.common.dmvvm.utils.ResourcesUtils.getResources;
 
 /**
  * @author GuoFeng

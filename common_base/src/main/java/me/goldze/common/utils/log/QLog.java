@@ -3,11 +3,6 @@ package me.goldze.common.utils.log;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.socks.library.klog.BaseLog;
-import com.socks.library.klog.FileLog;
-import com.socks.library.klog.JsonLog;
-import com.socks.library.klog.XmlLog;
-
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;

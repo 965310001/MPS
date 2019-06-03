@@ -23,7 +23,9 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
+import com.mingpinmall.apppay.pay.JPayListener;
 import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.adapter.FragmentPagerAdapter;
@@ -54,7 +56,7 @@ import static com.mingpinmall.classz.widget.XBottomSheet.BottomGridSheetBuilder.
  * 商品详情
  */
 @Route(path = ARouterConfig.home.SHOPPINGDETAILSACTIVITY)
-public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppingDetailsBinding, ClassifyViewModel> {
+public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppingDetailsBinding, ClassifyViewModel> implements JPayListener {
 
     @Autowired
     String id;
@@ -383,16 +385,16 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
                     }
                     switch (itemView.getTag().toString()) {
                         case "微信":
-                            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 0, map);
+                            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 0, map, this);
                             break;
                         case "朋友圈":
-                            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 1, map);
+                            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 1, map, this);
                             break;
                         case "复制":
                             copy(url);
                             break;
                         case "收藏":
-                            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 2, map);
+                            weiXinBaoStrategy.wechatShare("wxc18a7a67aae81510", 2, map, this);
                             break;
                     }
                     dialog.dismiss();
@@ -574,5 +576,26 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
      */
     public void setCurrentFragment(int position) {
         binding.vpContent.setCurrentItem(position);
+    }
+
+    @Override
+    public void onPaySuccess() {
+        QLog.i("成功");
+    }
+
+    @Override
+    public void onPayError(int error_code, String message) {
+        /*QLog.i(error_code + "==" + message);*/
+        ToastUtils.showLong(message);
+    }
+
+    @Override
+    public void onPayCancel() {
+        QLog.i("取消");
+    }
+
+    @Override
+    public void onUUPay(String dataOrg, String sign, String mode) {
+
     }
 }

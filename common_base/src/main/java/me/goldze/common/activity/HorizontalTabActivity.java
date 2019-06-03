@@ -19,18 +19,11 @@ import me.goldze.common.base.mvvm.base.BaseFragment;
 
 public abstract class HorizontalTabActivity extends BaseActivity {
 
-    //    @BindView(R2.id.easy_indicator)
-    EasyIndicator mEasyIndicator;
-
-    //    @BindView(R2.id.view_pager)
-    ViewPager mViewPager;
-
-    //    @BindView(R2.id.iv_back)
-    ImageView ivBack;
-    //    @BindView(R2.id.tv_title)
-    TextView tvTitle;
-    //    @BindView(R2.id.rl_title_bar)
-    RelativeLayout rlTitleBar;
+    private EasyIndicator mEasyIndicator;
+    private ViewPager mViewPager;
+    private ImageView ivBack;
+    private TextView tvTitle;
+    private RelativeLayout rlTitleBar;
 
     @Override
     protected int getLayoutId() {

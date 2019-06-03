@@ -11,7 +11,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
-import com.socks.library.KLog;
+
+import com.goldze.common.dmvvm.utils.log.QLog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -164,7 +165,7 @@ public class CameraHelper implements Camera.PreviewCallback {
                 mCamera.startFaceDetection();
                 mCamera.setFaceDetectionListener((faces, camera) -> {
                     mCallBack.onFaceDetect(transForm(faces));
-                    KLog.i("检测到 " + faces.length + " 张人脸");
+                    QLog.i("检测到 " + faces.length + " 张人脸");
                 });
             } else {
                 mCamera.stopFaceDetection();
@@ -181,7 +182,7 @@ public class CameraHelper implements Camera.PreviewCallback {
             if (mode == focusMode) {
                 autoFocus = true;
             }
-            KLog.i("相机支持的对焦模式：" + mode);
+            QLog.i("相机支持的对焦模式：" + mode);
         }
         return autoFocus;
     }
@@ -219,7 +220,7 @@ public class CameraHelper implements Camera.PreviewCallback {
 
         for (Camera.Size size : sizeList) {
             double supportedRatio = ((double) size.width / size.height);
-            KLog.i("系统支持的尺寸 : " + size.width + " * " + size.height + " , 比例:" + supportedRatio);
+            QLog.i("系统支持的尺寸 : " + size.width + " * " + size.height + " , 比例:" + supportedRatio);
         }
 
         for (Camera.Size size : sizeList) {
@@ -233,8 +234,8 @@ public class CameraHelper implements Camera.PreviewCallback {
                 bestSize = size;
             }
         }
-        KLog.i("目标尺寸 ：" + targetWidth + " * " + targetHeight + "，比例:" + targetRatio);
-        KLog.i("最优尺寸 ：" + bestSize.height + " * " + bestSize.width);
+        QLog.i("目标尺寸 ：" + targetWidth + " * " + targetHeight + "，比例:" + targetRatio);
+        QLog.i("最优尺寸 ：" + bestSize.height + " * " + bestSize.width);
         mCallBack.onPostBestSize(bestSize);
         return bestSize;
     }
@@ -268,8 +269,8 @@ public class CameraHelper implements Camera.PreviewCallback {
         }
         mCamera.setDisplayOrientation(mDisplayOrientation);
 
-        KLog.i("屏幕的旋转角度 : " + rotation);
-        KLog.i("setDisplayOrientation(result) : " + mDisplayOrientation);
+        QLog.i("屏幕的旋转角度 : " + rotation);
+        QLog.i("setDisplayOrientation(result) : " + mDisplayOrientation);
     }
 
     //判断是否支持某个相机

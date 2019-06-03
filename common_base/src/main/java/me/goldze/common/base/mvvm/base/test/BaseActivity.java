@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
-import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -37,7 +36,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
     private LoadManager loadManager;
 
     ImageView ivBack;
-    MaterialEditText edSearch;
+    //    MaterialEditText edSearch;
     TextView tvTitle;
     ImageView ivSearch;
     TextView tvRight;

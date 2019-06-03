@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
+import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.constants.Constants;
 
@@ -87,6 +88,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if (WeiXinBaoStrategy.getInstance(this) != null) {
+            WeiXinBaoStrategy.getInstance(this).getWXApi().handleIntent(getIntent(), this);
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -95,6 +102,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         setIntent(intent);
         api.handleIntent(intent, this);
+
+        if (WeiXinBaoStrategy.getInstance(this) != null) {
+            WeiXinBaoStrategy.getInstance(this).getWXApi().handleIntent(intent, this);
+        }
     }
 
     @Override
@@ -137,9 +148,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 break;
         }
 
-//        Toast.makeText(this, getString(result) + ", type=" + resp.getType(), Toast.LENGTH_SHORT).show();
-
-        ToastUtils.showLong(getString(result));
+        resp.errStr = getString(result);
+        WeiXinBaoStrategy.getInstance(this).onResp(resp.errCode, resp.errStr);
 
 
         if (resp.getType() == ConstantsAPI.COMMAND_SUBSCRIBE_MESSAGE) {

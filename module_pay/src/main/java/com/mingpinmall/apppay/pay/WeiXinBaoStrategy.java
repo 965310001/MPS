@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -126,14 +127,20 @@ public class WeiXinBaoStrategy implements Strategy {
      * @param appId
      * @param flag  0:分享到微信好友，1：分享到微信朋友圈 2:收藏
      */
-    public void wechatShare(String appId, int flag, Map<String, String> map) {
+    public void wechatShare(String appId, int flag, Map<String, String> map, JPayListener listener) {
+        init(appId);
+        if (!checkWx()) {
+            if (listener != null) {
+                listener.onPayError(WEIXIN_VERSION_LOW, "未安装微信或者微信版本过低");
+            }
+            return;
+        }
         if (null != map) {
             try {
                 new Thread() {
                     @Override
                     public void run() {
                         super.run();
-                        init(appId);
                         WXWebpageObject webpageObject = new WXWebpageObject();
                         webpageObject.webpageUrl = map.get("url");
                         WXMediaMessage msg = new WXMediaMessage(webpageObject);
@@ -141,15 +148,14 @@ public class WeiXinBaoStrategy implements Strategy {
                         msg.description = TextUtils.isEmpty(map.get("description")) ? "" : map.get("description");
                         String imageurl = TextUtils.isEmpty(map.get("imageurl")) ? "" : map.get("imageurl");
                         //这里替换一张自己工程里的图片资源
-                        Bitmap thumb = null;
                         try {
-                            thumb = BitmapFactory.decodeStream(new URL(imageurl).openStream());
+                            Bitmap thumb = BitmapFactory.decodeStream(new URL(imageurl).openStream());
+                            thumb = Bitmap.createScaledBitmap(thumb, 120, 150, true);
+                            msg.setThumbImage(thumb);
+                            thumb.recycle();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        thumb = Bitmap.createScaledBitmap(thumb, 120, 150, true);
-                        msg.setThumbImage(thumb);
-                        thumb.recycle();
                         SendMessageToWX.Req req = new SendMessageToWX.Req();
                         req.transaction = String.valueOf(System.currentTimeMillis());
                         req.message = msg;
@@ -178,7 +184,12 @@ public class WeiXinBaoStrategy implements Strategy {
 
     //检测微信客户端是否支持微信支付
     private boolean checkWx() {
-        return isWeixinAvilible() && mIWXAPI.isWXAppInstalled() && mIWXAPI.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
+        try {
+            return isWeixinAvilible() && mIWXAPI.isWXAppInstalled() && mIWXAPI.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
+        } catch (Exception e) {
+            QLog.i(e.toString());
+        }
+        return false;
     }
 
     /**

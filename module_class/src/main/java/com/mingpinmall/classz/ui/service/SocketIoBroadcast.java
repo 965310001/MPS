@@ -15,7 +15,7 @@ import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import java.util.List;
 
 /**
- * 广播处理
+ * 聊天消息处理
  */
 public class SocketIoBroadcast extends BroadcastReceiver {
 

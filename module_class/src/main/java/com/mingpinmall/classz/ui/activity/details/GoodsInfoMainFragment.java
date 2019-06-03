@@ -66,6 +66,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInfoMainBinding, ClassifyViewModel> implements SlideLayout.OnSlideDetailsListener {
     /**
      * 当前商品详情数据页的索引分别是图文详情、规格参数
@@ -140,7 +141,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
             ToastUtils.showLong("服务器异常，请稍后再试");
         }
     }
-
 
     /**
      * 设置商品信息
@@ -398,6 +398,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 GoodsDetailInfo.DatasBean.MansongInfoBean mansongInfo = dataBean.getMansong_info();
                 if (mansongInfo != null && mansongInfo.getRules() != null && mansongInfo.getRules().size() > 0) {
                     TextView textView;
+                    binding.llManjisong.removeAllViews();
                     for (final GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansongInfo.getRules()) {
                         textView = new TextView(activity);
                         textView.setText("");

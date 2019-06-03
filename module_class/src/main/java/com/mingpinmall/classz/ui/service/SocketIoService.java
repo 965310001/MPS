@@ -103,8 +103,6 @@ public class SocketIoService extends Service {
         public String getsAvatar() {
             return mSavatar;
         }
-
-
     };
 
     @Override
@@ -162,19 +160,16 @@ public class SocketIoService extends Service {
                         member.put("s_avatar", iBackService.getsAvatar());
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Log.i("isConnected", "JSON连接:" + e.toString());
+                        QLog.i("JSON连接:" + e.toString());
                     }
                     mSocket.get().emit("update_user", member);
                 }
             };
 
-    private final Emitter.Listener onDisconnect = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            QLog.i("断开连接");
-            /*更新后台*/
+    private final Emitter.Listener onDisconnect = args -> {
+        QLog.i("断开连接");
+        /*更新后台*/
 //            mSocket.get().emit("", "");
-        }
     };
 
 
@@ -187,7 +182,7 @@ public class SocketIoService extends Service {
                     try {
                         new Thread(() -> {
                             QLog.i(arg.toString());
-                            Gson gson = new Gson();
+//                            Gson gson = new Gson();
 //                            List<MsgInfo.MsgBean> msgBeans = gson.fromJson(arg.toString(), new TypeToken<List<MsgInfo.MsgBean>>() {
 //                            }.getType());
                             /*intent.putExtra("com.broadcast.test", (Serializable) msgBeans);*/

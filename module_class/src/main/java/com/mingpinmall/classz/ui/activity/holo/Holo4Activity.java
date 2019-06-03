@@ -30,9 +30,12 @@ import com.bumptech.glide.request.transition.Transition;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.classz.R;
+import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.HolosAdapter;
 import com.mingpinmall.classz.databinding.ActivityHolo3Binding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
@@ -106,9 +109,13 @@ public class Holo4Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
             holosAdapter.setSelIndex(position);
             HolosBean itemBean = holosAdapter.getItem(position);
             addSticker(itemBean.getGoods_image());
+
+            goods_id = itemBean.getGoods_id();
         });
         binding.btnAction.setOnClickListener(v -> {
             // TODO 加入购物车
+            binding.btnAction.setEnabled(false);
+            mViewModel.addCart(goods_id, 1, Constants.CART_EVENT_KEY);
         });
         binding.llCart.setOnClickListener(v -> {
             // 跳转到购物车
@@ -177,6 +184,23 @@ public class Holo4Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
                 }
             }
         });
+        registerObserver(Constants.CART_EVENT_KEY, ResultBean.class)
+                .observeForever(response -> {
+                    if (response.isSuccess()) {
+                        cart_count = String.valueOf(Long.parseLong(cart_count) + 1);
+                        binding.setCount(Integer.parseInt(cart_count));
+                        SharePreferenceUtil.saveKeyValue("click_goods_num", "");
+                        ToastUtils.showLong("添加购物车成功");
+                    } else {
+                        if (!response.isLogin()) {
+                            ActivityToActivity.toActivity(ARouterConfig.LOGINACTIVITY);
+                            ToastUtils.showLong(response.getError());
+                        } else {
+                            ToastUtils.showLong(response.getError());
+                        }
+                    }
+                });
+
     }
 
     CameraHelper.CallBack callBack = new CameraHelper.CallBack() {

@@ -52,10 +52,12 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
             public String getTabTitle() {
                 return getString(R.string.tabs_login_puk);
             }
+
             @Override
             public int getTabSelectedIcon() {
                 return R.drawable.ic_login_tabs1_sel;
             }
+
             @Override
             public int getTabUnselectedIcon() {
                 return R.drawable.ic_login_tabs1_unsel;
@@ -66,10 +68,12 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
             public String getTabTitle() {
                 return getString(R.string.tabs_login_phone);
             }
+
             @Override
             public int getTabSelectedIcon() {
                 return R.drawable.ic_login_tabs2_sel;
             }
+
             @Override
             public int getTabUnselectedIcon() {
                 return R.drawable.ic_login_tabs2_unsel;
@@ -167,6 +171,9 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                 SharePreferenceUtil.saveUser(result);
                 ToastUtils.showShort("登陆成功");
                 LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_SUCCESS, true);
+
+                // TODO: 2019/6/3 聊天长连接
+
                 CustomProgressDialog.stop();
                 finish();
             } else {
