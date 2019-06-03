@@ -4,15 +4,23 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.WebChromeClient;
+import com.just.agentweb.WebViewClient;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.FragmentGoodsInfoWebBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 商品详情 - 图文详情 Fragment
@@ -71,6 +79,7 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
     @Override
     public void initView(Bundle state) {
         setTitlePadding(binding.rlTopPanel);
+        //imgDisplay
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(binding.contentLayout, new FrameLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
@@ -80,14 +89,65 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
                         super.onProgressChanged(view, newProgress);
                     }
                 })
+                .setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        addImageClickListner();
+                    }
+                })
                 .createAgentWeb()
                 .ready()
                 .go(getArguments().getString("url"));
         mAgentWeb.getWebCreator().getWebView().setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mAgentWeb.getJsInterfaceHolder().addJavaObject("imagelistner", new AndroidToJs());
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 //        initWebView();
+    }
+
+    class AndroidToJs extends Object {
+        @JavascriptInterface
+        public boolean openImage(String img) {
+            Log.d(TAG, "AndroidToJs: openImage 查看大图" + img);
+            if (img != null) {
+                List<LocalMedia> selectList = new ArrayList<>();
+                LocalMedia localMedia = new LocalMedia();
+                localMedia.setPath(img);
+                selectList.add(localMedia);
+                PictureSelector.create(activity).themeStyle(R.style.picture_default_style).openExternalPreview(0, selectList);
+            }
+            return true;
+        }
+
+    }
+
+    // 注入js函数监听
+    private void addImageClickListner() {
+        Log.d(TAG, "addImageClickListner: 注入代码");
+
+        // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，在还是执行的时候调用本地接口传递url过去
+        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:(function(){" +
+                "var objs = document.getElementsByTagName(\"img\"); " +
+                "for(var i=0;i<objs.length;i++)  " +
+                "{"
+                + "    objs[i].onclick=function()  " +
+                "    {  "
+                + "        window.imagelistner.openImage(this.src);  " +
+                "    }  " +
+                "}" +
+                "})()");
+//        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:(function(){"
+//                + "var objs = document.getElementsByTagName(\"img\");"
+//                + "var imgurl=''; "
+//                + "for(var i=0;i<objs.length;i++)  "
+//                + "{"
+//                + "imgurl+=objs[i].src+',';"
+//                + "    objs[i].onclick=function()  "
+//                + "    {  "
+//                + "        imagelistner.openImage(imgurl);  "
+//                + "    }  " + "}" + "})()");
     }
 
 //    private void initWebView() {
