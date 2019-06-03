@@ -472,7 +472,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         params.put("goods_id", mGoodsInfo.getGoods_id());
         params.put("cart_count", binding.tvCount.getText().toString());
 
-        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO3ACTIVITY, params);
+        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO4ACTIVITY, params);
 //        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", mGoodsInfo.getTryon_url());
 //        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", mGoodsInfo.getTryon_url());
     }
