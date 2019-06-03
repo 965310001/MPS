@@ -132,6 +132,7 @@ public interface ARouterConfig {
         String HOLOACTIVITY = "/clasz/HoloActivity";
         String HOLO2ACTIVITY = "/clasz/Holo2Activity";
         String HOLO3ACTIVITY = "/clasz/Holo3Activity";
+        String HOLO4ACTIVITY = "/clasz/Holo4Activity";
 //        String DISTRIBUTIONACTIVITY = "/clasz/DistributionActivity";
     }
 

@@ -18,13 +18,21 @@
 
         <FrameLayout
             android:id="@+id/group"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/layout_bottom"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0">
 
             <SurfaceView
                 android:id="@+id/sfv_surface"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.mingpinmall.classz.ui.activity.holo.FaceView
+                android:id="@+id/faceView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -33,14 +41,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <com.xiaopo.flying.sticker.StickerView
                 android:id="@+id/sv_sticker"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:showIcons="false"
-                app:showBorder="false"/>
+                app:showBorder="false"
+                app:showIcons="false" />
 
         </FrameLayout>
 
@@ -53,10 +61,12 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="match_parent"
+                android:minHeight="60dp"
                 android:orientation="horizontal"
                 android:overScrollMode="never"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/btn_action"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -65,9 +75,9 @@
                 android:id="@+id/ll_takePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/btn_action"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/btn_action">
@@ -104,9 +114,9 @@
                 android:id="@+id/ll_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/btn_action"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/btn_action">

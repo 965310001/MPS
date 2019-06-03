@@ -654,7 +654,7 @@ public class StickerView extends FrameLayout {
         } else {
           scaleFactor = height / handlingSticker.getDrawable().getIntrinsicHeight();
         }
-        sticker.getMatrix().postScale(scaleFactor / 2f, scaleFactor / 2f, width / 2f, height / 2f);
+        sticker.getMatrix().postScale(scaleFactor / 5f * 4f, scaleFactor / 5f * 4f, width / 2f, height / 2f);
       }
       int index = stickers.indexOf(handlingSticker);
       stickers.set(index, sticker);
@@ -719,16 +719,13 @@ public class StickerView extends FrameLayout {
 
   protected void addStickerImmediately(@NonNull Sticker sticker, @Sticker.Position int position) {
     setStickerPosition(sticker, position);
-
-
     float scaleFactor, widthScaleFactor, heightScaleFactor;
-
     widthScaleFactor = (float) getWidth() / sticker.getDrawable().getIntrinsicWidth();
     heightScaleFactor = (float) getHeight() / sticker.getDrawable().getIntrinsicHeight();
     scaleFactor = widthScaleFactor > heightScaleFactor ? heightScaleFactor : widthScaleFactor;
 
     sticker.getMatrix()
-        .postScale(scaleFactor / 5 * 3, scaleFactor / 5 * 3, getWidth() / 5 * 3, getHeight() / 5 * 3);
+        .postScale(scaleFactor / 5f * 4f, scaleFactor / 5f * 4f, getWidth() / 2f, getHeight() / 2f);
 
     handlingSticker = sticker;
     stickers.add(sticker);
