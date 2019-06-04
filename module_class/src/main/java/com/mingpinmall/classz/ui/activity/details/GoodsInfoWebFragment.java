@@ -109,14 +109,25 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
 
     class AndroidToJs extends Object {
         @JavascriptInterface
-        public boolean openImage(String img) {
+        public boolean openImage(String img, String allImg) {
             Log.d(TAG, "AndroidToJs: openImage 查看大图" + img);
-            if (img != null) {
-                List<LocalMedia> selectList = new ArrayList<>();
-                LocalMedia localMedia = new LocalMedia();
-                localMedia.setPath(img);
-                selectList.add(localMedia);
-                PictureSelector.create(activity).themeStyle(R.style.picture_default_style).openExternalPreview(0, selectList);
+            if (allImg != null && img != null) {
+                if (allImg.contains(",")) {
+                    String[] imgs = allImg.split(",");
+                    List<LocalMedia> selectList = new ArrayList<>();
+                    int index = 0;
+                    for (int i = 0; i < imgs.length; i++) {
+                        LocalMedia localMedia = new LocalMedia();
+                        localMedia.setPath(imgs[i]);
+                        selectList.add(localMedia);
+                        if (imgs[i].equals(img)) {
+                            index = i;
+                            Log.i(TAG, "openImage: 点击的是 " + index);
+                        }
+                    }
+                    PictureSelector.create(activity).themeStyle(R.style.picture_default_style)
+                            .openExternalPreview(index, selectList);
+                }
             }
             return true;
         }
@@ -130,12 +141,14 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
         // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，在还是执行的时候调用本地接口传递url过去
         mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:(function(){" +
                 "var objs = document.getElementsByTagName(\"img\"); " +
-                "for(var i=0;i<objs.length;i++)  " +
-                "{"
-                + "    objs[i].onclick=function()  " +
-                "    {  "
-                + "        window.imagelistner.openImage(this.src);  " +
-                "    }  " +
+                "var imgurl=''; " +
+                "for(var i=0;i<objs.length;i++)" +
+                "{" +
+                "    imgurl+=objs[i].src+',';" +
+                "    objs[i].onclick=function()" +
+                "    {  " +
+                "        window.imagelistner.openImage(this.src, imgurl);" +
+                "    }" +
                 "}" +
                 "})()");
 //        mAgentWeb.getWebCreator().getWebView().loadUrl("javascript:(function(){"

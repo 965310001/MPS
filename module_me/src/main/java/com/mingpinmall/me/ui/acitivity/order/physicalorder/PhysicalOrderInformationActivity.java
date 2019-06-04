@@ -206,6 +206,11 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
             tvBtn.setOnClickListener(this);
         }
 
+        binding.clBottom.setVisibility(buttonContent.getChildCount() == 0
+                && binding.tvTips.getVisibility() != View.VISIBLE
+                ? View.GONE
+                : View.VISIBLE);
+
         //物流信息是否存在
         if (data.isIf_deliver()) {
             mViewModel.getOrderDeliverInformation(data.getOrder_id());

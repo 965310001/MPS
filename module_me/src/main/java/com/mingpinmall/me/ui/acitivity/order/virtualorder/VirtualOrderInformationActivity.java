@@ -195,6 +195,9 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
             buttonContent.addView(tvBtn);
             tvBtn.setLayoutParams(params);
             tvBtn.setOnClickListener(this);
+            binding.clBottom.setVisibility(View.VISIBLE);
+        } else {
+            binding.clBottom.setVisibility(View.GONE);
         }
 
     }

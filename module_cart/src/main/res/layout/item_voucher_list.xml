@@ -7,133 +7,131 @@
 
     </data>
 
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="4dp"
-        android:foreground="?selectableItemBackground">
+        android:layout_height="85dp"
+        android:paddingStart="12dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="4dp">
+
+        <com.goldze.common.dmvvm.widget.CouponDisplayView
+            android:id="@+id/cdv_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="85dp">
+            android:id="@+id/cl_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="3.5dp"
+            android:background="@color/white"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cl_right"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.goldze.common.dmvvm.widget.CouponDisplayView
-                android:id="@+id/cdv_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/cl_left"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_image"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/cl_right"
-                app:layout_constraintHorizontal_weight="5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_image"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_storeName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@id/tv_time"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_image"
-                    app:layout_constraintTop_toTopOf="@id/iv_image"
-                    tools:text="名品网自营" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_image"
-                    app:layout_constraintEnd_toEndOf="@id/tv_storeName"
-                    app:layout_constraintStart_toStartOf="@id/tv_storeName"
-                    app:layout_constraintTop_toBottomOf="@id/tv_storeName"
-                    tools:text="有效期至:2019-04-20 18:26" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/cl_right"
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_storeName"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/tv_time"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="3"
-                app:layout_constraintStart_toEndOf="@id/cl_left"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toEndOf="@id/iv_image"
+                app:layout_constraintTop_toTopOf="@id/iv_image"
+                tools:text="名品网自营" />
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_subImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="6dp"
-                    android:adjustViewBounds="true"
-                    android:alpha="0.3"
-                    android:src="@drawable/ic_me_store"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="¥200" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_use"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@color/white"
-                    android:textSize="13sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_money"
-                    tools:text="满100.00使用" />
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_stateImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="14dp"
-                    android:adjustViewBounds="true"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </android.support.constraint.ConstraintLayout>
-
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                app:layout_constraintEnd_toEndOf="@id/tv_storeName"
+                app:layout_constraintStart_toStartOf="@id/tv_storeName"
+                app:layout_constraintTop_toBottomOf="@id/tv_storeName"
+                tools:text="有效期至:2019-04-20 18:26" />
 
         </android.support.constraint.ConstraintLayout>
 
-    </FrameLayout>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="3.5dp"
+            android:background="#ed5564"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@id/cl_left"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_subImage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="6dp"
+                android:adjustViewBounds="true"
+                android:alpha="0.3"
+                android:src="@drawable/ic_me_store"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="¥200" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_use"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_money"
+                tools:text="满100.00使用" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_stateImage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="14dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
 </layout>

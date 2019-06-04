@@ -78,7 +78,7 @@ public class Holo4Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
 
         cameraHelper = new CameraHelper(activity, binding.sfvSurface, callBack);
         //开启人脸识别
-//        cameraHelper.startFaceDetect();
+        cameraHelper.startFaceDetect(true);
 
         //TODO 测试
         goods_id = "110381";
@@ -145,8 +145,8 @@ public class Holo4Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         //添加到 人脸检测 绘制
-                        binding.faceView.setImage(ContextCompat.getDrawable(activity, R.drawable.test_yanjing));
-//                        binding.faceView.setImage(resource);
+//                        binding.faceView.setImage(ContextCompat.getDrawable(activity, R.drawable.test_yanjing));
+                        binding.faceView.setImage(resource);
                         //添加贴图
                         if (binding.svSticker.isNoneSticker()) {
                             binding.svSticker.addSticker(new DrawableSticker(resource));

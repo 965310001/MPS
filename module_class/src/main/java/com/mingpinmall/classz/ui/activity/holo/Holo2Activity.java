@@ -1,18 +1,25 @@
 package com.mingpinmall.classz.ui.activity.holo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
+import android.webkit.ValueCallback;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -22,7 +29,6 @@ import com.github.lzyzsd.jsbridge.BridgeWebViewClient;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.FileUtils;
 import com.goldze.common.dmvvm.utils.Img2Base64Util;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
@@ -40,9 +46,11 @@ import com.mingpinmall.classz.databinding.ActivityHoloBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 
 
-import org.w3c.dom.Text;
-
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,35 +67,47 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
     private BridgeWebView mBridgeWebView;
     private String picPath = "";
 
+    private static final int INPUT_FILE_REQUEST_CODE = 1;
+    private static final int FILECHOOSER_RESULTCODE = 1;
+    private ValueCallback<Uri> mUploadMessage;
+    private Uri mCapturedImageURI = null;
+    private ValueCallback<Uri[]> mFilePathCallback;
+    private String mCameraPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File imageFile = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        return imageFile;
+    }
+
     @Override
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
         setTitle("试戴");
-        QLog.i(url);
-        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df#/";
+        QLog.i("试戴URL：" + url);
+//        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df&cat_id=7&goods_id=361&version=189";
         mBridgeWebView = new BridgeWebView(activity);
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(findViewById(R.id.fl_content), new FrameLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
                 .setWebViewClient(getWebViewClient())
-                .setWebChromeClient(new WebChromeClient() {
-                    @Override
-                    public void onConsoleMessage(String message, int lineNumber, String sourceID) {
-                        Log.i("console", message + "(" + sourceID + ":" + lineNumber + ")");
-                        super.onConsoleMessage(message, lineNumber, sourceID);
-                    }
-
-                    @Override
-                    public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                        Log.i("console", "[" + consoleMessage.messageLevel() + "] " + consoleMessage.message() + "(" + consoleMessage.sourceId() + ":" + consoleMessage.lineNumber() + ")");
-                        return super.onConsoleMessage(consoleMessage);
-                    }
-                })
+                .setWebChromeClient(getWebChromeClient())
                 .setWebView(mBridgeWebView)
                 .createAgentWeb()
                 .ready()
                 .get();
+        mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setAllowFileAccess(true);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
         mAgentWeb.getWebCreator().getWebView().setOverScrollMode(View.OVER_SCROLL_NEVER);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -120,18 +140,86 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
         };
     }
 
+    private WebChromeClient getWebChromeClient() {
+        return new WebChromeClient() {
+            // For Android 5.0
+            @Override
+            public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePath,
+                                             android.webkit.WebChromeClient.FileChooserParams fileChooserParams) {
+                // Double check that we don't have any existing callbacks
+                if (mFilePathCallback != null) {
+                    mFilePathCallback.onReceiveValue(null);
+                }
+                mFilePathCallback = filePath;
+                showFileChooser();
+                return true;
+            }
+
+            //openFileChooser for Android versions >= 4.1
+            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+                openFileChooser(uploadMsg, acceptType);
+            }
+//
+//            @Override
+//            public void onConsoleMessage(String message, int lineNumber, String sourceID) {
+//                Log.i("console", message + "(" + sourceID + ":" + lineNumber + ")");
+//                super.onConsoleMessage(message, lineNumber, sourceID);
+//            }
+//
+//            @Override
+//            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+//                Log.i("console", "[" + consoleMessage.messageLevel() + "] " + consoleMessage.message() + "(" + consoleMessage.sourceId() + ":" + consoleMessage.lineNumber() + ")");
+//                return super.onConsoleMessage(consoleMessage);
+//            }
+        };
+    }
+
+    /**
+     * 打开系统文件选择器
+     */
+    private void showFileChooser() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+                takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.e("Holo", "Unable to create Image File", ex);
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+            } else {
+                takePictureIntent = null;
+            }
+        }
+        Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        contentSelectionIntent.setType("image/*");
+        Intent[] intentArray;
+        if (takePictureIntent != null) {
+            intentArray = new Intent[]{takePictureIntent};
+        } else {
+            intentArray = new Intent[0];
+        }
+        Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
+        chooserIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
+        chooserIntent.putExtra(Intent.EXTRA_TITLE, "上传照片");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+        startActivityForResult(chooserIntent, INPUT_FILE_REQUEST_CODE);
+    }
 
     class AndroidToJs extends Object {
         @JavascriptInterface
         public boolean backHost() {
             Log.d(TAG, "AndroidToJs: backHost 首页");
-            runOnUiThread(() -> mAgentWeb.getUrlLoader().loadUrl(url));
-            return true;
-        }
-
-        @JavascriptInterface
-        public boolean customizeCamera() {
-            Log.d(TAG, "AndroidToJs: customizeCamera 这是什么？");
+            runOnUiThread(Holo2Activity.this::finish);
             return true;
         }
 
@@ -139,28 +227,6 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
         public boolean goProduct(String sku_id) {
             Log.d(TAG, "AndroidToJs: goProduct 查看商品详情");
             ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", sku_id);
-            return true;
-        }
-
-        @JavascriptInterface
-        public boolean chooseModelImage() {
-            Log.d(TAG, "AndroidToJs: chooseModelImage 选择照片/拍照");
-            runOnUiThread(() -> PictureSelector.create(activity)
-                    .openGallery(PictureMimeType.ofImage())
-                    // 每行显示个数 int
-                    .imageSpanCount(3)
-                    // 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
-                    .selectionMode(PictureConfig.SINGLE)
-                    // glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
-                    .sizeMultiplier(0.5f)
-                    // 是否压缩 true or false
-                    .compress(true)
-                    // 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
-                    .previewEggs(true)
-                    // 小于100kb的图片不压缩
-                    .minimumCompressSize(100)
-                    //结果回调onActivityResult code
-                    .forResult(PictureConfig.CHOOSE_REQUEST));
             return true;
         }
 
@@ -200,36 +266,51 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case PictureConfig.CHOOSE_REQUEST:
-                    // 图片选择结果回调
-                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                    // 例如 LocalMedia 里面返回三种path
-                    // 1.media.getPath(); 为原图path
-                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
-                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
-                    // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
-                    for (LocalMedia lm : selectList) {
-                        if (lm.isCompressed()) {
-                            picPath = lm.getCompressPath();
-                        } else if (lm.isCut()) {
-                            picPath = lm.getCutPath();
-                        } else {
-                            picPath = lm.getPath();
-                        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
+                super.onActivityResult(requestCode, resultCode, data);
+                return;
+            }
+            Uri[] results = null;
+            // Check that the response is a good one
+            if (resultCode == Activity.RESULT_OK) {
+                if (data == null) {
+                    // If there is not data, then we may have taken a photo
+                    if (mCameraPhotoPath != null) {
+                        results = new Uri[]{Uri.parse(mCameraPhotoPath)};
                     }
-                    File file = new File(picPath);
-                    if (!file.exists()) {
-                        ToastUtils.showShort("图片未找到！");
-                        return;
+                } else {
+                    String dataString = data.getDataString();
+                    if (dataString != null) {
+                        results = new Uri[]{Uri.parse(dataString)};
                     }
-                    String imageSrc = "data:image/png;base64," + Img2Base64Util.imageToBase64(picPath);
-
-                    mAgentWeb.getJsAccessEntrace().quickCallJs("previewImage", imageSrc);
-                    break;
-                default:
-                    break;
+                }
+            }
+            mFilePathCallback.onReceiveValue(results);
+            mFilePathCallback = null;
+        } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            if (requestCode != FILECHOOSER_RESULTCODE || mUploadMessage == null) {
+                super.onActivityResult(requestCode, resultCode, data);
+                return;
+            }
+            if (requestCode == FILECHOOSER_RESULTCODE) {
+                if (null == this.mUploadMessage) {
+                    return;
+                }
+                Uri result = null;
+                try {
+                    if (resultCode != RESULT_OK) {
+                        result = null;
+                    } else {
+                        // retrieve from the private variable if the intent is null
+                        result = data == null ? mCapturedImageURI : data.getData();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "activity :" + e,
+                            Toast.LENGTH_LONG).show();
+                }
+                mUploadMessage.onReceiveValue(result);
+                mUploadMessage = null;
             }
         }
     }

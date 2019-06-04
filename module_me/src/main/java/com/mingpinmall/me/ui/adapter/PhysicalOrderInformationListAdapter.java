@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class PhysicalOrderInformationListAdapter extends BaseQuickAdapter<OrderInformationBean.OrderInfoBean.GoodsListBean, BaseViewHolder> {
 
     public PhysicalOrderInformationListAdapter() {
-        super(R.layout.item_physical_order_child, new ArrayList<>());
+        super(R.layout.item_physical_orderinfomation, new ArrayList<>());
     }
 
     @Override

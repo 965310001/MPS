@@ -132,8 +132,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/line_height"
                         android:layout_marginTop="12dp"
-                        android:visibility='@{data.buyer_msg.equals("") ? View.GONE : View.VISIBLE}'
-                        android:background="@color/line_color" />
+                        android:background="@color/line_color"
+                        android:visibility='@{data.buyer_msg.equals("") ? View.GONE : View.VISIBLE}' />
 
                     <com.goldze.common.dmvvm.widget.SettingItemView
                         android:id="@+id/siv_item3"
@@ -334,9 +334,12 @@
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_bottom"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <View
                 android:layout_width="match_parent"

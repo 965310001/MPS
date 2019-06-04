@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：店铺代金券列表
+ *
  * @author 小斌
  * @date 2019/4/20
  **/

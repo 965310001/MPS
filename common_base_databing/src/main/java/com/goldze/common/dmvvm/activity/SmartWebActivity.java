@@ -1,18 +1,9 @@
 package com.goldze.common.dmvvm.activity;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -20,7 +11,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.databinding.ActivityBaseBinding;
 import com.goldze.common.dmvvm.databinding.ActivitySmartwebBinding;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.WebViewClient;
