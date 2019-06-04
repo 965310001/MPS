@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
+import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.mingpinmall.apppay.pay.JPayListener;
 import com.mingpinmall.apppay.pay.WeiXinBaoStrategy;
 import com.mingpinmall.classz.R;
@@ -475,8 +477,12 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         params.put("goods_id", mGoodsInfo.getGoods_id());
         params.put("cart_count", binding.tvCount.getText().toString());
 
-        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO4ACTIVITY, params);
-//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", mGoodsInfo.getTryon_url());
+//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO4ACTIVITY, params);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            TextDialog.showBaseDialog(activity, "", "您的手机系统版本过低，不支持试戴功能").show();
+            return;
+        }
+        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO2ACTIVITY, "url", mGoodsInfo.getTryon_url());
 //        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", mGoodsInfo.getTryon_url());
     }
 

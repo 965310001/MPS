@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:foreground="?selectableItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/bg_grid_white_corners_05dp"
+                    android:padding="@dimen/line_height"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="18dp"
+                    android:maxLines="2"
+                    android:textColor="#333"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toStartOf="@id/tv_payMoney"
+                    app:layout_constraintStart_toEndOf="@id/iv_image"
+                    app:layout_constraintTop_toTopOf="@id/iv_image"
+                    app:layout_constraintVertical_bias="0"
+                    tools:text="这里是商品标题内容" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_spec"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="18dp"
+                    android:maxLines="2"
+                    android:textColor="#999"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                    app:layout_constraintEnd_toStartOf="@id/tv_refund"
+                    app:layout_constraintStart_toEndOf="@id/iv_image"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label"
+                    tools:text="这里是商品信息，颜色，种类等" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_payMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_image"
+                    tools:text="¥48.00" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_payMoney"
+                    tools:text="x1" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_refund"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/shape_border_corner_ccc_4dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="退款"
+                    android:textColor="#555"
+                    android:textSize="14sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_return"
+                    app:layout_constraintEnd_toStartOf="@id/tv_return"
+                    app:layout_constraintTop_toTopOf="@id/tv_return"
+                    tools:visibility="visible" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_return"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_border_corner_ccc_4dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="退货"
+                    android:textColor="#555"
+                    android:textSize="14sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_count"
+                    app:layout_constraintVertical_bias="1"
+                    tools:visibility="visible" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/line_color" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</layout>

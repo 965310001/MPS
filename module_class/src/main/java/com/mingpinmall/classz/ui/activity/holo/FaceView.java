@@ -64,6 +64,9 @@ public class FaceView extends View {
                 Log.i("FaceView", "onDraw: Size");
                 if (bitmap != null) {
                     Log.i("FaceView", "onDraw: Bitmap");
+                    float cha = (face.bottom - face.top) / 5;
+                    face.top = face.top - cha;
+                    face.bottom = face.bottom - cha;
                     canvas.drawBitmap(bitmap, null, face, null);
                 } else {
                     Log.i("FaceView", "onDraw: RectF");

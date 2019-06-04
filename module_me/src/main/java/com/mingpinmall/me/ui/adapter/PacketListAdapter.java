@@ -1,5 +1,6 @@
 package com.mingpinmall.me.ui.adapter;
 
+import android.graphics.Color;
 import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -40,6 +41,8 @@ public class PacketListAdapter extends BaseMultiItemQuickAdapter<PacketListBean.
                         .setText(R.id.tv_use, "满" + item.getRpacket_limit() + "可用")
                         .setImageResource(R.id.iv_subImage, R.drawable.ic_mcc_09_w)
                         .setGone(R.id.iv_stateImage, !TextUtils.equals("1", item.getRpacket_state()))
+                        .setBackgroundColor(R.id.cl_right, TextUtils.equals("1", item.getRpacket_state()) ?
+                                Color.parseColor("#ed5564") : Color.parseColor("#aab2bd"))
                         .setImageResource(R.id.iv_stateImage, TextUtils.equals("2", item.getRpacket_state()) ? R.drawable.ticket_ysy : R.drawable.ticket_ysx);
                 CouponDisplayView displayView = helper.getView(R.id.cdv_view);
                 displayView.setState(TextUtils.equals("1", item.getRpacket_state()));

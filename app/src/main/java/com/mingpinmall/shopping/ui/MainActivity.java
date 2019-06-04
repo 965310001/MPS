@@ -130,8 +130,12 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 //        Map<String, Object> params = new HashMap<>(2);
 //        params.put("goods_id", "110381");
 //        params.put("cart_count", "3");
-//
-//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO3ACTIVITY, params);
+//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO4ACTIVITY, params);
+
+//        String url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df&cat_id=7&goods_id=361&version=189";
+//        String url = "https://www.feeai.cn/fitting";
+//        ActivityToActivity.toActivity(ARouterConfig.SMARTWEBACTIVITY, "url", url);
+//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO2ACTIVITY, "url", url);
     }
 
     @Override

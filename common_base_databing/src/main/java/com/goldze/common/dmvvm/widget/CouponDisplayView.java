@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
@@ -24,7 +25,7 @@ public class CouponDisplayView extends View {
     /**
      * 圆间距
      */
-    private float gap = 8;
+    private float gap = 11f;
     /**
      * 半径
      */
@@ -56,7 +57,7 @@ public class CouponDisplayView extends View {
     }
 
     private void initPaint() {
-        radius = ScreenUtil.dip2px(getContext(), 3.5f);
+        radius = ScreenUtil.dip2px(getContext(), 4);
         //边缘锯齿画笔
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setDither(true);
@@ -79,9 +80,9 @@ public class CouponDisplayView extends View {
         mBitmap = Bitmap.createBitmap(width, hight, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
         // 绘制图层颜色
-        mCanvas.drawRect(0, 0, width / 8 * 5, hight, mPaint0);
+        mCanvas.drawRect(0, 0, radius, hight, mPaint0);
         mPaint0.setColor(rightColor);
-        mCanvas.drawRect(width / 8 * 5, 0, width, hight, mPaint0);
+        mCanvas.drawRect(width - radius, 0, width, hight, mPaint0);
     }
 
     @Override

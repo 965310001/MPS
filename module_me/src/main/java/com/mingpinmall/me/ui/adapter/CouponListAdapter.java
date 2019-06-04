@@ -1,5 +1,6 @@
 package com.mingpinmall.me.ui.adapter;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -38,7 +39,9 @@ public class CouponListAdapter extends BaseMultiItemQuickAdapter<CouponListBean.
                         .setText(R.id.tv_money, "¥" + item.getVoucher_price())
                         .setText(R.id.tv_use, "满" + item.getVoucher_limit() + "可用")
                         .setGone(R.id.iv_stateImage, item.getType() > 1)
-                        .setImageResource(R.id.iv_stateImage, item.getType() == 2 ? R.drawable.ticket_ysy : R.drawable.ticket_ysx);
+                        .setImageResource(R.id.iv_stateImage, item.getType() == 2 ? R.drawable.ticket_ysy : R.drawable.ticket_ysx)
+                        .setBackgroundColor(R.id.cl_right, item.getType()  < 2 ?
+                                Color.parseColor("#ed5564") : Color.parseColor("#aab2bd"));
                 CouponDisplayView displayView = helper.getView(R.id.cdv_view);
                 displayView.setState(item.getType() < 2);
                 Log.d(TAG, "convert: " + item.getType() + " - " + helper.getAdapterPosition());

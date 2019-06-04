@@ -43,10 +43,12 @@
             android:name=".ui.activity.chat.ChatActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.activity.classiflist.ScreeningActivity" />
-        <activity android:name=".ui.activity.holo.Holo2Activity" />
-        <activity android:name=".ui.activity.holo.Holo3Activity"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".ui.activity.holo.Holo2Activity"
+            android:hardwareAccelerated="true" />
+        <activity
+            android:name=".ui.activity.holo.Holo3Activity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.holo.Holo4Activity" />
 
         <!--   android:process=":aidl"  android:enabled="true"

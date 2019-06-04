@@ -819,7 +819,7 @@ public interface MeApiService {
      * 请求参数：
      * order_id:订单id
      */
-    String ORDERDELIVERINFORMATION = "/mo_bile/index.php?app=member_order&wwi=get_current_deliver";
+    String ORDERDELIVERINFORMATION = "/mo_bile/index.php?app=member_order&wwi=search_deliver";
 
     @FormUrlEncoded
     @POST(ORDERDELIVERINFORMATION)
