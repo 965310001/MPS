@@ -10,7 +10,6 @@ import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -22,6 +21,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -29,6 +29,7 @@ import com.goldze.common.dmvvm.R;
 import com.goldze.common.dmvvm.adapter.BannerImgAdapter;
 import com.goldze.common.dmvvm.adapter.BaseBannerAdapter;
 import com.goldze.common.dmvvm.manage.BlurTransformation;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tmall.ultraviewpager.UltraViewPager;
@@ -46,7 +47,18 @@ import static com.goldze.common.dmvvm.utils.ResourcesUtils.getResources;
  * @date :2019/1/16 18:05
  * @description: 图片工具类
  */
-public class ImageUtils {
+public class ImageUtils2 {
+
+    /**
+     * 图片类型
+     */
+    public enum ImageType {
+        CIRCLE,
+        CENTER,
+        FITCENTER,
+        CIRCLECROPTRANSFORM
+    }
+
     /**
      * 加载多张图片
      *
@@ -67,47 +79,70 @@ public class ImageUtils {
     }
 
     /**
-     * 加载GIF网络图片
+     * 加载网络、本地图片
      *
-     * @param url       url
-     * @param imageView imageView
-     * @param imageView transformation 转换器
+     * @param imageView
+     * @param object    url，资源Id
      */
-    public static void loadImageAsGIF(ImageView imageView, String url) {
-        if (TextUtils.isEmpty(url)) {
-            return;
-        }
-        Glide.with(Utils.getApplication())
-                .asGif()
-                .load(url)
-                .apply(new RequestOptions()
-                        .placeholder(R.drawable.ic_loading_image)
-                        .error(new ColorDrawable(Color.WHITE))
-                        .fallback(new ColorDrawable(Color.RED))
-                )
-                .into(imageView);
+    public static void loadImage(ImageView imageView, Object object) {
+        loadImage(imageView, object, null);
     }
 
-    /**
-     * 加载GIF网络图片
-     *
-     * @param url       url
-     * @param imageView imageView
-     * @param imageView transformation 转换器
-     */
-    public static void loadImageAsGIFWithCircle(ImageView imageView, String url) {
-        if (TextUtils.isEmpty(url)) {
-            return;
+    public static void loadImage(ImageView imageView, Object object, ImageType imageType) {
+        RequestManager requestManager = Glide.with(Utils.getApplication());
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.ic_loading_image)
+                .error(new ColorDrawable(Color.WHITE))
+                .fallback(new ColorDrawable(Color.RED));
+        if (null != imageType) {
+            switch (imageType) {
+                case CIRCLE:
+                    requestOptions.circleCrop();
+                    break;
+                case CENTER:
+                    requestOptions.centerCrop();
+                    break;
+                case FITCENTER:
+                    requestOptions.fitCenter();
+                    break;
+                case CIRCLECROPTRANSFORM:
+                    requestOptions.circleCropTransform();
+                    break;
+            }
         }
-        Glide.with(Utils.getApplication())
-                .asGif()
-                .load(url)
-                .apply(RequestOptions.circleCropTransform()
-                        .placeholder(R.drawable.ic_loading_image)
-                        .error(new ColorDrawable(Color.WHITE))
-                        .fallback(new ColorDrawable(Color.RED))
-                )
-                .into(imageView);
+        try {
+            if (object instanceof String) {
+                String url = object.toString();
+                if (TextUtils.isEmpty(url)) {
+                    return;
+                }
+                if (url.endsWith(".gif") || url.endsWith(".GIF")) {
+                    requestManager.asGif()
+                            .load(url)
+                            .apply(requestOptions)
+                            .into(imageView);
+                } else if (url.startsWith("http")) {
+                    requestManager.load(url)
+                            .apply(requestOptions)
+                            .into(imageView);
+                }
+            } else if (object instanceof Long) {
+                requestManager.asGif()
+                        .load(Long.valueOf(object.toString()))
+                        .apply(requestOptions)
+                        .into(imageView);
+            } else if (object instanceof Integer) {
+                requestManager.asGif()
+                        .load(Integer.valueOf(object.toString()))
+                        .apply(requestOptions)
+                        .into(imageView);
+            } else {
+                QLog.i("请输入正确的图片地址");
+                return;
+            }
+        } catch (Exception e) {
+            QLog.i(e.toString());
+        }
     }
 
     public static int overrideHight = 0;
@@ -215,51 +250,6 @@ public class ImageUtils {
                 .into(imageView);
     }
 
-    /**
-     * 加载网络图片
-     *
-     * @param url       url
-     * @param imageView imageView
-     */
-    public static void loadImage(ImageView imageView, String url) {
-        if (TextUtils.isEmpty(url)) {
-            return;
-        }
-        try {
-            Glide.with(Utils.getApplication())
-                    .load(url)
-                    .apply(new RequestOptions()
-                            .placeholder(R.drawable.ic_loading_image)
-                            .error(new ColorDrawable(Color.WHITE))
-                            .fallback(new ColorDrawable(Color.RED)))
-                    .into(imageView);
-        } catch (Exception e) {
-            Glide.with(Utils.getApplication())
-                    .load(url)
-                    .apply(new RequestOptions()
-                            .placeholder(R.drawable.ic_loading_image)
-                            .error(new ColorDrawable(Color.WHITE))
-                            .fallback(new ColorDrawable(Color.RED)))
-                    .into(imageView);
-        }
-
-    }
-
-    /**
-     * 加载本地图片
-     *
-     * @param imageView
-     * @param resId
-     */
-    public static void loadImage(ImageView imageView, int resId) {
-        Glide.with(Utils.getApplication())
-                .load(resId)
-                .apply(new RequestOptions()
-                        .placeholder(R.drawable.ic_loading_image)
-                        .error(new ColorDrawable(Color.WHITE))
-                        .fallback(new ColorDrawable(Color.RED)))
-                .into(imageView);
-    }
 
     /**
      * 加载圆形
@@ -276,42 +266,6 @@ public class ImageUtils {
                 .apply(new RequestOptions().circleCrop()
                         .placeholder(R.drawable.ic_loading_image)
                         .error(new ColorDrawable(Color.TRANSPARENT))
-                        .fallback(new ColorDrawable(Color.RED)))
-                .into(imageView);
-    }
-
-    /**
-     * 加载圆形Gif
-     *
-     * @param url       url
-     * @param imageView imageView
-     */
-    public static void loadImageCircleAsGif(ImageView imageView, String url) {
-        if (TextUtils.isEmpty(url)) {
-            return;
-        }
-        Glide.with(Utils.getApplication())
-                .asGif()
-                .load(url)
-                .apply(new RequestOptions().circleCrop()
-                        .placeholder(R.drawable.ic_loading_image)
-                        .error(new ColorDrawable(Color.TRANSPARENT))
-                        .fallback(new ColorDrawable(Color.RED)))
-                .into(imageView);
-    }
-
-    /**
-     * 加载本地圆形
-     *
-     * @param drawable  drawableRes
-     * @param imageView imageView
-     */
-    public static void loadImageCircle(ImageView imageView, @DrawableRes int drawable) {
-        Glide.with(Utils.getApplication())
-                .load(drawable)
-                .apply(RequestOptions.circleCropTransform()
-                        .placeholder(R.drawable.ic_loading_image)
-                        .error(new ColorDrawable(Color.WHITE))
                         .fallback(new ColorDrawable(Color.RED)))
                 .into(imageView);
     }
@@ -373,35 +327,6 @@ public class ImageUtils {
         //设定页面自动切换
         ultraViewPager.setAutoScroll(3500);
     }
-//    /**
-//     * 加载只有一张图的Banner，解决在列表中更新列表时，重复调用startTurning()，导致错误的翻页
-//     *
-//     * @param banner   banner
-//     * @param imgUrl   imgUrl
-//     * @param listener listener
-//     */
-//    public static void loadBanners(ConvenientBanner banner, List<String> imgUrl, OnItemClickListener listener) {
-//        banner.setPages(new BannerImgAdapter(), imgUrl)
-//                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
-//                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-//                .setOnItemClickListener(listener);
-//    }
-//
-//    /**
-//     * 加载自定义的Banner
-//     *
-//     * @param holderCreator adapter
-//     * @param banner        banner
-//     * @param dataList      dataList
-//     * @param listener      listener
-//     */
-//    public static void loadBanner(ConvenientBanner banner, List<?> dataList, CBViewHolderCreator holderCreator, OnItemClickListener listener) {
-//        banner.setPages(holderCreator, dataList)
-//                .setPageIndicator(new int[]{R.drawable.shape_item_index_white, R.drawable.shape_item_index_red})
-//                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-//                .setOnItemClickListener(listener)
-//                .startTurning();
-//    }
 
     /**
      * 压缩图片

@@ -16,6 +16,7 @@ import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.ImageUtils2;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.CountClickView;
 import com.goldze.common.dmvvm.widget.MultipleItemView;
@@ -42,23 +43,34 @@ public class DatabingUtils {
             if (!TextUtils.isEmpty(imageStyle)) {
                 switch (imageStyle) {
                     case "circle":
-                        if (url.endsWith(".gif")) {
-                            ImageUtils.loadImageCircleAsGif(imageView, url);
-                        } else {
-                            ImageUtils.loadImage(imageView, url);
-                        }
+//                        if (url.endsWith(".gif")) {
+//                            ImageUtils.loadImageCircleAsGif(imageView, url);
+//                        } else {
+//                            ImageUtils.loadImage(imageView, url);
+//                        }
+                        QLog.i("加载circle 图片");
+                        ImageUtils2.loadImage(imageView, url, ImageUtils2.ImageType.CIRCLE);
                         break;
                     case "local":
-                        ImageUtils.loadImage(imageView, Integer.parseInt(url));
+                        QLog.i("加载本地图片 图片");
+//                        ImageUtils.loadImage(imageView, Integer.parseInt(url));
+
+                        ImageUtils2.loadImage(imageView, Integer.parseInt(url));
                         break;
                     default:
-                        ImageUtils.loadImage(imageView, url);
+//                        ImageUtils.loadImage(imageView, url);
+
+
+                        ImageUtils2.loadImage(imageView, url);
                         break;
                 }
             } else if (url.endsWith(".gif")) {
-                ImageUtils.loadImageAsGIF(imageView, url);
+//                ImageUtils.loadImageAsGIF(imageView, url);
+                QLog.i("gif 图片");
+                ImageUtils2.loadImage(imageView, url);
             } else {
-                ImageUtils.loadImage(imageView, url);
+//                ImageUtils.loadImage(imageView, url);
+                ImageUtils2.loadImage(imageView, url);
             }
         }
 

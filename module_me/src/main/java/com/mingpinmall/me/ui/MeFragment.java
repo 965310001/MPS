@@ -19,6 +19,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.ImageUtils2;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
@@ -154,7 +155,8 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText(data.getFavorites_goods());
         ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText(data.getFavorites_store());
 
-        ImageUtils.loadImageCircle(headImgView, data.getAvatar());
+        /*ImageUtils.loadImageCircle(headImgView, data.getAvatar());*/
+        ImageUtils2.loadImage(headImgView, data.getAvatar(), ImageUtils2.ImageType.CIRCLE);
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
                 data.getOrder_nopay_count(),
                 data.getOrder_noreceipt_count(),

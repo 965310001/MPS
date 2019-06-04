@@ -22,6 +22,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.BaseSelectPhotos;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
@@ -44,7 +45,6 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgInfo;
 import com.mingpinmall.classz.ui.vm.bean.MsgListInfo;
 import com.mingpinmall.classz.utils.FaceConversionUtil;
-
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 import com.xuexiang.xui.utils.ResUtils;
@@ -188,6 +188,8 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         bindService(intent, mConnection, BIND_AUTO_CREATE);
                         startService(intent);
                         registerBroadcastReceiver();
+
+                        mViewModel.getChatLog(tId, "30", Constants.CHAT[3]);
                     } else {
                         showErrorState();
                         QLog.i("服务员异常");
@@ -202,16 +204,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         binding.getAdapter().notifyDataSetChanged();
                         Collections.reverse(list);
                         QLog.i(list);
-//                            for (MsgInfo.MsgBean msgBean : list) {
-//                            ChatMessageInfo info;
-////                                info = resultMsg(new ChatMessageInfo(), msgBean);
-////                                info.msg = msgBean.getT_msg();
-////                                itemData.add(info);
-//
-//                                update(msgBean, false);
-//                            }
-//                            binding.getAdapter().notifyDataSetChanged();
-//                            mRecyclerView.scrollToPosition(itemData.size() - 1);
                         updateList(list);
                         binding.setList(itemData);
                     } else {
@@ -231,17 +223,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
-//                        MsgInfo.MsgBean msg = response.getMsg();
-//                        if (null != msg) {
-////                            ChatMessageInfo info = resultMsg(new ChatMessageInfo(), msg);
-////                            info.msg = msg.getT_msg();
-////                            itemData.add(info);
-////                            binding.getAdapter().notifyItemInserted(itemData.size() - 1);
-////                            mRecyclerView.scrollToPosition(itemData.size() - 1);
-//                            update(msg, true);
-//                        } else {
-//                            QLog.i("1111");
-//                        }
                 });
 
         registerObserver(Constants.CHAT[0] + "Error", String.class)
@@ -357,7 +338,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
                 .minimumCompressSize(100)// 小于100kb的图片不压缩
                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
-
     }
 
     @Override
@@ -385,7 +365,6 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         } else {
                             ToastUtils.showLong("图片不存在，请稍后再试");
                         }
-
                     }
                     break;
             }
@@ -411,8 +390,35 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
         if (object instanceof ChatEmojiInfo) {
             ChatEmojiInfo chatEmojiInfo = (ChatEmojiInfo) object;
             binding.etMsg.getText().append(FaceConversionUtil.addFace(this, chatEmojiInfo.getId(), chatEmojiInfo.getCharacter()));
+        } else if (object instanceof ChatMessageInfo) {
+            ChatMessageInfo result = (ChatMessageInfo) object;
+            if (result.isImage()) {
+                List items = binding.getAdapter().getItems();
+                ChatMessageInfo chatMessageInfo;
+                List<String> images = new ArrayList<>();
+                int position = 0;
+                String msg;
+                for (Object item : items) {
+                    if (item instanceof ChatMessageInfo) {
+                        chatMessageInfo = (ChatMessageInfo) item;
+                        msg = chatMessageInfo.getMsg();
+                        if (chatMessageInfo.isImage()) {
+                            images.add(msg);
+                        }
+                    }
+                }
+                for (String image : images) {
+                    if (image.equals(result.getMsg())) {
+                        break;
+                    }
+                    ++position;
+                }
+                ImageUtils.loadImages(activity, position, images);
+            }
+            /*webview*/
+            /*商品详情*/
+            QLog.i("点击" + result.getMsg());
         }
-        /*QLog.i("点击");*/
 
     }
 

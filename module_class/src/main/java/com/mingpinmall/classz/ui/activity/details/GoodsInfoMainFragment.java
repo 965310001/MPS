@@ -376,16 +376,9 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     list,
                     position -> {
                     });
-            // TODO: 2019/5/29 待优化
             binding.vpItemGoodsImg.setOnItemClickListener(position -> {
-                List<LocalMedia> selectList = new ArrayList<>();
                 if (null != list && list.size() > 0) {
-                    for (String s : list) {
-                        LocalMedia localMedia = new LocalMedia();
-                        localMedia.setPath(s);
-                        selectList.add(localMedia);
-                    }
-                    PictureSelector.create(activity).themeStyle(R.style.picture_default_style).openExternalPreview(position, selectList);
+                    ImageUtils.loadImages(activity, position, list);
                 }
             });
         }
