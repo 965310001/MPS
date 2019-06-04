@@ -29,6 +29,7 @@ public class SocketIoBroadcast extends BroadcastReceiver {
                     Gson gson = new Gson();
                     List<MsgInfo.MsgBean> msgBeans = gson.fromJson(str, new TypeToken<List<MsgInfo.MsgBean>>() {
                     }.getType());
+                    QLog.i(str);
 
                     LiveBus.getDefault().postEvent("UPDATE_CHAT_LIST", "UPDATE_CHAT_LIST", msgBeans);
                 } catch (Exception e) {

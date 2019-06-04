@@ -55,7 +55,7 @@ public class OrderDeliveryActivity extends AbsLifecycleActivity<ActivityOrderDel
                 binding.refreshLayout.finishRefresh();
                 binding.setData(data);
                 List<String> dataList = data.getDeliver_info();
-                Collections.reverse(dataList);
+                /*Collections.reverse(dataList);*/
                 listAdapter.setNewData(dataList);
             } else {
                 ToastUtils.showShort(result.toString());

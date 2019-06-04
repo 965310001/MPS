@@ -10,6 +10,7 @@ import android.util.Log;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.google.gson.Gson;
 
@@ -155,23 +156,33 @@ public class SocketIoService extends Service {
                         member.put("u_id", iBackService.getUid());
                         member.put("u_name", iBackService.getUname());
                         member.put("avatar", iBackService.getAvatar());
-                        member.put("s_id", iBackService.getSid());
-                        member.put("s_name", iBackService.getSname());
-                        member.put("s_avatar", iBackService.getsAvatar());
+
+                        if (!TextUtils.isEmpty(iBackService.getSid())) {
+                            member.put("s_id", iBackService.getSid());
+                        }
+                        if (!TextUtils.isEmpty(iBackService.getSname())) {
+                            member.put("s_name", iBackService.getSname());
+                        }
+                        if (!TextUtils.isEmpty(iBackService.getsAvatar())) {
+                            member.put("s_avatar", iBackService.getsAvatar());
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                         QLog.i("JSON连接:" + e.toString());
                     }
                     mSocket.get().emit("update_user", member);
+
+                    QLog.i("连接成功");
+                    SharePreferenceUtil.saveBooleanKeyValue("ISSOCKET_DISCONNECT", true);
                 }
             };
 
     private final Emitter.Listener onDisconnect = args -> {
         QLog.i("断开连接");
+        SharePreferenceUtil.saveBooleanKeyValue("ISSOCKET_DISCONNECT", false);
         /*更新后台*/
 //            mSocket.get().emit("", "");
     };
-
 
     private final Emitter.Listener onGetMsg = new Emitter.Listener() {
         @Override

@@ -172,8 +172,6 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
                 ToastUtils.showShort("登陆成功");
                 LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_SUCCESS, true);
 
-                // TODO: 2019/6/3 聊天长连接
-
                 CustomProgressDialog.stop();
                 finish();
             } else {

@@ -48,13 +48,13 @@
                         android:id="@+id/tv_label_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="物流公司："
                         android:textColor="#333"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toTopOf="@id/tv_label_number"
                         app:layout_constraintEnd_toStartOf="@id/tv_name"
                         app:layout_constraintStart_toEndOf="@id/iv_image"
-                        app:layout_constraintTop_toTopOf="@id/iv_image"
-                        tools:text="物流公司：" />
+                        app:layout_constraintTop_toTopOf="@id/iv_image" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_name"
@@ -75,12 +75,12 @@
                         android:id="@+id/tv_label_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="运单号码："
                         android:textColor="#888"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="@id/iv_image"
                         app:layout_constraintStart_toStartOf="@id/tv_label_name"
-                        app:layout_constraintTop_toBottomOf="@id/tv_label_name"
-                        tools:text="运单号码：" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_label_name" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_number"
