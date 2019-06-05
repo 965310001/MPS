@@ -19,11 +19,15 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.BuildConfig;
 import com.goldze.common.dmvvm.base.bean.BaseSelectPhotos;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
+import com.goldze.common.dmvvm.utils.RegexUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
+import com.goldze.common.dmvvm.utils.RxUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.google.gson.Gson;
@@ -53,6 +57,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 聊天
@@ -203,7 +209,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                         itemData.clear();
                         binding.getAdapter().notifyDataSetChanged();
                         Collections.reverse(list);
-                        QLog.i(list);
+//                        QLog.i(list);
                         updateList(list);
                         binding.setList(itemData);
                     } else {
@@ -233,7 +239,7 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     List<MsgInfo.MsgBean> msgBeans = (List<MsgInfo.MsgBean>) object;
                     updateList(msgBeans);
                     binding.setList(itemData);
-                    QLog.i("更新数据");
+                    /*QLog.i("更新数据");*/
                     try {
                         if (null != msgBeans) {
                             if (msgBeans.size() > 1) {
@@ -414,6 +420,15 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                     ++position;
                 }
                 ImageUtils.loadImages(activity, position, images);
+            } else if (result.getMsg().contains(String.format("%s/wap/tmpl/product_detail.html?goods_id=", BuildConfig.APP_URL))) {/*是不是*/
+                QLog.i("内部跳转");
+//                String[] splits = RegexUtils.getSplits(result.getMsg(), String.format("^%s/wap/tmpl/product_detail.html?goods_id=(\\d*)$", BuildConfig.APP_URL));
+//                Pattern pattern = Pattern.compile(String.format("^%s/wap/tmpl/product_detail.html?goods_id=(\\d*)$", BuildConfig.APP_URL));
+//                String id = pattern.matcher(result.getMsg()).group(1);
+                String id = result.getMsg().replace(String.format("%s/wap/tmpl/product_detail.html?goods_id=", BuildConfig.APP_URL), "");
+                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", id);
+            } else if (RegexUtils.isURL(result.getMsg())) {//web
+                ActivityToActivity.toWebView(result.getMsg());
             }
             /*webview*/
             /*商品详情*/

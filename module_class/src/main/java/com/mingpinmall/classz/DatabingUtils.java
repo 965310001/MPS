@@ -48,7 +48,7 @@ public class DatabingUtils {
 //                        } else {
 //                            ImageUtils.loadImage(imageView, url);
 //                        }
-                        QLog.i("加载circle 图片");
+//                        QLog.i("加载circle 图片");
                         ImageUtils2.loadImage(imageView, url, ImageUtils2.ImageType.CIRCLE);
                         break;
                     case "local":
