@@ -422,19 +422,12 @@ public class ChatActivity extends AbsLifecycleActivity<ActivityChatBinding, Clas
                 ImageUtils.loadImages(activity, position, images);
             } else if (result.getMsg().contains(String.format("%s/wap/tmpl/product_detail.html?goods_id=", BuildConfig.APP_URL))) {/*是不是*/
                 QLog.i("内部跳转");
-//                String[] splits = RegexUtils.getSplits(result.getMsg(), String.format("^%s/wap/tmpl/product_detail.html?goods_id=(\\d*)$", BuildConfig.APP_URL));
-//                Pattern pattern = Pattern.compile(String.format("^%s/wap/tmpl/product_detail.html?goods_id=(\\d*)$", BuildConfig.APP_URL));
-//                String id = pattern.matcher(result.getMsg()).group(1);
                 String id = result.getMsg().replace(String.format("%s/wap/tmpl/product_detail.html?goods_id=", BuildConfig.APP_URL), "");
                 ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", id);
             } else if (RegexUtils.isURL(result.getMsg())) {//web
                 ActivityToActivity.toWebView(result.getMsg());
             }
-            /*webview*/
-            /*商品详情*/
-            QLog.i("点击" + result.getMsg());
         }
-
     }
 
     @Override

@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_12">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_point"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2019-05-26 12:09:42" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
             android:layout_weight="1"
-            android:textSize="18sp"
             android:textColor="#777"
-            tools:text="会员登录"
-            />
+            android:textSize="@dimen/text_12"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_point"
+            app:layout_constraintTop_toBottomOf="@id/tv_time"
+            tools:text="会员登录会员登录会员登录会员登录会员登录会员登录" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:textColor="#ed5564"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#ed5564"
-            tools:text="+30"
-            />
-
-    </LinearLayout>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="+30" />
+    </android.support.constraint.ConstraintLayout>
 </layout>

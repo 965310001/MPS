@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 /**
  * 功能描述：会员积分记录
+ *
  * @author 小斌
  * @date 2019/4/20
  **/
@@ -29,6 +30,7 @@ public class VipPointListAdapter extends BaseQuickAdapter<VipPointListBean.LogLi
                 .setTextColor(R.id.tv_point, Integer.parseInt(item.getPl_points()) > 0 ?
                         Color.parseColor("#ed5564") :
                         Color.parseColor("#36bc9b")
-                );
+                )
+                .setText(R.id.tv_time, item.getDate());
     }
 }
