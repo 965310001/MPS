@@ -324,7 +324,7 @@
                     android:paddingBottom="@dimen/dp_10"
                     android:textColor="@color/black"
                     android:visibility="@{isVoucher?View.GONE:View.VISIBLE}"
-                    tools:text="点击领取店铺代金券" />
+                    tools:text="点击领取店铺优惠券" />
                 <!--
                                <LinearLayout
                                     android:id="@+id/ll_voucher"

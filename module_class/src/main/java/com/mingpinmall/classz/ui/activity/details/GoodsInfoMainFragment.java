@@ -490,7 +490,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 }
                 xBottomSheet.show();
             } else {
-                ToastUtils.showLong("暂时没有代金券");
+                ToastUtils.showLong("暂时没有优惠券");
             }
         });
         binding.lsiComment.setmOnLSettingItemClick(isChecked -> shoppingDetailsActivity.setCurrentFragment(2));

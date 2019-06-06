@@ -475,7 +475,7 @@ public class MeRepository extends BaseRepository {
 
     /*会员积分历史记录*/
     protected void getVipPointLog(int curPage) {
-        addDisposable(apiService.getVipPointLog(getUserKey(), 10, curPage)
+        addDisposable(apiService.getVipPointLog(getUserKey(), 15, curPage)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<VipPointListBean>>() {
                     @Override

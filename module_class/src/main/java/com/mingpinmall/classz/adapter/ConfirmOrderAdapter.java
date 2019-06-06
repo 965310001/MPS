@@ -19,7 +19,6 @@ import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
 
-
 import java.util.ArrayList;
 
 /**
@@ -135,5 +134,12 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
             }
 
         }
+
+        if (null != item.getJoin_store_info()) {
+            helper.setVisible(R.id.ll_discount, true);
+            helper.setText(R.id.tv_discount, String.valueOf(item.getJoin_store_info().getZk()));
+        }
     }
+
+
 }

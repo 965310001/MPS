@@ -34,7 +34,7 @@ public class VoucherActivity extends AbsLifecycleActivity<ActivityBaseRefreshRec
     @Override
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
-        setTitle("领取代金券");
+        setTitle("领取优惠券");
         listAdapter = new VoucherListAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recyclerView.setAdapter(listAdapter);

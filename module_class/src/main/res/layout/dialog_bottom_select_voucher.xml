@@ -41,7 +41,7 @@
             leon:layout_constraintTop_toTopOf="parent"
             leon:leftIcon="@drawable/ic_store_b"
             leon:leftIconSize="@dimen/image_height_litter"
-            leon:leftText="领取店铺代金券"
+            leon:leftText="领取店铺优惠券"
             leon:rightStyle="iconHide"
             leon:rightText=""
             leon:rightTextColor="@color/gray"
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_6"
-                android:text="暂无代金券可以领取"
+                android:text="暂无优惠券可以领取"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_18" />
 

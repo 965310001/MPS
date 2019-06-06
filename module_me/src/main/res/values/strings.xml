@@ -136,8 +136,8 @@
     <!-- CardSurplusActivity Over -->
 
     <!-- CouponActivity -->
-    <string name="tabs_text_coupon1">我的代金券</string>
-    <string name="tabs_text_coupon2">领取代金券</string>
+    <string name="tabs_text_coupon1">我的优惠券</string>
+    <string name="tabs_text_coupon2">领取优惠券</string>
     <string name="label_text_coupon1">请输入已获得的代金券卡密领取代金券</string>
     <string name="label_text_coupon2">领取代金券后可以在购买商品下单时选择符合使用条件的代金券抵扣订单金额</string>
     <string name="label_text_coupon3">已失效的券</string>

@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:background="@color/white"
                     android:id="@+id/ll_shopContent"
                     android:layout_width="wrap_content"
                     android:layout_height="42dp"
@@ -129,6 +130,7 @@
                 </android.support.constraint.ConstraintLayout>
 
                 <LinearLayout
+                    android:background="@color/white"
                     android:id="@+id/ll_shopList"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -149,6 +151,8 @@
 
 
                 <FrameLayout
+                    android:background="@color/white"
+
                     android:id="@+id/ll_voucherPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -168,7 +172,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="店铺代金劵"
+                            android:text="店铺优惠券"
                             android:textColor="@color/dark"
                             android:textSize="14sp" />
 
@@ -185,6 +189,8 @@
 
 
                 <LinearLayout
+                    android:background="@color/white"
+
                     android:id="@+id/ll_orderInfo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
@@ -242,13 +248,13 @@
                 <LinearLayout
                     android:id="@+id/ll_moneyInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
                     android:gravity="end|center_vertical"
                     android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintBottom_toTopOf="@id/ll_discount">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
@@ -274,6 +280,61 @@
 
                 </LinearLayout>
 
+                <Space
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:background="@color/transparent"
+                    app:layout_constraintBottom_toTopOf="@id/ll_discount" />
+
+                <LinearLayout
+                    android:id="@+id/ll_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@id/ll_moneyInfo">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="平台折扣"
+                        android:textColor="@color/dark"
+                        android:textSize="14sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="本店合计"
+                        android:textColor="@color/dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp_2"
+                        android:paddingRight="@dimen/dp_2"
+                        android:textColor="@color/app_theme_d61619"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="9" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="折"
+                        android:textColor="@color/dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="0dp"

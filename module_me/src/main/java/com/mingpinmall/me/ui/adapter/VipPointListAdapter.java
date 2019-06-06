@@ -23,10 +23,7 @@ public class VipPointListAdapter extends BaseQuickAdapter<VipPointListBean.LogLi
     @Override
     protected void convert(BaseViewHolder helper, VipPointListBean.LogListBean item) {
         helper.setText(R.id.tv_label, item.getPl_desc())
-                .setText(R.id.tv_point, Integer.parseInt(item.getPl_points()) > 0 ?
-                        "+" + item.getPl_points() :
-                        "-" + item.getPl_points()
-                )
+                .setText(R.id.tv_point, String.format("%s%s", Integer.parseInt(item.getPl_points()) > 0 ? "+" : "", item.getPl_points()))
                 .setTextColor(R.id.tv_point, Integer.parseInt(item.getPl_points()) > 0 ?
                         Color.parseColor("#ed5564") :
                         Color.parseColor("#36bc9b")

@@ -41,7 +41,7 @@
             leon:layout_constraintTop_toTopOf="parent"
             leon:leftIcon="@drawable/ic_store_b"
             leon:leftIconSize="@dimen/image_height_litter"
-            leon:leftText="领取店铺代金券"
+            leon:leftText="领取店铺优惠券"
             leon:rightStyle="iconHide"
             leon:rightText=""
             leon:rightTextColor="@color/gray"

@@ -4,14 +4,14 @@
     <string-array name="titles_property">
         <item>账户余额</item>
         <item>充值卡余额</item>
-        <item>店铺代金券</item>
+        <item>店铺优惠券</item>
         <item>平台红包</item>
         <item>会员积分</item>
     </string-array>
     <string-array name="desc_property">
         <item>预存款账户余额、充值及提现明细</item>
         <item>充值卡账户余额以及卡密充值操作</item>
-        <item>店铺代金券使用情况以及卡密兑换代金券操作</item>
+        <item>店铺优惠券使用情况以及卡密兑换优惠券操作</item>
         <item>平台红包使用情况以及卡密领取红包操作</item>
         <item>会员积分获取以及消费日志</item>
     </string-array>
@@ -20,13 +20,13 @@
         <item>待付款</item>
         <item>待收货</item>
         <item>待自提</item>
-        <item>待评价</item>
+        <item>已完成</item>
         <item>退款/退货</item>
     </string-array>
     <string-array name="home_me_estate_items" >
         <item>预存款</item>
         <item>充值卡</item>
-        <item>代金券</item>
+        <item>优惠券</item>
         <item>红包</item>
         <item>积分</item>
     </string-array>

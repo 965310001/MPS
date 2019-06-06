@@ -2,6 +2,7 @@ package com.mingpinmall.classz.ui.vm.bean;
 
 import android.text.TextUtils;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseBean;
 
@@ -21,6 +22,7 @@ public class ConfirmOrderBean extends BaseBean {
     private List<StoreCartListNewsBean> store_cart_list_news;
     /*使用优惠券之后的价格*/
     private List<NewStoreFinalTotalListBean> new_store_final_total_list;
+    private JoinStoreInfoBean join_store_info;
 
     public String getVat_hash() {
         return vat_hash == null ? "" : vat_hash;
@@ -76,6 +78,14 @@ public class ConfirmOrderBean extends BaseBean {
 
     public void setNew_store_final_total_list(List<NewStoreFinalTotalListBean> new_store_final_total_list) {
         this.new_store_final_total_list = new_store_final_total_list;
+    }
+
+    public JoinStoreInfoBean getJoin_store_info() {
+        return join_store_info;
+    }
+
+    public void setJoin_store_info(JoinStoreInfoBean join_store_info) {
+        this.join_store_info = join_store_info;
     }
 
     public static class AddressApiBean {
@@ -222,7 +232,7 @@ public class ConfirmOrderBean extends BaseBean {
         }
     }
 
-    public static class StoreCartListNewsBean {
+    public static class StoreCartListNewsBean implements MultiItemEntity {
 
         private String store_goods_total;
         private StoreMansongRuleListBean store_mansong_rule_list;
@@ -233,7 +243,15 @@ public class ConfirmOrderBean extends BaseBean {
         private String store_id;
         private List<GoodsListBean> goods_list;
         private StoreVoucherInfoBean store_voucher_info;
+        private JoinStoreInfoBean join_store_info;
 
+        public JoinStoreInfoBean getJoin_store_info() {
+            return join_store_info;
+        }
+
+        public void setJoin_store_info(JoinStoreInfoBean join_store_info) {
+            this.join_store_info = join_store_info;
+        }
 
         public boolean isManSong() {
             return null != getStore_mansong_rule_list();
@@ -309,6 +327,11 @@ public class ConfirmOrderBean extends BaseBean {
 
         public void setStore_voucher_info(StoreVoucherInfoBean store_voucher_info) {
             this.store_voucher_info = store_voucher_info;
+        }
+
+        @Override
+        public int getItemType() {
+            return 0;
         }
 
         public static class StoreMansongRuleListBean {
@@ -806,6 +829,32 @@ public class ConfirmOrderBean extends BaseBean {
 
         public void setValue(String value) {
             this.value = value;
+        }
+    }
+
+    public static class JoinStoreInfoBean extends BaseBean {
+        /**
+         * join_store : 1
+         * zk : 9
+         */
+
+        private int join_store;
+        private int zk;
+
+        public int getJoin_store() {
+            return join_store;
+        }
+
+        public void setJoin_store(int join_store) {
+            this.join_store = join_store;
+        }
+
+        public int getZk() {
+            return zk;
+        }
+
+        public void setZk(int zk) {
+            this.zk = zk;
         }
     }
 }

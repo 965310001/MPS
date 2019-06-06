@@ -40,6 +40,8 @@ import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
 
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,6 +148,16 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                                     for (ConfirmOrderBean.StoreCartListNewsBean mStoreCartListNew : mStoreCartListNews) {
                                         if (mStoreCartListNew.getStore_id().equals(String.valueOf(newStoreFinalTotalListBean.getKey()))) {
                                             mStoreCartListNew.setStore_goods_total(newStoreFinalTotalListBean.getValue());
+                                        }
+                                    }
+                                }
+                                ConfirmOrderBean.JoinStoreInfoBean joinStoreInfo = orderBean.getJoin_store_info();
+                                if (null != joinStoreInfo) {
+                                    QLog.i("===");
+                                    if (joinStoreInfo.getJoin_store() == 1) {
+                                        if (null != mStoreCartListNews && mStoreCartListNews.size() > 0) {
+                                            QLog.i("===");
+                                            mStoreCartListNews.get(mStoreCartListNews.size() - 1).setJoin_store_info(joinStoreInfo);
                                         }
                                     }
                                 }
