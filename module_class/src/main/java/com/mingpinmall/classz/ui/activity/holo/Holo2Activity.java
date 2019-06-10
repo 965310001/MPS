@@ -7,11 +7,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -27,20 +30,23 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.Img2Base64Util;
+import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
 import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ActivityHoloBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 /**
  * 试戴
@@ -56,32 +62,19 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
     private BridgeWebView mBridgeWebView;
     private String picPath = "";
 
-    private static final int INPUT_FILE_REQUEST_CODE = 1;
-    private static final int FILECHOOSER_RESULTCODE = 1;
-    private ValueCallback<Uri> mUploadMessage;
-    private Uri mCapturedImageURI = null;
     private ValueCallback<Uri[]> mFilePathCallback;
-    private String mCameraPhotoPath;
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        return imageFile;
+    @Override
+    protected boolean isActionBar() {
+        return false;
     }
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
-        setTitle("试戴");
+//        setTitle("试戴");
+        setTitlePadding(baseBinding.flContent);
         QLog.i("试戴URL：" + url);
 //        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df&cat_id=7&goods_id=361&version=189";
         mBridgeWebView = new BridgeWebView(activity);
@@ -167,41 +160,22 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
      * 打开系统文件选择器
      */
     private void showFileChooser() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-                takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Log.e("Holo", "Unable to create Image File", ex);
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(photoFile));
-            } else {
-                takePictureIntent = null;
-            }
-        }
-        Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
-        contentSelectionIntent.setType("image/*");
-        Intent[] intentArray;
-        if (takePictureIntent != null) {
-            intentArray = new Intent[]{takePictureIntent};
-        } else {
-            intentArray = new Intent[0];
-        }
-        Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
-        chooserIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
-        chooserIntent.putExtra(Intent.EXTRA_TITLE, "上传照片");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
-        startActivityForResult(chooserIntent, INPUT_FILE_REQUEST_CODE);
+        PictureSelector.create(activity)
+                .openGallery(PictureMimeType.ofImage())
+                // 每行显示个数 int
+                .imageSpanCount(3)
+                // 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                .selectionMode(PictureConfig.SINGLE)
+                // glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                .sizeMultiplier(0.5f)
+                // 是否压缩 true or false
+                .compress(true)
+                // 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                .previewEggs(true)
+                // 小于100kb的图片不压缩
+                .minimumCompressSize(100)
+                //结果回调onActivityResult code
+                .forResult(PictureConfig.CHOOSE_REQUEST);
     }
 
     class AndroidToJs extends Object {
@@ -255,52 +229,35 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
-                super.onActivityResult(requestCode, resultCode, data);
-                return;
-            }
-            Uri[] results = null;
-            // Check that the response is a good one
-            if (resultCode == Activity.RESULT_OK) {
-                if (data == null) {
-                    // If there is not data, then we may have taken a photo
-                    if (mCameraPhotoPath != null) {
-                        results = new Uri[]{Uri.parse(mCameraPhotoPath)};
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    for (LocalMedia lm : selectList) {
+                        if (lm.isCompressed()) {
+                            picPath = lm.getCompressPath();
+                        } else if (lm.isCut()) {
+                            picPath = lm.getCutPath();
+                        } else {
+                            picPath = lm.getPath();
+                        }
                     }
-                } else {
-                    String dataString = data.getDataString();
-                    if (dataString != null) {
-                        results = new Uri[]{Uri.parse(dataString)};
+                    File file = new File(picPath);
+                    if (!file.exists()) {
+                        ToastUtils.showShort("图片未找到！");
+                        return;
                     }
-                }
+                    Uri[] results = new Uri[]{Uri.fromFile(file)};
+                    mFilePathCallback.onReceiveValue(results);
+                    mFilePathCallback = null;
+                    break;
+                default:
+                    break;
             }
-            mFilePathCallback.onReceiveValue(results);
+        }
+        if (mFilePathCallback != null) {
+            mFilePathCallback.onReceiveValue(null);
             mFilePathCallback = null;
-        } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            if (requestCode != FILECHOOSER_RESULTCODE || mUploadMessage == null) {
-                super.onActivityResult(requestCode, resultCode, data);
-                return;
-            }
-            if (requestCode == FILECHOOSER_RESULTCODE) {
-                if (null == this.mUploadMessage) {
-                    return;
-                }
-                Uri result = null;
-                try {
-                    if (resultCode != RESULT_OK) {
-                        result = null;
-                    } else {
-                        // retrieve from the private variable if the intent is null
-                        result = data == null ? mCapturedImageURI : data.getData();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "activity :" + e,
-                            Toast.LENGTH_LONG).show();
-                }
-                mUploadMessage.onReceiveValue(result);
-                mUploadMessage = null;
-            }
         }
     }
 
