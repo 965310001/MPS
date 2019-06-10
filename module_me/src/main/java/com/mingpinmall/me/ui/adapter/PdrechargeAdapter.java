@@ -1,14 +1,11 @@
 package com.mingpinmall.me.ui.adapter;
 
-import android.support.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.ui.bean.PdrechargeBean;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 功能描述：充值明细

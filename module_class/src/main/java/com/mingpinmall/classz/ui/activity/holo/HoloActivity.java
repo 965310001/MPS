@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
-import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -34,7 +32,6 @@ import com.just.agentweb.WebViewClient;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ActivityHoloBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
-
 
 import java.io.File;
 import java.io.IOException;

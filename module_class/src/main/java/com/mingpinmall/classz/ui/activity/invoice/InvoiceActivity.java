@@ -25,10 +25,8 @@ import com.mingpinmall.classz.databinding.ActivityInvoiceBinding;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
-
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.listener.OnItemClickListener;
-import com.xuexiang.xui.utils.WidgetUtils;
 
 import java.util.HashMap;
 import java.util.List;

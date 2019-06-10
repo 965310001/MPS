@@ -42,8 +42,6 @@ import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.SlideLayout;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.entity.LocalMedia;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ResultBean;
 import com.mingpinmall.classz.adapter.AdapterPool;
@@ -59,7 +57,6 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
 import com.mingpinmall.classz.widget.XBottomSheet;
-
 import com.xuexiang.xui.XUI;
 
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 package com.mingpinmall.classz.ui.activity.details;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
 import com.mingpinmall.classz.R;

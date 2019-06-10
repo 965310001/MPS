@@ -39,9 +39,6 @@ import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
 
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

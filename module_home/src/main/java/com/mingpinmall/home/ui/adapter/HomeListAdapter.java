@@ -13,8 +13,6 @@ import com.mingpinmall.home.R;
 import com.mingpinmall.home.ui.bean.HomeItemBean;
 import com.tmall.ultraviewpager.UltraViewPager;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 

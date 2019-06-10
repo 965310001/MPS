@@ -1,7 +1,6 @@
 package com.mingpinmall.shopping.ui;
 
 import android.Manifest;
-import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -10,7 +9,6 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -21,7 +19,6 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.databinding.ActivityHomeNavigationBinding;
 import com.goldze.common.dmvvm.manage.AppManager;
-import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
@@ -38,9 +35,6 @@ import com.mingpinmall.home.ui.TeacherFragment;
 import com.mingpinmall.me.ui.MeFragment;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.shopping.R;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author: guofeng

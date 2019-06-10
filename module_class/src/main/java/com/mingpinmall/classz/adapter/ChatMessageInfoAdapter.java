@@ -4,24 +4,13 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
-import com.goldze.common.dmvvm.utils.ActivityToActivity;
-import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.databinding.ItemChatMessageListBinding;
-import com.mingpinmall.classz.databinding.ItemListInfoBinding;
 import com.mingpinmall.classz.ui.vm.bean.ChatMessageInfo;
-import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
-import com.mingpinmall.classz.ui.vm.bean.GoodsListInfo;
-
 import com.trecyclerview.holder.AbsHolder;
 import com.trecyclerview.holder.AbsItemHolder;
-
-import java.util.List;
 
 /**
  * 聊天列表

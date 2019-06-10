@@ -10,7 +10,6 @@ import com.goldze.common.dmvvm.http.interceptor.TokenInterceptor;
 import com.goldze.common.dmvvm.http.interceptor.logging.Level;
 import com.goldze.common.dmvvm.http.interceptor.logging.LoggingInterceptor;
 
-
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +18,6 @@ import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.platform.Platform;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

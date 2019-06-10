@@ -12,8 +12,6 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.log.QLog;
-import com.google.gson.Gson;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -227,7 +225,6 @@ public class SocketIoService extends Service {
             }
         }
     };
-
 
     class InitSocketThread extends Thread {
         @Override

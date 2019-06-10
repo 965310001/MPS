@@ -3,7 +3,6 @@ package com.mingpinmall.me.ui.acitivity.order.physicalorder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,7 +29,6 @@ import com.mingpinmall.me.ui.api.MeViewModel;
 import com.mingpinmall.me.ui.bean.PayMessageInfo;
 import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
 import com.mingpinmall.me.ui.constants.Constants;
-
 
 import java.util.HashMap;
 import java.util.Map;

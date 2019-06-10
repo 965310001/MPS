@@ -13,8 +13,6 @@ import android.support.annotation.StringRes;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.xuexiang.xui.XUI;
-
 /**
  * @author GuoFeng
  * @date : 2019/1/20 16:07

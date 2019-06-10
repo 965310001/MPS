@@ -27,7 +27,6 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.RegexUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
-import com.goldze.common.dmvvm.utils.RxUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.google.gson.Gson;
@@ -57,8 +56,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 聊天

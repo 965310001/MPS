@@ -23,6 +23,8 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import com.goldze.common.dmvvm.utils.log.QLog;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -445,6 +447,7 @@ public class ShareCacheUtil {
 			try {
 				oos.close();
 			} catch (IOException e) {
+				QLog.i(e.toString());
 			}
 		}
 	}

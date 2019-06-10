@@ -1,6 +1,5 @@
 package com.mingpinmall.shopping.ui;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
@@ -16,9 +15,7 @@ import android.view.Window;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.baidu.mobstat.StatService;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
-import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
-import com.goldze.common.dmvvm.utils.ToastUtils;
 import com.mingpinmall.shopping.R;
 import com.mingpinmall.shopping.databinding.ActivitySplashBinding;
 

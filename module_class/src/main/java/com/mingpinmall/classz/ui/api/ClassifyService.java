@@ -27,7 +27,6 @@ import com.mingpinmall.classz.ui.vm.bean.StoreInfo;
 import com.mingpinmall.classz.ui.vm.bean.StorePromotionInfo;
 import com.mingpinmall.classz.ui.vm.bean.VoucherInfo;
 
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;

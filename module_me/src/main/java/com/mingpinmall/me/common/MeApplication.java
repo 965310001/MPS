@@ -3,10 +3,8 @@ package com.mingpinmall.me.common;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 
 import com.goldze.common.dmvvm.base.BaseApplication;
-import com.mingpinmall.me.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
