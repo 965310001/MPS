@@ -19,6 +19,7 @@ import com.goldze.common.dmvvm.base.mvvm.base.BaseActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.databinding.ActivityHomeNavigationBinding;
 import com.goldze.common.dmvvm.manage.AppManager;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.PermissionsUtils;
 import com.goldze.common.dmvvm.utils.ResourcesUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
@@ -200,11 +201,10 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 //        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
 //        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
 //        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
-//        ActivityToActivity.goShoppingDetails("110045"); //虚拟
+//        ActivityToActivity.goShoppingDetails("110387"); //虚拟
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
 //        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", " ");
-
 //        ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
 
         // TODO: 试戴测试 110376
