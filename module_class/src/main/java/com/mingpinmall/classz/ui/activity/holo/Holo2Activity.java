@@ -74,6 +74,7 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
         ARouter.getInstance().inject(this);
         super.initViews(savedInstanceState);
 //        setTitle("试戴");
+
         setTitlePadding(baseBinding.flContent);
         QLog.i("试戴URL：" + url);
 //        url = "https://www.feeai.cn/fitting/?shop_id=1097e32594e07daf671d50ad93fca1a9&shop_secret=daa98398d09cf846869c0fd2094d08df&cat_id=7&goods_id=361&version=189";
