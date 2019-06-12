@@ -255,6 +255,12 @@ public class GoodsDetailInfo extends BaseBean {
                 @SerializedName("goods_image")
                 private String goods_imageX;
                 private String goods_image_url;
+                /**
+                 * start_time_text : 2019-06-11 09:45:00:
+                 * end_time_text : 2019-06-30 00:00:00:
+                 */
+                private String start_time_text;
+                private String end_time_text;
 
                 public String getPrice() {
                     return price;
@@ -302,6 +308,22 @@ public class GoodsDetailInfo extends BaseBean {
 
                 public void setGoods_image_url(String goods_image_url) {
                     this.goods_image_url = goods_image_url;
+                }
+
+                public String getStart_time_text() {
+                    return start_time_text;
+                }
+
+                public void setStart_time_text(String start_time_text) {
+                    this.start_time_text = start_time_text;
+                }
+
+                public String getEnd_time_text() {
+                    return end_time_text;
+                }
+
+                public void setEnd_time_text(String end_time_text) {
+                    this.end_time_text = end_time_text;
                 }
             }
         }

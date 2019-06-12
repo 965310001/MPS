@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
+import com.goldze.common.dmvvm.utils.HtmlFromUtils;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.R;
@@ -47,7 +48,14 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
 
         if (item.isManSong()) {
             try {
-                helper.setText(R.id.tv_free_freight, item.getStore_mansong_rule_list().getDesc().getDesc());
+                helper.setText(R.id.tv_tips2, "满级送")
+                        .setText(R.id.tv_free_freight, item.getStore_mansong_rule_list().getDesc().getDesc());
+
+                ImageUtils.loadImage(helper.getView(R.id.iv_tiv3),item.getStore_mansong_rule_list().getDesc().getUrl());
+                /*if (!TextUtils.isEmpty(item.getStore_mansong_rule_list().getDesc().getUrl())) {
+                    HtmlFromUtils.setImageFromNetWork(context, helper.getView(R.id.tv_free_freight),
+                            String.format(" 送[%s]", item.getStore_mansong_rule_list().getDesc().getUrl()), true);
+                }*/
             } catch (Exception e) {
                 QLog.i(e.toString());
             }

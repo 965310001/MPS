@@ -5,12 +5,15 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.utils.log.QLog;
 
 import java.util.ArrayList;

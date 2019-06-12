@@ -102,7 +102,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mode="NoLeftImage_NoMoreIcon_NoDescription"
-                        app:subTitle="@{data.return_info.admin_state}"
+                        app:subTitle="@{data.return_info.seller_state}"
                         app:title="审核状态" />
 
                     <com.goldze.common.dmvvm.widget.SettingItemView

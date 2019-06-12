@@ -264,7 +264,7 @@
                         android:paddingTop="5dp"
                         android:paddingEnd="10dp"
                         android:paddingBottom="5dp"
-                        android:text="@string/text_refundInformation"
+                        android:text="退货详情"
                         android:textColor="#555"
                         android:textSize="14sp" />
 

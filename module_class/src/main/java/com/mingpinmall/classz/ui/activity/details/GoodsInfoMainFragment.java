@@ -381,6 +381,16 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         }
     }
 
+    SpannableStringBuilder returnSpannableStringBuilder(String title) {
+        SpannableStringBuilder goodsName = new SpannableStringBuilder(title);
+        int end = goodsName.length();
+        //稍微设置标签文字小一点
+        goodsName.setSpan(new RelativeSizeSpan(0.9f), 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置圆角背景
+        goodsName.setSpan(new RoundBackgroundColorSpan(getContext().getResources().getColor(R.color.shallow_red), Color.WHITE), 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return goodsName;
+    }
+
     private void setMansongInfo() {
         /*满级送*/
         try {
@@ -389,18 +399,31 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 if (mansongInfo != null && mansongInfo.getRules() != null && mansongInfo.getRules().size() > 0) {
                     TextView textView;
                     binding.llManjisong.removeAllViews();
+                    textView = new TextView(activity);
+                    textView.setText(returnSpannableStringBuilder("满级送"));
+
+//                    SpannableStringBuilder goodsName = new SpannableStringBuilder("满级送");
+//                    int end = goodsName.length();
+//                    //稍微设置标签文字小一点
+//                    goodsName.setSpan(new RelativeSizeSpan(0.9f), 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    //设置圆角背景
+//                    goodsName.setSpan(new RoundBackgroundColorSpan(getContext().getResources().getColor(R.color.shallow_red), Color.WHITE), 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    binding.llManjisong.addView(textView);
                     for (final GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansongInfo.getRules()) {
                         textView = new TextView(activity);
-                        textView.setText("");
                         textView.setText(Html.fromHtml(String.format("单笔订单满<font color='#000000'>%s</font>元,立减<font color='#000000'>%s</font>元",
                                 rule.getPrice(), rule.getDiscount())));
                         if (!TextUtils.isEmpty(rule.getGoods_image_url())) {
                             HtmlFromUtils.setImageFromNetWork(textView.getContext(), textView,
                                     String.format(" 送礼品：[%s]", rule.getGoods_image_url()), true);
+
+//                            spannableString.setSpan(clickableSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                            QLog.i(rule.getGoods_id());
                         }
                         binding.llManjisong.addView(textView);
-                        binding.tvPromotion.setVisibility(View.VISIBLE);
                     }
+                    binding.tvPromotion.setVisibility(View.VISIBLE);
+                    binding.llManjisong.setVisibility(View.VISIBLE);
                 } else {
                     binding.llManjisong.setVisibility(View.GONE);
                     binding.tvPromotion.setVisibility(View.GONE);
@@ -409,7 +432,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 List<GoodsDetailInfo.DatasBean.GiftArrayBean> giftArray = dataBean.getGift_array();
                 if (giftArray != null && giftArray.size() > 0) {
                     SpannableString spannableString;
-                    TextView textView;
+
+                    binding.llZengping.removeAllViews();
+
+                    TextView textView = new TextView(activity);
+                    textView.setText(returnSpannableStringBuilder("赠品"));
+
                     for (final GoodsDetailInfo.DatasBean.GiftArrayBean giftArrayBean : dataBean.getGift_array()) {
                         textView = new TextView(activity);
                         spannableString = new SpannableString(String.format("%s x %s", giftArrayBean.getGift_goodsname(),

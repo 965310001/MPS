@@ -127,6 +127,14 @@
                         app:layout_constraintTop_toTopOf="@id/tv_tips2"
                         tools:text="满300免运费" />
 
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_tiv3"
+                        android:layout_width="@dimen/image_height_small"
+                        android:layout_height="@dimen/image_height_small"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_free_freight"
+                        app:layout_constraintStart_toEndOf="@id/tv_free_freight"
+                        app:layout_constraintTop_toTopOf="@id/tv_free_freight"
+                        />
                 </android.support.constraint.ConstraintLayout>
 
                 <LinearLayout

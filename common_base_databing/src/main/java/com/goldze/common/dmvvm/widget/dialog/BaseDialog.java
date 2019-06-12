@@ -20,7 +20,6 @@ import com.goldze.common.dmvvm.R;
  * @description: Dialog方向工具类
  */
 public class BaseDialog extends Dialog {
-
     /*默认背景阴影*/
     final static float DEFAULT_DIMAMOUNT = 0.2f;
 
@@ -129,33 +128,18 @@ public class BaseDialog extends Dialog {
      */
     public BaseDialog config(@NonNull @LayoutRes int layoutResID, float dimAmount, int gravity, AnimInType animInType,
                              int width, int height, boolean canceledOnTouchOutside) {
-        /*setContentView(layoutResID);//填充对话框布局
-        setDimAmount(dimAmount);
-        getWindow().setGravity(gravity);
-        setAnimType(animInType);
-        getWindow().setLayout(width, height);
-        setCanceledOnTouchOutside(canceledOnTouchOutside ? true : false);*/
-
         config(View.inflate(getContext(), layoutResID, null), dimAmount, gravity, animInType, width, height, canceledOnTouchOutside);
         return this;
     }
 
     public BaseDialog config(@NonNull View view, float dimAmount, int gravity, AnimInType animInType,
                              int width, int height, boolean canceledOnTouchOutside) {
-        /*setContentView(view);//填充对话框布局
-        setDimAmount(dimAmount);
-        getWindow().setGravity(gravity);
-        setAnimType(animInType);
-        getWindow().setLayout(width, height);
-        setCanceledOnTouchOutside(canceledOnTouchOutside ? true : false);*/
-
         config(view, null, dimAmount, gravity, animInType, width, height, canceledOnTouchOutside);
         return this;
     }
 
     public BaseDialog config(@NonNull View view, @Nullable ViewGroup.LayoutParams params, float dimAmount, int gravity, AnimInType animInType,
                              int width, int height, boolean canceledOnTouchOutside) {
-//        setContentView(view, params);//填充对话框布局
         if (null != params) {
             setContentView(view, params);
         } else {
@@ -176,25 +160,7 @@ public class BaseDialog extends Dialog {
      * @return
      */
     public BaseDialog setAnimType(AnimInType animInType) {
-        int resId = R.style.dialog_zoom;
-        switch (animInType) {
-            case CENTER:
-                resId = R.style.dialog_zoom;
-                break;
-            case LEFT:
-                resId = R.style.dialog_anim_left;
-                break;
-            case TOP:
-                resId = R.style.dialog_anim_top;
-                break;
-            case RIGHT:
-                resId = R.style.dialog_anim_right;
-                break;
-            case BOTTOM:
-                resId = R.style.dialog_anim_bottom;
-                break;
-        }
-        getWindow().setWindowAnimations(resId);
+        getWindow().setWindowAnimations(animInType.intType);
         return this;
     }
 
@@ -224,50 +190,16 @@ public class BaseDialog extends Dialog {
      * 动画类型
      */
     public enum AnimInType {
-        CENTER(0), LEFT(2), TOP(4), RIGHT(3), BOTTOM(1);
+        CENTER(R.style.dialog_zoom),
+        LEFT(R.style.dialog_anim_left),
+        TOP(R.style.dialog_anim_top),
+        RIGHT(R.style.dialog_anim_right),
+        BOTTOM(R.style.dialog_anim_bottom);
 
         AnimInType(int n) {
             intType = n;
         }
 
-        final int intType;
+        int intType;
     }
-
-
-    // TODO: 2019/1/15 等待封装
-//    public BaseDialog config(@LayoutRes int layoutResID, boolean canceledOnTouchOutside) {
-//        config(layoutResID, DEFAULT_DIMAMOUNT, Gravity.CENTER, AnimInType.CENTER, WindowManager.LayoutParams.MATCH_PARENT,
-//                WindowManager.LayoutParams.WRAP_CONTENT, canceledOnTouchOutside);
-//        return this;
-//    }
-
-//    public BaseDialog config(@NonNull View view, boolean canceledOnTouchOutside) {
-//        config(view, DEFAULT_DIMAMOUNT, Gravity.CENTER, AnimInType.CENTER, WindowManager.LayoutParams.MATCH_PARENT,
-//                WindowManager.LayoutParams.WRAP_CONTENT, canceledOnTouchOutside);
-//        return this;
-//    }
-
-//    public BaseDialog config(@LayoutRes int layoutResID, int gravity, AnimInType animInType, boolean canceledOnTouchOutside) {
-//        config(layoutResID, DEFAULT_DIMAMOUNT, gravity, animInType, WindowManager.LayoutParams.MATCH_PARENT,
-//                WindowManager.LayoutParams.WRAP_CONTENT, canceledOnTouchOutside);
-//        return this;
-//    }
-
-//    public BaseDialog config(@NonNull View view, int gravity, AnimInType animInType, boolean canceledOnTouchOutside) {
-//        config(view, DEFAULT_DIMAMOUNT, gravity, animInType, WindowManager.LayoutParams.MATCH_PARENT,
-//                WindowManager.LayoutParams.WRAP_CONTENT, canceledOnTouchOutside);
-//        return this;
-//    }
-
-//    public BaseDialog config(@LayoutRes int layoutResID, int gravity, AnimInType animInType,
-//                             int width, int height, boolean canceledOnTouchOutside) {
-//        config(layoutResID, DEFAULT_DIMAMOUNT, gravity, animInType, width, height, canceledOnTouchOutside);
-//        return this;
-//    }
-
-//    public BaseDialog config(@NonNull View view, int gravity, AnimInType animInType,
-//                             int width, int height, boolean canceledOnTouchOutside) {
-//        config(view, DEFAULT_DIMAMOUNT, gravity, animInType, width, height, canceledOnTouchOutside);
-//        return this;
-//    }
 }
