@@ -55,12 +55,10 @@
             android:exported="true"  android:process=":aidl"  -->
         <service
             android:name=".ui.service.SocketIoService"
-            android:enabled="true"
             android:exported="true" />
 
         <service
             android:name=".ui.service.RemoteService"
-            android:enabled="true"
             android:exported="true"
             android:process=":remote" />
     </application>

@@ -126,15 +126,12 @@ public class RemoteService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        bindService(new Intent(RemoteService.this,
-//                        SocketIoService.class), connection,
-//                Context.BIND_ABOVE_CLIENT);
         try {
             iBackService.doSomething();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        flags = START_STICKY;
+        flags = Service.START_FLAG_REDELIVERY ;
         return super.onStartCommand(intent, flags, startId);
     }
 

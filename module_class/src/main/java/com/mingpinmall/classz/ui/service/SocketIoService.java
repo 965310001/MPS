@@ -16,6 +16,8 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.log.QLog;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -161,7 +163,6 @@ public class SocketIoService extends Service {
             opts.path = "/socket.io";
             opts.reconnection = false;
             opts.sslContext = SSLSocket.genSSLSocketFactory();
-
             try {
                 if (null == iBackService.getUrl()) {
                     QLog.i("iBackService.getUrl() is null");
@@ -190,6 +191,19 @@ public class SocketIoService extends Service {
                 public void call(Object... args) {
                     JSONObject member = new JSONObject();
                     try {
+                        if (TextUtils.isEmpty(iBackService.getUid())) {
+                            String userInfo = SharePreferenceUtil.getKeyValue("USER_INFO");
+                            if (!TextUtils.isEmpty(userInfo)) {
+                                JSONObject jsonObject = new JSONObject(userInfo);
+                                iBackService.setMemberInfo(jsonObject.getString("id"),
+                                        jsonObject.getString("user_name"),
+                                        jsonObject.getString("avatar"),
+                                        "", "", "");
+                            }
+                        }
+
+                        QLog.i(iBackService.getUid() + " " + iBackService.getUname() + iBackService.getAvatar());
+
                         member.put("u_id", iBackService.getUid());
                         member.put("u_name", iBackService.getUname());
                         member.put("avatar", iBackService.getAvatar());
@@ -276,8 +290,9 @@ public class SocketIoService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disconnect();
-
+        if (!SharePreferenceUtil.isLogin()) {
+            disconnect();
+        }
         try {
             iBackService.doSomething();
         } catch (RemoteException e) {
@@ -291,24 +306,15 @@ public class SocketIoService extends Service {
         mSocket.get().off("");
     }
 
-
-    /*双线程守护*/
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        QLog.i("开始");
-//        bindService(new Intent(SocketIoService.this,
-//                        RemoteService.class), connection,
-//                Context.BIND_ABOVE_CLIENT);
         try {
             iBackService.doSomething();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
-        flags = START_STICKY;
+        flags = Service.START_FLAG_REDELIVERY;
         return super.onStartCommand(intent, flags, startId);
     }
-
-
 }

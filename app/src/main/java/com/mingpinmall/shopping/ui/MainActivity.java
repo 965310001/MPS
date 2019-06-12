@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        destroyService();
+        /*destroyService();*/
     }
 
     @Override
@@ -111,8 +111,6 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        QLog.i("开始连接" + SharePreferenceUtil.getBooleanKeyValue("ISSOCKET_DISCONNECT") + " " + SharePreferenceUtil.isLogin());
-//        !SharePreferenceUtil.getBooleanKeyValue("ISSOCKET_DISCONNECT") &&
         if (SharePreferenceUtil.isLogin()) {
             mConnection = new ServiceConnection() {
                 @Override
@@ -120,11 +118,9 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
                     mIBackService = IBackService.Stub.asInterface(service);
                     try {
                         String userInfo = SharePreferenceUtil.getKeyValue("USER_INFO");
+                        QLog.i(userInfo);
                         if (!TextUtils.isEmpty(userInfo)) {
                             MyInfoBean.MemberInfoBean bean = new Gson().fromJson(userInfo, MyInfoBean.MemberInfoBean.class);
-                            bean.getId();
-                            bean.getUser_name();
-                            bean.getAvatar();
                             mIBackService.setUrl("");
                             mIBackService.setMemberInfo(bean.getId(),
                                     bean.getUser_name(), bean.getAvatar(),
