@@ -71,42 +71,6 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
             binding.bottomBar.setCurrentItem(index);
             index = -1;
         }
-        QLog.i("开始连接" + SharePreferenceUtil.getBooleanKeyValue("ISSOCKET_DISCONNECT") + " " + SharePreferenceUtil.isLogin());
-        if (!SharePreferenceUtil.getBooleanKeyValue("ISSOCKET_DISCONNECT") && SharePreferenceUtil.isLogin()) {
-            mConnection = new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    mIBackService = IBackService.Stub.asInterface(service);
-                    try {
-                        String userInfo = SharePreferenceUtil.getKeyValue("USER_INFO");
-                        if (!TextUtils.isEmpty(userInfo)) {
-                            MyInfoBean.MemberInfoBean bean = new Gson().fromJson(userInfo, MyInfoBean.MemberInfoBean.class);
-                            bean.getId();
-                            bean.getUser_name();
-                            bean.getAvatar();
-                            mIBackService.setUrl("");
-                            mIBackService.setMemberInfo(bean.getId(),
-                                    bean.getUser_name(), bean.getAvatar(),
-                                    "", "", "");
-                        }
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                        QLog.i(e.toString());
-                    }
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-                    mIBackService = null;
-                }
-            };
-            Intent intent = new Intent(getApplicationContext(), SocketIoService.class);
-            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            bindService(intent, mConnection, BIND_AUTO_CREATE);
-            startService(intent);
-            registerBroadcastReceiver();
-            QLog.i("开始连接");
-        }
     }
 
     private IBackService mIBackService;
@@ -147,6 +111,44 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        QLog.i("开始连接" + SharePreferenceUtil.getBooleanKeyValue("ISSOCKET_DISCONNECT") + " " + SharePreferenceUtil.isLogin());
+//        !SharePreferenceUtil.getBooleanKeyValue("ISSOCKET_DISCONNECT") &&
+        if (SharePreferenceUtil.isLogin()) {
+            mConnection = new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    mIBackService = IBackService.Stub.asInterface(service);
+                    try {
+                        String userInfo = SharePreferenceUtil.getKeyValue("USER_INFO");
+                        if (!TextUtils.isEmpty(userInfo)) {
+                            MyInfoBean.MemberInfoBean bean = new Gson().fromJson(userInfo, MyInfoBean.MemberInfoBean.class);
+                            bean.getId();
+                            bean.getUser_name();
+                            bean.getAvatar();
+                            mIBackService.setUrl("");
+                            mIBackService.setMemberInfo(bean.getId(),
+                                    bean.getUser_name(), bean.getAvatar(),
+                                    "", "", "");
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                        QLog.i(e.toString());
+                    }
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    mIBackService = null;
+                }
+            };
+            Intent intent = new Intent(getApplicationContext(), SocketIoService.class);
+            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+            bindService(intent, mConnection, BIND_AUTO_CREATE);
+            startService(intent);
+            registerBroadcastReceiver();
+            QLog.i("开始连接");
+        }
+
         setDarkMode(false);
         Class[] fragmentList = new Class[]{
                 HomeFragment.class,

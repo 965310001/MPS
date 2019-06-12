@@ -15,4 +15,6 @@ interface IBackService {
        String getSid();
        String getSname();
        String getsAvatar();
+
+       void  doSomething();
 }

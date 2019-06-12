@@ -46,9 +46,9 @@
         <activity
             android:name=".ui.activity.holo.Holo2Activity"
             android:hardwareAccelerated="true" />
-        <activity
-            android:name=".ui.activity.holo.Holo3Activity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name=".ui.activity.holo.Holo3Activity"-->
+        <!--android:screenOrientation="portrait" />-->
         <activity android:name=".ui.activity.holo.Holo4Activity" />
 
         <!--   android:process=":aidl"  android:enabled="true"
@@ -57,6 +57,13 @@
             android:name=".ui.service.SocketIoService"
             android:enabled="true"
             android:exported="true" />
+
+        <service
+            android:name=".ui.service.RemoteService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote" />
     </application>
+
 
 </manifest>

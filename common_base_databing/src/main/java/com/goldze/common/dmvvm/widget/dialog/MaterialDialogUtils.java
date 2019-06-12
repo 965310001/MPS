@@ -250,33 +250,6 @@ public class MaterialDialogUtils {
      */
     public static MaterialDialog.Builder showMultiListDialog(final Context context, String title, List
             content) {
-
-//        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
-//                .title(title)
-//                .items(content)
-//                .itemsCallbackMultiChoice(new Integer[]{1, 3}, new MaterialDialog
-//                        .ListCallbackMultiChoice() {
-//                    @Override
-//                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-//
-//
-//                        return true; // allow selection
-//                    }
-//                })
-//                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-//                    @Override
-//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                        dialog.clearSelectedIndices();
-//                    }
-//                })
-//                .alwaysCallMultiChoiceCallback()
-//                .positiveText(R.string.md_choose_label)
-//                .autoDismiss(false)
-//                .neutralText("clear")
-//                .itemsDisabledIndices(0, 1);
-
-//        return builder;
-
         return new MaterialDialog.Builder(context)
                 .title(title)
                 .items(content)
@@ -308,43 +281,6 @@ public class MaterialDialogUtils {
                 .onPositive((dialog, which) -> {
 
                 });
-//        positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
-//        //noinspection ConstantConditions
-//        passwordInput = (EditText) dialog.getCustomView().findViewById(R.id.password);
-//        passwordInput.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                positiveAction.setEnabled(s.toString().trim().length() > 0);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//            }
-//        });
-//
-//        // Toggling the show password CheckBox will mask or unmask the password input EditText
-//        CheckBox checkbox = (CheckBox) dialog.getCustomView().findViewById(R.id.showPassword);
-//        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                passwordInput.setInputType(!isChecked ? InputType.TYPE_TEXT_VARIATION_PASSWORD : InputType.TYPE_CLASS_TEXT);
-//                passwordInput.setTransformationMethod(!isChecked ? PasswordTransformationMethod.getInstance() : null);
-//            }
-//        });
-//
-//        int widgetColor = ThemeSingleton.get().widgetColor;
-//        MDTintHelper.setTint(checkbox,
-//                widgetColor == 0 ? ContextCompat.getColor(this, R.color.accent) : widgetColor);
-//
-//        MDTintHelper.setTint(passwordInput,
-//                widgetColor == 0 ? ContextCompat.getColor(this, R.color.accent) : widgetColor);
-//
-//        dialog.show();
-//        positiveAction.setEnabled(false); // disabled by default
     }
 
     public static MaterialDialog.Builder showCustomDialog(final Context context, String title, View

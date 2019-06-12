@@ -68,8 +68,7 @@ public class ViewHolder {
      * @param resId
      */
     public void setBackgroundResource(int viewId, int resId) {
-        View view = getView(viewId);
-        view.setBackgroundResource(resId);
+        getView(viewId).setBackgroundResource(resId);
     }
 
     /**
@@ -79,8 +78,7 @@ public class ViewHolder {
      * @param colorId
      */
     public void setBackgroundColor(int viewId, int colorId) {
-        View view = getView(viewId);
-        view.setBackgroundColor(colorId);
+        getView(viewId).setBackgroundColor(colorId);
     }
 
     /**
@@ -90,7 +88,6 @@ public class ViewHolder {
      * @param listener
      */
     public void setOnClickListener(int viewId, View.OnClickListener listener) {
-        View view = getView(viewId);
-        view.setOnClickListener(listener);
+        getView(viewId).setOnClickListener(listener);
     }
 }
