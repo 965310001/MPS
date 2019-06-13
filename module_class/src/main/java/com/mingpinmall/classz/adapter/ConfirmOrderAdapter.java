@@ -43,23 +43,48 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
                 //总价
                 .setText(R.id.tv_money, item.getStore_goods_total())
                 //满即送
+//                .setGone(R.id.cl_gift_list, item.isManSong())
                 .setGone(R.id.cl_free_freight, item.isManSong())
                 .addOnClickListener(R.id.ll_shopContent);
 
         if (item.isManSong()) {
             try {
                 helper.setText(R.id.tv_tips2, "满级送")
-                        .setText(R.id.tv_free_freight, item.getStore_mansong_rule_list().getDesc().getDesc());
-
-                ImageUtils.loadImage(helper.getView(R.id.iv_tiv3),item.getStore_mansong_rule_list().getDesc().getUrl());
+                        .setText(R.id.tv_free_freight, item.getStore_mansong_rule_list().getDesc().getDesc() + "，送 ");
+                ImageUtils.loadImage(helper.getView(R.id.iv_tiv3), item.getStore_mansong_rule_list().getDesc().getUrl());
                 /*if (!TextUtils.isEmpty(item.getStore_mansong_rule_list().getDesc().getUrl())) {
                     HtmlFromUtils.setImageFromNetWork(context, helper.getView(R.id.tv_free_freight),
                             String.format(" 送[%s]", item.getStore_mansong_rule_list().getDesc().getUrl()), true);
                 }*/
+
+//                    LinearLayout llList = helper.getView(R.id.ll_listContent);
+//                    llList.removeAllViews();
+//                    for (int i = 0; i < item.getMansong().size(); i++) {
+//                        View view = View.inflate(context, R.layout.item_img_textview_12sp, null);
+//                        TextView textView = view.findViewById(R.id.tv_label);
+//                        textView.setText(item.getMansong().get(i).getDesc());
+//                        if (!item.getMansong().get(i).getUrl().isEmpty()) {
+//                            AppCompatImageView imageView = view.findViewById(R.id.iv_image);
+//                            ImageUtils.loadImage(imageView, item.getMansong().get(i).getUrl());
+//                        }
+//                        llList.addView(view);
+//                        if (item.isExpanded()) {
+//                            continue;
+//                        }
+//                        break;
+
+//            }
             } catch (Exception e) {
                 QLog.i(e.toString());
             }
         }
+
+        // TODO: 2019/6/13  
+        helper.setGone(R.id.ll_red, false).setText(R.id.tv_red, String.format("满%s元，优惠%s元", "5.00", "4.00"));
+
+
+
+
         /*店铺代金卷*/
         ConfirmOrderBean.StoreCartListNewsBean.StoreVoucherInfoBean storeVoucherInfo = item.getStore_voucher_info();
         if (null != storeVoucherInfo) {
@@ -72,9 +97,15 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
         } else {
             helper.setGone(R.id.ll_voucherPrice, false);
         }
+
         LinearLayout shopsList = helper.getView(R.id.ll_shopList);
         shopsList.removeAllViews();
-        for (int i = 0; i < item.getGoods_list().size(); i++) {
+        for (
+                int i = 0; i < item.getGoods_list().
+
+                size();
+
+                i++) {
             //add 商品
             Log.d("提交订单", "convert: 商品" + i);
             ConfirmOrderBean.StoreCartListNewsBean.GoodsListBean shops = item.getGoods_list().get(i);

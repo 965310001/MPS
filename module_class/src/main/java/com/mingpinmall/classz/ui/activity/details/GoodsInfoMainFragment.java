@@ -401,13 +401,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                     binding.llManjisong.removeAllViews();
                     textView = new TextView(activity);
                     textView.setText(returnSpannableStringBuilder("满级送"));
-
-//                    SpannableStringBuilder goodsName = new SpannableStringBuilder("满级送");
-//                    int end = goodsName.length();
-//                    //稍微设置标签文字小一点
-//                    goodsName.setSpan(new RelativeSizeSpan(0.9f), 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    //设置圆角背景
-//                    goodsName.setSpan(new RoundBackgroundColorSpan(getContext().getResources().getColor(R.color.shallow_red), Color.WHITE), 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     binding.llManjisong.addView(textView);
                     for (final GoodsDetailInfo.DatasBean.MansongInfoBean.RulesBean rule : mansongInfo.getRules()) {
                         textView = new TextView(activity);
@@ -416,12 +409,14 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                         if (!TextUtils.isEmpty(rule.getGoods_image_url())) {
                             HtmlFromUtils.setImageFromNetWork(textView.getContext(), textView,
                                     String.format(" 送礼品：[%s]", rule.getGoods_image_url()), true);
-
-//                            spannableString.setSpan(clickableSpan, 0, giftArrayBean.getGift_goodsname().length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-//                            QLog.i(rule.getGoods_id());
                         }
                         binding.llManjisong.addView(textView);
+                        textView.setOnClickListener(v -> {
+                            QLog.i("图片点击事件");
+                        });
                     }
+                    QLog.i(mansongInfo.getRules().get(0).getEnd_time_text() + mansongInfo.getRules().get(0).getStart_time_text());
+
                     binding.tvPromotion.setVisibility(View.VISIBLE);
                     binding.llManjisong.setVisibility(View.VISIBLE);
                 } else {

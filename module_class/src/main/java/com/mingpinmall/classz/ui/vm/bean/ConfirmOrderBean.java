@@ -23,6 +23,11 @@ public class ConfirmOrderBean extends BaseBean {
     /*使用优惠券之后的价格*/
     private List<NewStoreFinalTotalListBean> new_store_final_total_list;
     private JoinStoreInfoBean join_store_info;
+    /**
+     * rpt_info : {"rpacket_price":"4","rpacket_limit":"5.00","rpacket_t_id":"5","desc":"4元红包 有效期至 2019-06-30 消费满5.00可用"}
+     */
+
+    private RptInfoBean rpt_info;
 
     public String getVat_hash() {
         return vat_hash == null ? "" : vat_hash;
@@ -86,6 +91,14 @@ public class ConfirmOrderBean extends BaseBean {
 
     public void setJoin_store_info(JoinStoreInfoBean join_store_info) {
         this.join_store_info = join_store_info;
+    }
+
+    public RptInfoBean getRpt_info() {
+        return rpt_info;
+    }
+
+    public void setRpt_info(RptInfoBean rpt_info) {
+        this.rpt_info = rpt_info;
     }
 
     public static class AddressApiBean {
@@ -865,6 +878,52 @@ public class ConfirmOrderBean extends BaseBean {
 
         public void setZk(int zk) {
             this.zk = zk;
+        }
+    }
+
+    public static class RptInfoBean {
+        /**
+         * rpacket_price : 4
+         * rpacket_limit : 5.00
+         * rpacket_t_id : 5
+         * desc : 4元红包 有效期至 2019-06-30 消费满5.00可用
+         */
+
+        private String rpacket_price;
+        private String rpacket_limit;
+        private String rpacket_t_id;
+        private String desc;
+
+        public String getRpacket_price() {
+            return rpacket_price;
+        }
+
+        public void setRpacket_price(String rpacket_price) {
+            this.rpacket_price = rpacket_price;
+        }
+
+        public String getRpacket_limit() {
+            return rpacket_limit;
+        }
+
+        public void setRpacket_limit(String rpacket_limit) {
+            this.rpacket_limit = rpacket_limit;
+        }
+
+        public String getRpacket_t_id() {
+            return rpacket_t_id;
+        }
+
+        public void setRpacket_t_id(String rpacket_t_id) {
+            this.rpacket_t_id = rpacket_t_id;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
         }
     }
 }
