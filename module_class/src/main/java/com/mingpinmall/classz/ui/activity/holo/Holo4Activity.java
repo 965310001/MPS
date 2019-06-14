@@ -113,7 +113,6 @@ public class Holo4Activity extends AbsLifecycleActivity<ActivityHolo3Binding, Cl
             goods_id = itemBean.getGoods_id();
         });
         binding.btnAction.setOnClickListener(v -> {
-            // TODO 加入购物车
             binding.btnAction.setEnabled(false);
             mViewModel.addCart(goods_id, 1, Constants.CART_EVENT_KEY);
         });

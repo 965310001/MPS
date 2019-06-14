@@ -208,7 +208,6 @@ public class ConfirmOrderActivity extends
     }
 
 //    public void merchant(View view) {
-//        // TODO: 2019/4/11 商家界面
 //    }
 
     public void paymentMethod(View view) {

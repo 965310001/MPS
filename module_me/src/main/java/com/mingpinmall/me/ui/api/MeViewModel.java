@@ -332,4 +332,9 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     public void getAddress(String addressId) {
         mRepository.getAddress(addressId);
     }
+
+    /*退货发货*/
+    public void getMemberReturn(String returnId){
+        mRepository.getMemberReturn(returnId);
+    }
 }

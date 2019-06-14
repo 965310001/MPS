@@ -11,6 +11,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.ReturnOrderListAdapter;
@@ -21,6 +22,7 @@ import com.mingpinmall.me.ui.constants.Constants;
 /**
  * 功能描述：退货单列表
  * *@author 小斌
+ *
  * @date 2019/3/26
  **/
 public class ReturnFragment extends AbsLifecycleFragment<FragmentDefaultRecyclerviewBinding, MeViewModel> {
@@ -63,9 +65,11 @@ public class ReturnFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
             if (view.getId() == R.id.ll_shopContent) {
                 //店铺
                 ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", data.getStore_id());
-            } else if (view.getId() == R.id.bt_refundInformation){
+            } else if (view.getId() == R.id.bt_refundInformation) {
                 //查看详情
                 ActivityToActivity.toActivity(ARouterConfig.Me.RETRUNORDERINFORMATION, "returnId", data.getRefund_id());
+            } else if (view.getId() == R.id.bt_return) {
+                ActivityToActivity.toActivity(ARouterConfig.Me.RETURNACTIVITY, "returnId", data.getRefund_id());
             }
         });
     }

@@ -321,6 +321,10 @@ public interface ARouterConfig {
          */
         String ORDEREVALUATEACTIVITY = "/me/OrderEvaluateActivity";
 
+        /**
+         * 退货发货
+         */
+        String RETURNACTIVITY = "/me/ReturnActivity";
     }
 
 

@@ -234,7 +234,6 @@ public class BaseDialog extends Dialog {
     }
 
 
-    // TODO: 2019/1/15 等待封装
 //    public BaseDialog config(@LayoutRes int layoutResID, boolean canceledOnTouchOutside) {
 //        config(layoutResID, DEFAULT_DIMAMOUNT, Gravity.CENTER, AnimInType.CENTER, WindowManager.LayoutParams.MATCH_PARENT,
 //                WindowManager.LayoutParams.WRAP_CONTENT, canceledOnTouchOutside);

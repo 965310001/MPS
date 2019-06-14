@@ -150,7 +150,6 @@ public final class ActivityToActivity {
     /******************************************** end **************************************/
 
 
-    // TODO: 2019/2/22 删除
     public static void toWebView(String url) {
         if (TextUtils.isEmpty(url)) {
             new Exception("必须初始化url");

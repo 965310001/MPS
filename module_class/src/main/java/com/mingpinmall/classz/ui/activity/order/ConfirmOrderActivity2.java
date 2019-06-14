@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -16,10 +17,12 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
+import com.goldze.common.dmvvm.base.core.aaa;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.FileLog;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.apppay.UserPaySheet;
@@ -38,6 +41,7 @@ import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
+import com.xuexiang.xui.widget.button.switchbutton.SwitchButton;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +78,12 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
 
     private String mPySn;
 
+    /*紅包Id*/
+    private String rpacketTId;
+
+
+    private Double rpacketPrice;
+
     /**
      * 支付窗口
      */
@@ -103,6 +113,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
             }
         });
     }
+
 
     @Override
     protected Object getStateEventKey() {
@@ -153,12 +164,36 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                                     QLog.i("===");
                                     if (joinStoreInfo.getJoin_store() == 1) {
                                         if (null != mStoreCartListNews && mStoreCartListNews.size() > 0) {
-                                            QLog.i("===");
                                             mStoreCartListNews.get(mStoreCartListNews.size() - 1).setJoin_store_info(joinStoreInfo);
                                         }
                                     }
                                 }
+                                if (null != orderBean.getRpt_info()) {
+                                    try {
+                                        ConfirmOrderBean.RptInfoBean rptInfo = orderBean.getRpt_info();
+                                        rpacketPrice = Double.valueOf(orderBean.getRpt_info().getRpacket_price());
+                                        binding.llRed.setVisibility(View.VISIBLE);
+                                        binding.tvRed.setText(String.format("满%s元，优惠%s元", rptInfo.getRpacket_limit(), rptInfo.getRpacket_price()));
+                                        binding.sbIos.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                                            if (isChecked) {
+                                                // TODO: 2019/6/13 bing.sbIos 默认是选中的，待后台修改 
+                                                rpacketTId = rptInfo.getRpacket_t_id();
+                                                binding.setTotal(String.valueOf(Double.valueOf(binding.getTotal()) - rpacketPrice));
+                                            } else {
+                                                rpacketTId = "";
+                                                binding.setTotal(String.valueOf(Double.valueOf(binding.getTotal()) + rpacketPrice));
+                                            }
+
+                                        });
+                                    } catch (Exception e) {
+                                        QLog.i(e.toString());
+                                    }
+                                } else {
+                                    binding.llRed.setVisibility(View.GONE);
+                                }
+
                                 adapter.setNewData(mStoreCartListNews);
+
                                 addressId = orderBean.getAddress_info()
                                         .getAddress_id();
                                 ConfirmOrderBean.AddressApiBean addressApi = orderBean.getAddress_api();
@@ -189,7 +224,6 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         registerObserver(Constants.CONFIRMORDER_KEY[2], BaseResponse.class)
                 .observe(this, response -> {
                     CustomProgressDialog.stop();
-
                     BaseResponse<BuyStepInfo> data = response;
                     if (data.isSuccess()) {
                         mPySn = data.getData().getPay_sn();
@@ -222,10 +256,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                         userPaySheet.getSheetBuilder().onPayFail(response.toString());
                     }
                 });
-
-
     }
-
 
     /**
      * F 码商品，显示输入F码的弹窗
@@ -278,7 +309,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
 
     public void sublimit(View view) {
         CustomProgressDialog.show(activity);
-        Map<String, Object> map = new HashMap<>(10);
+        Map<String, Object> map = new HashMap<>(12);
         if (!TextUtils.isEmpty(ifcart)) {
             map.put("ifcart", ifcart);
         }
@@ -292,6 +323,10 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         map.put("rpt", "");
         if (!TextUtils.isEmpty(mPySn)) {
             map.put("pay_sn", mPySn);
+        }
+        if (!TextUtils.isEmpty(rpacketTId)) {
+            // TODO: 2019/6/13
+            map.put("rpacket_t_id", rpacketTId);
         }
         if (null != mStoreCartListNews && mStoreCartListNews.size() > 0) {
             ConfirmOrderBean.StoreCartListNewsBean.StoreVoucherInfoBean storeVoucherInfo;

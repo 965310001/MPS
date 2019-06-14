@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,22 +10,46 @@
 
         <import type="android.view.View" />
 
+        <import type="com.trecyclerview.adapter.DelegateAdapter" />
+
+        <import type="android.support.v7.widget.RecyclerView.LayoutManager" />
+
+
+        <import type="java.util.List" />
+
         <variable
             name="data"
             type="com.mingpinmall.classz.ui.vm.bean.GoodsComment" />
+
+        <variable
+            name="adapter"
+            type="DelegateAdapter" />
+
+        <variable
+            name="layout"
+            type="LayoutManager" />
+
+        <variable
+            name="list"
+            type="List" />
+
+        <variable
+            name="isGone"
+            type="Boolean" />
+
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp">
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/iv_head"
             image="@{data.member_avatar}"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_margin="@dimen/dp_10"
             android:visibility="@{TextUtils.isEmpty(data.member_avatar)?View.GONE:View.VISIBLE}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,18 +64,23 @@
 
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
             android:id="@+id/rb_evaluate"
+
             style="@style/Widget.MaterialRatingBar.RatingBar"
             rating="@{data.geval_scores+``}"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_marginTop="@dimen/dp_6"
+            android:layout_margin="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
             android:clickable="false"
             android:isIndicator="true"
             android:numStars="5"
             android:stepSize="1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:layout_constraintBottom_toTopOf="@id/tv_comment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_head"
             app:mrb_progressTint="@color/shallow_red"
+            tools:layout_editor_absoluteX="10dp"
+            tools:layout_editor_absoluteY="56dp"
             tools:rating="5" />
 
         <TextView
@@ -58,6 +88,7 @@
             style="@style/TextStyle"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_40"
+            android:layout_margin="@dimen/dp_10"
             android:layout_marginStart="@dimen/dp_10"
             android:gravity="start|center_vertical"
             android:text="@{data.geval_frommembername}"
@@ -69,7 +100,9 @@
 
         <TextView
             android:id="@+id/tv_comment"
+
             style="@style/TextStyle"
+            android:layout_margin="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_2"
             android:lineSpacingExtra="4dp"
             android:text="@{data.geval_content}"
@@ -79,8 +112,10 @@
             tools:text="内容" />
 
         <TextView
+            android:id="@+id/tv_explain"
             style="@style/TextStyle"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_2"
             android:text="@{`解释:`+data.geval_explain}"
             android:textColor="@color/shallow_red"
@@ -90,11 +125,11 @@
             tools:text="解释" />
 
         <!--追加评价-->
-
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_40"
+            android:layout_margin="@dimen/dp_10"
             android:gravity="center|right"
             android:text="@{data.geval_addtime_date}"
             android:textColor="@color/gray"
@@ -102,6 +137,29 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="2019/2/2 23:2:54" />
 
+        <include
+            layout="@layout/trecyclerview_base"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:visibility="@{isGone?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/view"
+            app:layout_constraintTop_toBottomOf="@+id/tv_explain"
+            bind:adapter="@{adapter}"
+            bind:data="@{list}"
+            bind:itemdecoration="@{true}"
+            bind:layout="@{layout}"
+            bind:tag="@{`3`}" />
+
+        <Space
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
 </layout>

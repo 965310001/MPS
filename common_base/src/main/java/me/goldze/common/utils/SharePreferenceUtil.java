@@ -53,7 +53,6 @@ public class SharePreferenceUtil {
         getPreferences().edit().putString(KEY_SEARCH_LIST, new Gson().toJson(searchList)).apply();
     }
 
-    //todo 改成数据库存储
     public static List<String> getSearchList() {
         return new Gson().fromJson(getPreferences().getString(KEY_SEARCH_LIST, "[]"), new TypeToken<List<String>>() {
         }.getType());

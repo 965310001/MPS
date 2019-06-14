@@ -13,6 +13,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityReturnInformationBinding;
 import com.mingpinmall.me.ui.api.MeViewModel;
@@ -24,6 +25,7 @@ import java.util.List;
 /**
  * 功能描述：退货单详情
  * *@author 小斌
+ *
  * @date 2019/4/16
  **/
 @Route(path = ARouterConfig.Me.RETRUNORDERINFORMATION)
@@ -50,6 +52,7 @@ public class ReturnOrderInformationActivity extends AbsLifecycleActivity<Activit
             } else {
                 formatData((List<ReturnInformationBean>) result);
             }
+            binding.refreshLayout.finishRefresh();
         });
     }
 
@@ -73,6 +76,7 @@ public class ReturnOrderInformationActivity extends AbsLifecycleActivity<Activit
                 ScreenUtil.dip2px(activity, 36)
         );
         params.leftMargin = ScreenUtil.dip2px(activity, 6);
+        binding.llImageList.removeAllViews();
         for (String imageUrl : data.getPic_list()) {
             imageView = new AppCompatImageView(activity);
             imageView.setLayoutParams(params);
@@ -82,6 +86,7 @@ public class ReturnOrderInformationActivity extends AbsLifecycleActivity<Activit
                     ScreenUtil.dip2px(activity, 36)
             );
         }
+        binding.executePendingBindings();
     }
 
     @Override

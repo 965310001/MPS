@@ -16,6 +16,7 @@ import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
 import com.trecyclerview.listener.OnItemClickListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -40,9 +41,7 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     protected void getRemoteData() {
         super.getRemoteData();
 
-        /*QLog.i("EVALUATE_EVENT_KEY" + adapter.getItems().size());*/
         if (itemData.size() == 0) {
-            /*QLog.i("EVALUATE_EVENT_KEY");*/
             itemData.add(0, new ArrayList(Arrays.asList("全部评价", "好评", "中评", "差评", "订单晒图", "追加评价", String.valueOf(index))));
             setData(itemData);
         }
@@ -62,20 +61,16 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
                     setData(response.getDatas().getGoods_eval_list());
                 });
         registerObserver("FLOWTAGLAYOUT_POSTION", Integer.class).observe(this, integer -> {
-            if (integer == 0) {
-                type = "";
-            } else {
-                type = String.valueOf(integer);
-            }
+            type = integer == 0 ? "" : String.valueOf(integer);
             index = integer;
             onRefresh();
-            QLog.i(type);
         });
     }
 
     @Override
     public void onRefresh() {
         itemData.clear();
+        adapter.notifyDataSetChanged();
         super.onRefresh();
     }
 

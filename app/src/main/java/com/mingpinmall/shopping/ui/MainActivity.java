@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity<ActivityHomeNavigationBinding> {
 //        ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY);
 //        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
 //        ActivityToActivity.goShoppingDetails("106911"); //进入聊天  服务 7天退货 品质承诺
-//        ActivityToActivity.goShoppingDetails("110387"); //虚拟
+//        ActivityToActivity.goShoppingDetails("110357"); //虚拟
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
 //        ActivityToActivity.toActivity(ARouterConfig.home.SEARCHACTIVITY);
 //        ActivityToActivity.toActivity(ARouterConfig.classify.HOLOACTIVITY, "url", " ");

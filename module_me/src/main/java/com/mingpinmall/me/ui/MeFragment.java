@@ -526,7 +526,6 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
                             headImagePath = lm.getPath();
                         }
                     }
-                    //TODO 上传头像 headImagePath
 //                    PictureSelector.create(this).themeStyle(R.style.picture_default_style).openExternalPreview(0, selectList);
                     break;
                 default:

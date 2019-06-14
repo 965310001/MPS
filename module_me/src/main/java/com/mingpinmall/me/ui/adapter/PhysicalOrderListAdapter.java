@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.goldze.common.dmvvm.constants.ARouterConfig;
+import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.ui.bean.PhysicalOrderBean;
@@ -42,7 +44,7 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
                 .setGone(R.id.tv_tips, item.isIf_lock())
                 //赠品列表
                 .setGone(R.id.ll_gifts, item.getZengpin_list() != null && item.getZengpin_list().size() > 0)
-                .addOnClickListener(R.id.ll_shopContent, R.id.tv_removeOrder);
+                .addOnClickListener(R.id.ll_shopContent, R.id.tv_removeOrder, R.id.ll_gifts);
         //生成底部按钮
         initBottomBtns(context, helper, item);
         //生成礼物列表
@@ -75,9 +77,12 @@ public class PhysicalOrderListAdapter extends BaseQuickAdapter<PhysicalOrderBean
         llList.removeAllViews();
         if (item.getZengpin_list() != null) {
             helper.setVisible(R.id.line2, item.getZengpin_list().size() > 0);
+            PhysicalOrderBean.ZengpinListBean giftListBean;
             for (int i = 0; i < item.getZengpin_list().size(); i++) {
-                PhysicalOrderBean.ZengpinListBean giftListBean = item.getZengpin_list().get(i);
+                giftListBean = item.getZengpin_list().get(i);
                 View view = View.inflate(context, R.layout.item_tips_textview_14sp, null);
+                PhysicalOrderBean.ZengpinListBean finalGiftListBean = giftListBean;
+                view.setOnClickListener(v -> ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", finalGiftListBean.getGoods_id()));
                 TextView textView = view.findViewById(R.id.tv_label);
                 textView.setText(String.format("%s    x%s", giftListBean.getGoods_name(), giftListBean.getGoods_num()));
                 llList.addView(view);

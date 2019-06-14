@@ -35,8 +35,8 @@ public class RefundOrderInformationActivity extends AbsLifecycleActivity<Activit
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        super.initViews(savedInstanceState);
         ARouter.getInstance().inject(this);
+        super.initViews(savedInstanceState);
         setTitle(R.string.text_refundInformation);
         binding.refreshLayout.setEnableLoadMore(false);
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> initData());
@@ -51,6 +51,7 @@ public class RefundOrderInformationActivity extends AbsLifecycleActivity<Activit
             } else {
                 formatData((List<RefundInformationBean>) result);
             }
+            binding.refreshLayout.finishRefresh();
         });
     }
 
@@ -74,6 +75,7 @@ public class RefundOrderInformationActivity extends AbsLifecycleActivity<Activit
                 ScreenUtil.dip2px(activity, 36)
         );
         params.leftMargin = ScreenUtil.dip2px(activity, 6);
+        binding.llImageList.removeAllViews();
         for (String imageUrl : data.getPic_list()) {
             imageView = new AppCompatImageView(activity);
             imageView.setLayoutParams(params);

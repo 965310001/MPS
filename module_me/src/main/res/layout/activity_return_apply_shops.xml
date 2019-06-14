@@ -219,13 +219,20 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
+                    <!--<com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner-->
+                    <!--android:id="@+id/sp_spinner"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginStart="18dp"-->
+                    <!--android:layout_marginEnd="18dp" />-->
+
+                    <Spinner
                         android:id="@+id/sp_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="18dp"
-                        android:layout_marginEnd="18dp" />
-
+                        android:layout_marginStart="@dimen/dp_18"
+                        android:minHeight="42dp"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
 
                 <View

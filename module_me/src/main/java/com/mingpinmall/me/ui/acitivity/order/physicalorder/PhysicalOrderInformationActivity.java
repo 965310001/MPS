@@ -30,6 +30,7 @@ import com.mingpinmall.me.ui.bean.OrderInformationBean;
 import com.mingpinmall.me.ui.constants.Constants;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
@@ -161,7 +162,12 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
             binding.llGifts.setVisibility(View.GONE);
         }
         /*优惠，运费，实付款*/
-        binding.tvYouhui.setText(data.getPromotion().size() > 0 ? data.getPromotion().get(0).get(1) : "");
+        StringBuilder sb = new StringBuilder();
+        for (List<String> list : data.getPromotion()) {
+            sb.append(list.get(1)).append("\n");
+        }
+        binding.tvYouhui.setText(data.getPromotion().size() > 0 ? sb.toString() : "");
+//        binding.tvYouhui.setText(data.getPromotion().size() > 0 ? data.getPromotion().get(0).get(1) : "");
         /*最下面的按钮*/
         LinearLayout buttonContent = binding.llButtonContent;
         buttonContent.removeAllViews();

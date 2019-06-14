@@ -6,6 +6,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.R;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
+import com.xuexiang.xui.widget.button.switchbutton.SwitchButton;
 
 import java.util.ArrayList;
 
@@ -56,7 +58,6 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
                     HtmlFromUtils.setImageFromNetWork(context, helper.getView(R.id.tv_free_freight),
                             String.format(" 送[%s]", item.getStore_mansong_rule_list().getDesc().getUrl()), true);
                 }*/
-
 //                    LinearLayout llList = helper.getView(R.id.ll_listContent);
 //                    llList.removeAllViews();
 //                    for (int i = 0; i < item.getMansong().size(); i++) {
@@ -78,13 +79,6 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
                 QLog.i(e.toString());
             }
         }
-
-        // TODO: 2019/6/13  
-        helper.setGone(R.id.ll_red, false).setText(R.id.tv_red, String.format("满%s元，优惠%s元", "5.00", "4.00"));
-
-
-
-
         /*店铺代金卷*/
         ConfirmOrderBean.StoreCartListNewsBean.StoreVoucherInfoBean storeVoucherInfo = item.getStore_voucher_info();
         if (null != storeVoucherInfo) {
@@ -101,11 +95,7 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
         LinearLayout shopsList = helper.getView(R.id.ll_shopList);
         shopsList.removeAllViews();
         for (
-                int i = 0; i < item.getGoods_list().
-
-                size();
-
-                i++) {
+                int i = 0; i < item.getGoods_list().size(); i++) {
             //add 商品
             Log.d("提交订单", "convert: 商品" + i);
             ConfirmOrderBean.StoreCartListNewsBean.GoodsListBean shops = item.getGoods_list().get(i);

@@ -5,70 +5,103 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application>
-        <activity android:name=".ui.acitivity.account.LoginActivity"
+        <activity android:name=".ui.acitivity.order.refundorder.ReturnActivity"></activity>
+        <activity
+            android:name=".ui.acitivity.account.LoginActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.acitivity.setting.SettingActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.OrderActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.collection.CollectionActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.collection.FootprintActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.RefundActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.property.PropertyActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.message.MessageActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.property.CardSurplusActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.property.AccountSurplusActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.property.CouponActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.property.StorePacketActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.property.VipIntegralActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.distribution.DistributionActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.address.AddressManagerActivity"
+        <activity
+            android:name=".ui.acitivity.setting.SettingActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".ui.acitivity.address.EditAddressActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.setting.ResetPasswordActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.setting.BindPhoneActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.setting.FeedBackActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.setting.CheckAuthActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.address.SelectCityActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.physicalorder.PhysicalOrderInformationActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.virtualorder.VirtualOrderInformationActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.property.PdcashInformationActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.ReturnOrderInformationActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.RefundOrderInformationActivity"
+        <activity
+            android:name=".ui.acitivity.order.OrderActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".ui.acitivity.order.OrderDeliveryActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.distribution.ReduceCashActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.OrderEvaluateActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.refundorder.ApplyReturnActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.refundorder.ApplyRefundActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.refundorder.OrderRefundActivity"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".ui.acitivity.collection.CollectionActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.collection.FootprintActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.RefundActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.property.PropertyActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.message.MessageActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.property.CardSurplusActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.property.AccountSurplusActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.property.CouponActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.property.StorePacketActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.property.VipIntegralActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.distribution.DistributionActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.address.AddressManagerActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.address.EditAddressActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.setting.ResetPasswordActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.setting.BindPhoneActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.setting.FeedBackActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.setting.CheckAuthActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.address.SelectCityActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.physicalorder.PhysicalOrderInformationActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.virtualorder.VirtualOrderInformationActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.property.PdcashInformationActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.ReturnOrderInformationActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.RefundOrderInformationActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.OrderDeliveryActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.distribution.ReduceCashActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.OrderEvaluateActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.refundorder.ApplyReturnActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.refundorder.ApplyRefundActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.acitivity.order.refundorder.OrderRefundActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

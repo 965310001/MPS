@@ -70,7 +70,6 @@ public class HtmlFromUtils {
             colorList.add(matcher.group(1));
             text.replace(matcher.group(), matcher.group(2));
         }
-        // TODO: 2019/5/17 字体颜色的设置需要正则
         /*字体的颜色*/
         matcher = Pattern.compile("\\<color=[^\\=](.*?)'>(.*?)\\</color>").matcher(text);
         while (matcher.find()) {

@@ -22,6 +22,7 @@ import retrofit2.http.Query;
 
 /**
  * 功能描述：
+ *
  * @author 小斌
  * @date 2019/4/1
  **/
@@ -112,6 +113,7 @@ public interface MeApiService {
     @POST(SENDEVALUATE)
     Flowable<BaseNothingBean> sendEvaluate(
             @Part("jsonData") String json,
+            @Query("key") String key,
             @PartMap() Map<String, RequestBody> files
     );
 
@@ -906,6 +908,17 @@ public interface MeApiService {
             @Field("page") int page,
             @Field("curpage") int curpage
     );
+
+
+    /*退货发货*/
+    String GET_MEMBER_RETURN = "/mo_bile/index.php?app=member_return&wwi=ship_form";
+
+    @GET(GET_MEMBER_RETURN)
+    Flowable<BaseResponse<MerchandiseBean>> getMemberReturn(
+            @Query("key") String key,
+            @Query("return_id") String return_id
+    );
+
 
     /**
      * 描述：浏览记录

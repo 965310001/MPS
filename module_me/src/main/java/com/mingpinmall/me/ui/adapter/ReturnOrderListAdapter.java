@@ -11,6 +11,7 @@ import java.util.ArrayList;
 /**
  * 功能描述：退货列表
  * *@author 小斌
+ *
  * @date 2019/4/23
  **/
 public class ReturnOrderListAdapter extends BaseQuickAdapter<ReturnBean.ReturnListBean, BaseViewHolder> {
@@ -25,9 +26,12 @@ public class ReturnOrderListAdapter extends BaseQuickAdapter<ReturnBean.ReturnLi
                 .setText(R.id.tv_label, item.getGoods_name())
                 .setText(R.id.tv_money, item.getRefund_amount())
                 .setText(R.id.tv_returnCount, item.getGoods_num())
+                .setText(R.id.tv_orderState, item.getSeller_state())
+                .setVisible(R.id.bt_return, "1".equals(item.getShip_state()))
                 .addOnClickListener(R.id.ll_shopContent)
                 .addOnClickListener(R.id.bt_refundInformation)
-                .addOnClickListener(R.id.tv_removeOrder);
+                .addOnClickListener(R.id.tv_removeOrder)
+                .addOnClickListener(R.id.bt_return);
         ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getGoods_img_360());
     }
 }

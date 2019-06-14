@@ -93,6 +93,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         binding.vpContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
+                binding.rlBottom.setVisibility(i == 2 ? View.GONE : View.VISIBLE);
                 if (i == 0) {
                     int alpha;
                     if (!mGoodsInfoMainFragment.trans) {

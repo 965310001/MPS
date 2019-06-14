@@ -73,23 +73,28 @@
                         android:background="@color/line_color" />
 
                     <LinearLayout
-                        android:id="@+id/ll_imageList"
                         android:layout_width="match_parent"
                         android:layout_height="46dp"
                         android:background="@color/white"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="18dp">
+                        android:orientation="horizontal">
 
                         <android.support.v7.widget.AppCompatTextView
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="18dp"
-                            android:layout_weight="1"
                             android:text="凭证上传"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
+                        <LinearLayout
+                            android:id="@+id/ll_imageList"
+                            android:layout_width="match_parent"
+                            android:layout_height="46dp"
+                            android:background="@color/white"
+                            android:gravity="center_vertical|right"
+                            android:orientation="horizontal"
+                            android:paddingEnd="18dp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.AppCompatTextView

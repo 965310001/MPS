@@ -165,7 +165,6 @@ public final class ActivityToActivity {
         ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, map);
     }
 
-    // TODO: 2019/2/22 删除
     public static void toWebView(String url) {
         if (TextUtils.isEmpty(url)) {
             new Exception("必须初始化url");

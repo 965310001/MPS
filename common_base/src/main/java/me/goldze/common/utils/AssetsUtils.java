@@ -34,7 +34,6 @@ public final class AssetsUtils {
         try {
             fileNames = mContext.getResources().getAssets().list(assetsFolderPath);// 获取assets目录下的所有文件及子目录名
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return fileNames;
@@ -109,7 +108,6 @@ public final class AssetsUtils {
                 fos.close();
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

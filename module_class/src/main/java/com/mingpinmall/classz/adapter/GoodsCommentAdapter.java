@@ -1,5 +1,6 @@
 
 package com.mingpinmall.classz.adapter;
+
 import android.content.Context;
 import android.support.annotation.Nullable;
 
@@ -24,13 +25,6 @@ public class GoodsCommentAdapter extends BaseRecyclerAdapter<GoodsComment> {
                 .setText(R.id.tv_comment, data.getGeval_content())
                 .setText(R.id.tv_time, data.getGeval_addtime_date());
 
-//        holder.setText(R.id.tv_name, data.getGeval_frommembername());
-//        holder.setText(R.id.tv_comment, data.getGeval_content());
-//        holder.setText(R.id.tv_time, data.getGeval_addtime_date());
-
-        /*holder.getView(R.id.iv_head).setVisibility(View.GONE);*/
         ((MaterialRatingBar) holder.getView(R.id.rb_evaluate)).setRating(Float.parseFloat(data.getGeval_scores()));
-
-
     }
 }

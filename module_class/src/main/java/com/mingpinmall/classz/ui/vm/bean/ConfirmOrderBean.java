@@ -257,6 +257,15 @@ public class ConfirmOrderBean extends BaseBean {
         private List<GoodsListBean> goods_list;
         private StoreVoucherInfoBean store_voucher_info;
         private JoinStoreInfoBean join_store_info;
+        private RptInfoBean rpt_info;
+
+        public RptInfoBean getRpt_info() {
+            return rpt_info;
+        }
+
+        public void setRpt_info(RptInfoBean rpt_info) {
+            this.rpt_info = rpt_info;
+        }
 
         public JoinStoreInfoBean getJoin_store_info() {
             return join_store_info;

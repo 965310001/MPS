@@ -273,29 +273,12 @@ public class DatabingUtils {
                     adapter = AdapterPool.newInstance().getRightAdapter(context).build();
                     layout = new GridLayoutManager(context, 3);
                     break;
-//                case 3:
-////                    final InvoiceListInfo.InvoiceListBean[] bean = {null};
-////                    adapter = AdapterPool.newInstance().getInvoiceList(context)
-////                            .setOnItemClickListener(new OnItemClickListener() {
-////                                @Override
-////                                public void onItemClick(View view, int i, Object o) {
-////                                    if (null != bean[0]) {
-////                                        bean[0].setChecked(false);
-////                                    }
-////                                    bean[0] = (InvoiceListInfo.InvoiceListBean) o;
-////                                    bean[0].setChecked(true);
-////                                }
-////                            }).build();
-////                    rv.addItemDecoration(new DividerItemDecoration(context,
-////                            DividerItemDecoration.VERTICAL));
-////                    layout = new LinearLayoutManager(context);
-//                    break;
-//                case 4:
-//////                    adapter = AdapterPool.newInstance().getRecommend(context).build();
-//////                    rv.addItemDecoration(new DividerItemDecoration(context,
-//////                            DividerItemDecoration.VERTICAL));
-//////                    layout = new GridLayoutManager(context, 4);
-//                    break;
+
+             /*   case 3:
+                    adapter = AdapterPool.newInstance().getEvaluate(context).build();
+                    layout = new GridLayoutManager(context, 3);
+                    break;*/
+
                 default:
                     /*QLog.i("必须个TRecyclerView 设置TAG");*/
                     break;

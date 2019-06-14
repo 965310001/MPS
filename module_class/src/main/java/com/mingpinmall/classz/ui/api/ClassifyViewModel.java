@@ -95,7 +95,6 @@ public class ClassifyViewModel extends AbsViewModel<ClassifyRepository> {
     }
 
     /*添加，删除收藏*/
-    // TODO: 2019/4/2 收藏
     public void favorites(String goodsId, boolean isLike, Object eventKey) {
         Map<String, Object> map = new HashMap<>();
         map.put(isLike ? "fav_id" : "goods_id", goodsId);

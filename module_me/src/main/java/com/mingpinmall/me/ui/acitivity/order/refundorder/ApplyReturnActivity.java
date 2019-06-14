@@ -3,6 +3,7 @@ package com.mingpinmall.me.ui.acitivity.order.refundorder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.ArrayAdapter;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -15,6 +16,7 @@ import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ImageUtils;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.ActivityReturnApplyShopsBinding;
@@ -27,6 +29,7 @@ import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinnerAdapter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -37,6 +40,7 @@ import static com.goldze.common.dmvvm.constants.ARouterConfig.SUCCESS;
 /**
  * 功能描述：退货申请
  * *@author 小斌
+ *
  * @date 2019/5/9
  **/
 @Route(path = ARouterConfig.Me.APPLYRETURNACTIVITY)
@@ -59,7 +63,7 @@ public class ApplyReturnActivity extends AbsLifecycleActivity<ActivityReturnAppl
         photosTools = new SelectPhotosTools(activity, binding.rvImages);
         photosTools.setMaxSize(3);
 
-        binding.spSpinner.setAdapter(new MaterialSpinnerAdapter<ShopsApplyRefundBean.ReasonListBean>(activity, new ArrayList<>()));
+//        binding.spSpinner.setAdapter(new MaterialSpinnerAdapter<ShopsApplyRefundBean.ReasonListBean>(activity, new ArrayList<>()));
 
         binding.tvStoreName.setOnClickListener(v -> {
             //店铺名字
@@ -79,7 +83,8 @@ public class ApplyReturnActivity extends AbsLifecycleActivity<ActivityReturnAppl
             params.put("key", RequestBody.create(MediaType.parse("text/plain"), ((UserBean) SharePreferenceUtil.getUser(UserBean.class)).getKey()));
             params.put("order_id", RequestBody.create(MediaType.parse("text/plain"), id));
             params.put("order_goods_id", RequestBody.create(MediaType.parse("text/plain"), goods_id));
-            params.put("reason_id", RequestBody.create(MediaType.parse("text/plain"), ((ShopsApplyRefundBean.ReasonListBean) binding.spSpinner.getSelectedItem()).getReason_id()));
+//            params.put("reason_id", RequestBody.create(MediaType.parse("text/plain"), ((ShopsApplyRefundBean.ReasonListBean) binding.spSpinner.getSelectedItem()).getReason_id()));
+            params.put("reason_id", RequestBody.create(MediaType.parse("text/plain"), reasonIdList.get(binding.spSpinner.getSelectedItemPosition())));
             params.put("refund_amount", RequestBody.create(MediaType.parse("text/plain"), binding.edRefundMoney.getText().toString()));
             params.put("refund_type", RequestBody.create(MediaType.parse("text/plain"), "2"));
             params.put("buyer_message", RequestBody.create(MediaType.parse("text/plain"), binding.edRefundInfo.getText().toString()));
@@ -108,16 +113,34 @@ public class ApplyReturnActivity extends AbsLifecycleActivity<ActivityReturnAppl
         mViewModel.getRefundShopsInfo(id, goods_id);
     }
 
+    List<String> reasonIdList;
+
     @Override
     protected void dataObserver() {
         super.dataObserver();
         registerObserver(Constants.REFUND_SHOPS_INFO, Object.class).observeForever(result -> {
             if (result instanceof ShopsApplyRefundBean) {
                 data = (ShopsApplyRefundBean) result;
+                QLog.i(data);
                 binding.setData(data);
                 binding.tvMaxRefundCount.setText("最多可退" + data.getGoods().getGoods_num() + "件");
                 binding.tvMaxRefundMoney.setText("¥" + data.getGoods().getGoods_pay_price());
-                binding.spSpinner.setItems(data.getReason_list());
+//                binding.spSpinner.setItems(data.getReason_list());
+                /*封装*/
+                List<String> reasonList = new ArrayList<>();
+                reasonIdList = new ArrayList<>();
+                for (ShopsApplyRefundBean.ReasonListBean reasonListBean : data.getReason_list()) {
+                    reasonList.add(reasonListBean.getReason_info());
+                    reasonIdList.add(reasonListBean.getReason_id());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,
+                        R.layout.item_text1,
+                        R.id.text, reasonList
+                );
+                binding.spSpinner.setAdapter(adapter);
+                binding.spSpinner.setSelection(0);
+                /*封装end*/
+
                 ImageUtils.loadImageCorners(binding.ivImage,
                         ScreenUtil.dip2px(activity, 4), data.getGoods().getGoods_img_360());
             } else {

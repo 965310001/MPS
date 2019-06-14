@@ -15,6 +15,7 @@ import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
 import com.mingpinmall.me.ui.bean.CityBean;
 import com.mingpinmall.me.ui.bean.CouponListBean;
 import com.mingpinmall.me.ui.bean.FootprintBean;
+import com.mingpinmall.me.ui.bean.MerchandiseBean;
 import com.mingpinmall.me.ui.bean.MessageListBean;
 import com.mingpinmall.me.ui.bean.MyInfoBean;
 import com.mingpinmall.me.ui.bean.OrderApplyRefundBean;
@@ -245,7 +246,7 @@ public class MeRepository extends BaseRepository {
 
     /*获取该订单下可评价商品列表*/
     protected void sendEvaluate(String json, Map<String, RequestBody> files) {
-        addDisposable(apiService.sendEvaluate(json, files)
+        addDisposable(apiService.sendEvaluate(json, getUserKey(), files)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseNothingBean>() {
                     @Override
@@ -1557,6 +1558,29 @@ public class MeRepository extends BaseRepository {
                     @Override
                     public void onFailure(String msg) {
                         sendData(event_key, msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+
+    public void getMemberReturn(String returnId) {
+        addDisposable(apiService.getMemberReturn(getUserKey(), returnId)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse<MerchandiseBean>>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse<MerchandiseBean> result) {
+                        if (!result.isSuccess()) {
+                            sendData("MERCHANDISEBEAN_EVENT_KEY", result.getMessage());
+                            return;
+                        }
+                        sendData("MERCHANDISEBEAN_EVENT_KEY", result.getData());
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("MERCHANDISEBEAN_EVENT_KEY", msg == null ? "获取失败" : msg);
                     }
                 })
         );

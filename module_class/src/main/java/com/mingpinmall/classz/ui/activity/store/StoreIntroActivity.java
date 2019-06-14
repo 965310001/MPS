@@ -84,8 +84,6 @@ public class StoreIntroActivity extends AbsLifecycleActivity<ActivityStoreIntroB
                         int store_collect = storeInfo.getStore_collect();
                         storeInfo.setStore_collect(storeInfo.isIs_favorate() ? store_collect - 1 : store_collect + 1);
                         storeInfo.setIs_favorate(!storeInfo.isIs_favorate());
-
-                        // TODO: 2019/4/18 这里还需要修改
                     } else {
                         ToastUtils.showLong(response.getError());
                     }

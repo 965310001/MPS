@@ -194,7 +194,7 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
     }
 
     private void weixinPay(PayMessageInfo.PayCodeBean response) {
-        if(response == null) {
+        if (response == null) {
             userPaySheet.getSheetBuilder().onPayFail("未知错误");
             return;
         }

@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * 功能描述：实物订单适配器
  * *@author 小斌
+ *
  * @date 2019/4/13
  **/
 public class RefundOrderListAdapter extends BaseQuickAdapter<RefundBean.RefundListBean, BaseViewHolder> {
@@ -31,6 +32,7 @@ public class RefundOrderListAdapter extends BaseQuickAdapter<RefundBean.RefundLi
         helper.setText(R.id.tv_storeName, item.getStore_name())
                 .setText(R.id.tv_time, item.getAdd_time())
                 .setText(R.id.tv_money, item.getRefund_amount())
+                .setText(R.id.tv_orderState, item.getSeller_state())
                 .addOnClickListener(R.id.ll_shopContent)
                 .addOnClickListener(R.id.bt_refundInformation)
                 .addOnClickListener(R.id.tv_removeOrder);

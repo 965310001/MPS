@@ -164,7 +164,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 binding.setAdapter(AdapterPool.newInstance().getRecommend(getContext()).build());
                 binding.setLayout(new GridLayoutManager(getContext(), 4));
             }
-            // TODO: 2019/4/1  全国 有货 免运费
 //            QLog.i(dataBean.getGoods_hair_info().content + " " +
 //                    dataBean.getGoods_hair_info().if_store_cn +
 //                    dataBean.getGoods_hair_info().area_name);
@@ -285,10 +284,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
 //        spannedString.setSpan(new RoundBackgroundColorSpan(getResources().getColor(R.color.shallow_red), getResources().getColor(R.color.white)),
 //                0, 5, SpannableString.SPAN_COMPOSING);
 //        binding.tvGoodsName.setText(spannedString);
-
-
-        // TODO: 2019/5/25 修改商品名字
-
     }
 
     public class RoundBackgroundColorSpan extends ReplacementSpan {
@@ -493,7 +488,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 });
         /*领取代金券*/
         binding.tvVoucher.setOnClickListener(v -> {
-            // TODO: 2019/4/29 测试
             if (null != dataBean.getVoucher()) {
                 if (null == xBottomSheet) {
                     xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
@@ -516,7 +510,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         binding.lsiComment.setmOnLSettingItemClick(isChecked -> shoppingDetailsActivity.setCurrentFragment(2));
 
         binding.lsiItem.setmOnLSettingItemClick(isChecked -> {
-            // TODO: 2019/4/2 品牌网自营
             QLog.i("点击");
             ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", dataBean.getStore_info().getStore_id());
         });
@@ -554,7 +547,6 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     protected void dataObserver() {
         super.dataObserver();
 
-        // TODO: 2019/4/2 收藏
         registerObserver(Constants.FAVORITES, ResultBean.class)
                 .observeForever(response -> {
                     /*QLog.i(response.isSuccess() + " " + response.getError());*/

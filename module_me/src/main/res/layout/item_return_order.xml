@@ -268,6 +268,23 @@
                         android:textColor="#555"
                         android:textSize="14sp" />
 
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/bt_return"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/shape_border_corner_d61619_4dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="退货发货"
+                        android:textColor="@color/app_theme_d61619"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+
+                        tools:visibility="visible" />
+
                 </LinearLayout>
 
                 <View
@@ -277,7 +294,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
-
             </android.support.constraint.ConstraintLayout>
 
         </FrameLayout>
