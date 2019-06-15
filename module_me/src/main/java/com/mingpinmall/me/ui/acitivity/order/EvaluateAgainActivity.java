@@ -109,7 +109,7 @@ public class EvaluateAgainActivity extends AbsLifecycleActivity<ActivityOrdereva
                 jsonObject.put("goods", jsonObject1);
                 String jsonData = jsonObject.toString();
 
-                mViewModel.sendEvaluate(jsonData, pics);
+                mViewModel.sendEvaluateAgain(jsonData, pics);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -137,7 +137,7 @@ public class EvaluateAgainActivity extends AbsLifecycleActivity<ActivityOrdereva
                 ToastUtils.showShort(result.toString());
             }
         });
-        registerObserver(Constants.SEND_EVALUATE, String.class).observeForever(s -> {
+        registerObserver(Constants.SEND_EVALUATEAGAIN, String.class).observeForever(s -> {
             if (s.equals(SUCCESS)) {
                 ToastUtils.showShort("评价完成");
                 CustomProgressDialog.stop();
