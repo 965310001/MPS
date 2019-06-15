@@ -39,28 +39,35 @@ public class ReturnActivity extends AbsLifecycleActivity<ActivityReturnBinding, 
 
         binding.setClick(this);
     }
-    
+
     @Override
     protected void dataObserver() {
         super.dataObserver();
 
         registerObserver("MERCHANDISEBEAN_EVENT_KEY",
-                MerchandiseBean.class)
-                .observe(this, merchandiseBean -> {
-                    QLog.i(merchandiseBean);
-                    List<String> expressList = new ArrayList<>();
-                    expressIdList = new ArrayList<>();
-                    for (MerchandiseBean.ExpressListBean expressListBean : merchandiseBean.getExpress_list()) {
-                        expressList.add(expressListBean.getExpress_name());
-                        expressIdList.add(expressListBean.getExpress_id());
-                    }
-                    ArrayAdapter adapter = new ArrayAdapter(activity, R.layout.item_text1, R.id.text, expressList);
-                    binding.spSpinner.setAdapter(adapter);
-                    binding.spSpinner.setSelection(0);
+                Object.class)
+                .observe(this, obj -> {
+                    if (obj instanceof String) {
+                        ToastUtils.showLong(obj.toString());
+                        finish();
+                    } else {
+                        MerchandiseBean merchandiseBean = (MerchandiseBean) obj;
+                        QLog.i(merchandiseBean);
+                        List<String> expressList = new ArrayList<>();
+                        expressIdList = new ArrayList<>();
+                        for (MerchandiseBean.ExpressListBean expressListBean : merchandiseBean.getExpress_list()) {
+                            expressList.add(expressListBean.getExpress_name());
+                            expressIdList.add(expressListBean.getExpress_id());
+                        }
+                        ArrayAdapter adapter = new ArrayAdapter(activity, R.layout.item_text1, R.id.text, expressList);
+                        binding.spSpinner.setAdapter(adapter);
+                        binding.spSpinner.setSelection(0);
 
-                    binding.tvTitle.setText(String.format("发货%s天后，当商家选择未收到则要进行延迟时间操作；如果超过%s天不处理按弃货处理，直接由管理员确认退款。"
-                            , merchandiseBean.getReturn_delay()
-                            , merchandiseBean.getReturn_confirm()));
+                        binding.tvTitle.setText(String.format("发货%s天后，当商家选择未收到则要进行延迟时间操作；如果超过%s天不处理按弃货处理，直接由管理员确认退款。"
+                                , merchandiseBean.getReturn_delay()
+                                , merchandiseBean.getReturn_confirm()));
+                    }
+
                 });
     }
 
@@ -88,9 +95,13 @@ public class ReturnActivity extends AbsLifecycleActivity<ActivityReturnBinding, 
             if (TextUtils.isEmpty(str)) {
                 ToastUtils.showLong("请输入物流单号");
             } else {
-                expressIdList.get(binding.spSpinner.getSelectedItemPosition());
+//                expressIdList.get(binding.spSpinner.getSelectedItemPosition());
                 // TODO: 2019/6/14  
                 QLog.i(str + " " + expressIdList.get(binding.spSpinner.getSelectedItemPosition()));
+
+                mViewModel.getMemberReturn(returnId,
+                        expressIdList.get(binding.spSpinner.getSelectedItemPosition()),
+                        binding.edRefundInfo.getText().toString());
             }
         }
     }

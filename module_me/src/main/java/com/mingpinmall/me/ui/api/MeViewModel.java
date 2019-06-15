@@ -11,6 +11,7 @@ import okhttp3.RequestBody;
 
 /**
  * 功能描述：
+ *
  * @author 小斌
  * @date 2019/4/1
  **/
@@ -77,7 +78,7 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
 
     /*我的推广码子功能2:提现申请*/
     public void addPdCash(String pdc_bank_user, String pdc_bank_no,
-                             String pdc_bank_name, String pdc_amount, String password) {
+                          String pdc_bank_name, String pdc_amount, String password) {
         mRepository.addPdCash(pdc_bank_user, pdc_bank_no, pdc_bank_name, pdc_amount, password);
     }
 
@@ -334,7 +335,12 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     }
 
     /*退货发货*/
-    public void getMemberReturn(String returnId){
+    public void getMemberReturn(String returnId) {
         mRepository.getMemberReturn(returnId);
+    }
+
+    /*提交发货*/
+    public void getMemberReturn(String returnId, String expressId, String invoiceNo) {
+        mRepository.getMemberReturn(returnId, expressId, invoiceNo);
     }
 }

@@ -1563,7 +1563,7 @@ public class MeRepository extends BaseRepository {
         );
     }
 
-
+    /*退货发货-页面信息*/
     public void getMemberReturn(String returnId) {
         addDisposable(apiService.getMemberReturn(getUserKey(), returnId)
                 .compose(RxSchedulers.io_main())
@@ -1576,6 +1576,29 @@ public class MeRepository extends BaseRepository {
                             return;
                         }
                         sendData("MERCHANDISEBEAN_EVENT_KEY", result.getData());
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        sendData("MERCHANDISEBEAN_EVENT_KEY", msg == null ? "获取失败" : msg);
+                    }
+                })
+        );
+    }
+
+    /*退货发货-确认发货*/
+    public void getMemberReturn(String returnId, String expressId, String invoiceNo) {
+        addDisposable(apiService.getMemberReturn(getUserKey(), returnId, expressId, invoiceNo)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<BaseResponse>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse result) {
+                        if (!result.isSuccess()) {
+                            sendData("MERCHANDISEBEAN_EVENT_KEY", result.getMessage());
+                            return;
+                        }
+                        sendData("MERCHANDISEBEAN_EVENT_KEY", "成功");
                     }
 
                     @Override

@@ -910,7 +910,7 @@ public interface MeApiService {
     );
 
 
-    /*退货发货*/
+    /*退货发货--页面信息*/
     String GET_MEMBER_RETURN = "/mo_bile/index.php?app=member_return&wwi=ship_form";
 
     @GET(GET_MEMBER_RETURN)
@@ -919,6 +919,15 @@ public interface MeApiService {
             @Query("return_id") String return_id
     );
 
+    /*退货发货--确认发货*/
+    @FormUrlEncoded
+    @POST("/mo_bile/index.php?app=member_return&wwi=ship_post")
+    Flowable<BaseResponse> getMemberReturn(
+            @Field("key") String key,
+            @Field("return_id") String return_id,
+            @Field("express_id") String express_id,
+            @Field("invoice_no") String invoice_no
+    );
 
     /**
      * 描述：浏览记录

@@ -27,7 +27,7 @@ public class ReturnOrderListAdapter extends BaseQuickAdapter<ReturnBean.ReturnLi
                 .setText(R.id.tv_money, item.getRefund_amount())
                 .setText(R.id.tv_returnCount, item.getGoods_num())
                 .setText(R.id.tv_orderState, item.getSeller_state())
-                .setVisible(R.id.bt_return, "1".equals(item.getShip_state()))
+                .setGone(R.id.bt_return, "1".equals(item.getShip_state()))
                 .addOnClickListener(R.id.ll_shopContent)
                 .addOnClickListener(R.id.bt_refundInformation)
                 .addOnClickListener(R.id.tv_removeOrder)
