@@ -474,11 +474,6 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
     /*试戴*/
     public void goHolo(View view) {
-        Map<String, Object> params = new HashMap<>(2);
-        params.put("goods_id", mGoodsInfo.getGoods_id());
-        params.put("cart_count", binding.tvCount.getText().toString());
-
-//        ActivityToActivity.toActivity(ARouterConfig.classify.HOLO4ACTIVITY, params);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             TextDialog.showBaseDialog(activity, "", "您的手机系统版本过低，不支持试戴功能").show();
             return;

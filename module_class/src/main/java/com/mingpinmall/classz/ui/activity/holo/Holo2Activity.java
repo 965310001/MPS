@@ -1,25 +1,19 @@
 package com.mingpinmall.classz.ui.activity.holo;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
-import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -181,21 +175,19 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
 
     class AndroidToJs extends Object {
         @JavascriptInterface
-        public boolean backHost() {
+        public void backHost() {
             Log.d(TAG, "AndroidToJs: backHost 首页");
             runOnUiThread(Holo2Activity.this::finish);
-            return true;
         }
 
         @JavascriptInterface
-        public boolean goProduct(String sku_id) {
-            Log.d(TAG, "AndroidToJs: goProduct 查看商品详情");
+        public void goProduct(String sku_id) {
+            Log.d(TAG, "AndroidToJs: goProduct 查看商品详情" + sku_id);
             ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", sku_id);
-            return true;
         }
 
         @JavascriptInterface
-        public boolean customizePhotoSaving(String base64img) {
+        public void customizePhotoSaving(String base64img) {
             Log.d(TAG, "AndroidToJs: customizePhotoSaving 保存图片");
             CustomProgressDialog.show(activity);
             String defType = "jpeg";
@@ -223,7 +215,6 @@ public class Holo2Activity extends AbsLifecycleActivity<ActivityHoloBinding, Cla
             } else {
                 TextDialog.showBaseDialog(activity, "", "保存失败").show();
             }
-            return true;
         }
     }
 

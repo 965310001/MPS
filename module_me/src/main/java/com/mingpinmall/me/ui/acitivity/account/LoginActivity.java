@@ -44,6 +44,7 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     @Override
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
+        SharePreferenceUtil.saveUser(null);
         setTitle(R.string.title_loginActivity);
 
         ArrayList<CustomTabEntity> tabEntityList = new ArrayList<>(2);
