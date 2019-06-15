@@ -1475,7 +1475,6 @@ public class MeRepository extends BaseRepository {
         addDisposable(apiService.getOrderInformation(getUserKey(), order_id)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<BaseResponse<OrderInformationBean>>() {
-
                     @Override
                     public void onSuccess(BaseResponse<OrderInformationBean> result) {
                         if (result.isSuccess()) {
