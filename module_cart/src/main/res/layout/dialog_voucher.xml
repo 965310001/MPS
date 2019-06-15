@@ -27,13 +27,14 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="#f3f3f3"
         android:minHeight="300dp">
 
         <com.leon.lib.settingview.LSettingItem
             android:id="@+id/lsi_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_46"
+            android:background="@color/white"
             leon:LtextColor="@color/black"
             leon:LtextSize="14"
             leon:isShowRightText="false"
@@ -87,7 +88,6 @@
                     android:textColor="@color/gray"
                     android:textSize="@dimen/text_12" />
             </LinearLayout>
-
 
             <include
                 layout="@layout/layout_trecyclerview_base"

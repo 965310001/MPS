@@ -216,7 +216,7 @@ public class VirtualOrderInformationActivity extends AbsLifecycleActivity<Activi
                     .show();
         } else if (viewId == R.id.order_evaluation) {
             //订单评价
-            ARouter.getInstance().build(ARouterConfig.Me.ORDEREVALUATEACTIVITY)
+            ARouter.getInstance().build(ARouterConfig.Me.EVALUATEACTIVITY)
                     .withString("id", data.getOrder_id())
                     .navigation(activity, 1);
         } else if (viewId == R.id.cl_goods) {

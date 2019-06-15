@@ -28,13 +28,13 @@ public class MeItemAdapter extends BaseMultiItemQuickAdapter<MeItemBean, BaseVie
             case 0:
                 //横向五个按钮
                 int[] textView = new int[]{R.id.tv_item1, R.id.tv_item2, R.id.tv_item3, R.id.tv_item4, R.id.tv_item5};
-                int[] textView2 = new int[]{R.id.tv_corner1, R.id.tv_corner2, R.id.tv_corner3, R.id.tv_corner4, R.id.tv_corner5};
+                int[] corner = new int[]{R.id.tv_corner1, R.id.tv_corner2, R.id.tv_corner3, R.id.tv_corner4, R.id.tv_corner5};
                 int[] imageView = new int[]{R.id.iv_item1, R.id.iv_item2, R.id.iv_item3, R.id.iv_item4, R.id.iv_item5};
                 int[] linearLayout = new int[]{R.id.ll_item1, R.id.ll_item2, R.id.ll_item3, R.id.ll_item4, R.id.ll_item5};
                 for (int i = 0; i < 5; i++) {
                     helper.setText(textView[i], item.getSubLabel()[i])
-                            .setText(textView2[i], String.valueOf(item.getSubCorner()[i]))
-                            .setGone(textView2[i], item.getSubCorner()[i] > 0)
+//                            .setText(corner[i], String.valueOf(item.getSubCorner()[i]))
+                            .setGone(corner[i], item.getSubCorner()[i] > 0)
                             .setImageResource(imageView[i], item.getSubImage().getResourceId(i, 0))
                             .addOnClickListener(linearLayout[i]);
                 }

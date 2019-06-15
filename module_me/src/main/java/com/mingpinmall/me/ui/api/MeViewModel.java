@@ -67,8 +67,18 @@ public class MeViewModel extends AbsViewModel<MeRepository> {
     }
 
     /*获取该订单下可评价商品列表*/
+    public void sendEvaluateAgain(String json, Map<String, RequestBody> files) {
+        mRepository.sendEvaluateAgain(json, files);
+    }
+
+    /*获取该订单下可评价商品列表*/
     public void getOrderEvaluate(String order_id) {
         mRepository.getOrderEvaluate(order_id);
+    }
+
+    /*获取该订单下可评价商品列表*/
+    public void getEvaluateAgain(String order_id) {
+        mRepository.getEvaluateAgain(order_id);
     }
 
     /*我的推广码*/

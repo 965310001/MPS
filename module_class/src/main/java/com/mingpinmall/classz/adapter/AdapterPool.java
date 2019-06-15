@@ -143,6 +143,7 @@ public class AdapterPool {
     public DelegateAdapter.Builder getVoucherInfoAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
                 .bind(VoucherInfo.VoucherListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_voucherinfo, BR.data));
+//                .bind(VoucherInfo.VoucherListBean.class, new DataBindItemViewHolderManager(context, R.layout.item_voucherinfo, BR.data));
     }
 
     /*聊天*/

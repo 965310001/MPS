@@ -43,7 +43,7 @@ public class DataBindItemViewHolderManager extends AbsItemHolder<Object, DataBin
     protected void onBindViewHolder(@NonNull ViewHolder viewHolder, @NonNull Object t) {
         viewHolder.getBinding().setVariable(bindVariableId, t);
         viewHolder.getBinding().executePendingBindings();
-        viewHolder.getBinding().getRoot().findViewById(R.id.btn_receive).setOnClickListener(v -> {
+        viewHolder.getBinding().getRoot().findViewById(R.id.cdv_view).setOnClickListener(v -> {
             if (onClickListener != null) {
                 onClickListener.onClick(v);
             }

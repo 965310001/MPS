@@ -36,7 +36,7 @@ public class CouponDisplayView extends View {
 
     private float remain;
 
-    private int rightColor = Color.WHITE;
+    private int rightColor = Color.parseColor("#ed5564");
     int width, hight;
 
     public CouponDisplayView(Context context) {

@@ -75,7 +75,7 @@
             android:launchMode="singleTop"/>
         <activity android:name=".ui.acitivity.distribution.ReduceCashActivity"
             android:launchMode="singleTop"/>
-        <activity android:name=".ui.acitivity.order.OrderEvaluateActivity"
+        <activity android:name=".ui.acitivity.order.EvaluateActivity"
             android:launchMode="singleTop"/>
         <activity android:name=".ui.acitivity.order.refundorder.ApplyReturnActivity"
             android:launchMode="singleTop"/>

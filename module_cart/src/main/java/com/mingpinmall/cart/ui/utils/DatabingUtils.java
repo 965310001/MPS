@@ -8,10 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.goldze.common.dmvvm.utils.HtmlFromUtils;
 
+import com.goldze.common.dmvvm.utils.ImageUtils2;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.trecyclerview.TRecyclerView;
 import com.trecyclerview.adapter.DelegateAdapter;
@@ -23,6 +25,14 @@ import java.util.List;
  * @data 2019/5/14
  **/
 public class DatabingUtils {
+
+    @BindingAdapter(value = {"image"})
+    public static void imageLoader(ImageView imageView, String url) {
+        if (!TextUtils.isEmpty(url)) {
+            ImageUtils2.loadImage(imageView, url);
+        }
+    }
+
     /**
      * HTML的解析
      *
@@ -46,6 +56,7 @@ public class DatabingUtils {
             }
         }
     }
+
     /*封装*/
     @BindingAdapter(value = {"items", "adapter", "layout", "itemdecoration"}, requireAll = false)
     public static void setChild(TRecyclerView rv,

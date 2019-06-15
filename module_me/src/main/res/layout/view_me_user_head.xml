@@ -18,8 +18,8 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_headImage"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:background="@drawable/shape_translucence_ra"
         app:layout_constraintBottom_toTopOf="@id/v_space"
         app:layout_constraintEnd_toEndOf="@id/iv_bg"

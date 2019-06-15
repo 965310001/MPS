@@ -108,10 +108,19 @@ public interface MeApiService {
      * order_id
      */
     String SENDEVALUATE = "/mo_bile/index.php?app=member_evaluate&wwi=save";
+    String SENDEVALUATE_AGAIN = "/mo_bile/index.php?app=member_evaluate&wwi=save_again";
 
     @Multipart
     @POST(SENDEVALUATE)
     Flowable<BaseNothingBean> sendEvaluate(
+            @Part("jsonData") String json,
+            @Query("key") String key,
+            @PartMap() Map<String, RequestBody> files
+    );
+
+    @Multipart
+    @POST(SENDEVALUATE_AGAIN)
+    Flowable<BaseNothingBean> sendEvaluateAgain(
             @Part("jsonData") String json,
             @Query("key") String key,
             @PartMap() Map<String, RequestBody> files
@@ -189,9 +198,16 @@ public interface MeApiService {
      * order_id
      */
     String ORDEREVALUATE = "/mo_bile/index.php?app=member_evaluate&wwi=index";
+    String ORDEREVALUATE_AGAIN = "/mo_bile/index.php?app=member_evaluate&wwi=again";
 
     @GET(ORDEREVALUATE)
     Flowable<BaseResponse<OrderEvaluateBean>> getOrderEvaluate(
+            @Query("key") String key,
+            @Query("order_id") String order_id
+    );
+
+    @GET(ORDEREVALUATE_AGAIN)
+    Flowable<BaseResponse<EvaluateAgainListBean>> getEvaluateAgain(
             @Query("key") String key,
             @Query("order_id") String order_id
     );

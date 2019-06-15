@@ -14,6 +14,7 @@ import com.mingpinmall.me.ui.bean.BaseCheckBean;
 import com.mingpinmall.me.ui.bean.BaseIntDatasBean;
 import com.mingpinmall.me.ui.bean.CityBean;
 import com.mingpinmall.me.ui.bean.CouponListBean;
+import com.mingpinmall.me.ui.bean.EvaluateAgainListBean;
 import com.mingpinmall.me.ui.bean.FootprintBean;
 import com.mingpinmall.me.ui.bean.MerchandiseBean;
 import com.mingpinmall.me.ui.bean.MessageListBean;
@@ -246,46 +247,95 @@ public class MeRepository extends BaseRepository {
 
     /*获取该订单下可评价商品列表*/
     protected void sendEvaluate(String json, Map<String, RequestBody> files) {
+        RxSubscriber<BaseNothingBean> rxSubscriber = new RxSubscriber<BaseNothingBean>() {
+            @Override
+            public void onSuccess(BaseNothingBean result) {
+                if (result.isSuccess()) {
+                    sendData(Constants.SEND_EVALUATE, SUCCESS);
+                } else {
+                    sendData(Constants.SEND_EVALUATE, result.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                sendData(Constants.SEND_EVALUATE, msg == null ? "评价失败" : msg);
+            }
+        };
         addDisposable(apiService.sendEvaluate(json, getUserKey(), files)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseNothingBean>() {
-                    @Override
-                    public void onSuccess(BaseNothingBean result) {
-                        if (result.isSuccess()) {
-                            sendData(Constants.SEND_EVALUATE, SUCCESS);
-                        } else {
-                            sendData(Constants.SEND_EVALUATE, result.getMessage());
-                        }
-                    }
+                .subscribeWith(rxSubscriber)
+        );
+    }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        sendData(Constants.SEND_EVALUATE, msg == null ? "评价失败" : msg);
-                    }
-                })
+    /*获取该订单下可评价商品列表*/
+    protected void sendEvaluateAgain(String json, Map<String, RequestBody> files) {
+        RxSubscriber<BaseNothingBean> rxSubscriber = new RxSubscriber<BaseNothingBean>() {
+            @Override
+            public void onSuccess(BaseNothingBean result) {
+                if (result.isSuccess()) {
+                    sendData(Constants.SEND_EVALUATEAGAIN, SUCCESS);
+                } else {
+                    sendData(Constants.SEND_EVALUATEAGAIN, result.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                sendData(Constants.SEND_EVALUATEAGAIN, msg == null ? "评价失败" : msg);
+            }
+        };
+        addDisposable(apiService.sendEvaluateAgain(json, getUserKey(), files)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(rxSubscriber)
         );
     }
 
     /*获取该订单下可评价商品列表*/
     protected void getOrderEvaluate(String order_id) {
+        RxSubscriber<BaseResponse<OrderEvaluateBean>> rxSubscriber = new RxSubscriber<BaseResponse<OrderEvaluateBean>>() {
+            @Override
+            public void onSuccess(BaseResponse<OrderEvaluateBean> result) {
+                if (result.isSuccess()) {
+                    sendData(Constants.ORDER_EVALUATE_LIST, result.getData());
+                } else {
+                    sendData(Constants.ORDER_EVALUATE_LIST, result.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                sendData(Constants.ORDER_EVALUATE_LIST, msg == null ? "获取失败" : msg);
+            }
+        };
         addDisposable(apiService.getOrderEvaluate(getUserKey(), order_id)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<BaseResponse<OrderEvaluateBean>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<OrderEvaluateBean> result) {
-                        if (result.isSuccess()) {
-                            sendData(Constants.ORDER_EVALUATE_LIST, result.getData());
-                        } else {
-                            sendData(Constants.SEND_EVALUATE, result.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-                        sendData(Constants.SEND_EVALUATE, msg == null ? "获取失败" : msg);
-                    }
-                })
+                .subscribeWith(rxSubscriber)
         );
+    }
+
+    /*获取该订单下可评价商品列表*/
+    protected void getEvaluateAgain(String order_id) {
+        RxSubscriber<BaseResponse<EvaluateAgainListBean>> rxSubscriber = new RxSubscriber<BaseResponse<EvaluateAgainListBean>>() {
+            @Override
+            public void onSuccess(BaseResponse<EvaluateAgainListBean> result) {
+                if (result.isSuccess()) {
+                    sendData(Constants.ORDER_EVALUATE_AGAIN_LIST, result.getData());
+                } else {
+                    sendData(Constants.ORDER_EVALUATE_AGAIN_LIST, result.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                sendData(Constants.ORDER_EVALUATE_AGAIN_LIST, msg == null ? "获取失败" : msg);
+            }
+        };
+        addDisposable(apiService.getEvaluateAgain(getUserKey(), order_id)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(rxSubscriber)
+        );
+
     }
 
     /*我的推广码子功能2:提现申请*/

@@ -6,6 +6,8 @@
     <string name="password">密码</string>
 
     <string name="phone">请输入手机账号</string>
+    <string name="f_money">¥</string>
+
 
 
 </resources>

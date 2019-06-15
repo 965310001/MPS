@@ -317,9 +317,14 @@ public interface ARouterConfig {
         String ORDERDELIVERYACTIVITY = "/me/OrderDeliveryActivity";
 
         /**
-         * 物流信息
+         * 评价订单
          */
-        String ORDEREVALUATEACTIVITY = "/me/OrderEvaluateActivity";
+        String EVALUATEACTIVITY = "/me/EvaluateActivity";
+
+        /**
+         * 追加评价订单
+         */
+        String EVALUATEAGAINACTIVITY = "/me/EvaluateAgainActivity";
 
         /**
          * 退货发货

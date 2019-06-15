@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.goldze.common.dmvvm.base.bean.NewDatasResponse;
 import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
@@ -154,10 +155,13 @@ public class PhysicalOrderListFragment extends AbsLifecycleFragment<FragmentDefa
                         .show();
             } else if (view.getId() == R.id.order_evaluation) {
                 //订单评价
-                ActivityToActivity.toActivity(ARouterConfig.Me.ORDEREVALUATEACTIVITY, "id", orderBean.getOrder_id());
+                ActivityToActivity.toActivity(ARouterConfig.Me.EVALUATEACTIVITY, "id", orderBean.getOrder_id());
             } else if (view.getId() == R.id.order_evaluation_again) {
-                // TODO 追加评价
-
+                // 追加评价
+                ARouter.getInstance().build(ARouterConfig.Me.EVALUATEAGAINACTIVITY)
+                        .withString("id", orderBean.getOrder_id())
+                        .withBoolean("isZhuiJia", true)
+                        .navigation(activity, 1);
             } else if (view.getId() == R.id.order_deliver) {
                 //查看物流
                 ActivityToActivity.toActivity(ARouterConfig.Me.ORDERDELIVERYACTIVITY, "order_id", orderBean.getOrder_id());

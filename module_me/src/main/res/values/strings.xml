@@ -29,14 +29,15 @@
     <string name="hint_text_refund2">请输入您要退款的说明文字</string>
     <!-- OrderRefundActivity ApplyRefundActivity  & ApplyReturnActivity Over -->
 
-    <!-- OrderEvaluateActivity -->
+    <!-- EvaluateActivity -->
     <string name="title_OrderEvaluateActivity">评价订单</string>
+    <string name="title_EvaluateAgainActivity">追加评价</string>
     <string name="button_text_submitEvaluate">提交评价</string>
     <string name="text_anonymity">匿名</string>
     <string name="text_evaluate">商品评分</string>
     <string name="text_showPic">晒图</string>
     <string name="hint_text_evaluate">亲，写点什么吧，您的意见对其他买家有很大帮助！</string>
-    <!-- OrderEvaluateActivity Over -->
+    <!-- EvaluateActivity Over -->
 
     <!-- ReduceCashActivity -->
     <string name="title_ReduceCashActivity">余额提现</string>

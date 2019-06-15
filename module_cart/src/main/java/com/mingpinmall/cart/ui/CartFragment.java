@@ -384,7 +384,8 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 List<ShopVoucherInfo.VoucherListBean> voucherList = data.getVoucher_list();
                 if (null != voucherList) {
                     DataBindItemViewHolderManager manager = new DataBindItemViewHolderManager(activity,
-                            R.layout.item_voucher, BR.data);
+                            R.layout.item_voucher_list, BR.data);
+//                            R.layout.item_voucher, BR.data);
                     manager.setOnClickListener(this::getReceive);
                     xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
                             .setItemData(voucherList)

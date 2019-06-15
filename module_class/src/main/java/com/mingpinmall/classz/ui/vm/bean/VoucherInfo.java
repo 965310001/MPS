@@ -130,12 +130,20 @@ public class VoucherInfo extends BaseBean {
             return String.format("面额<font size=\"10\">%s</font>元",voucher_t_price);
         }
 
+        public String getVoucher_t_price2() {
+            return String.format("¥%s",voucher_t_price);
+        }
+
         public void setVoucher_t_price(String voucher_t_price) {
             this.voucher_t_price = voucher_t_price;
         }
 
         public String getVoucher_t_limit() {
             return String.format("需消费%s元使用", voucher_t_limit);
+        }
+
+        public String getVoucher_t_limit2() {
+            return String.format("满%s元可用", voucher_t_limit);
         }
 
         public void setVoucher_t_limit(String voucher_t_limit) {
@@ -328,6 +336,10 @@ public class VoucherInfo extends BaseBean {
 
         public String getVoucher_t_end_date_text() {
             return String.format("至%s前使用", voucher_t_end_date_text);
+        }
+
+        public String getVoucher_t_end_date_text2() {
+            return String.format("有效期至:%s", voucher_t_end_date_text);
         }
 
         public void setVoucher_t_end_date_text(String voucher_t_end_date_text) {

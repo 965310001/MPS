@@ -246,11 +246,15 @@ public class PhysicalOrderInformationActivity extends AbsLifecycleActivity<Activ
                     .show();
         } else if (viewId == R.id.order_evaluation) {
             //订单评价
-            ARouter.getInstance().build(ARouterConfig.Me.ORDEREVALUATEACTIVITY)
+            ARouter.getInstance().build(ARouterConfig.Me.EVALUATEACTIVITY)
                     .withString("id", data.getOrder_id())
                     .navigation(activity, 1);
         } else if (viewId == R.id.order_evaluation_again) {
             //追加评价
+            ARouter.getInstance().build(ARouterConfig.Me.EVALUATEAGAINACTIVITY)
+                    .withString("id", data.getOrder_id())
+                    .withBoolean("isZhuiJia", true)
+                    .navigation(activity, 1);
         } else if (viewId == R.id.cl_expressInformation) {
             //查看物流
             ActivityToActivity.toActivity(ARouterConfig.Me.ORDERDELIVERYACTIVITY, "order_id", data.getOrder_id());
