@@ -11,7 +11,6 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentDefaultRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.ReturnOrderListAdapter;
@@ -106,6 +105,8 @@ public class ReturnFragment extends AbsLifecycleFragment<FragmentDefaultRecycler
                 }
             }
         });
+
+        registerObserver("REFRESH_DATA", Boolean.class).observe(this, aBoolean -> lazyLoad());
     }
 
     @Override

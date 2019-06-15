@@ -68,6 +68,7 @@
                         tools:src="@color/gray" />
 
                     <TextView
+                        android:id="@+id/tv_price"
                         style="@style/TextStyle"
                         android:layout_above="@+id/tv_goods_no"
                         android:layout_marginStart="15dp"
@@ -75,7 +76,19 @@
                         android:text="@{data.goods_price}"
                         android:textColor="@color/red"
                         android:textStyle="bold"
-                        tools:text="手机" />
+                        tools:text="8.00" />
+
+                    <TextView
+                        android:id="@+id/tv_promotion_type"
+                        style="@style/TextStyle"
+                        android:layout_above="@+id/tv_goods_no"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_toRightOf="@id/tv_price"
+                        android:background="@drawable/bg_of_red_gradient_radius"
+                        android:padding="@dimen/dp_2"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        tools:text="团购" />
 
                     <TextView
                         style="@style/TextStyle"

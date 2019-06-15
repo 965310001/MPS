@@ -102,7 +102,6 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
             View childView = View.inflate(context, R.layout.item_confirm_order_child, null);
             childView.setTag(i);
             childView.setOnClickListener(v -> {
-                //TODO 商品点击事件
                 ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", shops.getGoods_id());
             });
             ((AppCompatTextView) childView.findViewById(R.id.tv_label)).setText(shops.getGoods_name());

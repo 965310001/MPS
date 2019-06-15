@@ -64,7 +64,7 @@ public class URLImageParser {
                 // 使用Glide获取网络图片Bitmap(使用Glide获取图片bitmap还有待研究)
 //                textView.setTag(source);
                 mImageSizeHeight = mImageSize;
-                QLog.i(d.getIntrinsicWidth());
+                /*QLog.i(d.getIntrinsicWidth());*/
                 if (d.getIntrinsicWidth() < 30) {
                     mImageSize = d.getIntrinsicWidth() * 3;
                     mImageSizeHeight = d.getIntrinsicHeight() * 3;

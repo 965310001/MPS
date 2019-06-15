@@ -149,7 +149,6 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
         }
     }
 
-
     @Override
     public void dismiss() {
         super.dismiss();
@@ -164,6 +163,19 @@ public class GoodsSpecificationPop extends PopupWindow implements CountClickView
 
         String clickGoodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
         bind.ccvClick.setCurrCount(TextUtils.isEmpty(clickGoodsNum) ? 1 : Integer.valueOf(clickGoodsNum));
+
+        if (mGoodsInfo.isGroupbuy()) {
+            bind.ccvClick.setMaxCount(Integer.valueOf(mGoodsInfo.getUpper_limit()));
+        }
+        if (mGoodsInfo.isGroupbuy()) {
+            bind.tvPromotionType.setVisibility(View.VISIBLE);
+            bind.tvPromotionType.setText("团购");
+        } else if (mGoodsInfo.getPromotion_type().equals("xianshi")) {
+            bind.tvPromotionType.setVisibility(View.VISIBLE);
+            bind.tvPromotionType.setText("限时折扣");
+        } else {
+            bind.tvPromotionType.setVisibility(View.GONE);
+        }
     }
 
     @Override

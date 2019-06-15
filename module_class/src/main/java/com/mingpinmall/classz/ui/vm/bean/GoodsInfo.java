@@ -1,6 +1,7 @@
 package com.mingpinmall.classz.ui.vm.bean;
 
 import android.databinding.Bindable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.goldze.common.dmvvm.base.bean.BaseBean;
@@ -71,6 +72,19 @@ public class GoodsInfo extends BaseBean {
     @Transient
     public String virtual_indate;/*有效期*/
 
+
+    @Transient
+    private String upper_limit;//团购最高购买数量
+    @Transient
+    private String lower_limit;//限时折扣最低购买数量
+    @Transient
+    private String promotion_type;//xianshi  团购:groupby
+
+    @Transient
+    private String down_price;/*直降*/
+
+    @Transient
+    private String title;
 
     @Transient
     private String tryon_url;/*试戴*/
@@ -182,10 +196,27 @@ public class GoodsInfo extends BaseBean {
         this.num = num;
     }
 
+    public void setDown_price(String down_price) {
+        this.down_price = down_price;
+    }
+
+    public String getDown_price() {
+        return down_price;
+    }
+
+    public void setTitle(String tilte) {
+        this.title = tilte;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     public void setCart(int cart) {
         this.cart = cart;
         notifyPropertyChanged(BR.cart);
     }
+
 
     public String getTryon_url() {
         return tryon_url;
@@ -549,6 +580,38 @@ public class GoodsInfo extends BaseBean {
         }
     }
 
+    public void setPromotion_type(String promotion_type) {
+        this.promotion_type = promotion_type;
+    }
+
+    public String getPromotion_type() {
+        if (TextUtils.isEmpty(promotion_type)) {
+            return "";
+        }
+        return promotion_type;
+    }
+
+    /*是否是团购*/
+    public boolean isGroupbuy() {
+        return "groupbuy".equals(getPromotion_type());
+    }
+
+    public String getUpper_limit() {
+        return upper_limit;
+    }
+
+    public void setUpper_limit(String upper_limit) {
+        this.upper_limit = upper_limit;
+    }
+
+    public String getLower_limit() {
+        return lower_limit;
+    }
+
+    public void setLower_limit(String lower_limit) {
+        this.lower_limit = lower_limit;
+    }
+
     public static class NewsContractlistBean extends BaseBean {
         /**
          * cti_id : 1
@@ -566,19 +629,20 @@ public class GoodsInfo extends BaseBean {
          * cti_state_name : 开启
          */
 
+//        private String cti_describe;
+//        private String cti_cost;
+//        private String cti_icon;
+//        private String cti_descurl;
+//        private String cti_state;
+//        private String cti_sort;
+//        private String cti_state_key;
+//        private String cti_state_text;
+//        private String cti_state_name;
+//        private String cti_icon_url_60;
+
         private String cti_id;
-        private String cti_name;
-        private String cti_describe;
-        private String cti_cost;
-        private String cti_icon;
-        private String cti_descurl;
-        private String cti_state;
-        private String cti_sort;
-        private String cti_state_key;
-        private String cti_state_text;
         private String cti_icon_url;
-        private String cti_icon_url_60;
-        private String cti_state_name;
+        private String cti_name;
 
         public String getCti_id() {
             return cti_id;
@@ -596,69 +660,69 @@ public class GoodsInfo extends BaseBean {
             this.cti_name = cti_name;
         }
 
-        public String getCti_describe() {
-            return cti_describe;
-        }
+//        public String getCti_describe() {
+//            return cti_describe;
+//        }
+//
+//        public void setCti_describe(String cti_describe) {
+//            this.cti_describe = cti_describe;
+//        }
+//
+//        public String getCti_cost() {
+//            return cti_cost;
+//        }
+//
+//        public void setCti_cost(String cti_cost) {
+//            this.cti_cost = cti_cost;
+//        }
+//
+//        public String getCti_icon() {
+//            return cti_icon;
+//        }
+//
+//        public void setCti_icon(String cti_icon) {
+//            this.cti_icon = cti_icon;
+//        }
+//
+//        public String getCti_descurl() {
+//            return cti_descurl;
+//        }
+//
+//        public void setCti_descurl(String cti_descurl) {
+//            this.cti_descurl = cti_descurl;
+//        }
+//
+//        public String getCti_state() {
+//            return cti_state;
+//        }
+//
+//        public void setCti_state(String cti_state) {
+//            this.cti_state = cti_state;
+//        }
 
-        public void setCti_describe(String cti_describe) {
-            this.cti_describe = cti_describe;
-        }
-
-        public String getCti_cost() {
-            return cti_cost;
-        }
-
-        public void setCti_cost(String cti_cost) {
-            this.cti_cost = cti_cost;
-        }
-
-        public String getCti_icon() {
-            return cti_icon;
-        }
-
-        public void setCti_icon(String cti_icon) {
-            this.cti_icon = cti_icon;
-        }
-
-        public String getCti_descurl() {
-            return cti_descurl;
-        }
-
-        public void setCti_descurl(String cti_descurl) {
-            this.cti_descurl = cti_descurl;
-        }
-
-        public String getCti_state() {
-            return cti_state;
-        }
-
-        public void setCti_state(String cti_state) {
-            this.cti_state = cti_state;
-        }
-
-        public String getCti_sort() {
-            return cti_sort;
-        }
-
-        public void setCti_sort(String cti_sort) {
-            this.cti_sort = cti_sort;
-        }
-
-        public String getCti_state_key() {
-            return cti_state_key;
-        }
-
-        public void setCti_state_key(String cti_state_key) {
-            this.cti_state_key = cti_state_key;
-        }
-
-        public String getCti_state_text() {
-            return cti_state_text;
-        }
-
-        public void setCti_state_text(String cti_state_text) {
-            this.cti_state_text = cti_state_text;
-        }
+//        public String getCti_sort() {
+//            return cti_sort;
+//        }
+//
+//        public void setCti_sort(String cti_sort) {
+//            this.cti_sort = cti_sort;
+//        }
+//
+//        public String getCti_state_key() {
+//            return cti_state_key;
+//        }
+//
+//        public void setCti_state_key(String cti_state_key) {
+//            this.cti_state_key = cti_state_key;
+//        }
+//
+//        public String getCti_state_text() {
+//            return cti_state_text;
+//        }
+//
+//        public void setCti_state_text(String cti_state_text) {
+//            this.cti_state_text = cti_state_text;
+//        }
 
         public String getCti_icon_url() {
             return cti_icon_url;
@@ -668,20 +732,20 @@ public class GoodsInfo extends BaseBean {
             this.cti_icon_url = cti_icon_url;
         }
 
-        public String getCti_icon_url_60() {
-            return cti_icon_url_60;
-        }
-
-        public void setCti_icon_url_60(String cti_icon_url_60) {
-            this.cti_icon_url_60 = cti_icon_url_60;
-        }
-
-        public String getCti_state_name() {
-            return cti_state_name;
-        }
-
-        public void setCti_state_name(String cti_state_name) {
-            this.cti_state_name = cti_state_name;
-        }
+//        public String getCti_icon_url_60() {
+//            return cti_icon_url_60;
+//        }
+//
+//        public void setCti_icon_url_60(String cti_icon_url_60) {
+//            this.cti_icon_url_60 = cti_icon_url_60;
+//        }
+//
+//        public String getCti_state_name() {
+//            return cti_state_name;
+//        }
+//
+//        public void setCti_state_name(String cti_state_name) {
+//            this.cti_state_name = cti_state_name;
+//        }
     }
 }

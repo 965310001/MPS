@@ -12,6 +12,9 @@
     <string name="price_holder">￥%s</string>
     <string name="salenum_holder">销量 %s</string>
 
+    <string name="groupbuy_holder">最多限购%s件</string>
+
+
     <string-array name="tags_values_type">
         <item>7天退货</item>
         <item>品质承诺</item>

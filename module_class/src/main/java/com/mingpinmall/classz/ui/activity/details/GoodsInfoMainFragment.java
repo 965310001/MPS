@@ -145,6 +145,22 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     private void setGoodsInfo() {
         setGoodsHeadImg();
         if (goodsInfo != null) {
+            QLog.i(goodsInfo.getTitle());
+            if (!TextUtils.isEmpty(goodsInfo.getTitle())) {
+                binding.tvPromotionType.setText(goodsInfo.getTitle());
+                binding.tvPromotionType.setVisibility(View.VISIBLE);
+            } else {
+                binding.tvPromotionType.setVisibility(View.GONE);
+            }
+            if (goodsInfo.isGroupbuy()) {
+                binding.tvUpperLimit.setText(String.format(activity.getString(R.string.groupbuy_holder), goodsInfo.getUpper_limit()));
+                binding.tvUpperLimit.setVisibility(View.VISIBLE);
+            } else if (goodsInfo.getPromotion_type().equals("xianshi")) {
+                binding.tvUpperLimit.setText(String.format("直降￥%s 最低%s件起", goodsInfo.getDown_price(), goodsInfo.getLower_limit()));
+                binding.tvUpperLimit.setVisibility(View.VISIBLE);
+            } else {
+                binding.tvUpperLimit.setVisibility(View.GONE);
+            }
             binding.tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
             binding.ivLike.setBackgroundResource(!goodsInfo.isfavorate() ? R.drawable.ic_me_favorite : R.drawable.ic_me_favorite_red);

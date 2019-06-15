@@ -275,12 +275,39 @@
                             android:visibility="gone" />
                     </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tv_promotion"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/dp_4"
-                        android:text="促销" />
+                        android:layout_marginBottom="@dimen/dp_4"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_promotion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/dp_4"
+                            android:text="促销" />
+
+                        <TextView
+                            android:id="@+id/tv_promotion_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_4"
+                            android:background="@drawable/bg_of_red_gradient_radius"
+                            android:padding="@dimen/dp_1"
+                            android:textColor="@color/white"
+                            android:visibility="gone"
+                            tools:text="团购" />
+
+                        <TextView
+                            android:id="@+id/tv_upper_limit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_4"
+                            android:padding="@dimen/dp_1"
+                            android:textColor="@color/gray"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_manjisong"
@@ -303,6 +330,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_25"
+                        android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
 
                         <TextView

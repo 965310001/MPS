@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -50,6 +51,7 @@ public class ReturnActivity extends AbsLifecycleActivity<ActivityReturnBinding, 
                     if (obj instanceof String) {
                         ToastUtils.showLong(obj.toString());
                         finish();
+                        LiveBus.getDefault().postEvent("REFRESH_DATA", true);
                     } else {
                         MerchandiseBean merchandiseBean = (MerchandiseBean) obj;
                         QLog.i(merchandiseBean);
@@ -62,7 +64,6 @@ public class ReturnActivity extends AbsLifecycleActivity<ActivityReturnBinding, 
                         ArrayAdapter adapter = new ArrayAdapter(activity, R.layout.item_text1, R.id.text, expressList);
                         binding.spSpinner.setAdapter(adapter);
                         binding.spSpinner.setSelection(0);
-
                         binding.tvTitle.setText(String.format("发货%s天后，当商家选择未收到则要进行延迟时间操作；如果超过%s天不处理按弃货处理，直接由管理员确认退款。"
                                 , merchandiseBean.getReturn_delay()
                                 , merchandiseBean.getReturn_confirm()));
@@ -93,15 +94,11 @@ public class ReturnActivity extends AbsLifecycleActivity<ActivityReturnBinding, 
         if (v.getId() == R.id.btn_submit) {
             String str = binding.edRefundInfo.getText().toString();
             if (TextUtils.isEmpty(str)) {
-                ToastUtils.showLong("请输入物流单号");
+                ToastUtils.showLong("请填写物流单号");
             } else {
-//                expressIdList.get(binding.spSpinner.getSelectedItemPosition());
-                // TODO: 2019/6/14  
-                QLog.i(str + " " + expressIdList.get(binding.spSpinner.getSelectedItemPosition()));
-
                 mViewModel.getMemberReturn(returnId,
                         expressIdList.get(binding.spSpinner.getSelectedItemPosition()),
-                        binding.edRefundInfo.getText().toString());
+                        str);
             }
         }
     }
