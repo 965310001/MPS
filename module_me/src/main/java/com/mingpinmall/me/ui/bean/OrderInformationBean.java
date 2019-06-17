@@ -55,6 +55,15 @@ public class OrderInformationBean {
         private List<List<String>> promotion;
         private List<GoodsListBean> goods_list;
         private List<ZengpinListBean> zengpin_list;
+        /**
+         * join_store_info : {"join_store":1,"zk":8}
+         */
+
+        private JoinStoreInfoBean join_store_info;
+
+        public boolean isJoinStore() {
+            return join_store_info != null;
+        }
 
         public boolean isIf_evaluation_again() {
             return if_evaluation_again;
@@ -328,6 +337,14 @@ public class OrderInformationBean {
             this.zengpin_list = zengpin_list;
         }
 
+        public JoinStoreInfoBean getJoin_store_info() {
+            return join_store_info;
+        }
+
+        public void setJoin_store_info(JoinStoreInfoBean join_store_info) {
+            this.join_store_info = join_store_info;
+        }
+
         public static class GoodsListBean {
 
             private String rec_id;
@@ -423,6 +440,32 @@ public class OrderInformationBean {
 
             public void setGoods_num(String goods_num) {
                 this.goods_num = goods_num == null ? "" : goods_num;
+            }
+        }
+
+        public static class JoinStoreInfoBean {
+            /**
+             * join_store : 1
+             * zk : 8
+             */
+
+            private String join_store;
+            private String zk;
+
+            public String getJoin_store() {
+                return join_store;
+            }
+
+            public void setJoin_store(String join_store) {
+                this.join_store = join_store;
+            }
+
+            public String getZk() {
+                return "合作商户享" + zk + "折";
+            }
+
+            public void setZk(String zk) {
+                this.zk = zk;
             }
         }
     }

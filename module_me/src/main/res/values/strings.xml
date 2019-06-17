@@ -103,6 +103,7 @@
     <string name="text_phsi_14">完成时间：</string>
     <string name="text_phsi_15">收货地址：</string>
     <string name="text_phsi_16">收货人：</string>
+    <string name="text_phsi_17">平台折扣</string>
     <!-- PhysicalOrderInformationActivity Over -->
 
     <!-- CollectionActivity -->

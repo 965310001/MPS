@@ -305,6 +305,23 @@ public class HomeFragment extends AbsLifecycleFragment<FragmentHomeBinding, Home
                 //通过关键字搜索产品
                 ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "keyword", data);
                 break;
+            case "gc_id_1":
+                //通过关键字搜索产品
+                Map<String, Object> params0 = new HashMap<>(2);
+                params0.put("gcId", data);
+                params0.put("type", 4);
+                params0.put("gcName", "");
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params0);
+                break;
+            case "gc_id_2":
+                //通过关键字搜索产品
+                Map<String, Object> params1 = new HashMap<>(2);
+                params1.put("gcId", data);
+                params1.put("type", 2);
+                params1.put("gcName", "");
+                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, params1);
+//                ActivityToActivity.toActivity(ARouterConfig.classify.PRODUCTSACTIVITY, "keyword", data);
+                break;
             case "special":
                 //前往指定专题页面
                 ActivityToActivity.toActivity(ARouterConfig.home.SPECIALACTIVITY, "id", data);

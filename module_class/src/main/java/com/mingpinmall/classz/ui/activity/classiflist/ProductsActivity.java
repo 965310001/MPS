@@ -56,6 +56,7 @@ public class ProductsActivity extends BaseRecyclerActivity<ClassifyViewModel>
      * 0：默认搜索
      * 1：特殊搜索
      * 2：二级搜索
+     * 4: gc_id_1 一级分类搜索
      */
     @Autowired
     int type = 0;
@@ -135,8 +136,9 @@ public class ProductsActivity extends BaseRecyclerActivity<ClassifyViewModel>
             tab.setOnClickListener(this);
         }
 
-        if (type == 2) {
+        if (type == 2 || type == 4) {
             //子分类进来的
+            Log.i(TAG, "initViews: jinlaile");
             mViewModel.getGcParentId(gcId);
         }
     }
@@ -199,7 +201,11 @@ public class ProductsActivity extends BaseRecyclerActivity<ClassifyViewModel>
                 .observe(this, response -> {
                     if (response instanceof ClassGoodsBean) {
                         ClassGoodsBean data = (ClassGoodsBean) response;
-                        screenInfo.setMain_id(data.getGc_parent_id());
+                        if (type == 4) {
+                            screenInfo.setMain_id(data.getGc_id());
+                        } else {
+                            screenInfo.setMain_id(data.getGc_parent_id());
+                        }
                         screenInfo.setMainName(data.getGc_name());
                     } else {
                         ToastUtils.showShort(response.toString());

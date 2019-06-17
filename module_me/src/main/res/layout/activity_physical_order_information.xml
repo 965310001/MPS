@@ -350,7 +350,6 @@
                         android:paddingStart="12dp"
                         android:paddingTop="6dp"
                         android:paddingEnd="12dp"
-                        android:paddingBottom="6dp"
                         android:visibility='@{data.promotion.size() > 0 ? View.VISIBLE : View.GONE}'>
 
                         <android.support.v7.widget.AppCompatTextView
@@ -377,8 +376,7 @@
                         android:orientation="horizontal"
                         android:paddingStart="12dp"
                         android:paddingTop="6dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="6dp">
+                        android:paddingEnd="12dp">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -413,8 +411,7 @@
                         android:orientation="horizontal"
                         android:paddingStart="12dp"
                         android:paddingTop="6dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="6dp">
+                        android:paddingEnd="12dp">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -441,6 +438,34 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             tools:text="2680.00" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="6dp"
+                        android:visibility="@{data.join_store_info != null ? View.VISIBLE : View.GONE}">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/text_phsi_17"
+                            android:textColor="@color/color_text" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.join_store_info.zk}"
+                            android:textColor="@color/app_theme_d61619"
+                            android:textSize="14sp"
+                            tools:text="合作商户享8折" />
 
                     </LinearLayout>
 

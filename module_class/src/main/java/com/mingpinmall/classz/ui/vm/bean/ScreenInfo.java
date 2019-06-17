@@ -25,7 +25,7 @@ public class ScreenInfo implements Serializable {
     String gc_name = "";
 
     public String keyword = "";
-    private int type = 0;//0：二级搜索  1：一级搜索
+    private int type = 0;//0：二级搜索  1：一级搜索 4: gc_id_1
 
     public void setType(int type) {
         this.type = type;
@@ -151,6 +151,8 @@ public class ScreenInfo implements Serializable {
             if (!"".equals(gc_id)) map.put("gc_id_2", gc_id);
         } else if (type == 3) {
             if (!"".equals(store_id)) map.put("store_id", store_id);
+        } else if (type == 4) {
+            if (!"".equals(gc_id)) map.put("gc_id_1", gc_id);
         }
         if (!"".equals(keyword)) map.put("keyword", keyword);
         if (!"".equals(areaId)) map.put("area_id", areaId);
