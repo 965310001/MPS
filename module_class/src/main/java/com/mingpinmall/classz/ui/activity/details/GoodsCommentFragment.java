@@ -1,29 +1,24 @@
 package com.mingpinmall.classz.ui.activity.details;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
 import com.goldze.common.dmvvm.base.mvvm.base.BaseListFragment;
 import com.goldze.common.dmvvm.utils.StatusBarUtils;
-import com.goldze.common.dmvvm.utils.log.QLog;
 import com.mingpinmall.classz.adapter.AdapterPool;
 import com.mingpinmall.classz.ui.api.ClassifyViewModel;
 import com.mingpinmall.classz.ui.constants.Constants;
 import com.mingpinmall.classz.ui.vm.bean.GoodsCommentListBean;
-
 import com.trecyclerview.adapter.DelegateAdapter;
 import com.trecyclerview.adapter.ItemData;
-import com.trecyclerview.listener.OnItemClickListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * 商品详情 -商品评价
  */
-public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> implements OnItemClickListener {
+public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> {
 
     private String type = "";
 
@@ -78,16 +73,11 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     protected DelegateAdapter createAdapter() {
         return AdapterPool.newInstance()
                 .getEvaluate(getActivity())
-//                .setOnItemClickListener(this)
                 .build();
     }
 
     @Override
     protected Object getStateEventKey() {
         return Constants.EVALUATE_EVENT_KEY[1];
-    }
-
-    @Override
-    public void onItemClick(View view, int i, Object o) {
     }
 }

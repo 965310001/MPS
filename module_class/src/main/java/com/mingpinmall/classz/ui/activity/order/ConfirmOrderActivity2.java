@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -81,7 +83,6 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     /*紅包Id*/
     private String rpacketTId;
 
-
     private Double rpacketPrice;
 
     /**
@@ -141,6 +142,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                 ToastUtils.showShort("该F码似乎是无效的");
             }
         });
+
         registerObserver(Constants.CONFIRMORDER_KEY[0], BaseResponse.class)
                 .observeForever(response -> {
                     BaseResponse<ConfirmOrderBean> data = response;
@@ -161,35 +163,50 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                                 }
                                 ConfirmOrderBean.JoinStoreInfoBean joinStoreInfo = orderBean.getJoin_store_info();
                                 if (null != joinStoreInfo) {
-                                    QLog.i("===");
-                                    if (joinStoreInfo.getJoin_store() == 1) {
-                                        if (null != mStoreCartListNews && mStoreCartListNews.size() > 0) {
-                                            mStoreCartListNews.get(mStoreCartListNews.size() - 1).setJoin_store_info(joinStoreInfo);
-                                        }
+                                    if (joinStoreInfo.getJoin_store() == 1 && null != mStoreCartListNews && mStoreCartListNews.size() > 0) {
+                                        mStoreCartListNews.get(mStoreCartListNews.size() - 1).setJoin_store_info(joinStoreInfo);
                                     }
                                 }
-                                if (null != orderBean.getRpt_info()) {
-                                    try {
-                                        ConfirmOrderBean.RptInfoBean rptInfo = orderBean.getRpt_info();
-                                        rpacketPrice = Double.valueOf(orderBean.getRpt_info().getRpacket_price());
-                                        binding.llRed.setVisibility(View.VISIBLE);
-                                        binding.tvRed.setText(String.format("满%s元，优惠%s元", rptInfo.getRpacket_limit(), rptInfo.getRpacket_price()));
-                                        binding.sbIos.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                                            if (isChecked) {
-                                                // TODO: 2019/6/13 bing.sbIos 默认是选中的，待后台修改 
-                                                rpacketTId = rptInfo.getRpacket_t_id();
-                                                binding.setTotal(String.valueOf(Double.valueOf(binding.getTotal()) - rpacketPrice));
-                                            } else {
-                                                rpacketTId = "";
-                                                binding.setTotal(String.valueOf(Double.valueOf(binding.getTotal()) + rpacketPrice));
-                                            }
-
-                                        });
-                                    } catch (Exception e) {
-                                        QLog.i(e.toString());
+//                                if (null != orderBean.getRpt_info()) {
+//                                    try {
+//                                        ConfirmOrderBean.RptInfoBean rptInfo = orderBean.getRpt_info();
+//                                        rpacketPrice = Double.valueOf(orderBean.getRpt_info().getRpacket_price());
+////                                        binding.llRed.setVisibility(View.VISIBLE);
+//                                        binding.tvRed.setText(String.format("满%s元，优惠%s元", rptInfo.getRpacket_limit(), rptInfo.getRpacket_price()));
+//                                        binding.sbIos.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//                                            if (isChecked) {
+//                                                rpacketTId = rptInfo.getRpacket_t_id();
+//                                                binding.setTotal(String.valueOf(Double.valueOf(binding.getTotal()) - rpacketPrice));
+//                                            } else {
+//                                                rpacketTId = "";
+//                                                binding.setTotal(String.valueOf(Double.valueOf(binding.getTotal()) + rpacketPrice));
+//                                            }
+//
+//                                        });
+//                                    } catch (Exception e) {
+//                                        QLog.i(e.toString());
+//                                    }
+//                                } else {
+//                                    binding.llRed.setVisibility(View.GONE);
+//                                }
+                                /*折扣*/
+                                if (null != joinStoreInfo) {
+                                    binding.llDiscount.setVisibility(View.VISIBLE);
+                                    binding.tvDiscount.setText(joinStoreInfo.getZk() + "");
+                                    TextView tvPrice = binding.tvPrice;
+                                    String savePrice = orderBean.getSave_price();
+                                    if (!TextUtils.isEmpty(savePrice)) {
+                                        if (joinStoreInfo.getJoin_store() == 1) {
+                                            tvPrice.setText(Html.fromHtml(String.format("(节省:<font color='#d61619'>%s</font>元)", savePrice)));
+                                        } else {
+                                            tvPrice.setText(Html.fromHtml(String.format("(节省:<font color='#d61619'>%d</font>元)", savePrice)));
+                                        }
+                                        tvPrice.setVisibility(View.VISIBLE);
+                                    } else {
+                                        tvPrice.setVisibility(View.GONE);
                                     }
                                 } else {
-                                    binding.llRed.setVisibility(View.GONE);
+                                    binding.llDiscount.setVisibility(View.GONE);
                                 }
 
                                 adapter.setNewData(mStoreCartListNews);

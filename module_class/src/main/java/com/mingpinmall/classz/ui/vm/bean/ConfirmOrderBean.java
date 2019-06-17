@@ -23,6 +23,11 @@ public class ConfirmOrderBean extends BaseBean {
     /*使用优惠券之后的价格*/
     private List<NewStoreFinalTotalListBean> new_store_final_total_list;
     private JoinStoreInfoBean join_store_info;
+
+
+    /*节省多少元*/
+    private String save_price;
+
     /**
      * rpt_info : {"rpacket_price":"4","rpacket_limit":"5.00","rpacket_t_id":"5","desc":"4元红包 有效期至 2019-06-30 消费满5.00可用"}
      */
@@ -934,5 +939,13 @@ public class ConfirmOrderBean extends BaseBean {
         public void setDesc(String desc) {
             this.desc = desc;
         }
+    }
+
+    public String getSave_price() {
+        return save_price;
+    }
+
+    public void setSave_price(String save_price) {
+        this.save_price = save_price;
     }
 }

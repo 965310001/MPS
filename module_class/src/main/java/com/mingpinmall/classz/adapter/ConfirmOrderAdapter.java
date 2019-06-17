@@ -3,6 +3,7 @@ package com.mingpinmall.classz.adapter;
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -101,9 +102,7 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
             ConfirmOrderBean.StoreCartListNewsBean.GoodsListBean shops = item.getGoods_list().get(i);
             View childView = View.inflate(context, R.layout.item_confirm_order_child, null);
             childView.setTag(i);
-            childView.setOnClickListener(v -> {
-                ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", shops.getGoods_id());
-            });
+            childView.setOnClickListener(v -> ActivityToActivity.toActivity(ARouterConfig.home.SHOPPINGDETAILSACTIVITY, "id", shops.getGoods_id()));
             ((AppCompatTextView) childView.findViewById(R.id.tv_label)).setText(shops.getGoods_name());
             ((AppCompatTextView) childView.findViewById(R.id.tv_money)).setText(shops.getGoods_price());
             ((AppCompatTextView) childView.findViewById(R.id.tv_count)).setText(String.format("%s 件", shops.getGoods_num()));
@@ -160,12 +159,20 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
             } else {
                 llList.setVisibility(View.GONE);
             }
-
         }
 
-        if (null != item.getJoin_store_info()) {
-            helper.setVisible(R.id.ll_discount, true);
-            helper.setText(R.id.tv_discount, String.valueOf(item.getJoin_store_info().getZk()));
+        ConfirmOrderBean.JoinStoreInfoBean joinStoreInfo = item.getJoin_store_info();
+        if (null != joinStoreInfo) {
+//            helper.setVisible(R.id.ll_discount, true);
+//            helper.setText(R.id.tv_discount, String.valueOf(item.getJoin_store_info().getZk()));
+//            TextView tvPrice = helper.getView(R.id.tv_price);
+//            if (joinStoreInfo.getJoin_store() == 1) {
+//                tvPrice.setText(Html.fromHtml(String.format("(节省：<font color=%d>%s</font>元)", R.color.shallow_red, joinStoreInfo.getJoin_store())));
+//            } else {
+//                tvPrice.setText(Html.fromHtml(String.format("(节省：<font color=#d61619>%s</font>元)", joinStoreInfo.getJoin_store())));
+//            }
+        } else {
+//            helper.setGone(R.id.ll_discount, false);
         }
     }
 
