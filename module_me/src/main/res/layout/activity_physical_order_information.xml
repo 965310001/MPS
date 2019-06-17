@@ -376,8 +376,7 @@
                         android:orientation="horizontal"
                         android:paddingStart="12dp"
                         android:paddingTop="6dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="6dp">
+                        android:paddingEnd="12dp">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
