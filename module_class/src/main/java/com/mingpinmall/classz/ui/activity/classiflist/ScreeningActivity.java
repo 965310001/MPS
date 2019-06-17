@@ -176,7 +176,7 @@ public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBin
         for (int i = 0; i < data.size(); i++) {
             ScreeningClassBean.GoodsAttrListBean item = data.get(i);
             BaseViewHolder helper = (BaseViewHolder) binding.recyclerView.findViewHolderForAdapterPosition(i);
-            if (null!=helper) {
+            if (null != helper) {
                 StackLabel stackLabel = helper.getView(R.id.stl_view);
                 for (Integer index : stackLabel.getSelectIndexArray()) {
                     screenInfo.attrs = screenInfo.attrs +
@@ -337,8 +337,12 @@ public class ScreeningActivity extends AbsLifecycleActivity<ActivityScreeningBin
         }
 
         //一级分类，二级分类等已选择
-        if (screenInfo != null && screenInfo.getType() == 2) {
-            isNone = true;
+        if (screenInfo != null && (screenInfo.getType() == 2 || screenInfo.getType() == 4)) {
+            if (screenInfo.getType() == 4) {
+                isNone = false;
+            } else {
+                isNone = true;
+            }
             List<ScreeningBean.GcListBean> datas = new ArrayList<>();
             for (ScreeningBean.GcListBean item : mainData.getGc_list()) {
                 if (item.getGc_id().equals(screenInfo.getMainId())) {
