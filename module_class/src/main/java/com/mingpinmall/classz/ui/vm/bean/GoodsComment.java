@@ -15,7 +15,10 @@ public class GoodsComment extends BaseBean {
     private String geval_explain;
     private String member_avatar;
     private String geval_addtime_date;
-    private String geval_addtime_again_date;
+
+    private String geval_addtime_again_date;/*追加时间*/
+    private String geval_content_again;/*追加内容*/
+
     private List<String> geval_image_240;
     private List<String> geval_image_1024;
     private List<String> geval_image_again_240;
@@ -107,5 +110,13 @@ public class GoodsComment extends BaseBean {
 
     public void setGeval_image_again_1024(List<String> geval_image_again_1024) {
         this.geval_image_again_1024 = geval_image_again_1024;
+    }
+
+    public String getGeval_content_again() {
+        return geval_content_again;
+    }
+
+    public void setGeval_content_again(String geval_content_again) {
+        this.geval_content_again = geval_content_again;
     }
 }

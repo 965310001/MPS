@@ -30,7 +30,6 @@ public class PxUtils {
         return context.getResources().getDisplayMetrics().heightPixels;
     }
 
-
     /**
      * 把密度转换为像素
      */

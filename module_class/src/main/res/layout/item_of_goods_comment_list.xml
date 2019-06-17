@@ -100,7 +100,6 @@
 
         <TextView
             android:id="@+id/tv_comment"
-
             style="@style/TextStyle"
             android:layout_margin="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_2"
@@ -144,13 +143,21 @@
             android:layout_margin="@dimen/dp_10"
             android:layout_marginBottom="@dimen/dp_10"
             android:visibility="@{isGone?View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/view"
+            app:layout_constraintBottom_toTopOf="@id/ll_content_again"
             app:layout_constraintTop_toBottomOf="@+id/tv_explain"
             bind:adapter="@{adapter}"
             bind:data="@{list}"
             bind:itemdecoration="@{true}"
             bind:layout="@{layout}"
             bind:tag="@{`3`}" />
+
+        <LinearLayout
+            android:id="@+id/ll_content_again"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_3"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/view" />
 
         <Space
             android:id="@+id/view"

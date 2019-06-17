@@ -78,7 +78,7 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
     protected DelegateAdapter createAdapter() {
         return AdapterPool.newInstance()
                 .getEvaluate(getActivity())
-                .setOnItemClickListener(this)
+//                .setOnItemClickListener(this)
                 .build();
     }
 
@@ -89,6 +89,5 @@ public class GoodsCommentFragment extends BaseListFragment<ClassifyViewModel> im
 
     @Override
     public void onItemClick(View view, int i, Object o) {
-
     }
 }
