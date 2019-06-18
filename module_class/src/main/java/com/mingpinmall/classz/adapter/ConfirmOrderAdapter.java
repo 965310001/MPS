@@ -55,27 +55,6 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
                 helper.setText(R.id.tv_tips2, "满级送")
                         .setText(R.id.tv_free_freight, item.getStore_mansong_rule_list().getDesc().getDesc() + "，送 ");
                 ImageUtils.loadImage(helper.getView(R.id.iv_tiv3), item.getStore_mansong_rule_list().getDesc().getUrl());
-                /*if (!TextUtils.isEmpty(item.getStore_mansong_rule_list().getDesc().getUrl())) {
-                    HtmlFromUtils.setImageFromNetWork(context, helper.getView(R.id.tv_free_freight),
-                            String.format(" 送[%s]", item.getStore_mansong_rule_list().getDesc().getUrl()), true);
-                }*/
-//                    LinearLayout llList = helper.getView(R.id.ll_listContent);
-//                    llList.removeAllViews();
-//                    for (int i = 0; i < item.getMansong().size(); i++) {
-//                        View view = View.inflate(context, R.layout.item_img_textview_12sp, null);
-//                        TextView textView = view.findViewById(R.id.tv_label);
-//                        textView.setText(item.getMansong().get(i).getDesc());
-//                        if (!item.getMansong().get(i).getUrl().isEmpty()) {
-//                            AppCompatImageView imageView = view.findViewById(R.id.iv_image);
-//                            ImageUtils.loadImage(imageView, item.getMansong().get(i).getUrl());
-//                        }
-//                        llList.addView(view);
-//                        if (item.isExpanded()) {
-//                            continue;
-//                        }
-//                        break;
-
-//            }
             } catch (Exception e) {
                 QLog.i(e.toString());
             }
@@ -95,8 +74,7 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
 
         LinearLayout shopsList = helper.getView(R.id.ll_shopList);
         shopsList.removeAllViews();
-        for (
-                int i = 0; i < item.getGoods_list().size(); i++) {
+        for (int i = 0; i < item.getGoods_list().size(); i++) {
             //add 商品
             Log.d("提交订单", "convert: 商品" + i);
             ConfirmOrderBean.StoreCartListNewsBean.GoodsListBean shops = item.getGoods_list().get(i);
@@ -161,19 +139,19 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<ConfirmOrderBean.Store
             }
         }
 
-        ConfirmOrderBean.JoinStoreInfoBean joinStoreInfo = item.getJoin_store_info();
-        if (null != joinStoreInfo) {
-//            helper.setVisible(R.id.ll_discount, true);
-//            helper.setText(R.id.tv_discount, String.valueOf(item.getJoin_store_info().getZk()));
-//            TextView tvPrice = helper.getView(R.id.tv_price);
-//            if (joinStoreInfo.getJoin_store() == 1) {
-//                tvPrice.setText(Html.fromHtml(String.format("(节省：<font color=%d>%s</font>元)", R.color.shallow_red, joinStoreInfo.getJoin_store())));
-//            } else {
-//                tvPrice.setText(Html.fromHtml(String.format("(节省：<font color=#d61619>%s</font>元)", joinStoreInfo.getJoin_store())));
-//            }
-        } else {
+//        ConfirmOrderBean.JoinStoreInfoBean joinStoreInfo = item.getJoin_store_info();
+//        if (null != joinStoreInfo) {
+////            helper.setVisible(R.id.ll_discount, true);
+////            helper.setText(R.id.tv_discount, String.valueOf(item.getJoin_store_info().getZk()));
+////            TextView tvPrice = helper.getView(R.id.tv_price);
+////            if (joinStoreInfo.getJoin_store() == 1) {
+////                tvPrice.setText(Html.fromHtml(String.format("(节省：<font color=%d>%s</font>元)", R.color.shallow_red, joinStoreInfo.getJoin_store())));
+////            } else {
+////                tvPrice.setText(Html.fromHtml(String.format("(节省：<font color=#d61619>%s</font>元)", joinStoreInfo.getJoin_store())));
+////            }
+//        } else {
 //            helper.setGone(R.id.ll_discount, false);
-        }
+//        }
     }
 
 

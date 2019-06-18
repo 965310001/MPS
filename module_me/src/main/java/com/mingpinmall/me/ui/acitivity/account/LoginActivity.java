@@ -168,15 +168,13 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     @Override
     protected void dataObserver() {
         registerObserver(Constants.LOGIN, Object.class).observeForever(result -> {
+            CustomProgressDialog.stop();
             if (result instanceof UserBean) {
                 SharePreferenceUtil.saveUser(result);
                 ToastUtils.showShort("登陆成功");
                 LiveBus.getDefault().postEvent(ARouterConfig.LOGIN_SUCCESS, true);
-
-                CustomProgressDialog.stop();
                 finish();
             } else {
-                CustomProgressDialog.stop();
                 ToastUtils.showShort(result.toString());
             }
         });
@@ -193,12 +191,10 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
     }
 
     @Override
@@ -207,19 +203,16 @@ public class LoginActivity extends AbsLifecycleActivity<ActivityLoginBinding, Us
     }
 
     private void setEnabled() {
-        int phoneCount = binding.edPhone.getText().length();
-
-        binding.tvGetPsdCode.setVisibility(phoneCount >= 11 ? View.VISIBLE : View.INVISIBLE);
-        boolean editTextAllOK;
-        if (binding.tabs.getCurrentTab() == 0) {
-            editTextAllOK = phoneCount >= 11 && binding.edMsgCode.getText().length() >= 4;
-        } else {
-            editTextAllOK = phoneCount >= 4 && binding.edPassword.getText().length() >= 6;
+        int phoneCount = binding.edPhone.getText().toString().trim().length();
+        boolean editTextAllOK = phoneCount >= 11;
+        binding.tvGetPsdCode.setVisibility(editTextAllOK ? View.VISIBLE : View.INVISIBLE);
+        if (editTextAllOK) {
+            if (binding.tabs.getCurrentTab() == 0) {
+                editTextAllOK = binding.edMsgCode.getText().toString().trim().length() >= 4;
+            } else {
+                editTextAllOK = binding.edPassword.getText().toString().trim().length() >= 6;
+            }
         }
-        if (binding.cbAgree.isChecked() && editTextAllOK) {
-            binding.btnSublimt.setEnabled(true);
-        } else {
-            binding.btnSublimt.setEnabled(false);
-        }
+        binding.btnSublimt.setEnabled(binding.cbAgree.isChecked() && editTextAllOK);
     }
 }

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.goldze.common.dmvvm.base.event.LiveBus;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
@@ -53,6 +52,9 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     private View headView;
     private boolean darkMode = false;
     private AppCompatImageView headImgView;
+
+    private AppCompatTextView ivHeadItem1, ivHeadItem2;
+    private AppCompatTextView tvName, tvLevel;
 
     private final int[] colorIds = new int[]{
             R.color.bg_color_0,
@@ -111,9 +113,9 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
     @Override
     protected void dataObserver() {
         super.dataObserver();
-        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_SUCCESS).observeForever(isLogin -> mViewModel.getUserInfo());
+        registerObserver(ARouterConfig.LOGIN_SUCCESS, Object.class).observeForever(isLogin -> mViewModel.getUserInfo());
 
-        LiveBus.getDefault().subscribe(ARouterConfig.LOGIN_OUT).observeForever(isLogin -> clearnDatas());
+        registerObserver(ARouterConfig.LOGIN_OUT, Object.class).observeForever(isLogin -> clearnDatas());
 
         registerObserver(Constants.GET_USER_INFO, Object.class).observeForever(result -> {
             if (result instanceof String) {
@@ -131,17 +133,18 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         if (result == null) {
             return;
         }
-        headView.findViewById(R.id.iv_headItem1).setBackgroundColor(Color.parseColor("#00000000"));
-        headView.findViewById(R.id.iv_headItem2).setBackgroundColor(Color.parseColor("#00000000"));
-
         MyInfoBean.MemberInfoBean data = result.getMember_info();
         SharePreferenceUtil.saveKeyValue("USER_INFO", new Gson().toJson(data));
 
-        ((AppCompatTextView) headView.findViewById(R.id.tv_name)).setText(data.getUser_name());
-        ((AppCompatTextView) headView.findViewById(R.id.tv_level)).setText(data.getLevel_name());
-        headView.findViewById(R.id.tv_level).setVisibility("".equals(data.getLevel_name()) ? View.GONE : View.VISIBLE);
-        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText(data.getFavorites_goods());
-        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText(data.getFavorites_store());
+        tvName.setText(data.getUser_name());
+        tvLevel.setText(data.getLevel_name());
+        tvLevel.setVisibility("".equals(data.getLevel_name()) ? View.GONE : View.VISIBLE);
+
+        ivHeadItem1.setBackgroundColor(Color.parseColor("#00000000"));
+        ivHeadItem2.setBackgroundColor(Color.parseColor("#00000000"));
+
+        ivHeadItem1.setText(data.getFavorites_goods());
+        ivHeadItem2.setText(data.getFavorites_store());
 
         /*ImageUtils.loadImageCircle(headImgView, data.getAvatar());*/
         ImageUtils2.loadImage(headImgView, data.getAvatar(), ImageUtils2.ImageType.CIRCLE);
@@ -157,20 +160,19 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
 
     private void clearnDatas() {
         try {
-            headView.findViewById(R.id.iv_headItem1).setBackgroundResource(R.drawable.ic_me_favorite);
-            headView.findViewById(R.id.iv_headItem2).setBackgroundResource(R.drawable.ic_me_store);
-            headView.findViewById(R.id.tv_level).setVisibility(View.GONE);
+            ivHeadItem1.setBackgroundResource(R.drawable.ic_me_favorite);
+            ivHeadItem2.setBackgroundResource(R.drawable.ic_me_store);
+            tvLevel.setVisibility(View.GONE);
         } catch (Exception e) {
             QLog.i(e.toString());
         }
-
         SharePreferenceUtil.saveKeyValue("USER_INFO", null);
 
-        ((AppCompatTextView) headView.findViewById(R.id.tv_name)).setText(R.string.label_click_login);
-        ((AppCompatTextView) headView.findViewById(R.id.tv_level)).setText("");
+        tvName.setText(R.string.label_click_login);
+        tvLevel.setText("");
 
-        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem1)).setText("");
-        ((AppCompatTextView) headView.findViewById(R.id.iv_headItem2)).setText("");
+        ivHeadItem1.setText("");
+        ivHeadItem2.setText("");
 
         headImgView.setImageResource(R.drawable.ic_user_head);
         meItemAdapter.getData().get(2).setSubCorner(new int[]{
@@ -188,6 +190,13 @@ public class MeFragment extends AbsLifecycleFragment<FragmentMeBinding, MeViewMo
         //初始化适配器和头部
         meItemAdapter = new MeItemAdapter();
         headView = LayoutInflater.from(activity).inflate(R.layout.view_me_user_head, binding.recyclerView, false);
+
+        ivHeadItem1 = headView.findViewById(R.id.iv_headItem1);
+        ivHeadItem2 = headView.findViewById(R.id.iv_headItem2);
+
+        tvName = headView.findViewById(R.id.tv_name);
+        tvLevel = headView.findViewById(R.id.tv_level);
+
         //拿到头部 View
         headImgView = headView.findViewById(R.id.iv_headImage);
         autoColorView = headView.findViewById(R.id.iv_bg);

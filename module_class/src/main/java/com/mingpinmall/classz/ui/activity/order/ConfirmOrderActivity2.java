@@ -7,9 +7,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -19,12 +17,10 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.goldze.common.dmvvm.base.bean.AddressDataBean;
 import com.goldze.common.dmvvm.base.bean.BaseResponse;
-import com.goldze.common.dmvvm.base.core.aaa;
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
-import com.goldze.common.dmvvm.utils.log.FileLog;
 import com.goldze.common.dmvvm.utils.log.QLog;
 import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.apppay.UserPaySheet;
@@ -43,7 +39,6 @@ import com.mingpinmall.classz.ui.vm.bean.BuyStepInfo;
 import com.mingpinmall.classz.ui.vm.bean.ConfirmOrderBean;
 import com.mingpinmall.classz.ui.vm.bean.InvoiceListInfo;
 import com.mingpinmall.classz.ui.vm.bean.PayMessageInfo;
-import com.xuexiang.xui.widget.button.switchbutton.SwitchButton;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,10 +75,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
 
     private String mPySn;
 
-    /*紅包Id*/
-    private String rpacketTId;
-
-    private Double rpacketPrice;
+    //紅包Id   private String rpacketTId;private Double rpacketPrice;
 
     /**
      * 支付窗口
@@ -115,7 +107,6 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         });
     }
 
-
     @Override
     protected Object getStateEventKey() {
         return Constants.CONFIRMORDER_KEY[1];
@@ -124,7 +115,6 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     @Override
     protected void initData() {
         super.initData();
-        /*QLog.i(cartId);*/
         showLoading();
         mViewModel.getOrderInfo2(cartId, addressId, ifcart, Constants.CONFIRMORDER_KEY[0]);
     }
@@ -147,7 +137,6 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                 .observeForever(response -> {
                     BaseResponse<ConfirmOrderBean> data = response;
                     if (data.isData()) {
-                        /*QLog.i(data.getData().toString());*/
                         if (data.isSuccess()) {
                             try {
                                 ConfirmOrderBean orderBean = data.getData();
@@ -162,33 +151,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                                     }
                                 }
                                 ConfirmOrderBean.JoinStoreInfoBean joinStoreInfo = orderBean.getJoin_store_info();
-                                if (null != joinStoreInfo) {
-                                    if (joinStoreInfo.getJoin_store() == 1 && null != mStoreCartListNews && mStoreCartListNews.size() > 0) {
-                                        mStoreCartListNews.get(mStoreCartListNews.size() - 1).setJoin_store_info(joinStoreInfo);
-                                    }
-                                }
-//                                if (null != orderBean.getRpt_info()) {
-//                                    try {
-//                                        ConfirmOrderBean.RptInfoBean rptInfo = orderBean.getRpt_info();
-//                                        rpacketPrice = Double.valueOf(orderBean.getRpt_info().getRpacket_price());
-////                                        binding.llRed.setVisibility(View.VISIBLE);
-//                                        binding.tvRed.setText(String.format("满%s元，优惠%s元", rptInfo.getRpacket_limit(), rptInfo.getRpacket_price()));
-//                                        binding.sbIos.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//                                            if (isChecked) {
-//                                                rpacketTId = rptInfo.getRpacket_t_id();
-//                                                binding.setTotal(String.valueOf(Double.valueOf(binding.getTotal()) - rpacketPrice));
-//                                            } else {
-//                                                rpacketTId = "";
-//                                                binding.setTotal(String.valueOf(Double.valueOf(binding.getTotal()) + rpacketPrice));
-//                                            }
-//
-//                                        });
-//                                    } catch (Exception e) {
-//                                        QLog.i(e.toString());
-//                                    }
-//                                } else {
-//                                    binding.llRed.setVisibility(View.GONE);
-//                                }
+
                                 /*折扣*/
                                 if (null != joinStoreInfo) {
                                     binding.llDiscount.setVisibility(View.VISIBLE);
@@ -208,7 +171,6 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                                 } else {
                                     binding.llDiscount.setVisibility(View.GONE);
                                 }
-
                                 adapter.setNewData(mStoreCartListNews);
 
                                 addressId = orderBean.getAddress_info()
@@ -226,7 +188,7 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                                 if (goodsListBean.isFCode()) {
                                     showFCodeDialog(goodsListBean.getGoods_id());
                                 } else {
-                                    Log.e(TAG, "dataObserver: 不是F码商品");
+                                    QLog.i("dataObserver: 不是F码商品");
                                 }
                             } catch (Exception e) {
                                 QLog.i(e.toString());
@@ -314,14 +276,12 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
     }
 
 //    public void merchant(View view) {
-//        // TODO: 2019/4/11 商家界面
 //    }
 
     public void invoiceInfo(View view) {
         ARouter.getInstance().build(ARouterConfig.classify.INVOICEACTIVITY)
                 .navigation(this,
                         400);
-
     }
 
     public void sublimit(View view) {
@@ -341,10 +301,9 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
         if (!TextUtils.isEmpty(mPySn)) {
             map.put("pay_sn", mPySn);
         }
-        if (!TextUtils.isEmpty(rpacketTId)) {
-            // TODO: 2019/6/13
-            map.put("rpacket_t_id", rpacketTId);
-        }
+//        if (!TextUtils.isEmpty(rpacketTId)) {
+//            map.put("rpacket_t_id", rpacketTId);
+//        }
         if (null != mStoreCartListNews && mStoreCartListNews.size() > 0) {
             ConfirmOrderBean.StoreCartListNewsBean.StoreVoucherInfoBean storeVoucherInfo;
             StringBuilder sVoucher = new StringBuilder();
@@ -410,19 +369,6 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                     break;
             }
         }
-
-        /* if (resultCode == RESULT_OK && requestCode == 100) {
-         *//*选择地址*//*
-            AddressDataBean.AddressListBean data = (AddressDataBean.AddressListBean) intent.getSerializableExtra("addressData");
-            binding.setAddress(data);
-            addressId = data.getAddress_id();
-        } else if (resultCode == RESULT_OK && requestCode == 400) {
-            *//*选择发票*//*
-            InvoiceListInfo.InvoiceListBean bean = (InvoiceListInfo.InvoiceListBean) intent.getSerializableExtra("invoicelistbean");
-            invoice_id = bean.getInv_idX();
-            binding.setInvoice(String.format("%s %s", bean.getInv_title(), bean.getInv_content()));
-        }*/
-
     }
 
     @Override
