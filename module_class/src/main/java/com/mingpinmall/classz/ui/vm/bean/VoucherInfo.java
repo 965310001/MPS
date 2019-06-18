@@ -83,7 +83,15 @@ public class VoucherInfo extends BaseBean {
         private String voucher_t_mgradelimittext;
         private String voucher_t_end_date_text;
 
-        //面额50元
+        private boolean isDisplay = false;
+
+        public boolean isDisplay() {
+            return isDisplay;
+        }
+
+        public void toggleDisplay() {
+            isDisplay = !isDisplay;
+        }
 
 
         public String getVoucher_t_id() {

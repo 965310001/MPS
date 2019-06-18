@@ -49,6 +49,16 @@ public class PacketListBean implements Serializable {
         private String rpacket_state_key;
         private String dates;
 
+        private boolean isDisplay = false;
+
+        public boolean isDisplay() {
+            return isDisplay;
+        }
+
+        public void toggleDisplay() {
+            isDisplay = !isDisplay;
+        }
+
         public String getRpacket_id() {
             return rpacket_id == null ? "" : rpacket_id;
         }

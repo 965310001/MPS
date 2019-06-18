@@ -34,12 +34,14 @@ public class PacketListAdapter extends BaseMultiItemQuickAdapter<PacketListBean.
                 helper.setText(R.id.tv_label, item.getRpacket_state_text());
                 break;
             case 1:
-                ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getRpacket_customimg_url());
-                helper.setText(R.id.tv_storeName, item.getRpacket_owner_name())
-                        .setText(R.id.tv_time, "有效期至:\n" + item.getDates())
-                        .setText(R.id.tv_money, item.getRpacket_price())
-                        .setText(R.id.tv_use, "满" + item.getRpacket_limit() + "可用")
+                helper.setText(R.id.tv_storeName, item.getRpacket_code())
+                        .setText(R.id.tv_time, String.format("有效期至:\n%s", item.getDates()))
+                        .setText(R.id.tv_money, String.format("¥%s", item.getRpacket_price()))
+                        .setText(R.id.tv_use, String.format("满%s可用", item.getRpacket_limit()))
                         .setImageResource(R.id.iv_subImage, R.drawable.ic_mcc_09_w)
+                        .setText(R.id.tv_desc, item.getRpacket_desc())
+                        .setGone(R.id.tv_type, false)
+                        .setGone(R.id.tv_desc, item.isDisplay())
                         .setGone(R.id.iv_stateImage, !TextUtils.equals("1", item.getRpacket_state()))
                         .setBackgroundColor(R.id.cl_right, TextUtils.equals("1", item.getRpacket_state()) ?
                                 Color.parseColor("#ed5564") : Color.parseColor("#aab2bd"))

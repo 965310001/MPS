@@ -44,6 +44,16 @@ public class CouponListBean implements Serializable {
         private String voucher_start_date_text;
         private int type;
 
+        private boolean isDisplay = false;
+
+        public boolean isDisplay() {
+            return isDisplay;
+        }
+
+        public void toggleDisplay() {
+            isDisplay = !isDisplay;
+        }
+
         public String getVoucher_id() {
             return voucher_id == null ? "" : voucher_id;
         }

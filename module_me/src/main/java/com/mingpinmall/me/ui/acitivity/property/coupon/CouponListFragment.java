@@ -11,6 +11,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.ToastUtils;
+import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.BaseRecyclerviewBinding;
 import com.mingpinmall.me.ui.adapter.CouponListAdapter;
@@ -60,11 +61,11 @@ public class CouponListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
         }, binding.recyclerView);
 
         listAdapter.setOnItemClickListener((adapter, view, position) -> {
-            //列表点击事件
+            //展开收起详细信息
             CouponListBean.VoucherListBean data = listAdapter.getItem(position);
-            if (data.getItemType() == 1) {
-                ActivityToActivity.toActivity(ARouterConfig.classify.STOREACTIVITY, "storeId", data.getStore_id());
-            }
+            assert data != null;
+            data.toggleDisplay();
+            adapter.notifyItemChanged(position);
         });
     }
 

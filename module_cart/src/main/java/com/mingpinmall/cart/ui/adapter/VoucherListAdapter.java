@@ -23,12 +23,16 @@ public class VoucherListAdapter extends BaseQuickAdapter<AllVoucherBean.VoucherL
 
     @Override
     protected void convert(BaseViewHolder helper, AllVoucherBean.VoucherListBean item) {
-        ImageUtils.loadImage(helper.getView(R.id.iv_image), item.getVoucher_t_customimg());
         helper.setText(R.id.tv_storeName, item.getVoucher_t_title())
                 .setText(R.id.tv_time, "有效期至:\n" + item.getVoucher_t_end_date_text())
                 .setText(R.id.tv_money, "¥" + item.getVoucher_t_price())
                 .setText(R.id.tv_use, "满" + item.getVoucher_t_limit() + "可用")
-                .setGone(R.id.iv_stateImage, false);
+                .setText(R.id.tv_desc, item.getVoucher_t_desc())
+                .setText(R.id.tv_type, item.getVoucher_t_gettype_text())
+                .setGone(R.id.tv_type, !item.getVoucher_t_gettype_text().isEmpty())
+                .setGone(R.id.tv_desc, item.isDisplay())
+                .setGone(R.id.iv_stateImage, false)
+                .addOnClickListener(R.id.btn_action);
         CouponDisplayView displayView = helper.getView(R.id.cdv_view);
         displayView.setState(true);
     }

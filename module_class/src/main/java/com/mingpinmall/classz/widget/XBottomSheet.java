@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -410,8 +411,8 @@ public class XBottomSheet extends Dialog {
                 if (layoutManager == null) {
                     layoutManager = new LinearLayoutManager(mContext);
                 }
-                mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext,
-                        DividerItemDecoration.VERTICAL));
+//                mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext,
+//                        DividerItemDecoration.VERTICAL));
                 mRecyclerView.setLayoutManager(layoutManager);
                 if (needToScrollByTr()) {
                     ViewGroup.LayoutParams layoutParams = mRecyclerView.getLayoutParams();
@@ -424,7 +425,7 @@ public class XBottomSheet extends Dialog {
                 }
                 mRecyclerView.setAdapter(adapter);
                 mRecyclerView.refreshComplete(itemData, true);
-                mRecyclerView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+//                mRecyclerView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
             } else {
                 bind.setIsShowIcon(true);
             }

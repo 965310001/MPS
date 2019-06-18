@@ -53,9 +53,15 @@ public class ShopVoucherInfo extends BaseBean {
         private String voucher_t_state_text;
         private String voucher_t_mgradelimittext;
         private String voucher_t_end_date_text;
+        private boolean isDisplay = false;
 
-        //面额50元
+        public boolean isDisplay() {
+            return isDisplay;
+        }
 
+        public void toggleDisplay() {
+            isDisplay = !isDisplay;
+        }
 
         public String getVoucher_t_id() {
             return voucher_t_id;

@@ -1,6 +1,7 @@
 package com.goldze.common.dmvvm.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,9 +9,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.bigkoo.convenientbanner.utils.ScreenUtil;
+import com.goldze.common.dmvvm.R;
 
 /**
  * Created by Jason_周 on 2019/4/20.
@@ -21,6 +24,7 @@ public class CouponDisplayView extends View {
     private Paint mPaint0;
     private Bitmap mBitmap;
     private Canvas mCanvas;
+    private boolean leftRedMode = false;
     /**
      * 圆间距
      */
@@ -44,15 +48,26 @@ public class CouponDisplayView extends View {
         initPaint();
     }
 
-
     public CouponDisplayView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initAttrs(attrs);
         initPaint();
     }
 
     public CouponDisplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initAttrs(attrs);
         initPaint();
+    }
+
+    private void initAttrs(AttributeSet attrs) {
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CouponDisplayView);
+        leftRedMode = a.getBoolean(R.styleable.CouponDisplayView_leftRedMode, false);
+    }
+
+    public void setLeftRedMode(boolean leftRedMode) {
+        this.leftRedMode = leftRedMode;
+        invalidate();
     }
 
     private void initPaint() {
@@ -65,7 +80,7 @@ public class CouponDisplayView extends View {
 
         mPaint0 = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint0.setDither(true);
-        mPaint0.setColor(Color.WHITE);
+        mPaint0.setColor(leftRedMode ? rightColor : Color.WHITE);
         mPaint0.setStyle(Paint.Style.FILL);
     }
 
@@ -80,7 +95,7 @@ public class CouponDisplayView extends View {
         mCanvas = new Canvas(mBitmap);
         // 绘制图层颜色
         mCanvas.drawRect(0, 0, radius, hight, mPaint0);
-        mPaint0.setColor(rightColor);
+        mPaint0.setColor(leftRedMode ? Color.WHITE : rightColor);
         mCanvas.drawRect(width - radius, 0, width, hight, mPaint0);
     }
 

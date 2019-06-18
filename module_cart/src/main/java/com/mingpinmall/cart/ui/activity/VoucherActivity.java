@@ -46,9 +46,16 @@ public class VoucherActivity extends AbsLifecycleActivity<ActivityBaseRefreshRec
         }, binding.recyclerView);
 
         listAdapter.setOnItemClickListener((adapter, view, position) -> {
-            //领取代金券
-            CustomProgressDialog.show(activity, "正在领取...");
+            //展开收起详细信息
             AllVoucherBean.VoucherListBean data = listAdapter.getItem(position);
+            assert data != null;
+            data.toggleDisplay();
+            adapter.notifyItemChanged(position);
+        });
+        listAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //领取代金券
+            AllVoucherBean.VoucherListBean data = listAdapter.getItem(position);
+            CustomProgressDialog.show(activity, "正在领取...");
             mViewModel.getVoucherFreeex(data.getVoucher_t_id(), Constants.VOUCHER_ALL[1]);
         });
     }

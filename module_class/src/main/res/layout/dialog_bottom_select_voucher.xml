@@ -27,16 +27,17 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/windowBackground"
         android:minHeight="400dp">
 
         <com.leon.lib.settingview.LSettingItem
             style="@style/width_match_height_warp"
             android:layout_height="@dimen/dp_40"
+            android:background="@color/white"
             leon:LtextColor="@color/black"
             leon:LtextSize="14"
             leon:isShowRightText="false"
-            leon:isShowUnderLine="true"
+            leon:isShowUnderLine="false"
             leon:layout_constraintLeft_toLeftOf="parent"
             leon:layout_constraintTop_toTopOf="parent"
             leon:leftIcon="@drawable/ic_store_b"

@@ -63,7 +63,10 @@ public class PacketListFragment extends AbsLifecycleFragment<BaseRecyclerviewBin
 
         listAdapter.setOnItemClickListener((adapter, view, position) -> {
             //列表点击事件
-            ActivityToActivity.toActivity(ARouterConfig.home.SHOPSTREETACTIVITY);
+            PacketListBean.RedpacketListBean data = listAdapter.getItem(position);
+            assert data != null;
+            data.toggleDisplay();
+            adapter.notifyItemChanged(position);
         });
     }
 

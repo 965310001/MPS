@@ -21,9 +21,10 @@ public class AllVoucherBean extends BaseBean {
     }
 
     public static class VoucherListBean {
-
         private String voucher_t_id;
         private String voucher_t_title;
+        private String voucher_t_desc;
+        private String voucher_t_customimg;
         private String voucher_t_start_date;
         private String voucher_t_end_date;
         private String voucher_t_price;
@@ -33,11 +34,23 @@ public class AllVoucherBean extends BaseBean {
         private String voucher_t_storename;
         private String voucher_t_total;
         private String voucher_t_giveout;
-        private String voucher_t_customimg;
+        private String voucher_t_gettype;
         private String voucher_t_sc_name;
+        private String voucher_t_gettype_key;
+        private String voucher_t_gettype_text;
         private String voucher_t_state_text;
         private String voucher_t_mgradelimittext;
         private String voucher_t_end_date_text;
+
+        private boolean isDisplay = false;
+
+        public boolean isDisplay() {
+            return isDisplay;
+        }
+
+        public void toggleDisplay() {
+            isDisplay = !isDisplay;
+        }
 
         public String getVoucher_t_id() {
             return voucher_t_id == null ? "" : voucher_t_id;
@@ -53,6 +66,22 @@ public class AllVoucherBean extends BaseBean {
 
         public void setVoucher_t_title(String voucher_t_title) {
             this.voucher_t_title = voucher_t_title == null ? "" : voucher_t_title;
+        }
+
+        public String getVoucher_t_desc() {
+            return voucher_t_desc == null ? "" : voucher_t_desc;
+        }
+
+        public void setVoucher_t_desc(String voucher_t_desc) {
+            this.voucher_t_desc = voucher_t_desc == null ? "" : voucher_t_desc;
+        }
+
+        public String getVoucher_t_customimg() {
+            return voucher_t_customimg == null ? "" : voucher_t_customimg;
+        }
+
+        public void setVoucher_t_customimg(String voucher_t_customimg) {
+            this.voucher_t_customimg = voucher_t_customimg == null ? "" : voucher_t_customimg;
         }
 
         public String getVoucher_t_start_date() {
@@ -127,12 +156,12 @@ public class AllVoucherBean extends BaseBean {
             this.voucher_t_giveout = voucher_t_giveout == null ? "" : voucher_t_giveout;
         }
 
-        public String getVoucher_t_customimg() {
-            return voucher_t_customimg == null ? "" : voucher_t_customimg;
+        public String getVoucher_t_gettype() {
+            return voucher_t_gettype == null ? "" : voucher_t_gettype;
         }
 
-        public void setVoucher_t_customimg(String voucher_t_customimg) {
-            this.voucher_t_customimg = voucher_t_customimg == null ? "" : voucher_t_customimg;
+        public void setVoucher_t_gettype(String voucher_t_gettype) {
+            this.voucher_t_gettype = voucher_t_gettype == null ? "" : voucher_t_gettype;
         }
 
         public String getVoucher_t_sc_name() {
@@ -141,6 +170,22 @@ public class AllVoucherBean extends BaseBean {
 
         public void setVoucher_t_sc_name(String voucher_t_sc_name) {
             this.voucher_t_sc_name = voucher_t_sc_name == null ? "" : voucher_t_sc_name;
+        }
+
+        public String getVoucher_t_gettype_key() {
+            return voucher_t_gettype_key == null ? "" : voucher_t_gettype_key;
+        }
+
+        public void setVoucher_t_gettype_key(String voucher_t_gettype_key) {
+            this.voucher_t_gettype_key = voucher_t_gettype_key == null ? "" : voucher_t_gettype_key;
+        }
+
+        public String getVoucher_t_gettype_text() {
+            return voucher_t_gettype_text == null ? "" : voucher_t_gettype_text;
+        }
+
+        public void setVoucher_t_gettype_text(String voucher_t_gettype_text) {
+            this.voucher_t_gettype_text = voucher_t_gettype_text == null ? "" : voucher_t_gettype_text;
         }
 
         public String getVoucher_t_state_text() {

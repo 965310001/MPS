@@ -51,6 +51,7 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
     private ShopCartAdapter shopCartAdapter;
     private int checkedSize = 0;
     private int goodsSize = 0;
+    private DelegateAdapter delegateAdapter;
 
     public CartFragment() {
     }
@@ -96,6 +97,22 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
             //切换到首页
             LiveBus.getDefault().postEvent("Main", "tab", 0);
         });
+        DataBindItemViewHolderManager manager = new DataBindItemViewHolderManager(activity,
+                R.layout.item_voucher, BR.data);
+        delegateAdapter = new DelegateAdapter.Builder<>()
+                .bind(ShopVoucherInfo.VoucherListBean.class, manager)
+                .build();
+        manager.setOnClickListener(v -> {
+            if (v.getId() == R.id.cdv_view) {
+                getReceive(v);
+            } else {
+                int position = (Integer) v.getTag();
+                ShopVoucherInfo.VoucherListBean itemData = (ShopVoucherInfo.VoucherListBean) delegateAdapter.getItems().get(position);
+                itemData.toggleDisplay();
+                delegateAdapter.notifyItemChanged(position);
+            }
+        });
+
         shopCartAdapter = new ShopCartAdapter();
         shopCartAdapter.setEmptyView(emptyView);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
@@ -383,15 +400,9 @@ public class CartFragment extends AbsLifecycleFragment<FragmentCartBinding, Cart
                 ShopVoucherInfo data = (ShopVoucherInfo) result;
                 List<ShopVoucherInfo.VoucherListBean> voucherList = data.getVoucher_list();
                 if (null != voucherList) {
-                    DataBindItemViewHolderManager manager = new DataBindItemViewHolderManager(activity,
-                            R.layout.item_voucher_list, BR.data);
-//                            R.layout.item_voucher, BR.data);
-                    manager.setOnClickListener(this::getReceive);
                     xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
                             .setItemData(voucherList)
-                            .setAdapter(new DelegateAdapter.Builder<>()
-                                    .bind(ShopVoucherInfo.VoucherListBean.class, manager)
-                                    .build())
+                            .setAdapter(delegateAdapter)
                             .setLayoutManager(new LinearLayoutManager(activity))
                             .setOnSheetItemClickListener((dialog, itemView, position, tag) -> dialog.dismiss()).build();
                     xBottomSheet.show();

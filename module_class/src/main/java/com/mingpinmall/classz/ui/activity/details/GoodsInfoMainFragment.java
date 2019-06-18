@@ -57,6 +57,7 @@ import com.mingpinmall.classz.ui.vm.bean.GoodsDetailInfo;
 import com.mingpinmall.classz.ui.vm.bean.GoodsInfo;
 import com.mingpinmall.classz.widget.GoodsSpecificationPop;
 import com.mingpinmall.classz.widget.XBottomSheet;
+import com.trecyclerview.adapter.DelegateAdapter;
 import com.xuexiang.xui.XUI;
 
 import java.util.ArrayList;
@@ -73,6 +74,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     private ShoppingDetailsActivity shoppingDetailsActivity;
     private GoodsSpecificationPop specificationPop;
     private int bannerHeight = 0;
+    private DelegateAdapter delegateAdapter;
 
     private GoodsDetailInfo.DatasBean dataBean;
 
@@ -120,7 +122,13 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         super.initView(state);
         bannerHeight = ScreenUtil.getScreenWidth(activity) / 2;
         setTitlePadding(binding.rlEmpty);
-
+        delegateAdapter = AdapterPool.newInstance()
+                .getVoucherInfoAdapter(activity)
+                .setOnItemClickListener((view, i, o) -> {
+                    dataBean.getVoucher().get(i).toggleDisplay();
+                    delegateAdapter.notifyItemChanged(i);
+                })
+                .build();
         setGoodsDetailInfo();
         setListener();
     }
@@ -508,9 +516,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
                 if (null == xBottomSheet) {
                     xBottomSheet = new XBottomSheet.BottomListSheetBuilder(activity)
                             .setItemData(dataBean.getVoucher())
-                            .setAdapter(AdapterPool.newInstance()
-                                    .getVoucherInfoAdapter(activity)
-                                    .build())
+                            .setAdapter(delegateAdapter)
                             .setLayoutManager(new LinearLayoutManager(activity))
                             .setOnSheetItemClickListener((dialog, itemView, position, tag) -> {
                                 dialog.dismiss();
