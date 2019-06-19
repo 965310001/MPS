@@ -153,7 +153,7 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
     private void setGoodsInfo() {
         setGoodsHeadImg();
         if (goodsInfo != null) {
-            QLog.i(goodsInfo.getTitle());
+            /*QLog.i(goodsInfo.getTitle());*/
             if (!TextUtils.isEmpty(goodsInfo.getTitle())) {
                 binding.tvPromotionType.setText(goodsInfo.getTitle());
                 binding.tvPromotionType.setVisibility(View.VISIBLE);
@@ -494,11 +494,12 @@ public class GoodsInfoMainFragment extends AbsLifecycleFragment<FragmentGoodsInf
         //滑动监听
         binding.svGoodsInfo.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
                 (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                    /*Log.d(TAG, "initView: " + scrollY + " , " + bannerHeight);*/
                     if (!isVisible()) {
                         return;
                     }
-                    if (scrollY > bannerHeight) {
+                    QLog.i(scrollX + " " + scrollY + " " + oldScrollX + " " + oldScrollY + " " + bannerHeight + " " + trans);
+
+                    if (scrollY > bannerHeight || oldScrollY > bannerHeight || scrollY > 400 || oldScrollY > 400) {
                         if (trans) {
                             ((ShoppingDetailsActivity) activity).setTitleBarState(1);
                         }

@@ -93,6 +93,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         binding.vpContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
+                QLog.i(i + v + i1 + "====");
                 binding.rlBottom.setVisibility(i == 2 ? View.GONE : View.VISIBLE);
                 if (i == 0) {
                     int alpha;
@@ -114,6 +115,8 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
 
             @Override
             public void onPageSelected(int i) {
+                QLog.i(i + "====");
+
                 if (i == 0) {
                     if (mGoodsInfoMainFragment.trans) {
                         binding.tabs.setVisibility(View.GONE);
@@ -506,6 +509,7 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     }
 
     public void scroll2Shopinfo() {
+        QLog.i("scroll2");
         binding.vpContent.setCurrentItem(1, false);
     }
 
