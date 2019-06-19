@@ -1,6 +1,7 @@
 package com.mingpinmall.me.ui.acitivity.distribution.reducecash;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatEditText;
 
 import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleFragment;
 import com.goldze.common.dmvvm.utils.ToastUtils;
@@ -8,6 +9,7 @@ import com.goldze.common.dmvvm.widget.loading.CustomProgressDialog;
 import com.mingpinmall.me.R;
 import com.mingpinmall.me.databinding.FragmentReducecashAction1Binding;
 import com.mingpinmall.me.ui.api.MeViewModel;
+import com.mingpinmall.me.ui.bean.ReduceCashBean;
 import com.mingpinmall.me.ui.constants.Constants;
 
 /**
@@ -33,6 +35,7 @@ public class ActionOneFragment extends AbsLifecycleFragment<FragmentReducecashAc
             CustomProgressDialog.show(activity, "正在绑定");
             mViewModel.bindUserCode(binding.edFriendsCode.getText().toString().trim());
         });
+
     }
 
     @Override
@@ -41,6 +44,16 @@ public class ActionOneFragment extends AbsLifecycleFragment<FragmentReducecashAc
         registerObserver(Constants.BIND_USER_CODE, String.class).observeForever(s -> {
             CustomProgressDialog.stop();
             ToastUtils.showShort(s);
+        });
+
+        registerObserver(Constants.REDUCE_CASH, Object.class).observeForever(result -> {
+            if (result instanceof ReduceCashBean) {
+                ReduceCashBean data = (ReduceCashBean) result;
+                AppCompatEditText edFriendsCode = getViewById(R.id.ed_friendsCode);
+                edFriendsCode.setText(data.getRecommend());
+            } else {
+                ToastUtils.showShort(result.toString());
+            }
         });
     }
 
