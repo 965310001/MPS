@@ -1,6 +1,7 @@
 package com.mingpinmall.me.ui.acitivity.setting;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 
@@ -12,6 +13,7 @@ import com.goldze.common.dmvvm.base.mvvm.AbsLifecycleActivity;
 import com.goldze.common.dmvvm.constants.ARouterConfig;
 import com.goldze.common.dmvvm.utils.ActivityToActivity;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
+import com.goldze.common.dmvvm.utils.Utils;
 import com.goldze.common.dmvvm.widget.SettingItemView;
 import com.goldze.common.dmvvm.widget.dialog.MaterialDialogUtils;
 import com.goldze.common.dmvvm.widget.dialog.TextDialog;
@@ -75,14 +77,14 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
     @Override
     protected void dataObserver() {
         registerObserver(Constants.USER_PAYPWD_INFO, BaseCheckBean.class).observeForever(result -> {
-            if (null != settingAdapter.getData()) {
+            if (settingAdapter.getData().size() > 0) {
                 settingAdapter.getData().get(2).setSubTitle(result.isState() ? "已验证" : "未验证");
                 settingAdapter.notifyDataSetChanged();
             }
         });
         registerObserver(Constants.USER_PHONE_INFO, BaseCheckBean.class).observeForever(result -> {
             checkPhoneState = result;
-            if (null != settingAdapter.getData()) {
+            if (settingAdapter.getData().size() > 0) {
                 settingAdapter.getData().get(1).setSubTitle(result.isState() ? result.getMobile() : "未绑定");
                 settingAdapter.notifyDataSetChanged();
             }
@@ -107,6 +109,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                 getString(R.string.set_item_item3),
                 getString(R.string.set_item_item4),
                 getString(R.string.set_item_item5),
+                getString(R.string.set_item_item6),
         };
         String[] descs = new String[]{
                 getString(R.string.set_desc_item1),
@@ -114,23 +117,26 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                 getString(R.string.set_desc_item3),
                 getString(R.string.set_desc_item4),
                 "",
+                ""
         };
         List<BaseItemBean> itemBeanList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < titles.length; i++) {
             BaseItemBean itemBean = new BaseItemBean();
             itemBean.setDescription(descs[i]);
             itemBean.setItemMode(SettingItemView.ThemeMode.NoLeftImage);
             itemBean.setTitle(titles[i]);
             itemBean.setItemType(1);
             itemBeanList.add(itemBean);
-            if (i == 2 || i == 3 || i == 4) {
+            if (i == 2 || i == 3 || i == 4 || i == 5) {
                 BaseItemBean spaceItem = new BaseItemBean();
                 spaceItem.setItemType(0);
                 itemBeanList.add(spaceItem);
             }
         }
         itemBeanList.get(2).setSubTitle(getString(R.string.set_subitem_item4));
+        itemBeanList.get(6).setSubTitle(String.format("v%s", Utils.getLocalVersionName(activity)));
         itemBeanList.get(6).setItemMode(SettingItemView.ThemeMode.NoLeftImage_NoMoreIcon_NoDescription);
+        itemBeanList.get(8).setItemMode(SettingItemView.ThemeMode.NoLeftImage_NoMoreIcon_NoDescription);
         settingAdapter.setNewData(itemBeanList);
 
         settingAdapter.setOnItemClickListener((adapter, view, position) -> {
@@ -175,7 +181,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
                     //用户反馈
                     ActivityToActivity.toActivity(ARouterConfig.Me.FEEDBACKACTIVITY);
                     break;
-                case 6:
+                case 7:
                     //退出登录
                     TextDialog.showBaseDialog(activity, "登出提示", getString(R.string.text_isLoginOut),
                             () -> {
