@@ -1,10 +1,13 @@
 package com.goldze.common.dmvvm.base.bean;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * 功能描述：
+ *
  * @author 小斌
  * @date 2019/4/12
  **/
@@ -20,7 +23,7 @@ public class AddressDataBean implements Serializable {
         this.address_list = address_list;
     }
 
-    public static class AddressListBean implements Serializable {
+    public static class AddressListBean extends BaseBean {
 
         private String address_id;
         private String member_id;
@@ -51,6 +54,9 @@ public class AddressDataBean implements Serializable {
         }
 
         public String getTrue_name() {
+            if (TextUtils.isEmpty(true_name)) {
+                return "";
+            }
             return true_name;
         }
 
@@ -75,6 +81,9 @@ public class AddressDataBean implements Serializable {
         }
 
         public String getArea_info() {
+            if (TextUtils.isEmpty(area_info)) {
+                return "";
+            }
             return area_info;
         }
 
@@ -83,6 +92,9 @@ public class AddressDataBean implements Serializable {
         }
 
         public String getAddress() {
+            if (TextUtils.isEmpty(address)) {
+                return "";
+            }
             return address;
         }
 
@@ -99,6 +111,9 @@ public class AddressDataBean implements Serializable {
         }
 
         public String getMob_phone() {
+            if (TextUtils.isEmpty(mob_phone)) {
+                return "";
+            }
             return mob_phone;
         }
 
@@ -125,6 +140,10 @@ public class AddressDataBean implements Serializable {
         /*收货人*/
         public String getUserName() {
             return "收货人:".concat(getTrue_name().concat(" ").concat(getMob_phone()));
+        }
+
+        public boolean isEmpty() {
+            return TextUtils.isEmpty(getTrue_name()) && (TextUtils.isEmpty(getArea_info()) || TextUtils.isEmpty(getAddress()));
         }
     }
 }

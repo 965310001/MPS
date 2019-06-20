@@ -292,7 +292,7 @@ public class ClassifyRepository extends BaseRepository {
 
     /*商品详情*/
     public void getGoodsDetail(String goodsId) {
-        addDisposable(apiService.getGoodsDetail(goodsId, getUserKey())
+        addDisposable(apiService.getGoodsDetail(goodsId, getUserKey(), "android")
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<GoodsDetailInfo>() {
                     @Override
@@ -300,12 +300,6 @@ public class ClassifyRepository extends BaseRepository {
                         sendData(Constants.GOODSDETAIL_EVENT_KEY[0] + goodsId, result);
                         showPageState(Constants.GOODSDETAIL_EVENT_KEY[1] + goodsId, StateConstants.SUCCESS_STATE);
                     }
-
-                 /*   @Override
-                    protected void onStart() {
-                        super.onStart();
-                        sendData(Constants.GOODSDETAIL_EVENT_KEY[0] + goodsId + "LOADING", true);
-                    }*/
 
                     @Override
                     public void onFailure(String msg) {

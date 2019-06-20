@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.goldze.common.dmvvm.base.mvvm.base.BaseFragment;
+import com.goldze.common.dmvvm.utils.log.QLog;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
@@ -93,6 +94,7 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
                     @Override
                     public void onPageFinished(WebView view, String url) {
                         super.onPageFinished(view, url);
+//                        view.getSettings().setBlockNetworkImage(false);
                         addImageClickListner();
                     }
                 })
@@ -104,6 +106,10 @@ public class GoodsInfoWebFragment extends BaseFragment<FragmentGoodsInfoWebBindi
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
+        mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_HARDWARE, null);
+//        mAgentWeb.getWebCreator().getWebView().getSettings().setBlockNetworkImage(true);
+
+        QLog.i(getArguments().getString("url"));
 //        initWebView();
     }
 

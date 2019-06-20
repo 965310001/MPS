@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
         <!--总金额-->
+
         <variable
             name="total"
             type="String" />
@@ -77,14 +80,25 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="请填写收货地址"
+                                android:textColor="@color/shallow_red"
+                                android:textSize="@dimen/text_18"
+                                android:visibility="@{address.isEmpty?View.VISIBLE:View.GONE}" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:text='@{address.userName}'
                                 android:textColor="@color/black"
+                                android:visibility="@{address.isEmpty?View.GONE:View.VISIBLE}"
                                 tools:text="收货人" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@{address.area_info+address.address}"
+                                android:visibility="@{address.isEmpty?View.GONE:View.VISIBLE}"
                                 tools:text="北京	北京市	东城区114645" />
                         </LinearLayout>
 

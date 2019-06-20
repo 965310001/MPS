@@ -76,6 +76,7 @@ public class SettingActivity extends AbsLifecycleActivity<ActivitySettingBinding
 
     @Override
     protected void dataObserver() {
+        super.dataObserver();
         registerObserver(Constants.USER_PAYPWD_INFO, BaseCheckBean.class).observeForever(result -> {
             if (settingAdapter.getData().size() > 0) {
                 settingAdapter.getData().get(2).setSubTitle(result.isState() ? "已验证" : "未验证");

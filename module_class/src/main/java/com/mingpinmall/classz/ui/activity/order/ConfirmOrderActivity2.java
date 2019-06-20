@@ -194,6 +194,12 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                                 QLog.i(e.toString());
                             }
                         } else {
+                            binding.setAddress(new AddressDataBean.AddressListBean());
+                            if (data.getMessage().contains("地址")) {
+                                ARouter.getInstance().build(ARouterConfig.Me.EDITADDRESSACTIVITY)
+                                        .withBoolean("isAdd", true)
+                                        .navigation(activity, 1);
+                            }
                             ToastUtils.showLong(data.getMessage());
                         }
                     }
@@ -363,6 +369,9 @@ public class ConfirmOrderActivity2 extends AbsLifecycleActivity<ActivityConfirmO
                     InvoiceListInfo.InvoiceListBean bean = (InvoiceListInfo.InvoiceListBean) intent.getSerializableExtra("invoicelistbean");
                     invoice_id = bean.getInv_idX();
                     binding.setInvoice(String.format("%s %s", bean.getInv_title(), bean.getInv_content()));
+                    break;
+                case 1:
+                    initData();
                     break;
                 default:
                     ToastUtils.showLong("是否是传错了");

@@ -56,6 +56,7 @@ public interface ClassifyService {
 
     /**
      * 获取筛选 可选择 的信息
+     *
      * @param map
      * @return
      */
@@ -64,6 +65,7 @@ public interface ClassifyService {
 
     /**
      * 获取试戴图片列表
+     *
      * @param map
      * @return
      */
@@ -72,6 +74,7 @@ public interface ClassifyService {
 
     /**
      * 获取筛选 可选择 的信息
+     *
      * @param map
      * @return
      */
@@ -118,7 +121,7 @@ public interface ClassifyService {
     Flowable<GoodsCommentListBean> getEvaluate(@QueryMap Map<String, Object> map);
 
     @GET(GOODSDETAIL)
-    Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId, @Query("key") String key);
+    Flowable<GoodsDetailInfo> getGoodsDetail(@Query("goods_id") String goodsId, @Query("key") String key, @Query("_client") String client);
 
     /*商品列表*/
     @GET(BASEURL)
