@@ -296,7 +296,8 @@
     <string name="set_item_item2">手机验证</string>
     <string name="set_item_item3">支付密码</string>
     <string name="set_item_item4">用户反馈</string>
-    <string name="set_item_item5">安全退出</string>
+    <string name="set_item_item5">软件版本</string>
+    <string name="set_item_item6">安全退出</string>
     <string name="set_subitem_item1">不安全</string>
     <string name="set_subitem_item2">未验证</string>
     <string name="set_subitem_item3">已验证</string>
