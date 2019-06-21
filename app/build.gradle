@@ -71,7 +71,8 @@ android {
             /*指定文件名字*/
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "apk-${releaseTime()}.apk"
+                    outputFileName = "mps-${buildType.name}_v${defaultConfig.versionName}.apk"
+//                    outputFileName = "mps-${releaseTime()}.apk"
                 }
             }
         }

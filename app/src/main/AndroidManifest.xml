@@ -90,9 +90,6 @@
         <meta-data
             android:name="BaiduMobAd_WIFI_LOCATION"
             android:value="true" />
-        <meta-data
-            android:name="BaiduMobAd_EXCEPTION_LOG"
-            android:value="true" />
     </application>
 
 </manifest>

@@ -58,7 +58,8 @@ import static com.mingpinmall.classz.widget.XBottomSheet.BottomGridSheetBuilder.
  * 商品详情
  */
 @Route(path = ARouterConfig.home.SHOPPINGDETAILSACTIVITY)
-public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppingDetailsBinding, ClassifyViewModel> implements JPayListener {
+public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppingDetailsBinding,
+        ClassifyViewModel> implements JPayListener {
 
     @Autowired
     String id;
@@ -422,6 +423,9 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
     public void addCart(View view) {
         /*QLog.i("添加到购物车");*/
         id = SharePreferenceUtil.getKeyValue("SHOPPINGDETAILSACTIVITY_ID");
+        if (mGoodsInfoMainFragment == null) {
+            return;
+        }
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             String goodsNum = SharePreferenceUtil.getKeyValue("click_goods_num");
             mGoodsInfo.setNum(TextUtils.isEmpty(goodsNum) ? 1 : Integer.parseInt(goodsNum));
@@ -435,6 +439,9 @@ public class ShoppingDetailsActivity extends AbsLifecycleActivity<ActivityShoppi
         /*判断是否是虚拟*/
         id = SharePreferenceUtil.getKeyValue("SHOPPINGDETAILSACTIVITY_ID");
         QLog.i(id + " ==");
+        if (mGoodsInfoMainFragment == null) {
+            return;
+        }
         if (mGoodsInfoMainFragment.isPopWindowDismiss()) {
             mGoodsInfoMainFragment.popWindowDismiss();
             Map<String, Object> map = new HashMap<>();
