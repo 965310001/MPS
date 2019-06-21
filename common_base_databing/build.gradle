@@ -137,4 +137,6 @@ dependencies {
     releaseImplementation rootProject.ext.dependencies["leakCanaryRelease"]
     debugImplementation rootProject.ext.dependencies["leakCanaryDebugSupport"]
     implementation 'org.aspectj:aspectjrt:1.8.+'
+    //进程保活封装
+    api 'com.carmelo:keeplive:1.0.0'
 }

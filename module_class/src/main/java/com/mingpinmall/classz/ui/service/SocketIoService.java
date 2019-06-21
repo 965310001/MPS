@@ -2,7 +2,6 @@ package com.mingpinmall.classz.ui.service;
 
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
@@ -11,13 +10,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.carmelo.library.KeepliveService;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.goldze.common.dmvvm.utils.SharePreferenceUtil;
 import com.goldze.common.dmvvm.utils.log.QLog;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +25,7 @@ import java.lang.ref.WeakReference;
 /**
  * SocketIo
  */
-public class SocketIoService extends Service {
+public class SocketIoService extends KeepliveService {
 
     private LocalBroadcastManager mLocalBroadcastManager;
     private WeakReference<Socket> mSocket;
@@ -111,12 +109,12 @@ public class SocketIoService extends Service {
 
         @Override
         public void doSomething() throws RemoteException {
-            Intent localService = new Intent(SocketIoService.this,
-                    RemoteService.class);
-            startService(localService);
-            bindService(new Intent(SocketIoService.this,
-                            RemoteService.class), connection,
-                    Context.BIND_ABOVE_CLIENT);
+//            Intent localService = new Intent(SocketIoService.this,
+//                    RemoteService.class);
+//            startService(localService);
+//            bindService(new Intent(SocketIoService.this,
+//                            RemoteService.class), connection,
+//                    Context.BIND_ABOVE_CLIENT);
         }
     };
 
@@ -125,23 +123,23 @@ public class SocketIoService extends Service {
         @Override
         public void onServiceDisconnected(ComponentName name) {
             Log.i("TAG", "RemoteService被杀死了");
-            Intent localService = new Intent(SocketIoService.this,
-                    RemoteService.class);
-            startService(localService);
-            bindService(new Intent(SocketIoService.this,
-                            RemoteService.class), connection,
-                    Context.BIND_ABOVE_CLIENT);
+//            Intent localService = new Intent(SocketIoService.this,
+//                    RemoteService.class);
+//            startService(localService);
+//            bindService(new Intent(SocketIoService.this,
+//                            RemoteService.class), connection,
+//                    Context.BIND_ABOVE_CLIENT);
         }
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.i("TAG", "RemoteService链接成功!");
-            try {
-                if (iBackService != null)
-                    iBackService.doSomething();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                if (iBackService != null)
+//                    iBackService.doSomething();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         }
     };
 
@@ -161,7 +159,7 @@ public class SocketIoService extends Service {
         if (null == mSocket || null == mSocket.get()) {
             IO.Options opts = new IO.Options();
             opts.path = "/socket.io";
-            opts.reconnection = false;
+            opts.reconnection = true;
             opts.sslContext = SSLSocket.genSSLSocketFactory();
             try {
                 if (null == iBackService.getUrl()) {
@@ -293,11 +291,11 @@ public class SocketIoService extends Service {
         if (!SharePreferenceUtil.isLogin()) {
             disconnect();
         }
-        try {
-            iBackService.doSomething();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            iBackService.doSomething();
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void disconnect() {
@@ -306,15 +304,15 @@ public class SocketIoService extends Service {
         mSocket.get().off("");
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        try {
-            iBackService.doSomething();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        flags = Service.START_FLAG_REDELIVERY;
-        return super.onStartCommand(intent, flags, startId);
-    }
+//    @Override
+//    public int onStartCommand(Intent intent, int flags, int startId) {
+//        QLog.d("ASDFG:SocketIo连接");
+//        try {
+//            iBackService.doSomething();
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
+//        flags = Service.START_FLAG_REDELIVERY;
+//        return super.onStartCommand(intent, flags, startId);
+//    }
 }
